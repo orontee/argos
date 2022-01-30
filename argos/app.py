@@ -23,7 +23,8 @@ class Application(Gtk.Application):
     def __init__(self, *args, **kwargs):
         Gtk.Application.__init__(self,
                                  *args,
-                                 application_id="org.argos",
+                                 application_id="org.argos.Argos",
+                                 flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
                                  **kwargs)
         self._loop = asyncio.get_event_loop()
         self._messages = asyncio.Queue()
@@ -32,6 +33,25 @@ class Application(Gtk.Application):
         self._http = MopidyHTTPClient()
         self._ws = MopidyWSListener(message_queue=self._messages)
         self._download = ImageDownloader(message_queue=self._messages)
+
+        self.window = None
+
+        self.add_main_option(
+            "debug",
+            ord("d"),
+            GLib.OptionFlags.NONE,
+            GLib.OptionArg.NONE,
+            "Enable debug logs",
+            None,
+        )
+
+    def do_command_line(self, command_line):
+        options = command_line.get_options_dict()
+        options = options.end().unpack()
+        self._configure_logger(options)
+
+        self.activate()
+        return 0
 
     def do_activate(self):
         self.window = Window(message_queue=self._messages,
@@ -60,6 +80,16 @@ class Application(Gtk.Application):
         # thread to Gtk processing loop
         t = Thread(target=self._start_event_loop, daemon=True)
         t.start()
+
+    def _configure_logger(self, options: dict) -> None:
+        ch = logging.StreamHandler()
+        formatter = logging.Formatter("%(levelname)s: %(message)s")
+        ch.setFormatter(formatter)
+        level = logging.DEBUG if "debug" in options else logging.INFO
+        ch.setLevel(level)
+        logger = logging.getLogger("argos")
+        logger.setLevel(level)
+        logger.addHandler(ch)
 
     def _start_event_loop(self):
         LOGGER.debug("Attaching event loop to calling thread")
