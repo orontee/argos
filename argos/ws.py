@@ -71,6 +71,10 @@ class MopidyWSListener:
                             await self._message_queue.put(
                                 Message(MessageType.VOLUME_CHANGED,
                                         parsed_data))
+                        elif event == "seeked":
+                            await self._message_queue.put(
+                                Message(MessageType.SEEKED,
+                                        parsed_data))
                         else:
                             LOGGER.debug(f"Unhandled event {parsed_data}")
 

@@ -35,11 +35,21 @@ class MopidyHTTPClient:
     async def play(self) -> None:
         await self._send_command("core.playback.play")
 
+    async def seek(self, time_position: int) -> Any:
+        params = {"time_position": time_position}
+        successful = await self._send_command("core.playback.seek",
+                                              params=params)
+        return successful
+
     async def previous(self) -> None:
         await self._send_command("core.playback.previous")
 
     async def next(self) -> None:
         await self._send_command("core.playback.next")
+
+    async def get_time_position(self) -> None:
+        position = await self._send_command("core.playback.get_time_position")
+        return position
 
     async def play_random_album(self) -> None:
         albums = await self._send_command(

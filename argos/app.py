@@ -102,7 +102,21 @@ class Application(Gtk.Application):
     async def _do(self):
         await self._reset_model()
         self._loop.create_task(self._process_messages())
+        self._loop.create_task(self._track_time_position())
         await self._ws.listen()
+
+    async def _track_time_position(self):
+        LOGGER.debug("Tracking time position...")
+        while True:
+            if self._model.state == PlaybackState.PLAYING and \
+               self._model.track_length:
+                await self._update_time_position()
+            await asyncio.sleep(1)
+
+    async def _update_time_position(self):
+        time_position = await self._http.get_time_position()
+        async with self.model_accessor as model:
+            model.update_from(time_position=time_position)
 
     async def _process_messages(self):
         LOGGER.debug("Waiting for new messages...")
@@ -134,14 +148,18 @@ class Application(Gtk.Application):
             elif type == MessageType.PLAY_FAVORITE_PLAYLIST:
                 await self._http.play_favorite_playlist()
 
+            elif type == MessageType.SEEK:
+                time_position = round(message.data)
+                await self._http.seek(time_position)
+
             elif type == MessageType.SET_VOLUME:
                 volume = round(message.data * 100)
                 await self._http.set_volume(volume)
 
             # Events (from websocket)
             elif type == MessageType.TRACK_PLAYBACK_STARTED:
+                tl_track = message.data.get("tl_track", {})
                 async with self.model_accessor as model:
-                    tl_track = message.data.get("tl_track", {})
                     model.update_from(tl_track=tl_track)
 
             elif type == MessageType.TRACK_PLAYBACK_PAUSED:
@@ -157,18 +175,23 @@ class Application(Gtk.Application):
                     model.clear_tl()
 
             elif type == MessageType.PLAYBACK_STATE_CHANGED:
+                raw_state = message.data.get("new_state")
                 async with self.model_accessor as model:
-                    raw_state = message.data.get("new_state")
                     model.update_from(raw_state=raw_state)
 
             elif type == MessageType.MUTE_CHANGED:
+                mute = message.data.get("mute")
                 async with self.model_accessor as model:
-                    mute = message.data.get("mute")
                     model.update_from(mute=mute)
 
             elif type == MessageType.TRACKLIST_CHANGED:
                 async with self.model_accessor as model:
                     model.clear_tl()
+
+            elif type == MessageType.SEEKED:
+                time_position = message.data.get("time_position")
+                async with self.model_accessor as model:
+                    model.update_from(time_position=time_position)
 
             # Events (internal)
             elif type == MessageType.IMAGE_AVAILABLE:
@@ -194,11 +217,13 @@ class Application(Gtk.Application):
             GLib.idle_add(self.window.update_image,
                           self._model.image_path)
 
-        if "track_name" in changed or "artist_name" in changed:
+        if "track_name" in changed or "artist_name" in changed \
+           or "track_length" in changed:
             GLib.idle_add(partial(
                 self.window.update_labels,
                 track_name=self._model.track_name,
-                artist_name=self._model.artist_name))
+                artist_name=self._model.artist_name,
+                track_length=self._model.track_length))
 
             track_uri = self._model.track_uri
             if not track_uri:
@@ -216,6 +241,10 @@ class Application(Gtk.Application):
         if "state" in changed:
             GLib.idle_add(partial(self.window.update_play_button,
                                   state=self._model.state))
+
+        if "time_position" in changed:
+            GLib.idle_add(partial(self.window.update_time_position_scale,
+                                  time_position=self._model.time_position))
 
     async def _reset_model(self) -> None:
         raw_state = await self._http.get_state()

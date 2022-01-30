@@ -41,6 +41,14 @@ class ModelAccessor:
             self._model.track_name = None
             self._changed += ["track_name"]
 
+        if self._model.track_length:
+            self._model.track_length = None
+            self._changed += ["track_length"]
+
+        if self._model.time_position:
+            self._model.time_position = None
+            self._changed += ["time_position"]
+
         if self._model.artist_uri:
             self._model.artist_uri = None
             self._changed += ["artist_uri"]
@@ -57,6 +65,7 @@ class ModelAccessor:
                     raw_state: Any = None,
                     mute: Any = None,
                     volume: Any = None,
+                    time_position: Any = None,
                     tl_track: Any = None,
                     image_path: Any = None) -> None:
         if raw_state is not None:
@@ -79,17 +88,25 @@ class ModelAccessor:
                     setattr(self._model, prop_name, value)
                     self._changed += [prop_name]
 
+        if time_position is not None:
+            if self._model.time_position != time_position:
+                self._model.time_position = time_position
+                self._changed += ["time_position"]
+
         if tl_track is not None:
             # TODO check dict
             track = tl_track.get("track", {})
 
             track_uri = track.get("uri")
             track_name = track.get("name")
+            track_length = track.get("length")
             if self._model.track_uri != track_uri:
                 self._model.track_uri = track_uri
                 self._model.track_name = track_name
+                self._model.track_length = track_length
                 self._model.image_path = None
-                self._changed += ["track_uri", "track_name", "image_path"]
+                self._changed += ["track_uri", "track_name", "track_length",
+                                  "image_path"]
 
             artists = track.get("artists", [{}])
             artist = artists[0]

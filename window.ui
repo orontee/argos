@@ -6,23 +6,44 @@
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="icon-name">media-skip-forward-symbolic</property>
+    <property name="icon_size">3</property>
   </object>
   <object class="GtkImage" id="pause_image">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="icon-name">media-playback-pause-symbolic</property>
+    <property name="icon_size">3</property>
+  </object>
+  <object class="GtkImage" id="play_favorite_playlist_image">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">user-bookmarks-symbolic</property>
+    <style>
+      <class name="flat"/>
+    </style>
   </object>
   <object class="GtkImage" id="play_image">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="icon-name">media-playback-start-symbolic</property>
+    <property name="icon_size">3</property>
+  </object>
+  <object class="GtkImage" id="play_random_album_image">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">media-playlist-shuffle-symbolic</property>
   </object>
   <object class="GtkImage" id="previous_image">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="icon-name">media-skip-backward-symbolic</property>
+    <property name="icon_size">3</property>
   </object>
-  <template class="ArgosUIWindow" parent="GtkApplicationWindow">
+  <object class="GtkAdjustment" id="time_position_adjustement">
+    <property name="step-increment">1000</property>
+    <property name="page-increment">10000</property>
+  </object>
+  <template class="ArgosWindow" parent="GtkApplicationWindow">
     <property name="width-request">600</property>
     <property name="height-request">300</property>
     <property name="can-focus">False</property>
@@ -44,7 +65,8 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="margin-end">5</property>
-            <property name="stock">gtk-missing-image</property>
+            <property name="icon-name">image-x-generic-symbolic</property>
+            <property name="icon_size">5</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -67,6 +89,44 @@
                 <property name="can-focus">False</property>
                 <property name="halign">end</property>
                 <property name="vexpand">False</property>
+                <child>
+                  <object class="GtkButton" id="play_favorite_playlist_button">
+                    <property name="width-request">50</property>
+                    <property name="height-request">50</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="action-name">app.play_favorite_playlist</property>
+                    <property name="image">play_favorite_playlist_image</property>
+                    <style>
+                      <class name="flat"/>
+                    </style>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="play_random_album_button">
+                    <property name="width-request">50</property>
+                    <property name="height-request">50</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="action-name">app.play_random_album</property>
+                    <property name="image">play_random_album_image</property>
+                    <style>
+                      <class name="flat"/>
+                    </style>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
                 <child>
                   <object class="GtkVolumeButton" id="volume_button">
                     <property name="width-request">50</property>
@@ -103,36 +163,14 @@ audio-volume-medium-symbolic</property>
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkMenuButton" id="menu_button">
-                    <property name="width-request">50</property>
-                    <property name="height-request">50</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="focus-on-click">False</property>
-                    <property name="receives-default">True</property>
-                    <property name="halign">center</property>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <style>
-                      <class name="flat"/>
-                    </style>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
               </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="position">1</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
@@ -179,11 +217,84 @@ audio-volume-medium-symbolic</property>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox" id="track_box">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <child>
+                  <object class="GtkScale" id="time_position_scale">
+                    <property name="visible">True</property>
+                    <property name="sensitive">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="hexpand">True</property>
+                    <property name="adjustment">time_position_adjustement</property>
+                    <property name="lower-stepper-sensitivity">on</property>
+                    <property name="upper-stepper-sensitivity">on</property>
+                    <property name="show-fill-level">True</property>
+                    <property name="restrict-to-fill-level">False</property>
+                    <property name="fill-level">0</property>
+                    <property name="round-digits">1</property>
+                    <property name="draw-value">False</property>
+                    <signal name="change-value" handler="time_position_scale_change_value_cb" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="time_position_label">
+                    <property name="width-request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">--:--</property>
+                    <property name="justify">right</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="separator">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">/</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="track_length_label">
+                    <property name="width-request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="margin-end">10</property>
+                    <property name="label" translatable="yes">--:--</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">3</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
                 <property name="position">2</property>
               </packing>
             </child>
             <child>
-              <object class="GtkBox">
+              <object class="GtkBox" id="playback_controls_box">
                 <property name="name">play_controls_box</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
@@ -261,7 +372,7 @@ audio-volume-medium-symbolic</property>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="position">4</property>
+                <property name="position">3</property>
               </packing>
             </child>
           </object>

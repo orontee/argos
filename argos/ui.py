@@ -16,26 +16,6 @@ LOGGER = logging.getLogger(__name__)
 IMAGE_SIZE = 300
 # TODO use widget size
 
-MENU_XML = """
-<?xml version="1.0" encoding="UTF-8"?>
-<interface>
-  <menu id="app_menu">
-    <section>
-        <item>
-            <attribute name="label">Play random album</attribute>
-            <attribute name="action">app.play_random_album</attribute>
-            <attribute name="icon">media-playlist-shuffle-symbolic</attribute>
-        </item>
-        <item>
-            <attribute name="label">Play favorite playlist</attribute>
-            <attribute name="action">app.play_favorite_playlist</attribute>
-            <attribute name="icon">starred-symbolic</attribute>
-        </item>
-    </section>
-  </menu>
-</interface>
-"""
-
 def compute_target_size(width: int, height: int) -> Union[Tuple[int, int],
                                                           Tuple[None, None]]:
     transpose = False
@@ -53,9 +33,20 @@ def compute_target_size(width: int, height: int) -> Union[Tuple[int, int],
         else (target_height, target_width)
 
 
+def ms_to_text(value: Optional[int] = None) -> str:
+    if not value:
+        text = "--:--"
+    else:
+        second_count = round(value / 1000)
+        minutes = second_count // 60
+        seconds = second_count % 60
+        text = f"{minutes}:{seconds:02d}"
+    return text
+
+
 @Gtk.Template(filename='window.ui')
 class Window(Gtk.ApplicationWindow):
-    __gtype_name__ = 'ArgosUIWindow'
+    __gtype_name__ = 'ArgosWindow'
 
     image = Gtk.Template.Child()
     play_image = Gtk.Template.Child()
@@ -63,10 +54,14 @@ class Window(Gtk.ApplicationWindow):
 
     track_name_label = Gtk.Template.Child()
     artist_name_label = Gtk.Template.Child()
+    track_length_label = Gtk.Template.Child()
 
     volume_button = Gtk.Template.Child()
     play_button = Gtk.Template.Child()
-    menu_button = Gtk.Template.Child()
+
+    time_position_scale = Gtk.Template.Child()
+    time_position_adjustement = Gtk.Template.Child()
+    time_position_label = Gtk.Template.Child()
 
     def __init__(self, *,
                  message_queue: asyncio.Queue,
@@ -78,14 +73,10 @@ class Window(Gtk.ApplicationWindow):
         self._message_queue = message_queue
         self._loop = loop
 
-        builder = Gtk.Builder.new_from_string(MENU_XML, -1)
-        menu = builder.get_object("app_menu")
-
-        self.menu_button.set_menu_model(menu)
-
-        self._volume_button_value_changed_id = \
-            self.volume_button.connect("value_changed",
-                                       self.volume_button_value_changed_cb)
+        self._volume_button_value_changed_id = self.volume_button.connect(
+                "value_changed",
+                self.volume_button_value_changed_cb
+            )
 
     def update_image(self, image_path: Optional[Path]) -> None:
         if not image_path:
@@ -107,7 +98,8 @@ class Window(Gtk.ApplicationWindow):
 
     def update_labels(self, *,
                       track_name: Optional[str],
-                      artist_name: Optional[str]) -> None:
+                      artist_name: Optional[str],
+                      track_length: Optional[int]) -> None:
         if track_name:
             track_name = GLib.markup_escape_text(track_name)
             track_name_text = f"""<span size="xx-large"><b>{track_name}</b></span>"""
@@ -125,6 +117,29 @@ class Window(Gtk.ApplicationWindow):
 
         self.artist_name_label.set_markup(artist_name_text)
         self.artist_name_label.show_now()
+
+        pretty_length = ms_to_text(track_length)
+        self.track_length_label.set_text(pretty_length)
+        self.track_length_label.show_now()
+
+        if track_length:
+            self.time_position_adjustement.set_upper(track_length)
+            self.time_position_scale.set_sensitive(True)
+        else:
+            self.time_position_adjustement.set_upper(0)
+            self.time_position_scale.set_sensitive(False)
+        self.time_position_scale.show_now()
+
+    def update_time_position_scale(self, *,
+                                   time_position: Optional[int]) -> None:
+        pretty_time_position = ms_to_text(time_position)
+        self.time_position_label.set_text(pretty_time_position)
+        self.time_position_label.show_now()
+
+        if time_position is not None:
+            self.time_position_adjustement.set_value(time_position)
+
+        self.time_position_scale.show_now()
 
     def update_volume(self, *,
                       mute: Optional[bool],
@@ -167,3 +182,12 @@ class Window(Gtk.ApplicationWindow):
     def next_button_clicked_cb(self, *args) -> None:
         self._loop.call_soon_threadsafe(self._message_queue.put_nowait,
                                         Message(MessageType.PLAY_NEXT_TRACK))
+
+    @Gtk.Template.Callback()
+    def time_position_scale_change_value_cb(self, widget: Gtk.Widget,
+                                            scroll_type: Gtk.ScrollType,
+                                            value: float) -> None:
+        time_position = round(value)
+        self._loop.call_soon_threadsafe(self._message_queue.put_nowait,
+                                        Message(MessageType.SEEK,
+                                                time_position))
