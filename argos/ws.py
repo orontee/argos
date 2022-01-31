@@ -65,11 +65,11 @@ class MopidyWSListener:
                                         parsed_data))
                         elif event == "tracklist_changed":
                             await self._message_queue.put(
-                                Message(MessageType.VOLUME_CHANGED,
+                                Message(MessageType.TRACKLIST_CHANGED,
                                         parsed_data))
                         elif event == "track_playback_ended":
                             await self._message_queue.put(
-                                Message(MessageType.VOLUME_CHANGED,
+                                Message(MessageType.TRACK_PLAYBACK_ENDED,
                                         parsed_data))
                         elif event == "seeked":
                             await self._message_queue.put(

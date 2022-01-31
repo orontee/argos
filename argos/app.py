@@ -184,6 +184,11 @@ class Application(Gtk.Application):
                 async with self.model_accessor as model:
                     model.update_from(mute=mute)
 
+            elif type == MessageType.VOLUME_CHANGED:
+                volume = message.data.get("volume")
+                async with self.model_accessor as model:
+                    model.update_from(volume=volume)
+
             elif type == MessageType.TRACKLIST_CHANGED:
                 async with self.model_accessor as model:
                     model.clear_tl()
