@@ -45,7 +45,7 @@ def ms_to_text(value: Optional[int] = None) -> str:
 
 
 @Gtk.Template(filename='window.ui')
-class Window(Gtk.ApplicationWindow):
+class ArgosWindow(Gtk.ApplicationWindow):
     __gtype_name__ = 'ArgosWindow'
 
     image = Gtk.Template.Child()

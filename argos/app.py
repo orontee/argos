@@ -2,7 +2,7 @@ import asyncio
 import logging
 from functools import partial
 from threading import Thread
-from typing import Any, Dict, List
+from typing import List
 
 import gi
 gi.require_version("Gtk", "3.0")
@@ -13,7 +13,7 @@ from .download import ImageDownloader
 from .http import MopidyHTTPClient
 from .message import Message, MessageType
 from .model import Model, PlaybackState
-from .ui import Window
+from .ui import ArgosWindow
 from .ws import MopidyWSListener
 
 LOGGER = logging.getLogger(__name__)
@@ -23,7 +23,7 @@ class Application(Gtk.Application):
     def __init__(self, *args, **kwargs):
         Gtk.Application.__init__(self,
                                  *args,
-                                 application_id="org.argos.Argos",
+                                 application_id="app.argos.Argos",
                                  flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
                                  **kwargs)
         self._loop = asyncio.get_event_loop()
@@ -54,10 +54,12 @@ class Application(Gtk.Application):
         return 0
 
     def do_activate(self):
-        self.window = Window(message_queue=self._messages,
-                             loop=self._loop,
-                             application=self)
-        self.window.show_all()
+        win = self.props.active_window
+        if not win:
+            win = ArgosWindow(application=self,
+                              message_queue=self._messages,
+                              loop=self._loop)
+        win.present()
 
     def do_startup(self):
         Gtk.Application.do_startup(self)
