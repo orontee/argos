@@ -46,7 +46,7 @@ class ModelAccessor:
             self._changed += ["track_length"]
 
         if self._model.time_position:
-            self._model.time_position = None
+            self._model.time_position = 0
             self._changed += ["time_position"]
 
         if self._model.artist_uri:
@@ -104,9 +104,10 @@ class ModelAccessor:
                 self._model.track_uri = track_uri
                 self._model.track_name = track_name
                 self._model.track_length = track_length
+                self._model.time_position = 0
                 self._model.image_path = None
                 self._changed += ["track_uri", "track_name", "track_length",
-                                  "image_path"]
+                                  "time_position", "image_path"]
 
             artists = track.get("artists", [{}])
             artist = artists[0]

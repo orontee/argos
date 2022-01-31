@@ -107,7 +107,6 @@ class Window(Gtk.ApplicationWindow):
             track_name_text = ""
 
         self.track_name_label.set_markup(track_name_text)
-        self.track_name_label.show_now()
 
         if artist_name:
             artist_name = GLib.markup_escape_text(artist_name)
@@ -116,11 +115,9 @@ class Window(Gtk.ApplicationWindow):
             artist_name_text = ""
 
         self.artist_name_label.set_markup(artist_name_text)
-        self.artist_name_label.show_now()
 
         pretty_length = ms_to_text(track_length)
         self.track_length_label.set_text(pretty_length)
-        self.track_length_label.show_now()
 
         if track_length:
             self.time_position_adjustement.set_upper(track_length)
@@ -128,17 +125,21 @@ class Window(Gtk.ApplicationWindow):
         else:
             self.time_position_adjustement.set_upper(0)
             self.time_position_scale.set_sensitive(False)
-        self.time_position_scale.show_now()
+
+        self.update_time_position_scale(time_position=None)
+        self.track_name_label.show_now()
+        self.artist_name_label.show_now()
+        self.track_length_label.show_now()
 
     def update_time_position_scale(self, *,
                                    time_position: Optional[int]) -> None:
         pretty_time_position = ms_to_text(time_position)
         self.time_position_label.set_text(pretty_time_position)
-        self.time_position_label.show_now()
 
         if time_position is not None:
             self.time_position_adjustement.set_value(time_position)
 
+        self.time_position_label.show_now()
         self.time_position_scale.show_now()
 
     def update_volume(self, *,

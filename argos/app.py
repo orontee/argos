@@ -206,7 +206,8 @@ class Application(Gtk.Application):
                 await self._handle_model_changed(changed)
 
             else:
-                LOGGER.warning(f"Unhandled message type {type!r}")
+                LOGGER.warning(f"Unhandled message type {type!r} "
+                               f"with data {message.data!r}")
 
     @property
     def model_accessor(self) -> ModelAccessor:
@@ -251,11 +252,13 @@ class Application(Gtk.Application):
         mute = await self._http.get_mute()
         volume = await self._http.get_volume()
         tl_track = await self._http.get_current_tl_track()
+        time_position = await self._http.get_time_position()
 
         async with self.model_accessor as model:
             model.update_from(raw_state=raw_state,
                               mute=mute,
                               volume=volume,
+                              time_position=time_position,
                               tl_track=tl_track)
 
     def play_random_album_activate_cb(self, action, parameter) -> None:
