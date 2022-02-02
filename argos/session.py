@@ -1,6 +1,3 @@
-"""Handle a aiohttp client session.
-
-"""
 import aiohttp
 import contextlib
 import logging

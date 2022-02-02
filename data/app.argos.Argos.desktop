@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=argos
+Exec=python -m argos
+Icon=app.argos.Argos
+Terminal=false
+Type=Application
+Categories=GTK;AudioVideo;Audio
+StartupNotify=true

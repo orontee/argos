@@ -3,9 +3,7 @@ import logging
 from pathlib import Path
 from typing import Optional, Tuple, Union
 
-import gi
-gi.require_version("Gtk", "3.0")
-from gi.repository import GdkPixbuf, Gio, GLib, Gtk
+from gi.repository import GdkPixbuf, GLib, Gtk
 
 from .message import Message, MessageType
 from .model import PlaybackState
@@ -15,6 +13,7 @@ LOGGER = logging.getLogger(__name__)
 
 IMAGE_SIZE = 300
 # TODO use widget size
+
 
 def compute_target_size(width: int, height: int) -> Union[Tuple[int, int],
                                                           Tuple[None, None]]:
@@ -44,7 +43,7 @@ def ms_to_text(value: Optional[int] = None) -> str:
     return text
 
 
-@Gtk.Template(filename='window.ui')
+@Gtk.Template(resource_path='/app/argos/Argos/window.ui')
 class ArgosWindow(Gtk.ApplicationWindow):
     __gtype_name__ = 'ArgosWindow'
 

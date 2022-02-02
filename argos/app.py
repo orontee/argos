@@ -54,12 +54,11 @@ class Application(Gtk.Application):
         return 0
 
     def do_activate(self):
-        win = self.props.active_window
-        if not win:
-            win = ArgosWindow(application=self,
-                              message_queue=self._messages,
-                              loop=self._loop)
-        win.present()
+        if not self.window:
+            self.window = ArgosWindow(application=self,
+                                      message_queue=self._messages,
+                                      loop=self._loop)
+        self.window.present()
 
     def do_startup(self):
         Gtk.Application.do_startup(self)

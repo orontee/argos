@@ -1,14 +1,19 @@
 [tool.poetry]
 name = "argos"
 version = "0.1.0"
-description = ""
+description = "Gtk front-end to control a Mopidy server through a tiny touch screen"
 authors = ["Matthias Meulien <orontee@gmail.com>"]
+license = "GPL-3.0-or-later"
+readme = "README.rst"
+repository = "https://github.com/orontee/argos"
+include = ["argos/argos.gresource"]
+exclude = ["argos/argos.gresource.xml", "argos/Makefile", "argos/.gitignore"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-aiohttp = "^3.8.1"
-PyGObject = "^3.42.0"
-pycairo = "^1.20.1"
+aiohttp = ">=3.7.4"
+PyGObject = ">=3.38.0"
+pycairo = ">=1.16.0"
 
 [tool.poetry.dev-dependencies]
 

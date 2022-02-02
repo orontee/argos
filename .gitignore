@@ -5,10 +5,4 @@ TAGS
 
 # Build files
 *.pyc
-/builds/
-/build/
-/.mypy_cache/
-
-# Tests
-/.coverage
-/htmlcov
+/dist/

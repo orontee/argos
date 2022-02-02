@@ -99,6 +99,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
+                    <property name="tooltip-text" translatable="yes">Play favorite album</property>
                     <property name="action-name">app.play_favorite_playlist</property>
                     <property name="image">play_favorite_playlist_image</property>
                     <style>
@@ -118,6 +119,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
+                    <property name="tooltip-text" translatable="yes">Play random album</property>
                     <property name="action-name">app.play_random_album</property>
                     <property name="image">play_random_album_image</property>
                     <style>

@@ -17,15 +17,23 @@ Install dependencies at system level::
 
   sudo apt install -y python3-gi python3-gi-cairo python3-aiohttp
 
-Finally run::
+Build and install::
+
+  make
+  make install
+
+Run through your desktop application menu or the line command::
 
   python3 -m argos
 
 Debug
 ~~~~~
 
-One must first stop the service if installed::
+One can install dependencies in a dedicated virtual environment using
+``poetry``::
 
+  poetry shell
+  poetry install
   python3 -m argos --debug 
 
 For a list of supported command line arguments and defaults::

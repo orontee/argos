@@ -1,6 +1,3 @@
-"""Listen to mopidy websocket.
-
-"""
 import asyncio
 import json
 import logging
