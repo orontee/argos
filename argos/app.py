@@ -35,6 +35,7 @@ class Application(Gtk.Application):
         self._download = ImageDownloader(message_queue=self._messages)
 
         self.window = None
+        self._start_fullscreen = None
 
         self.add_main_option(
             "debug",
@@ -44,11 +45,21 @@ class Application(Gtk.Application):
             "Enable debug logs",
             None,
         )
+        self.add_main_option(
+            "fullscreen",
+            0,
+            GLib.OptionFlags.NONE,
+            GLib.OptionArg.NONE,
+            "Start with fullscreen window",
+            None,
+        )
 
     def do_command_line(self, command_line):
         options = command_line.get_options_dict()
         options = options.end().unpack()
         self._configure_logger(options)
+
+        self._start_fullscreen = "fullscreen" in options
 
         self.activate()
         return 0
@@ -58,6 +69,9 @@ class Application(Gtk.Application):
             self.window = ArgosWindow(application=self,
                                       message_queue=self._messages,
                                       loop=self._loop)
+        if self._start_fullscreen:
+            self.window.fullscreen()
+
         self.window.present()
 
     def do_startup(self):
