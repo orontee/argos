@@ -36,6 +36,7 @@ class Application(Gtk.Application):
 
         self.window = None
         self._start_fullscreen = None
+        self._disable_tooltips = None
 
         self.add_main_option(
             "debug",
@@ -53,13 +54,22 @@ class Application(Gtk.Application):
             "Start with fullscreen window",
             None,
         )
+        self.add_main_option(
+            "no-tooltips",
+            0,
+            GLib.OptionFlags.NONE,
+            GLib.OptionArg.NONE,
+            "Disable tooltips",
+            None,
+        )
 
     def do_command_line(self, command_line):
         options = command_line.get_options_dict()
         options = options.end().unpack()
-        self._configure_logger(options)
 
+        self._configure_logger(options)
         self._start_fullscreen = "fullscreen" in options
+        self._disable_tooltips = "no-tooltips" in options
 
         self.activate()
         return 0
@@ -68,7 +78,8 @@ class Application(Gtk.Application):
         if not self.window:
             self.window = ArgosWindow(application=self,
                                       message_queue=self._messages,
-                                      loop=self._loop)
+                                      loop=self._loop,
+                                      disable_tooltips=self._disable_tooltips)
         if self._start_fullscreen:
             self.window.fullscreen()
 

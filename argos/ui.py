@@ -62,8 +62,12 @@ class ArgosWindow(Gtk.ApplicationWindow):
     artist_name_label = Gtk.Template.Child()
     track_length_label = Gtk.Template.Child()
 
+    play_favorite_playlist_button = Gtk.Template.Child()
+    play_random_album_button = Gtk.Template.Child()
     volume_button = Gtk.Template.Child()
+    prev_button = Gtk.Template.Child()
     play_button = Gtk.Template.Child()
+    next_button = Gtk.Template.Child()
 
     time_position_scale = Gtk.Template.Child()
     time_position_adjustement = Gtk.Template.Child()
@@ -72,17 +76,28 @@ class ArgosWindow(Gtk.ApplicationWindow):
     def __init__(self, *,
                  message_queue: asyncio.Queue,
                  loop: asyncio.AbstractEventLoop,
-                 application):
+                 application: Gtk.Application,
+                 disable_tooltips: bool = False):
         Gtk.Window.__init__(self, application=application)
         self.set_title("Argos")
         self.set_wmclass("Argos", "Argos")
         self._message_queue = message_queue
         self._loop = loop
+        self._disable_tooltips = disable_tooltips
 
         self._volume_button_value_changed_id = self.volume_button.connect(
                 "value_changed",
                 self.volume_button_value_changed_cb
             )
+
+        if self._disable_tooltips:
+            for widget in (self.play_favorite_playlist_button,
+                           self.play_random_album_button,
+                           self.volume_button,
+                           self.prev_button,
+                           self.play_button,
+                           self.next_button):
+                widget.props.has_tooltip = False
 
     def update_image(self, image_path: Optional[Path]) -> None:
         if not image_path:
@@ -116,6 +131,8 @@ class ArgosWindow(Gtk.ApplicationWindow):
             track_name_text = ""
 
         self.track_name_label.set_markup(track_name_text)
+        if not self._disable_tooltips:
+            self.track_name_label.set_tooltip_text(track_name)
 
         if artist_name:
             artist_name = GLib.markup_escape_text(artist_name)
