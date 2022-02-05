@@ -18,7 +18,7 @@ IMAGE_SIZE = 300
 def compute_target_size(width: int, height: int) -> Union[Tuple[int, int],
                                                           Tuple[None, None]]:
     transpose = False
-    if width > height:
+    if height > width:
         width, height = height, width
         transpose = True
 
