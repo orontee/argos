@@ -11,12 +11,12 @@ from .model import PlaybackState
 
 LOGGER = logging.getLogger(__name__)
 
-IMAGE_SIZE = 300
-# TODO use widget size
+ELIDE_THRESHOLD = 29
 
 
-def compute_target_size(width: int, height: int) -> Union[Tuple[int, int],
-                                                          Tuple[None, None]]:
+def compute_target_size(width: int, height: int, *,
+                        target_width: int) -> Union[Tuple[int, int],
+                                                    Tuple[None, None]]:
     transpose = False
     if height > width:
         width, height = height, width
@@ -25,11 +25,18 @@ def compute_target_size(width: int, height: int) -> Union[Tuple[int, int],
     if width <= 0:
         return None, None
 
-    target_width = IMAGE_SIZE
     width_scale = target_width / width
     target_height = round(height * width_scale)
-    return (target_width, target_height) if not transpose \
+    size = (target_width, target_height) if not transpose \
         else (target_height, target_width)
+    LOGGER.debug(f"Resizing {(width, height)!r} to {size!r}")
+    return size
+
+
+def elide_maybe(text: str) -> str:
+    if len(text) > ELIDE_THRESHOLD:
+        return text[:ELIDE_THRESHOLD] + "…"
+    return text
 
 
 def ms_to_text(value: Optional[int] = None) -> str:
@@ -83,8 +90,11 @@ class ArgosWindow(Gtk.ApplicationWindow):
         else:
             pixbuf = GdkPixbuf.Pixbuf.new_from_file(str(image_path))
             if pixbuf:
+                rectangle = self.get_allocation()
+                target_width = min(rectangle.width / 2, rectangle.height)
                 width, height = compute_target_size(pixbuf.get_width(),
-                                                    pixbuf.get_height())
+                                                    pixbuf.get_height(),
+                                                    target_width=target_width)
                 scaled_pixbuf = pixbuf.scale_simple(
                     width, height, GdkPixbuf.InterpType.BILINEAR
                 )
@@ -100,7 +110,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
                       artist_name: Optional[str],
                       track_length: Optional[int]) -> None:
         if track_name:
-            track_name = GLib.markup_escape_text(track_name)
+            track_name = GLib.markup_escape_text(elide_maybe(track_name))
             track_name_text = f"""<span size="xx-large"><b>{track_name}</b></span>"""
         else:
             track_name_text = ""

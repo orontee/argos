@@ -44,8 +44,8 @@
     <property name="page-increment">10000</property>
   </object>
   <template class="ArgosWindow" parent="GtkApplicationWindow">
-    <property name="width-request">600</property>
-    <property name="height-request">300</property>
+    <property name="width-request">780</property>
+    <property name="height-request">460</property>
     <property name="can-focus">False</property>
     <property name="title" translatable="yes">Argos</property>
     <property name="default-width">600</property>
@@ -61,8 +61,8 @@
         <property name="margin-bottom">10</property>
         <child>
           <object class="GtkImage" id="image">
-            <property name="width-request">300</property>
-            <property name="height-request">300</property>
+            <property name="width-request">380</property>
+            <property name="height-request">380</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="halign">center</property>
@@ -79,12 +79,15 @@
         </child>
         <child>
           <object class="GtkBox" id="right_pane">
+            <property name="width-request">380</property>
+            <property name="height-request">380</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
+            <property name="halign">center</property>
+            <property name="valign">center</property>
             <property name="margin-start">5</property>
             <property name="margin-end">10</property>
             <property name="margin-bottom">10</property>
-            <property name="hexpand">True</property>
             <property name="orientation">vertical</property>
             <child>
               <object class="GtkBox" id="top_controls_box">
@@ -231,9 +234,11 @@ audio-volume-medium-symbolic</property>
                 <property name="can-focus">False</property>
                 <child>
                   <object class="GtkScale" id="time_position_scale">
+                    <property name="width-request">280</property>
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
                     <property name="can-focus">True</property>
+                    <property name="halign">start</property>
                     <property name="hexpand">True</property>
                     <property name="adjustment">time_position_adjustement</property>
                     <property name="lower-stepper-sensitivity">on</property>
@@ -256,6 +261,7 @@ audio-volume-medium-symbolic</property>
                     <property name="width-request">40</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="halign">start</property>
                     <property name="label" translatable="yes">--:--</property>
                     <property name="justify">right</property>
                   </object>
@@ -269,6 +275,8 @@ audio-volume-medium-symbolic</property>
                   <object class="GtkLabel" id="separator">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="valign">center</property>
                     <property name="label" translatable="yes">/</property>
                   </object>
                   <packing>
@@ -282,6 +290,8 @@ audio-volume-medium-symbolic</property>
                     <property name="width-request">40</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="valign">center</property>
                     <property name="margin-end">10</property>
                     <property name="label" translatable="yes">--:--</property>
                   </object>
