@@ -5,19 +5,28 @@ from urllib.parse import urljoin
 
 import aiohttp
 
-from .conf import MOPIDY_URL
+from gi.repository import Gio
+
 from .session import get_session
 
 LOGGER = logging.getLogger(__name__)
 
 _COMMAND_ID = 0
 
-FAVORITE_PLAYLIST_NAME = "Radios"
-
 
 class MopidyHTTPClient:
+    settings = Gio.Settings.new("app.argos.Argos")
+
     def __init__(self):
-        self._url = urljoin(MOPIDY_URL, "/mopidy/rpc")
+        base_url = self.settings.get_string("mopidy-base-url")
+        self._url = urljoin(base_url, "/mopidy/rpc")
+
+        self.settings.connect("changed::mopidy-base-url",
+                              self.on_mopidy_base_url_changed)
+
+    def on_mopidy_base_url_changed(self, settings, _):
+        base_url = settings.get_string("mopidy-base-url")
+        self._url = urljoin(base_url, "/mopidy/rpc")
 
     async def get_state(self) -> Any:
         state = await self._send_command("core.playback.get_state")
@@ -71,11 +80,12 @@ class MopidyHTTPClient:
             LOGGER.warning("No playlist found")
             return
 
+        favorite_playlist_name = self.settings.get_string("favorite-playlist-name")
         try:
             rf_list = next(filter(
-                lambda l: l["name"] == FAVORITE_PLAYLIST_NAME, lists))
+                lambda l: l["name"] == favorite_playlist_name, lists))
         except StopIteration:
-            LOGGER.warning(f"{FAVORITE_PLAYLIST_NAME} playlist not found")
+            LOGGER.warning(f"{favorite_playlist_name} playlist not found")
             return
         refs = await self._send_command("core.playlists.get_items",
                                         params={"uri": rf_list["uri"]})

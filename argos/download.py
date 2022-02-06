@@ -7,7 +7,8 @@ from urllib.parse import urljoin
 
 import aiohttp
 
-from .conf import MOPIDY_URL
+from gi.repository import Gio
+
 from .message import Message, MessageType
 from .session import get_session
 
@@ -24,11 +25,19 @@ class ImageDownloader:
     Currently only support tracks handled by Mopidy-Local.
 
     """
+    settings = Gio.Settings.new("app.argos.Argos")
 
     def __init__(self, *,
                  message_queue: asyncio.Queue):
         self._image_dir = TemporaryDirectory()
         self._message_queue = message_queue
+        self._base_url = self.settings.get_string("mopidy-base-url")
+
+        self.settings.connect("changed::mopidy-base-url",
+                              self.on_mopidy_base_url_changed)
+
+    def on_mopidy_base_url_changed(self, settings, _):
+        self._base_url = settings.get_string("mopidy-base-url")
 
     async def fetch_first_image(self, *,
                                 track_uri: str,
@@ -51,7 +60,7 @@ class ImageDownloader:
         filename = Path(image_uri).parts[-1]
         filepath = Path(self._image_dir.name) / filename
         if not filepath.exists():
-            url = urljoin(MOPIDY_URL, image_uri)
+            url = urljoin(self._base_url, image_uri)
             async with get_session() as session:
                 try:
                     LOGGER.debug(f"Sending GET {url}")

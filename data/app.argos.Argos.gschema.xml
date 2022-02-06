@@ -1,5 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="argos">
-	<schema id="app.argos.Argos" path="/app/argos/Argos/">
-	</schema>
+  <schema id="app.argos.Argos" path="/app/argos/Argos/">
+    <key type="i" name="connection-retry-delay">
+      <default>5</default>
+      <summary>
+	Connection retry delay
+      </summary>
+      <description>
+	The delay in seconds between two connection tries.
+      </description>
+    </key>
+
+    <key type="s" name="mopidy-base-url">
+      <default>"http://argos.local"</default>
+      <summary>
+	Base URL of Mopidy APIs
+      </summary>
+      <description>
+	The base URL of Mopidy JSON-RPC and websocket APIs.
+      </description>
+    </key>
+
+    <key type="s" name="favorite-playlist-name">
+      <default>"Radios"</default>
+      <summary>
+	Name of favorite playlist
+      </summary>
+      <description>
+	The name of the playlist that will be loaded and played when
+	"favorite" button is triggered.
+      </description>
+    </key>
+
+  </schema>
 </schemalist>

@@ -6,3 +6,4 @@ TAGS
 # Build files
 *.pyc
 /dist/
+data/gschemas.compiled

@@ -1,13 +1,13 @@
 import asyncio
 import json
 import logging
-from time import sleep
 from typing import Optional
 from urllib.parse import urljoin
 
 import aiohttp
 
-from .conf import CONNECTION_RETRY_DELAY, MOPIDY_URL
+from gi.repository import Gio
+
 from .message import Message, MessageType
 from .session import get_session
 
@@ -60,10 +60,20 @@ def convert_to_message(msg: aiohttp.WSMessage) -> Optional[Message]:
 
 
 class MopidyWSListener:
+    settings = Gio.Settings("app.argos.Argos")
+
     def __init__(self, *,
                  message_queue: asyncio.Queue):
-        self._url = urljoin(MOPIDY_URL, "/mopidy/ws")
+        base_url = self.settings.get_string("mopidy-base-url")
+        self._url = urljoin(base_url, "/mopidy/ws")
         self._message_queue = message_queue
+
+        self.settings.connect("changed::mopidy-base-url",
+                              self.on_mopidy_base_url_changed)
+
+    def on_mopidy_base_url_changed(self, settings, _):
+        base_url = settings.get_string("mopidy-base-url")
+        self._url = urljoin(base_url, "/mopidy/ws")
 
     async def listen(self) -> None:
         async with get_session() as session:
@@ -79,4 +89,7 @@ class MopidyWSListener:
                                 await self._message_queue.put(message)
                 except aiohttp.ClientResponseError:
                     LOGGER.warning("Connection failure!")
-                    sleep(CONNECTION_RETRY_DELAY)
+                    connection_retry_delay = self.settings.get_int(
+                        "connection-retry-delay"
+                    )
+                    await asyncio.sleep(connection_retry_delay)
