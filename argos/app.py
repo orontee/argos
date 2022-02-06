@@ -13,7 +13,8 @@ from .download import ImageDownloader
 from .http import MopidyHTTPClient
 from .message import Message, MessageType
 from .model import Model, PlaybackState
-from .ui import ArgosWindow
+from .utils import configure_logger
+from .window import ArgosWindow
 from .ws import MopidyWSListener
 
 LOGGER = logging.getLogger(__name__)
@@ -67,7 +68,7 @@ class Application(Gtk.Application):
         options = command_line.get_options_dict()
         options = options.end().unpack()
 
-        self._configure_logger(options)
+        configure_logger(options)
         self._start_fullscreen = "fullscreen" in options
         self._disable_tooltips = "no-tooltips" in options
 
@@ -106,16 +107,6 @@ class Application(Gtk.Application):
         # thread to Gtk processing loop
         t = Thread(target=self._start_event_loop, daemon=True)
         t.start()
-
-    def _configure_logger(self, options: dict) -> None:
-        ch = logging.StreamHandler()
-        formatter = logging.Formatter("%(levelname)s: %(message)s")
-        ch.setFormatter(formatter)
-        level = logging.DEBUG if "debug" in options else logging.INFO
-        ch.setLevel(level)
-        logger = logging.getLogger("argos")
-        logger.setLevel(level)
-        logger.addHandler(ch)
 
     def _start_event_loop(self):
         LOGGER.debug("Attaching event loop to calling thread")

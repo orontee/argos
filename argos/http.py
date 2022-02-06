@@ -121,7 +121,7 @@ class MopidyHTTPClient:
         return track
 
     async def get_images(self, uri) -> Any:
-        params = {'uris': [uri]}
+        params = {"uris": [uri]}
         images = await self._send_command("core.library.get_images",
                                           params=params)
         return images and images[uri]

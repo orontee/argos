@@ -1,58 +1,20 @@
 import asyncio
 import logging
 from pathlib import Path
-from typing import Optional, Tuple, Union
+from typing import Optional
 
 from gi.repository import GdkPixbuf, GLib, Gtk
 
 from .message import Message, MessageType
 from .model import PlaybackState
-
+from .utils import compute_target_size, elide_maybe, ms_to_text
 
 LOGGER = logging.getLogger(__name__)
 
-ELIDE_THRESHOLD = 29
 
-
-def compute_target_size(width: int, height: int, *,
-                        target_width: int) -> Union[Tuple[int, int],
-                                                    Tuple[None, None]]:
-    transpose = False
-    if height > width:
-        width, height = height, width
-        transpose = True
-
-    if width <= 0:
-        return None, None
-
-    width_scale = target_width / width
-    target_height = round(height * width_scale)
-    size = (target_width, target_height) if not transpose \
-        else (target_height, target_width)
-    LOGGER.debug(f"Resizing {(width, height)!r} to {size!r}")
-    return size
-
-
-def elide_maybe(text: str) -> str:
-    if len(text) > ELIDE_THRESHOLD:
-        return text[:ELIDE_THRESHOLD] + "…"
-    return text
-
-
-def ms_to_text(value: Optional[int] = None) -> str:
-    if not value:
-        text = "--:--"
-    else:
-        second_count = round(value / 1000)
-        minutes = second_count // 60
-        seconds = second_count % 60
-        text = f"{minutes}:{seconds:02d}"
-    return text
-
-
-@Gtk.Template(resource_path='/app/argos/Argos/ui/window.ui')
+@Gtk.Template(resource_path="/app/argos/Argos/ui/window.ui")
 class ArgosWindow(Gtk.ApplicationWindow):
-    __gtype_name__ = 'ArgosWindow'
+    __gtype_name__ = "ArgosWindow"
 
     image = Gtk.Template.Child()
     play_image = Gtk.Template.Child()

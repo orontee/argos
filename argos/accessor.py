@@ -75,8 +75,8 @@ class ModelAccessor:
                 self._model.state = state
                 self._changed += ["state"]
 
-        props = {'mute': mute,
-                 'volume': volume}
+        props = {"mute": mute,
+                 "volume": volume}
         for prop_name in props:
             value = props[prop_name]
             if value is not None:

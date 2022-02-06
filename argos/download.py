@@ -66,7 +66,7 @@ class ImageDownloader:
                     LOGGER.debug(f"Sending GET {url}")
                     async with session.get(url) as resp:
                         LOGGER.debug(f"Writing image to {str(filepath)!r}")
-                        with filepath.open('wb') as fd:
+                        with filepath.open("wb") as fd:
                             async for chunk in resp.content.iter_chunked(
                                     CHUNK_SIZE
                             ):

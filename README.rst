@@ -26,6 +26,10 @@ Run through your desktop application menu or the line command::
 
   python3 -m argos
 
+For a list of supported command line arguments and defaults::
+
+  python3 -m argos --help
+
 Debug
 ~~~~~
 
@@ -35,7 +39,3 @@ One can install dependencies in a dedicated virtual environment using
   poetry shell
   poetry install
   python3 -m argos --debug 
-
-For a list of supported command line arguments and defaults::
-
-  python3 -m argos --help
