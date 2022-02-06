@@ -1,7 +1,7 @@
 import asyncio
 import logging
 from pathlib import Path
-from typing import Any
+from typing import Any, List
 
 from .message import Message, MessageType
 from .model import Model, PlaybackState
@@ -15,9 +15,9 @@ class ModelAccessor:
                  message_queue: asyncio.Queue):
         self._model = model
         self._message_queue = message_queue
-        self._changed = []
+        self._changed: List[str] = []
 
-    async def __aenter__(self) -> None:
+    async def __aenter__(self) -> "ModelAccessor":
         return self
 
     async def __aexit__(self, *args) -> bool:

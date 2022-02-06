@@ -1,7 +1,7 @@
 import asyncio
 import json
 import logging
-from typing import Optional
+from typing import Any, Dict, Optional
 from urllib.parse import urljoin
 
 import aiohttp
@@ -13,7 +13,7 @@ from .session import get_session
 
 LOGGER = logging.getLogger(__name__)
 
-EVENT_TO_MESSAGE_TYPE = {
+EVENT_TO_MESSAGE_TYPE: Dict[str, MessageType] = {
     "track_playback_started": MessageType.TRACK_PLAYBACK_STARTED,
     "track_playback_paused": MessageType.TRACK_PLAYBACK_PAUSED,
     "track_playback_resumed": MessageType.TRACK_PLAYBACK_RESUMED,
@@ -26,12 +26,12 @@ EVENT_TO_MESSAGE_TYPE = {
 }
 
 
-def parse_msg(msg: aiohttp.WSMessage) -> dict:
+def parse_msg(msg: aiohttp.WSMessage) -> Dict[str, Any]:
     try:
         return msg.json()
     except json.JSONDecodeError:
         LOGGER.error(f"Failed to decode JSON string {msg.data!r}")
-        return None
+        return {}
 
 
 def convert_to_message(msg: aiohttp.WSMessage) -> Optional[Message]:
@@ -44,19 +44,21 @@ def convert_to_message(msg: aiohttp.WSMessage) -> Optional[Message]:
     if msg.type == aiohttp.WSMsgType.TEXT:
         parsed = parse_msg(msg)
         event = parsed.get("event")
-        message_type = EVENT_TO_MESSAGE_TYPE.get(event)
+        message_type = EVENT_TO_MESSAGE_TYPE.get(event) if event else None
         if message_type:
             return Message(message_type, parsed)
         else:
             LOGGER.debug(f"Unhandled event {parsed!r}")
 
     elif msg.type in (aiohttp.WSMsgType.ERROR,
-                      aiohttp.WSMsgType.CLOSED_FRAME):
+                      aiohttp.WSMsgType.CLOSED):
         LOGGER.warning(f"Unexpected message {msg!r}")
 
     elif msg.type == aiohttp.WSMsgType.CLOSE:
         LOGGER.info(f"Close received with code {msg.data!r}, "
                     f"{msg.extra!r}")
+
+    return None
 
 
 class MopidyWSListener:

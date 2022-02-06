@@ -16,6 +16,15 @@ PyGObject = ">=3.38.0"
 pycairo = ">=1.16.0"
 
 [tool.poetry.dev-dependencies]
+mypy = "^0.931"
+
+[tool.mypy]
+ignore_missing_imports = false
+namespace_packages = true
+
+[[tool.mypy.overrides]]
+module = "gi.*"
+ignore_missing_imports = true
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

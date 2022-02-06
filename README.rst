@@ -30,8 +30,8 @@ For a list of supported command line arguments and defaults::
 
   python3 -m argos --help
 
-Debug
-~~~~~
+Contributing
+~~~~~~~~~~~~
 
 One can install dependencies in a dedicated virtual environment using
 ``poetry``::
@@ -39,3 +39,7 @@ One can install dependencies in a dedicated virtual environment using
   poetry shell
   poetry install
   python3 -m argos --debug 
+
+Run ``mypy``::
+
+  poetry run mypy

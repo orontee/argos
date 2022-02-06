@@ -179,4 +179,4 @@ class ArgosWindow(Gtk.ApplicationWindow):
         time_position = round(value)
         self._loop.call_soon_threadsafe(self._message_queue.put_nowait,
                                         Message(MessageType.SEEK,
-                                                time_position))
+                                                {"time_position": time_position}))
