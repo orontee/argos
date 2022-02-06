@@ -1,7 +1,12 @@
-.PHONY: check check-desktop-file check-gschemas clean distclean
+.PHONY: check check-desktop-file check-gschemas clean compile-resources distclean
+
+build: gschemas.compiled compile-resources
 
 gschemas.compiled: app.argos.Argos.gschema.xml
 	glib-compile-schemas .
+
+compile-resources: app.argos.Argos.gresource.xml
+	glib-compile-resources --target=../argos/app.argos.Argos.gresource $<
 
 check: check-desktop-file check-gschemas
 
@@ -13,5 +18,6 @@ check-gschemas: app.argos.Argos.gschema.xml
 
 clean:
 	rm -f gschemas.compiled
+	rm -f ../argos/app.argos.Argos.gresource
 
 distclean: clean

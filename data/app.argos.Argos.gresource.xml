@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/app/argos/Argos">
-    <file>window.ui</file>
+    <file>icons/welcome-music.svg</file>
+    <file>ui/window.ui</file>
   </gresource>
 </gresources>

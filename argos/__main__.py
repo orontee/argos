@@ -7,7 +7,7 @@ from gi.repository import Gio
 
 
 if __name__ == "__main__":
-    with importlib.resources.path("argos", "argos.gresource") as path:
+    with importlib.resources.path("argos", "app.argos.Argos.gresource") as path:
         resource = Gio.Resource.load(str(path))
     resource._register()
 

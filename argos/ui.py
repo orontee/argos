@@ -50,7 +50,7 @@ def ms_to_text(value: Optional[int] = None) -> str:
     return text
 
 
-@Gtk.Template(resource_path='/app/argos/Argos/window.ui')
+@Gtk.Template(resource_path='/app/argos/Argos/ui/window.ui')
 class ArgosWindow(Gtk.ApplicationWindow):
     __gtype_name__ = 'ArgosWindow'
 
