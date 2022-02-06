@@ -21,8 +21,9 @@ class MopidyHTTPClient:
         base_url = self.settings.get_string("mopidy-base-url")
         self._url = urljoin(base_url, "/mopidy/rpc")
 
-        self.settings.connect("changed::mopidy-base-url",
-                              self.on_mopidy_base_url_changed)
+        self.settings.connect(
+            "changed::mopidy-base-url", self.on_mopidy_base_url_changed
+        )
 
     def on_mopidy_base_url_changed(self, settings, _):
         base_url = settings.get_string("mopidy-base-url")
@@ -43,8 +44,7 @@ class MopidyHTTPClient:
 
     async def seek(self, time_position: int) -> Any:
         params = {"time_position": time_position}
-        successful = await self._send_command("core.playback.seek",
-                                              params=params)
+        successful = await self._send_command("core.playback.seek", params=params)
         return successful
 
     async def previous(self) -> None:
@@ -59,8 +59,7 @@ class MopidyHTTPClient:
 
     async def play_random_album(self) -> None:
         albums = await self._send_command(
-            "core.library.browse",
-            params={"uri": "local:directory?type=album"}
+            "core.library.browse", params={"uri": "local:directory?type=album"}
         )
         if albums is None:
             LOGGER.warning("No album found")
@@ -70,8 +69,7 @@ class MopidyHTTPClient:
         album = random.choice(albums)
         LOGGER.debug(f"Will play {album['name']}")
         await self._send_command("core.tracklist.clear")
-        await self._send_command("core.tracklist.add",
-                                 params={"uris": [album["uri"]]})
+        await self._send_command("core.tracklist.add", params={"uris": [album["uri"]]})
         await self._send_command("core.playback.play")
 
     async def play_favorite_playlist(self) -> None:
@@ -82,21 +80,20 @@ class MopidyHTTPClient:
 
         favorite_playlist_name = self.settings.get_string("favorite-playlist-name")
         try:
-            rf_list = next(filter(
-                lambda l: l["name"] == favorite_playlist_name, lists))
+            rf_list = next(filter(lambda l: l["name"] == favorite_playlist_name, lists))
         except StopIteration:
             LOGGER.warning(f"{favorite_playlist_name} playlist not found")
             return
-        refs = await self._send_command("core.playlists.get_items",
-                                        params={"uri": rf_list["uri"]})
+        refs = await self._send_command(
+            "core.playlists.get_items", params={"uri": rf_list["uri"]}
+        )
         await self._send_command("core.tracklist.clear")
         uris = [ref["uri"] for ref in refs]
-        tltracks = await self._send_command("core.tracklist.add",
-                                            params={"uris": uris,
-                                                    "at_position": 0})
+        tltracks = await self._send_command(
+            "core.tracklist.add", params={"uris": uris, "at_position": 0}
+        )
         tltrack = tltracks[0]
-        await self._send_command("core.playback.play",
-                                 params={"tlid": tltrack["tlid"]})
+        await self._send_command("core.playback.play", params={"tlid": tltrack["tlid"]})
 
     async def get_mute(self) -> Any:
         mute = await self._send_command("core.mixer.get_mute")
@@ -104,8 +101,7 @@ class MopidyHTTPClient:
 
     async def set_mute(self, mute: bool) -> None:
         params = {"mute": mute}
-        await self._send_command("core.mixer.set_mute",
-                                 params=params)
+        await self._send_command("core.mixer.set_mute", params=params)
 
     async def get_volume(self) -> Any:
         volume = await self._send_command("core.mixer.get_volume")
@@ -113,8 +109,7 @@ class MopidyHTTPClient:
 
     async def set_volume(self, volume: int) -> None:
         params = {"volume": volume}
-        await self._send_command("core.mixer.set_volume",
-                                 params=params)
+        await self._send_command("core.mixer.set_volume", params=params)
 
     async def get_current_tl_track(self) -> Any:
         track = await self._send_command("core.playback.get_current_tl_track")
@@ -122,8 +117,7 @@ class MopidyHTTPClient:
 
     async def get_images(self, uri) -> Any:
         params = {"uris": [uri]}
-        images = await self._send_command("core.library.get_images",
-                                          params=params)
+        images = await self._send_command("core.library.get_images", params=params)
         return images and images[uri]
 
     async def _send_command(self, method: str, *, params: dict = None) -> Any:
@@ -131,9 +125,7 @@ class MopidyHTTPClient:
         global _COMMAND_ID
 
         _COMMAND_ID += 1
-        data = {"jsonrpc": "2.0",
-                "id": _COMMAND_ID,
-                "method": method}
+        data = {"jsonrpc": "2.0", "id": _COMMAND_ID, "method": method}
         if params is not None:
             data["params"] = params
 

@@ -2,6 +2,9 @@
 argos
 =====
 
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+    :target: https://github.com/psf/black
+
 Gtk front-end to control a Mopidy server through a tiny touch screen.
 
 .. figure:: screenshot.png
@@ -43,3 +46,8 @@ One can install dependencies in a dedicated virtual environment using
 Run ``mypy``::
 
   poetry run mypy
+
+Make sure code is properly formatted (using ``black``)::
+
+  poetry run black
+

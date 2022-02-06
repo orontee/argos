@@ -35,11 +35,14 @@ class ArgosWindow(Gtk.ApplicationWindow):
     time_position_adjustement = Gtk.Template.Child()
     time_position_label = Gtk.Template.Child()
 
-    def __init__(self, *,
-                 message_queue: asyncio.Queue,
-                 loop: asyncio.AbstractEventLoop,
-                 application: Gtk.Application,
-                 disable_tooltips: bool = False):
+    def __init__(
+        self,
+        *,
+        message_queue: asyncio.Queue,
+        loop: asyncio.AbstractEventLoop,
+        application: Gtk.Application,
+        disable_tooltips: bool = False,
+    ):
         Gtk.Window.__init__(self, application=application)
         self.set_title("Argos")
         self.set_wmclass("Argos", "Argos")
@@ -48,17 +51,18 @@ class ArgosWindow(Gtk.ApplicationWindow):
         self._disable_tooltips = disable_tooltips
 
         self._volume_button_value_changed_id = self.volume_button.connect(
-                "value_changed",
-                self.volume_button_value_changed_cb
-            )
+            "value_changed", self.volume_button_value_changed_cb
+        )
 
         if self._disable_tooltips:
-            for widget in (self.play_favorite_playlist_button,
-                           self.play_random_album_button,
-                           self.volume_button,
-                           self.prev_button,
-                           self.play_button,
-                           self.next_button):
+            for widget in (
+                self.play_favorite_playlist_button,
+                self.play_random_album_button,
+                self.volume_button,
+                self.prev_button,
+                self.play_button,
+                self.next_button,
+            ):
                 widget.props.has_tooltip = False
 
     def update_image(self, image_path: Optional[Path]) -> None:
@@ -69,9 +73,9 @@ class ArgosWindow(Gtk.ApplicationWindow):
             if pixbuf:
                 rectangle = self.get_allocation()
                 target_width = min(rectangle.width / 2, rectangle.height)
-                width, height = compute_target_size(pixbuf.get_width(),
-                                                    pixbuf.get_height(),
-                                                    target_width=target_width)
+                width, height = compute_target_size(
+                    pixbuf.get_width(), pixbuf.get_height(), target_width=target_width
+                )
                 scaled_pixbuf = pixbuf.scale_simple(
                     width, height, GdkPixbuf.InterpType.BILINEAR
                 )
@@ -82,10 +86,13 @@ class ArgosWindow(Gtk.ApplicationWindow):
 
         self.image.show_now()
 
-    def update_labels(self, *,
-                      track_name: Optional[str],
-                      artist_name: Optional[str],
-                      track_length: Optional[int]) -> None:
+    def update_labels(
+        self,
+        *,
+        track_name: Optional[str],
+        artist_name: Optional[str],
+        track_length: Optional[int],
+    ) -> None:
         if track_name:
             track_name = GLib.markup_escape_text(elide_maybe(track_name))
             track_name_text = f"""<span size="xx-large"><b>{track_name}</b></span>"""
@@ -119,8 +126,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
         self.artist_name_label.show_now()
         self.track_length_label.show_now()
 
-    def update_time_position_scale(self, *,
-                                   time_position: Optional[int]) -> None:
+    def update_time_position_scale(self, *, time_position: Optional[int]) -> None:
         pretty_time_position = ms_to_text(time_position)
         self.time_position_label.set_text(pretty_time_position)
 
@@ -130,16 +136,12 @@ class ArgosWindow(Gtk.ApplicationWindow):
         self.time_position_label.show_now()
         self.time_position_scale.show_now()
 
-    def update_volume(self, *,
-                      mute: Optional[bool],
-                      volume: Optional[int]) -> None:
+    def update_volume(self, *, mute: Optional[bool], volume: Optional[int]) -> None:
         if mute:
             volume = 0
 
         if volume is not None:
-            with self.volume_button.handler_block(
-                    self._volume_button_value_changed_id
-            ):
+            with self.volume_button.handler_block(self._volume_button_value_changed_id):
                 self.volume_button.set_value(volume / 100)
 
             self.volume_button.show_now()
@@ -152,31 +154,34 @@ class ArgosWindow(Gtk.ApplicationWindow):
 
     def volume_button_value_changed_cb(self, *args) -> None:
         value = self.volume_button.get_value()
-        self._loop.call_soon_threadsafe(self._message_queue.put_nowait,
-                                        Message(MessageType.SET_VOLUME, value))
+        self._loop.call_soon_threadsafe(
+            self._message_queue.put_nowait, Message(MessageType.SET_VOLUME, value)
+        )
 
     @Gtk.Template.Callback()
     def prev_button_clicked_cb(self, *args) -> None:
-        self._loop.call_soon_threadsafe(self._message_queue.put_nowait,
-                                        Message(MessageType.PLAY_PREV_TRACK))
+        self._loop.call_soon_threadsafe(
+            self._message_queue.put_nowait, Message(MessageType.PLAY_PREV_TRACK)
+        )
 
     @Gtk.Template.Callback()
     def play_button_clicked_cb(self, *args) -> None:
         self._loop.call_soon_threadsafe(
-            self._message_queue.put_nowait,
-            Message(MessageType.TOGGLE_PLAYBACK_STATE)
+            self._message_queue.put_nowait, Message(MessageType.TOGGLE_PLAYBACK_STATE)
         )
 
     @Gtk.Template.Callback()
     def next_button_clicked_cb(self, *args) -> None:
-        self._loop.call_soon_threadsafe(self._message_queue.put_nowait,
-                                        Message(MessageType.PLAY_NEXT_TRACK))
+        self._loop.call_soon_threadsafe(
+            self._message_queue.put_nowait, Message(MessageType.PLAY_NEXT_TRACK)
+        )
 
     @Gtk.Template.Callback()
-    def time_position_scale_change_value_cb(self, widget: Gtk.Widget,
-                                            scroll_type: Gtk.ScrollType,
-                                            value: float) -> None:
+    def time_position_scale_change_value_cb(
+        self, widget: Gtk.Widget, scroll_type: Gtk.ScrollType, value: float
+    ) -> None:
         time_position = round(value)
-        self._loop.call_soon_threadsafe(self._message_queue.put_nowait,
-                                        Message(MessageType.SEEK,
-                                                {"time_position": time_position}))
+        self._loop.call_soon_threadsafe(
+            self._message_queue.put_nowait,
+            Message(MessageType.SEEK, {"time_position": time_position}),
+        )

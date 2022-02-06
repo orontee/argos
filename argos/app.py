@@ -5,6 +5,7 @@ from threading import Thread
 from typing import List
 
 import gi
+
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gio, GLib, Gtk
 
@@ -22,11 +23,13 @@ LOGGER = logging.getLogger(__name__)
 
 class Application(Gtk.Application):
     def __init__(self, *args, **kwargs):
-        Gtk.Application.__init__(self,
-                                 *args,
-                                 application_id="app.argos.Argos",
-                                 flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
-                                 **kwargs)
+        Gtk.Application.__init__(
+            self,
+            *args,
+            application_id="app.argos.Argos",
+            flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
+            **kwargs,
+        )
         self._loop = asyncio.get_event_loop()
         self._messages = asyncio.Queue()
         self._model = Model()
@@ -77,10 +80,12 @@ class Application(Gtk.Application):
 
     def do_activate(self):
         if not self.window:
-            self.window = ArgosWindow(application=self,
-                                      message_queue=self._messages,
-                                      loop=self._loop,
-                                      disable_tooltips=self._disable_tooltips)
+            self.window = ArgosWindow(
+                application=self,
+                message_queue=self._messages,
+                loop=self._loop,
+                disable_tooltips=self._disable_tooltips,
+            )
         if self._start_fullscreen:
             self.window.fullscreen()
 
@@ -90,16 +95,14 @@ class Application(Gtk.Application):
         Gtk.Application.do_startup(self)
 
         play_random_album_action = Gio.SimpleAction.new("play_random_album", None)
-        play_random_album_action.connect("activate",
-                                         self.play_random_album_activate_cb)
+        play_random_album_action.connect("activate", self.play_random_album_activate_cb)
         self.add_action(play_random_album_action)
 
         play_favorite_playlist_action = Gio.SimpleAction.new(
             "play_favorite_playlist", None
         )
         play_favorite_playlist_action.connect(
-            "activate",
-            self.play_favorite_playlist_activate_cb
+            "activate", self.play_favorite_playlist_activate_cb
         )
         self.add_action(play_favorite_playlist_action)
 
@@ -125,8 +128,7 @@ class Application(Gtk.Application):
     async def _track_time_position(self):
         LOGGER.debug("Tracking time position...")
         while True:
-            if self._model.state == PlaybackState.PLAYING and \
-               self._model.track_length:
+            if self._model.state == PlaybackState.PLAYING and self._model.track_length:
                 await self._update_time_position()
             await asyncio.sleep(1)
 
@@ -228,8 +230,9 @@ class Application(Gtk.Application):
                 await self._handle_model_changed(changed)
 
             else:
-                LOGGER.warning(f"Unhandled message type {type!r} "
-                               f"with data {message.data!r}")
+                LOGGER.warning(
+                    f"Unhandled message type {type!r} " f"with data {message.data!r}"
+                )
 
     @property
     def model_accessor(self) -> ModelAccessor:
@@ -237,37 +240,52 @@ class Application(Gtk.Application):
 
     async def _handle_model_changed(self, changed: List[str]) -> None:
         if "image_path" in changed:
-            GLib.idle_add(self.window.update_image,
-                          self._model.image_path)
+            GLib.idle_add(self.window.update_image, self._model.image_path)
 
-        if "track_name" in changed or "artist_name" in changed \
-           or "track_length" in changed:
-            GLib.idle_add(partial(
-                self.window.update_labels,
-                track_name=self._model.track_name,
-                artist_name=self._model.artist_name,
-                track_length=self._model.track_length))
+        if (
+            "track_name" in changed
+            or "artist_name" in changed
+            or "track_length" in changed
+        ):
+            GLib.idle_add(
+                partial(
+                    self.window.update_labels,
+                    track_name=self._model.track_name,
+                    artist_name=self._model.artist_name,
+                    track_length=self._model.track_length,
+                )
+            )
 
             track_uri = self._model.track_uri
             if not track_uri:
                 return
 
             track_images = await self._http.get_images(track_uri)
-            await self._download.fetch_first_image(track_uri=track_uri,
-                                                   track_images=track_images)
+            await self._download.fetch_first_image(
+                track_uri=track_uri, track_images=track_images
+            )
 
         if "volume" in changed or "mute" in changed:
-            GLib.idle_add(partial(self.window.update_volume,
-                                  mute=self._model.mute,
-                                  volume=self._model.volume))
+            GLib.idle_add(
+                partial(
+                    self.window.update_volume,
+                    mute=self._model.mute,
+                    volume=self._model.volume,
+                )
+            )
 
         if "state" in changed:
-            GLib.idle_add(partial(self.window.update_play_button,
-                                  state=self._model.state))
+            GLib.idle_add(
+                partial(self.window.update_play_button, state=self._model.state)
+            )
 
         if "time_position" in changed:
-            GLib.idle_add(partial(self.window.update_time_position_scale,
-                                  time_position=self._model.time_position))
+            GLib.idle_add(
+                partial(
+                    self.window.update_time_position_scale,
+                    time_position=self._model.time_position,
+                )
+            )
 
     async def _reset_model(self) -> None:
         raw_state = await self._http.get_state()
@@ -277,20 +295,20 @@ class Application(Gtk.Application):
         time_position = await self._http.get_time_position()
 
         async with self.model_accessor as model:
-            model.update_from(raw_state=raw_state,
-                              mute=mute,
-                              volume=volume,
-                              time_position=time_position,
-                              tl_track=tl_track)
+            model.update_from(
+                raw_state=raw_state,
+                mute=mute,
+                volume=volume,
+                time_position=time_position,
+                tl_track=tl_track,
+            )
 
     def play_random_album_activate_cb(self, action, parameter) -> None:
         self._loop.call_soon_threadsafe(
-            self._messages.put_nowait,
-            Message(MessageType.PLAY_RANDOM_ALBUM)
+            self._messages.put_nowait, Message(MessageType.PLAY_RANDOM_ALBUM)
         )
 
     def play_favorite_playlist_activate_cb(self, action, parameter) -> None:
         self._loop.call_soon_threadsafe(
-            self._messages.put_nowait,
-            Message(MessageType.PLAY_FAVORITE_PLAYLIST)
+            self._messages.put_nowait, Message(MessageType.PLAY_FAVORITE_PLAYLIST)
         )

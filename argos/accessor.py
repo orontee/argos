@@ -10,9 +10,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 class ModelAccessor:
-    def __init__(self, *,
-                 model: Model,
-                 message_queue: asyncio.Queue):
+    def __init__(self, *, model: Model, message_queue: asyncio.Queue):
         self._model = model
         self._message_queue = message_queue
         self._changed: List[str] = []
@@ -22,8 +20,9 @@ class ModelAccessor:
 
     async def __aexit__(self, *args) -> bool:
         if len(self._changed):
-            await self._message_queue.put(Message(MessageType.MODEL_CHANGED,
-                                                  {"changed": self._changed}))
+            await self._message_queue.put(
+                Message(MessageType.MODEL_CHANGED, {"changed": self._changed})
+            )
 
         self._changed = []
         return False
@@ -57,13 +56,16 @@ class ModelAccessor:
             self._model.image_path = None
             self._changed += ["image_path"]
 
-    def update_from(self, *,
-                    raw_state: Any = None,
-                    mute: Any = None,
-                    volume: Any = None,
-                    time_position: Any = None,
-                    tl_track: Any = None,
-                    image_path: Any = None) -> None:
+    def update_from(
+        self,
+        *,
+        raw_state: Any = None,
+        mute: Any = None,
+        volume: Any = None,
+        time_position: Any = None,
+        tl_track: Any = None,
+        image_path: Any = None,
+    ) -> None:
         if raw_state is not None:
             try:
                 state = PlaybackState(raw_state)
@@ -75,8 +77,7 @@ class ModelAccessor:
                 self._model.state = state
                 self._changed += ["state"]
 
-        props = {"mute": mute,
-                 "volume": volume}
+        props = {"mute": mute, "volume": volume}
         for prop_name in props:
             value = props[prop_name]
             if value is not None:
@@ -102,8 +103,13 @@ class ModelAccessor:
                 self._model.track_length = track_length
                 self._model.time_position = 0
                 self._model.image_path = None
-                self._changed += ["track_uri", "track_name", "track_length",
-                                  "time_position", "image_path"]
+                self._changed += [
+                    "track_uri",
+                    "track_name",
+                    "track_length",
+                    "time_position",
+                    "image_path",
+                ]
 
             artists = track.get("artists", [{}])
             artist = artists[0]

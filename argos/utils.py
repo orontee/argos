@@ -6,9 +6,9 @@ LOGGER = logging.getLogger(__name__)
 ELIDE_THRESHOLD = 29
 
 
-def compute_target_size(width: int, height: int, *,
-                        target_width: int) -> Union[Tuple[int, int],
-                                                    Tuple[None, None]]:
+def compute_target_size(
+    width: int, height: int, *, target_width: int
+) -> Union[Tuple[int, int], Tuple[None, None]]:
     """Compute the image size according to given target width."""
     transpose = False
     if height > width:
@@ -20,8 +20,11 @@ def compute_target_size(width: int, height: int, *,
 
     width_scale = target_width / width
     target_height = round(height * width_scale)
-    size = (target_width, target_height) if not transpose \
+    size = (
+        (target_width, target_height)
+        if not transpose
         else (target_height, target_width)
+    )
     LOGGER.debug(f"Resizing {(width, height)!r} to {size!r}")
     return size
 

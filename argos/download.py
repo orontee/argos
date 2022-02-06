@@ -25,27 +25,25 @@ class ImageDownloader:
     Currently only support tracks handled by Mopidy-Local.
 
     """
+
     settings = Gio.Settings.new("app.argos.Argos")
 
-    def __init__(self, *,
-                 message_queue: asyncio.Queue):
+    def __init__(self, *, message_queue: asyncio.Queue):
         self._image_dir = TemporaryDirectory()
         self._message_queue = message_queue
         self._base_url = self.settings.get_string("mopidy-base-url")
 
-        self.settings.connect("changed::mopidy-base-url",
-                              self.on_mopidy_base_url_changed)
+        self.settings.connect(
+            "changed::mopidy-base-url", self.on_mopidy_base_url_changed
+        )
 
     def on_mopidy_base_url_changed(self, settings, _):
         self._base_url = settings.get_string("mopidy-base-url")
 
-    async def fetch_first_image(self, *,
-                                track_uri: str,
-                                track_images:
-                                Optional[List[Dict[str, Any]]] = None) -> None:
-        """Fetch the first image.
-
-        """
+    async def fetch_first_image(
+        self, *, track_uri: str, track_images: Optional[List[Dict[str, Any]]] = None
+    ) -> None:
+        """Fetch the first image."""
         if not track_images or len(track_images) == 0:
             return
 
@@ -67,13 +65,14 @@ class ImageDownloader:
                     async with session.get(url) as resp:
                         LOGGER.debug(f"Writing image to {str(filepath)!r}")
                         with filepath.open("wb") as fd:
-                            async for chunk in resp.content.iter_chunked(
-                                    CHUNK_SIZE
-                            ):
+                            async for chunk in resp.content.iter_chunked(CHUNK_SIZE):
                                 fd.write(chunk)
                 except aiohttp.ClientError as err:
                     LOGGER.error(f"Failed to request local image, {err}")
 
-        await self._message_queue.put(Message(MessageType.IMAGE_AVAILABLE,
-                                              {"track_uri": track_uri,
-                                               "image_path": filepath}))
+        await self._message_queue.put(
+            Message(
+                MessageType.IMAGE_AVAILABLE,
+                {"track_uri": track_uri, "image_path": filepath},
+            )
+        )

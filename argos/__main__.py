@@ -12,6 +12,7 @@ if __name__ == "__main__":
     resource._register()
 
     from .app import Application
+
     app = Application()
     exit_status = app.run(sys.argv)
     sys.exit(exit_status)

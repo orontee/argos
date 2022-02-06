@@ -22,7 +22,7 @@ EVENT_TO_MESSAGE_TYPE: Dict[str, MessageType] = {
     "volume_changed": MessageType.VOLUME_CHANGED,
     "tracklist_changed": MessageType.TRACKLIST_CHANGED,
     "track_playback_ended": MessageType.TRACK_PLAYBACK_ENDED,
-    "seeked": MessageType.SEEKED
+    "seeked": MessageType.SEEKED,
 }
 
 
@@ -50,13 +50,11 @@ def convert_to_message(msg: aiohttp.WSMessage) -> Optional[Message]:
         else:
             LOGGER.debug(f"Unhandled event {parsed!r}")
 
-    elif msg.type in (aiohttp.WSMsgType.ERROR,
-                      aiohttp.WSMsgType.CLOSED):
+    elif msg.type in (aiohttp.WSMsgType.ERROR, aiohttp.WSMsgType.CLOSED):
         LOGGER.warning(f"Unexpected message {msg!r}")
 
     elif msg.type == aiohttp.WSMsgType.CLOSE:
-        LOGGER.info(f"Close received with code {msg.data!r}, "
-                    f"{msg.extra!r}")
+        LOGGER.info(f"Close received with code {msg.data!r}, " f"{msg.extra!r}")
 
     return None
 
@@ -64,14 +62,14 @@ def convert_to_message(msg: aiohttp.WSMessage) -> Optional[Message]:
 class MopidyWSListener:
     settings = Gio.Settings("app.argos.Argos")
 
-    def __init__(self, *,
-                 message_queue: asyncio.Queue):
+    def __init__(self, *, message_queue: asyncio.Queue):
         base_url = self.settings.get_string("mopidy-base-url")
         self._url = urljoin(base_url, "/mopidy/ws")
         self._message_queue = message_queue
 
-        self.settings.connect("changed::mopidy-base-url",
-                              self.on_mopidy_base_url_changed)
+        self.settings.connect(
+            "changed::mopidy-base-url", self.on_mopidy_base_url_changed
+        )
 
     def on_mopidy_base_url_changed(self, settings, _):
         base_url = settings.get_string("mopidy-base-url")
@@ -81,9 +79,9 @@ class MopidyWSListener:
         async with get_session() as session:
             while True:
                 try:
-                    async with session.ws_connect(self._url,
-                                                  ssl=False,
-                                                  timeout=None) as ws:
+                    async with session.ws_connect(
+                        self._url, ssl=False, timeout=None
+                    ) as ws:
                         LOGGER.debug(f"Connected to mopidy websocket at {self._url}")
                         async for msg in ws:
                             message = convert_to_message(msg)
