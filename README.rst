@@ -5,12 +5,15 @@ argos
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
     :target: https://github.com/psf/black
 
+.. image:: http://www.mypy-lang.org/static/mypy_badge.svg
+   :target: http://mypy-lang.org/
+
 Gtk front-end to control a Mopidy server through a tiny touch screen.
 
 .. figure:: screenshot.png
    :alt: Screenshot
    :align: center
-   
+
    The application window
 
 Install
@@ -36,18 +39,16 @@ For a list of supported command line arguments and defaults::
 Contributing
 ~~~~~~~~~~~~
 
-One can install dependencies in a dedicated virtual environment using
-``poetry``::
+One can install dependencies and configure pre-commit hooks in a
+dedicated virtual environment using ``poetry``::
 
   poetry shell
   poetry install
-  python3 -m argos --debug 
+  pre-commit install
 
-Run ``mypy``::
+Pre-commit hooks run ``mypy`` check and make sure code is properly
+formatted (using ``black``).
 
-  poetry run mypy
+Run with ``--debug`` command-line option to output detailed logs::
 
-Make sure code is properly formatted (using ``black``)::
-
-  poetry run black
-
+  python3 -m argos --debug
