@@ -69,7 +69,7 @@
             <property name="halign">center</property>
             <property name="valign">center</property>
             <property name="margin-end">5</property>
-            <property name="icon-name">image-x-generic-symbolic</property>
+            <property name="resource">/app/argos/Argos/icons/welcome-music.svg</property>
             <property name="icon_size">5</property>
           </object>
           <packing>

@@ -101,7 +101,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
 
     def update_image(self, image_path: Optional[Path]) -> None:
         if not image_path:
-            self.image.clear()
+            self.image.set_from_resource("/app/argos/Argos/icons/welcome-music.svg")
         else:
             pixbuf = GdkPixbuf.Pixbuf.new_from_file(str(image_path))
             if pixbuf:
@@ -116,7 +116,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
                 self.image.set_from_pixbuf(scaled_pixbuf)
             else:
                 LOGGER.warning("Failed to read image")
-                self.image.clear()
+                self.image.set_from_resource("/app/argos/Argos/icons/welcome-music.svg")
 
         self.image.show_now()
 
