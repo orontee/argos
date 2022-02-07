@@ -239,6 +239,10 @@ class Application(Gtk.Application):
         return ModelAccessor(model=self._model, message_queue=self._messages)
 
     async def _handle_model_changed(self, changed: List[str]) -> None:
+        """Propage model changes to UI."""
+        if not self.window:
+            return
+
         if "image_path" in changed:
             GLib.idle_add(self.window.update_image, self._model.image_path)
 
