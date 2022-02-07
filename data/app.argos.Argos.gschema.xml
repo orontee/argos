@@ -21,14 +21,14 @@
       </description>
     </key>
 
-    <key type="s" name="favorite-playlist-name">
+    <key type="s" name="favorite-playlist-uri">
       <default>"Radios"</default>
       <summary>
-	Name of favorite playlist
+	URI of favorite playlist
       </summary>
       <description>
-	The name of the playlist that will be loaded and played when
-	"favorite" button is triggered.
+	The URI of the playlist that will be loaded and played when
+	"play favorite playlist" button is triggered.
       </description>
     </key>
 

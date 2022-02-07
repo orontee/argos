@@ -12,6 +12,7 @@ class MessageType(Enum):
     PLAY_FAVORITE_PLAYLIST = 4
     SEEK = 5
     SET_VOLUME = 6
+    LIST_PLAYLISTS = 7
 
     # Events (frow websocket)
     TRACK_PLAYBACK_STARTED = 20

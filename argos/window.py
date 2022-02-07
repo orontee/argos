@@ -26,6 +26,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
 
     play_favorite_playlist_button = Gtk.Template.Child()
     play_random_album_button = Gtk.Template.Child()
+    app_menu_button = Gtk.Template.Child()
     volume_button = Gtk.Template.Child()
     prev_button = Gtk.Template.Child()
     play_button = Gtk.Template.Child()
@@ -44,11 +45,15 @@ class ArgosWindow(Gtk.ApplicationWindow):
         disable_tooltips: bool = False,
     ):
         Gtk.Window.__init__(self, application=application)
-        self.set_title("Argos")
         self.set_wmclass("Argos", "Argos")
         self._message_queue = message_queue
         self._loop = loop
         self._disable_tooltips = disable_tooltips
+
+        builder = Gtk.Builder.new_from_resource("/app/argos/Argos/ui/app_menu.ui")
+        menu_model = builder.get_object("app-menu")
+        self.app_menu_button.set_use_popover(True)
+        self.app_menu_button.set_menu_model(menu_model)
 
         self._volume_button_value_changed_id = self.volume_button.connect(
             "value_changed", self.volume_button_value_changed_cb

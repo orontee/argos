@@ -1,6 +1,6 @@
 import logging
 import random
-from typing import Any
+from typing import Any, Dict, List
 from urllib.parse import urljoin
 
 import aiohttp
@@ -73,19 +73,13 @@ class MopidyHTTPClient:
         await self._send_command("core.playback.play")
 
     async def play_favorite_playlist(self) -> None:
-        lists = await self._send_command("core.playlists.as_list")
-        if lists is None:
-            LOGGER.warning("No playlist found")
+        favorite_playlist_uri = self.settings.get_string("favorite-playlist-uri")
+        if not favorite_playlist_uri:
+            LOGGER.debug("Favorite playlist URI not set")
             return
 
-        favorite_playlist_name = self.settings.get_string("favorite-playlist-name")
-        try:
-            rf_list = next(filter(lambda l: l["name"] == favorite_playlist_name, lists))
-        except StopIteration:
-            LOGGER.warning(f"{favorite_playlist_name} playlist not found")
-            return
         refs = await self._send_command(
-            "core.playlists.get_items", params={"uri": rf_list["uri"]}
+            "core.playlists.get_items", params={"uri": favorite_playlist_uri}
         )
         await self._send_command("core.tracklist.clear")
         uris = [ref["uri"] for ref in refs]
@@ -110,6 +104,10 @@ class MopidyHTTPClient:
     async def set_volume(self, volume: int) -> None:
         params = {"volume": volume}
         await self._send_command("core.mixer.set_volume", params=params)
+
+    async def list_playlists(self) -> List[Dict[str, Any]]:
+        list = await self._send_command("core.playlists.as_list")
+        return list
 
     async def get_current_tl_track(self) -> Any:
         track = await self._send_command("core.playback.get_current_tl_track")

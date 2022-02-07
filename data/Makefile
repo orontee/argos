@@ -1,11 +1,13 @@
 .PHONY: check check-desktop-file check-gschemas clean compile-resources distclean
 
+RESOURCES=ui/app_menu.ui ui/preferences.ui ui/window.ui
+
 build: gschemas.compiled compile-resources
 
 gschemas.compiled: app.argos.Argos.gschema.xml
 	glib-compile-schemas .
 
-compile-resources: app.argos.Argos.gresource.xml
+compile-resources: app.argos.Argos.gresource.xml ${RESOURCES}
 	glib-compile-resources --target=../argos/app.argos.Argos.gresource $<
 
 check: check-desktop-file check-gschemas

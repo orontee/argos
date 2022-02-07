@@ -42,6 +42,7 @@ Contributing
 One can install dependencies and configure pre-commit hooks in a
 dedicated virtual environment using ``poetry``::
 
+  sudo apt install libglib2.0-bin libglib2.0-dev-bin
   poetry shell
   poetry install
   pre-commit install

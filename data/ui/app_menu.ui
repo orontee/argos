@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <menu id="app-menu">
+    <section>
+      <item>
+        <attribute name="label">Play favorite playlist</attribute>
+        <attribute name="action">app.play_favorite_playlist</attribute>
+      </item>
+      <item>
+        <attribute name="label">Play random album</attribute>
+        <attribute name="action">app.play_random_album</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+	<attribute name="label">Preferences</attribute>
+	<attribute name="action">app.show_preferences</attribute>
+      </item>
+    </section>
+  </menu>
+</interface>

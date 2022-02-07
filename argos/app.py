@@ -9,6 +9,8 @@ import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gio, GLib, Gtk
 
+from .widgets.preferences import PreferencesWindow
+
 from .accessor import ModelAccessor
 from .download import ImageDownloader
 from .http import MopidyHTTPClient
@@ -39,6 +41,8 @@ class Application(Gtk.Application):
         self._download = ImageDownloader(message_queue=self._messages)
 
         self.window = None
+        self.prefs_window = None
+
         self._start_fullscreen = None
         self._disable_tooltips = None
 
@@ -93,6 +97,10 @@ class Application(Gtk.Application):
 
     def do_startup(self):
         Gtk.Application.do_startup(self)
+
+        show_prefs_action = Gio.SimpleAction.new("show_preferences", None)
+        show_prefs_action.connect("activate", self.show_prefs_activate_cb)
+        self.add_action(show_prefs_action)
 
         play_random_album_action = Gio.SimpleAction.new("play_random_album", None)
         play_random_album_action.connect("activate", self.play_random_album_activate_cb)
@@ -174,6 +182,16 @@ class Application(Gtk.Application):
             elif type == MessageType.SET_VOLUME:
                 volume = round(message.data * 100)
                 await self._http.set_volume(volume)
+
+            elif type == MessageType.LIST_PLAYLISTS:
+                playlists = await self._http.list_playlists()
+                if self.prefs_window:
+                    GLib.idle_add(
+                        partial(
+                            self.prefs_window.update_favorite_playlist_completion,
+                            playlists=playlists,
+                        )
+                    )
 
             # Events (from websocket)
             elif type == MessageType.TRACK_PLAYBACK_STARTED:
@@ -306,6 +324,25 @@ class Application(Gtk.Application):
                 time_position=time_position,
                 tl_track=tl_track,
             )
+
+    def show_prefs_activate_cb(self, action, parameter) -> None:
+        if self.window is None:
+            return
+
+        self.prefs_window = PreferencesWindow()
+        self.prefs_window.set_modal(True)
+        self.prefs_window.set_transient_for(self.window)
+        self.prefs_window.connect("destroy", self.prefs_window_destroy_cb)
+
+        self._loop.call_soon_threadsafe(
+            self._messages.put_nowait,
+            Message(MessageType.LIST_PLAYLISTS),
+        )
+
+        self.prefs_window.present()
+
+    def prefs_window_destroy_cb(self, window: Gtk.Window) -> None:
+        self.prefs_window = None
 
     def play_random_album_activate_cb(self, action, parameter) -> None:
         self._loop.call_soon_threadsafe(

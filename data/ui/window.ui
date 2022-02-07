@@ -19,6 +19,7 @@
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="icon-name">user-bookmarks-symbolic</property>
+    <property name="icon_size">3</property>
     <style>
       <class name="flat"/>
     </style>
@@ -33,6 +34,7 @@
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="icon-name">media-playlist-shuffle-symbolic</property>
+    <property name="icon_size">3</property>
   </object>
   <object class="GtkImage" id="previous_image">
     <property name="visible">True</property>
@@ -57,19 +59,19 @@
       <object class="GtkBox">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
+        <property name="halign">center</property>
         <property name="margin-start">10</property>
         <property name="margin-end">10</property>
         <property name="margin-top">10</property>
         <property name="margin-bottom">10</property>
         <child>
           <object class="GtkImage" id="image">
-            <property name="width-request">380</property>
-            <property name="height-request">380</property>
+            <property name="width-request">370</property>
+            <property name="height-request">370</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="halign">center</property>
+            <property name="halign">start</property>
             <property name="valign">center</property>
-            <property name="margin-end">5</property>
             <property name="resource">/app/argos/Argos/icons/welcome-music.svg</property>
             <property name="icon_size">5</property>
           </object>
@@ -85,9 +87,8 @@
             <property name="height-request">380</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="halign">center</property>
+            <property name="halign">end</property>
             <property name="valign">center</property>
-            <property name="margin-start">5</property>
             <property name="margin-end">10</property>
             <property name="margin-bottom">10</property>
             <property name="orientation">vertical</property>
@@ -108,7 +109,7 @@
                     <property name="action-name">app.play_favorite_playlist</property>
                     <property name="image">play_favorite_playlist_image</property>
                     <style>
-                      <class name="flat"/>
+                      <class name="pill"/>
                     </style>
                   </object>
                   <packing>
@@ -128,7 +129,7 @@
                     <property name="action-name">app.play_random_album</property>
                     <property name="image">play_random_album_image</property>
                     <style>
-                      <class name="flat"/>
+                      <class name="pill"/>
                     </style>
                   </object>
                   <packing>
@@ -146,8 +147,9 @@
                     <property name="focus-on-click">False</property>
                     <property name="receives-default">True</property>
                     <property name="halign">center</property>
-                    <property name="relief">none</property>
+                    <property name="relief">half</property>
                     <property name="orientation">vertical</property>
+                    <property name="size">large-toolbar</property>
                     <property name="icons">audio-volume-muted-symbolic
 audio-volume-high-symbolic
 audio-volume-low-symbolic
@@ -169,6 +171,10 @@ audio-volume-medium-symbolic</property>
                         <signal name="clicked" handler="minus_button_clicked_cb" swapped="no"/>
                       </object>
                     </child>
+                    <style>
+                      <class name="border-solid"/>
+                      <class name="pill"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -176,6 +182,28 @@ audio-volume-medium-symbolic</property>
                     <property name="position">2</property>
                   </packing>
                 </child>
+                <child>
+                  <object class="GtkMenuButton" id="app_menu_button">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="focus-on-click">False</property>
+                    <property name="receives-default">True</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <style>
+                      <class name="pill"/>
+                    </style>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">3</property>
+                  </packing>
+                </child>
+                <style>
+                  <class name="linked"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -234,13 +262,14 @@ audio-volume-medium-symbolic</property>
               <object class="GtkBox" id="track_box">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="halign">end</property>
                 <child>
                   <object class="GtkScale" id="time_position_scale">
-                    <property name="width-request">280</property>
+                    <property name="width-request">220</property>
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
                     <property name="can-focus">True</property>
-                    <property name="halign">start</property>
+                    <property name="halign">end</property>
                     <property name="hexpand">True</property>
                     <property name="adjustment">time_position_adjustement</property>
                     <property name="lower-stepper-sensitivity">on</property>
@@ -312,7 +341,6 @@ audio-volume-medium-symbolic</property>
             </child>
             <child>
               <object class="GtkBox" id="playback_controls_box">
-                <property name="name">play_controls_box</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">center</property>
@@ -351,7 +379,6 @@ audio-volume-medium-symbolic</property>
                     <property name="always-show-image">True</property>
                     <signal name="clicked" handler="play_button_clicked_cb" swapped="no"/>
                     <style>
-                      <class name="border-solid"/>
                       <class name="pill"/>
                     </style>
                   </object>
@@ -403,4 +430,11 @@ audio-volume-medium-symbolic</property>
       </object>
     </child>
   </template>
+  <object class="GtkPopoverMenu" id="app_menu">
+    <property name="can-focus">False</property>
+    <property name="relative-to">app_menu_button</property>
+    <child>
+      <placeholder/>
+    </child>
+  </object>
 </interface>
