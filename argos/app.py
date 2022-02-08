@@ -176,7 +176,7 @@ class Application(Gtk.Application):
                 await self._http.play_favorite_playlist()
 
             elif type == MessageType.SEEK:
-                time_position = round(message.data)
+                time_position = round(message.data.get("time_position"))
                 await self._http.seek(time_position)
 
             elif type == MessageType.SET_VOLUME:
