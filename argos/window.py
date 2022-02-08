@@ -76,8 +76,8 @@ class ArgosWindow(Gtk.ApplicationWindow):
         else:
             pixbuf = GdkPixbuf.Pixbuf.new_from_file(str(image_path))
             if pixbuf:
-                rectangle = self.get_allocation()
-                target_width = min(rectangle.width / 2, rectangle.height)
+                rectangle = self.image.get_allocation()
+                target_width = min(rectangle.width, rectangle.height)
                 width, height = compute_target_size(
                     pixbuf.get_width(), pixbuf.get_height(), target_width=target_width
                 )
