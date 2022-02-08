@@ -81,6 +81,9 @@ class MopidyHTTPClient:
         refs = await self._send_command(
             "core.playlists.get_items", params={"uri": favorite_playlist_uri}
         )
+        if not refs:
+            return
+
         await self._send_command("core.tracklist.clear")
         uris = [ref["uri"] for ref in refs]
         tltracks = await self._send_command(
