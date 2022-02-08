@@ -124,28 +124,29 @@ class Application(Gtk.Application):
         asyncio.set_event_loop(self._loop)
 
         LOGGER.debug("Starting event loop")
-        self._loop.run_until_complete(self._do())
+        self._loop.run_until_complete(
+            asyncio.gather(
+                self._reset_model(),
+                self._process_messages(),
+                self._track_time_position(),
+                self._ws.listen(),
+            )
+        )
         LOGGER.debug("Event loop stopped")
 
-    async def _do(self):
-        await self._reset_model()
-        self._loop.create_task(self._process_messages())
-        self._loop.create_task(self._track_time_position())
-        await self._ws.listen()
-
-    async def _track_time_position(self):
+    async def _track_time_position(self) -> None:
         LOGGER.debug("Tracking time position...")
         while True:
             if self._model.state == PlaybackState.PLAYING and self._model.track_length:
                 await self._update_time_position()
             await asyncio.sleep(1)
 
-    async def _update_time_position(self):
+    async def _update_time_position(self) -> None:
         time_position = await self._http.get_time_position()
         async with self.model_accessor as model:
             model.update_from(time_position=time_position)
 
-    async def _process_messages(self):
+    async def _process_messages(self) -> None:
         LOGGER.debug("Waiting for new messages...")
         while True:
             message = await self._messages.get()
