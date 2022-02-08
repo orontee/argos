@@ -87,9 +87,15 @@ class MopidyWSListener:
                             message = convert_to_message(msg)
                             if message:
                                 await self._message_queue.put(message)
-                except aiohttp.ClientResponseError:
-                    LOGGER.warning("Connection failure!")
+                except (
+                    aiohttp.ClientResponseError,
+                    aiohttp.client_exceptions.ClientConnectorError,
+                ):
                     connection_retry_delay = self.settings.get_int(
                         "connection-retry-delay"
+                    )
+                    LOGGER.warning(
+                        f"Connection error (retry in {connection_retry_delay}s)",
+                        exc_info=True,
                     )
                     await asyncio.sleep(connection_retry_delay)

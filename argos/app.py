@@ -185,7 +185,7 @@ class Application(Gtk.Application):
 
             elif type == MessageType.LIST_PLAYLISTS:
                 playlists = await self._http.list_playlists()
-                if self.prefs_window:
+                if self.prefs_window and playlists:
                     GLib.idle_add(
                         partial(
                             self.prefs_window.update_favorite_playlist_completion,
@@ -329,15 +329,12 @@ class Application(Gtk.Application):
         if self.window is None:
             return
 
-        self.prefs_window = PreferencesWindow()
-        self.prefs_window.set_modal(True)
+        self.prefs_window = PreferencesWindow(
+            message_queue=self._messages,
+            loop=self._loop,
+        )
         self.prefs_window.set_transient_for(self.window)
         self.prefs_window.connect("destroy", self.prefs_window_destroy_cb)
-
-        self._loop.call_soon_threadsafe(
-            self._messages.put_nowait,
-            Message(MessageType.LIST_PLAYLISTS),
-        )
 
         self.prefs_window.present()
 
