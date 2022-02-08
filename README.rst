@@ -13,8 +13,19 @@ Gtk front-end to control a Mopidy server through a tiny touch screen.
 .. figure:: screenshot.png
    :alt: Screenshot
    :align: center
+   :width: 407
+   :height: 249
 
    The application window
+
+Features 🥳
+~~~~~~~~~~~
+
+* Play random album
+
+* Configure and play favorite playlist
+
+* Display album cover from Mopidy-Local HTTP API
 
 Install
 ~~~~~~~
