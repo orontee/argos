@@ -59,6 +59,7 @@ class ModelAccessor:
     def update_from(
         self,
         *,
+        connected: Any = None,
         raw_state: Any = None,
         mute: Any = None,
         volume: Any = None,
@@ -66,6 +67,12 @@ class ModelAccessor:
         tl_track: Any = None,
         image_path: Any = None,
     ) -> None:
+        if connected is not None:
+            connected = True if connected is True else False
+            if self._model.connected != connected:
+                self._model.connected = connected
+                self._changed += ["connected"]
+
         if raw_state is not None:
             try:
                 state = PlaybackState(raw_state)

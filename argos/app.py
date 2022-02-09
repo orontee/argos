@@ -134,7 +134,6 @@ class Application(Gtk.Application):
             asyncio.gather(
                 self._ws.listen(),
                 self._process_messages(),
-                self._reset_model(),
                 self._track_time_position(),
             )
         )
@@ -143,14 +142,11 @@ class Application(Gtk.Application):
     async def _track_time_position(self) -> None:
         LOGGER.debug("Tracking time position...")
         while True:
-            if self._model.state == PlaybackState.PLAYING and self._model.track_length:
-                await self._update_time_position()
+            if self._model.state == PlaybackState.PLAYING and self._model.connected:
+                time_position = await self._http.get_time_position()
+                async with self.model_accessor as model:
+                    model.update_from(time_position=time_position)
             await asyncio.sleep(1)
-
-    async def _update_time_position(self) -> None:
-        time_position = await self._http.get_time_position()
-        async with self.model_accessor as model:
-            model.update_from(time_position=time_position)
 
     async def _process_messages(self) -> None:
         LOGGER.debug("Waiting for new messages...")
@@ -254,6 +250,12 @@ class Application(Gtk.Application):
                 changed = message.data.get("changed", [])
                 await self._handle_model_changed(changed)
 
+            elif type == MessageType.MOPIDY_WEBSOCKET_CONNECTED:
+                connected = message.data.get("connected", False)
+                # don't use None since accessor won't update model
+                async with self.model_accessor as model:
+                    model.update_from(connected=connected)
+
             else:
                 LOGGER.warning(
                     f"Unhandled message type {type!r} " f"with data {message.data!r}"
@@ -264,9 +266,16 @@ class Application(Gtk.Application):
         return ModelAccessor(model=self._model, message_queue=self._messages)
 
     async def _handle_model_changed(self, changed: List[str]) -> None:
-        """Propage model changes to UI."""
+        """Propage model changes."""
         if not self.window:
             return
+
+        if "connected" in changed:
+            if self._model.connected:
+                LOGGER.debug("Websocket connected")
+                await self._reset_model()
+            else:
+                LOGGER.debug("Websocket disconnected")
 
         if "image_path" in changed:
             GLib.idle_add(self.window.update_image, self._model.image_path)

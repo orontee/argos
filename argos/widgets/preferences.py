@@ -53,7 +53,7 @@ class PreferencesWindow(Gtk.Window):
     def mopidy_base_url_entry_changed_cb(self, entry: Gtk.Entry) -> None:
         base_url = entry.get_text()
         self.settings.set_string("mopidy-base-url", base_url)
-        self.list_playlists()
+        # TODO self.list_playlists() once connected
 
     def favorite_playlist_combo_changed_cb(self, combo: Gtk.ComboBox) -> None:
         favorite_playlist_uri = combo.get_active_id()

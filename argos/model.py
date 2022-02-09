@@ -12,7 +12,8 @@ class PlaybackState(Enum):
 
 @dataclass
 class Model:
-    # TODO connected
+    connected: bool = False
+
     state: Optional[PlaybackState] = None
 
     mute: Optional[bool] = None

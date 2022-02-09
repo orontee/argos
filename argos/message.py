@@ -29,6 +29,7 @@ class MessageType(Enum):
     IMAGE_AVAILABLE = 40
     MODEL_CHANGED = 41
     MOPIDY_BASE_URL_CHANGED = 42
+    MOPIDY_WEBSOCKET_CONNECTED = 43
 
 
 @dataclass

@@ -59,6 +59,7 @@ class MopidyWSConnection:
         global _COMMAND_ID
 
         if not self._ws:
+            LOGGER.warning("Cannot send command!")
             return None
 
         _COMMAND_ID += 1
@@ -76,18 +77,37 @@ class MopidyWSConnection:
         async with get_session() as session:
             while True:
                 try:
-                    self._ws = await session.ws_connect(
-                        self._url, ssl=False, timeout=None
+                    url = self._url
+                    self._ws = await session.ws_connect(url, ssl=False, timeout=None)
+                    await self._message_queue.put(
+                        Message(
+                            MessageType.MOPIDY_WEBSOCKET_CONNECTED,
+                            {"connected": True},
+                        )
                     )
                     LOGGER.debug(f"Connected to mopidy websocket at {self._url}")
                     async for msg in self._ws:
                         message = self._handle(msg)
                         if message:
                             await self._message_queue.put(message)
+
+                        if url != self._url:
+                            LOGGER.debug(
+                                "New websocket connection required due to URL change"
+                            )
+                            raise RuntimeError()
+
                 except (
+                    RuntimeError,
                     aiohttp.ClientResponseError,
                     aiohttp.client_exceptions.ClientConnectorError,
                 ):
+                    await self._message_queue.put(
+                        Message(
+                            MessageType.MOPIDY_WEBSOCKET_CONNECTED,
+                            {"connected": False},
+                        )
+                    )
                     connection_retry_delay = self.settings.get_int(
                         "connection-retry-delay"
                     )
