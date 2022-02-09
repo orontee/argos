@@ -28,6 +28,7 @@ class MessageType(Enum):
     # Events (internal)
     IMAGE_AVAILABLE = 40
     MODEL_CHANGED = 41
+    MOPIDY_BASE_URL_CHANGED = 42
 
 
 @dataclass

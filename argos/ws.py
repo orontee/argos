@@ -25,6 +25,8 @@ EVENT_TO_MESSAGE_TYPE: Dict[str, MessageType] = {
     "seeked": MessageType.SEEKED,
 }
 
+_COMMAND_ID: int = 0
+
 
 def parse_msg(msg: aiohttp.WSMessage) -> Dict[str, Any]:
     try:
@@ -34,38 +36,16 @@ def parse_msg(msg: aiohttp.WSMessage) -> Dict[str, Any]:
         return {}
 
 
-def convert_to_message(msg: aiohttp.WSMessage) -> Optional[Message]:
-    """Convert a websocket message to an ``Message`` instance.
-
-    Mopidy websocket message have an ``event`` property which is
-    used to do the conversion using ``EVENT_TO_MESSAGE_TYPE``.
-
-    """
-    if msg.type == aiohttp.WSMsgType.TEXT:
-        parsed = parse_msg(msg)
-        event = parsed.get("event")
-        message_type = EVENT_TO_MESSAGE_TYPE.get(event) if event else None
-        if message_type:
-            return Message(message_type, parsed)
-        else:
-            LOGGER.debug(f"Unhandled event {parsed!r}")
-
-    elif msg.type in (aiohttp.WSMsgType.ERROR, aiohttp.WSMsgType.CLOSED):
-        LOGGER.warning(f"Unexpected message {msg!r}")
-
-    elif msg.type == aiohttp.WSMsgType.CLOSE:
-        LOGGER.info(f"Close received with code {msg.data!r}, " f"{msg.extra!r}")
-
-    return None
-
-
-class MopidyWSListener:
+class MopidyWSConnection:
     settings = Gio.Settings("app.argos.Argos")
 
     def __init__(self, *, message_queue: asyncio.Queue):
         base_url = self.settings.get_string("mopidy-base-url")
         self._url = urljoin(base_url, "/mopidy/ws")
         self._message_queue = message_queue
+        self._ws: aiohttp.ClientWebSocketResponse = None
+
+        self._commands: Dict[int, asyncio.Future] = {}
 
         self.settings.connect(
             "changed::mopidy-base-url", self.on_mopidy_base_url_changed
@@ -75,18 +55,35 @@ class MopidyWSListener:
         base_url = settings.get_string("mopidy-base-url")
         self._url = urljoin(base_url, "/mopidy/ws")
 
+    async def send_command(self, method: str, *, params: dict = None) -> Any:
+        global _COMMAND_ID
+
+        if not self._ws:
+            return None
+
+        _COMMAND_ID += 1
+        data = {"jsonrpc": "2.0", "id": _COMMAND_ID, "method": method}
+        if params is not None:
+            data["params"] = params
+
+        future: asyncio.Future = asyncio.Future()
+        self._commands[_COMMAND_ID] = future
+        await self._ws.send_json(data)
+        result = await future
+        return result
+
     async def listen(self) -> None:
         async with get_session() as session:
             while True:
                 try:
-                    async with session.ws_connect(
+                    self._ws = await session.ws_connect(
                         self._url, ssl=False, timeout=None
-                    ) as ws:
-                        LOGGER.debug(f"Connected to mopidy websocket at {self._url}")
-                        async for msg in ws:
-                            message = convert_to_message(msg)
-                            if message:
-                                await self._message_queue.put(message)
+                    )
+                    LOGGER.debug(f"Connected to mopidy websocket at {self._url}")
+                    async for msg in self._ws:
+                        message = self._handle(msg)
+                        if message:
+                            await self._message_queue.put(message)
                 except (
                     aiohttp.ClientResponseError,
                     aiohttp.client_exceptions.ClientConnectorError,
@@ -95,7 +92,46 @@ class MopidyWSListener:
                         "connection-retry-delay"
                     )
                     LOGGER.warning(
-                        f"Connection error (retry in {connection_retry_delay}s)",
-                        exc_info=True,
+                        f"Connection error (retry in {connection_retry_delay}s)"
                     )
                     await asyncio.sleep(connection_retry_delay)
+
+    def _handle(self, msg: aiohttp.WSMessage) -> Optional[Message]:
+        """Handle websocket message.
+
+        The websocket message is parsed.
+
+        Then attempt is made to:
+
+        - Convert the message to an ``Message`` instance in case it's
+          a Mopidy event,
+
+        - Find the JSON-RPC command it's the response from.
+
+        A websocket message for a Mopidy event has an ``event``
+        property which is used to do the conversion using
+        ``EVENT_TO_MESSAGE_TYPE``.
+
+        """
+        if msg.type == aiohttp.WSMsgType.TEXT:
+            parsed = parse_msg(msg)
+            event = parsed.get("event")
+            message_type = EVENT_TO_MESSAGE_TYPE.get(event) if event else None
+            if message_type:
+                return Message(message_type, parsed)
+
+            jsonrpc_id = parsed.get("id") if "jsonrpc" in parsed else None
+            if jsonrpc_id:
+                future = self._commands.pop(jsonrpc_id)
+                if future:
+                    future.set_result(parsed.get("result"))
+            else:
+                LOGGER.debug(f"Unhandled event {parsed!r}")
+
+        elif msg.type in (aiohttp.WSMsgType.ERROR, aiohttp.WSMsgType.CLOSED):
+            LOGGER.warning(f"Unexpected message {msg!r}")
+
+        elif msg.type == aiohttp.WSMsgType.CLOSE:
+            LOGGER.info(f"Close received with code {msg.data!r}, " f"{msg.extra!r}")
+
+        return None

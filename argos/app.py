@@ -18,12 +18,14 @@ from .message import Message, MessageType
 from .model import Model, PlaybackState
 from .utils import configure_logger
 from .window import ArgosWindow
-from .ws import MopidyWSListener
+from .ws import MopidyWSConnection
 
 LOGGER = logging.getLogger(__name__)
 
 
 class Application(Gtk.Application):
+    settings = Gio.Settings("app.argos.Argos")
+
     def __init__(self, *args, **kwargs):
         Gtk.Application.__init__(
             self,
@@ -36,8 +38,8 @@ class Application(Gtk.Application):
         self._messages = asyncio.Queue()
         self._model = Model()
 
-        self._http = MopidyHTTPClient()
-        self._ws = MopidyWSListener(message_queue=self._messages)
+        self._ws = MopidyWSConnection(message_queue=self._messages)
+        self._http = MopidyHTTPClient(self._ws)
         self._download = ImageDownloader(message_queue=self._messages)
 
         self.window = None
@@ -45,6 +47,10 @@ class Application(Gtk.Application):
 
         self._start_fullscreen = None
         self._disable_tooltips = None
+
+        self.settings.connect(
+            "changed::mopidy-base-url", self.on_mopidy_base_url_changed
+        )
 
         self.add_main_option(
             "debug",
@@ -126,10 +132,10 @@ class Application(Gtk.Application):
         LOGGER.debug("Starting event loop")
         self._loop.run_until_complete(
             asyncio.gather(
-                self._reset_model(),
-                self._process_messages(),
-                self._track_time_position(),
                 self._ws.listen(),
+                self._process_messages(),
+                self._reset_model(),
+                self._track_time_position(),
             )
         )
         LOGGER.debug("Event loop stopped")
@@ -325,6 +331,11 @@ class Application(Gtk.Application):
                 time_position=time_position,
                 tl_track=tl_track,
             )
+
+    def on_mopidy_base_url_changed(self, _1, _2) -> None:
+        self._loop.call_soon_threadsafe(
+            self._messages.put_nowait, Message(MessageType.MOPIDY_BASE_URL_CHANGED)
+        )
 
     def show_prefs_activate_cb(self, action, parameter) -> None:
         if self.window is None:
