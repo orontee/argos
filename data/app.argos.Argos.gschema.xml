@@ -32,5 +32,16 @@
       </description>
     </key>
 
+   <key type="b" name="auto-populate-tracklist">
+      <default>false</default>
+      <summary>
+	Automatically populate tracklist
+      </summary>
+      <description>
+	Whether to automatically populate the tracklist with a random
+	choosen album when its last track playback ended.
+      </description>
+    </key>
+
   </schema>
 </schemalist>

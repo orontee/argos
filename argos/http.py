@@ -49,6 +49,10 @@ class MopidyHTTPClient:
         position = await self._ws.send_command("core.playback.get_time_position")
         return position
 
+    async def get_eot_tlid(self) -> Any:
+        eot_tlid = await self._ws.send_command("core.tracklist.get_eot_tlid")
+        return eot_tlid
+
     async def play_random_album(self) -> None:
         albums = await self._ws.send_command(
             "core.library.browse", params={"uri": "local:directory?type=album"}

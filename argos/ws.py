@@ -17,11 +17,11 @@ EVENT_TO_MESSAGE_TYPE: Dict[str, MessageType] = {
     "track_playback_started": MessageType.TRACK_PLAYBACK_STARTED,
     "track_playback_paused": MessageType.TRACK_PLAYBACK_PAUSED,
     "track_playback_resumed": MessageType.TRACK_PLAYBACK_RESUMED,
+    "track_playback_ended": MessageType.TRACK_PLAYBACK_ENDED,
     "playback_state_changed": MessageType.PLAYBACK_STATE_CHANGED,
     "mute_changed": MessageType.MUTE_CHANGED,
     "volume_changed": MessageType.VOLUME_CHANGED,
     "tracklist_changed": MessageType.TRACKLIST_CHANGED,
-    "track_playback_ended": MessageType.TRACK_PLAYBACK_ENDED,
     "seeked": MessageType.SEEKED,
 }
 
@@ -43,7 +43,7 @@ class MopidyWSConnection:
         base_url = self.settings.get_string("mopidy-base-url")
         self._url = urljoin(base_url, "/mopidy/ws")
         self._message_queue = message_queue
-        self._ws: aiohttp.ClientWebSocketResponse = None
+        self._ws: Optional[aiohttp.ClientWebSocketResponse] = None
 
         self._commands: Dict[int, asyncio.Future] = {}
 
@@ -85,6 +85,7 @@ class MopidyWSConnection:
                             {"connected": True},
                         )
                     )
+                    assert self._ws
                     LOGGER.debug(f"Connected to mopidy websocket at {self._url}")
                     async for msg in self._ws:
                         message = self._handle(msg)

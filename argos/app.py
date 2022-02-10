@@ -214,6 +214,15 @@ class Application(Gtk.Application):
                 async with self.model_accessor as model:
                     model.clear_tl()
 
+                auto_populate = self.settings.get_boolean("auto-populate-tracklist")
+                if not auto_populate:
+                    return
+
+                eot_tlid = await self._http.get_eot_tlid()
+                if not eot_tlid:
+                    LOGGER.info("Will populate track list with random album")
+                    await self._http.play_random_album()
+
             elif type == MessageType.PLAYBACK_STATE_CHANGED:
                 raw_state = message.data.get("new_state")
                 async with self.model_accessor as model:
