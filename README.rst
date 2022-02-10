@@ -16,7 +16,15 @@ Gtk front-end to control a Mopidy server through a tiny touch screen.
    :width: 407
    :height: 249
 
-   The application window
+   Application window
+
+.. figure:: screenshot-preferences.png
+   :alt: Screenshot
+   :align: center
+   :width: 152
+   :height: 96
+
+   Preferences window
 
 Features 🥳
 ~~~~~~~~~~~
