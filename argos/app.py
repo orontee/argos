@@ -2,7 +2,7 @@ import asyncio
 import logging
 from functools import partial
 from threading import Thread
-from typing import List
+from typing import Set
 
 import gi
 
@@ -265,7 +265,7 @@ class Application(Gtk.Application):
     def model_accessor(self) -> ModelAccessor:
         return ModelAccessor(model=self._model, message_queue=self._messages)
 
-    async def _handle_model_changed(self, changed: List[str]) -> None:
+    async def _handle_model_changed(self, changed: Set[str]) -> None:
         """Propage model changes."""
         if not self.window:
             return
