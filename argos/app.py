@@ -216,7 +216,7 @@ class Application(Gtk.Application):
 
                 auto_populate = self.settings.get_boolean("auto-populate-tracklist")
                 if not auto_populate:
-                    return
+                    continue
 
                 eot_tlid = await self._http.get_eot_tlid()
                 if not eot_tlid:
