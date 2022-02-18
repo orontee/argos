@@ -154,7 +154,7 @@ class Application(Gtk.Application):
             message = await self._messages.get()
             type = message.type
 
-            LOGGER.debug(f"Processing {type!r} message")
+            LOGGER.debug(f"Processing {type} message")
 
             # Commands
             if type == MessageType.TOGGLE_PLAYBACK_STATE:

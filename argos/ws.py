@@ -1,7 +1,7 @@
 import asyncio
 import json
 import logging
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Union
 from urllib.parse import urljoin
 
 import aiohttp
@@ -69,9 +69,15 @@ class MopidyWSConnection:
 
         future: asyncio.Future = asyncio.Future()
         self._commands[_COMMAND_ID] = future
+
+        LOGGER.debug(f"Sending JSON-RPC command {_COMMAND_ID} with method {method}")
         await self._ws.send_json(data)
         result = await future
         return result
+
+    async def _enqueue(self, message: Message) -> None:
+        LOGGER.debug(f"Enqueing message with type {message.type}")
+        await self._message_queue.put(message)
 
     async def listen(self) -> None:
         async with get_session() as session:
@@ -79,7 +85,7 @@ class MopidyWSConnection:
                 try:
                     url = self._url
                     self._ws = await session.ws_connect(url, ssl=False, timeout=None)
-                    await self._message_queue.put(
+                    await self._enqueue(
                         Message(
                             MessageType.MOPIDY_WEBSOCKET_CONNECTED,
                             {"connected": True},
@@ -89,8 +95,8 @@ class MopidyWSConnection:
                     LOGGER.debug(f"Connected to mopidy websocket at {self._url}")
                     async for msg in self._ws:
                         message = self._handle(msg)
-                        if message:
-                            await self._message_queue.put(message)
+                        if isinstance(message, Message):
+                            await self._enqueue(message)
 
                         if url != self._url:
                             LOGGER.debug(
@@ -117,7 +123,7 @@ class MopidyWSConnection:
                     )
                     await asyncio.sleep(connection_retry_delay)
 
-    def _handle(self, msg: aiohttp.WSMessage) -> Optional[Message]:
+    def _handle(self, msg: aiohttp.WSMessage) -> Optional[Union[Message, bool]]:
         """Handle websocket message.
 
         The websocket message is parsed.
@@ -145,7 +151,11 @@ class MopidyWSConnection:
             if jsonrpc_id:
                 future = self._commands.pop(jsonrpc_id)
                 if future:
+                    LOGGER.debug(f"Received result of JSON-RPC command id {jsonrpc_id}")
                     future.set_result(parsed.get("result"))
+                    return True
+                else:
+                    LOGGER.debug(f"Unknown JSON-RPC command id {jsonrpc_id}")
             else:
                 LOGGER.debug(f"Unhandled event {parsed!r}")
 
