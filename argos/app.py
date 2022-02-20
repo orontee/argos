@@ -90,10 +90,16 @@ class Application(Gtk.Application):
 
     def do_activate(self):
         if not self.window:
+            LOGGER.debug("Instantiating application window")
             self.window = ArgosWindow(
                 application=self,
                 disable_tooltips=self._disable_tooltips,
             )
+            # Run an event loop in a dedicated thread and reserve main
+            # thread to Gtk processing loop
+            t = Thread(target=self._start_event_loop, daemon=True)
+            t.start()
+
         if self._start_fullscreen:
             self.window.fullscreen()
 
@@ -117,11 +123,6 @@ class Application(Gtk.Application):
             "activate", self.play_favorite_playlist_activate_cb
         )
         self.add_action(play_favorite_playlist_action)
-
-        # Run an event loop in a dedicated thread and reserve main
-        # thread to Gtk processing loop
-        t = Thread(target=self._start_event_loop, daemon=True)
-        t.start()
 
     def _start_event_loop(self):
         LOGGER.debug("Attaching event loop to calling thread")
