@@ -1,11 +1,10 @@
-import asyncio
 import logging
 from pathlib import Path
 from typing import Optional
 
 from gi.repository import GdkPixbuf, GLib, Gtk
 
-from .message import Message, MessageType
+from .message import MessageType
 from .model import PlaybackState
 from .utils import compute_target_size, elide_maybe, ms_to_text
 
@@ -39,15 +38,12 @@ class ArgosWindow(Gtk.ApplicationWindow):
     def __init__(
         self,
         *,
-        message_queue: asyncio.Queue,
-        loop: asyncio.AbstractEventLoop,
         application: Gtk.Application,
         disable_tooltips: bool = False,
     ):
         Gtk.Window.__init__(self, application=application)
         self.set_wmclass("Argos", "Argos")
-        self._message_queue = message_queue
-        self._loop = loop
+        self._app = application
         self._disable_tooltips = disable_tooltips
 
         builder = Gtk.Builder.new_from_resource("/app/argos/Argos/ui/app_menu.ui")
@@ -158,35 +154,24 @@ class ArgosWindow(Gtk.ApplicationWindow):
             self.play_button.set_image(self.pause_image)
 
     def volume_button_value_changed_cb(self, *args) -> None:
-        value = self.volume_button.get_value()
-        self._loop.call_soon_threadsafe(
-            self._message_queue.put_nowait, Message(MessageType.SET_VOLUME, value)
-        )
+        volume = self.volume_button.get_value() * 100
+        self._app.send_message(MessageType.SET_VOLUME, {"volume": volume})
 
     @Gtk.Template.Callback()
     def prev_button_clicked_cb(self, *args) -> None:
-        self._loop.call_soon_threadsafe(
-            self._message_queue.put_nowait, Message(MessageType.PLAY_PREV_TRACK)
-        )
+        self._app.send_message(MessageType.PLAY_PREV_TRACK)
 
     @Gtk.Template.Callback()
     def play_button_clicked_cb(self, *args) -> None:
-        self._loop.call_soon_threadsafe(
-            self._message_queue.put_nowait, Message(MessageType.TOGGLE_PLAYBACK_STATE)
-        )
+        self._app.send_message(MessageType.TOGGLE_PLAYBACK_STATE)
 
     @Gtk.Template.Callback()
     def next_button_clicked_cb(self, *args) -> None:
-        self._loop.call_soon_threadsafe(
-            self._message_queue.put_nowait, Message(MessageType.PLAY_NEXT_TRACK)
-        )
+        self._app.send_message(MessageType.PLAY_NEXT_TRACK)
 
     @Gtk.Template.Callback()
     def time_position_scale_change_value_cb(
         self, widget: Gtk.Widget, scroll_type: Gtk.ScrollType, value: float
     ) -> None:
         time_position = round(value)
-        self._loop.call_soon_threadsafe(
-            self._message_queue.put_nowait,
-            Message(MessageType.SEEK, {"time_position": time_position}),
-        )
+        self._app.send_message(MessageType.SEEK, {"time_position": time_position})

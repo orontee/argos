@@ -1,10 +1,9 @@
-import asyncio
 import logging
 from typing import Any, Dict, List
 
 from gi.repository import Gio, Gtk
 
-from ..message import Message, MessageType
+from ..message import MessageType
 
 LOGGER = logging.getLogger(__name__)
 
@@ -23,13 +22,11 @@ class PreferencesWindow(Gtk.Window):
     def __init__(
         self,
         *,
-        message_queue: asyncio.Queue,
-        loop: asyncio.AbstractEventLoop,
+        application: Gtk.Application,
     ):
         Gtk.Window.__init__(self)
         self.set_wmclass("Argos", "Argos")
-        self._message_queue = message_queue
-        self._loop = loop
+        self._app = application
         self._favorite_playlist_model = Gtk.ListStore(str, str)
 
         self.favorite_playlist_combo.set_id_column(1)
@@ -82,10 +79,7 @@ class PreferencesWindow(Gtk.Window):
     def list_playlists(self) -> None:
         self.favorite_playlist_combo.set_sensitive(False)
         self.favorite_playlist_spinner.start()
-        self._loop.call_soon_threadsafe(
-            self._message_queue.put_nowait,
-            Message(MessageType.LIST_PLAYLISTS),
-        )
+        self._app.send_message(MessageType.LIST_PLAYLISTS)
 
     def update_favorite_playlist_completion(
         self, playlists: List[Dict[str, Any]]

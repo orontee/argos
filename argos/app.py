@@ -2,7 +2,7 @@ import asyncio
 import logging
 from functools import partial
 from threading import Thread
-from typing import Set
+from typing import Any, Dict, Set
 
 import gi
 
@@ -92,8 +92,6 @@ class Application(Gtk.Application):
         if not self.window:
             self.window = ArgosWindow(
                 application=self,
-                message_queue=self._messages,
-                loop=self._loop,
                 disable_tooltips=self._disable_tooltips,
             )
         if self._start_fullscreen:
@@ -183,7 +181,7 @@ class Application(Gtk.Application):
                 await self._http.seek(time_position)
 
             elif type == MessageType.SET_VOLUME:
-                volume = round(message.data * 100)
+                volume = round(message.data.get("volume"))
                 await self._http.set_volume(volume)
 
             elif type == MessageType.LIST_PLAYLISTS:
@@ -350,19 +348,20 @@ class Application(Gtk.Application):
                 tl_track=tl_track,
             )
 
+    def send_message(
+        self, message_type: MessageType, data: Dict[str, Any] = None
+    ) -> None:
+        message = Message(message_type, data or {})
+        self._loop.call_soon_threadsafe(self._messages.put_nowait, message)
+
     def on_mopidy_base_url_changed(self, _1, _2) -> None:
-        self._loop.call_soon_threadsafe(
-            self._messages.put_nowait, Message(MessageType.MOPIDY_BASE_URL_CHANGED)
-        )
+        self.send_message(MessageType.MOPIDY_BASE_URL_CHANGED)
 
     def show_prefs_activate_cb(self, action, parameter) -> None:
         if self.window is None:
             return
 
-        self.prefs_window = PreferencesWindow(
-            message_queue=self._messages,
-            loop=self._loop,
-        )
+        self.prefs_window = PreferencesWindow(application=self)
         self.prefs_window.set_transient_for(self.window)
         self.prefs_window.connect("destroy", self.prefs_window_destroy_cb)
 
@@ -372,11 +371,7 @@ class Application(Gtk.Application):
         self.prefs_window = None
 
     def play_random_album_activate_cb(self, action, parameter) -> None:
-        self._loop.call_soon_threadsafe(
-            self._messages.put_nowait, Message(MessageType.PLAY_RANDOM_ALBUM)
-        )
+        self.send_message(MessageType.PLAY_RANDOM_ALBUM)
 
     def play_favorite_playlist_activate_cb(self, action, parameter) -> None:
-        self._loop.call_soon_threadsafe(
-            self._messages.put_nowait, Message(MessageType.PLAY_FAVORITE_PLAYLIST)
-        )
+        self.send_message(MessageType.PLAY_FAVORITE_PLAYLIST)
