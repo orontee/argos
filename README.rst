@@ -1,5 +1,5 @@
 =====
-argos
+Argos
 =====
 
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
@@ -8,7 +8,8 @@ argos
 .. image:: http://www.mypy-lang.org/static/mypy_badge.svg
    :target: http://mypy-lang.org/
 
-Gtk front-end to control a Mopidy server through a tiny touch screen.
+Gtk front-end to control a Mopidy server through a tiny touch
+screen.
 
 .. figure:: screenshot.png
    :alt: Screenshot
@@ -27,48 +28,83 @@ Gtk front-end to control a Mopidy server through a tiny touch screen.
    Preferences window
 
 Features 🥳
-~~~~~~~~~~~
+===========
 
-* Play random album
+* Play random album from Mopidy-Local
 
 * Configure and play favorite playlist
 
 * Display album cover from Mopidy-Local HTTP API
 
+* Fullscreen mode
+
 Install
-~~~~~~~
+=======
 
-Install dependencies at system level::
+Platform supporting Flatpak
+---------------------------
 
-  sudo apt install -y python3-gi python3-gi-cairo python3-aiohttp
+Clone the source repository, then build and install for current user
+(You may have to install the expected runtime, but Flatpak will warn
+you about that)::
 
-Build and install::
+  $ flatpak-builder --user --install --force-clean builddir app.argos.Argos.json
 
-  make
-  make install
+Then to start the application use your desktop environment launcher,
+or from a shell run::
 
-Run through your desktop application menu or the line command::
+  $ flatpak run app.argos.Argos
 
-  python3 -m argos
+Other platform
+--------------
 
-For a list of supported command line arguments and defaults::
+``Argos`` was developed to be deployed on a Raspberry Pi Model 2B
+(hosting a Mopidy server) running Raspian OS with `LXDE desktop
+environment <http://www.lxde.org/>`_. It's a 32-bits beast based on
+armv7 and unfortunately there's no chance to have Flatpak support this
+architecture according to this ``freedesktop-sdk`` issue:
+`Decommissioning armv7
+<https://gitlab.com/freedesktop-sdk/freedesktop-sdk/-/issues/1105>`_.
 
-  python3 -m argos --help
+Installation on such platform is currently handled by hand! A
+dedicated target to the ``meson`` build configuration will soon be
+provided.
+
+Once the application is installed, it's automatically started through
+a dedicated user (with auto-login configured) using the
+``~/.config/lxsession/LXDE-pi/autostart`` file::
+
+  @python -m argos --fullscreen --no-tooltips
+
+Debugging
+=========
+
+One can run a shell in sandbox and call the application through
+``pdb``::
+
+  $ flatpak run --command=sh --devel app.argos.Argos
+  [📦 app.argos.Argos ~]$ python3 -m pdb /app/bin/argos --debug
 
 Contributing
-~~~~~~~~~~~~
+============
 
 One can install dependencies and configure pre-commit hooks in a
 dedicated virtual environment using ``poetry``::
 
-  sudo apt install libglib2.0-bin libglib2.0-dev-bin
-  poetry shell
-  poetry install
-  pre-commit install
+  $ poetry shell
+  $ poetry install
+  $ pre-commit install
 
 Pre-commit hooks run ``mypy`` check and make sure code is properly
 formatted (using ``black``).
 
-Run with ``--debug`` command-line option to output detailed logs::
+To update translation files::
 
-  python3 -m argos --debug
+  $ rm -rf builddir
+  $ meson builddir && cd builddir
+  builddir$ meson compile app.argos.Argos-update-po
+
+The file `generated-poetry-sources.json
+</generated-poetry-sources.json>`_ is generated from ``poetry``'s lock
+file using `flatpak-builder-tools
+<https://github.com/flatpak/flatpak-builder-tools>`_.

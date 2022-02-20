@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+  <id>app.argos.Argos.desktop</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Argos</name>
+  <summary>Front-end to Mopidy for devices with tiny screen</summary>
+  <description>
+    <p>Gtk front-end to control a Mopidy server through a tiny touch screen</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image type="source">https://github.com/orontee/argos/raw/main/screenshot.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.1.0" date="2022-02-20">
+      <description>
+        <p>
+          Development version, use at your own risks.
+        </p>
+      </description>
+    </release>
+  </releases>
+  <developer_name>Matthias Meulien</developer_name>
+  <launchable type="desktop-id">app.argos.Argos.desktop</launchable>
+  <url type="homepage">https://github.com/orontee/argos</url>
+  <translation type="gettext">app.argos.Argos</translation>
+  <content_rating type="oars-1.1" />
+</component>

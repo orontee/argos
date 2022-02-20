@@ -44,8 +44,9 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="halign">end</property>
-                <property name="text" translatable="yes">http://</property>
+                <property name="text">http://</property>
                 <property name="secondary-icon-tooltip-text" translatable="yes">Base URL of Mopidy server</property>
+                <property name="placeholder-text" translatable="yes">Enter the URL of the Mopidy server</property>
                 <property name="input-purpose">url</property>
               </object>
               <packing>

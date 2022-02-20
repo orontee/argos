@@ -108,7 +108,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
-                    <property name="tooltip-text" translatable="yes">Play favorite album</property>
+                    <property name="tooltip-text" translatable="yes">Play favorite playlist</property>
                     <property name="action-name">app.play_favorite_playlist</property>
                     <property name="image">play_favorite_playlist_image</property>
                     <style>
@@ -244,7 +244,6 @@ audio-volume-medium-symbolic</property>
                     <property name="margin-start">10</property>
                     <property name="margin-end">10</property>
                     <property name="margin-bottom">5</property>
-                    <property name="label" translatable="yes">	</property>
                     <property name="justify">center</property>
                     <property name="wrap">True</property>
                   </object>
@@ -296,7 +295,7 @@ audio-volume-medium-symbolic</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="halign">start</property>
-                    <property name="label" translatable="yes">--:--</property>
+                    <property name="label">--</property>
                     <property name="justify">right</property>
                   </object>
                   <packing>
@@ -311,7 +310,7 @@ audio-volume-medium-symbolic</property>
                     <property name="can-focus">False</property>
                     <property name="halign">start</property>
                     <property name="valign">center</property>
-                    <property name="label" translatable="yes">/</property>
+                    <property name="label">/</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -327,7 +326,7 @@ audio-volume-medium-symbolic</property>
                     <property name="halign">start</property>
                     <property name="valign">center</property>
                     <property name="margin-end">10</property>
-                    <property name="label" translatable="yes">--:--</property>
+                    <property name="label">--</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>

@@ -1,4 +1,5 @@
 import asyncio
+import gettext
 import logging
 from functools import partial
 from threading import Thread
@@ -22,26 +23,27 @@ from .ws import MopidyWSConnection
 
 LOGGER = logging.getLogger(__name__)
 
+_ = gettext.gettext
+
 
 class Application(Gtk.Application):
-    settings = Gio.Settings("app.argos.Argos")
-
-    def __init__(self, *args, **kwargs):
+    def __init__(self, application_id: str, *args, **kwargs):
         Gtk.Application.__init__(
             self,
             *args,
-            application_id="app.argos.Argos",
+            application_id=application_id,
             flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
             **kwargs,
         )
         self._loop = asyncio.get_event_loop()
-        self._messages = asyncio.Queue()
+        self._messages: asyncio.Queue = asyncio.Queue()
         self._model = Model()
 
         self._ws = MopidyWSConnection(message_queue=self._messages)
         self._http = MopidyHTTPClient(self._ws)
         self._download = ImageDownloader(message_queue=self._messages)
 
+        self.settings = Gio.Settings(application_id)
         self.window = None
         self.prefs_window = None
 
@@ -57,7 +59,7 @@ class Application(Gtk.Application):
             ord("d"),
             GLib.OptionFlags.NONE,
             GLib.OptionArg.NONE,
-            "Enable debug logs",
+            _("Enable debug logs"),
             None,
         )
         self.add_main_option(
@@ -65,7 +67,7 @@ class Application(Gtk.Application):
             0,
             GLib.OptionFlags.NONE,
             GLib.OptionArg.NONE,
-            "Start with fullscreen window",
+            _("Start with fullscreen window"),
             None,
         )
         self.add_main_option(
@@ -73,7 +75,7 @@ class Application(Gtk.Application):
             0,
             GLib.OptionFlags.NONE,
             GLib.OptionArg.NONE,
-            "Disable tooltips",
+            _("Disable tooltips"),
             None,
         )
 

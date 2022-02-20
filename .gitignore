@@ -9,3 +9,6 @@ TAGS
 data/gschemas.compiled
 /argos/app.argos.Argos.gresource
 /README.html
+/builddir/
+/.flatpak-builder/
+po/app.argos.Argos.pot

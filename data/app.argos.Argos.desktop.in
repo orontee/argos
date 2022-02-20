@@ -1,6 +1,6 @@
 [Desktop Entry]
-Name=argos
-Exec=python -m argos
+Name=Argos
+Exec=argos
 Icon=app.argos.Argos
 Terminal=false
 Type=Application

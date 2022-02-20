@@ -1,0 +1,125 @@
+# English translations for argos package.
+# Copyright (C) 2022 THE argos'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the argos package.
+# Automatically generated, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: argos\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-20 23:49+0100\n"
+"PO-Revision-Date: 2022-02-20 20:54+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ASCII\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: argos/app.py:62
+msgid "Enable debug logs"
+msgstr "Enable debug logs"
+
+#: argos/app.py:70
+msgid "Start with fullscreen window"
+msgstr "Start with fullscreen window"
+
+#: argos/app.py:78
+msgid "Disable tooltips"
+msgstr "Disable tooltips"
+
+#: data/app.argos.Argos.desktop.in:3
+msgid "argos"
+msgstr "argos"
+
+#: data/app.argos.Argos.gschema.xml:6
+msgid "Connection retry delay"
+msgstr "Connection retry delay"
+
+#: data/app.argos.Argos.gschema.xml:9
+msgid "The delay in seconds between two connection tries."
+msgstr "The delay in seconds between two connection tries."
+
+#: data/app.argos.Argos.gschema.xml:16
+msgid "Base URL of Mopidy APIs"
+msgstr "Base URL of Mopidy APIs"
+
+#: data/app.argos.Argos.gschema.xml:19
+msgid "The base URL of Mopidy JSON-RPC and websocket APIs."
+msgstr "The base URL of Mopidy JSON-RPC and websocket APIs."
+
+#: data/app.argos.Argos.gschema.xml:26
+msgid "URI of favorite playlist"
+msgstr "URI of favorite playlist"
+
+#: data/app.argos.Argos.gschema.xml:29
+msgid ""
+"The URI of the playlist that will be loaded and played when \"play favorite "
+"playlist\" button is triggered."
+msgstr ""
+"The URI of the playlist that will be loaded and played when \"play favorite "
+"playlist\" button is triggered."
+
+#: data/app.argos.Argos.gschema.xml:37
+msgid "Automatically populate tracklist"
+msgstr "Automatically populate tracklist"
+
+#: data/app.argos.Argos.gschema.xml:40
+msgid ""
+"Whether to automatically populate the tracklist with a random choosen album "
+"when its last track playback ended."
+msgstr ""
+"Whether to automatically populate the tracklist with a random choosen album "
+"when its last track playback ended."
+
+#: argos/ui/app_menu.ui:6 argos/ui/window.ui:111
+msgid "Play favorite playlist"
+msgstr "Play favorite playlist"
+
+#: argos/ui/app_menu.ui:10 argos/ui/window.ui:131
+msgid "Play random album"
+msgstr "Play random album"
+
+#: argos/ui/app_menu.ui:16 argos/ui/preferences.ui:7
+msgid "Preferences"
+msgstr "Preferences"
+
+#: argos/ui/preferences.ui:34
+msgid "Base URL"
+msgstr "Base URL"
+
+#: argos/ui/preferences.ui:48
+msgid "Base URL of Mopidy server"
+msgstr "Base URL of Mopidy server"
+
+#: argos/ui/preferences.ui:49
+msgid "Enter the URL of the Mopidy server"
+msgstr "Enter the URL of the Mopidy server"
+
+#: argos/ui/preferences.ui:76
+msgid "Favorite playlist"
+msgstr "Favorite playlist"
+
+#: argos/ui/preferences.ui:122
+msgid "Automatically populate track list"
+msgstr "Automatically populate track list"
+
+#: argos/ui/window.ui:55
+msgid "Argos"
+msgstr "Argos"
+
+#: argos/ui/window.ui:358
+msgid "Previous"
+msgstr "Previous"
+
+#: argos/ui/window.ui:379
+msgid "Play"
+msgstr "Play"
+
+#: argos/ui/window.ui:400
+msgid "Next"
+msgstr "Next"
+
+#~ msgid "Play favorite album"
+#~ msgstr "Play favorite playlist"

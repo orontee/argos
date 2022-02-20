@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schemalist gettext-domain="argos">
+<schemalist gettext-domain="app.argos.Argos">
   <schema id="app.argos.Argos" path="/app/argos/Argos/">
     <key type="i" name="connection-retry-delay">
       <default>5</default>
