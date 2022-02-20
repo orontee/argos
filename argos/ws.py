@@ -36,6 +36,10 @@ def parse_msg(msg: aiohttp.WSMessage) -> Dict[str, Any]:
         return {}
 
 
+class _BaseURLChanged(Exception):
+    pass
+
+
 class MopidyWSConnection:
     settings = Gio.Settings("app.argos.Argos")
 
@@ -85,14 +89,16 @@ class MopidyWSConnection:
                 try:
                     url = self._url
                     self._ws = await session.ws_connect(url, ssl=False, timeout=None)
+                    assert self._ws
+                    LOGGER.debug(f"Connected to mopidy websocket at {self._url}")
+
                     await self._enqueue(
                         Message(
                             MessageType.MOPIDY_WEBSOCKET_CONNECTED,
                             {"connected": True},
                         )
                     )
-                    assert self._ws
-                    LOGGER.debug(f"Connected to mopidy websocket at {self._url}")
+
                     async for msg in self._ws:
                         message = self._handle(msg)
                         if isinstance(message, Message):
@@ -102,13 +108,13 @@ class MopidyWSConnection:
                             LOGGER.debug(
                                 "New websocket connection required due to URL change"
                             )
-                            raise RuntimeError()
+                            raise _BaseURLChanged()
 
                 except (
-                    RuntimeError,
+                    _BaseURLChanged,
                     aiohttp.ClientResponseError,
                     aiohttp.client_exceptions.ClientConnectorError,
-                ):
+                ) as error:
                     await self._message_queue.put(
                         Message(
                             MessageType.MOPIDY_WEBSOCKET_CONNECTED,
@@ -118,9 +124,15 @@ class MopidyWSConnection:
                     connection_retry_delay = self.settings.get_int(
                         "connection-retry-delay"
                     )
-                    LOGGER.warning(
-                        f"Connection error (retry in {connection_retry_delay}s)"
-                    )
+                    if isinstance(error, _BaseURLChanged):
+                        LOGGER.warning(
+                            "New connection to be established after base URL change"
+                        )
+                    else:
+                        LOGGER.error(
+                            f"Connection error (retry in {connection_retry_delay}): {error}"
+                        )
+
                     await asyncio.sleep(connection_retry_delay)
 
     def _handle(self, msg: aiohttp.WSMessage) -> Optional[Union[Message, bool]]:
