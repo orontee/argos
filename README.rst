@@ -8,8 +8,7 @@ Argos
 .. image:: http://www.mypy-lang.org/static/mypy_badge.svg
    :target: http://mypy-lang.org/
 
-Gtk front-end to control a Mopidy server through a tiny touch
-screen.
+Mopidy front-end for small devices.
 
 .. figure:: screenshot.png
    :alt: Screenshot

@@ -4,9 +4,9 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
   <name>Argos</name>
-  <summary>Front-end to Mopidy for devices with tiny screen</summary>
+  <summary>Mopidy front-end for small devices</summary>
   <description>
-    <p>Gtk front-end to control a Mopidy server through a tiny touch screen</p>
+    <p>Gtk front-end to control a Mopidy server through a small touch screen</p>
   </description>
   <screenshots>
     <screenshot type="default">
