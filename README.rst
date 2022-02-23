@@ -65,15 +65,24 @@ architecture according to this ``freedesktop-sdk`` issue:
 `Decommissioning armv7
 <https://gitlab.com/freedesktop-sdk/freedesktop-sdk/-/issues/1105>`_.
 
-Installation on such platform is currently handled by hand! A
-dedicated target to the ``meson`` build configuration will soon be
-provided.
+Installation on such platform is currently handled through a DEB
+package that can be build using the following::
 
-Once the application is installed, it's automatically started through
+  $ sudo apt install build-essential fakeroot devscripts
+  $ git archive --prefix=argos-0.1.0/ --format=tar.gz main > argos_0.1.0.orig.tar.gz
+  $ mkdir builddir && cd builddir
+  builddir$ mv ../argos_0.1.0.orig.tar.gz .
+  builddir$ tar xzf argos_0.1.0.orig.tar.gz
+  builddir$ cd argos-0.1.0
+  builddir/argos-0.1.0$ debuild -b -tc -us -uc
+  builddir/argos-0.1.0$ ls ../argos_0.1.0-1_all.deb
+  ../argos_0.1.0-1_all.deb
+
+Once the package is installed, it can be automatically started through
 a dedicated user (with auto-login configured) using the
 ``~/.config/lxsession/LXDE-pi/autostart`` file::
 
-  @python -m argos --fullscreen --no-tooltips
+  @argos --fullscreen --no-tooltips
 
 Debugging
 =========

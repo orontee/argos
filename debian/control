@@ -1,0 +1,12 @@
+Source: argos
+Maintainer: Matthias Meulien <orontee@gmail.com>
+Section: misc
+Priority: optional
+Standards-Version: 3.9.2
+Build-Depends: debhelper (>= 9)
+
+Package: argos
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Front-end to Mopidy for small devices
+ Gtk front-end to control a Mopidy server through a small touch screen.
