@@ -48,6 +48,7 @@ class Application(Gtk.Application):
         self.prefs_window = None
 
         self._start_fullscreen = None
+        self._start_maximized = None
         self._disable_tooltips = None
 
         self.settings.connect(
@@ -71,6 +72,14 @@ class Application(Gtk.Application):
             None,
         )
         self.add_main_option(
+            "maximized",
+            0,
+            GLib.OptionFlags.NONE,
+            GLib.OptionArg.NONE,
+            _("Start with maximized window"),
+            None,
+        )
+        self.add_main_option(
             "no-tooltips",
             0,
             GLib.OptionFlags.NONE,
@@ -85,6 +94,7 @@ class Application(Gtk.Application):
 
         configure_logger(options)
         self._start_fullscreen = "fullscreen" in options
+        self._start_maximized = "maximized" in options and not "fullscreen" in options
         self._disable_tooltips = "no-tooltips" in options
 
         self.activate()
@@ -104,6 +114,9 @@ class Application(Gtk.Application):
 
         if self._start_fullscreen:
             self.window.fullscreen()
+
+        if self._start_maximized:
+            self.window.maximize()
 
         self.window.present()
 
