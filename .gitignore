@@ -13,3 +13,4 @@ data/gschemas.compiled
 /.flatpak-builder/
 po/app.argos.Argos.pot
 /argos_*.orig.tar.gz
+repo/

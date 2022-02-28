@@ -160,6 +160,11 @@ class Application(Gtk.Application):
                 time_position = await self._http.get_time_position()
                 async with self.model_accessor as model:
                     model.update_from(time_position=time_position)
+            else:
+                if self._model.state != PlaybackState.PLAYING:
+                    LOGGER.debug("Skipping track time request since not playing")
+                if not self._model.connected:
+                    LOGGER.debug("Skipping track time request since not connected")
             await asyncio.sleep(1)
 
     async def _process_messages(self) -> None:

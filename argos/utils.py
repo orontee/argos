@@ -32,7 +32,7 @@ def compute_target_size(
 def configure_logger(options: dict) -> None:
     """Configure logger."""
     ch = logging.StreamHandler()
-    formatter = logging.Formatter("%(levelname)s: %(name)s - %(message)s")
+    formatter = logging.Formatter("%(asctime)s %(levelname)s: %(name)s - %(message)s")
     ch.setFormatter(formatter)
     level = logging.DEBUG if "debug" in options else logging.INFO
     ch.setLevel(level)
