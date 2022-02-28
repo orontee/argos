@@ -67,17 +67,35 @@ class MopidyWSConnection:
             return None
 
         _COMMAND_ID += 1
-        data = {"jsonrpc": "2.0", "id": _COMMAND_ID, "method": method}
+        jsonrpc_id = _COMMAND_ID
+
+        data = {"jsonrpc": "2.0", "id": jsonrpc_id, "method": method}
         if params is not None:
             data["params"] = params
 
         future: asyncio.Future = asyncio.Future()
-        self._commands[_COMMAND_ID] = future
+        self._commands[jsonrpc_id] = future
 
-        LOGGER.debug(f"Sending JSON-RPC command {_COMMAND_ID} with method {method}")
-        await self._ws.send_json(data)
-        result = await future
+        LOGGER.debug(f"Sending JSON-RPC command {jsonrpc_id} with method {method}")
+        try:
+            try:
+                await self._ws.send_json(data)
+            except ConnectionResetError:
+                future = self._commands.pop(jsonrpc_id)
+                future.cancel()
+
+            result = await future
+
+        except asyncio.exceptions.CancelledError:
+            LOGGER.debug(f"JSON-RPC command {jsonrpc_id} cancelled")
+            result = None
         return result
+
+    def cancel_commands(self) -> None:
+        for jsonrpc_id in list(self._commands.keys()):
+            LOGGER.debug(f"Cancelling JSON-RPC command {jsonrpc_id}")
+            future = self._commands.pop(jsonrpc_id)
+            future.cancel()
 
     async def _enqueue(self, message: Message) -> None:
         LOGGER.debug(f"Enqueing message with type {message.type}")
@@ -122,6 +140,9 @@ class MopidyWSConnection:
                             {"connected": False},
                         )
                     )
+
+                    self.cancel_commands()
+
                     connection_retry_delay = self.settings.get_int(
                         "connection-retry-delay"
                     )

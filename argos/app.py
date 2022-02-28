@@ -304,6 +304,8 @@ class Application(Gtk.Application):
                 await self._reset_model()
             else:
                 LOGGER.debug("Websocket disconnected")
+                async with self.model_accessor as model:
+                    model.clear_tl()
 
         if "image_path" in changed:
             GLib.idle_add(self.window.update_image, self._model.image_path)
