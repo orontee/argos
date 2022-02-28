@@ -112,6 +112,7 @@ class MopidyWSConnection:
 
                 except (
                     _BaseURLChanged,
+                    ConnectionError,
                     aiohttp.ClientResponseError,
                     aiohttp.client_exceptions.ClientConnectorError,
                 ) as error:
