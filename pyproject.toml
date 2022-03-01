@@ -14,6 +14,7 @@ python = "^3.9"
 aiohttp = ">=3.7.4"
 PyGObject = ">=3.38.0"
 pycairo = ">=1.16.0"
+pyxdg = ">=0.27"
 
 [tool.poetry.dev-dependencies]
 mypy = "^0.931"

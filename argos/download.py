@@ -1,13 +1,14 @@
 import asyncio
 import logging
 from pathlib import Path
-from tempfile import TemporaryDirectory
 from typing import Any, Dict, List, Optional
 from urllib.parse import urljoin
 
 import aiohttp
 
 from gi.repository import Gio
+
+import xdg.BaseDirectory
 
 from .message import Message, MessageType
 from .session import get_session
@@ -33,7 +34,7 @@ class ImageDownloader:
         settings: Gio.Settings,
     ):
         self.settings = settings
-        self._image_dir = TemporaryDirectory()
+        self._image_dir = Path(xdg.BaseDirectory.save_cache_path("argos/images"))
         self._message_queue = message_queue
         self._base_url = self.settings.get_string("mopidy-base-url")
 
@@ -60,7 +61,7 @@ class ImageDownloader:
             return
 
         filename = Path(image_uri).parts[-1]
-        filepath = Path(self._image_dir.name) / filename
+        filepath = self._image_dir / filename
         if not filepath.exists():
             url = urljoin(self._base_url, image_uri)
             async with get_session() as session:
