@@ -6,7 +6,7 @@ Fully implemented using Mopidy websocket.
 
 import logging
 import random
-from typing import Any, Dict, List
+from typing import Any, cast, Dict, List
 
 from gi.repository import Gio
 
@@ -53,15 +53,44 @@ class MopidyHTTPClient:
         eot_tlid = await self._ws.send_command("core.tracklist.get_eot_tlid")
         return eot_tlid
 
-    async def play_random_album(self) -> None:
+    async def browse_libraries(self) -> List[Dict[str, Any]]:
+        libraries = cast(
+            List[Dict[str, Any]],
+            await self._ws.send_command("core.library.browse", params={"uri": None}),
+        )
+        LOGGER.debug(f"Found {len(libraries)} libraries")
+        return libraries
+
+    async def browse_library_albums(self, library_name: str, library_uri: str) -> Any:
         albums = await self._ws.send_command(
-            "core.library.browse", params={"uri": "local:directory?type=album"}
+            "core.library.browse", params={"uri": f"{library_uri}?type=album"}
         )
         if albums is None:
-            LOGGER.warning("No album found")
+            LOGGER.warning(f"No album found for library {library_name!r}")
             return
 
-        LOGGER.debug(f"Found {len(albums)} albums")
+        LOGGER.debug(f"Found {len(albums)} albums in library {library_name!r}")
+        return albums
+
+    async def play_random_album(self) -> None:
+        libraries = await self.browse_libraries()
+        albums = []
+        for library in libraries:
+            name = library.get("name")
+            uri = library.get("uri")
+            if not name or not uri:
+                LOGGER.debug(f"Skipping unexpected library {library!r}")
+                continue
+
+            library_albums = await self.browse_library_albums(
+                library_name=name, library_uri=uri
+            )
+            if library_albums is not None:
+                albums += library_albums
+
+        if not len(albums):
+            return
+
         album = random.choice(albums)
         LOGGER.debug(f"Will play {album['name']}")
         await self._ws.send_command("core.tracklist.clear")
