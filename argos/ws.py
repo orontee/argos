@@ -41,9 +41,13 @@ class _BaseURLChanged(Exception):
 
 
 class MopidyWSConnection:
-    settings = Gio.Settings("app.argos.Argos")
-
-    def __init__(self, *, message_queue: asyncio.Queue):
+    def __init__(
+        self,
+        *,
+        message_queue: asyncio.Queue,
+        settings: Gio.Settings,
+    ):
+        self.settings = settings
         base_url = self.settings.get_string("mopidy-base-url")
         self._url = urljoin(base_url, "/mopidy/ws")
         self._message_queue = message_queue

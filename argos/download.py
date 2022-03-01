@@ -26,9 +26,13 @@ class ImageDownloader:
 
     """
 
-    settings = Gio.Settings.new("app.argos.Argos")
-
-    def __init__(self, *, message_queue: asyncio.Queue):
+    def __init__(
+        self,
+        *,
+        message_queue: asyncio.Queue,
+        settings: Gio.Settings,
+    ):
+        self.settings = settings
         self._image_dir = TemporaryDirectory()
         self._message_queue = message_queue
         self._base_url = self.settings.get_string("mopidy-base-url")

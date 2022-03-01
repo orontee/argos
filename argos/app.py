@@ -39,13 +39,17 @@ class Application(Gtk.Application):
         self._messages: asyncio.Queue = asyncio.Queue()
         self._model = Model()
 
-        self._ws = MopidyWSConnection(message_queue=self._messages)
-        self._http = MopidyHTTPClient(self._ws)
-        self._download = ImageDownloader(message_queue=self._messages)
-
         self.settings = Gio.Settings(application_id)
         self.window = None
         self.prefs_window = None
+
+        self._ws = MopidyWSConnection(
+            message_queue=self._messages, settings=self.settings
+        )
+        self._http = MopidyHTTPClient(self._ws, settings=self.settings)
+        self._download = ImageDownloader(
+            message_queue=self._messages, settings=self.settings
+        )
 
         self._start_fullscreen = None
         self._start_maximized = None
@@ -384,7 +388,7 @@ class Application(Gtk.Application):
         if self.window is None:
             return
 
-        self.prefs_window = PreferencesWindow(application=self)
+        self.prefs_window = PreferencesWindow(application=self, settings=self.settings)
         self.prefs_window.set_transient_for(self.window)
         self.prefs_window.connect("destroy", self.prefs_window_destroy_cb)
 

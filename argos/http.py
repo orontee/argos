@@ -16,10 +16,13 @@ LOGGER = logging.getLogger(__name__)
 
 
 class MopidyHTTPClient:
-    settings = Gio.Settings("app.argos.Argos")
-
-    def __init__(self, ws: MopidyWSConnection):
+    def __init__(
+        self,
+        ws: MopidyWSConnection,
+        settings: Gio.Settings,
+    ):
         self._ws = ws
+        self.settings = settings
 
     async def get_state(self) -> Any:
         state = await self._ws.send_command("core.playback.get_state")

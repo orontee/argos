@@ -12,8 +12,6 @@ LOGGER = logging.getLogger(__name__)
 class PreferencesWindow(Gtk.Window):
     __gtype_name__ = "ArgosPreferences"
 
-    settings: Gio.Settings = Gio.Settings.new("app.argos.Argos")
-
     mopidy_base_url_entry: Gtk.Entry = Gtk.Template.Child()
     favorite_playlist_combo: Gtk.ComboBoxText = Gtk.Template.Child()
     favorite_playlist_spinner: Gtk.Spinner = Gtk.Template.Child()
@@ -23,6 +21,7 @@ class PreferencesWindow(Gtk.Window):
         self,
         *,
         application: Gtk.Application,
+        settings: Gio.Settings,
     ):
         Gtk.Window.__init__(self)
         self.set_wmclass("Argos", "Argos")
@@ -39,6 +38,7 @@ class PreferencesWindow(Gtk.Window):
             "changed", self.mopidy_base_url_entry_changed_cb
         )
 
+        self.settings = settings
         base_url = self.settings.get_string("mopidy-base-url")
         if base_url:
             with self.mopidy_base_url_entry.handler_block(
