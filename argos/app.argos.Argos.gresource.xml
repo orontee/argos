@@ -2,8 +2,9 @@
 <gresources>
   <gresource prefix="/app/argos/Argos">
     <file>icons/welcome-music.svg</file>
-    <file>ui/window.ui</file>
+    <file>ui/about.ui</file>
     <file>ui/app_menu.ui</file>
     <file>ui/preferences.ui</file>
+    <file>ui/window.ui</file>
   </gresource>
 </gresources>

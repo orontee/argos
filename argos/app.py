@@ -3,13 +3,14 @@ import gettext
 import logging
 from functools import partial
 from threading import Thread
-from typing import Any, Dict, Set
+from typing import Any, Dict, Optional, Set
 
 import gi
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gio, GLib, Gtk
 
+from .widgets.about import AboutDialog
 from .widgets.preferences import PreferencesWindow
 
 from .accessor import ModelAccessor
@@ -51,9 +52,9 @@ class Application(Gtk.Application):
             message_queue=self._messages, settings=self.settings
         )
 
-        self._start_fullscreen = None
-        self._start_maximized = None
-        self._disable_tooltips = None
+        self._start_fullscreen: Optional[bool] = None
+        self._start_maximized: Optional[bool] = None
+        self._disable_tooltips: Optional[bool] = None
 
         self.settings.connect(
             "changed::mopidy-base-url", self.on_mopidy_base_url_changed
@@ -92,7 +93,7 @@ class Application(Gtk.Application):
             None,
         )
 
-    def do_command_line(self, command_line):
+    def do_command_line(self, command_line: Gio.ApplicationCommandLine):
         options = command_line.get_options_dict()
         options = options.end().unpack()
 
@@ -126,6 +127,10 @@ class Application(Gtk.Application):
 
     def do_startup(self):
         Gtk.Application.do_startup(self)
+
+        show_about_dialog_action = Gio.SimpleAction.new("show_about_dialog", None)
+        show_about_dialog_action.connect("activate", self.show_about_dialog_cb)
+        self.add_action(show_about_dialog_action)
 
         show_prefs_action = Gio.SimpleAction.new("show_preferences", None)
         show_prefs_action.connect("activate", self.show_prefs_activate_cb)
@@ -384,7 +389,15 @@ class Application(Gtk.Application):
     def on_mopidy_base_url_changed(self, _1, _2) -> None:
         self.send_message(MessageType.MOPIDY_BASE_URL_CHANGED)
 
-    def show_prefs_activate_cb(self, action, parameter) -> None:
+    def show_about_dialog_cb(self, action: Gio.SimpleAction, parameter: None) -> None:
+        if self.window is None:
+            return
+
+        about_dialog = AboutDialog()
+        about_dialog.set_transient_for(self.window)
+        about_dialog.present()
+
+    def show_prefs_activate_cb(self, action: Gio.SimpleAction, parameter: None) -> None:
         if self.window is None:
             return
 
@@ -397,8 +410,12 @@ class Application(Gtk.Application):
     def prefs_window_destroy_cb(self, window: Gtk.Window) -> None:
         self.prefs_window = None
 
-    def play_random_album_activate_cb(self, action, parameter) -> None:
+    def play_random_album_activate_cb(
+        self, action: Gio.SimpleAction, parameter: None
+    ) -> None:
         self.send_message(MessageType.PLAY_RANDOM_ALBUM)
 
-    def play_favorite_playlist_activate_cb(self, action, parameter) -> None:
+    def play_favorite_playlist_activate_cb(
+        self, action: Gio.SimpleAction, parameter: None
+    ) -> None:
         self.send_message(MessageType.PLAY_FAVORITE_PLAYLIST)

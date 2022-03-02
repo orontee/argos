@@ -17,5 +17,11 @@
 	<attribute name="action">app.show_preferences</attribute>
       </item>
     </section>
+    <section>
+      <item>
+	<attribute name="label" translatable="yes">About</attribute>
+	<attribute name="action">app.show_about_dialog</attribute>
+      </item>
+    </section>
   </menu>
 </interface>

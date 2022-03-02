@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-20 23:49+0100\n"
+"POT-Creation-Date: 2022-03-02 08:30+0100\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -17,21 +17,25 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: argos/app.py:62
+#: argos/app.py:68
 msgid "Enable debug logs"
 msgstr "Activer le journal de débogage"
 
-#: argos/app.py:70
+#: argos/app.py:76
 msgid "Start with fullscreen window"
 msgstr "Démarrer avec une fenêtre plein-écran"
 
-#: argos/app.py:78
+#: argos/app.py:84
+#, fuzzy
+msgid "Start with maximized window"
+msgstr "Démarrer avec une fenêtre de taille maximale"
+
+#: argos/app.py:92
 msgid "Disable tooltips"
 msgstr "Désactiver les info-bulles"
 
-#: data/app.argos.Argos.desktop.in:3
-#, fuzzy
-msgid "argos"
+#: data/app.argos.Argos.desktop.in:3 argos/ui/window.ui:55
+msgid "Argos"
 msgstr "Argos"
 
 #: data/app.argos.Argos.gschema.xml:6
@@ -77,17 +81,21 @@ msgstr ""
 "Peupler automatiquement la liste d'attente avec un album choisi au hasard "
 "quand son dernier morceau se termine"
 
-#: argos/ui/app_menu.ui:6 argos/ui/window.ui:111
+#: argos/ui/app_menu.ui:6 argos/ui/window.ui:110
 msgid "Play favorite playlist"
 msgstr "Lire la liste de lecture favorite"
 
-#: argos/ui/app_menu.ui:10 argos/ui/window.ui:131
+#: argos/ui/app_menu.ui:10 argos/ui/window.ui:130
 msgid "Play random album"
 msgstr "Lire un album au hasard"
 
 #: argos/ui/app_menu.ui:16 argos/ui/preferences.ui:7
 msgid "Preferences"
 msgstr "Préférences"
+
+#: argos/ui/app_menu.ui:22
+msgid "About"
+msgstr "À propos"
 
 #: argos/ui/preferences.ui:34
 msgid "Base URL"
@@ -109,21 +117,21 @@ msgstr "Liste de lecture favorite"
 msgid "Automatically populate track list"
 msgstr "Lecture en continu d'albums choisis aléatoirement"
 
-#: argos/ui/window.ui:55
-msgid "Argos"
-msgstr "Argos"
-
-#: argos/ui/window.ui:358
+#: argos/ui/window.ui:356
 msgid "Previous"
 msgstr "Précédent"
 
-#: argos/ui/window.ui:379
+#: argos/ui/window.ui:377
 msgid "Play"
 msgstr "Lire"
 
-#: argos/ui/window.ui:400
+#: argos/ui/window.ui:398
 msgid "Next"
 msgstr "Suivant"
+
+#, fuzzy
+#~ msgid "argos"
+#~ msgstr "Argos"
 
 #~ msgid "Play favorite album"
 #~ msgstr "Lire l'album favori"
