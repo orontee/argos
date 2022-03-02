@@ -60,7 +60,6 @@
       <object class="GtkBox">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
-        <property name="halign">center</property>
         <property name="margin-start">10</property>
         <property name="margin-end">10</property>
         <property name="margin-top">10</property>
@@ -86,20 +85,20 @@
         </child>
         <child>
           <object class="GtkBox" id="right_pane">
-            <property name="width-request">380</property>
-            <property name="height-request">380</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="halign">end</property>
-            <property name="valign">center</property>
             <property name="margin-end">10</property>
+            <property name="margin-top">10</property>
             <property name="margin-bottom">10</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
             <property name="orientation">vertical</property>
             <child>
               <object class="GtkBox" id="top_controls_box">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">end</property>
+                <property name="hexpand">True</property>
                 <property name="vexpand">False</property>
                 <child>
                   <object class="GtkButton" id="play_favorite_playlist_button">
@@ -264,15 +263,14 @@ audio-volume-medium-symbolic</property>
               <object class="GtkBox" id="track_box">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="halign">end</property>
+                <property name="halign">center</property>
                 <child>
                   <object class="GtkScale" id="time_position_scale">
                     <property name="width-request">220</property>
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
                     <property name="can-focus">True</property>
-                    <property name="halign">end</property>
-                    <property name="hexpand">True</property>
+                    <property name="halign">center</property>
                     <property name="adjustment">time_position_adjustement</property>
                     <property name="lower-stepper-sensitivity">on</property>
                     <property name="upper-stepper-sensitivity">on</property>
