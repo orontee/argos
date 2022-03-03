@@ -395,7 +395,8 @@ class Application(Gtk.Application):
 
         about_dialog = AboutDialog()
         about_dialog.set_transient_for(self.window)
-        about_dialog.present()
+        about_dialog.run()
+        about_dialog.destroy()
 
     def show_prefs_activate_cb(self, action: Gio.SimpleAction, parameter: None) -> None:
         if self.window is None:
