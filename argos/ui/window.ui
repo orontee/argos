@@ -229,6 +229,7 @@ audio-volume-medium-symbolic</property>
                     <property name="margin-bottom">5</property>
                     <property name="justify">center</property>
                     <property name="wrap">True</property>
+                    <property name="selectable">True</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -245,6 +246,7 @@ audio-volume-medium-symbolic</property>
                     <property name="margin-bottom">5</property>
                     <property name="justify">center</property>
                     <property name="wrap">True</property>
+                    <property name="selectable">True</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
