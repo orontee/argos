@@ -12,6 +12,7 @@ class PlaybackState(Enum):
 
 @dataclass
 class Model:
+    network_available: bool = False
     connected: bool = False
 
     state: Optional[PlaybackState] = None

@@ -48,6 +48,7 @@ class ModelAccessor:
     def update_from(
         self,
         *,
+        network_available: Any = None,
         connected: Any = None,
         raw_state: Any = None,
         mute: Any = None,
@@ -56,6 +57,9 @@ class ModelAccessor:
         tl_track: Any = None,
         image_path: Any = None,
     ) -> None:
+        if network_available is not None:
+            self._set_model_attr("network_available", network_available)
+
         if connected is not None:
             connected = True if connected is True else False
             self._set_model_attr("connected", connected)

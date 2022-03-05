@@ -38,7 +38,9 @@ class Application(Gtk.Application):
         )
         self._loop = asyncio.get_event_loop()
         self._messages: asyncio.Queue = asyncio.Queue()
-        self._model = Model()
+        self._nm = Gio.NetworkMonitor.get_default()
+
+        self._model = Model(network_available=self._nm.get_network_available())
 
         self.settings = Gio.Settings(application_id)
         self.window = None
@@ -51,6 +53,8 @@ class Application(Gtk.Application):
         self._download = ImageDownloader(
             message_queue=self._messages, settings=self.settings
         )
+
+        self._nm.connect("network-changed", self.on_network_changed)
 
         self._start_fullscreen: Optional[bool] = None
         self._start_maximized: Optional[bool] = None
@@ -165,15 +169,14 @@ class Application(Gtk.Application):
     async def _track_time_position(self) -> None:
         LOGGER.debug("Tracking time position...")
         while True:
-            if self._model.state == PlaybackState.PLAYING and self._model.connected:
+            if (
+                self._model.network_available
+                and self._model.connected
+                and self._model.state == PlaybackState.PLAYING
+            ):
                 time_position = await self._http.get_time_position()
                 async with self.model_accessor as model:
                     model.update_from(time_position=time_position)
-            else:
-                if self._model.state != PlaybackState.PLAYING:
-                    LOGGER.debug("Skipping track time request since not playing")
-                if not self._model.connected:
-                    LOGGER.debug("Skipping track time request since not connected")
             await asyncio.sleep(1)
 
     async def _process_messages(self) -> None:
@@ -293,6 +296,11 @@ class Application(Gtk.Application):
                 async with self.model_accessor as model:
                     model.update_from(connected=connected)
 
+            elif type == MessageType.NETWORK_AVAILABLE_CHANGED:
+                network_available = message.data.get("network_available")
+                async with self.model_accessor as model:
+                    model.update_from(network_available=network_available)
+
             else:
                 LOGGER.warning(
                     f"Unhandled message type {type!r} " f"with data {message.data!r}"
@@ -307,12 +315,12 @@ class Application(Gtk.Application):
         if not self.window:
             return
 
-        if "connected" in changed:
-            if self._model.connected:
-                LOGGER.debug("Websocket connected")
+        if "network_available" in changed or "connected" in changed:
+            if self._model.network_available and self._model.connected:
+                LOGGER.debug("Network available and connected")
                 await self._reset_model()
             else:
-                LOGGER.debug("Websocket disconnected")
+                LOGGER.debug("Network not available")
                 async with self.model_accessor as model:
                     model.clear_tl()
 
@@ -385,6 +393,14 @@ class Application(Gtk.Application):
     ) -> None:
         message = Message(message_type, data or {})
         self._loop.call_soon_threadsafe(self._messages.put_nowait, message)
+
+    def on_network_changed(
+        self, network_monitor: Gio.NetworkMonitor, network_available: bool
+    ) -> None:
+        self.send_message(
+            MessageType.NETWORK_AVAILABLE_CHANGED,
+            {"network_available": network_available},
+        )
 
     def on_mopidy_base_url_changed(self, _1, _2) -> None:
         self.send_message(MessageType.MOPIDY_BASE_URL_CHANGED)

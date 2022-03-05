@@ -8,7 +8,7 @@ import aiohttp
 
 from gi.repository import Gio
 
-import xdg.BaseDirectory
+import xdg.BaseDirectory  # type: ignore
 
 from .message import Message, MessageType
 from .session import get_session
