@@ -11,15 +11,23 @@ Argos
 Mopidy front-end for small devices.
 
 .. figure:: screenshot.png
-   :alt: Screenshot
+   :alt: Application window screenshot
    :align: center
    :width: 407
    :height: 249
 
    Application window
 
+.. figure:: screenshot-albums-view.png
+   :alt: Albums view screenshot
+   :align: center
+   :width: 407
+   :height: 249
+
+   Albums view
+
 .. figure:: screenshot-preferences.png
-   :alt: Screenshot
+   :alt: Preferences window screenshot
    :align: center
    :width: 152
    :height: 96
@@ -32,6 +40,8 @@ Features 🥳
 * Play random album from Mopidy-Local
 
 * Configure and play favorite playlist
+
+* Albums view
 
 * Display album cover from Mopidy-Local HTTP API
 

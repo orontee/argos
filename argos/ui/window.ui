@@ -57,7 +57,7 @@
     <property name="default-height">300</property>
     <property name="hide-titlebar-when-maximized">True</property>
     <child>
-      <object class="GtkBox">
+      <object class="GtkBox" id="app_box">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="margin-start">10</property>
@@ -67,15 +67,73 @@
         <property name="hexpand">True</property>
         <property name="vexpand">True</property>
         <child>
-          <object class="GtkImage" id="playing_track_image">
-            <property name="width-request">370</property>
-            <property name="height-request">370</property>
+          <object class="GtkBox" id="left_pane">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="hexpand">True</property>
-            <property name="vexpand">True</property>
-            <property name="resource">/app/argos/Argos/icons/welcome-music.svg</property>
-            <property name="icon_size">5</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkStackSwitcher" id="left_stack_switcher">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="halign">center</property>
+                <property name="stack">left_stack</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkStack" id="left_stack">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="vhomogeneous">False</property>
+                <property name="transition-type">crossfade</property>
+                <child>
+                  <object class="GtkImage" id="playing_track_image">
+                    <property name="width-request">370</property>
+                    <property name="height-request">370</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
+                    <property name="resource">/app/argos/Argos/icons/welcome-music.svg</property>
+                    <property name="icon_size">5</property>
+                  </object>
+                  <packing>
+                    <property name="name">playing_page</property>
+                    <property name="title" translatable="yes">Playing</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkScrolledWindow">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="shadow-type">in</property>
+                    <child>
+                      <object class="GtkIconView" id="albums_view">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="margin">6</property>
+                        <signal name="item-activated" handler="albums_view_item_activated_cb" swapped="no"/>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="name">albums_page</property>
+                    <property name="title" translatable="yes">Albums</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="padding">5</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="expand">False</property>

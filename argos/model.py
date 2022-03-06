@@ -1,13 +1,30 @@
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Optional
+from typing import Mapping, Optional
 
 
 class PlaybackState(Enum):
     PLAYING = "playing"
     PAUSED = "paused"
     STOPPED = "stopped"
+
+
+@dataclass
+class Artist:
+    name: str
+    uri: str
+    image_path: Optional[Path]
+
+
+@dataclass
+class Album:
+    name: str
+    uri: str
+    artist: Optional[Artist]
+    image_path: Optional[Path]
+    length: Optional[int]
+    track_count: Optional[int]
 
 
 @dataclass
@@ -30,3 +47,5 @@ class Model:
     artist_name: Optional[str] = None
 
     image_path: Optional[Path] = field(default=None, compare=False)
+
+    albums: Mapping[str, Album] = field(default_factory=dict, repr=False, compare=False)

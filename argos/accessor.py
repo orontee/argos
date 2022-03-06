@@ -1,10 +1,10 @@
 import asyncio
 import logging
 from pathlib import Path
-from typing import Any, Set
+from typing import Any, List, Set
 
 from .message import Message, MessageType
-from .model import Model, PlaybackState
+from .model import Album, Model, PlaybackState
 
 LOGGER = logging.getLogger(__name__)
 
@@ -56,6 +56,7 @@ class ModelAccessor:
         time_position: Any = None,
         tl_track: Any = None,
         image_path: Any = None,
+        albums: List[Any] = None,
     ) -> None:
         if network_available is not None:
             self._set_model_attr("network_available", network_available)
@@ -107,6 +108,21 @@ class ModelAccessor:
         if image_path is not None:
             path = Path(image_path)
             self._set_model_attr("image_path", path)
+
+        if albums is not None:
+            indexed_albums = {}
+            for album in albums:
+                uri = album.get("uri")
+                if uri:
+                    indexed_albums[uri] = Album(
+                        album["name"],
+                        album["uri"],
+                        None,
+                        album.get("image_path"),
+                        None,
+                        None,
+                    )
+            self._set_model_attr("albums", indexed_albums)
 
 
 class WithModelAccessor:

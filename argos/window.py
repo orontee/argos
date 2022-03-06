@@ -1,19 +1,29 @@
 import logging
 from pathlib import Path
-from typing import Optional
+from typing import Mapping, Optional
 
 from gi.repository import GdkPixbuf, GLib, Gtk
+from gi.repository.GdkPixbuf import Pixbuf
 
 from .message import MessageType
-from .model import PlaybackState
+from .model import Album, PlaybackState
 from .utils import compute_target_size, elide_maybe, ms_to_text
 
 LOGGER = logging.getLogger(__name__)
+
+ALBUM_STORE_TEXT_COLUMN = 0
+ALBUM_STORE_TOOLTIP_COLUMN = 1
+ALBUM_STORE_URI_COLUMN = 2
+ALBUM_STORE_PIXBUF_COLUMN = 3
+
+ALBUM_ICON_SIZE = 100
 
 
 @Gtk.Template(resource_path="/app/argos/Argos/ui/window.ui")
 class ArgosWindow(Gtk.ApplicationWindow):
     __gtype_name__ = "ArgosWindow"
+
+    albums_view = Gtk.Template.Child()
 
     playing_track_image = Gtk.Template.Child()
     play_image = Gtk.Template.Child()
@@ -55,8 +65,16 @@ class ArgosWindow(Gtk.ApplicationWindow):
             "value_changed", self.volume_button_value_changed_cb
         )
 
+        albums_store = Gtk.ListStore(str, str, str, Pixbuf)
+        self.albums_view.set_model(albums_store)
+        self.albums_view.set_text_column(ALBUM_STORE_TEXT_COLUMN)
+        self.albums_view.set_tooltip_column(ALBUM_STORE_TOOLTIP_COLUMN)
+        self.albums_view.set_pixbuf_column(ALBUM_STORE_PIXBUF_COLUMN)
+        self.albums_view.set_item_width(ALBUM_ICON_SIZE)
+
         if self._disable_tooltips:
             for widget in (
+                self.albums_view,
                 self.play_favorite_playlist_button,
                 self.play_random_album_button,
                 self.volume_button,
@@ -66,6 +84,31 @@ class ArgosWindow(Gtk.ApplicationWindow):
             ):
                 widget.props.has_tooltip = False
 
+    def update_albums_list(self, albums: Mapping[str, Album]) -> None:
+        store = self.albums_view.get_model()
+        store.clear()
+        for uri, album in albums.items():
+            scaled_pixbuf = None
+            if album.image_path is not None:
+                try:
+                    pixbuf = Pixbuf.new_from_file(str(album.image_path))
+                except GLib.Error as error:
+                    LOGGER.warning(
+                        f"Failed to read image at {str(album.image_path)!r}: {error}"
+                    )
+                else:
+                    width, height = compute_target_size(
+                        pixbuf.get_width(),
+                        pixbuf.get_height(),
+                        target_width=ALBUM_ICON_SIZE,
+                    )
+                    scaled_pixbuf = pixbuf.scale_simple(
+                        width, height, GdkPixbuf.InterpType.BILINEAR
+                    )
+            store.append(
+                [elide_maybe(album.name), album.name, album.uri, scaled_pixbuf]
+            )
+
     def update_playing_track_image(self, image_path: Optional[Path]) -> None:
         if not image_path:
             self.playing_track_image.set_from_resource(
@@ -73,7 +116,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
             )
         else:
             try:
-                pixbuf = GdkPixbuf.Pixbuf.new_from_file(str(image_path))
+                pixbuf = Pixbuf.new_from_file(str(image_path))
             except GLib.Error as error:
                 LOGGER.warning(f"Failed to read image at {str(image_path)!r}: {error}")
                 self.playing_track_image.set_from_resource(
@@ -180,3 +223,12 @@ class ArgosWindow(Gtk.ApplicationWindow):
     ) -> None:
         time_position = round(value)
         self._app.send_message(MessageType.SEEK, {"time_position": time_position})
+
+    @Gtk.Template.Callback()
+    def albums_view_item_activated_cb(
+        self, icon_view: Gtk.IconView, path: Gtk.TreePath
+    ) -> None:
+        store = icon_view.get_model()
+        store_iter = store.get_iter(path)
+        uri = store.get_value(store_iter, ALBUM_STORE_URI_COLUMN)
+        self._app.send_message(MessageType.PLAY_ALBUM, {"uri": uri})

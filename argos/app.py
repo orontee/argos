@@ -370,6 +370,12 @@ class Application(Gtk.Application, WithModelAccessor):
                     )
                 )
 
+        if "albums" in changed:
+            if self.window:
+                GLib.idle_add(
+                    partial(self.window.update_albums_list, albums=self._model.albums)
+                )
+
     async def _reset_model(self) -> None:
         raw_state = await self._http.get_state()
         mute = await self._http.get_mute()
@@ -377,6 +383,17 @@ class Application(Gtk.Application, WithModelAccessor):
         tl_track = await self._http.get_current_tl_track()
         time_position = await self._http.get_time_position()
         self._time_position_tracker.time_position_synced()
+        albums = await self._http.browse_albums()
+        album_uris = [a["uri"] for a in albums]
+        images = await self._http.get_images(album_uris)
+        for a in albums:
+            album_uri = a.get("uri")
+            if album_uri is None:
+                continue
+
+            album_images = images[album_uri]
+            filepath = await self._download.fetch_first_image(images=album_images)
+            a["image_path"] = filepath
 
         async with self.model_accessor as model:
             model.update_from(
@@ -385,6 +402,7 @@ class Application(Gtk.Application, WithModelAccessor):
                 volume=volume,
                 time_position=time_position,
                 tl_track=tl_track,
+                albums=albums,
             )
 
     def send_message(

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-02 08:30+0100\n"
+"POT-Creation-Date: 2022-03-13 17:23+0100\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -17,20 +17,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: argos/app.py:68
+#: argos/app.py:74
 msgid "Enable debug logs"
 msgstr "Activer le journal de débogage"
 
-#: argos/app.py:76
+#: argos/app.py:82
 msgid "Start with fullscreen window"
 msgstr "Démarrer avec une fenêtre plein-écran"
 
-#: argos/app.py:84
-#, fuzzy
+#: argos/app.py:90
 msgid "Start with maximized window"
 msgstr "Démarrer avec une fenêtre de taille maximale"
 
-#: argos/app.py:92
+#: argos/app.py:98
 msgid "Disable tooltips"
 msgstr "Désactiver les info-bulles"
 
@@ -47,7 +46,6 @@ msgid "The delay in seconds between two connection tries."
 msgstr "Le délai entre deux tentatives de connexion"
 
 #: data/app.argos.Argos.gschema.xml:16
-#, fuzzy
 msgid "Base URL of Mopidy APIs"
 msgstr "URL de base des APIs Mopidy"
 
@@ -56,7 +54,6 @@ msgid "The base URL of Mopidy JSON-RPC and websocket APIs."
 msgstr "L'URL de base des APIs JSON-RPC et websocket de Mopidy."
 
 #: data/app.argos.Argos.gschema.xml:26
-#, fuzzy
 msgid "URI of favorite playlist"
 msgstr "Liste de lecture favorite"
 
@@ -69,7 +66,6 @@ msgstr ""
 "de lecture favorite est activé"
 
 #: data/app.argos.Argos.gschema.xml:37
-#, fuzzy
 msgid "Automatically populate tracklist"
 msgstr "Lecture en continu d'albums choisis aléatoirement"
 
@@ -81,11 +77,11 @@ msgstr ""
 "Peupler automatiquement la liste d'attente avec un album choisi au hasard "
 "quand son dernier morceau se termine"
 
-#: argos/ui/app_menu.ui:6 argos/ui/window.ui:110
+#: argos/ui/app_menu.ui:6 argos/ui/window.ui:168
 msgid "Play favorite playlist"
 msgstr "Lire la liste de lecture favorite"
 
-#: argos/ui/app_menu.ui:10 argos/ui/window.ui:130
+#: argos/ui/app_menu.ui:10 argos/ui/window.ui:188
 msgid "Play random album"
 msgstr "Lire un album au hasard"
 
@@ -117,21 +113,22 @@ msgstr "Liste de lecture favorite"
 msgid "Automatically populate track list"
 msgstr "Lecture en continu d'albums choisis aléatoirement"
 
-#: argos/ui/window.ui:356
+#: argos/ui/window.ui:106
+msgid "Playing"
+msgstr "En cours"
+
+#: argos/ui/window.ui:125
+msgid "Albums"
+msgstr "Albums"
+
+#: argos/ui/window.ui:416
 msgid "Previous"
 msgstr "Précédent"
 
-#: argos/ui/window.ui:377
+#: argos/ui/window.ui:437
 msgid "Play"
 msgstr "Lire"
 
-#: argos/ui/window.ui:398
+#: argos/ui/window.ui:458
 msgid "Next"
 msgstr "Suivant"
-
-#, fuzzy
-#~ msgid "argos"
-#~ msgstr "Argos"
-
-#~ msgid "Play favorite album"
-#~ msgstr "Lire l'album favori"
