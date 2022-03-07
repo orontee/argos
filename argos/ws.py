@@ -13,6 +13,8 @@ from .session import get_session
 
 LOGGER = logging.getLogger(__name__)
 
+COMMAND_TIMEOUT: int = 10  # s
+
 EVENT_TO_MESSAGE_TYPE: Dict[str, MessageType] = {
     "track_playback_started": MessageType.TRACK_PLAYBACK_STARTED,
     "track_playback_paused": MessageType.TRACK_PLAYBACK_PAUSED,
@@ -64,6 +66,17 @@ class MopidyWSConnection:
         self._url = urljoin(base_url, "/mopidy/ws")
 
     async def send_command(self, method: str, *, params: dict = None) -> Any:
+        """Invoke a JSON-RPC command.
+
+        Args:
+            method: Method to invoke.
+
+            params: Parameters of the JSON-RPC command.
+
+        Returns:
+            Result of the invoked method.
+
+        """
         global _COMMAND_ID
 
         if not self._ws:
@@ -83,15 +96,33 @@ class MopidyWSConnection:
         LOGGER.debug(f"Sending JSON-RPC command {jsonrpc_id} with method {method}")
         try:
             try:
-                await self._ws.send_json(data)
+                await asyncio.wait_for(self._ws.send_json(data), COMMAND_TIMEOUT)
             except ConnectionResetError:
-                future = self._commands.pop(jsonrpc_id)
+                LOGGER.warning(
+                    f"Connection reset while sending JSON-RPC command {jsonrpc_id}"
+                )
+                future.cancel()
+            except asyncio.exceptions.TimeoutError:
+                LOGGER.warning(f"Timeout while sending JSON-RPC command {jsonrpc_id}")
                 future.cancel()
 
-            result = await future
+            try:
+                await asyncio.wait_for(future, COMMAND_TIMEOUT)
+            except asyncio.exceptions.TimeoutError:
+                LOGGER.warning(
+                    f"Timeout while waiting response of JSON-RPC command {jsonrpc_id}"
+                )
+                future.cancel()
+
+            result = future.result()
 
         except asyncio.exceptions.CancelledError:
             LOGGER.debug(f"JSON-RPC command {jsonrpc_id} cancelled")
+            self._commands.pop(jsonrpc_id, None)
+            # the default None value must be provided since, if the
+            # future is cancelled due to network availability changed
+            # (see cancel_commands()), then it may have been removed
+            # from self._commands
             result = None
         return result
 
@@ -187,7 +218,11 @@ class MopidyWSConnection:
 
             jsonrpc_id = parsed.get("id") if "jsonrpc" in parsed else None
             if jsonrpc_id:
-                future = self._commands.pop(jsonrpc_id)
+                future = self._commands.pop(jsonrpc_id, None)
+                # the default None value must be provided since, if
+                # the future is cancelled due to connection reset or
+                # timeout, then it may have been removed from
+                # self._commands
                 if future:
                     LOGGER.debug(f"Received result of JSON-RPC command id {jsonrpc_id}")
                     future.set_result(parsed.get("result"))
