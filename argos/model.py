@@ -24,7 +24,7 @@ class Model:
     track_name: Optional[str] = None
     track_length: Optional[int] = None
 
-    time_position: Optional[int] = None
+    time_position: Optional[int] = None  # ms
 
     artist_uri: Optional[str] = field(default=None, repr=False)
     artist_name: Optional[str] = None

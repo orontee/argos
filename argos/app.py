@@ -13,11 +13,12 @@ from gi.repository import Gio, GLib, Gtk
 from .widgets.about import AboutDialog
 from .widgets.preferences import PreferencesWindow
 
-from .accessor import ModelAccessor
+from .accessor import WithModelAccessor
 from .download import ImageDownloader
 from .http import MopidyHTTPClient
 from .message import Message, MessageType
 from .model import Model, PlaybackState
+from .time import TimePositionTracker
 from .utils import configure_logger
 from .window import ArgosWindow
 from .ws import MopidyWSConnection
@@ -27,7 +28,7 @@ LOGGER = logging.getLogger(__name__)
 _ = gettext.gettext
 
 
-class Application(Gtk.Application):
+class Application(Gtk.Application, WithModelAccessor):
     def __init__(self, application_id: str, *args, **kwargs):
         Gtk.Application.__init__(
             self,
@@ -37,7 +38,7 @@ class Application(Gtk.Application):
             **kwargs,
         )
         self._loop = asyncio.get_event_loop()
-        self._messages: asyncio.Queue = asyncio.Queue()
+        self._message_queue: asyncio.Queue = asyncio.Queue()
         self._nm = Gio.NetworkMonitor.get_default()
 
         self._model = Model(network_available=self._nm.get_network_available())
@@ -47,11 +48,14 @@ class Application(Gtk.Application):
         self.prefs_window = None
 
         self._ws = MopidyWSConnection(
-            message_queue=self._messages, settings=self.settings
+            message_queue=self._message_queue, settings=self.settings
         )
         self._http = MopidyHTTPClient(self._ws, settings=self.settings)
         self._download = ImageDownloader(
-            message_queue=self._messages, settings=self.settings
+            message_queue=self._message_queue, settings=self.settings
+        )
+        self._time_position_tracker = TimePositionTracker(
+            self._model, message_queue=self._message_queue, http=self._http
         )
 
         self._nm.connect("network-changed", self.on_network_changed)
@@ -103,7 +107,7 @@ class Application(Gtk.Application):
 
         configure_logger(options)
         self._start_fullscreen = "fullscreen" in options
-        self._start_maximized = "maximized" in options and not "fullscreen" in options
+        self._start_maximized = "maximized" in options and "fullscreen" not in options
         self._disable_tooltips = "no-tooltips" in options
 
         self.activate()
@@ -161,28 +165,15 @@ class Application(Gtk.Application):
             asyncio.gather(
                 self._ws.listen(),
                 self._process_messages(),
-                self._track_time_position(),
+                self._time_position_tracker.track(),
             )
         )
         LOGGER.debug("Event loop stopped")
 
-    async def _track_time_position(self) -> None:
-        LOGGER.debug("Tracking time position...")
-        while True:
-            if (
-                self._model.network_available
-                and self._model.connected
-                and self._model.state == PlaybackState.PLAYING
-            ):
-                time_position = await self._http.get_time_position()
-                async with self.model_accessor as model:
-                    model.update_from(time_position=time_position)
-            await asyncio.sleep(1)
-
     async def _process_messages(self) -> None:
         LOGGER.debug("Waiting for new messages...")
         while True:
-            message = await self._messages.get()
+            message = await self._message_queue.get()
             type = message.type
 
             LOGGER.debug(f"Processing {type} message")
@@ -272,11 +263,13 @@ class Application(Gtk.Application):
             elif type == MessageType.TRACKLIST_CHANGED:
                 async with self.model_accessor as model:
                     model.clear_tl()
+                self._time_position_tracker.time_position_synced()
 
             elif type == MessageType.SEEKED:
                 time_position = message.data.get("time_position")
                 async with self.model_accessor as model:
                     model.update_from(time_position=time_position)
+                self._time_position_tracker.time_position_synced()
 
             # Events (internal)
             elif type == MessageType.IMAGE_AVAILABLE:
@@ -305,10 +298,6 @@ class Application(Gtk.Application):
                 LOGGER.warning(
                     f"Unhandled message type {type!r} " f"with data {message.data!r}"
                 )
-
-    @property
-    def model_accessor(self) -> ModelAccessor:
-        return ModelAccessor(model=self._model, message_queue=self._messages)
 
     async def _handle_model_changed(self, changed: Set[str]) -> None:
         """Propage model changes."""
@@ -378,6 +367,7 @@ class Application(Gtk.Application):
         volume = await self._http.get_volume()
         tl_track = await self._http.get_current_tl_track()
         time_position = await self._http.get_time_position()
+        self._time_position_tracker.time_position_synced()
 
         async with self.model_accessor as model:
             model.update_from(
@@ -392,7 +382,7 @@ class Application(Gtk.Application):
         self, message_type: MessageType, data: Dict[str, Any] = None
     ) -> None:
         message = Message(message_type, data or {})
-        self._loop.call_soon_threadsafe(self._messages.put_nowait, message)
+        self._loop.call_soon_threadsafe(self._message_queue.put_nowait, message)
 
     def on_network_changed(
         self, network_monitor: Gio.NetworkMonitor, network_available: bool

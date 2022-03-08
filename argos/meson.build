@@ -35,6 +35,7 @@ argos_sources = [
   'message.py',
   'model.py',
   'session.py',
+  'time.py',
   'utils.py',
   'window.py',
   'ws.py'

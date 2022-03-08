@@ -107,3 +107,12 @@ class ModelAccessor:
         if image_path is not None:
             path = Path(image_path)
             self._set_model_attr("image_path", path)
+
+
+class WithModelAccessor:
+    _model: Model
+    _message_queue: asyncio.Queue
+
+    @property
+    def model_accessor(self) -> ModelAccessor:
+        return ModelAccessor(model=self._model, message_queue=self._message_queue)
