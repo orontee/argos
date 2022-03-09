@@ -301,9 +301,6 @@ class Application(Gtk.Application, WithModelAccessor):
 
     async def _handle_model_changed(self, changed: Set[str]) -> None:
         """Propage model changes."""
-        if not self.window:
-            return
-
         if "network_available" in changed or "connected" in changed:
             if self._model.network_available and self._model.connected:
                 LOGGER.debug("Network available and connected")
@@ -314,21 +311,23 @@ class Application(Gtk.Application, WithModelAccessor):
                     model.clear_tl()
 
         if "image_path" in changed:
-            GLib.idle_add(self.window.update_image, self._model.image_path)
+            if self.window:
+                GLib.idle_add(self.window.update_image, self._model.image_path)
 
         if (
             "track_name" in changed
             or "artist_name" in changed
             or "track_length" in changed
         ):
-            GLib.idle_add(
-                partial(
-                    self.window.update_labels,
-                    track_name=self._model.track_name,
-                    artist_name=self._model.artist_name,
-                    track_length=self._model.track_length,
+            if self.window:
+                GLib.idle_add(
+                    partial(
+                        self.window.update_labels,
+                        track_name=self._model.track_name,
+                        artist_name=self._model.artist_name,
+                        track_length=self._model.track_length,
+                    )
                 )
-            )
 
             track_uri = self._model.track_uri
             if not track_uri:
@@ -340,26 +339,29 @@ class Application(Gtk.Application, WithModelAccessor):
             )
 
         if "volume" in changed or "mute" in changed:
-            GLib.idle_add(
-                partial(
-                    self.window.update_volume,
-                    mute=self._model.mute,
-                    volume=self._model.volume,
+            if self.window:
+                GLib.idle_add(
+                    partial(
+                        self.window.update_volume,
+                        mute=self._model.mute,
+                        volume=self._model.volume,
+                    )
                 )
-            )
 
         if "state" in changed:
-            GLib.idle_add(
-                partial(self.window.update_play_button, state=self._model.state)
-            )
+            if self.window:
+                GLib.idle_add(
+                    partial(self.window.update_play_button, state=self._model.state)
+                )
 
         if "time_position" in changed:
-            GLib.idle_add(
-                partial(
-                    self.window.update_time_position_scale,
-                    time_position=self._model.time_position,
+            if self.window:
+                GLib.idle_add(
+                    partial(
+                        self.window.update_time_position_scale,
+                        time_position=self._model.time_position,
+                    )
                 )
-            )
 
     async def _reset_model(self) -> None:
         raw_state = await self._http.get_state()
