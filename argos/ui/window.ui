@@ -67,7 +67,7 @@
         <property name="hexpand">True</property>
         <property name="vexpand">True</property>
         <child>
-          <object class="GtkImage" id="image">
+          <object class="GtkImage" id="playing_track_image">
             <property name="width-request">370</property>
             <property name="height-request">370</property>
             <property name="visible">True</property>

@@ -15,7 +15,7 @@ LOGGER = logging.getLogger(__name__)
 class ArgosWindow(Gtk.ApplicationWindow):
     __gtype_name__ = "ArgosWindow"
 
-    image = Gtk.Template.Child()
+    playing_track_image = Gtk.Template.Child()
     play_image = Gtk.Template.Child()
     pause_image = Gtk.Template.Child()
 
@@ -66,9 +66,11 @@ class ArgosWindow(Gtk.ApplicationWindow):
             ):
                 widget.props.has_tooltip = False
 
-    def update_image(self, image_path: Optional[Path]) -> None:
+    def update_playing_track_image(self, image_path: Optional[Path]) -> None:
         if not image_path:
-            self.image.set_from_resource("/app/argos/Argos/icons/welcome-music.svg")
+            self.playing_track_image.set_from_resource(
+                "/app/argos/Argos/icons/welcome-music.svg"
+            )
         else:
             try:
                 pixbuf = GdkPixbuf.Pixbuf.new_from_file(str(image_path))
@@ -88,7 +90,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
                 )
                 self.playing_track_image.set_from_pixbuf(scaled_pixbuf)
 
-        self.image.show_now()
+        self.playing_track_image.show_now()
 
     def update_labels(
         self,

@@ -64,18 +64,7 @@ class MopidyHTTPClient:
         LOGGER.debug(f"Found {len(libraries)} libraries")
         return libraries
 
-    async def browse_library_albums(self, library_name: str, library_uri: str) -> Any:
-        albums = await self._ws.send_command(
-            "core.library.browse", params={"uri": f"{library_uri}?type=album"}
-        )
-        if albums is None:
-            LOGGER.warning(f"No album found for library {library_name!r}")
-            return
-
-        LOGGER.debug(f"Found {len(albums)} albums in library {library_name!r}")
-        return albums
-
-    async def play_random_album(self) -> None:
+    async def browse_albums(self) -> List[Any]:
         libraries = await self.browse_libraries()
         albums = []
         for library in libraries:
@@ -85,21 +74,38 @@ class MopidyHTTPClient:
                 LOGGER.debug(f"Skipping unexpected library {library!r}")
                 continue
 
-            library_albums = await self.browse_library_albums(
-                library_name=name, library_uri=uri
+            library_albums = await self._ws.send_command(
+                "core.library.browse", params={"uri": f"{uri}?type=album"}
             )
-            if library_albums is not None:
+            if library_albums is None:
+                LOGGER.warning(f"No album found for library {name!r}")
+            else:
+                LOGGER.debug(f"Found {len(library_albums)} albums in library {name!r}")
                 albums += library_albums
 
-        if not len(albums):
-            return
+        return albums
 
-        album = random.choice(albums)
-        LOGGER.debug(f"Will play {album['name']}")
+    async def play_album(self, uri: str = None) -> None:
+        """Play album with given URI.
+
+        When ``uri`` is ``None``, then a random album is choosen.
+
+        Args:
+            uri: Optional URI of the album to play.
+
+        """
+        if uri is None:
+            albums = await self.browse_albums()
+
+            if not len(albums):
+                return
+
+            album = random.choice(albums)
+            LOGGER.debug(f"Will play {album['name']}")
+            uri = album["uri"]
+
         await self._ws.send_command("core.tracklist.clear")
-        await self._ws.send_command(
-            "core.tracklist.add", params={"uris": [album["uri"]]}
-        )
+        await self._ws.send_command("core.tracklist.add", params={"uris": [uri]})
         await self._ws.send_command("core.playback.play")
 
     async def play_favorite_playlist(self) -> None:
@@ -148,7 +154,7 @@ class MopidyHTTPClient:
         track = await self._ws.send_command("core.playback.get_current_tl_track")
         return track
 
-    async def get_images(self, uri) -> Any:
-        params = {"uris": [uri]}
+    async def get_images(self, uris: List[str]) -> Dict[str, Any]:
+        params = {"uris": uris}
         images = await self._ws.send_command("core.library.get_images", params=params)
-        return images and images[uri]
+        return images

@@ -30,12 +30,10 @@ class ImageDownloader:
     def __init__(
         self,
         *,
-        message_queue: asyncio.Queue,
         settings: Gio.Settings,
     ):
         self.settings = settings
         self._image_dir = Path(xdg.BaseDirectory.save_cache_path("argos/images"))
-        self._message_queue = message_queue
         self._base_url = self.settings.get_string("mopidy-base-url")
 
         self.settings.connect(
@@ -46,19 +44,19 @@ class ImageDownloader:
         self._base_url = settings.get_string("mopidy-base-url")
 
     async def fetch_first_image(
-        self, *, track_uri: str, track_images: Optional[List[Dict[str, Any]]] = None
-    ) -> None:
+        self, *, images: Optional[List[Dict[str, Any]]] = None
+    ) -> Optional[Path]:
         """Fetch the first image."""
-        if not track_images or len(track_images) == 0:
-            return
+        if not images or len(images) == 0:
+            return None
 
-        image_uri = track_images[0].get("uri")
+        image_uri = images[0].get("uri")
         if not image_uri:
-            return
+            return None
 
         if not image_uri.startswith("/local/"):
             LOGGER.warning(f"Unsupported URI scheme for images {image_uri!r}")
-            return
+            return None
 
         filename = Path(image_uri).parts[-1]
         filepath = self._image_dir / filename
@@ -74,10 +72,4 @@ class ImageDownloader:
                                 fd.write(chunk)
                 except aiohttp.ClientError as err:
                     LOGGER.error(f"Failed to request local image, {err}")
-
-        await self._message_queue.put(
-            Message(
-                MessageType.IMAGE_AVAILABLE,
-                {"track_uri": track_uri, "image_path": filepath},
-            )
-        )
+        return filepath

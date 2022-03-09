@@ -51,9 +51,7 @@ class Application(Gtk.Application, WithModelAccessor):
             message_queue=self._message_queue, settings=self.settings
         )
         self._http = MopidyHTTPClient(self._ws, settings=self.settings)
-        self._download = ImageDownloader(
-            message_queue=self._message_queue, settings=self.settings
-        )
+        self._download = ImageDownloader(settings=self.settings)
         self._time_position_tracker = TimePositionTracker(
             self._model, message_queue=self._message_queue, http=self._http
         )
@@ -194,8 +192,9 @@ class Application(Gtk.Application, WithModelAccessor):
             elif type == MessageType.PLAY_NEXT_TRACK:
                 await self._http.next()
 
-            elif type == MessageType.PLAY_RANDOM_ALBUM:
-                await self._http.play_random_album()
+            elif type == MessageType.PLAY_ALBUM:
+                uri = message.data.get("uri")
+                await self._http.play_album(uri=uri)
 
             elif type == MessageType.PLAY_FAVORITE_PLAYLIST:
                 await self._http.play_favorite_playlist()
@@ -243,7 +242,7 @@ class Application(Gtk.Application, WithModelAccessor):
                 eot_tlid = await self._http.get_eot_tlid()
                 if not eot_tlid:
                     LOGGER.info("Will populate track list with random album")
-                    await self._http.play_random_album()
+                    await self._http.play_album()
 
             elif type == MessageType.PLAYBACK_STATE_CHANGED:
                 raw_state = message.data.get("new_state")
@@ -312,7 +311,9 @@ class Application(Gtk.Application, WithModelAccessor):
 
         if "image_path" in changed:
             if self.window:
-                GLib.idle_add(self.window.update_image, self._model.image_path)
+                GLib.idle_add(
+                    self.window.update_playing_track_image, self._model.image_path
+                )
 
         if (
             "track_name" in changed
@@ -333,10 +334,16 @@ class Application(Gtk.Application, WithModelAccessor):
             if not track_uri:
                 return
 
-            track_images = await self._http.get_images(track_uri)
-            await self._download.fetch_first_image(
-                track_uri=track_uri, track_images=track_images
-            )
+            images = await self._http.get_images([track_uri])
+            track_images = images.get(track_uri)
+            filepath = await self._download.fetch_first_image(images=track_images)
+            if filepath is not None:
+                await self._message_queue.put(
+                    Message(
+                        MessageType.IMAGE_AVAILABLE,
+                        {"track_uri": track_uri, "image_path": filepath},
+                    )
+                )
 
         if "volume" in changed or "mute" in changed:
             if self.window:
@@ -422,7 +429,7 @@ class Application(Gtk.Application, WithModelAccessor):
     def play_random_album_activate_cb(
         self, action: Gio.SimpleAction, parameter: None
     ) -> None:
-        self.send_message(MessageType.PLAY_RANDOM_ALBUM)
+        self.send_message(MessageType.PLAY_ALBUM)
 
     def play_favorite_playlist_activate_cb(
         self, action: Gio.SimpleAction, parameter: None

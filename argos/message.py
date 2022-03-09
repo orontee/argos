@@ -8,7 +8,7 @@ class MessageType(Enum):
     TOGGLE_PLAYBACK_STATE = 0
     PLAY_PREV_TRACK = 1
     PLAY_NEXT_TRACK = 2
-    PLAY_RANDOM_ALBUM = 3
+    PLAY_ALBUM = 3
     PLAY_FAVORITE_PLAYLIST = 4
     SEEK = 5
     SET_VOLUME = 6
