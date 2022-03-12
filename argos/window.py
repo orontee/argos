@@ -70,9 +70,15 @@ class ArgosWindow(Gtk.ApplicationWindow):
         if not image_path:
             self.image.set_from_resource("/app/argos/Argos/icons/welcome-music.svg")
         else:
-            pixbuf = GdkPixbuf.Pixbuf.new_from_file(str(image_path))
-            if pixbuf:
-                rectangle = self.image.get_allocation()
+            try:
+                pixbuf = GdkPixbuf.Pixbuf.new_from_file(str(image_path))
+            except GLib.Error as error:
+                LOGGER.warning(f"Failed to read image at {str(image_path)!r}: {error}")
+                self.playing_track_image.set_from_resource(
+                    "/app/argos/Argos/icons/welcome-music.svg"
+                )
+            else:
+                rectangle = self.playing_track_image.get_allocation()
                 target_width = min(rectangle.width, rectangle.height)
                 width, height = compute_target_size(
                     pixbuf.get_width(), pixbuf.get_height(), target_width=target_width
@@ -80,10 +86,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
                 scaled_pixbuf = pixbuf.scale_simple(
                     width, height, GdkPixbuf.InterpType.BILINEAR
                 )
-                self.image.set_from_pixbuf(scaled_pixbuf)
-            else:
-                LOGGER.warning("Failed to read image")
-                self.image.set_from_resource("/app/argos/Argos/icons/welcome-music.svg")
+                self.playing_track_image.set_from_pixbuf(scaled_pixbuf)
 
         self.image.show_now()
 
