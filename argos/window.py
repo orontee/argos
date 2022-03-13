@@ -106,7 +106,12 @@ class ArgosWindow(Gtk.ApplicationWindow):
                         width, height, GdkPixbuf.InterpType.BILINEAR
                     )
             store.append(
-                [elide_maybe(album.name), album.name, album.uri, scaled_pixbuf]
+                [
+                    elide_maybe(album.name),
+                    GLib.markup_escape_text(album.name),
+                    album.uri,
+                    scaled_pixbuf,
+                ]
             )
 
     def update_playing_track_image(self, image_path: Optional[Path]) -> None:
