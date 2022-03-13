@@ -154,22 +154,28 @@ class ArgosWindow(Gtk.ApplicationWindow):
         track_length: Optional[int],
     ) -> None:
         if track_name:
-            track_name = GLib.markup_escape_text(elide_maybe(track_name))
-            track_name_text = f"""<span size="xx-large"><b>{track_name}</b></span>"""
+            short_track_name = GLib.markup_escape_text(elide_maybe(track_name))
+            track_name_text = (
+                f"""<span size="xx-large"><b>{short_track_name}</b></span>"""
+            )
+            self.track_name_label.set_markup(track_name_text)
+            if not self._disable_tooltips:
+                self.track_name_label.set_has_tooltip(True)
+                self.track_name_label.set_tooltip_text(track_name)
         else:
-            track_name_text = ""
-
-        self.track_name_label.set_markup(track_name_text)
-        if not self._disable_tooltips:
-            self.track_name_label.set_tooltip_text(track_name)
+            self.track_name_label.set_markup("")
+            self.track_name_label.set_has_tooltip(False)
 
         if artist_name:
-            artist_name = GLib.markup_escape_text(artist_name)
-            artist_name_text = f"""<span size="x-large">{artist_name}</span>"""
+            short_artist_name = GLib.markup_escape_text(elide_maybe(artist_name))
+            artist_name_text = f"""<span size="x-large">{short_artist_name}</span>"""
+            self.artist_name_label.set_markup(artist_name_text)
+            if not self._disable_tooltips:
+                self.artist_name_label.set_has_tooltip(True)
+                self.artist_name_label.set_tooltip_text(artist_name)
         else:
-            artist_name_text = ""
-
-        self.artist_name_label.set_markup(artist_name_text)
+            self.artist_name_label.set_markup("")
+            self.artist_name_label.set_has_tooltip(False)
 
         pretty_length = ms_to_text(track_length)
         self.track_length_label.set_text(pretty_length)
