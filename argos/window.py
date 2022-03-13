@@ -88,7 +88,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
         store = self.albums_view.get_model()
         store.clear()
         for uri, album in albums.items():
-            scaled_pixbuf = None
+            pixbuf = None
             if album.image_path is not None:
                 try:
                     pixbuf = Pixbuf.new_from_file(str(album.image_path))
@@ -96,15 +96,20 @@ class ArgosWindow(Gtk.ApplicationWindow):
                     LOGGER.warning(
                         f"Failed to read image at {str(album.image_path)!r}: {error}"
                     )
-                else:
-                    width, height = compute_target_size(
-                        pixbuf.get_width(),
-                        pixbuf.get_height(),
-                        target_width=ALBUM_ICON_SIZE,
-                    )
-                    scaled_pixbuf = pixbuf.scale_simple(
-                        width, height, GdkPixbuf.InterpType.BILINEAR
-                    )
+
+            if pixbuf is None:
+                pixbuf = Gtk.IconTheme.get_default().load_icon(
+                    "media-optical-cd-audio-symbolic", ALBUM_ICON_SIZE, 0
+                )
+
+            width, height = compute_target_size(
+                pixbuf.get_width(),
+                pixbuf.get_height(),
+                target_width=ALBUM_ICON_SIZE,
+            )
+            scaled_pixbuf = pixbuf.scale_simple(
+                width, height, GdkPixbuf.InterpType.BILINEAR
+            )
             store.append(
                 [
                     elide_maybe(album.name),
