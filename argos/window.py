@@ -2,7 +2,7 @@ import logging
 from pathlib import Path
 from typing import Mapping, Optional
 
-from gi.repository import GdkPixbuf, GLib, Gtk
+from gi.repository import Gdk, GdkPixbuf, GLib, Gtk
 from gi.repository.GdkPixbuf import Pixbuf
 
 from .message import MessageType
@@ -23,6 +23,7 @@ ALBUM_ICON_SIZE = 100
 class ArgosWindow(Gtk.ApplicationWindow):
     __gtype_name__ = "ArgosWindow"
 
+    central_view = Gtk.Template.Child()
     albums_view = Gtk.Template.Child()
 
     playing_track_image = Gtk.Template.Child()
@@ -242,3 +243,18 @@ class ArgosWindow(Gtk.ApplicationWindow):
         store_iter = store.get_iter(path)
         uri = store.get_value(store_iter, ALBUM_STORE_URI_COLUMN)
         self._app.send_message(MessageType.PLAY_ALBUM, {"uri": uri})
+
+    @Gtk.Template.Callback()
+    def key_press_event_cb(self, widget: Gtk.Widget, event: Gdk.EventKey) -> bool:
+        mod1_mask = Gdk.ModifierType.MOD1_MASK
+        modifiers = event.state & Gtk.accelerator_get_default_mod_mask()
+        keyval = event.keyval
+        LOGGER.debug(f"Received {event} with modifiers {modifiers} and keyval {keyval}")
+        if modifiers == mod1_mask:
+            if keyval in [Gdk.KEY_1, Gdk.KEY_KP_1]:
+                self.central_view.set_visible_child_name("playing_page")
+                return True
+            elif keyval in [Gdk.KEY_2, Gdk.KEY_KP_2]:
+                self.central_view.set_visible_child_name("albums_page")
+                return True
+        return False

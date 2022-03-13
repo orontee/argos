@@ -50,12 +50,14 @@
     <property name="width-request">780</property>
     <property name="height-request">460</property>
     <property name="can-focus">False</property>
+    <property name="events">GDK_KEY_PRESS_MASK | GDK_STRUCTURE_MASK</property>
     <property name="hexpand">True</property>
     <property name="vexpand">True</property>
     <property name="title" translatable="yes">Argos</property>
     <property name="default-width">600</property>
     <property name="default-height">300</property>
     <property name="hide-titlebar-when-maximized">True</property>
+    <signal name="key-press-event" handler="key_press_event_cb" swapped="no"/>
     <child>
       <object class="GtkBox" id="vertical_box">
         <property name="visible">True</property>
@@ -71,13 +73,14 @@
             <property name="can-focus">False</property>
             <property name="margin-bottom">5</property>
             <child>
-              <object class="GtkStackSwitcher" id="left_stack_switcher">
+              <object class="GtkStackSwitcher" id="central_view_switcher">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
                 <property name="hexpand">True</property>
-                <property name="stack">central_stack</property>
+                <property name="homogeneous">True</property>
+                <property name="stack">central_view</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -214,7 +217,7 @@ audio-volume-medium-symbolic</property>
           </packing>
         </child>
         <child>
-          <object class="GtkStack" id="central_stack">
+          <object class="GtkStack" id="central_view">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="transition-type">crossfade</property>
