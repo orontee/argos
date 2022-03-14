@@ -51,9 +51,11 @@ class Application(Gtk.Application, WithModelAccessor):
             message_queue=self._message_queue, settings=self.settings
         )
         self._http = MopidyHTTPClient(self._ws, settings=self.settings)
-        self._download = ImageDownloader(settings=self.settings)
+        self._download = ImageDownloader(
+            message_queue=self._message_queue, settings=self.settings
+        )
         self._time_position_tracker = TimePositionTracker(
-            self._model, message_queue=self._message_queue, http=self._http
+            model=self._model, message_queue=self._message_queue, http=self._http
         )
 
         self._nm.connect("network-changed", self.on_network_changed)
@@ -293,6 +295,10 @@ class Application(Gtk.Application, WithModelAccessor):
                 async with self.model_accessor as model:
                     model.update_from(network_available=network_available)
 
+            elif type == MessageType.ALBUM_IMAGES_UPDATED:
+                if self.window:
+                    GLib.idle_add(self.window.update_album_icons)
+
             else:
                 LOGGER.warning(
                     f"Unhandled message type {type!r} " f"with data {message.data!r}"
@@ -303,7 +309,8 @@ class Application(Gtk.Application, WithModelAccessor):
         if "network_available" in changed or "connected" in changed:
             if self._model.network_available and self._model.connected:
                 LOGGER.debug("Network available and connected")
-                await self._reset_model()
+                await self._identify_playing_state()
+                await self._browse_albums()
             else:
                 LOGGER.debug("Network not available")
                 async with self.model_accessor as model:
@@ -337,7 +344,8 @@ class Application(Gtk.Application, WithModelAccessor):
             images = await self._http.get_images([track_uri])
             track_images = images.get(track_uri)
             if track_images and len(track_images) > 0:
-                filepath = await self._download.fetch_image(track_images[0])
+                image_uri = track_images[0]["uri"]
+                filepath = await self._download.fetch_image(image_uri)
                 if filepath is not None:
                     await self._message_queue.put(
                         Message(
@@ -376,27 +384,16 @@ class Application(Gtk.Application, WithModelAccessor):
                 GLib.idle_add(
                     partial(self.window.update_albums_list, albums=self._model.albums)
                 )
+                await self._fetch_album_images()
 
-    async def _reset_model(self) -> None:
+    async def _identify_playing_state(self) -> None:
+        LOGGER.debug("Identifying playing state...")
         raw_state = await self._http.get_state()
         mute = await self._http.get_mute()
         volume = await self._http.get_volume()
         tl_track = await self._http.get_current_tl_track()
         time_position = await self._http.get_time_position()
         self._time_position_tracker.time_position_synced()
-        albums = await self._http.browse_albums()
-        album_uris = [a["uri"] for a in albums]
-        images = await self._http.get_images(album_uris)
-        for a in albums:
-            album_uri = a.get("uri")
-            if album_uri is None:
-                continue
-
-            album_images = images[album_uri]
-            if len(album_images) > 0:
-                filepath = await self._download.fetch_image(album_images[0])
-                if filepath is not None:
-                    a["image_path"] = filepath
 
         async with self.model_accessor as model:
             model.update_from(
@@ -405,8 +402,31 @@ class Application(Gtk.Application, WithModelAccessor):
                 volume=volume,
                 time_position=time_position,
                 tl_track=tl_track,
-                albums=albums,
             )
+
+    async def _browse_albums(self) -> None:
+        LOGGER.debug("Starting to  browse albums...")
+        albums = await self._http.browse_albums()
+        album_uris = [a["uri"] for a in albums]
+        images = await self._http.get_images(album_uris)
+        for a in albums:
+            album_uri = a["uri"]
+            if album_uri not in images or len(images[album_uri]) == 0:
+                continue
+
+            image_uri = images[album_uri][0]["uri"]
+            a["image_uri"] = image_uri
+            filepath = self._download.get_image_filepath(image_uri)
+            a["image_path"] = filepath
+
+        async with self.model_accessor as model:
+            model.update_from(albums=albums)
+
+    async def _fetch_album_images(self) -> None:
+        LOGGER.debug("Starting album image download...")
+        albums = self._model.albums
+        image_uris = [a.image_uri for a in albums.values() if a.image_uri]
+        await self._download.fetch_images(image_uris)
 
     def send_message(
         self, message_type: MessageType, data: Dict[str, Any] = None

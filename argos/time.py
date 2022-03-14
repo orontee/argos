@@ -24,12 +24,14 @@ class TimePositionTracker(WithModelAccessor):
 
     def __init__(
         self,
+        *,
         model: Model,
         message_queue: asyncio.Queue,
         http: MopidyHTTPClient,
     ):
         self._model = model
         self._message_queue = message_queue
+        # message queue used by WithModelAccessor mixin!
         self._http = http
 
     def time_position_synced(self) -> None:

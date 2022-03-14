@@ -15,6 +15,7 @@ class Album:
     name: str
     uri: str
     image_path: Optional[Path]
+    image_uri: Optional[str]
 
 
 @dataclass

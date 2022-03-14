@@ -122,6 +122,8 @@ class ArgosWindow(Gtk.ApplicationWindow):
         self._default_album_icon = _default_album_icon_pixbuf()
 
     def update_albums_list(self, albums: Mapping[str, Album]) -> None:
+        LOGGER.debug("Updating album list...")
+
         store = self.albums_view.get_model()
         store.clear()
         for uri, album in albums.items():
@@ -135,11 +137,14 @@ class ArgosWindow(Gtk.ApplicationWindow):
                 ]
             )
 
+    def update_album_icons(self) -> None:
         thread = threading.Thread(target=self._update_album_icons)
         thread.daemon = True
         thread.start()
 
     def _update_album_icons(self) -> None:
+        LOGGER.debug("Updating album icons...")
+
         store = self.albums_view.get_model()
 
         def update_album_icon(path: Gtk.TreePath, pixbuf: Pixbuf) -> None:
@@ -153,6 +158,8 @@ class ArgosWindow(Gtk.ApplicationWindow):
                 scaled_pixbuf = _scale_album_icon(image_path)
                 path = store.get_path(store_iter)
                 GLib.idle_add(update_album_icon, path, scaled_pixbuf)
+            else:
+                LOGGER.debug("No image path")
             store_iter = store.iter_next(store_iter)
 
     def update_playing_track_image(self, image_path: Optional[Path]) -> None:

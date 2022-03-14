@@ -10,12 +10,12 @@ from gi.repository import Gio
 
 import xdg.BaseDirectory  # type: ignore
 
+from .message import Message, MessageType
 from .session import get_session
 
 LOGGER = logging.getLogger(__name__)
 
 MAX_DOWNLOAD_TASKS = 1024
-MAX_DOWNLOAD_TASKS = 10
 
 
 class ImageDownloader:
@@ -28,8 +28,10 @@ class ImageDownloader:
     def __init__(
         self,
         *,
+        message_queue: asyncio.Queue,
         settings: Gio.Settings,
     ):
+        self._message_queue = message_queue
         self.settings = settings
         self._image_dir = Path(xdg.BaseDirectory.save_cache_path("argos/images"))
         self._base_url = self.settings.get_string("mopidy-base-url")
@@ -38,41 +40,26 @@ class ImageDownloader:
             "changed::mopidy-base-url", self.on_mopidy_base_url_changed
         )
 
+        self._ongoing_task: Optional[asyncio.Task[None]] = None
+
     def on_mopidy_base_url_changed(self, settings, _):
         self._base_url = settings.get_string("mopidy-base-url")
 
-    async def fetch_images(self, images: List[Dict[str, Any]]) -> Dict[str, Path]:
-        """Fetch the image files."""
-        if len(images) == 0:
-            return {}
-
-        paths: Dict[str, Path] = {}
-        task_count = (len(images) // MAX_DOWNLOAD_TASKS) + 1
-        for task_nb in range(task_count):
-            start = task_nb * MAX_DOWNLOAD_TASKS
-            some_images = images[start : start + MAX_DOWNLOAD_TASKS]
-            tasks = [self.fetch_image(image) for image in some_images]
-            filepaths = await asyncio.gather(*tasks)
-
-            for image, filepath in zip(some_images, filepaths):
-                uri = image.get("uri")
-                if uri is not None and filepath is not None:
-                    paths[uri] = filepath
-
-        return paths
-
-    async def fetch_image(self, image: Dict[str, Any]) -> Optional[Path]:
-        """Fetch the image file."""
-        image_uri = image.get("uri")
-        if not image_uri:
-            return None
-
+    def get_image_filepath(self, image_uri: str) -> Optional[Path]:
         if not image_uri.startswith("/local/"):
             LOGGER.warning(f"Unsupported URI scheme for images {image_uri!r}")
             return None
 
         filename = Path(image_uri).parts[-1]
         filepath = self._image_dir / filename
+        return filepath
+
+    async def fetch_image(self, image_uri: str) -> Optional[Path]:
+        """Fetch the image file."""
+        filepath = self.get_image_filepath(image_uri)
+        if not filepath:
+            return None
+
         if not filepath.exists():
             url = urljoin(self._base_url, image_uri)
             async with get_session() as session:
@@ -86,5 +73,38 @@ class ImageDownloader:
                             ):
                                 fd.write(chunk)
                 except aiohttp.ClientError as err:
-                    LOGGER.error(f"Failed to request local image, {err}")
+                    LOGGER.error(f"Failed to request image {image_uri}, {err}")
         return filepath
+
+    async def fetch_images(self, image_uris: List[str]) -> None:
+        """Fetch the image files."""
+        if len(image_uris) == 0:
+            return None
+
+        paths: Dict[str, Path] = {}
+        max_downloads = 10
+        download_count = (len(image_uris) // max_downloads) + 1
+        message_queue = self._message_queue
+
+        async def download() -> None:
+            LOGGER.debug(f"Starting {download_count} batch of downloads")
+            for task_nb in range(download_count):
+                start = task_nb * max_downloads
+                some_image_uris = image_uris[start : start + max_downloads]
+                tasks = [self.fetch_image(image_uri) for image_uri in some_image_uris]
+                filepaths = await asyncio.gather(*tasks)
+
+                for image_uri, filepath in zip(some_image_uris, filepaths):
+                    if image_uri is not None and filepath is not None:
+                        paths[image_uri] = filepath
+
+            message = Message(MessageType.ALBUM_IMAGES_UPDATED)
+            await message_queue.put(message)
+
+        if self._ongoing_task:
+            if not self._ongoing_task.done() and not self._ongoing_task.cancelled():
+                LOGGER.debug("Cancelling undone download task")
+                self._ongoing_task.cancel()
+
+        self._ongoing_task = asyncio.create_task(download())
+        LOGGER.debug("Download task created")
