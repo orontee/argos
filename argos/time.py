@@ -48,13 +48,26 @@ class TimePositionTracker(WithModelAccessor):
             ):
                 time_position = None
                 if self._model.time_position is not None and self.last_sync:
+                    time_position = self._model.time_position + 1000
                     delta = (datetime.now() - self.last_sync).total_seconds()
-                    if delta < DELAY:
-                        time_position = self._model.time_position + 1000
+                    needs_sync = delta >= DELAY
+                else:
+                    needs_sync = True
 
-                if not time_position:
-                    time_position = await self._http.get_time_position()
-                    self.time_position_synced()
+                if needs_sync:
+                    LOGGER.debug("Trying to synchronize time position")
+                    try:
+                        time_position = await asyncio.wait_for(
+                            self._http.get_time_position(),
+                            1,
+                        )
+                    except asyncio.exceptions.TimeoutError:
+                        if time_position:
+                            time_position += 1000
+                    else:
+                        self.time_position_synced()
+                else:
+                    LOGGER.debug("No need to synchronize time position")
 
                 async with self.model_accessor as model:
                     model.update_from(time_position=time_position)
