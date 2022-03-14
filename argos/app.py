@@ -336,14 +336,15 @@ class Application(Gtk.Application, WithModelAccessor):
 
             images = await self._http.get_images([track_uri])
             track_images = images.get(track_uri)
-            filepath = await self._download.fetch_first_image(images=track_images)
-            if filepath is not None:
-                await self._message_queue.put(
-                    Message(
-                        MessageType.IMAGE_AVAILABLE,
-                        {"track_uri": track_uri, "image_path": filepath},
+            if track_images and len(track_images) > 0:
+                filepath = await self._download.fetch_image(track_images[0])
+                if filepath is not None:
+                    await self._message_queue.put(
+                        Message(
+                            MessageType.IMAGE_AVAILABLE,
+                            {"track_uri": track_uri, "image_path": filepath},
+                        )
                     )
-                )
 
         if "volume" in changed or "mute" in changed:
             if self.window:
@@ -392,8 +393,10 @@ class Application(Gtk.Application, WithModelAccessor):
                 continue
 
             album_images = images[album_uri]
-            filepath = await self._download.fetch_first_image(images=album_images)
-            a["image_path"] = filepath
+            if len(album_images) > 0:
+                filepath = await self._download.fetch_image(album_images[0])
+                if filepath is not None:
+                    a["image_path"] = filepath
 
         async with self.model_accessor as model:
             model.update_from(

@@ -154,7 +154,7 @@ class MopidyHTTPClient:
         track = await self._ws.send_command("core.playback.get_current_tl_track")
         return track
 
-    async def get_images(self, uris: List[str]) -> Dict[str, Any]:
+    async def get_images(self, uris: List[str]) -> Dict[str, List[Any]]:
         params = {"uris": uris}
         images = await self._ws.send_command("core.library.get_images", params=params)
         return images

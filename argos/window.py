@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+import threading
 from typing import Mapping, Optional
 
 from gi.repository import Gdk, GdkPixbuf, GLib, Gtk
@@ -14,9 +15,42 @@ LOGGER = logging.getLogger(__name__)
 ALBUM_STORE_TEXT_COLUMN = 0
 ALBUM_STORE_TOOLTIP_COLUMN = 1
 ALBUM_STORE_URI_COLUMN = 2
-ALBUM_STORE_PIXBUF_COLUMN = 3
+ALBUM_STORE_ICON_FILE_PATH = 3
+ALBUM_STORE_PIXBUF_COLUMN = 4
 
 ALBUM_ICON_SIZE = 100
+
+
+def _default_album_icon_pixbuf() -> Pixbuf:
+    pixbuf = Gtk.IconTheme.get_default().load_icon(
+        "media-optical-cd-audio-symbolic", ALBUM_ICON_SIZE, 0
+    )
+    width, height = compute_target_size(
+        pixbuf.get_width(),
+        pixbuf.get_height(),
+        target_width=ALBUM_ICON_SIZE,
+    )
+    scaled_pixbuf = pixbuf.scale_simple(width, height, GdkPixbuf.InterpType.BILINEAR)
+    return scaled_pixbuf
+
+
+def _scale_album_icon(image_path: Path) -> Optional[Pixbuf]:
+    pixbuf = None
+    try:
+        pixbuf = Pixbuf.new_from_file(str(image_path))
+    except GLib.Error as error:
+        LOGGER.warning(f"Failed to read image at {str(image_path)!r}: {error}")
+
+    if pixbuf is None:
+        return None
+
+    width, height = compute_target_size(
+        pixbuf.get_width(),
+        pixbuf.get_height(),
+        target_width=ALBUM_ICON_SIZE,
+    )
+    scaled_pixbuf = pixbuf.scale_simple(width, height, GdkPixbuf.InterpType.BILINEAR)
+    return scaled_pixbuf
 
 
 @Gtk.Template(resource_path="/app/argos/Argos/ui/window.ui")
@@ -66,7 +100,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
             "value_changed", self.volume_button_value_changed_cb
         )
 
-        albums_store = Gtk.ListStore(str, str, str, Pixbuf)
+        albums_store = Gtk.ListStore(str, str, str, str, Pixbuf)
         self.albums_view.set_model(albums_store)
         self.albums_view.set_text_column(ALBUM_STORE_TEXT_COLUMN)
         self.albums_view.set_tooltip_column(ALBUM_STORE_TOOLTIP_COLUMN)
@@ -85,40 +119,41 @@ class ArgosWindow(Gtk.ApplicationWindow):
             ):
                 widget.props.has_tooltip = False
 
+        self._default_album_icon = _default_album_icon_pixbuf()
+
     def update_albums_list(self, albums: Mapping[str, Album]) -> None:
         store = self.albums_view.get_model()
         store.clear()
         for uri, album in albums.items():
-            pixbuf = None
-            if album.image_path is not None:
-                try:
-                    pixbuf = Pixbuf.new_from_file(str(album.image_path))
-                except GLib.Error as error:
-                    LOGGER.warning(
-                        f"Failed to read image at {str(album.image_path)!r}: {error}"
-                    )
-
-            if pixbuf is None:
-                pixbuf = Gtk.IconTheme.get_default().load_icon(
-                    "media-optical-cd-audio-symbolic", ALBUM_ICON_SIZE, 0
-                )
-
-            width, height = compute_target_size(
-                pixbuf.get_width(),
-                pixbuf.get_height(),
-                target_width=ALBUM_ICON_SIZE,
-            )
-            scaled_pixbuf = pixbuf.scale_simple(
-                width, height, GdkPixbuf.InterpType.BILINEAR
-            )
             store.append(
                 [
                     elide_maybe(album.name),
                     GLib.markup_escape_text(album.name),
                     album.uri,
-                    scaled_pixbuf,
+                    str(album.image_path) if album.image_path else None,
+                    self._default_album_icon,
                 ]
             )
+
+        thread = threading.Thread(target=self._update_album_icons)
+        thread.daemon = True
+        thread.start()
+
+    def _update_album_icons(self) -> None:
+        store = self.albums_view.get_model()
+
+        def update_album_icon(path: Gtk.TreePath, pixbuf: Pixbuf) -> None:
+            store_iter = store.get_iter(path)
+            store.set_value(store_iter, ALBUM_STORE_PIXBUF_COLUMN, pixbuf)
+
+        store_iter = store.get_iter_first()
+        while store_iter is not None:
+            image_path = store.get_value(store_iter, ALBUM_STORE_ICON_FILE_PATH)
+            if image_path:
+                scaled_pixbuf = _scale_album_icon(image_path)
+                path = store.get_path(store_iter)
+                GLib.idle_add(update_album_icon, path, scaled_pixbuf)
+            store_iter = store.iter_next(store_iter)
 
     def update_playing_track_image(self, image_path: Optional[Path]) -> None:
         if not image_path:

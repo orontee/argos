@@ -10,14 +10,12 @@ from gi.repository import Gio
 
 import xdg.BaseDirectory  # type: ignore
 
-from .message import Message, MessageType
 from .session import get_session
 
 LOGGER = logging.getLogger(__name__)
 
-CHUNK_SIZE = 1024
-
-# TODO Keep files for a limited time
+MAX_DOWNLOAD_TASKS = 1024
+MAX_DOWNLOAD_TASKS = 10
 
 
 class ImageDownloader:
@@ -43,14 +41,29 @@ class ImageDownloader:
     def on_mopidy_base_url_changed(self, settings, _):
         self._base_url = settings.get_string("mopidy-base-url")
 
-    async def fetch_first_image(
-        self, *, images: Optional[List[Dict[str, Any]]] = None
-    ) -> Optional[Path]:
-        """Fetch the first image."""
-        if not images or len(images) == 0:
-            return None
+    async def fetch_images(self, images: List[Dict[str, Any]]) -> Dict[str, Path]:
+        """Fetch the image files."""
+        if len(images) == 0:
+            return {}
 
-        image_uri = images[0].get("uri")
+        paths: Dict[str, Path] = {}
+        task_count = (len(images) // MAX_DOWNLOAD_TASKS) + 1
+        for task_nb in range(task_count):
+            start = task_nb * MAX_DOWNLOAD_TASKS
+            some_images = images[start : start + MAX_DOWNLOAD_TASKS]
+            tasks = [self.fetch_image(image) for image in some_images]
+            filepaths = await asyncio.gather(*tasks)
+
+            for image, filepath in zip(some_images, filepaths):
+                uri = image.get("uri")
+                if uri is not None and filepath is not None:
+                    paths[uri] = filepath
+
+        return paths
+
+    async def fetch_image(self, image: Dict[str, Any]) -> Optional[Path]:
+        """Fetch the image file."""
+        image_uri = image.get("uri")
         if not image_uri:
             return None
 
@@ -68,7 +81,9 @@ class ImageDownloader:
                     async with session.get(url) as resp:
                         LOGGER.debug(f"Writing image to {str(filepath)!r}")
                         with filepath.open("wb") as fd:
-                            async for chunk in resp.content.iter_chunked(CHUNK_SIZE):
+                            async for chunk in resp.content.iter_chunked(
+                                MAX_DOWNLOAD_TASKS
+                            ):
                                 fd.write(chunk)
                 except aiohttp.ClientError as err:
                     LOGGER.error(f"Failed to request local image, {err}")

@@ -117,10 +117,7 @@ class ModelAccessor:
                     indexed_albums[uri] = Album(
                         album["name"],
                         album["uri"],
-                        None,
                         album.get("image_path"),
-                        None,
-                        None,
                     )
             self._set_model_attr("albums", indexed_albums)
 
