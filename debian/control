@@ -3,10 +3,25 @@ Maintainer: Matthias Meulien <orontee@gmail.com>
 Section: misc
 Priority: optional
 Standards-Version: 3.9.2
-Build-Depends: debhelper (>= 9)
+Vcs-Browser: https://github.com/orontee/argos
+Vcs-Git: https://github.com/orontee/argos.git
+Homepage: https://github.com/orontee/argos
+Build-Depends: debhelper (>= 9),
+               meson (>= 0.46.0),
+               python3
 
 Package: argos
 Architecture: all
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: gettext,
+         gir1.2-glib-2.0 (>= 1.35.9),
+         gir1.2-gtk-3.0 (>= 3.24.7),
+         python3,
+         python3-aiohttp,
+         python3-gi,
+         python3-gi-cairo,
+         python3-xdg,
+         ${misc:Depends},
+         ${python3:Depends},
+         ${shlibs:Depends}
 Description: Front-end to Mopidy for small devices
  Gtk front-end to control a Mopidy server through a small touch screen.
