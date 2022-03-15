@@ -1,7 +1,7 @@
 import asyncio
 import logging
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional
 from urllib.parse import urljoin
 
 import aiohttp
@@ -80,6 +80,8 @@ class ImageDownloader:
         """Fetch the image files."""
         if len(image_uris) == 0:
             return None
+
+        # TODO use a pool, https://www.integralist.co.uk/posts/python-asyncio/#pools
 
         paths: Dict[str, Path] = {}
         max_downloads = 10

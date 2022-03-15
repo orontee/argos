@@ -11,7 +11,7 @@
     <property name="website">https://github.com/orontee/argos</property>
     <property name="website-label" translatable="yes">Web Site</property>
     <property name="authors">Matthias Meulien</property>
-    <property name="logo-icon-name">image-missing</property>
+    <property name="logo-icon-name">media-optical</property>
     <property name="license-type">gpl-3-0</property>
     <child internal-child="vbox">
       <object class="GtkBox">

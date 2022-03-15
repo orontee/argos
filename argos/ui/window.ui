@@ -57,6 +57,7 @@
     <property name="default-width">600</property>
     <property name="default-height">300</property>
     <property name="hide-titlebar-when-maximized">True</property>
+    <property name="icon-name">media-optical</property>
     <signal name="key-press-event" handler="key_press_event_cb" swapped="no"/>
     <child>
       <object class="GtkBox" id="vertical_box">

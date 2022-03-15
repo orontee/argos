@@ -120,6 +120,7 @@ class Application(Gtk.Application, WithModelAccessor):
                 application=self,
                 disable_tooltips=self._disable_tooltips,
             )
+            self.window.set_default_icon_name("media-optical")
             # Run an event loop in a dedicated thread and reserve main
             # thread to Gtk processing loop
             t = Thread(target=self._start_event_loop, daemon=True)
