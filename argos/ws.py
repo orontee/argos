@@ -6,8 +6,6 @@ from urllib.parse import urljoin
 
 import aiohttp
 
-from gi.repository import Gio
-
 from .message import Message, MessageType
 from .session import get_session
 
@@ -38,7 +36,11 @@ def parse_msg(msg: aiohttp.WSMessage) -> Dict[str, Any]:
         return {}
 
 
-class _BaseURLChanged(Exception):
+class _URLChanged(Exception):
+    pass
+
+
+class _URLUndefined(Exception):
     pass
 
 
@@ -47,23 +49,18 @@ class MopidyWSConnection:
         self,
         *,
         message_queue: asyncio.Queue,
-        settings: Gio.Settings,
+        mopidy_base_url: Optional[str],
+        connection_retry_delay: int,
     ):
-        self.settings = settings
-        base_url = self.settings.get_string("mopidy-base-url")
-        self._url = urljoin(base_url, "/mopidy/ws")
         self._message_queue = message_queue
-        self._ws: Optional[aiohttp.ClientWebSocketResponse] = None
+        self._url = urljoin(mopidy_base_url, "/mopidy/ws") if mopidy_base_url else None
+        self._connection_retry_delay = connection_retry_delay
 
+        self._ws: Optional[aiohttp.ClientWebSocketResponse] = None
         self._commands: Dict[int, asyncio.Future] = {}
 
-        self.settings.connect(
-            "changed::mopidy-base-url", self.on_mopidy_base_url_changed
-        )
-
-    def on_mopidy_base_url_changed(self, settings, _):
-        base_url = settings.get_string("mopidy-base-url")
-        self._url = urljoin(base_url, "/mopidy/ws")
+    def set_mopidy_base_url(self, mopidy_base_url: Optional[str]) -> None:
+        self._url = urljoin(mopidy_base_url, "/mopidy/ws") if mopidy_base_url else None
 
     async def send_command(self, method: str, *, params: dict = None) -> Any:
         """Invoke a JSON-RPC command.
@@ -140,6 +137,9 @@ class MopidyWSConnection:
         async with get_session() as session:
             while True:
                 try:
+                    if not self._url:
+                        raise _URLUndefined()
+
                     url = self._url
                     self._ws = await session.ws_connect(url, ssl=False, timeout=None)
                     assert self._ws
@@ -161,10 +161,11 @@ class MopidyWSConnection:
                             LOGGER.debug(
                                 "New websocket connection required due to URL change"
                             )
-                            raise _BaseURLChanged()
+                            raise _URLChanged()
 
                 except (
-                    _BaseURLChanged,
+                    _URLChanged,
+                    _URLUndefined,
                     ConnectionError,
                     aiohttp.ClientResponseError,
                     aiohttp.client_exceptions.ClientConnectorError,
@@ -178,19 +179,20 @@ class MopidyWSConnection:
 
                     self.cancel_commands()
 
-                    connection_retry_delay = self.settings.get_int(
-                        "connection-retry-delay"
-                    )
-                    if isinstance(error, _BaseURLChanged):
+                    if isinstance(error, _URLChanged):
                         LOGGER.warning(
-                            "New connection to be established after base URL change"
+                            "New connection to be established after URL change"
+                        )
+                    elif isinstance(error, _URLUndefined):
+                        LOGGER.warning(
+                            "Connection to be established later since URL not set"
                         )
                     else:
                         LOGGER.error(
-                            f"Connection error (retry in {connection_retry_delay}): {error}"
+                            f"Connection error (retry in {self._connection_retry_delay}): {error}"
                         )
 
-                    await asyncio.sleep(connection_retry_delay)
+                    await asyncio.sleep(self._connection_retry_delay)
 
     def _handle(self, msg: aiohttp.WSMessage) -> Optional[Union[Message, bool]]:
         """Handle websocket message.

@@ -44,15 +44,25 @@ class Application(Gtk.Application, WithModelAccessor):
         self._model = Model(network_available=self._nm.get_network_available())
 
         self.settings = Gio.Settings(application_id)
+        mopidy_base_url = self.settings.get_string("mopidy-base-url")
+        connection_retry_delair = self.settings.get_int("connection-retry-delay")
+        favorite_playlist_uri = self.settings.get_string("favorite-playlist-uri")
+
         self.window = None
         self.prefs_window = None
 
         self._ws = MopidyWSConnection(
-            message_queue=self._message_queue, settings=self.settings
+            message_queue=self._message_queue,
+            mopidy_base_url=mopidy_base_url,
+            connection_retry_delay=connection_retry_delair,
         )
-        self._http = MopidyHTTPClient(self._ws, settings=self.settings)
+        self._http = MopidyHTTPClient(
+            ws=self._ws,
+            favorite_playlist_uri=favorite_playlist_uri,
+        )
         self._download = ImageDownloader(
-            message_queue=self._message_queue, settings=self.settings
+            message_queue=self._message_queue,
+            mopidy_base_url=mopidy_base_url,
         )
         self._time_position_tracker = TimePositionTracker(
             model=self._model, message_queue=self._message_queue, http=self._http
@@ -66,6 +76,9 @@ class Application(Gtk.Application, WithModelAccessor):
 
         self.settings.connect(
             "changed::mopidy-base-url", self.on_mopidy_base_url_changed
+        )
+        self.settings.connect(
+            "changed::favorite-playlist-uri", self.on_favorite_playlist_uri_changed
         )
 
         self.add_main_option(
@@ -443,8 +456,22 @@ class Application(Gtk.Application, WithModelAccessor):
             {"network_available": network_available},
         )
 
-    def on_mopidy_base_url_changed(self, _1, _2) -> None:
-        self.send_message(MessageType.MOPIDY_BASE_URL_CHANGED)
+    def on_mopidy_base_url_changed(
+        self,
+        settings: Gio.Settings,
+        key: str,
+    ) -> None:
+        mopidy_base_url = self.settings.get_string(key)
+        self._ws.set_mopidy_base_url(mopidy_base_url)
+        self._download.set_mopidy_base_url(mopidy_base_url)
+
+    def on_favorite_playlist_uri_changed(
+        self,
+        settings: Gio.Settings,
+        key: str,
+    ) -> None:
+        favorite_playlist_uri = settings.get_string(key)
+        self._http.set_favorite_playlist_uri(favorite_playlist_uri)
 
     def show_about_dialog_cb(self, action: Gio.SimpleAction, parameter: None) -> None:
         if self.window is None:

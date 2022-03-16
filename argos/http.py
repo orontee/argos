@@ -6,9 +6,7 @@ Fully implemented using Mopidy websocket.
 
 import logging
 import random
-from typing import Any, cast, Dict, List
-
-from gi.repository import Gio
+from typing import Any, cast, Dict, List, Optional
 
 from .ws import MopidyWSConnection
 
@@ -18,11 +16,15 @@ LOGGER = logging.getLogger(__name__)
 class MopidyHTTPClient:
     def __init__(
         self,
+        *,
         ws: MopidyWSConnection,
-        settings: Gio.Settings,
+        favorite_playlist_uri: Optional[str],
     ):
         self._ws = ws
-        self.settings = settings
+        self._favorite_playlist_uri = favorite_playlist_uri
+
+    def set_favorite_playlist_uri(self, favorite_playlist_uri: Optional[str]) -> None:
+        self._favorite_playlist_uri = favorite_playlist_uri
 
     async def get_state(self) -> Any:
         state = await self._ws.send_command("core.playback.get_state")
@@ -109,13 +111,12 @@ class MopidyHTTPClient:
         await self._ws.send_command("core.playback.play")
 
     async def play_favorite_playlist(self) -> None:
-        favorite_playlist_uri = self.settings.get_string("favorite-playlist-uri")
-        if not favorite_playlist_uri:
+        if not self._favorite_playlist_uri:
             LOGGER.debug("Favorite playlist URI not set")
             return
 
         refs = await self._ws.send_command(
-            "core.playlists.get_items", params={"uri": favorite_playlist_uri}
+            "core.playlists.get_items", params={"uri": self._favorite_playlist_uri}
         )
         if not refs:
             return

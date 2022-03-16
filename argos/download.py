@@ -6,8 +6,6 @@ from urllib.parse import urljoin
 
 import aiohttp
 
-from gi.repository import Gio
-
 import xdg.BaseDirectory  # type: ignore
 
 from .message import Message, MessageType
@@ -29,21 +27,16 @@ class ImageDownloader:
         self,
         *,
         message_queue: asyncio.Queue,
-        settings: Gio.Settings,
+        mopidy_base_url: Optional[str],
     ):
         self._message_queue = message_queue
-        self.settings = settings
+        self._mopidy_base_url = mopidy_base_url
+
         self._image_dir = Path(xdg.BaseDirectory.save_cache_path("argos/images"))
-        self._base_url = self.settings.get_string("mopidy-base-url")
-
-        self.settings.connect(
-            "changed::mopidy-base-url", self.on_mopidy_base_url_changed
-        )
-
         self._ongoing_task: Optional[asyncio.Task[None]] = None
 
-    def on_mopidy_base_url_changed(self, settings, _):
-        self._base_url = settings.get_string("mopidy-base-url")
+    def set_mopidy_base_url(self, mopidy_base_url: Optional[str]) -> None:
+        self._mopidy_base_url = mopidy_base_url
 
     def get_image_filepath(self, image_uri: str) -> Optional[Path]:
         if not image_uri.startswith("/local/"):
@@ -56,12 +49,16 @@ class ImageDownloader:
 
     async def fetch_image(self, image_uri: str) -> Optional[Path]:
         """Fetch the image file."""
+        if not self._mopidy_base_url:
+            LOGGER.debug("Skipping image download since Mopidy base URL not set")
+            return None
+
         filepath = self.get_image_filepath(image_uri)
         if not filepath:
             return None
 
         if not filepath.exists():
-            url = urljoin(self._base_url, image_uri)
+            url = urljoin(self._mopidy_base_url, image_uri)
             async with get_session() as session:
                 try:
                     LOGGER.debug(f"Sending GET {url}")
@@ -80,8 +77,6 @@ class ImageDownloader:
         """Fetch the image files."""
         if len(image_uris) == 0:
             return None
-
-        # TODO use a pool, https://www.integralist.co.uk/posts/python-asyncio/#pools
 
         paths: Dict[str, Path] = {}
         max_downloads = 10
