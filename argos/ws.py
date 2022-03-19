@@ -62,7 +62,7 @@ class MopidyWSConnection:
     def set_mopidy_base_url(self, mopidy_base_url: Optional[str]) -> None:
         self._url = urljoin(mopidy_base_url, "/mopidy/ws") if mopidy_base_url else None
 
-    async def send_command(self, method: str, *, params: dict = None) -> Any:
+    async def send_command(self, method: str, *, params: dict = None) -> Optional[Any]:
         """Invoke a JSON-RPC command.
 
         Args:

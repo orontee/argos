@@ -356,6 +356,9 @@ class Application(Gtk.Application, WithModelAccessor):
                 return
 
             images = await self._http.get_images([track_uri])
+            if not images:
+                return
+
             track_images = images.get(track_uri)
             if track_images and len(track_images) > 0:
                 image_uri = track_images[0]["uri"]
@@ -421,8 +424,14 @@ class Application(Gtk.Application, WithModelAccessor):
     async def _browse_albums(self) -> None:
         LOGGER.debug("Starting to  browse albums...")
         albums = await self._http.browse_albums()
+        if not albums:
+            return
+
         album_uris = [a["uri"] for a in albums]
         images = await self._http.get_images(album_uris)
+        if not images:
+            return
+
         for a in albums:
             album_uri = a["uri"]
             if album_uri not in images or len(images[album_uri]) == 0:
