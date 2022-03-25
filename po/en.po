@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: argos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-13 17:23+0100\n"
+"POT-Creation-Date: 2022-03-25 22:41+0100\n"
 "PO-Revision-Date: 2022-02-20 20:54+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,23 +17,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: argos/app.py:74
+#: argos/app.py:89
 msgid "Enable debug logs"
 msgstr "Enable debug logs"
 
-#: argos/app.py:82
+#: argos/app.py:97
 msgid "Start with fullscreen window"
 msgstr "Start with fullscreen window"
 
-#: argos/app.py:90
+#: argos/app.py:105
 msgid "Start with maximized window"
 msgstr "Start with maximized window"
 
-#: argos/app.py:98
+#: argos/app.py:113
 msgid "Disable tooltips"
 msgstr "Disable tooltips"
 
-#: data/app.argos.Argos.desktop.in:3 argos/ui/window.ui:55
+#: data/app.argos.Argos.desktop.in:3 argos/ui/window.ui:56
 msgid "Argos"
 msgstr "Argos"
 
@@ -77,21 +77,25 @@ msgstr ""
 "Whether to automatically populate the tracklist with a random choosen album "
 "when its last track playback ended."
 
-#: argos/ui/app_menu.ui:6 argos/ui/window.ui:168
-msgid "Play favorite playlist"
-msgstr "Play favorite playlist"
+#: argos/ui/app_menu.ui:6
+msgid "Play _favorite playlist"
+msgstr "Play _favorite playlist"
 
-#: argos/ui/app_menu.ui:10 argos/ui/window.ui:188
-msgid "Play random album"
-msgstr "Play random album"
+#: argos/ui/app_menu.ui:10
+msgid "Play _random album"
+msgstr "Play _random album"
 
-#: argos/ui/app_menu.ui:16 argos/ui/preferences.ui:7
-msgid "Preferences"
-msgstr "Preferences"
+#: argos/ui/app_menu.ui:16
+msgid "_Preferences"
+msgstr "_Preferences"
 
 #: argos/ui/app_menu.ui:22
-msgid "About"
-msgstr "About"
+msgid "_About"
+msgstr "_About"
+
+#: argos/ui/preferences.ui:7
+msgid "Preferences"
+msgstr "Preferences"
 
 #: argos/ui/preferences.ui:34
 msgid "Base URL"
@@ -114,21 +118,29 @@ msgid "Automatically populate track list"
 msgstr "Automatically populate track list"
 
 #: argos/ui/window.ui:106
-msgid "Playing"
-msgstr "Playing"
+msgid "Play favorite playlist"
+msgstr "Play favorite playlist"
 
-#: argos/ui/window.ui:125
-msgid "Albums"
-msgstr "Albums"
+#: argos/ui/window.ui:126
+msgid "Play random album"
+msgstr "Play random album"
 
-#: argos/ui/window.ui:416
+#: argos/ui/window.ui:396
 msgid "Previous"
 msgstr "Previous"
 
-#: argos/ui/window.ui:437
+#: argos/ui/window.ui:417
 msgid "Play"
 msgstr "Play"
 
-#: argos/ui/window.ui:458
+#: argos/ui/window.ui:438
 msgid "Next"
 msgstr "Next"
+
+#: argos/ui/window.ui:473
+msgid "Playing"
+msgstr "Playing"
+
+#: argos/ui/window.ui:492
+msgid "Albums"
+msgstr "Albums"

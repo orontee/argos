@@ -3,23 +3,23 @@
   <menu id="app-menu">
     <section>
       <item>
-        <attribute name="label" translatable="yes">Play favorite playlist</attribute>
+        <attribute name="label" translatable="yes">Play _favorite playlist</attribute>
         <attribute name="action">app.play_favorite_playlist</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">Play random album</attribute>
+        <attribute name="label" translatable="yes">Play _random album</attribute>
         <attribute name="action">app.play_random_album</attribute>
       </item>
     </section>
     <section>
       <item>
-	<attribute name="label" translatable="yes">Preferences</attribute>
+	<attribute name="label" translatable="yes">_Preferences</attribute>
 	<attribute name="action">app.show_preferences</attribute>
       </item>
     </section>
     <section>
       <item>
-	<attribute name="label" translatable="yes">About</attribute>
+	<attribute name="label" translatable="yes">_About</attribute>
 	<attribute name="action">app.show_about_dialog</attribute>
       </item>
     </section>
