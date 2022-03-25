@@ -150,25 +150,19 @@ class Application(Gtk.Application, WithModelAccessor):
     def do_startup(self):
         Gtk.Application.do_startup(self)
 
-        show_about_dialog_action = Gio.SimpleAction.new("show_about_dialog", None)
-        show_about_dialog_action.connect("activate", self.show_about_dialog_cb)
-        self.add_action(show_about_dialog_action)
-
-        show_prefs_action = Gio.SimpleAction.new("show_preferences", None)
-        show_prefs_action.connect("activate", self.show_prefs_activate_cb)
-        self.add_action(show_prefs_action)
-
-        play_random_album_action = Gio.SimpleAction.new("play_random_album", None)
-        play_random_album_action.connect("activate", self.play_random_album_activate_cb)
-        self.add_action(play_random_album_action)
-
-        play_favorite_playlist_action = Gio.SimpleAction.new(
-            "play_favorite_playlist", None
-        )
-        play_favorite_playlist_action.connect(
-            "activate", self.play_favorite_playlist_activate_cb
-        )
-        self.add_action(play_favorite_playlist_action)
+        action_descriptions = [
+            ("show_about_dialog", self.show_about_dialog_cb, None),
+            ("show_preferences", self.show_prefs_activate_cb, None),
+            ("play_random_album", self.play_random_album_activate_cb, None),
+            ("play_favorite_playlist", self.play_favorite_playlist_activate_cb, None),
+            ("quit", self.quit_activate_cb, ("app.quit", ["<Ctrl>Q"])),
+        ]
+        for action_name, callback, accel in action_descriptions:
+            action = Gio.SimpleAction.new(action_name, None)
+            action.connect("activate", callback)
+            self.add_action(action)
+            if accel is not None:
+                self.set_accels_for_action(*accel)
 
     def _start_event_loop(self):
         LOGGER.debug("Attaching event loop to calling thread")
@@ -503,6 +497,10 @@ class Application(Gtk.Application, WithModelAccessor):
 
     def prefs_window_destroy_cb(self, window: Gtk.Window) -> None:
         self.prefs_window = None
+
+    def quit_activate_cb(self, action: Gio.SimpleAction, parameter: None) -> None:
+        if self.window is not None:
+            self.window.destroy()
 
     def play_random_album_activate_cb(
         self, action: Gio.SimpleAction, parameter: None

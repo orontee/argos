@@ -294,7 +294,9 @@ class ArgosWindow(Gtk.ApplicationWindow):
 
     @Gtk.Template.Callback()
     def key_press_event_cb(self, widget: Gtk.Widget, event: Gdk.EventKey) -> bool:
+        # See /usr/include/gtk-3.0/gdk/gdkkeysyms.h for key definitions
         mod1_mask = Gdk.ModifierType.MOD1_MASK
+        control_mask = Gdk.ModifierType.CONTROL_MASK
         modifiers = event.state & Gtk.accelerator_get_default_mod_mask()
         keyval = event.keyval
         LOGGER.debug(f"Received {event} with modifiers {modifiers} and keyval {keyval}")
@@ -305,4 +307,11 @@ class ArgosWindow(Gtk.ApplicationWindow):
             elif keyval in [Gdk.KEY_2, Gdk.KEY_KP_2]:
                 self.central_view.set_visible_child_name("albums_page")
                 return True
+        elif modifiers == control_mask:
+            if keyval in [Gdk.KEY_space, Gdk.KEY_KP_Space]:
+                self._app.send_message(MessageType.TOGGLE_PLAYBACK_STATE)
+            elif keyval == Gdk.KEY_n:
+                self._app.send_message(MessageType.PLAY_NEXT_TRACK)
+            elif keyval == Gdk.KEY_p:
+                self._app.send_message(MessageType.PLAY_PREV_TRACK)
         return False
