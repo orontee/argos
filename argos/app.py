@@ -323,6 +323,21 @@ class Application(Gtk.Application, WithModelAccessor):
                 async with self.model_accessor as model:
                     model.clear_tl()
 
+            for action_name in ["play_random_album", "play_favorite_playlist"]:
+                action = self.lookup_action(action_name)
+                action.set_enabled(
+                    self._model.network_available and self._model.connected
+                )
+
+            if self.window:
+                GLib.idle_add(
+                    partial(
+                        self.window.handle_connection_changed,
+                        network_available=self._model.network_available,
+                        connected=self._model.connected,
+                    )
+                )
+
         if "image_path" in changed:
             if self.window:
                 GLib.idle_add(

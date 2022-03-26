@@ -262,6 +262,22 @@ class ArgosWindow(Gtk.ApplicationWindow):
         elif state == PlaybackState.PLAYING:
             self.play_button.set_image(self.pause_image)
 
+    def handle_connection_changed(
+        self,
+        *,
+        network_available: bool,
+        connected: bool,
+    ) -> None:
+        sensitive = network_available and connected
+        buttons = [
+            self.prev_button,
+            self.play_button,
+            self.next_button,
+            self.volume_button,
+        ]
+        for button in buttons:
+            button.set_sensitive(sensitive)
+
     def volume_button_value_changed_cb(self, *args) -> None:
         volume = self.volume_button.get_value() * 100
         self._app.send_message(MessageType.SET_VOLUME, {"volume": volume})
