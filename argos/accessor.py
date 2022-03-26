@@ -29,6 +29,7 @@ class ModelAccessor:
     async def __aexit__(self, *args) -> bool:
         if len(self._changed):
             LOGGER.debug(f"Model changed properties: {self._changed}")
+            LOGGER.debug(f"Current model state: {self._model}")
             await self._message_queue.put(
                 Message(MessageType.MODEL_CHANGED, {"changed": self._changed})
             )
@@ -94,8 +95,15 @@ class ModelAccessor:
             self._set_model_attr("track_uri", track_uri)
             self._set_model_attr("track_name", track_name)
             self._set_model_attr("track_length", track_length)
-            self._set_model_attr("time_position", None)
-            self._set_model_attr("image_path", None)
+
+            # initialize some track dependent properties when not
+            # specified
+
+            if time_position is None:
+                self._set_model_attr("time_position", None)
+
+            if image_path is None:
+                self._set_model_attr("image_path", None)
 
             artists = track.get("artists", [{}])
             artist = artists[0]

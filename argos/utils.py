@@ -50,7 +50,7 @@ def elide_maybe(text: str) -> str:
 
 def ms_to_text(value: Optional[int] = None) -> str:
     "Convert a number of milliseconds to string."
-    if not value:
+    if value is None:
         text = "--:--"
     else:
         second_count = round(value / 1000)

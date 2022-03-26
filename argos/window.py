@@ -223,23 +223,25 @@ class ArgosWindow(Gtk.ApplicationWindow):
         self.track_length_label.set_text(pretty_length)
 
         if track_length:
+            self.update_time_position_scale_and_label(time_position=None)
             self.time_position_adjustement.set_upper(track_length)
             self.time_position_scale.set_sensitive(True)
         else:
             self.time_position_adjustement.set_upper(0)
             self.time_position_scale.set_sensitive(False)
 
-        self.update_time_position_scale(time_position=None)
         self.track_name_label.show_now()
         self.artist_name_label.show_now()
         self.track_length_label.show_now()
 
-    def update_time_position_scale(self, *, time_position: Optional[int]) -> None:
+    def update_time_position_scale_and_label(
+        self,
+        *,
+        time_position: Optional[int],
+    ) -> None:
         pretty_time_position = ms_to_text(time_position)
         self.time_position_label.set_text(pretty_time_position)
-
-        if time_position is not None:
-            self.time_position_adjustement.set_value(time_position)
+        self.time_position_adjustement.set_value(time_position or 0)
 
         self.time_position_label.show_now()
         self.time_position_scale.show_now()

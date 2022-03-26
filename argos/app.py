@@ -272,7 +272,6 @@ class Application(Gtk.Application, WithModelAccessor):
             elif type == MessageType.TRACKLIST_CHANGED:
                 async with self.model_accessor as model:
                     model.clear_tl()
-                self._time_position_tracker.time_position_synced()
 
             elif type == MessageType.SEEKED:
                 time_position = message.data.get("time_position")
@@ -385,7 +384,7 @@ class Application(Gtk.Application, WithModelAccessor):
             if self.window:
                 GLib.idle_add(
                     partial(
-                        self.window.update_time_position_scale,
+                        self.window.update_time_position_scale_and_label,
                         time_position=self._model.time_position,
                     )
                 )
@@ -404,7 +403,6 @@ class Application(Gtk.Application, WithModelAccessor):
         volume = await self._http.get_volume()
         tl_track = await self._http.get_current_tl_track()
         time_position = await self._http.get_time_position()
-        self._time_position_tracker.time_position_synced()
 
         async with self.model_accessor as model:
             model.update_from(
@@ -414,6 +412,7 @@ class Application(Gtk.Application, WithModelAccessor):
                 time_position=time_position,
                 tl_track=tl_track,
             )
+        self._time_position_tracker.time_position_synced()
 
     async def _browse_albums(self) -> None:
         LOGGER.debug("Starting to  browse albums...")
