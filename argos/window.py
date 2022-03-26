@@ -299,7 +299,6 @@ class ArgosWindow(Gtk.ApplicationWindow):
         control_mask = Gdk.ModifierType.CONTROL_MASK
         modifiers = event.state & Gtk.accelerator_get_default_mod_mask()
         keyval = event.keyval
-        LOGGER.debug(f"Received {event} with modifiers {modifiers} and keyval {keyval}")
         if modifiers == mod1_mask:
             if keyval in [Gdk.KEY_1, Gdk.KEY_KP_1]:
                 self.central_view.set_visible_child_name("playing_page")
