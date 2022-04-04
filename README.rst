@@ -8,6 +8,9 @@ Argos
 .. image:: http://www.mypy-lang.org/static/mypy_badge.svg
    :target: http://mypy-lang.org/
 
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+   :target: https://github.com/psf/black
+
 Mopidy front-end for small devices.
 
 .. figure:: screenshot.png

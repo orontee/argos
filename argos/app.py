@@ -10,9 +10,6 @@ import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gio, GLib, Gtk
 
-from .widgets.about import AboutDialog
-from .widgets.preferences import PreferencesWindow
-
 from .accessor import WithModelAccessor
 from .download import ImageDownloader
 from .http import MopidyHTTPClient
@@ -20,6 +17,8 @@ from .message import Message, MessageType
 from .model import Model, PlaybackState
 from .time import TimePositionTracker
 from .utils import configure_logger
+from .widgets.about import AboutDialog
+from .widgets.preferences import PreferencesWindow
 from .window import ArgosWindow
 from .ws import MopidyWSConnection
 

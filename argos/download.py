@@ -5,7 +5,6 @@ from typing import Dict, List, Optional
 from urllib.parse import urljoin
 
 import aiohttp
-
 import xdg.BaseDirectory  # type: ignore
 
 from .message import Message, MessageType
