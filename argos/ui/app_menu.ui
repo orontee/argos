@@ -16,8 +16,10 @@
 	<attribute name="label" translatable="yes">_Preferences</attribute>
 	<attribute name="action">app.show_preferences</attribute>
       </item>
-    </section>
-    <section>
+      <item>
+	<attribute name="label" translatable="yes">_Shortcuts</attribute>
+	<attribute name="action">win.show-help-overlay</attribute>
+      </item>
       <item>
 	<attribute name="label" translatable="yes">_About</attribute>
 	<attribute name="action">app.show_about_dialog</attribute>

@@ -1,6 +1,7 @@
 argos/app.py
-data/app.argos.Argos.desktop.in
-data/app.argos.Argos.gschema.xml
 argos/ui/app_menu.ui
+argos/ui/help_overlay.ui
 argos/ui/preferences.ui
 argos/ui/window.ui
+data/app.argos.Argos.desktop.in
+data/app.argos.Argos.gschema.xml
