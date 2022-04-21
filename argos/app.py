@@ -7,8 +7,9 @@ from typing import Any, Dict, Optional, Set
 
 import gi
 
-gi.require_version("Gtk", "3.0")
-from gi.repository import Gio, GLib, Gtk
+gi.require_version("Gtk", "3.0")  # noqa
+
+from gi.repository import Gio, GLib, Gtk, GObject
 
 from .accessor import WithModelAccessor
 from .download import ImageDownloader
@@ -42,43 +43,21 @@ class Application(Gtk.Application, WithModelAccessor):
 
         self._model = Model(network_available=self._nm.get_network_available())
 
-        self.settings = Gio.Settings(application_id)
-        mopidy_base_url = self.settings.get_string("mopidy-base-url")
-        connection_retry_delair = self.settings.get_int("connection-retry-delay")
-        favorite_playlist_uri = self.settings.get_string("favorite-playlist-uri")
+        self._settings = Gio.Settings(application_id)
 
         self.window = None
         self.prefs_window = None
 
-        self._ws = MopidyWSConnection(
-            message_queue=self._message_queue,
-            mopidy_base_url=mopidy_base_url,
-            connection_retry_delay=connection_retry_delair,
-        )
-        self._http = MopidyHTTPClient(
-            ws=self._ws,
-            favorite_playlist_uri=favorite_playlist_uri,
-        )
-        self._download = ImageDownloader(
-            message_queue=self._message_queue,
-            mopidy_base_url=mopidy_base_url,
-        )
-        self._time_position_tracker = TimePositionTracker(
-            model=self._model, message_queue=self._message_queue, http=self._http
-        )
+        self._ws = MopidyWSConnection(self)
+        self._http = MopidyHTTPClient(self)
+        self._download = ImageDownloader(self)
+        self._time_position_tracker = TimePositionTracker(self)
 
         self._nm.connect("network-changed", self.on_network_changed)
 
         self._start_fullscreen: Optional[bool] = None
         self._start_maximized: Optional[bool] = None
         self._disable_tooltips: Optional[bool] = None
-
-        self.settings.connect(
-            "changed::mopidy-base-url", self.on_mopidy_base_url_changed
-        )
-        self.settings.connect(
-            "changed::favorite-playlist-uri", self.on_favorite_playlist_uri_changed
-        )
 
         self.add_main_option(
             "debug",
@@ -112,6 +91,26 @@ class Application(Gtk.Application, WithModelAccessor):
             _("Disable tooltips"),
             None,
         )
+
+    @GObject.Property(type=Gio.Settings, flags=GObject.ParamFlags.READABLE)
+    def settings(self):
+        return self._settings
+
+    @GObject.Property(type=MopidyWSConnection, flags=GObject.ParamFlags.READABLE)
+    def ws(self):
+        return self._ws
+
+    @GObject.Property(type=MopidyHTTPClient, flags=GObject.ParamFlags.READABLE)
+    def http(self):
+        return self._http
+
+    @property
+    def model(self):
+        return self._model
+
+    @property
+    def message_queue(self):
+        return self._message_queue
 
     def do_command_line(self, command_line: Gio.ApplicationCommandLine):
         options = command_line.get_options_dict()
@@ -472,23 +471,6 @@ class Application(Gtk.Application, WithModelAccessor):
             {"network_available": network_available},
         )
 
-    def on_mopidy_base_url_changed(
-        self,
-        settings: Gio.Settings,
-        key: str,
-    ) -> None:
-        mopidy_base_url = self.settings.get_string(key)
-        self._ws.set_mopidy_base_url(mopidy_base_url)
-        self._download.set_mopidy_base_url(mopidy_base_url)
-
-    def on_favorite_playlist_uri_changed(
-        self,
-        settings: Gio.Settings,
-        key: str,
-    ) -> None:
-        favorite_playlist_uri = settings.get_string(key)
-        self._http.set_favorite_playlist_uri(favorite_playlist_uri)
-
     def show_about_dialog_cb(self, action: Gio.SimpleAction, parameter: None) -> None:
         if self.window is None:
             return
@@ -502,7 +484,7 @@ class Application(Gtk.Application, WithModelAccessor):
         if self.window is None:
             return
 
-        self.prefs_window = PreferencesWindow(application=self, settings=self.settings)
+        self.prefs_window = PreferencesWindow(self)
         self.prefs_window.set_transient_for(self.window)
         self.prefs_window.connect("destroy", self.prefs_window_destroy_cb)
 

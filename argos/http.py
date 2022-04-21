@@ -6,26 +6,34 @@ Fully implemented using Mopidy websocket.
 
 import logging
 import random
-from typing import Any, cast, Dict, List, Optional
+from typing import Any, cast, Dict, List, Optional, TYPE_CHECKING
 
+from gi.repository import Gio, GObject
+
+if TYPE_CHECKING:
+    from .app import Application
 from .model import PlaybackState
 from .ws import MopidyWSConnection
 
 LOGGER = logging.getLogger(__name__)
 
 
-class MopidyHTTPClient:
+class MopidyHTTPClient(GObject.GObject):
     def __init__(
         self,
-        *,
-        ws: MopidyWSConnection,
-        favorite_playlist_uri: Optional[str],
+        application: Application,
     ):
-        self._ws = ws
-        self._favorite_playlist_uri = favorite_playlist_uri
+        super().__init__()
 
-    def set_favorite_playlist_uri(self, favorite_playlist_uri: Optional[str]) -> None:
+        self._ws: MopidyWSConnection = application.props.ws
+
+        settings: Gio.Settings = application.props.settings
+
+        favorite_playlist_uri = settings.get_string("favorite-playlist-uri")
         self._favorite_playlist_uri = favorite_playlist_uri
+        settings.connect(
+            "changed::favorite-playlist-uri", self._on_favorite_playlist_uri_changed
+        )
 
     async def get_state(self) -> Optional[PlaybackState]:
         state = await self._ws.send_command("core.playback.get_state")
@@ -170,3 +178,11 @@ class MopidyHTTPClient:
         params = {"uris": uris}
         images = await self._ws.send_command("core.library.get_images", params=params)
         return images
+
+    def _on_favorite_playlist_uri_changed(
+        self,
+        settings: Gio.Settings,
+        key: str,
+    ) -> None:
+        favorite_playlist_uri = settings.get_string(key)
+        self._favorite_playlist_uri = favorite_playlist_uri

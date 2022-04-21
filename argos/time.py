@@ -1,9 +1,14 @@
 import asyncio
 from datetime import datetime
 import logging
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
+
+from gi.repository import GObject
 
 from .accessor import WithModelAccessor
+
+if TYPE_CHECKING:
+    from .app import Application
 from .http import MopidyHTTPClient
 from .model import Model, PlaybackState
 
@@ -12,7 +17,7 @@ LOGGER = logging.getLogger(__name__)
 DELAY = 10  # s
 
 
-class TimePositionTracker(WithModelAccessor):
+class TimePositionTracker(GObject.GObject, WithModelAccessor):
     """Track time position.
 
     Periodic synchronization with Mopidy server happens every
@@ -24,15 +29,14 @@ class TimePositionTracker(WithModelAccessor):
 
     def __init__(
         self,
-        *,
-        model: Model,
-        message_queue: asyncio.Queue,
-        http: MopidyHTTPClient,
+        application: Application,
     ):
-        self._model = model
-        self._message_queue = message_queue
+        super().__init__()
+
+        self._model: Model = application.model
+        self._message_queue: asyncio.Queue = application.message_queue
         # message queue used by WithModelAccessor mixin!
-        self._http = http
+        self._http: MopidyHTTPClient = application.props.http
 
     def time_position_synced(self) -> None:
         LOGGER.debug("Storing timestamp of last time position synchronization")

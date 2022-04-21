@@ -1,8 +1,10 @@
 import logging
-from typing import Any, Dict, List
+from typing import Any, Dict, List, TYPE_CHECKING
 
 from gi.repository import Gio, Gtk
 
+if TYPE_CHECKING:
+    from ..app import Application
 from ..message import MessageType
 
 LOGGER = logging.getLogger(__name__)
@@ -19,9 +21,7 @@ class PreferencesWindow(Gtk.Window):
 
     def __init__(
         self,
-        *,
-        application: Gtk.Application,
-        settings: Gio.Settings,
+        application: Application,
     ):
         Gtk.Window.__init__(self)
         self.set_wmclass("Argos", "Argos")
@@ -38,8 +38,8 @@ class PreferencesWindow(Gtk.Window):
             "changed", self.mopidy_base_url_entry_changed_cb
         )
 
-        self.settings = settings
-        base_url = self.settings.get_string("mopidy-base-url")
+        self._settings: Gio.Settings = application.props.settings
+        base_url = self._settings.get_string("mopidy-base-url")
         if base_url:
             with self.mopidy_base_url_entry.handler_block(
                 mopidy_base_url_entry_changed_id
@@ -54,7 +54,7 @@ class PreferencesWindow(Gtk.Window):
             )
         )
 
-        auto_populate_tracklist = self.settings.get_boolean("auto-populate-tracklist")
+        auto_populate_tracklist = self._settings.get_boolean("auto-populate-tracklist")
         with self.auto_populate_tracklist_switch.handler_block(
             auto_populate_tracklist_switch_active_id
         ):
@@ -64,15 +64,15 @@ class PreferencesWindow(Gtk.Window):
 
     def mopidy_base_url_entry_changed_cb(self, entry: Gtk.Entry) -> None:
         base_url = entry.get_text()
-        self.settings.set_string("mopidy-base-url", base_url)
+        self._settings.set_string("mopidy-base-url", base_url)
         # TODO self.list_playlists() once connected
 
     def favorite_playlist_combo_changed_cb(self, combo: Gtk.ComboBox) -> None:
         favorite_playlist_uri = combo.get_active_id()
-        self.settings.set_string("favorite-playlist-uri", favorite_playlist_uri)
+        self._settings.set_string("favorite-playlist-uri", favorite_playlist_uri)
 
     def auto_populate_tracklist_switch_active_cb(self, *args) -> None:
-        self.settings.set_boolean(
+        self._settings.set_boolean(
             "auto-populate-tracklist", self.auto_populate_tracklist_switch.get_active()
         )
 
@@ -95,7 +95,7 @@ class PreferencesWindow(Gtk.Window):
                 if name and uri:
                     self._favorite_playlist_model.append([name, uri])
 
-            favorite_playlist_uri = self.settings.get_string("favorite-playlist-uri")
+            favorite_playlist_uri = self._settings.get_string("favorite-playlist-uri")
             self.favorite_playlist_combo.set_active_id(favorite_playlist_uri)
 
         self.favorite_playlist_spinner.stop()

@@ -1,11 +1,15 @@
 import asyncio
 import json
 import logging
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, Optional, Union, TYPE_CHECKING
 from urllib.parse import urljoin
 
 import aiohttp
 
+from gi.repository import Gio, GObject
+
+if TYPE_CHECKING:
+    from .app import Application
 from .message import Message, MessageType
 from .session import get_session
 
@@ -44,23 +48,26 @@ class _URLUndefined(Exception):
     pass
 
 
-class MopidyWSConnection:
+class MopidyWSConnection(GObject.GObject):
     def __init__(
         self,
-        *,
-        message_queue: asyncio.Queue,
-        mopidy_base_url: Optional[str],
-        connection_retry_delay: int,
+        application: Application,
     ):
-        self._message_queue = message_queue
+        super().__init__()
+
+        self._message_queue: asyncio.Queue = application.message_queue
+
+        settings: Gio.Settings = application.props.settings
+
+        mopidy_base_url = settings.get_string("mopidy-base-url")
         self._url = urljoin(mopidy_base_url, "/mopidy/ws") if mopidy_base_url else None
+        settings.connect("changed::mopidy-base-url", self._on_mopidy_base_url_changed)
+
+        connection_retry_delay = settings.get_int("connection-retry-delay")
         self._connection_retry_delay = connection_retry_delay
 
         self._ws: Optional[aiohttp.ClientWebSocketResponse] = None
         self._commands: Dict[int, asyncio.Future] = {}
-
-    def set_mopidy_base_url(self, mopidy_base_url: Optional[str]) -> None:
-        self._url = urljoin(mopidy_base_url, "/mopidy/ws") if mopidy_base_url else None
 
     async def send_command(self, method: str, *, params: dict = None) -> Optional[Any]:
         """Invoke a JSON-RPC command.
@@ -241,3 +248,11 @@ class MopidyWSConnection:
             LOGGER.info(f"Close received with code {msg.data!r}, " f"{msg.extra!r}")
 
         return None
+
+    def _on_mopidy_base_url_changed(
+        self,
+        settings: Gio.Settings,
+        key: str,
+    ) -> None:
+        mopidy_base_url = settings.get_string(key)
+        self._url = urljoin(mopidy_base_url, "/mopidy/ws") if mopidy_base_url else None

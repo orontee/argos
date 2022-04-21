@@ -1,12 +1,16 @@
 import asyncio
 import logging
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, TYPE_CHECKING
 from urllib.parse import urljoin
 
 import aiohttp
 import xdg.BaseDirectory  # type: ignore
 
+from gi.repository import Gio, GObject
+
+if TYPE_CHECKING:
+    from .app import Application
 from .message import Message, MessageType
 from .session import get_session
 
@@ -15,7 +19,7 @@ LOGGER = logging.getLogger(__name__)
 MAX_DOWNLOAD_TASKS = 1024
 
 
-class ImageDownloader:
+class ImageDownloader(GObject.GObject):
     """Download track images.
 
     Currently only support tracks handled by Mopidy-Local.
@@ -24,18 +28,20 @@ class ImageDownloader:
 
     def __init__(
         self,
-        *,
-        message_queue: asyncio.Queue,
-        mopidy_base_url: Optional[str],
+        application: Application,
     ):
-        self._message_queue = message_queue
+        super().__init__()
+
+        self._message_queue = application.message_queue
+
+        settings: Gio.Settings = application.props.settings
+
+        mopidy_base_url = settings.get_string("mopidy-base-url")
         self._mopidy_base_url = mopidy_base_url
+        settings.connect("changed::mopidy-base-url", self._on_mopidy_base_url_changed)
 
         self._image_dir = Path(xdg.BaseDirectory.save_cache_path("argos/images"))
         self._ongoing_task: Optional[asyncio.Task[None]] = None
-
-    def set_mopidy_base_url(self, mopidy_base_url: Optional[str]) -> None:
-        self._mopidy_base_url = mopidy_base_url
 
     def get_image_filepath(self, image_uri: str) -> Optional[Path]:
         if not image_uri.startswith("/local/"):
@@ -104,3 +110,11 @@ class ImageDownloader:
 
         self._ongoing_task = asyncio.create_task(download())
         LOGGER.debug("Download task created")
+
+    def _on_mopidy_base_url_changed(
+        self,
+        settings: Gio.Settings,
+        key: str,
+    ) -> None:
+        mopidy_base_url = settings.get_string(key)
+        self._mopidy_base_url = mopidy_base_url
