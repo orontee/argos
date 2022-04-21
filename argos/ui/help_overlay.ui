@@ -49,7 +49,7 @@
               <object class="GtkShortcutsShortcut">
                 <property name="visible">True</property>
                 <property name="title" translatable="yes" context="shortcut window">Previous track</property>
-                <property name="accelerator">&lt;Ctrl&gt;B</property>
+                <property name="accelerator">&lt;Ctrl&gt;P</property>
               </object>
             </child>
           </object>

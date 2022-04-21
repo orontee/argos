@@ -47,6 +47,8 @@ Features 🥳
 
 * Fullscreen mode
 
+* Keyboard shortcuts
+
 Install
 =======
 
