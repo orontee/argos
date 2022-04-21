@@ -10,7 +10,7 @@ LOGGER = logging.getLogger(__name__)
 
 @Gtk.Template(resource_path="/app/argos/Argos/ui/preferences.ui")
 class PreferencesWindow(Gtk.Window):
-    __gtype_name__ = "ArgosPreferences"
+    __gtype_name__ = "PreferencesWindow"
 
     mopidy_base_url_entry: Gtk.Entry = Gtk.Template.Child()
     favorite_playlist_combo: Gtk.ComboBoxText = Gtk.Template.Child()

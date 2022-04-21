@@ -7,7 +7,7 @@ LOGGER = logging.getLogger(__name__)
 
 @Gtk.Template(resource_path="/app/argos/Argos/ui/about.ui")
 class AboutDialog(Gtk.AboutDialog):
-    __gtype_name__ = "ArgosAbout"
+    __gtype_name__ = "AboutDialog"
 
     def __init__(self):
         Gtk.Window.__init__(self)
