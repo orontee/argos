@@ -4,7 +4,7 @@ import logging
 from pathlib import Path
 from typing import Optional
 
-from gi.repository import GLib, GObject, Gtk, Pango
+from gi.repository import GLib, GObject, Gtk
 
 from ..message import MessageType
 from ..model import PlaybackState

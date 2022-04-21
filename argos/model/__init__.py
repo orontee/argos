@@ -7,6 +7,7 @@ from gi.repository import Gio, GLib, GObject
 from .album import AlbumModel
 from .mixer import MixerModel
 from .playback import PlaybackModel
+from .playlist import PlaylistModel
 from .track import TrackModel
 from .tracklist import TracklistModel, TracklistTrackModel
 from .utils import PlaybackState, WithThreadSafePropertySetter
@@ -22,6 +23,7 @@ __all__ = (
     "Model",
     "PlaybackModel",
     "PlaybackState",
+    "PlaylistModel",
     "TracklistModel",
     "TracklistTrackModel",
     "TrackModel",
@@ -31,6 +33,7 @@ __all__ = (
 class Model(WithThreadSafePropertySetter, GObject.Object):
     __gsignals__: Dict[str, Tuple[int, Any, Tuple]] = {
         "album-completed": (GObject.SIGNAL_RUN_FIRST, None, (str,)),
+        "playlist-completed": (GObject.SIGNAL_RUN_FIRST, None, (str,)),
     }
 
     network_available = GObject.Property(type=bool, default=False)
@@ -38,19 +41,22 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
 
     albums_loaded = GObject.Property(type=bool, default=False)
     tracklist_loaded = GObject.Property(type=bool, default=False)
+    playlists_loaded = GObject.Property(type=bool, default=False)
 
     playback: PlaybackModel
     mixer: MixerModel
-    tracklist: TracklistModel
     albums: Gio.ListStore
+    playlists: Gio.ListStore
+    tracklist: TracklistModel
 
     def __init__(self, application: "Application", *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.playback = PlaybackModel()
         self.mixer = MixerModel()
-        self.tracklist = TracklistModel()
         self.albums = Gio.ListStore.new(AlbumModel)
+        self.playlists = Gio.ListStore.new(PlaylistModel)
+        self.tracklist = TracklistModel()
 
         application._nm.connect("network-changed", self._on_nm_network_changed)
 
@@ -124,10 +130,10 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
     ) -> None:
         found = [album for album in self.albums if album.uri == album_uri]
         if len(found) == 0:
-            LOGGER.warning(f"No album found with URI {album_uri}")
+            LOGGER.warning(f"No album found with URI {album_uri!r}")
             return
 
-        LOGGER.debug(f"Updating description of album with URI {album_uri}")
+        LOGGER.debug(f"Updating description of album with URI {album_uri!r}")
         album = found[0]
 
         album.artist_name = artist_name
@@ -192,3 +198,66 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
             )
 
         self.props.tracklist_loaded = True
+
+    def update_playlists(self, value: Any) -> None:
+        GLib.idle_add(
+            partial(
+                self._update_playlists,
+                value,
+            )
+        )
+
+    def _update_playlists(self, value: Any) -> None:
+        if self.props.playlists_loaded:
+            self.props.playlists_loaded = False
+            self.playlists.remove_all()
+
+        for v in value:
+            name = v.get("name")
+            uri = v.get("uri")
+            if not name or not uri:
+                continue
+
+            playlist = PlaylistModel(uri=uri, name=name)
+            self.playlists.append(playlist)
+
+        self.props.playlists_loaded = True
+
+    def complete_playlist_description(
+        self,
+        playlist_uri: str,
+        *,
+        tracks: List[TrackModel],
+    ) -> None:
+        found = [
+            playlist for playlist in self.playlists if playlist.uri == playlist_uri
+        ]
+        if len(found) == 0:
+            LOGGER.warning(f"No playlist found with URI {playlist_uri!r}")
+            return
+
+        LOGGER.debug(f"Updating description of playlist with URI {playlist_uri!r}")
+        playlist = found[0]
+
+        playlist.tracks.remove_all()
+
+        for track in tracks:
+            playlist.tracks.append(track)
+
+        GLib.idle_add(
+            partial(
+                self.emit,
+                "playlist-completed",
+                playlist_uri,
+            )
+        )
+
+    def get_playlist(self, uri: str) -> Optional[PlaylistModel]:
+        found_playlist = [p for p in self.playlists if p.uri == uri]
+        if len(found_playlist) == 0:
+            LOGGER.warning(f"Playlist URI not found, {uri!r}")
+            return None
+        elif len(found_playlist) > 1:
+            LOGGER.warning(f"Ambiguous playlist URI {uri!r}")
+
+        return found_playlist[0]

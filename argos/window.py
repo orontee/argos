@@ -4,7 +4,7 @@ import logging
 from gi.repository import Gdk, GObject, Gtk
 
 from .message import MessageType
-from .widgets import AlbumBox, AlbumsWindow, PlayingBox, TitleBar
+from .widgets import AlbumBox, AlbumsWindow, PlayingBox, PlaylistsBox, TitleBar
 
 _ = gettext.gettext
 
@@ -19,6 +19,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
     central_view: Gtk.Stack = Gtk.Template.Child()
 
     albums_window = GObject.Property(type=AlbumsWindow)
+    playlists_box = GObject.Property(type=PlaylistsBox)
     titlebar = GObject.Property(type=TitleBar)
 
     def __init__(self, application: Gtk.Application):
@@ -46,12 +47,18 @@ class ArgosWindow(Gtk.ApplicationWindow):
         self.central_view.add_titled(
             self.props.albums_window, "albums_page", _("Albums")
         )
+        self.props.playlists_box = PlaylistsBox(application)
+        self.central_view.add_titled(
+            self.props.playlists_box, "playlists_page", _("Playlists")
+        )
+
         self.central_view.connect(
             "notify::visible-child-name", self.on_central_view_changed
         )
 
         self._album_box = AlbumBox(application)
         self.main_stack.add_named(self._album_box, "album_page")
+
         self.main_stack.connect(
             "notify::visible-child-name", self.on_main_stack_page_changed
         )
@@ -137,6 +144,11 @@ class ArgosWindow(Gtk.ApplicationWindow):
                 return True
             elif keyval in [Gdk.KEY_2, Gdk.KEY_KP_2]:
                 self.central_view.set_visible_child_name("albums_page")
+                if self.main_stack.get_visible_child_name() != "main_page":
+                    self.main_stack.set_visible_child_name("main_page")
+                return True
+            elif keyval in [Gdk.KEY_3, Gdk.KEY_KP_3]:
+                self.central_view.set_visible_child_name("playlists_page")
                 if self.main_stack.get_visible_child_name() != "main_page":
                     self.main_stack.set_visible_child_name("main_page")
                 return True

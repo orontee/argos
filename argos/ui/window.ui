@@ -47,7 +47,6 @@
           </object>
           <packing>
             <property name="name">main_page</property>
-            <property name="title" translatable="yes">page0</property>
           </packing>
         </child>
       </object>

@@ -7,10 +7,13 @@
     <file preprocess="xml-stripblanks">ui/albums_window.ui</file>
     <file preprocess="xml-stripblanks">ui/app_menu.ui</file>
     <file preprocess="xml-stripblanks">ui/playing_box.ui</file>
+    <file preprocess="xml-stripblanks">ui/playlist_tracks_box.ui</file>
+    <file preprocess="xml-stripblanks">ui/playlists_box.ui</file>
     <file preprocess="xml-stripblanks">ui/preferences.ui</file>
     <file preprocess="xml-stripblanks">ui/title_bar.ui</file>
     <file preprocess="xml-stripblanks">ui/tracklist_box.ui</file>
     <file preprocess="xml-stripblanks">ui/tracklist_track_box.ui</file>
+    <file preprocess="xml-stripblanks">ui/track_box.ui</file>
     <file preprocess="xml-stripblanks">ui/window.ui</file>
   </gresource>
 </gresources>

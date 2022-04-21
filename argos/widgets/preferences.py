@@ -15,8 +15,6 @@ class PreferencesWindow(Gtk.Window):
     __gtype_name__ = "PreferencesWindow"
 
     mopidy_base_url_entry: Gtk.Entry = Gtk.Template.Child()
-    favorite_playlist_combo: Gtk.ComboBoxText = Gtk.Template.Child()
-    favorite_playlist_spinner: Gtk.Spinner = Gtk.Template.Child()
 
     def __init__(
         self,
@@ -25,13 +23,6 @@ class PreferencesWindow(Gtk.Window):
         Gtk.Window.__init__(self)
         self.set_wmclass("Argos", "Argos")
         self._app = application
-        self._favorite_playlist_model = Gtk.ListStore(str, str)
-
-        self.favorite_playlist_combo.set_id_column(1)
-        self.favorite_playlist_combo.set_model(self._favorite_playlist_model)
-        self._favorite_playlist_combo_changed_id = self.favorite_playlist_combo.connect(
-            "changed", self.favorite_playlist_combo_changed_cb
-        )
 
         mopidy_base_url_entry_changed_id = self.mopidy_base_url_entry.connect(
             "changed", self.mopidy_base_url_entry_changed_cb
@@ -45,40 +36,8 @@ class PreferencesWindow(Gtk.Window):
             ):
                 self.mopidy_base_url_entry.set_text(base_url)
 
-        self.list_playlists()
-
         # TODO listen to settings changes
 
     def mopidy_base_url_entry_changed_cb(self, entry: Gtk.Entry) -> None:
         base_url = entry.get_text()
         self._settings.set_string("mopidy-base-url", base_url)
-        # TODO self.list_playlists() once connected
-
-    def favorite_playlist_combo_changed_cb(self, combo: Gtk.ComboBox) -> None:
-        favorite_playlist_uri = combo.get_active_id()
-        self._settings.set_string("favorite-playlist-uri", favorite_playlist_uri)
-
-    def list_playlists(self) -> None:
-        self.favorite_playlist_combo.set_sensitive(False)
-        self.favorite_playlist_spinner.start()
-        self._app.send_message(MessageType.LIST_PLAYLISTS)
-
-    def update_favorite_playlist_completion(
-        self, playlists: List[Dict[str, Any]]
-    ) -> None:
-        with self.favorite_playlist_combo.handler_block(
-            self._favorite_playlist_combo_changed_id
-        ):
-            self._favorite_playlist_model.clear()
-
-            for playlist in playlists:
-                name = playlist.get("name")
-                uri = playlist.get("uri")
-                if name and uri:
-                    self._favorite_playlist_model.append([name, uri])
-
-            favorite_playlist_uri = self._settings.get_string("favorite-playlist-uri")
-            self.favorite_playlist_combo.set_active_id(favorite_playlist_uri)
-
-        self.favorite_playlist_spinner.stop()
-        self.favorite_playlist_combo.set_sensitive(True)

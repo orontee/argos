@@ -4,7 +4,6 @@ from gi.repository import GObject, Gtk
 
 from ..message import MessageType
 from ..model import TracklistTrackModel
-from ..utils import ms_to_text
 from .tltrackbox import TracklistTrackBox
 
 LOGGER = logging.getLogger(__name__)
@@ -35,15 +34,7 @@ class TracklistBox(Gtk.ListBox):
         self,
         tl_track: TracklistTrackModel,
     ) -> Gtk.Widget:
-        track = tl_track.track
-        widget = TracklistTrackBox(
-            self._app,
-            tlid=tl_track.tlid,
-            track_name=track.name,
-            artist_name=tl_track.artist_name,
-            album_name=tl_track.album_name,
-            track_length=ms_to_text(track.length) if track.length else "",
-        )
+        widget = TracklistTrackBox(self._app, tl_track=tl_track)
         return widget
 
     def _set_header_func(

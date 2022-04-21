@@ -242,6 +242,13 @@ class MopidyHTTPClient(GObject.GObject):
         list = await self._ws.send_command("core.playlists.as_list")
         return list
 
+    async def lookup_playlist(self, uri: str) -> Optional[Dict[str, Any]]:
+        playlist = cast(
+            Optional[Dict[str, Any]],
+            await self._ws.send_command("core.playlists.lookup", params={"uri": uri}),
+        )
+        return playlist
+
     async def get_current_tl_track(self) -> Optional[Dict[str, Any]]:
         track = await self._ws.send_command("core.playback.get_current_tl_track")
         return track

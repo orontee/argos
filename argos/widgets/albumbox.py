@@ -5,7 +5,7 @@ from pathlib import Path
 import re
 from typing import Optional, List
 
-from gi.repository import GLib, Gtk, GObject, Pango
+from gi.repository import GLib, GObject, Gtk, Pango
 
 from ..message import MessageType
 from ..model import Model, TrackModel

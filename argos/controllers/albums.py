@@ -65,7 +65,7 @@ class AlbumsController(ControllerBase):
         await self._download.fetch_images(image_uris)
 
     async def _describe_album(self, uri: str) -> None:
-        LOGGER.debug(f"Completing description of album with uri {uri}")
+        LOGGER.debug(f"Completing description of album with uri {uri!r}")
 
         tracks = await self._http.lookup_library([uri])
         album_tracks = tracks.get(uri) if tracks else None

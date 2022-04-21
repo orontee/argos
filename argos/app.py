@@ -14,6 +14,7 @@ from .controllers import (
     AlbumsController,
     ControllerBase,
     PlaybackController,
+    PlaylistsController,
     TracklistController,
     MixerController,
 )
@@ -64,6 +65,7 @@ class Application(Gtk.Application):
                 TracklistController(self),
                 AlbumsController(self),
                 MixerController(self),
+                PlaylistsController(self),
             ),
         )
         self._model.props.network_available = self._nm.get_network_available()

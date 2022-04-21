@@ -154,6 +154,7 @@ class PlaybackController(ControllerBase):
             LOGGER.debug("Will identify playing state since connected to Mopidy server")
             self.send_message(MessageType.IDENTIFY_PLAYING_STATE)
             self.send_message(MessageType.GET_TRACKLIST)
+            self.send_message(MessageType.LIST_PLAYLISTS)
         else:
             LOGGER.debug("Clearing track playback state since not connected")
             self._model.playback.set_current_tl_track_tlid()
