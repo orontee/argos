@@ -2,16 +2,16 @@ import asyncio
 import gettext
 import logging
 from functools import partial
+from pathlib import Path
 from threading import Thread
-from typing import Any, Dict, Optional, Set
+from typing import Any, Dict, List, Optional, Set
 
 import gi
 
 gi.require_version("Gtk", "3.0")  # noqa
 
-from gi.repository import Gio, GLib, Gtk, GObject
+from gi.repository import Gio, GLib, GObject, Gtk
 
-from .accessor import WithModelAccessor
 from .download import ImageDownloader
 from .http import MopidyHTTPClient
 from .message import Message, MessageType
@@ -28,7 +28,7 @@ LOGGER = logging.getLogger(__name__)
 _ = gettext.gettext
 
 
-class Application(Gtk.Application, WithModelAccessor):
+class Application(Gtk.Application):
     def __init__(self, application_id: str, *args, **kwargs):
         Gtk.Application.__init__(
             self,
@@ -41,19 +41,24 @@ class Application(Gtk.Application, WithModelAccessor):
         self._message_queue: asyncio.Queue = asyncio.Queue()
         self._nm = Gio.NetworkMonitor.get_default()
 
-        self._model = Model(network_available=self._nm.get_network_available())
-
         self._settings = Gio.Settings(application_id)
 
         self.window = None
         self.prefs_window = None
 
+        self._model = Model(self)
         self._ws = MopidyWSConnection(self)
         self._http = MopidyHTTPClient(self)
         self._download = ImageDownloader(self)
         self._time_position_tracker = TimePositionTracker(self)
 
-        self._nm.connect("network-changed", self.on_network_changed)
+        for signal in (
+            "notify::network-available",
+            "notify::connected",
+            "notify::track-uri",
+            "notify::albums-loaded",
+        ):
+            self._model.connect(signal, self._on_model_changed)
 
         self._start_fullscreen: Optional[bool] = None
         self._start_maximized: Optional[bool] = None
@@ -104,7 +109,7 @@ class Application(Gtk.Application, WithModelAccessor):
     def http(self):
         return self._http
 
-    @property
+    @GObject.Property(type=Model, flags=GObject.ParamFlags.READABLE)
     def model(self):
         return self._model
 
@@ -127,10 +132,7 @@ class Application(Gtk.Application, WithModelAccessor):
     def do_activate(self):
         if not self.window:
             LOGGER.debug("Instantiating application window")
-            self.window = ArgosWindow(
-                application=self,
-                disable_tooltips=self._disable_tooltips,
-            )
+            self.window = ArgosWindow(self)
             self.window.set_default_icon_name("media-optical")
             # Run an event loop in a dedicated thread and reserve main
             # thread to Gtk processing loop
@@ -191,7 +193,10 @@ class Application(Gtk.Application, WithModelAccessor):
                     await self._http.pause()
                 elif current_state == PlaybackState.PAUSED:
                     await self._http.resume()
-                elif current_state == PlaybackState.STOPPED:
+                elif (
+                    current_state == PlaybackState.STOPPED
+                    or current_state == PlaybackState.UNKNOWN
+                ):
                     await self._http.play()
 
             elif type == MessageType.PLAY_PREV_TRACK:
@@ -225,23 +230,43 @@ class Application(Gtk.Application, WithModelAccessor):
                         )
                     )
 
+            elif type == MessageType.FETCH_TRACK_IMAGE:
+                track_uri = message.data.get("track_uri", "")
+                if track_uri:
+                    images = await self._http.get_images([track_uri])
+                    image_path = None
+                    if images:
+                        track_images = images.get(track_uri)
+                        if track_images and len(track_images) > 0:
+                            image_uri = track_images[0]["uri"]
+                            image_path = await self._download.fetch_image(image_uri)
+                    if image_path is not None and self._model.track_uri == track_uri:
+                        self.update_model_from(image_path=str(image_path))
+                    else:
+                        self.update_model_from(image_path="")
+
+            elif type == MessageType.FETCH_ALBUM_IMAGES:
+                await self._fetch_album_images()
+
+            elif type == MessageType.IDENTIFY_PLAYING_STATE:
+                await self._identify_playing_state()
+
+            elif type == MessageType.BROWSE_ALBUMS:
+                await self._browse_albums()
+
             # Events (from websocket)
             elif type == MessageType.TRACK_PLAYBACK_STARTED:
                 tl_track = message.data.get("tl_track", {})
-                async with self.model_accessor as model:
-                    model.update_from(tl_track=tl_track)
+                self.update_model_from(tl_track=tl_track)
 
             elif type == MessageType.TRACK_PLAYBACK_PAUSED:
-                async with self.model_accessor as model:
-                    model.update_from(raw_state="paused")
+                self.update_model_from(raw_state="paused")
 
             elif type == MessageType.TRACK_PLAYBACK_RESUMED:
-                async with self.model_accessor as model:
-                    model.update_from(raw_state="playing")
+                self.update_model_from(raw_state="playing")
 
             elif type == MessageType.TRACK_PLAYBACK_ENDED:
-                async with self.model_accessor as model:
-                    model.clear_tl()
+                GLib.idle_add(self.model.clear_track_list)
 
                 auto_populate = self.settings.get_boolean("auto-populate-tracklist")
                 if not auto_populate:
@@ -254,52 +279,25 @@ class Application(Gtk.Application, WithModelAccessor):
 
             elif type == MessageType.PLAYBACK_STATE_CHANGED:
                 raw_state = message.data.get("new_state")
-                async with self.model_accessor as model:
-                    model.update_from(raw_state=raw_state)
+                self.update_model_from(raw_state=raw_state)
 
             elif type == MessageType.MUTE_CHANGED:
                 mute = message.data.get("mute")
-                async with self.model_accessor as model:
-                    model.update_from(mute=mute)
+                self.update_model_from(mute=mute)
 
             elif type == MessageType.VOLUME_CHANGED:
                 volume = message.data.get("volume")
-                async with self.model_accessor as model:
-                    model.update_from(volume=volume)
+                self.update_model_from(volume=volume)
 
             elif type == MessageType.TRACKLIST_CHANGED:
-                async with self.model_accessor as model:
-                    model.clear_tl()
+                GLib.idle_add(self.model.clear_track_list)
 
             elif type == MessageType.SEEKED:
                 time_position = message.data.get("time_position")
-                async with self.model_accessor as model:
-                    model.update_from(time_position=time_position)
+                self.update_model_from(time_position=time_position)
                 self._time_position_tracker.time_position_synced()
 
             # Events (internal)
-            elif type == MessageType.IMAGE_AVAILABLE:
-                track_uri = message.data.get("track_uri")
-                image_path = message.data.get("image_path")
-                if self._model.track_uri == track_uri:
-                    async with self.model_accessor as model:
-                        model.update_from(image_path=image_path)
-
-            elif type == MessageType.MODEL_CHANGED:
-                changed = message.data.get("changed", [])
-                await self._handle_model_changed(changed)
-
-            elif type == MessageType.MOPIDY_WEBSOCKET_CONNECTED:
-                connected = message.data.get("connected", False)
-                # don't use None since accessor won't update model
-                async with self.model_accessor as model:
-                    model.update_from(connected=connected)
-
-            elif type == MessageType.NETWORK_AVAILABLE_CHANGED:
-                network_available = message.data.get("network_available")
-                async with self.model_accessor as model:
-                    model.update_from(network_available=network_available)
-
             elif type == MessageType.ALBUM_IMAGES_UPDATED:
                 if self.window:
                     GLib.idle_add(self.window.update_album_icons)
@@ -309,105 +307,65 @@ class Application(Gtk.Application, WithModelAccessor):
                     f"Unhandled message type {type!r} " f"with data {message.data!r}"
                 )
 
-    async def _handle_model_changed(self, changed: Set[str]) -> None:
-        """Propage model changes."""
-        if "network_available" in changed or "connected" in changed:
-            if self._model.network_available and self._model.connected:
-                LOGGER.debug("Network available and connected")
-                await self._identify_playing_state()
-                await self._browse_albums()
-            else:
-                LOGGER.debug("Network not available")
-                async with self.model_accessor as model:
-                    model.clear_tl()
+    def update_model_from(
+        self,
+        *,
+        raw_state: Any = None,
+        mute: Any = None,
+        volume: Any = None,
+        time_position: Any = None,
+        tl_track: Any = None,
+        image_path: Any = None,
+        albums: List[Any] = None,
+    ) -> None:
+        if raw_state is not None:
+            state = PlaybackState.from_string(raw_state)
+            self.model.set_property_in_gtk_thread("state", state)
 
-            for action_name in ["play_random_album", "play_favorite_playlist"]:
-                action = self.lookup_action(action_name)
-                action.set_enabled(
-                    self._model.network_available and self._model.connected
-                )
+        if tl_track is not None:
+            track = tl_track.get("track", {})
 
-            if self.window:
-                GLib.idle_add(
-                    partial(
-                        self.window.handle_connection_changed,
-                        network_available=self._model.network_available,
-                        connected=self._model.connected,
-                    )
-                )
+            track_uri = track.get("uri", "")
+            track_name = track.get("name", "")
+            track_length = track.get("length", -1)
 
-        if "image_path" in changed:
-            if self.window:
-                GLib.idle_add(
-                    self.window.update_playing_track_image, self._model.image_path
-                )
+            self._model.set_property_in_gtk_thread("track_uri", track_uri)
+            self._model.set_property_in_gtk_thread("track_name", track_name)
+            self._model.set_property_in_gtk_thread("track_length", track_length)
 
-        if (
-            "track_name" in changed
-            or "artist_name" in changed
-            or "track_length" in changed
-        ):
-            if self.window:
-                GLib.idle_add(
-                    partial(
-                        self.window.update_labels,
-                        track_name=self._model.track_name,
-                        artist_name=self._model.artist_name,
-                        track_length=self._model.track_length,
-                    )
-                )
+            # initialize some track dependent properties when not
+            # specified
 
-            track_uri = self._model.track_uri
-            if not track_uri:
-                return
+            if time_position is None:
+                self._model.set_property_in_gtk_thread("time_position", -1)
 
-            images = await self._http.get_images([track_uri])
-            if not images:
-                return
+            artists = track.get("artists", [{}])
+            artist = artists[0]
+            artist_uri = artist.get("uri", "")
+            artist_name = artist.get("name", "")
 
-            track_images = images.get(track_uri)
-            if track_images and len(track_images) > 0:
-                image_uri = track_images[0]["uri"]
-                filepath = await self._download.fetch_image(image_uri)
-                if filepath is not None:
-                    await self._message_queue.put(
-                        Message(
-                            MessageType.IMAGE_AVAILABLE,
-                            {"track_uri": track_uri, "image_path": filepath},
-                        )
-                    )
+            self._model.set_property_in_gtk_thread("artist_uri", artist_uri)
+            self._model.set_property_in_gtk_thread("artist_name", artist_name)
 
-        if "volume" in changed or "mute" in changed:
-            if self.window:
-                GLib.idle_add(
-                    partial(
-                        self.window.update_volume,
-                        mute=self._model.mute,
-                        volume=self._model.volume,
-                    )
-                )
+        values_by_name = {
+            "mute": mute,
+            "volume": volume,
+            "time_position": time_position,
+            "image_path": image_path,
+            "albums": albums,
+        }
+        for name in values_by_name:
+            value = values_by_name[name]
+            if value is not None:
+                self.model.set_property_in_gtk_thread(name, value)
 
-        if "state" in changed:
-            if self.window:
-                GLib.idle_add(
-                    partial(self.window.update_play_button, state=self._model.state)
-                )
+    def _update_network_actions_state(self) -> None:
+        for action_name in ["play_random_album", "play_favorite_playlist"]:
+            action = self.lookup_action(action_name)
+            if not action:
+                continue
 
-        if "time_position" in changed:
-            if self.window:
-                GLib.idle_add(
-                    partial(
-                        self.window.update_time_position_scale_and_label,
-                        time_position=self._model.time_position,
-                    )
-                )
-
-        if "albums" in changed:
-            if self.window:
-                GLib.idle_add(
-                    partial(self.window.update_albums_list, albums=self._model.albums)
-                )
-                await self._fetch_album_images()
+            action.set_enabled(self._model.network_available and self._model.connected)
 
     async def _identify_playing_state(self) -> None:
         LOGGER.debug("Identifying playing state...")
@@ -417,15 +375,51 @@ class Application(Gtk.Application, WithModelAccessor):
         tl_track = await self._http.get_current_tl_track()
         time_position = await self._http.get_time_position()
 
-        async with self.model_accessor as model:
-            model.update_from(
-                raw_state=raw_state,
-                mute=mute,
-                volume=volume,
-                time_position=time_position,
-                tl_track=tl_track,
-            )
+        self.update_model_from(
+            raw_state=raw_state,
+            mute=mute,
+            volume=volume,
+            time_position=time_position,
+            tl_track=tl_track,
+        )
         self._time_position_tracker.time_position_synced()
+
+    def _on_model_changed(
+        self,
+        _1: GObject.GObject,
+        spec: GObject.GParamSpec,
+    ) -> None:
+        name = spec.name
+        if name == "track-uri":
+            if self.model.track_uri:
+                self.send_message(
+                    MessageType.FETCH_TRACK_IMAGE, {"track_uri": self.model.track_uri}
+                )
+        elif name == "connected" or name == "network-available":
+            self._update_network_actions_state()
+            self._schedule_track_list_update_maybe()
+            self._schedule_browse_albums_maybe()
+        elif name == "albums-loaded":
+            self.send_message(MessageType.FETCH_ALBUM_IMAGES)
+        else:
+            LOGGER.warning(f"Unexpected model attribute change, {name!r}")
+
+    def _schedule_track_list_update_maybe(self) -> None:
+        if self.model.network_available and self.model.connected:
+            LOGGER.debug("Will identify playing state since connected to Mopidy server")
+            self.send_message(MessageType.IDENTIFY_PLAYING_STATE)
+        else:
+            LOGGER.debug("Clearing track list since not connected")
+            self.model.clear_track_list()
+
+    def _schedule_browse_albums_maybe(self) -> None:
+        if (
+            self.model.network_available
+            and self.model.connected
+            and not self.model.albums_loaded
+        ):
+            LOGGER.debug("Will browse albums since connected to Mopidy server")
+            self.send_message(MessageType.BROWSE_ALBUMS)
 
     async def _browse_albums(self) -> None:
         LOGGER.debug("Starting to  browse albums...")
@@ -448,13 +442,12 @@ class Application(Gtk.Application, WithModelAccessor):
             filepath = self._download.get_image_filepath(image_uri)
             a["image_path"] = filepath
 
-        async with self.model_accessor as model:
-            model.update_from(albums=albums)
+        self.update_model_from(albums=albums)
 
     async def _fetch_album_images(self) -> None:
         LOGGER.debug("Starting album image download...")
         albums = self._model.albums
-        image_uris = [a.image_uri for a in albums.values() if a.image_uri]
+        image_uris = [a.image_uri for a in albums if a.image_uri]
         await self._download.fetch_images(image_uris)
 
     def send_message(
@@ -462,14 +455,6 @@ class Application(Gtk.Application, WithModelAccessor):
     ) -> None:
         message = Message(message_type, data or {})
         self._loop.call_soon_threadsafe(self._message_queue.put_nowait, message)
-
-    def on_network_changed(
-        self, network_monitor: Gio.NetworkMonitor, network_available: bool
-    ) -> None:
-        self.send_message(
-            MessageType.NETWORK_AVAILABLE_CHANGED,
-            {"network_available": network_available},
-        )
 
     def show_about_dialog_cb(self, action: Gio.SimpleAction, parameter: None) -> None:
         if self.window is None:

@@ -5,8 +5,6 @@ from typing import Optional, TYPE_CHECKING
 
 from gi.repository import GObject
 
-from .accessor import WithModelAccessor
-
 if TYPE_CHECKING:
     from .app import Application
 from .http import MopidyHTTPClient
@@ -17,7 +15,7 @@ LOGGER = logging.getLogger(__name__)
 DELAY = 10  # s
 
 
-class TimePositionTracker(GObject.GObject, WithModelAccessor):
+class TimePositionTracker(GObject.GObject):
     """Track time position.
 
     Periodic synchronization with Mopidy server happens every
@@ -29,13 +27,11 @@ class TimePositionTracker(GObject.GObject, WithModelAccessor):
 
     def __init__(
         self,
-        application: Application,
+        application: "Application",
     ):
         super().__init__()
 
-        self._model: Model = application.model
-        self._message_queue: asyncio.Queue = application.message_queue
-        # message queue used by WithModelAccessor mixin!
+        self._model: Model = application.props.model
         self._http: MopidyHTTPClient = application.props.http
 
     def time_position_synced(self) -> None:
@@ -50,8 +46,8 @@ class TimePositionTracker(GObject.GObject, WithModelAccessor):
                 and self._model.connected
                 and self._model.state == PlaybackState.PLAYING
             ):
-                time_position = None
-                if self._model.time_position is not None and self.last_sync:
+                time_position: Optional[int] = -1
+                if self._model.time_position != -1 and self.last_sync:
                     time_position = self._model.time_position + 1000
                     delta = (datetime.now() - self.last_sync).total_seconds()
                     needs_sync = delta >= DELAY
@@ -73,7 +69,8 @@ class TimePositionTracker(GObject.GObject, WithModelAccessor):
                 else:
                     LOGGER.debug("No need to synchronize time position")
 
-                async with self.model_accessor as model:
-                    model.update_from(time_position=time_position)
+                if time_position is None:
+                    time_position = -1
+                self._model.set_property_in_gtk_thread("time_position", time_position)
 
             await asyncio.sleep(1)

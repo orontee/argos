@@ -13,6 +13,10 @@ class MessageType(Enum):
     SEEK = 5
     SET_VOLUME = 6
     LIST_PLAYLISTS = 7
+    FETCH_TRACK_IMAGE = 8
+    FETCH_ALBUM_IMAGES = 9
+    IDENTIFY_PLAYING_STATE = 10
+    BROWSE_ALBUMS = 11
 
     # Events (frow websocket)
     TRACK_PLAYBACK_STARTED = 20
@@ -26,10 +30,6 @@ class MessageType(Enum):
     SEEKED = 28
 
     # Events (internal)
-    IMAGE_AVAILABLE = 40
-    MODEL_CHANGED = 41
-    MOPIDY_WEBSOCKET_CONNECTED = 43
-    NETWORK_AVAILABLE_CHANGED = 44
     ALBUM_IMAGES_UPDATED = 45
 
 

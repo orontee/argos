@@ -1,5 +1,5 @@
 import logging
-from typing import Optional, Tuple, Union
+from typing import Tuple, Union
 
 LOGGER = logging.getLogger(__name__)
 
@@ -48,9 +48,14 @@ def elide_maybe(text: str) -> str:
     return text
 
 
-def ms_to_text(value: Optional[int] = None) -> str:
-    "Convert a number of milliseconds to string."
-    if value is None:
+def ms_to_text(value: int) -> str:
+    """Convert a number of milliseconds to string.
+
+    By convention the value -1 is interpreted as unknown number of
+    milliseconds.
+
+    """
+    if value == -1:
         text = "--:--"
     else:
         second_count = round(value / 1000)

@@ -11,6 +11,7 @@ from gi.repository import Gio, GObject
 if TYPE_CHECKING:
     from .app import Application
 from .message import Message, MessageType
+from .model import Model
 from .session import get_session
 
 LOGGER = logging.getLogger(__name__)
@@ -51,10 +52,11 @@ class _URLUndefined(Exception):
 class MopidyWSConnection(GObject.GObject):
     def __init__(
         self,
-        application: Application,
+        application: "Application",
     ):
         super().__init__()
 
+        self._model: Model = application.props.model
         self._message_queue: asyncio.Queue = application.message_queue
 
         settings: Gio.Settings = application.props.settings
@@ -152,12 +154,7 @@ class MopidyWSConnection(GObject.GObject):
                     assert self._ws
                     LOGGER.debug(f"Connected to mopidy websocket at {self._url}")
 
-                    await self._enqueue(
-                        Message(
-                            MessageType.MOPIDY_WEBSOCKET_CONNECTED,
-                            {"connected": True},
-                        )
-                    )
+                    self._model.set_property_in_gtk_thread("connected", True)
 
                     async for msg in self._ws:
                         message = self._handle(msg)
@@ -177,12 +174,7 @@ class MopidyWSConnection(GObject.GObject):
                     aiohttp.ClientResponseError,
                     aiohttp.client_exceptions.ClientConnectorError,
                 ) as error:
-                    await self._message_queue.put(
-                        Message(
-                            MessageType.MOPIDY_WEBSOCKET_CONNECTED,
-                            {"connected": False},
-                        )
-                    )
+                    self._model.set_property_in_gtk_thread("connected", False)
 
                     self.cancel_commands()
 

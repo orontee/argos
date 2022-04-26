@@ -28,7 +28,7 @@ class ImageDownloader(GObject.GObject):
 
     def __init__(
         self,
-        application: Application,
+        application: "Application",
     ):
         super().__init__()
 

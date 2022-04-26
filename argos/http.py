@@ -12,7 +12,6 @@ from gi.repository import Gio, GObject
 
 if TYPE_CHECKING:
     from .app import Application
-from .model import PlaybackState
 from .ws import MopidyWSConnection
 
 LOGGER = logging.getLogger(__name__)
@@ -21,7 +20,7 @@ LOGGER = logging.getLogger(__name__)
 class MopidyHTTPClient(GObject.GObject):
     def __init__(
         self,
-        application: Application,
+        application: "Application",
     ):
         super().__init__()
 
@@ -35,9 +34,8 @@ class MopidyHTTPClient(GObject.GObject):
             "changed::favorite-playlist-uri", self._on_favorite_playlist_uri_changed
         )
 
-    async def get_state(self) -> Optional[PlaybackState]:
-        state = await self._ws.send_command("core.playback.get_state")
-        return PlaybackState(state) if state is not None else None
+    async def get_state(self) -> Optional[str]:
+        return await self._ws.send_command("core.playback.get_state")
 
     async def pause(self) -> None:
         await self._ws.send_command("core.playback.pause")

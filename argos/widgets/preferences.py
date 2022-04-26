@@ -21,7 +21,7 @@ class PreferencesWindow(Gtk.Window):
 
     def __init__(
         self,
-        application: Application,
+        application: "Application",
     ):
         Gtk.Window.__init__(self)
         self.set_wmclass("Argos", "Argos")

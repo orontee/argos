@@ -27,7 +27,6 @@ configure_file(
 )
 
 argos_sources = [
-  'accessor.py',
   'app.py',
   'download.py',
   'http.py',

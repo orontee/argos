@@ -1,13 +1,13 @@
 import logging
 from pathlib import Path
 import threading
-from typing import Mapping, Optional
+from typing import Optional
 
-from gi.repository import Gdk, GdkPixbuf, GLib, Gtk
+from gi.repository import Gdk, GdkPixbuf, GLib, GObject, Gtk
 from gi.repository.GdkPixbuf import Pixbuf
 
 from .message import MessageType
-from .model import Album, PlaybackState
+from .model import PlaybackState
 from .utils import compute_target_size, elide_maybe, ms_to_text
 
 LOGGER = logging.getLogger(__name__)
@@ -80,16 +80,13 @@ class ArgosWindow(Gtk.ApplicationWindow):
     time_position_adjustement = Gtk.Template.Child()
     time_position_label = Gtk.Template.Child()
 
-    def __init__(
-        self,
-        *,
-        application: Gtk.Application,
-        disable_tooltips: bool = False,
-    ):
-        Gtk.Window.__init__(self, application=application)
+    def __init__(self, application: Gtk.Application):
+        super().__init__(application=application)
+
         self.set_wmclass("Argos", "Argos")
         self._app = application
-        self._disable_tooltips = disable_tooltips
+        self._model = application.model
+        self._disable_tooltips = application._disable_tooltips
 
         builder = Gtk.Builder.new_from_resource("/app/argos/Argos/ui/app_menu.ui")
         menu_model = builder.get_object("app-menu")
@@ -121,12 +118,30 @@ class ArgosWindow(Gtk.ApplicationWindow):
 
         self._default_album_icon = _default_album_icon_pixbuf()
 
-    def update_albums_list(self, albums: Mapping[str, Album]) -> None:
+        self._model.connect("notify::connection", self.handle_connection_changed)
+        self._model.connect("notify::image-path", self.update_playing_track_image)
+        self._model.connect("notify::track-name", self.update_track_name_label)
+        self._model.connect("notify::track-length", self.update_track_length_label)
+        self._model.connect("notify::artist-name", self.update_artist_name_label)
+        self._model.connect("notify::volume", self.update_volume)
+        self._model.connect("notify::mute", self.update_volume)
+        self._model.connect("notify::state", self.update_play_button)
+        self._model.connect(
+            "notify::time-position", self.update_time_position_scale_and_label
+        )
+        self._model.connect("notify::albums-loaded", self.update_album_list)
+
+    def update_album_list(
+        self,
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
+    ) -> None:
         LOGGER.debug("Updating album list...")
 
         store = self.albums_view.get_model()
         store.clear()
-        for uri, album in albums.items():
+
+        for album in self._model.albums:
             store.append(
                 [
                     elide_maybe(album.name),
@@ -162,16 +177,21 @@ class ArgosWindow(Gtk.ApplicationWindow):
                 LOGGER.debug("No image path")
             store_iter = store.iter_next(store_iter)
 
-    def update_playing_track_image(self, image_path: Optional[Path]) -> None:
+    def update_playing_track_image(
+        self,
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
+    ) -> None:
+        image_path = self._model.image_path
         if not image_path:
             self.playing_track_image.set_from_resource(
                 "/app/argos/Argos/icons/welcome-music.svg"
             )
         else:
             try:
-                pixbuf = Pixbuf.new_from_file(str(image_path))
+                pixbuf = Pixbuf.new_from_file(image_path)
             except GLib.Error as error:
-                LOGGER.warning(f"Failed to read image at {str(image_path)!r}: {error}")
+                LOGGER.warning(f"Failed to read image at {image_path!r}: {error}")
                 self.playing_track_image.set_from_resource(
                     "/app/argos/Argos/icons/welcome-music.svg"
                 )
@@ -188,13 +208,12 @@ class ArgosWindow(Gtk.ApplicationWindow):
 
         self.playing_track_image.show_now()
 
-    def update_labels(
+    def update_track_name_label(
         self,
-        *,
-        track_name: Optional[str],
-        artist_name: Optional[str],
-        track_length: Optional[int],
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
     ) -> None:
+        track_name = self._model.track_name
         if track_name:
             short_track_name = GLib.markup_escape_text(elide_maybe(track_name))
             track_name_text = (
@@ -208,6 +227,14 @@ class ArgosWindow(Gtk.ApplicationWindow):
             self.track_name_label.set_markup("")
             self.track_name_label.set_has_tooltip(False)
 
+        self.track_name_label.show_now()
+
+    def update_artist_name_label(
+        self,
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
+    ) -> None:
+        artist_name = self._model.artist_name
         if artist_name:
             short_artist_name = GLib.markup_escape_text(elide_maybe(artist_name))
             artist_name_text = f"""<span size="x-large">{short_artist_name}</span>"""
@@ -219,56 +246,77 @@ class ArgosWindow(Gtk.ApplicationWindow):
             self.artist_name_label.set_markup("")
             self.artist_name_label.set_has_tooltip(False)
 
+        self.artist_name_label.show_now()
+
+    def update_track_length_label(
+        self,
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
+    ) -> None:
+        track_length = self._model.track_length
         pretty_length = ms_to_text(track_length)
         self.track_length_label.set_text(pretty_length)
 
-        if track_length:
-            self.update_time_position_scale_and_label(time_position=None)
+        if track_length != -1:
             self.time_position_adjustement.set_upper(track_length)
             self.time_position_scale.set_sensitive(True)
         else:
             self.time_position_adjustement.set_upper(0)
             self.time_position_scale.set_sensitive(False)
 
-        self.track_name_label.show_now()
-        self.artist_name_label.show_now()
         self.track_length_label.show_now()
 
     def update_time_position_scale_and_label(
         self,
-        *,
-        time_position: Optional[int],
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
     ) -> None:
+        time_position = self._model.time_position
         pretty_time_position = ms_to_text(time_position)
         self.time_position_label.set_text(pretty_time_position)
-        self.time_position_adjustement.set_value(time_position or 0)
+        self.time_position_adjustement.set_value(
+            time_position if time_position != -1 else 0
+        )
 
         self.time_position_label.show_now()
         self.time_position_scale.show_now()
 
-    def update_volume(self, *, mute: Optional[bool], volume: Optional[int]) -> None:
-        if mute:
+    def update_volume(
+        self,
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
+    ) -> None:
+        volume = self._model.volume
+        if self._model.mute:
             volume = 0
 
-        if volume is not None:
+        if volume != -1:
             with self.volume_button.handler_block(self._volume_button_value_changed_id):
                 self.volume_button.set_value(volume / 100)
 
             self.volume_button.show_now()
 
-    def update_play_button(self, *, state: PlaybackState) -> None:
-        if state in (PlaybackState.PAUSED, PlaybackState.STOPPED):
+    def update_play_button(
+        self,
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
+    ) -> None:
+        state = self._model.state
+        if state in (
+            PlaybackState.UNKNOWN,
+            PlaybackState.PAUSED,
+            PlaybackState.STOPPED,
+        ):
             self.play_button.set_image(self.play_image)
         elif state == PlaybackState.PLAYING:
             self.play_button.set_image(self.pause_image)
 
     def handle_connection_changed(
         self,
-        *,
-        network_available: bool,
-        connected: bool,
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
     ) -> None:
-        sensitive = network_available and connected
+        sensitive = self._model.network_available and self._model.connected
         buttons = [
             self.prev_button,
             self.play_button,
