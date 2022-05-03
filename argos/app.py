@@ -18,8 +18,7 @@ from .message import Message, MessageType
 from .model import Model, PlaybackState
 from .time import TimePositionTracker
 from .utils import configure_logger
-from .widgets.about import AboutDialog
-from .widgets.preferences import PreferencesWindow
+from .widgets import AboutDialog, PreferencesWindow
 from .window import ArgosWindow
 from .ws import MopidyWSConnection
 

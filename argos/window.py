@@ -9,8 +9,7 @@ from gi.repository.GdkPixbuf import Pixbuf
 
 from .message import MessageType
 from .utils import compute_target_size, elide_maybe
-from .widgets.topcontrolsbox import TopControlsBox
-from .widgets.playingbox import PlayingBox
+from .widgets import PlayingBox, TopControlsBox, VolumeButton
 
 _ = gettext.gettext
 
@@ -66,8 +65,6 @@ class ArgosWindow(Gtk.ApplicationWindow):
     central_view = Gtk.Template.Child()
     albums_view = Gtk.Template.Child()
 
-    volume_button = Gtk.Template.Child()
-
     def __init__(self, application: Gtk.Application):
         super().__init__(application=application)
 
@@ -76,16 +73,15 @@ class ArgosWindow(Gtk.ApplicationWindow):
         self._model = application.model
         self._disable_tooltips = application._disable_tooltips
 
-        self._volume_button_value_changed_id = self.volume_button.connect(
-            "value_changed", self.volume_button_value_changed_cb
-        )
-
         albums_store = Gtk.ListStore(str, str, str, str, Pixbuf)
         self.albums_view.set_model(albums_store)
         self.albums_view.set_text_column(ALBUM_STORE_TEXT_COLUMN)
         self.albums_view.set_tooltip_column(ALBUM_STORE_TOOLTIP_COLUMN)
         self.albums_view.set_pixbuf_column(ALBUM_STORE_PIXBUF_COLUMN)
         self.albums_view.set_item_width(ALBUM_ICON_SIZE)
+
+        volume_button = VolumeButton(application)
+        self.top_box.add(volume_button)
 
         top_controls_box = TopControlsBox(application)
         self.top_box.add(top_controls_box)
@@ -94,17 +90,11 @@ class ArgosWindow(Gtk.ApplicationWindow):
         self.central_view.add_titled(playing_box, "playing_page", _("Playing"))
 
         if self._disable_tooltips:
-            for widget in (
-                self.albums_view,
-                self.volume_button,
-            ):
+            for widget in (self.albums_view,):
                 widget.props.has_tooltip = False
 
         self._default_album_icon = _default_album_icon_pixbuf()
 
-        self._model.connect("notify::connection", self.handle_connection_changed)
-        self._model.connect("notify::volume", self.update_volume)
-        self._model.connect("notify::mute", self.update_volume)
         self._model.connect("notify::albums-loaded", self.update_album_list)
 
     def update_album_list(
@@ -152,37 +142,6 @@ class ArgosWindow(Gtk.ApplicationWindow):
             else:
                 LOGGER.debug("No image path")
             store_iter = store.iter_next(store_iter)
-
-    def update_volume(
-        self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
-    ) -> None:
-        volume = self._model.volume
-        if self._model.mute:
-            volume = 0
-
-        if volume != -1:
-            with self.volume_button.handler_block(self._volume_button_value_changed_id):
-                self.volume_button.set_value(volume / 100)
-
-            self.volume_button.show_now()
-
-    def handle_connection_changed(
-        self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
-    ) -> None:
-        sensitive = self._model.network_available and self._model.connected
-        buttons = [
-            self.volume_button,
-        ]
-        for button in buttons:
-            button.set_sensitive(sensitive)
-
-    def volume_button_value_changed_cb(self, *args) -> None:
-        volume = self.volume_button.get_value() * 100
-        self._app.send_message(MessageType.SET_VOLUME, {"volume": volume})
 
     @Gtk.Template.Callback()
     def albums_view_item_activated_cb(
