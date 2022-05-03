@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.38.2 -->
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <object class="GtkImage" id="play_favorite_playlist_image">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">user-bookmarks-symbolic</property>
+    <property name="icon_size">2</property>
+  </object>
+  <object class="GtkImage" id="play_random_album_image">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">media-playlist-shuffle-symbolic</property>
+    <property name="icon_size">2</property>
+  </object>
+  <template class="TopControlsBox" parent="GtkBox">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <child>
+      <object class="GtkButton" id="play_favorite_playlist_button">
+        <property name="width-request">50</property>
+        <property name="height-request">50</property>
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="receives-default">True</property>
+        <property name="tooltip-text" translatable="yes">Play favorite playlist</property>
+        <property name="action-name">app.play_favorite_playlist</property>
+        <property name="image">play_favorite_playlist_image</property>
+        <style>
+          <class name="pill"/>
+        </style>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkButton" id="play_random_album_button">
+        <property name="width-request">50</property>
+        <property name="height-request">50</property>
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="receives-default">True</property>
+        <property name="tooltip-text" translatable="yes">Play random album</property>
+        <property name="action-name">app.play_random_album</property>
+        <property name="image">play_random_album_image</property>
+        <style>
+          <class name="pill"/>
+        </style>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkMenuButton" id="app_menu_button">
+        <property name="width-request">50</property>
+        <property name="height-request">50</property>
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="focus-on-click">False</property>
+        <property name="receives-default">True</property>
+        <child>
+          <object class="GtkImage" id="menu_image">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="icon-name">open-menu-symbolic</property>
+            <property name="icon_size">2</property>
+          </object>
+        </child>
+        <style>
+          <class name="pill"/>
+        </style>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">2</property>
+      </packing>
+    </child>
+    <style>
+      <class name="linked"/>
+    </style>
+  </template>
+</interface>

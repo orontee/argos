@@ -9,6 +9,7 @@ from gi.repository.GdkPixbuf import Pixbuf
 from .message import MessageType
 from .model import PlaybackState
 from .utils import compute_target_size, elide_maybe, ms_to_text
+from .widgets.topcontrolsbox import TopControlsBox
 
 LOGGER = logging.getLogger(__name__)
 
@@ -57,6 +58,8 @@ def _scale_album_icon(image_path: Path) -> Optional[Pixbuf]:
 class ArgosWindow(Gtk.ApplicationWindow):
     __gtype_name__ = "ArgosWindow"
 
+    top_box = Gtk.Template.Child()
+
     central_view = Gtk.Template.Child()
     albums_view = Gtk.Template.Child()
 
@@ -68,9 +71,6 @@ class ArgosWindow(Gtk.ApplicationWindow):
     artist_name_label = Gtk.Template.Child()
     track_length_label = Gtk.Template.Child()
 
-    play_favorite_playlist_button = Gtk.Template.Child()
-    play_random_album_button = Gtk.Template.Child()
-    app_menu_button = Gtk.Template.Child()
     volume_button = Gtk.Template.Child()
     prev_button = Gtk.Template.Child()
     play_button = Gtk.Template.Child()
@@ -88,11 +88,6 @@ class ArgosWindow(Gtk.ApplicationWindow):
         self._model = application.model
         self._disable_tooltips = application._disable_tooltips
 
-        builder = Gtk.Builder.new_from_resource("/app/argos/Argos/ui/app_menu.ui")
-        menu_model = builder.get_object("app-menu")
-        self.app_menu_button.set_use_popover(True)
-        self.app_menu_button.set_menu_model(menu_model)
-
         self._volume_button_value_changed_id = self.volume_button.connect(
             "value_changed", self.volume_button_value_changed_cb
         )
@@ -104,11 +99,12 @@ class ArgosWindow(Gtk.ApplicationWindow):
         self.albums_view.set_pixbuf_column(ALBUM_STORE_PIXBUF_COLUMN)
         self.albums_view.set_item_width(ALBUM_ICON_SIZE)
 
+        top_controls_box = TopControlsBox(application)
+        self.top_box.add(top_controls_box)
+
         if self._disable_tooltips:
             for widget in (
                 self.albums_view,
-                self.play_favorite_playlist_button,
-                self.play_random_album_button,
                 self.volume_button,
                 self.prev_button,
                 self.play_button,
