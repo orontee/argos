@@ -162,6 +162,13 @@ class Application(Gtk.Application):
             if accel is not None:
                 self.set_accels_for_action(*accel)
 
+        for action_name in ["play_random_album", "play_favorite_playlist"]:
+            action = self.lookup_action(action_name)
+            if not action:
+                continue
+
+            action.set_enabled(self._model.network_available and self._model.connected)
+
     def _start_event_loop(self):
         LOGGER.debug("Attaching event loop to calling thread")
         asyncio.set_event_loop(self._loop)

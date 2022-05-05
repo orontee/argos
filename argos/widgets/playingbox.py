@@ -37,15 +37,19 @@ class PlayingBox(Gtk.Box):
         self._model = application.model
         self._disable_tooltips = application._disable_tooltips
 
-        if self._disable_tooltips:
-            for widget in (
-                self.prev_button,
-                self.play_button,
-                self.next_button,
-            ):
+        for widget in (
+            self.prev_button,
+            self.play_button,
+            self.next_button,
+        ):
+            widget.set_sensitive(
+                self._model.network_available and self._model.connected
+            )
+            if self._disable_tooltips:
                 widget.props.has_tooltip = False
 
-        self._model.connect("notify::connection", self.handle_connection_changed)
+        self._model.connect("notify::network-available", self.handle_connection_changed)
+        self._model.connect("notify::connected", self.handle_connection_changed)
         self._model.connect("notify::image-path", self.update_playing_track_image)
         self._model.connect("notify::track-name", self.update_track_name_label)
         self._model.connect("notify::track-length", self.update_track_length_label)

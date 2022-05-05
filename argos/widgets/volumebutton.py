@@ -29,7 +29,10 @@ class VolumeButton(Gtk.VolumeButton):
         if self._disable_tooltips:
             self.props.has_tooltip = False
 
-        self._model.connect("notify::connection", self.handle_connection_changed)
+        self.set_sensitive(self._model.network_available and self._model.connected)
+
+        self._model.connect("notify::network-available", self.handle_connection_changed)
+        self._model.connect("notify::connected", self.handle_connection_changed)
         self._model.connect("notify::volume", self.update_value)
         self._model.connect("notify::mute", self.update_value)
 
