@@ -1,7 +1,7 @@
 import gettext
 import logging
 
-from gi.repository import Gdk, Gtk
+from gi.repository import Gdk, GObject, Gtk
 
 from .message import MessageType
 from .widgets import AlbumsWindow, PlayingBox, TopControlsBox, VolumeButton
@@ -37,6 +37,19 @@ class ArgosWindow(Gtk.ApplicationWindow):
 
         albums_window = AlbumsWindow(application)
         self.central_view.add_titled(albums_window, "albums_page", _("Albums"))
+
+        self._model.connect("notify::track-name", self.notify_attention_needed)
+        self._model.connect("notify::artist-name", self.notify_attention_needed)
+
+    def notify_attention_needed(
+        self,
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
+    ) -> None:
+        child = self.central_view.get_child_by_name("playing_page")
+        if child:
+            LOGGER.debug("Requesting attention for playing page")
+            child.set_property("needs-attention", True)
 
     @Gtk.Template.Callback()
     def key_press_event_cb(self, widget: Gtk.Widget, event: Gdk.EventKey) -> bool:

@@ -30,6 +30,8 @@ class PlayingBox(Gtk.Box):
     time_position_adjustement = Gtk.Template.Child()
     time_position_label = Gtk.Template.Child()
 
+    needs_attention = GObject.Property(type=bool, default=False)
+
     def __init__(self, application: Gtk.Application):
         super().__init__()
 
