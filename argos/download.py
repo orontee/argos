@@ -2,7 +2,7 @@ import asyncio
 import logging
 from pathlib import Path
 from typing import Dict, List, Optional, TYPE_CHECKING
-from urllib.parse import urljoin
+import urllib.parse
 
 import aiohttp
 import xdg.BaseDirectory  # type: ignore
@@ -43,12 +43,15 @@ class ImageDownloader(GObject.GObject):
         self._ongoing_task: Optional[asyncio.Task[None]] = None
 
     def get_image_filepath(self, image_uri: str) -> Optional[Path]:
-        if not image_uri.startswith("/local/"):
-            LOGGER.warning(f"Unsupported URI scheme for images {image_uri!r}")
-            return None
+        if image_uri.startswith("/local/"):
+            filename = Path(image_uri).parts[-1]
+        elif image_uri.startswith("https://"):
+            filename = urllib.parse.quote(image_uri[8:], safe="")
+        else:
+            LOGGER.warning(f"Unsupported URI scheme {image_uri!r}")
+            filename = None
 
-        filename = Path(image_uri).parts[-1]
-        filepath = self._image_dir / filename
+        filepath = self._image_dir / filename if filename else None
         return filepath
 
     async def fetch_image(self, image_uri: str) -> Optional[Path]:
@@ -62,7 +65,7 @@ class ImageDownloader(GObject.GObject):
             return None
 
         if not filepath.exists():
-            url = urljoin(self._mopidy_base_url, image_uri)
+            url = urllib.parse.urljoin(self._mopidy_base_url, image_uri)
             async with get_session() as session:
                 try:
                     LOGGER.debug(f"Sending GET {url}")
