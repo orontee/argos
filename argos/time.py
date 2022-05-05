@@ -62,8 +62,7 @@ class TimePositionTracker(GObject.GObject):
                             1,
                         )
                     except asyncio.exceptions.TimeoutError:
-                        if time_position:
-                            time_position += 1000
+                        time_position = None
                     else:
                         self.time_position_synced()
                 else:
