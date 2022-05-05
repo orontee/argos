@@ -4,6 +4,7 @@
     <file alias="gtk/help-overlay.ui" preprocess="xml-stripblanks">ui/help_overlay.ui</file>
     <file>icons/welcome-music.svg</file>
     <file preprocess="xml-stripblanks">ui/about.ui</file>
+    <file preprocess="xml-stripblanks">ui/albums_window.ui</file>
     <file preprocess="xml-stripblanks">ui/app_menu.ui</file>
     <file preprocess="xml-stripblanks">ui/playing_box.ui</file>
     <file preprocess="xml-stripblanks">ui/preferences.ui</file>

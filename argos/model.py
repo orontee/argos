@@ -61,6 +61,7 @@ class Model(GObject.GObject):
     image_path = GObject.Property(type=str, default="")
 
     albums_loaded = GObject.Property(type=bool, default=False)
+    albums_images_loaded = GObject.Property(type=bool, default=False)
 
     def __init__(
         self,
@@ -105,6 +106,7 @@ class Model(GObject.GObject):
     def _set_albums(self, value: Any) -> None:
         if self.albums_loaded:
             self.set_property_in_gtk_thread("albums_loaded", False)
+            self.set_property_in_gtk_thread("albums_images_loaded", False)
             self.albums.clear()
 
         for v in value:

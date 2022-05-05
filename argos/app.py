@@ -2,9 +2,8 @@ import asyncio
 import gettext
 import logging
 from functools import partial
-from pathlib import Path
 from threading import Thread
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Dict, List, Optional
 
 import gi
 
@@ -295,11 +294,6 @@ class Application(Gtk.Application):
                 time_position = message.data.get("time_position")
                 self.update_model_from(time_position=time_position)
                 self._time_position_tracker.time_position_synced()
-
-            # Events (internal)
-            elif type == MessageType.ALBUM_IMAGES_UPDATED:
-                if self.window:
-                    GLib.idle_add(self.window.update_album_icons)
 
             else:
                 LOGGER.warning(

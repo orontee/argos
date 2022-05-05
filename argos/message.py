@@ -29,9 +29,6 @@ class MessageType(Enum):
     TRACKLIST_CHANGED = 27
     SEEKED = 28
 
-    # Events (internal)
-    ALBUM_IMAGES_UPDATED = 45
-
 
 @dataclass
 class Message:

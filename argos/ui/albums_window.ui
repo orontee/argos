@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.38.2 -->
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <!-- interface-local-resource-path ../ -->
+  <template class="AlbumsWindow" parent="GtkScrolledWindow">
+    <property name="visible">True</property>
+    <property name="can-focus">True</property>
+    <property name="shadow-type">in</property>
+    <child>
+      <object class="GtkIconView" id="albums_view">
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="margin">0</property>
+        <signal name="item-activated" handler="albums_view_item_activated_cb" swapped="no"/>
+      </object>
+    </child>
+  </template>
+</interface>

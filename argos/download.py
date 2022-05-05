@@ -11,7 +11,6 @@ from gi.repository import Gio, GObject
 
 if TYPE_CHECKING:
     from .app import Application
-from .message import Message, MessageType
 from .session import get_session
 
 LOGGER = logging.getLogger(__name__)
@@ -32,7 +31,7 @@ class ImageDownloader(GObject.GObject):
     ):
         super().__init__()
 
-        self._message_queue = application.message_queue
+        self._model = application.model
 
         settings: Gio.Settings = application.props.settings
 
@@ -86,7 +85,6 @@ class ImageDownloader(GObject.GObject):
         paths: Dict[str, Path] = {}
         max_downloads = 10
         download_count = (len(image_uris) // max_downloads) + 1
-        message_queue = self._message_queue
 
         async def download() -> None:
             LOGGER.debug(f"Starting {download_count} batch of downloads")
@@ -100,8 +98,7 @@ class ImageDownloader(GObject.GObject):
                     if image_uri is not None and filepath is not None:
                         paths[image_uri] = filepath
 
-            message = Message(MessageType.ALBUM_IMAGES_UPDATED)
-            await message_queue.put(message)
+            self._model.set_property_in_gtk_thread("albums_images_loaded", True)
 
         if self._ongoing_task:
             if not self._ongoing_task.done() and not self._ongoing_task.cancelled():
