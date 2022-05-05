@@ -271,7 +271,7 @@ class Application(Gtk.Application):
                 self.update_model_from(raw_state="playing")
 
             elif type == MessageType.TRACK_PLAYBACK_ENDED:
-                GLib.idle_add(self.model.clear_track_list)
+                self.model.clear_track_list()
 
                 auto_populate = self.settings.get_boolean("auto-populate-tracklist")
                 if not auto_populate:
@@ -295,7 +295,7 @@ class Application(Gtk.Application):
                 self.update_model_from(volume=volume)
 
             elif type == MessageType.TRACKLIST_CHANGED:
-                GLib.idle_add(self.model.clear_track_list)
+                self.model.clear_track_list()
 
             elif type == MessageType.SEEKED:
                 time_position = message.data.get("time_position")
@@ -333,19 +333,17 @@ class Application(Gtk.Application):
             self._model.set_property_in_gtk_thread("track_name", track_name)
             self._model.set_property_in_gtk_thread("track_length", track_length)
 
-            # initialize some track dependent properties when not
-            # specified
+            artists = track.get("artists", [])
+            if len(artists) > 0:
+                artist = artists[0]
+                artist_uri = artist.get("uri", "")
+                artist_name = artist.get("name", "")
+
+                self._model.set_property_in_gtk_thread("artist_uri", artist_uri)
+                self._model.set_property_in_gtk_thread("artist_name", artist_name)
 
             if time_position is None:
                 self._model.set_property_in_gtk_thread("time_position", -1)
-
-            artists = track.get("artists", [{}])
-            artist = artists[0]
-            artist_uri = artist.get("uri", "")
-            artist_name = artist.get("name", "")
-
-            self._model.set_property_in_gtk_thread("artist_uri", artist_uri)
-            self._model.set_property_in_gtk_thread("artist_name", artist_name)
 
         values_by_name = {
             "mute": mute,
