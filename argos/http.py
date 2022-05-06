@@ -12,6 +12,7 @@ from gi.repository import Gio, GObject
 
 if TYPE_CHECKING:
     from .app import Application
+from .model import PlaybackState
 from .ws import MopidyWSConnection
 
 LOGGER = logging.getLogger(__name__)
@@ -124,16 +125,16 @@ class MopidyHTTPClient(GObject.GObject):
         """
         await self._ws.send_command("core.tracklist.add", params={"uris": uris})
 
-    async def play_album(self, uri: str = None) -> None:
-        """Play album with given URI.
+    async def play_tracks(self, uris: Optional[List[str]] = None) -> None:
+        """Play tracks with given URIs.
 
-        When ``uri`` is ``None``, then a random album is choosen.
+        When ``uris`` is ``None``, a random album is choosen.
 
         Args:
-            uri: Optional URI of the album to play.
+            uris: Optional URIs of the tracks to play.
 
         """
-        if uri is None:
+        if uris is None:
             albums = await self.browse_albums()
 
             if not albums or not len(albums):
@@ -141,11 +142,13 @@ class MopidyHTTPClient(GObject.GObject):
 
             album = random.choice(albums)
             LOGGER.debug(f"Will play {album['name']}")
-            uri = album["uri"]
+            uris = [album["uri"]]
 
         await self._ws.send_command("core.tracklist.clear")
-        await self._ws.send_command("core.tracklist.add", params={"uris": [uri]})
-        await self._ws.send_command("core.playback.play")
+        await self._ws.send_command("core.tracklist.add", params={"uris": uris})
+        state = await self._ws.send_command("core.playback.get_state")
+        if state != PlaybackState.PLAYING:
+            await self._ws.send_command("core.playback.play")
 
     async def play_favorite_playlist(self) -> None:
         if not self._favorite_playlist_uri:

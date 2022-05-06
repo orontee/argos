@@ -214,9 +214,8 @@ class Application(Gtk.Application):
                 uris = message.data.get("uris")
                 await self._http.add_to_tracklist(uris=uris)
 
-            elif type == MessageType.PLAY_ALBUM:
-                uri = message.data.get("uri")
-                await self._http.play_album(uri=uri)
+            elif type == MessageType.PLAY_TRACKS:
+                await self._http.play_tracks(**message.data)
 
             elif type == MessageType.PLAY_FAVORITE_PLAYLIST:
                 await self._http.play_favorite_playlist()
@@ -289,7 +288,7 @@ class Application(Gtk.Application):
                 eot_tlid = await self._http.get_eot_tlid()
                 if not eot_tlid:
                     LOGGER.info("Will populate track list with random album")
-                    await self._http.play_album()
+                    await self._http.play_tracks()
 
             elif type == MessageType.PLAYBACK_STATE_CHANGED:
                 raw_state = message.data.get("new_state")
@@ -302,9 +301,6 @@ class Application(Gtk.Application):
             elif type == MessageType.VOLUME_CHANGED:
                 volume = message.data.get("volume")
                 self.update_model_from(volume=volume)
-
-            elif type == MessageType.TRACKLIST_CHANGED:
-                self.model.clear_track_list()
 
             elif type == MessageType.SEEKED:
                 time_position = message.data.get("time_position")
@@ -532,7 +528,7 @@ class Application(Gtk.Application):
     def play_random_album_activate_cb(
         self, action: Gio.SimpleAction, parameter: None
     ) -> None:
-        self.send_message(MessageType.PLAY_ALBUM)
+        self.send_message(MessageType.PLAY_TRACKS)
 
     def play_favorite_playlist_activate_cb(
         self, action: Gio.SimpleAction, parameter: None

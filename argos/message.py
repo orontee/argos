@@ -9,7 +9,7 @@ class MessageType(Enum):
     PLAY_PREV_TRACK = 1
     PLAY_NEXT_TRACK = 2
     ADD_TO_TRACKLIST = 3
-    PLAY_ALBUM = 4
+    PLAY_TRACKS = 4
     PLAY_FAVORITE_PLAYLIST = 5
     SEEK = 6
     SET_VOLUME = 7

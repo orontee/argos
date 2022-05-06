@@ -24,6 +24,7 @@ class TrackStoreColumns(IntEnum):
     NAME = 2
     LENGTH = 3
     TOOLTIP = 4
+    URI = 5
 
 
 def _compare_track_rows(
@@ -74,7 +75,7 @@ class AlbumBox(Gtk.Box):
         self._model = application.model
         self._disable_tooltips = application._disable_tooltips
 
-        track_store = Gtk.ListStore(int, int, str, str, str)
+        track_store = Gtk.ListStore(int, int, str, str, str, str)
         track_store.set_default_sort_func(_compare_track_rows, None)
         track_store.set_sort_column_id(
             Gtk.TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID,
@@ -209,6 +210,7 @@ class AlbumBox(Gtk.Box):
                     track.name,
                     ms_to_text(track.length) if track.length else "",
                     GLib.markup_escape_text(track.name),
+                    track.uri,
                 ]
             )
 
@@ -220,8 +222,20 @@ class AlbumBox(Gtk.Box):
 
     @Gtk.Template.Callback()
     def on_play_button_clicked(self, _1: Gtk.Button) -> None:
-        self._app.send_message(MessageType.PLAY_ALBUM, {"uri": self.uri})
+        self._app.send_message(MessageType.PLAY_TRACKS, {"uris": [self.uri]})
 
     @Gtk.Template.Callback()
     def on_add_button_clicked(self, _1: Gtk.Button) -> None:
         self._app.send_message(MessageType.ADD_TO_TRACKLIST, {"uris": [self.uri]})
+
+    @Gtk.Template.Callback()
+    def on_track_view_row_activated(
+        self,
+        track_view: Gtk.TreeView,
+        path: Gtk.TreePath,
+        _1: Gtk.TreeViewColumn,
+    ) -> None:
+        store = track_view.get_model()
+        store_iter = store.get_iter(path)
+        uri = store.get_value(store_iter, TrackStoreColumns.URI)
+        self._app.send_message(MessageType.PLAY_TRACKS, {"uris": [uri]})

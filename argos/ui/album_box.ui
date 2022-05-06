@@ -275,6 +275,7 @@
                     <property name="enable-search">False</property>
                     <property name="show-expanders">False</property>
                     <property name="enable-grid-lines">horizontal</property>
+                    <signal name="row-activated" handler="on_track_view_row_activated" swapped="no"/>
                     <child internal-child="selection">
                       <object class="GtkTreeSelection"/>
                     </child>
