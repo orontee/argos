@@ -118,6 +118,10 @@ class AlbumsWindow(Gtk.ScrolledWindow):
     def albums_view_item_activated_cb(
         self, icon_view: Gtk.IconView, path: Gtk.TreePath
     ) -> None:
+        sensitive = self._model.network_available and self._model.connected
+        if not sensitive:
+            return
+
         store = icon_view.get_model()
         store_iter = store.get_iter(path)
         uri = store.get_value(store_iter, AlbumStoreColumns.URI)

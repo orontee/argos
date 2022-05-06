@@ -119,7 +119,22 @@ class AlbumBox(Gtk.Box):
             target_width=ALBUM_IMAGE_SIZE,
         )
 
+        self._model.connect("notify::network-available", self.handle_connection_changed)
+        self._model.connect("notify::connected", self.handle_connection_changed)
         self._model.connect("album-completed", self.update_children)
+
+    def handle_connection_changed(
+        self,
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
+    ) -> None:
+        sensitive = self._model.network_available and self._model.connected
+        buttons = [
+            self.play_button,
+            self.add_button,
+        ]
+        for button in buttons:
+            button.set_sensitive(sensitive)
 
     def update_children(self, model: Model, uri: str) -> None:
         if self.uri != uri:
@@ -241,6 +256,10 @@ class AlbumBox(Gtk.Box):
         path: Gtk.TreePath,
         _1: Gtk.TreeViewColumn,
     ) -> None:
+        sensitive = self._model.network_available and self._model.connected
+        if not sensitive:
+            return
+
         store = track_view.get_model()
         store_iter = store.get_iter(path)
         uri = store.get_value(store_iter, TrackStoreColumns.URI)
