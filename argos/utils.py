@@ -61,5 +61,11 @@ def ms_to_text(value: int) -> str:
         second_count = round(value / 1000)
         minutes = second_count // 60
         seconds = second_count % 60
-        text = f"{minutes}:{seconds:02d}"
+
+        if minutes > 60:
+            hours = minutes // 60
+            minutes = minutes % 60
+            text = f"{hours}:{minutes:02d}:{seconds:02d}"
+        else:
+            text = f"{minutes:02d}:{seconds:02d}"
     return text
