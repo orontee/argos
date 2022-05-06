@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-20 20:17+0200\n"
+"POT-Creation-Date: 2022-05-06 23:02+0200\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -16,21 +16,41 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: argos/app.py:88
+#: argos/app.py:70
 msgid "Enable debug logs"
 msgstr "Activer le journal de débogage"
 
-#: argos/app.py:96
+#: argos/app.py:78
 msgid "Start with fullscreen window"
 msgstr "Démarrer avec une fenêtre plein-écran"
 
-#: argos/app.py:104
+#: argos/app.py:86
 msgid "Start with maximized window"
 msgstr "Démarrer avec une fenêtre de taille maximale"
 
-#: argos/app.py:112
+#: argos/app.py:94
 msgid "Disable tooltips"
 msgstr "Désactiver les info-bulles"
+
+#: argos/ui/album_box.ui:41
+msgid "Back to albums"
+msgstr "Retourner aux albums"
+
+#: argos/ui/album_box.ui:64
+msgid "Add album to tracklist"
+msgstr "Ajouter l'album à la file d'attente"
+
+#: argos/ui/album_box.ui:79
+msgid "Play album"
+msgstr "Lire l'album"
+
+#: argos/ui/album_box.ui:187
+msgid "Published"
+msgstr "Publication"
+
+#: argos/ui/album_box.ui:216
+msgid "Length"
+msgstr "Durée"
 
 #: argos/ui/app_menu.ui:6
 msgid "Play _favorite playlist"
@@ -102,6 +122,18 @@ msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Aller aux albums"
 
+#: argos/ui/playing_box.ui:203
+msgid "Previous"
+msgstr "Précédent"
+
+#: argos/ui/playing_box.ui:224
+msgid "Play"
+msgstr "Lire"
+
+#: argos/ui/playing_box.ui:245
+msgid "Next"
+msgstr "Suivant"
+
 #: argos/ui/preferences.ui:7
 msgid "Preferences"
 msgstr "Préférences"
@@ -126,35 +158,27 @@ msgstr "Liste de lecture favorite"
 msgid "Automatically populate track list"
 msgstr "Lecture en continu d'albums choisis aléatoirement"
 
-#: argos/ui/window.ui:56 data/app.argos.Argos.desktop.in:3
-msgid "Argos"
-msgstr "Argos"
-
-#: argos/ui/window.ui:106
+#: argos/ui/top_controls_box.ui:26
 msgid "Play favorite playlist"
 msgstr "Lire la liste de lecture favorite"
 
-#: argos/ui/window.ui:126
+#: argos/ui/top_controls_box.ui:44
 msgid "Play random album"
 msgstr "Lire un album au hasard"
 
-#: argos/ui/window.ui:396
-msgid "Previous"
-msgstr "Précédent"
+#: argos/ui/window.ui:13 data/app.argos.Argos.desktop.in:3
+msgid "Argos"
+msgstr "Argos"
 
-#: argos/ui/window.ui:417
-msgid "Play"
-msgstr "Lire"
+#: argos/widgets/albumbox.py:87
+msgid "Track"
+msgstr "Morceau"
 
-#: argos/ui/window.ui:438
-msgid "Next"
-msgstr "Suivant"
-
-#: argos/ui/window.ui:473
+#: argos/window.py:41
 msgid "Playing"
 msgstr "En cours"
 
-#: argos/ui/window.ui:492
+#: argos/window.py:44
 msgid "Albums"
 msgstr "Albums"
 

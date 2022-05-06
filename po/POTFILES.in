@@ -1,7 +1,13 @@
 argos/app.py
+argos/ui/album_box.ui
+argos/ui/albums_window.ui
 argos/ui/app_menu.ui
 argos/ui/help_overlay.ui
+argos/ui/playing_box.ui
 argos/ui/preferences.ui
+argos/ui/top_controls_box.ui
 argos/ui/window.ui
+argos/widgets/albumbox.py
+argos/window.py
 data/app.argos.Argos.desktop.in
 data/app.argos.Argos.gschema.xml

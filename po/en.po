@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: argos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-20 20:17+0200\n"
+"POT-Creation-Date: 2022-05-06 23:02+0200\n"
 "PO-Revision-Date: 2022-02-20 20:54+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,21 +17,41 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: argos/app.py:88
+#: argos/app.py:70
 msgid "Enable debug logs"
 msgstr "Enable debug logs"
 
-#: argos/app.py:96
+#: argos/app.py:78
 msgid "Start with fullscreen window"
 msgstr "Start with fullscreen window"
 
-#: argos/app.py:104
+#: argos/app.py:86
 msgid "Start with maximized window"
 msgstr "Start with maximized window"
 
-#: argos/app.py:112
+#: argos/app.py:94
 msgid "Disable tooltips"
 msgstr "Disable tooltips"
+
+#: argos/ui/album_box.ui:41
+msgid "Back to albums"
+msgstr "Go to Albums"
+
+#: argos/ui/album_box.ui:64
+msgid "Add album to tracklist"
+msgstr "Add album to tracklist"
+
+#: argos/ui/album_box.ui:79
+msgid "Play album"
+msgstr "Play album"
+
+#: argos/ui/album_box.ui:187
+msgid "Published"
+msgstr "Published"
+
+#: argos/ui/album_box.ui:216
+msgid "Length"
+msgstr "Length"
 
 #: argos/ui/app_menu.ui:6
 msgid "Play _favorite playlist"
@@ -56,12 +76,12 @@ msgstr "_About"
 #: argos/ui/help_overlay.ui:13
 msgctxt "shortcut window"
 msgid "General"
-msgstr ""
+msgstr "General"
 
 #: argos/ui/help_overlay.ui:17
 msgctxt "shortcut window"
 msgid "Close window"
-msgstr ""
+msgstr "Close window"
 
 #: argos/ui/help_overlay.ui:24
 msgctxt "shortcut window"
@@ -103,6 +123,18 @@ msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Go to Albums"
 
+#: argos/ui/playing_box.ui:203
+msgid "Previous"
+msgstr "Previous"
+
+#: argos/ui/playing_box.ui:224
+msgid "Play"
+msgstr "Play"
+
+#: argos/ui/playing_box.ui:245
+msgid "Next"
+msgstr "Next"
+
 #: argos/ui/preferences.ui:7
 msgid "Preferences"
 msgstr "Preferences"
@@ -127,35 +159,27 @@ msgstr "Favorite playlist"
 msgid "Automatically populate track list"
 msgstr "Automatically populate track list"
 
-#: argos/ui/window.ui:56 data/app.argos.Argos.desktop.in:3
-msgid "Argos"
-msgstr "Argos"
-
-#: argos/ui/window.ui:106
+#: argos/ui/top_controls_box.ui:26
 msgid "Play favorite playlist"
 msgstr "Play favorite playlist"
 
-#: argos/ui/window.ui:126
+#: argos/ui/top_controls_box.ui:44
 msgid "Play random album"
 msgstr "Play random album"
 
-#: argos/ui/window.ui:396
-msgid "Previous"
-msgstr "Previous"
+#: argos/ui/window.ui:13 data/app.argos.Argos.desktop.in:3
+msgid "Argos"
+msgstr "Argos"
 
-#: argos/ui/window.ui:417
-msgid "Play"
-msgstr "Play"
+#: argos/widgets/albumbox.py:87
+msgid "Track"
+msgstr "Track"
 
-#: argos/ui/window.ui:438
-msgid "Next"
-msgstr "Next"
-
-#: argos/ui/window.ui:473
+#: argos/window.py:41
 msgid "Playing"
 msgstr "Playing"
 
-#: argos/ui/window.ui:492
+#: argos/window.py:44
 msgid "Albums"
 msgstr "Albums"
 
@@ -198,3 +222,6 @@ msgid ""
 msgstr ""
 "Whether to automatically populate the tracklist with a random choosen album "
 "when its last track playback ended."
+
+#~ msgid "Main"
+#~ msgstr "Main"
