@@ -3,7 +3,7 @@ import gettext
 import logging
 from functools import partial
 from threading import Thread
-from typing import Any, Dict, List, Optional
+from typing import Any, cast, Dict, List, Optional
 
 import gi
 
@@ -14,7 +14,7 @@ from gi.repository import Gio, GLib, GObject, Gtk
 from .download import ImageDownloader
 from .http import MopidyHTTPClient
 from .message import Message, MessageType
-from .model import Model, PlaybackState
+from .model import Model, PlaybackState, Track
 from .time import TimePositionTracker
 from .utils import configure_logger
 from .widgets import AboutDialog, PreferencesWindow
@@ -210,6 +210,10 @@ class Application(Gtk.Application):
             elif type == MessageType.PLAY_NEXT_TRACK:
                 await self._http.next()
 
+            elif type == MessageType.ADD_TO_TRACKLIST:
+                uris = message.data.get("uris")
+                await self._http.add_to_tracklist(uris=uris)
+
             elif type == MessageType.PLAY_ALBUM:
                 uri = message.data.get("uri")
                 await self._http.play_album(uri=uri)
@@ -258,6 +262,11 @@ class Application(Gtk.Application):
 
             elif type == MessageType.BROWSE_ALBUMS:
                 await self._browse_albums()
+
+            elif type == MessageType.COMPLETE_ALBUM_DESCRIPTION:
+                album_uri = message.data.get("album_uri", "")
+                if album_uri:
+                    await self._describe_album(album_uri)
 
             # Events (from websocket)
             elif type == MessageType.TRACK_PLAYBACK_STARTED:
@@ -441,6 +450,46 @@ class Application(Gtk.Application):
             a["image_path"] = filepath
 
         self.update_model_from(albums=albums)
+
+    async def _describe_album(self, uri: str) -> None:
+        LOGGER.debug(f"Completing description of album with uri {uri}")
+
+        tracks = await self._http.lookup_library([uri])
+        album_tracks = tracks.get(uri) if tracks else None
+        if album_tracks and len(album_tracks) > 0:
+            album = album_tracks[0].get("album")
+            if not album:
+                return
+
+            artists = cast(List[Dict[str, Any]], album_tracks[0].get("artists"))
+            artist_name = artists[0].get("name") if len(artists) > 0 else None
+
+            num_tracks = album.get("num_tracks")
+            num_discs = album.get("num_discs")
+            date = album.get("date")
+            length = sum([track.get("length", 0) for track in album_tracks])
+
+            parsed_tracks: List[Track] = [
+                Track(
+                    cast(str, t.get("uri")),
+                    cast(str, t.get("name")),
+                    cast(int, t.get("track_no")),
+                    cast(int, t.get("disc_no", 1)),
+                    t.get("length"),
+                )
+                for t in album_tracks
+                if "uri" in t and "track_no" in t and "name" in t
+            ]
+
+            self._model.complete_album_description(
+                uri,
+                artist_name=artist_name,
+                num_tracks=num_tracks,
+                num_discs=num_discs,
+                date=date,
+                length=length,
+                tracks=parsed_tracks,
+            )
 
     async def _fetch_album_images(self) -> None:
         LOGGER.debug("Starting album image download...")

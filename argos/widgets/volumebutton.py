@@ -21,8 +21,6 @@ class VolumeButton(Gtk.VolumeButton):
             "value_changed", self.value_changed_cb
         )
 
-        self.props.width_request = 50
-        self.props.height_request = 50
         self.props.margin_start = 5
         self.props.margin_end = 5
 

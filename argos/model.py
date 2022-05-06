@@ -1,8 +1,8 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import IntEnum
 from functools import partial
 import logging
-from typing import Any, List, TYPE_CHECKING
+from typing import Any, List, Optional, TYPE_CHECKING
 
 from gi.repository import Gio, GLib, GObject
 
@@ -33,14 +33,31 @@ class PlaybackState(IntEnum):
 
 
 @dataclass
-class Album:
-    name: str
+class Track:
     uri: str
+    name: str
+    track_no: int
+    disc_no: int = 1
+    length: Optional[int] = None
+
+
+@dataclass
+class Album:
+    uri: str
+    name: str
     image_path: str
     image_uri: str
+    artist_name: Optional[str] = None
+    num_tracks: Optional[int] = None
+    num_discs: Optional[int] = None
+    date: Optional[str] = None
+    length: Optional[int] = None
+    tracks: List[Track] = field(default_factory=list)
 
 
 class Model(GObject.GObject):
+    __gsignals__ = {"album-completed": (GObject.SIGNAL_RUN_FIRST, None, (str,))}
+
     network_available = GObject.Property(type=bool, default=False)
     connected = GObject.Property(type=bool, default=False)
 
@@ -103,6 +120,40 @@ class Model(GObject.GObject):
             else:
                 LOGGER.debug(f"No need to set {name!r} to {value!r}")
 
+    def complete_album_description(
+        self,
+        album_uri: str,
+        *,
+        artist_name: Optional[str],
+        num_tracks: Optional[int],
+        num_discs: Optional[int],
+        date: Optional[str],
+        length: Optional[int],
+        tracks: List[Track],
+    ) -> None:
+        found = [album for album in self.albums if album.uri == album_uri]
+        if len(found) == 0:
+            LOGGER.warning(f"No album found with URI {album_uri}")
+            return
+
+        LOGGER.debug(f"Updating description of album with URI {album_uri}")
+        album = found[0]
+
+        album.artist_name = artist_name
+        album.num_tracks = num_tracks
+        album.num_discs = num_discs
+        album.date = date
+        album.length = length
+        album.tracks = tracks
+
+        GLib.idle_add(
+            partial(
+                self.emit,
+                "album-completed",
+                album_uri,
+            )
+        )
+
     def _set_albums(self, value: Any) -> None:
         if self.albums_loaded:
             self.set_property_in_gtk_thread("albums_loaded", False)
@@ -116,8 +167,8 @@ class Model(GObject.GObject):
                 continue
 
             album = Album(
-                name,
                 uri,
+                name,
                 v.get("image_path", ""),
                 v.get("image_uri", ""),
             )

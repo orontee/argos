@@ -17,10 +17,9 @@
   <template class="TopControlsBox" parent="GtkBox">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
+    <property name="valign">center</property>
     <child>
       <object class="GtkButton" id="play_favorite_playlist_button">
-        <property name="width-request">50</property>
-        <property name="height-request">50</property>
         <property name="visible">True</property>
         <property name="can-focus">True</property>
         <property name="receives-default">True</property>
@@ -39,8 +38,6 @@
     </child>
     <child>
       <object class="GtkButton" id="play_random_album_button">
-        <property name="width-request">50</property>
-        <property name="height-request">50</property>
         <property name="visible">True</property>
         <property name="can-focus">True</property>
         <property name="receives-default">True</property>
@@ -59,8 +56,6 @@
     </child>
     <child>
       <object class="GtkMenuButton" id="app_menu_button">
-        <property name="width-request">50</property>
-        <property name="height-request">50</property>
         <property name="visible">True</property>
         <property name="can-focus">True</property>
         <property name="focus-on-click">False</property>

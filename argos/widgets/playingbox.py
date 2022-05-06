@@ -1,11 +1,12 @@
+from pathlib import Path
 import logging
 
-from gi.repository import GdkPixbuf, GLib, GObject, Gtk
-from gi.repository.GdkPixbuf import Pixbuf
+from gi.repository import GLib, GObject, Gtk
 
 from ..message import MessageType
 from ..model import PlaybackState
-from ..utils import compute_target_size, elide_maybe, ms_to_text
+from ..utils import elide_maybe, ms_to_text
+from .utils import scale_album_image
 
 LOGGER = logging.getLogger(__name__)
 
@@ -80,29 +81,19 @@ class PlayingBox(Gtk.Box):
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
-        image_path = self._model.image_path
-        if not image_path:
+        image_path = Path(self._model.image_path)
+        scaled_pixbuf = None
+        if image_path:
+            rectangle = self.playing_track_image.get_allocation()
+            target_width = min(rectangle.width, rectangle.height)
+            scaled_pixbuf = scale_album_image(image_path, target_width=target_width)
+
+        if scaled_pixbuf:
+            self.playing_track_image.set_from_pixbuf(scaled_pixbuf)
+        else:
             self.playing_track_image.set_from_resource(
                 "/app/argos/Argos/icons/welcome-music.svg"
             )
-        else:
-            try:
-                pixbuf = Pixbuf.new_from_file(image_path)
-            except GLib.Error as error:
-                LOGGER.warning(f"Failed to read image at {image_path!r}: {error}")
-                self.playing_track_image.set_from_resource(
-                    "/app/argos/Argos/icons/welcome-music.svg"
-                )
-            else:
-                rectangle = self.playing_track_image.get_allocation()
-                target_width = min(rectangle.width, rectangle.height)
-                width, height = compute_target_size(
-                    pixbuf.get_width(), pixbuf.get_height(), target_width=target_width
-                )
-                scaled_pixbuf = pixbuf.scale_simple(
-                    width, height, GdkPixbuf.InterpType.BILINEAR
-                )
-                self.playing_track_image.set_from_pixbuf(scaled_pixbuf)
 
         self.playing_track_image.show_now()
 

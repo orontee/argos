@@ -17,58 +17,71 @@
     <property name="icon-name">media-optical</property>
     <signal name="key-press-event" handler="key_press_event_cb" swapped="no"/>
     <child>
-      <object class="GtkBox" id="vertical_box">
+      <object class="GtkStack" id="main_stack">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
-        <property name="margin-start">5</property>
-        <property name="margin-end">5</property>
-        <property name="margin-top">5</property>
-        <property name="margin-bottom">5</property>
-        <property name="orientation">vertical</property>
+        <property name="transition-type">crossfade</property>
         <child>
-          <object class="GtkBox" id="top_box">
+          <object class="GtkBox" id="vertical_box">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="margin-bottom">5</property>
+            <property name="margin-start">5</property>
+            <property name="margin-end">5</property>
+            <property name="margin-top">10</property>
+            <property name="margin-bottom">10</property>
+            <property name="orientation">vertical</property>
             <child>
-              <object class="GtkStackSwitcher" id="central_view_switcher">
+              <object class="GtkBox" id="top_box">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="halign">center</property>
-                <property name="valign">center</property>
-                <property name="hexpand">True</property>
-                <property name="homogeneous">True</property>
-                <property name="stack">central_view</property>
+                <property name="margin-bottom">10</property>
+                <child>
+                  <object class="GtkStackSwitcher" id="central_view_switcher">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="halign">center</property>
+                    <property name="valign">center</property>
+                    <property name="hexpand">True</property>
+                    <property name="homogeneous">True</property>
+                    <property name="stack">central_view</property>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
               </object>
               <packing>
-                <property name="expand">True</property>
+                <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
             </child>
-	    <child>
-	      <placeholder/>
-            </child>
             <child>
-              <placeholder/>
+              <object class="GtkStack" id="central_view">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="transition-type">crossfade</property>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
             </child>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkStack" id="central_view">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="transition-type">crossfade</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
+            <property name="name">main_page</property>
           </packing>
         </child>
       </object>

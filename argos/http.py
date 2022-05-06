@@ -65,41 +65,64 @@ class MopidyHTTPClient(GObject.GObject):
         eot_tlid = await self._ws.send_command("core.tracklist.get_eot_tlid")
         return int(eot_tlid) if eot_tlid is not None else None
 
-    async def browse_libraries(self) -> Optional[List[Dict[str, Any]]]:
-        libraries = cast(
+    async def browse_library(self, uri: str = None) -> Optional[List[Dict[str, Any]]]:
+        directories_and_tracks = cast(
             Optional[List[Dict[str, Any]]],
-            await self._ws.send_command("core.library.browse", params={"uri": None}),
+            await self._ws.send_command("core.library.browse", params={"uri": uri}),
         )
-        if libraries is None:
-            LOGGER.warning("No library found")
+        if directories_and_tracks is None:
+            LOGGER.warning("No directories nor tracks found")
         else:
-            LOGGER.debug(f"Found {len(libraries)} libraries")
+            LOGGER.debug(f"Found {len(directories_and_tracks)} directories and tracks")
 
-        return libraries
+        return directories_and_tracks
+
+    async def lookup_library(
+        self, uris: List[str]
+    ) -> Optional[Dict[str, List[Dict[str, Any]]]]:
+        tracks = cast(
+            Optional[Dict[str, List[Dict[str, Any]]]],
+            await self._ws.send_command("core.library.lookup", params={"uris": uris}),
+        )
+        if tracks is None:
+            LOGGER.warning("No tracks found")
+        else:
+            LOGGER.debug(f"Found tracks for {len(tracks)} URIs")
+
+        return tracks
 
     async def browse_albums(self) -> Optional[List[Any]]:
-        libraries = await self.browse_libraries()
-        if not libraries:
+        directories = await self.browse_library()
+        if not directories:
             return None
 
         albums = []
-        for library in libraries:
-            name = library.get("name")
-            uri = library.get("uri")
+        for dir in directories:
+            name = dir.get("name")
+            uri = dir.get("uri")
             if not name or not uri:
-                LOGGER.debug(f"Skipping unexpected library {library!r}")
+                LOGGER.debug(f"Skipping unexpected library {dir!r}")
                 continue
 
-            library_albums = await self._ws.send_command(
+            dir_albums = await self._ws.send_command(
                 "core.library.browse", params={"uri": f"{uri}?type=album"}
             )
-            if library_albums is None:
-                LOGGER.warning(f"No album found for library {name!r}")
+            if dir_albums is None:
+                LOGGER.warning(f"No album found for directory {name!r}")
             else:
-                LOGGER.debug(f"Found {len(library_albums)} albums in library {name!r}")
-                albums += library_albums
+                LOGGER.debug(f"Found {len(dir_albums)} albums in directory {name!r}")
+                albums += dir_albums
 
         return albums
+
+    async def add_to_tracklist(self, uris: List[str]) -> None:
+        """Add tracks to the tracklist.
+
+        Args:
+            uris: URIs of the tracks to add.
+
+        """
+        await self._ws.send_command("core.tracklist.add", params={"uris": uris})
 
     async def play_album(self, uri: str = None) -> None:
         """Play album with given URI.
