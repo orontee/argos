@@ -2,6 +2,7 @@ from enum import IntEnum
 import gettext
 import logging
 from pathlib import Path
+import re
 from typing import Optional, List
 
 from gi.repository import GLib, Gtk, GObject, Pango
@@ -168,8 +169,13 @@ class AlbumBox(Gtk.Box):
         self.artist_name_label.show_now()
 
     def _update_publication_label(self, date: Optional[str]) -> None:
+        year = None
         if date:
-            self.publication_label.set_text(date)
+            match = re.search("[12][0-9]{3}", date)
+            if match:
+                year = match.group(0)
+        if year:
+            self.publication_label.set_text(year)
         else:
             self.publication_label.set_text("")
 
