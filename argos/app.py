@@ -339,13 +339,11 @@ class Application(Gtk.Application):
             self._model.set_property_in_gtk_thread("track_length", track_length)
 
             artists = track.get("artists", [])
-            if len(artists) > 0:
-                artist = artists[0]
-                artist_uri = artist.get("uri", "")
-                artist_name = artist.get("name", "")
-
-                self._model.set_property_in_gtk_thread("artist_uri", artist_uri)
-                self._model.set_property_in_gtk_thread("artist_name", artist_name)
+            artist = artists[0] if len(artists) > 0 else {}
+            artist_uri = artist.get("uri", "")
+            artist_name = artist.get("name", "")
+            self._model.set_property_in_gtk_thread("artist_uri", artist_uri)
+            self._model.set_property_in_gtk_thread("artist_name", artist_name)
 
             if time_position is None:
                 self._model.set_property_in_gtk_thread("time_position", -1)
