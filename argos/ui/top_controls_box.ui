@@ -6,18 +6,15 @@
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="icon-name">user-bookmarks-symbolic</property>
-    <property name="icon_size">2</property>
   </object>
   <object class="GtkImage" id="play_random_album_image">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="icon-name">media-playlist-shuffle-symbolic</property>
-    <property name="icon_size">2</property>
   </object>
   <template class="TopControlsBox" parent="GtkBox">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
-    <property name="valign">center</property>
     <child>
       <object class="GtkButton" id="play_favorite_playlist_button">
         <property name="visible">True</property>
@@ -65,7 +62,6 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="icon-name">open-menu-symbolic</property>
-            <property name="icon_size">2</property>
           </object>
         </child>
         <style>

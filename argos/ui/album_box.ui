@@ -6,19 +6,16 @@
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="icon-name">list-add-symbolic</property>
-    <property name="icon_size">2</property>
   </object>
   <object class="GtkImage" id="back_image">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="icon-name">go-previous-symbolic</property>
-    <property name="icon_size">2</property>
   </object>
   <object class="GtkImage" id="play_image">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="icon-name">media-playback-start-symbolic</property>
-    <property name="icon_size">2</property>
   </object>
   <template class="AlbumBox" parent="GtkBox">
     <property name="visible">True</property>
@@ -40,7 +37,6 @@
             <property name="receives-default">True</property>
             <property name="tooltip-text" translatable="yes">Back to albums</property>
             <property name="halign">start</property>
-            <property name="valign">start</property>
             <property name="image">back_image</property>
             <property name="always-show-image">True</property>
             <signal name="clicked" handler="on_back_button_clicked" swapped="no"/>
