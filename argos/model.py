@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from enum import IntEnum
 from functools import partial
 import logging
-from typing import Any, List, Optional, TYPE_CHECKING
+from typing import Any, cast, Dict, List, Optional, TYPE_CHECKING
 
 from gi.repository import Gio, GLib, GObject
 
@@ -39,6 +39,20 @@ class Track:
     track_no: int
     disc_no: int = 1
     length: Optional[int] = None
+
+
+@dataclass
+class TracklistTrack:
+    tlid: int
+    track: Track
+    artist_name: str
+    album_name: str
+
+
+@dataclass
+class Tracklist:
+    version: int = -1
+    tracks: List[TracklistTrack] = field(default_factory=list)
 
 
 @dataclass
@@ -79,6 +93,7 @@ class Model(GObject.GObject):
 
     albums_loaded = GObject.Property(type=bool, default=False)
     albums_images_loaded = GObject.Property(type=bool, default=False)
+    tracklist_loaded = GObject.Property(type=bool, default=False)
 
     def __init__(
         self,
@@ -90,8 +105,9 @@ class Model(GObject.GObject):
         application._nm.connect("network-changed", self._on_nm_network_changed)
 
         self.albums: List[Album] = []
+        self.tracklist: Tracklist = Tracklist()
 
-    def clear_track_list(self) -> None:
+    def clear_track_playback_state(self) -> None:
         self.set_property_in_gtk_thread("track_uri", "")
         self.set_property_in_gtk_thread("track_name", "")
         self.set_property_in_gtk_thread("track_length", -1)
@@ -100,13 +116,19 @@ class Model(GObject.GObject):
         self.set_property_in_gtk_thread("artist_name", "")
         self.set_property_in_gtk_thread("image_path", "")
 
-    def set_property_in_gtk_thread(self, name: str, value: Any) -> None:
+    def set_property_in_gtk_thread(
+        self,
+        name: str,
+        value: Any,
+        *,
+        force: bool = False,
+    ) -> None:
         if name == "albums":
             # albums isn't a GObject.Property()!
             LOGGER.debug(f"Updating {name!r}")
             self._set_albums(value)
         else:
-            if self.get_property(name) != value:
+            if force or self.get_property(name) != value:
                 LOGGER.debug(
                     f"Updating {name!r} from {self.get_property(name)!r} to {value!r}"
                 )
@@ -154,6 +176,50 @@ class Model(GObject.GObject):
             )
         )
 
+    def update_tracklist(self, version: Optional[int], tracks: Any) -> None:
+        if self.tracklist.version == version:
+            return
+
+        if self.tracklist_loaded:
+            self.set_property_in_gtk_thread("tracklist_loaded", False)
+
+        self.tracklist.tracks.clear()
+        if not version:
+            self.tracklist.version = -1
+            return
+
+        self.tracklist.version = version
+
+        for tl_track in tracks:
+            tlid = cast(int, tl_track.get("tlid"))
+            track = cast(Dict[str, Any], tl_track.get("track", {}))
+            uri = cast(str, track.get("uri"))
+            if not all([tlid, track, uri]):
+                continue
+
+            album = cast(Dict[str, Any], track.get("album", {}))
+            artists = cast(List[Dict[str, Any]], album.get("artists", []))
+            artist = artists[0] if len(artists) > 0 else {}
+
+            self.tracklist.tracks.append(
+                TracklistTrack(
+                    tlid,
+                    Track(
+                        uri,
+                        cast(str, track.get("name")),
+                        cast(int, track.get("track_no")),
+                        cast(int, track.get("disc_no", 1)),
+                        track.get("length"),
+                    ),
+                    artist.get("name", ""),
+                    album.get("name", ""),
+                )
+            )
+        if len(tracks) == 0:
+            self.clear_track_playback_state()
+
+        self.set_property_in_gtk_thread("tracklist_loaded", True, force=True)
+
     def _set_albums(self, value: Any) -> None:
         if self.albums_loaded:
             self.set_property_in_gtk_thread("albums_loaded", False)
@@ -174,7 +240,7 @@ class Model(GObject.GObject):
             )
             self.albums.append(album)
 
-        self.set_property_in_gtk_thread("albums_loaded", True)
+        self.set_property_in_gtk_thread("albums_loaded", True, force=True)
 
     def _on_nm_network_changed(
         self, network_monitor: Gio.NetworkMonitor, network_available: bool

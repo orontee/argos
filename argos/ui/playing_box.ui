@@ -56,8 +56,6 @@
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="margin-end">10</property>
-        <property name="margin-top">10</property>
-        <property name="margin-bottom">10</property>
         <property name="hexpand">True</property>
         <property name="vexpand">True</property>
         <property name="orientation">vertical</property>
@@ -104,7 +102,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">1</property>
+            <property name="position">0</property>
           </packing>
         </child>
         <child>
@@ -183,7 +181,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">2</property>
+            <property name="position">1</property>
           </packing>
         </child>
         <child>
@@ -191,7 +189,8 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="halign">center</property>
-            <property name="margin-top">20</property>
+            <property name="margin-top">10</property>
+            <property name="margin-bottom">10</property>
             <property name="vexpand">False</property>
             <child>
               <object class="GtkButton" id="prev_button">
@@ -264,7 +263,31 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">3</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkScrolledWindow" id="tracklist_view_scrolled_window">
+            <property name="height-request">175</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="shadow-type">in</property>
+            <child>
+              <object class="GtkTreeView" id="tracklist_view">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="headers-visible">False</property>
+                <property name="enable-search">False</property>
+                <property name="enable-grid-lines">horizontal</property>
+                <property name="activate-on-single-click">True</property>
+                <signal name="row-activated" handler="on_tracklist_view_row_activated" swapped="no"/>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">4</property>
           </packing>
         </child>
       </object>

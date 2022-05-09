@@ -214,6 +214,15 @@ class Application(Gtk.Application):
                 uris = message.data.get("uris")
                 await self._http.add_to_tracklist(uris=uris)
 
+            elif type == MessageType.CLEAR_TRACKLIST:
+                await self._http.clear_tracklist()
+
+            elif type == MessageType.GET_TRACKLIST:
+                await self._get_tracklist()
+
+            elif type == MessageType.PLAY:
+                await self._http.play(**message.data)
+
             elif type == MessageType.PLAY_TRACKS:
                 await self._http.play_tracks(**message.data)
 
@@ -279,7 +288,7 @@ class Application(Gtk.Application):
                 self.update_model_from(raw_state="playing")
 
             elif type == MessageType.TRACK_PLAYBACK_ENDED:
-                self.model.clear_track_list()
+                self.model.clear_track_playback_state()
 
                 auto_populate = self.settings.get_boolean("auto-populate-tracklist")
                 if not auto_populate:
@@ -307,6 +316,9 @@ class Application(Gtk.Application):
                 self.update_model_from(time_position=time_position)
                 self._time_position_tracker.time_position_synced()
 
+            elif type == MessageType.TRACKLIST_CHANGED:
+                await self._get_tracklist()
+
             else:
                 LOGGER.warning(
                     f"Unhandled message type {type!r} " f"with data {message.data!r}"
@@ -323,9 +335,17 @@ class Application(Gtk.Application):
         image_path: Any = None,
         albums: List[Any] = None,
     ) -> None:
-        if raw_state is not None:
-            state = PlaybackState.from_string(raw_state)
-            self.model.set_property_in_gtk_thread("state", state)
+        state = PlaybackState.from_string(raw_state) if raw_state is not None else None
+
+        values_by_name = {
+            "state": state,
+            "mute": mute,
+            "volume": volume,
+        }
+        for name in values_by_name:
+            value = values_by_name[name]
+            if value is not None:
+                self.model.set_property_in_gtk_thread(name, value)
 
         if tl_track is not None:
             track = tl_track.get("track", {})
@@ -349,8 +369,6 @@ class Application(Gtk.Application):
                 self._model.set_property_in_gtk_thread("time_position", -1)
 
         values_by_name = {
-            "mute": mute,
-            "volume": volume,
             "time_position": time_position,
             "image_path": image_path,
             "albums": albums,
@@ -409,9 +427,10 @@ class Application(Gtk.Application):
         if self.model.network_available and self.model.connected:
             LOGGER.debug("Will identify playing state since connected to Mopidy server")
             self.send_message(MessageType.IDENTIFY_PLAYING_STATE)
+            self.send_message(MessageType.GET_TRACKLIST)
         else:
-            LOGGER.debug("Clearing track list since not connected")
-            self.model.clear_track_list()
+            LOGGER.debug("Clearing track playback state since not connected")
+            self.model.clear_track_playback_state()
 
     def _schedule_browse_albums_maybe(self) -> None:
         if (
@@ -491,8 +510,13 @@ class Application(Gtk.Application):
         image_uris = [a.image_uri for a in albums if a.image_uri]
         await self._download.fetch_images(image_uris)
 
+    async def _get_tracklist(self) -> None:
+        version = await self._http.get_tracklist_version()
+        tracks = await self._http.get_tracklist_tracks()
+        self._model.update_tracklist(version, tracks)
+
     def send_message(
-        self, message_type: MessageType, data: Dict[str, Any] = None
+        self, message_type: MessageType, data: Optional[Dict[str, Any]] = None
     ) -> None:
         message = Message(message_type, data or {})
         self._loop.call_soon_threadsafe(self._message_queue.put_nowait, message)

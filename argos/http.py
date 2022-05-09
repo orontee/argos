@@ -44,8 +44,12 @@ class MopidyHTTPClient(GObject.GObject):
     async def resume(self) -> None:
         await self._ws.send_command("core.playback.resume")
 
-    async def play(self) -> None:
-        await self._ws.send_command("core.playback.play")
+    async def play(self, tlid: Optional[int] = None) -> None:
+        params = {}
+        if tlid is not None:
+            params["tlid"] = tlid
+
+        await self._ws.send_command("core.playback.play", params=params)
 
     async def seek(self, time_position: int) -> Optional[bool]:
         params = {"time_position": time_position}
@@ -124,6 +128,18 @@ class MopidyHTTPClient(GObject.GObject):
 
         """
         await self._ws.send_command("core.tracklist.add", params={"uris": uris})
+
+    async def clear_tracklist(self) -> None:
+        """Clear the tracklist."""
+        await self._ws.send_command("core.tracklist.clear")
+
+    async def get_tracklist_tracks(self) -> Optional[Any]:
+        """Get the tracklist tracks."""
+        return await self._ws.send_command("core.tracklist.get_tl_tracks")
+
+    async def get_tracklist_version(self) -> Optional[int]:
+        """Get the version of the tracklist."""
+        return await self._ws.send_command("core.tracklist.get_version")
 
     async def play_tracks(self, uris: Optional[List[str]] = None) -> None:
         """Play tracks with given URIs.

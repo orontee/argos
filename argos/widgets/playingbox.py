@@ -1,35 +1,50 @@
+from enum import IntEnum
+import gettext
 from pathlib import Path
 import logging
 
-from gi.repository import GLib, GObject, Gtk
+from gi.repository import GLib, GObject, Gtk, Pango
 
 from ..message import MessageType
-from ..model import PlaybackState
+from ..model import Model, PlaybackState
 from ..utils import elide_maybe, ms_to_text
 from .utils import scale_album_image
 
+_ = gettext.gettext
+
 LOGGER = logging.getLogger(__name__)
+
+
+class TracklistStoreColumns(IntEnum):
+    TLID = 0
+    TRACK_NAME = 1
+    ARTIST_NAME = 2
+    ALBUM_NAME = 3
+    LENGTH = 4
+    TOOLTIP = 5
 
 
 @Gtk.Template(resource_path="/app/argos/Argos/ui/playing_box.ui")
 class PlayingBox(Gtk.Box):
     __gtype_name__ = "PlayingBox"
 
-    playing_track_image = Gtk.Template.Child()
-    play_image = Gtk.Template.Child()
-    pause_image = Gtk.Template.Child()
+    playing_track_image: Gtk.Image = Gtk.Template.Child()
+    play_image: Gtk.Image = Gtk.Template.Child()
+    pause_image: Gtk.Image = Gtk.Template.Child()
 
-    track_name_label = Gtk.Template.Child()
-    artist_name_label = Gtk.Template.Child()
-    track_length_label = Gtk.Template.Child()
+    track_name_label: Gtk.Label = Gtk.Template.Child()
+    artist_name_label: Gtk.Label = Gtk.Template.Child()
+    track_length_label: Gtk.Label = Gtk.Template.Child()
 
-    prev_button = Gtk.Template.Child()
-    play_button = Gtk.Template.Child()
-    next_button = Gtk.Template.Child()
+    prev_button: Gtk.Button = Gtk.Template.Child()
+    play_button: Gtk.Button = Gtk.Template.Child()
+    next_button: Gtk.Button = Gtk.Template.Child()
 
-    time_position_scale = Gtk.Template.Child()
-    time_position_adjustement = Gtk.Template.Child()
-    time_position_label = Gtk.Template.Child()
+    time_position_scale: Gtk.Scale = Gtk.Template.Child()
+    time_position_adjustement: Gtk.Adjustment = Gtk.Template.Child()
+    time_position_label: Gtk.Label = Gtk.Template.Child()
+
+    tracklist_view: Gtk.TreeView = Gtk.Template.Child()
 
     needs_attention = GObject.Property(type=bool, default=False)
 
@@ -40,10 +55,46 @@ class PlayingBox(Gtk.Box):
         self._model = application.model
         self._disable_tooltips = application._disable_tooltips
 
+        tracklist_store = Gtk.ListStore(int, str, str, str, str, str)
+        self.tracklist_view.set_model(tracklist_store)
+        if not self._disable_tooltips:
+            self.tracklist_view.set_tooltip_column(TracklistStoreColumns.TOOLTIP)
+
+        column = Gtk.TreeViewColumn(_("Track"))
+        track_name_renderer = Gtk.CellRendererText(
+            xpad=5,
+            ypad=5,
+            ellipsize=Pango.EllipsizeMode.END,
+        )
+        artist_name_renderer = Gtk.CellRendererText(
+            xpad=5,
+            ypad=5,
+            ellipsize=Pango.EllipsizeMode.END,
+        )
+        attrs = Pango.AttrList()
+        attrs.insert(Pango.attr_weight_new(Pango.Weight.LIGHT))
+        artist_name_renderer.props.attributes = attrs
+
+        track_length_renderer = Gtk.CellRendererText(xalign=1.0, xpad=5, ypad=5)
+        column.pack_start(track_name_renderer, True)
+        column.pack_start(artist_name_renderer, True)
+        column.pack_start(track_length_renderer, True)
+        column.add_attribute(
+            track_name_renderer, "text", TracklistStoreColumns.TRACK_NAME
+        )
+        column.add_attribute(
+            artist_name_renderer, "text", TracklistStoreColumns.ARTIST_NAME
+        )
+        column.add_attribute(
+            track_length_renderer, "text", TracklistStoreColumns.LENGTH
+        )
+        self.tracklist_view.append_column(column)
+
         for widget in (
             self.prev_button,
             self.play_button,
             self.next_button,
+            self.tracklist_view,
         ):
             widget.set_sensitive(
                 self._model.network_available and self._model.connected
@@ -61,6 +112,7 @@ class PlayingBox(Gtk.Box):
         self._model.connect(
             "notify::time-position", self.update_time_position_scale_and_label
         )
+        self._model.connect("notify::tracklist-loaded", self.update_tracklist_view)
 
     def handle_connection_changed(
         self,
@@ -68,13 +120,14 @@ class PlayingBox(Gtk.Box):
         _2: GObject.GParamSpec,
     ) -> None:
         sensitive = self._model.network_available and self._model.connected
-        buttons = [
+        widgets = (
             self.prev_button,
             self.play_button,
             self.next_button,
-        ]
-        for button in buttons:
-            button.set_sensitive(sensitive)
+            self.tracklist_view,
+        )
+        for widget in widgets:
+            widget.set_sensitive(sensitive)
 
     def update_playing_track_image(
         self,
@@ -185,6 +238,30 @@ class PlayingBox(Gtk.Box):
         elif state == PlaybackState.PLAYING:
             self.play_button.set_image(self.pause_image)
 
+    def update_tracklist_view(
+        self,
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
+    ) -> None:
+        store = self.tracklist_view.get_model()
+        store.clear()
+
+        if not self._model.tracklist_loaded:
+            return
+
+        for tl_track in self._model.tracklist.tracks:
+            track = tl_track.track
+            store.append(
+                [
+                    tl_track.tlid,
+                    track.name,
+                    tl_track.artist_name,
+                    tl_track.album_name,
+                    ms_to_text(track.length) if track.length else "",
+                    GLib.markup_escape_text(track.name),
+                ]
+            )
+
     @Gtk.Template.Callback()
     def prev_button_clicked_cb(self, *args) -> None:
         self._app.send_message(MessageType.PLAY_PREV_TRACK)
@@ -203,3 +280,19 @@ class PlayingBox(Gtk.Box):
     ) -> None:
         time_position = round(value)
         self._app.send_message(MessageType.SEEK, {"time_position": time_position})
+
+    @Gtk.Template.Callback()
+    def on_tracklist_view_row_activated(
+        self,
+        tracklist_view: Gtk.TreeView,
+        path: Gtk.TreePath,
+        _1: Gtk.TreeViewColumn,
+    ) -> None:
+        sensitive = self._model.network_available and self._model.connected
+        if not sensitive:
+            return
+
+        store = tracklist_view.get_model()
+        store_iter = store.get_iter(path)
+        tlid = store.get_value(store_iter, TracklistStoreColumns.TLID)
+        self._app.send_message(MessageType.PLAY, {"tlid": tlid})

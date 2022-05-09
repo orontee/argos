@@ -32,13 +32,18 @@ def compute_target_size(
 def configure_logger(options: dict) -> None:
     """Configure logger."""
     ch = logging.StreamHandler()
-    formatter = logging.Formatter("%(asctime)s %(levelname)s: %(name)s - %(message)s")
+    formatter = logging.Formatter(
+        "%(asctime)s thread-%(thread)d %(levelname)s: %(name)s - %(message)s"
+    )
     ch.setFormatter(formatter)
     level = logging.DEBUG if "debug" in options else logging.INFO
     ch.setLevel(level)
     logger = logging.getLogger("argos")
     logger.setLevel(level)
     logger.addHandler(ch)
+
+    logger = logging.getLogger("argos.time")
+    logger.setLevel(logging.INFO)
 
 
 def elide_maybe(text: str) -> str:

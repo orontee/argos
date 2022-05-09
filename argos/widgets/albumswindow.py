@@ -30,7 +30,7 @@ class AlbumsWindow(Gtk.ScrolledWindow):
 
     __gsignals__ = {"album-selected": (GObject.SIGNAL_RUN_FIRST, None, (str,))}
 
-    albums_view = Gtk.Template.Child()
+    albums_view: Gtk.IconView = Gtk.Template.Child()
 
     def __init__(self, application: Gtk.Application, stack=Gtk.Stack):
         super().__init__()

@@ -9,9 +9,9 @@ LOGGER = logging.getLogger(__name__)
 class TopControlsBox(Gtk.Box):
     __gtype_name__ = "TopControlsBox"
 
-    play_favorite_playlist_button = Gtk.Template.Child()
-    play_random_album_button = Gtk.Template.Child()
-    app_menu_button = Gtk.Template.Child()
+    play_favorite_playlist_button: Gtk.Button = Gtk.Template.Child()
+    play_random_album_button: Gtk.Button = Gtk.Template.Child()
+    app_menu_button: Gtk.MenuButton = Gtk.Template.Child()
 
     def __init__(self, application: Gtk.Application):
         super().__init__()
