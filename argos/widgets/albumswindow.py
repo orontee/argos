@@ -32,13 +32,12 @@ class AlbumsWindow(Gtk.ScrolledWindow):
 
     albums_view: Gtk.IconView = Gtk.Template.Child()
 
-    def __init__(self, application: Gtk.Application, stack=Gtk.Stack):
+    def __init__(self, application: Gtk.Application):
         super().__init__()
 
         self._app = application
         self._model = application.model
         self._disable_tooltips = application._disable_tooltips
-        self._stack = stack
 
         albums_store = Gtk.ListStore(str, str, str, str, Pixbuf)
         self.albums_view.set_model(albums_store)

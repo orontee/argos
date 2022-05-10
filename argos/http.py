@@ -141,6 +141,38 @@ class MopidyHTTPClient(GObject.GObject):
         """Get the version of the tracklist."""
         return await self._ws.send_command("core.tracklist.get_version")
 
+    async def get_consume(self) -> Optional[bool]:
+        consume = await self._ws.send_command("core.tracklist.get_consume")
+        return bool(consume) if consume is not None else None
+
+    async def set_consume(self, consume: bool) -> None:
+        params = {"value": consume}
+        await self._ws.send_command("core.tracklist.set_consume", params=params)
+
+    async def get_random(self) -> Optional[bool]:
+        random = await self._ws.send_command("core.tracklist.get_random")
+        return bool(random) if random is not None else None
+
+    async def set_random(self, random: bool) -> None:
+        params = {"value": random}
+        await self._ws.send_command("core.tracklist.set_random", params=params)
+
+    async def get_repeat(self) -> Optional[bool]:
+        repeat = await self._ws.send_command("core.tracklist.get_repeat")
+        return bool(repeat) if repeat is not None else None
+
+    async def set_repeat(self, repeat: bool) -> None:
+        params = {"value": repeat}
+        await self._ws.send_command("core.tracklist.set_repeat", params=params)
+
+    async def get_single(self) -> Optional[bool]:
+        single = await self._ws.send_command("core.tracklist.get_single")
+        return bool(single) if single is not None else None
+
+    async def set_single(self, single: bool) -> None:
+        params = {"value": single}
+        await self._ws.send_command("core.tracklist.set_single", params=params)
+
     async def play_tracks(self, uris: Optional[List[str]] = None) -> None:
         """Play tracks with given URIs.
 

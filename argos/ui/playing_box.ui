@@ -3,6 +3,16 @@
 <interface>
   <requires lib="gtk+" version="3.24"/>
   <!-- interface-local-resource-path ../ -->
+  <object class="GtkImage" id="clear_image">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">user-trash-symbolic</property>
+  </object>
+  <object class="GtkImage" id="consume_image">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">list-remove-all-symbolic</property>
+  </object>
   <object class="GtkImage" id="next_image">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -27,6 +37,21 @@
     <property name="icon-name">media-skip-backward-symbolic</property>
     <property name="icon_size">3</property>
   </object>
+  <object class="GtkImage" id="random_image">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">media-playlist-shuffle-symbolic</property>
+  </object>
+  <object class="GtkImage" id="repeat_image">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">media-playlist-repeat-symbolic</property>
+  </object>
+  <object class="GtkImage" id="single_image">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">media-playlist-repeat-song-symbolic</property>
+  </object>
   <object class="GtkAdjustment" id="time_position_adjustement">
     <property name="step-increment">1000</property>
     <property name="page-increment">10000</property>
@@ -34,31 +59,30 @@
   <template class="PlayingBox" parent="GtkBox">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
+    <property name="spacing">5</property>
+    <property name="homogeneous">True</property>
     <child>
-      <object class="GtkImage" id="playing_track_image">
-        <property name="width-request">370</property>
-        <property name="height-request">370</property>
+      <object class="GtkBox" id="left_pane_box">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
-        <property name="hexpand">True</property>
-        <property name="vexpand">True</property>
-        <property name="resource">/app/argos/Argos/icons/welcome-music.svg</property>
-        <property name="icon_size">5</property>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkBox" id="right_pane">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="margin-end">10</property>
-        <property name="hexpand">True</property>
-        <property name="vexpand">True</property>
         <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkImage" id="playing_track_image">
+            <property name="width-request">200</property>
+            <property name="height-request">200</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
+            <property name="resource">/app/argos/Argos/icons/welcome-music.svg</property>
+            <property name="icon_size">5</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
         <child>
           <object class="GtkBox" id="labels_box">
             <property name="visible">True</property>
@@ -70,6 +94,8 @@
               <object class="GtkLabel" id="track_name_label">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="margin-left">10</property>
+                <property name="margin-right">10</property>
                 <property name="margin-start">10</property>
                 <property name="margin-end">10</property>
                 <property name="margin-bottom">5</property>
@@ -86,6 +112,8 @@
               <object class="GtkLabel" id="artist_name_label">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="margin-left">10</property>
+                <property name="margin-right">10</property>
                 <property name="margin-start">10</property>
                 <property name="margin-end">10</property>
                 <property name="margin-bottom">5</property>
@@ -102,11 +130,11 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">0</property>
+            <property name="position">1</property>
           </packing>
         </child>
         <child>
-          <object class="GtkBox" id="track_box">
+          <object class="GtkBox" id="track_length_box">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="halign">center</property>
@@ -124,7 +152,7 @@
                 <property name="restrict-to-fill-level">False</property>
                 <property name="fill-level">0</property>
                 <property name="draw-value">False</property>
-                <signal name="change-value" handler="time_position_scale_change_value_cb" swapped="no"/>
+                <signal name="change-value" handler="on_time_position_scale_change_value" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -181,7 +209,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">1</property>
+            <property name="position">2</property>
           </packing>
         </child>
         <child>
@@ -190,7 +218,8 @@
             <property name="can-focus">False</property>
             <property name="halign">center</property>
             <property name="margin-top">10</property>
-            <property name="margin-bottom">10</property>
+            <property name="margin-bottom">5</property>
+            <property name="hexpand">True</property>
             <property name="vexpand">False</property>
             <child>
               <object class="GtkButton" id="prev_button">
@@ -202,7 +231,7 @@
                 <property name="tooltip-text" translatable="yes">Previous</property>
                 <property name="image">previous_image</property>
                 <property name="always-show-image">True</property>
-                <signal name="clicked" handler="prev_button_clicked_cb" swapped="no"/>
+                <signal name="clicked" handler="on_prev_button_clicked" swapped="no"/>
                 <style>
                   <class name="pill"/>
                 </style>
@@ -223,7 +252,7 @@
                 <property name="tooltip-text" translatable="yes">Play</property>
                 <property name="image">play_image</property>
                 <property name="always-show-image">True</property>
-                <signal name="clicked" handler="play_button_clicked_cb" swapped="no"/>
+                <signal name="clicked" handler="on_play_button_clicked" swapped="no"/>
                 <style>
                   <class name="pill"/>
                 </style>
@@ -245,7 +274,7 @@
                 <property name="image">next_image</property>
                 <property name="image-position">right</property>
                 <property name="always-show-image">True</property>
-                <signal name="clicked" handler="next_button_clicked_cb" swapped="no"/>
+                <signal name="clicked" handler="on_next_button_clicked" swapped="no"/>
                 <style>
                   <class name="pill"/>
                 </style>
@@ -263,14 +292,154 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">2</property>
+            <property name="position">3</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkBox" id="right_pane_box">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkBox" id="tracklist_buttons_box">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="margin-top">5</property>
+            <child>
+              <object class="GtkButton" id="clear_button">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="tooltip-text" translatable="yes">Clear tracklist</property>
+                <property name="halign">start</property>
+                <property name="image">clear_image</property>
+                <property name="always-show-image">True</property>
+                <signal name="clicked" handler="on_clear_button_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButtonBox" id="tracklist_state_buttons_box">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="halign">end</property>
+                <property name="layout-style">expand</property>
+                <child>
+                  <object class="GtkToggleButton" id="consume_button">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="tooltip-text" translatable="yes">Consume tracks</property>
+                    <property name="halign">end</property>
+                    <property name="image">consume_image</property>
+                    <property name="always-show-image">True</property>
+                    <signal name="toggled" handler="on_consume_button_toggled" swapped="no"/>
+                    <style>
+                      <class name="pill"/>
+                    </style>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkToggleButton" id="random_button">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="tooltip-text" translatable="yes">Shuffle tracklist</property>
+                    <property name="halign">center</property>
+                    <property name="image">random_image</property>
+                    <property name="always-show-image">True</property>
+                    <signal name="toggled" handler="on_random_button_toggled" swapped="no"/>
+                    <style>
+                      <class name="pill"/>
+                    </style>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkToggleButton" id="single_button">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="tooltip-text" translatable="yes">Play single track</property>
+                    <property name="halign">center</property>
+                    <property name="image">single_image</property>
+                    <property name="always-show-image">True</property>
+                    <signal name="toggled" handler="on_single_button_toggled" swapped="no"/>
+                    <style>
+                      <class name="pill"/>
+                    </style>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkToggleButton" id="repeat_button">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="tooltip-text" translatable="yes">Repeat</property>
+                    <property name="halign">start</property>
+                    <property name="hexpand">False</property>
+                    <property name="image">repeat_image</property>
+                    <property name="always-show-image">True</property>
+                    <signal name="toggled" handler="on_repeat_button_toggled" swapped="no"/>
+                    <style>
+                      <class name="pill"/>
+                    </style>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">3</property>
+                  </packing>
+                </child>
+                <style>
+                  <class name="linked"/>
+                </style>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="pack-type">end</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="pack-type">end</property>
+            <property name="position">0</property>
           </packing>
         </child>
         <child>
           <object class="GtkScrolledWindow" id="tracklist_view_scrolled_window">
-            <property name="height-request">175</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
+            <property name="vexpand">True</property>
             <property name="shadow-type">in</property>
             <child>
               <object class="GtkTreeView" id="tracklist_view">
@@ -279,15 +448,17 @@
                 <property name="headers-visible">False</property>
                 <property name="enable-search">False</property>
                 <property name="enable-grid-lines">horizontal</property>
-                <property name="activate-on-single-click">True</property>
                 <signal name="row-activated" handler="on_tracklist_view_row_activated" swapped="no"/>
+                <child internal-child="selection">
+                  <object class="GtkTreeSelection"/>
+                </child>
               </object>
             </child>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">4</property>
+            <property name="position">1</property>
           </packing>
         </child>
       </object>

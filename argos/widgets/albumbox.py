@@ -54,7 +54,6 @@ def _compare_track_rows(
 class AlbumBox(Gtk.Box):
     __gtype_name__ = "AlbumBox"
 
-    back_button: Gtk.Button = Gtk.Template.Child()
     add_button: Gtk.Button = Gtk.Template.Child()
     play_button: Gtk.Button = Gtk.Template.Child()
 
@@ -108,7 +107,6 @@ class AlbumBox(Gtk.Box):
 
         if self._disable_tooltips:
             for widget in (
-                self.back_button,
                 self.add_button,
                 self.play_button,
                 self.track_view,
@@ -234,12 +232,6 @@ class AlbumBox(Gtk.Box):
                     track.uri,
                 ]
             )
-
-    @Gtk.Template.Callback()
-    def on_back_button_clicked(self, _1: Gtk.Button) -> None:
-        stack = self.get_parent()
-        if stack:
-            stack.set_visible_child_name("main_page")
 
     @Gtk.Template.Callback()
     def on_play_button_clicked(self, _1: Gtk.Button) -> None:

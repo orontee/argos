@@ -80,6 +80,11 @@ class Model(GObject.GObject):
     mute = GObject.Property(type=bool, default=False)
     volume = GObject.Property(type=int, default=0)
 
+    consume = GObject.Property(type=bool, default=False)
+    random = GObject.Property(type=bool, default=False)
+    repeat = GObject.Property(type=bool, default=False)
+    single = GObject.Property(type=bool, default=False)
+
     track_uri = GObject.Property(type=str, default="")
     track_name = GObject.Property(type=str, default="")
     track_length = GObject.Property(type=int, default=-1)

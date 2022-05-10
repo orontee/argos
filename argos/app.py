@@ -276,6 +276,18 @@ class Application(Gtk.Application):
                 if album_uri:
                     await self._describe_album(album_uri)
 
+            elif type == MessageType.SET_CONSUME:
+                await self._http.set_consume(**message.data)
+
+            elif type == MessageType.SET_RANDOM:
+                await self._http.set_random(**message.data)
+
+            elif type == MessageType.SET_REPEAT:
+                await self._http.set_repeat(**message.data)
+
+            elif type == MessageType.SET_SINGLE:
+                await self._http.set_single(**message.data)
+
             # Events (from websocket)
             elif type == MessageType.TRACK_PLAYBACK_STARTED:
                 tl_track = message.data.get("tl_track", {})
@@ -319,6 +331,9 @@ class Application(Gtk.Application):
             elif type == MessageType.TRACKLIST_CHANGED:
                 await self._get_tracklist()
 
+            elif type == MessageType.OPTIONS_CHANGED:
+                await self._get_options()
+
             else:
                 LOGGER.warning(
                     f"Unhandled message type {type!r} " f"with data {message.data!r}"
@@ -334,6 +349,10 @@ class Application(Gtk.Application):
         tl_track: Any = None,
         image_path: Any = None,
         albums: List[Any] = None,
+        consume: Any = None,
+        random: Any = None,
+        repeat: Any = None,
+        single: Any = None,
     ) -> None:
         state = PlaybackState.from_string(raw_state) if raw_state is not None else None
 
@@ -341,6 +360,10 @@ class Application(Gtk.Application):
             "state": state,
             "mute": mute,
             "volume": volume,
+            "consume": consume,
+            "random": random,
+            "repeat": repeat,
+            "single": single,
         }
         for name in values_by_name:
             value = values_by_name[name]
@@ -393,6 +416,10 @@ class Application(Gtk.Application):
         volume = await self._http.get_volume()
         tl_track = await self._http.get_current_tl_track()
         time_position = await self._http.get_time_position()
+        consume = await self._http.get_consume()
+        random = await self._http.get_random()
+        repeat = await self._http.get_repeat()
+        single = await self._http.get_single()
 
         self.update_model_from(
             raw_state=raw_state,
@@ -400,6 +427,10 @@ class Application(Gtk.Application):
             volume=volume,
             time_position=time_position,
             tl_track=tl_track,
+            consume=consume,
+            random=random,
+            repeat=repeat,
+            single=single,
         )
         self._time_position_tracker.time_position_synced()
 
@@ -514,6 +545,19 @@ class Application(Gtk.Application):
         version = await self._http.get_tracklist_version()
         tracks = await self._http.get_tracklist_tracks()
         self._model.update_tracklist(version, tracks)
+
+    async def _get_options(self) -> None:
+        consume = await self._http.get_consume()
+        random = await self._http.get_random()
+        repeat = await self._http.get_repeat()
+        single = await self._http.get_single()
+
+        self.update_model_from(
+            consume=consume,
+            random=random,
+            repeat=repeat,
+            single=single,
+        )
 
     def send_message(
         self, message_type: MessageType, data: Optional[Dict[str, Any]] = None

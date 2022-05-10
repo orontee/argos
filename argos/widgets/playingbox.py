@@ -6,7 +6,7 @@ import logging
 from gi.repository import GLib, GObject, Gtk, Pango
 
 from ..message import MessageType
-from ..model import Model, PlaybackState
+from ..model import PlaybackState
 from ..utils import elide_maybe, ms_to_text
 from .utils import scale_album_image
 
@@ -45,6 +45,12 @@ class PlayingBox(Gtk.Box):
     time_position_label: Gtk.Label = Gtk.Template.Child()
 
     tracklist_view: Gtk.TreeView = Gtk.Template.Child()
+
+    clear_button: Gtk.Button = Gtk.Template.Child()
+    consume_button: Gtk.ToggleButton = Gtk.Template.Child()
+    random_button: Gtk.ToggleButton = Gtk.Template.Child()
+    repeat_button: Gtk.ToggleButton = Gtk.Template.Child()
+    single_button: Gtk.ToggleButton = Gtk.Template.Child()
 
     needs_attention = GObject.Property(type=bool, default=False)
 
@@ -104,6 +110,10 @@ class PlayingBox(Gtk.Box):
 
         self._model.connect("notify::network-available", self.handle_connection_changed)
         self._model.connect("notify::connected", self.handle_connection_changed)
+        self._model.connect("notify::consume", self.handle_consume_changed)
+        self._model.connect("notify::random", self.handle_random_changed)
+        self._model.connect("notify::repeat", self.handle_repeat_changed)
+        self._model.connect("notify::single", self.handle_single_changed)
         self._model.connect("notify::image-path", self.update_playing_track_image)
         self._model.connect("notify::track-name", self.update_track_name_label)
         self._model.connect("notify::track-length", self.update_track_length_label)
@@ -125,9 +135,46 @@ class PlayingBox(Gtk.Box):
             self.play_button,
             self.next_button,
             self.tracklist_view,
+            self.clear_button,
+            self.consume_button,
+            self.random_button,
+            self.repeat_button,
+            self.single_button,
         )
         for widget in widgets:
             widget.set_sensitive(sensitive)
+
+    def handle_consume_changed(
+        self,
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
+    ) -> None:
+        if self._model.consume != self.consume_button.get_active():
+            self.consume_button.set_active(self._model.consume)
+
+    def handle_random_changed(
+        self,
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
+    ) -> None:
+        if self._model.random != self.random_button.get_active():
+            self.random_button.set_active(self._model.random)
+
+    def handle_repeat_changed(
+        self,
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
+    ) -> None:
+        if self._model.repeat != self.repeat_button.get_active():
+            self.repeat_button.set_active(self._model.repeat)
+
+    def handle_single_changed(
+        self,
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
+    ) -> None:
+        if self._model.single != self.single_button.get_active():
+            self.single_button.set_active(self._model.single)
 
     def update_playing_track_image(
         self,
@@ -263,19 +310,23 @@ class PlayingBox(Gtk.Box):
             )
 
     @Gtk.Template.Callback()
-    def prev_button_clicked_cb(self, *args) -> None:
+    def on_clear_button_clicked(self, _1: Gtk.Button) -> None:
+        self._app.send_message(MessageType.CLEAR_TRACKLIST)
+
+    @Gtk.Template.Callback()
+    def on_prev_button_clicked(self, *args) -> None:
         self._app.send_message(MessageType.PLAY_PREV_TRACK)
 
     @Gtk.Template.Callback()
-    def play_button_clicked_cb(self, *args) -> None:
+    def on_play_button_clicked(self, *args) -> None:
         self._app.send_message(MessageType.TOGGLE_PLAYBACK_STATE)
 
     @Gtk.Template.Callback()
-    def next_button_clicked_cb(self, *args) -> None:
+    def on_next_button_clicked(self, *args) -> None:
         self._app.send_message(MessageType.PLAY_NEXT_TRACK)
 
     @Gtk.Template.Callback()
-    def time_position_scale_change_value_cb(
+    def on_time_position_scale_change_value(
         self, widget: Gtk.Widget, scroll_type: Gtk.ScrollType, value: float
     ) -> None:
         time_position = round(value)
@@ -296,3 +347,30 @@ class PlayingBox(Gtk.Box):
         store_iter = store.get_iter(path)
         tlid = store.get_value(store_iter, TracklistStoreColumns.TLID)
         self._app.send_message(MessageType.PLAY, {"tlid": tlid})
+
+    @Gtk.Template.Callback()
+    def on_consume_button_toggled(
+        self,
+        button: Gtk.ToggleButton,
+    ) -> None:
+        self._app.send_message(
+            MessageType.SET_CONSUME, {"consume": button.get_active()}
+        )
+
+    @Gtk.Template.Callback()
+    def on_random_button_toggled(
+        self,
+        button: Gtk.ToggleButton,
+    ) -> None:
+        self._app.send_message(MessageType.SET_RANDOM, {"random": button.get_active()})
+
+    @Gtk.Template.Callback()
+    def on_repeat_button_toggled(self, button: Gtk.ToggleButton) -> None:
+        self._app.send_message(MessageType.SET_REPEAT, {"repeat": button.get_active()})
+
+    @Gtk.Template.Callback()
+    def on_single_button_toggled(
+        self,
+        button: Gtk.ToggleButton,
+    ) -> None:
+        self._app.send_message(MessageType.SET_SINGLE, {"single": button.get_active()})

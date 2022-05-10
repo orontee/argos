@@ -15,11 +15,9 @@ LOGGER = logging.getLogger(__name__)
 class ArgosWindow(Gtk.ApplicationWindow):
     __gtype_name__ = "ArgosWindow"
 
-    main_stack = Gtk.Template.Child()
+    top_box_overlay: Gtk.Overlay = Gtk.Template.Child()
 
-    top_box = Gtk.Template.Child()
-
-    central_view = Gtk.Template.Child()
+    central_view: Gtk.Stack = Gtk.Template.Child()
 
     def __init__(self, application: Gtk.Application):
         super().__init__(application=application)
@@ -28,21 +26,18 @@ class ArgosWindow(Gtk.ApplicationWindow):
         self._app = application
         self._model = application.model
 
-        self._album_box = AlbumBox(application)
-        self.main_stack.add_named(self._album_box, "album_page")
-
         volume_button = VolumeButton(application)
-        self.top_box.add(volume_button)
-
-        top_controls_box = TopControlsBox(application)
-        self.top_box.add(top_controls_box)
+        self.top_box_overlay.add_overlay(volume_button)
 
         playing_box = PlayingBox(application)
         self.central_view.add_titled(playing_box, "playing_page", _("Playing"))
 
-        albums_window = AlbumsWindow(application, stack=self.main_stack)
+        albums_window = AlbumsWindow(application)
         self.central_view.add_titled(albums_window, "albums_page", _("Albums"))
         albums_window.connect("album-selected", self.on_album_selected)
+
+        self._album_box = AlbumBox(application)
+        self.central_view.add_named(self._album_box, "album_page")
 
         self._model.connect("notify::track-name", self.notify_attention_needed)
         self._model.connect("notify::artist-name", self.notify_attention_needed)
@@ -55,7 +50,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
 
         self._album_box.set_property("uri", uri)
         self._album_box.show_now()
-        self.main_stack.set_visible_child_name("album_page")
+        self.central_view.set_visible_child_name("album_page")
 
     def notify_attention_needed(
         self,
