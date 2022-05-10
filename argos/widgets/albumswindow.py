@@ -1,5 +1,4 @@
 from enum import IntEnum
-import gettext
 import logging
 import threading
 
@@ -8,8 +7,6 @@ from gi.repository.GdkPixbuf import Pixbuf
 
 from ..utils import elide_maybe
 from .utils import default_album_image_pixbuf, scale_album_image
-
-_ = gettext.gettext
 
 LOGGER = logging.getLogger(__name__)
 
@@ -35,9 +32,7 @@ class AlbumsWindow(Gtk.ScrolledWindow):
     def __init__(self, application: Gtk.Application):
         super().__init__()
 
-        self._app = application
         self._model = application.model
-        self._disable_tooltips = application._disable_tooltips
 
         albums_store = Gtk.ListStore(str, str, str, str, Pixbuf)
         self.albums_view.set_model(albums_store)
@@ -47,7 +42,7 @@ class AlbumsWindow(Gtk.ScrolledWindow):
         self.albums_view.set_item_width(ALBUM_IMAGE_SIZE)
         self.albums_view.set_activate_on_single_click(True)
 
-        if self._disable_tooltips:
+        if application.disable_tooltips:
             self.albums_view.props.has_tooltip = False
 
         self._default_album_image = default_album_image_pixbuf(

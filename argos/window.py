@@ -4,7 +4,7 @@ import logging
 from gi.repository import Gdk, GObject, Gtk
 
 from .message import MessageType
-from .widgets import AlbumBox, AlbumsWindow, PlayingBox, TopControlsBox, VolumeButton
+from .widgets import AlbumBox, AlbumsWindow, PlayingBox, TitleBar
 
 _ = gettext.gettext
 
@@ -15,9 +15,10 @@ LOGGER = logging.getLogger(__name__)
 class ArgosWindow(Gtk.ApplicationWindow):
     __gtype_name__ = "ArgosWindow"
 
-    top_box_overlay: Gtk.Overlay = Gtk.Template.Child()
-
+    main_stack: Gtk.Stack = Gtk.Template.Child()
     central_view: Gtk.Stack = Gtk.Template.Child()
+
+    titlebar = GObject.Property(type=TitleBar)
 
     def __init__(self, application: Gtk.Application):
         super().__init__(application=application)
@@ -26,8 +27,10 @@ class ArgosWindow(Gtk.ApplicationWindow):
         self._app = application
         self._model = application.model
 
-        volume_button = VolumeButton(application)
-        self.top_box_overlay.add_overlay(volume_button)
+        self.props.titlebar = TitleBar(application)
+        self.props.titlebar.props.main_stack = self.main_stack
+        self.props.titlebar.central_view_switcher.set_stack(self.central_view)
+        self.set_titlebar(self.props.titlebar)
 
         playing_box = PlayingBox(application)
         self.central_view.add_titled(playing_box, "playing_page", _("Playing"))
@@ -37,10 +40,17 @@ class ArgosWindow(Gtk.ApplicationWindow):
         albums_window.connect("album-selected", self.on_album_selected)
 
         self._album_box = AlbumBox(application)
-        self.central_view.add_named(self._album_box, "album_page")
+        self.main_stack.add_named(self._album_box, "album_page")
 
+        self.main_stack.connect(
+            "notify::visible-child-name", self.on_main_stack_page_changed
+        )
         self._model.connect("notify::track-name", self.notify_attention_needed)
         self._model.connect("notify::artist-name", self.notify_attention_needed)
+
+        self.show_all()
+
+        self.titlebar.back_button.set_visible(False)
 
     def on_album_selected(self, albums_window: AlbumsWindow, uri: str) -> None:
         LOGGER.debug(f"Album {uri!r} selected")
@@ -50,7 +60,16 @@ class ArgosWindow(Gtk.ApplicationWindow):
 
         self._album_box.set_property("uri", uri)
         self._album_box.show_now()
-        self.central_view.set_visible_child_name("album_page")
+        self.main_stack.set_visible_child_name("album_page")
+
+    def on_main_stack_page_changed(
+        self,
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
+    ) -> None:
+        main_page_visible = self.main_stack.get_visible_child_name() == "main_page"
+        self.titlebar.back_button.set_visible(not main_page_visible)
+        self.titlebar.central_view_switcher.set_visible(main_page_visible)
 
     def notify_attention_needed(
         self,
@@ -71,9 +90,13 @@ class ArgosWindow(Gtk.ApplicationWindow):
         keyval = event.keyval
         if modifiers == mod1_mask:
             if keyval in [Gdk.KEY_1, Gdk.KEY_KP_1]:
+                if self.main_stack.get_visible_child_name() != "main_page":
+                    self.main_stack.set_visible_child_name("main_page")
                 self.central_view.set_visible_child_name("playing_page")
                 return True
             elif keyval in [Gdk.KEY_2, Gdk.KEY_KP_2]:
+                if self.main_stack.get_visible_child_name() != "main_page":
+                    self.main_stack.set_visible_child_name("main_page")
                 self.central_view.set_visible_child_name("albums_page")
                 return True
         elif modifiers == control_mask:

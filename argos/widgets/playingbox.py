@@ -59,7 +59,7 @@ class PlayingBox(Gtk.Box):
 
         self._app = application
         self._model = application.model
-        self._disable_tooltips = application._disable_tooltips
+        self._disable_tooltips = application.disable_tooltips
 
         tracklist_store = Gtk.ListStore(int, str, str, str, str, str)
         self.tracklist_view.set_model(tracklist_store)

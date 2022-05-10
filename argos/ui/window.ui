@@ -10,52 +10,25 @@
     <property name="events">GDK_KEY_PRESS_MASK | GDK_STRUCTURE_MASK</property>
     <property name="hexpand">True</property>
     <property name="vexpand">True</property>
-    <property name="title" translatable="yes">Argos</property>
     <property name="default-width">600</property>
     <property name="default-height">300</property>
-    <property name="hide-titlebar-when-maximized">True</property>
     <property name="icon-name">media-optical</property>
+    <property name="show-menubar">False</property>
     <signal name="key-press-event" handler="key_press_event_cb" swapped="no"/>
     <child>
       <object class="GtkStack" id="main_stack">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
+        <property name="margin-start">5</property>
+        <property name="margin-end">5</property>
+        <property name="margin-top">5</property>
+        <property name="margin-bottom">5</property>
         <property name="transition-type">crossfade</property>
         <child>
           <object class="GtkBox" id="vertical_box">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="margin-start">5</property>
-            <property name="margin-end">5</property>
-            <property name="margin-top">5</property>
-            <property name="margin-bottom">5</property>
             <property name="orientation">vertical</property>
-            <child>
-              <object class="GtkOverlay" id="top_box_overlay">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="margin-bottom">5</property>
-                <child>
-                  <object class="GtkStackSwitcher" id="central_view_switcher">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="halign">center</property>
-                    <property name="valign">center</property>
-                    <property name="hexpand">True</property>
-                    <property name="homogeneous">True</property>
-                    <property name="stack">central_view</property>
-                  </object>
-                  <packing>
-                    <property name="index">-1</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
             <child>
               <object class="GtkStack" id="central_view">
                 <property name="visible">True</property>
@@ -74,9 +47,13 @@
           </object>
           <packing>
             <property name="name">main_page</property>
+            <property name="title" translatable="yes">page0</property>
           </packing>
         </child>
       </object>
+    </child>
+    <child type="titlebar">
+      <placeholder/>
     </child>
   </template>
 </interface>

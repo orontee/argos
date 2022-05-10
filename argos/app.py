@@ -60,7 +60,7 @@ class Application(Gtk.Application):
 
         self._start_fullscreen: Optional[bool] = None
         self._start_maximized: Optional[bool] = None
-        self._disable_tooltips: Optional[bool] = None
+        self.disable_tooltips: Optional[bool] = None
 
         self.add_main_option(
             "debug",
@@ -122,7 +122,7 @@ class Application(Gtk.Application):
         configure_logger(options)
         self._start_fullscreen = "fullscreen" in options
         self._start_maximized = "maximized" in options and "fullscreen" not in options
-        self._disable_tooltips = "no-tooltips" in options
+        self.disable_tooltips = "no-tooltips" in options
 
         self.activate()
         return 0

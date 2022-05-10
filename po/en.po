@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: argos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-06 23:02+0200\n"
+"POT-Creation-Date: 2022-05-10 23:43+0200\n"
 "PO-Revision-Date: 2022-02-20 20:54+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -33,25 +33,21 @@ msgstr "Start with maximized window"
 msgid "Disable tooltips"
 msgstr "Disable tooltips"
 
-#: argos/ui/album_box.ui:41
-msgid "Back to albums"
-msgstr "Go to Albums"
-
-#: argos/ui/album_box.ui:64
-msgid "Add album to tracklist"
-msgstr "Add album to tracklist"
-
-#: argos/ui/album_box.ui:79
-msgid "Play album"
-msgstr "Play album"
-
-#: argos/ui/album_box.ui:187
+#: argos/ui/album_box.ui:96
 msgid "Published"
 msgstr "Published"
 
-#: argos/ui/album_box.ui:216
+#: argos/ui/album_box.ui:125
 msgid "Length"
 msgstr "Length"
+
+#: argos/ui/album_box.ui:210
+msgid "Add album to tracklist"
+msgstr "Add album to tracklist"
+
+#: argos/ui/album_box.ui:225
+msgid "Play album"
+msgstr "Play album"
 
 #: argos/ui/app_menu.ui:6
 msgid "Play _favorite playlist"
@@ -123,17 +119,37 @@ msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Go to Albums"
 
-#: argos/ui/playing_box.ui:203
+#: argos/ui/playing_box.ui:231
 msgid "Previous"
 msgstr "Previous"
 
-#: argos/ui/playing_box.ui:224
+#: argos/ui/playing_box.ui:252
 msgid "Play"
 msgstr "Play"
 
-#: argos/ui/playing_box.ui:245
+#: argos/ui/playing_box.ui:273
 msgid "Next"
 msgstr "Next"
+
+#: argos/ui/playing_box.ui:320
+msgid "Clear tracklist"
+msgstr ""
+
+#: argos/ui/playing_box.ui:343
+msgid "Consume tracks"
+msgstr ""
+
+#: argos/ui/playing_box.ui:363
+msgid "Shuffle tracklist"
+msgstr ""
+
+#: argos/ui/playing_box.ui:383
+msgid "Play single track"
+msgstr ""
+
+#: argos/ui/playing_box.ui:403
+msgid "Repeat"
+msgstr ""
 
 #: argos/ui/preferences.ui:7
 msgid "Preferences"
@@ -159,11 +175,11 @@ msgstr "Favorite playlist"
 msgid "Automatically populate track list"
 msgstr "Automatically populate track list"
 
-#: argos/ui/top_controls_box.ui:26
+#: argos/ui/top_controls_box.ui:23
 msgid "Play favorite playlist"
 msgstr "Play favorite playlist"
 
-#: argos/ui/top_controls_box.ui:44
+#: argos/ui/top_controls_box.ui:41
 msgid "Play random album"
 msgstr "Play random album"
 
@@ -171,15 +187,15 @@ msgstr "Play random album"
 msgid "Argos"
 msgstr "Argos"
 
-#: argos/widgets/albumbox.py:87
+#: argos/widgets/albumbox.py:88
 msgid "Track"
 msgstr "Track"
 
-#: argos/window.py:41
+#: argos/window.py:33
 msgid "Playing"
 msgstr "Playing"
 
-#: argos/window.py:44
+#: argos/window.py:36
 msgid "Albums"
 msgstr "Albums"
 
@@ -222,6 +238,9 @@ msgid ""
 msgstr ""
 "Whether to automatically populate the tracklist with a random choosen album "
 "when its last track playback ended."
+
+#~ msgid "Back to albums"
+#~ msgstr "Go to Albums"
 
 #~ msgid "Main"
 #~ msgstr "Main"

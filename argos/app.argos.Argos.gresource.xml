@@ -9,7 +9,7 @@
     <file preprocess="xml-stripblanks">ui/app_menu.ui</file>
     <file preprocess="xml-stripblanks">ui/playing_box.ui</file>
     <file preprocess="xml-stripblanks">ui/preferences.ui</file>
-    <file preprocess="xml-stripblanks">ui/top_controls_box.ui</file>
+    <file preprocess="xml-stripblanks">ui/title_bar.ui</file>
     <file preprocess="xml-stripblanks">ui/window.ui</file>
   </gresource>
 </gresources>

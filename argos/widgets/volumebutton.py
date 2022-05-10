@@ -15,7 +15,6 @@ class VolumeButton(Gtk.VolumeButton):
 
         self._app = application
         self._model = application.model
-        self._disable_tooltips = application._disable_tooltips
 
         self._value_changed_connection_id = self.connect(
             "value_changed", self.value_changed_cb
@@ -25,7 +24,7 @@ class VolumeButton(Gtk.VolumeButton):
         self.props.margin_end = 5
         self.props.halign = Gtk.Align.END
 
-        if self._disable_tooltips:
+        if application.disable_tooltips:
             self.props.has_tooltip = False
 
         self.set_sensitive(self._model.network_available and self._model.connected)
