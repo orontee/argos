@@ -7,13 +7,40 @@
     <property name="can-focus">False</property>
     <property name="icon-name">go-previous-symbolic</property>
   </object>
+  <object class="GtkImage" id="search_image">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">edit-find-symbolic</property>
+  </object>
   <template class="TitleBar" parent="GtkHeaderBar">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <child type="title">
-      <object class="GtkStackSwitcher" id="central_view_switcher">
+      <object class="GtkStack" id="title_stack">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
+        <child>
+          <object class="GtkStackSwitcher" id="central_view_switcher">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+          </object>
+          <packing>
+            <property name="name">switcher_page</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSearchEntry" id="search_entry">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="primary-icon-name">edit-find-symbolic</property>
+            <property name="primary-icon-activatable">False</property>
+            <property name="primary-icon-sensitive">False</property>
+          </object>
+          <packing>
+            <property name="name">search_entry_page</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
       </object>
       <packing>
         <property name="position">1</property>
@@ -44,7 +71,20 @@
       </object>
       <packing>
         <property name="pack-type">end</property>
-        <property name="position">1</property>
+        <property name="position">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkToggleButton" id="search_button">
+        <property name="visible">True</property>
+        <property name="sensitive">False</property>
+        <property name="can-focus">True</property>
+        <property name="receives-default">True</property>
+        <property name="image">search_image</property>
+      </object>
+      <packing>
+        <property name="pack-type">end</property>
+        <property name="position">3</property>
       </packing>
     </child>
   </template>

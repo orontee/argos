@@ -18,6 +18,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
     main_stack: Gtk.Stack = Gtk.Template.Child()
     central_view: Gtk.Stack = Gtk.Template.Child()
 
+    albums_window = GObject.Property(type=AlbumsWindow)
     titlebar = GObject.Property(type=TitleBar)
 
     def __init__(self, application: Gtk.Application):
@@ -28,30 +29,40 @@ class ArgosWindow(Gtk.ApplicationWindow):
         self._model = application.model
 
         self.props.titlebar = TitleBar(application)
-        self.props.titlebar.props.main_stack = self.main_stack
         self.props.titlebar.central_view_switcher.set_stack(self.central_view)
+        self.props.titlebar.back_button.connect(
+            "clicked", self.on_title_back_button_clicked
+        )
+        self.props.titlebar.search_entry.connect(
+            "search-changed", self.on_search_entry_changed
+        )
         self.set_titlebar(self.props.titlebar)
 
         playing_box = PlayingBox(application)
         self.central_view.add_titled(playing_box, "playing_page", _("Playing"))
 
-        albums_window = AlbumsWindow(application)
-        self.central_view.add_titled(albums_window, "albums_page", _("Albums"))
-        albums_window.connect("album-selected", self.on_album_selected)
+        self.props.albums_window = AlbumsWindow(application)
+        self.props.albums_window.connect("album-selected", self.on_album_selected)
+        self.central_view.add_titled(
+            self.props.albums_window, "albums_page", _("Albums")
+        )
+        self.central_view.connect(
+            "notify::visible-child-name", self.on_central_view_changed
+        )
 
         self._album_box = AlbumBox(application)
         self.main_stack.add_named(self._album_box, "album_page")
-
         self.main_stack.connect(
             "notify::visible-child-name", self.on_main_stack_page_changed
         )
+
         self._model.connect("notify::track-name", self.notify_attention_needed)
         self._model.connect("notify::artist-name", self.notify_attention_needed)
         self.connect("notify::is-maximized", self.handle_maximized_state_changed)
 
         self.show_all()
 
-        self.titlebar.back_button.set_visible(False)
+        self.titlebar.props.main_page_state = True
 
     def on_album_selected(self, albums_window: AlbumsWindow, uri: str) -> None:
         LOGGER.debug(f"Album {uri!r} selected")
@@ -70,14 +81,36 @@ class ArgosWindow(Gtk.ApplicationWindow):
     ) -> None:
         self.titlebar.set_show_close_button(not self.props.is_maximized)
 
+    def on_central_view_changed(
+        self,
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
+    ) -> None:
+        albums_page_visible = (
+            self.central_view.get_visible_child_name() == "albums_page"
+        )
+        self.titlebar.props.search_activated = albums_page_visible
+
     def on_main_stack_page_changed(
         self,
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
         main_page_visible = self.main_stack.get_visible_child_name() == "main_page"
-        self.titlebar.back_button.set_visible(not main_page_visible)
-        self.titlebar.central_view_switcher.set_visible(main_page_visible)
+        self.titlebar.props.main_page_state = main_page_visible
+
+        search_activated = (
+            main_page_visible
+            and self.central_view.get_visible_child_name() == "albums_page"
+        )
+        self.titlebar.props.search_activated = search_activated
+
+    def on_title_back_button_clicked(self, _1: Gtk.Button) -> None:
+        self.main_stack.set_visible_child_name("main_page")
+
+    def on_search_entry_changed(self, search_entry: Gtk.SearchEntry) -> None:
+        filtering_text = search_entry.props.text
+        self.props.albums_window.set_filtering_text(filtering_text)
 
     def notify_attention_needed(
         self,
@@ -98,14 +131,14 @@ class ArgosWindow(Gtk.ApplicationWindow):
         keyval = event.keyval
         if modifiers == mod1_mask:
             if keyval in [Gdk.KEY_1, Gdk.KEY_KP_1]:
+                self.central_view.set_visible_child_name("playing_page")
                 if self.main_stack.get_visible_child_name() != "main_page":
                     self.main_stack.set_visible_child_name("main_page")
-                self.central_view.set_visible_child_name("playing_page")
                 return True
             elif keyval in [Gdk.KEY_2, Gdk.KEY_KP_2]:
+                self.central_view.set_visible_child_name("albums_page")
                 if self.main_stack.get_visible_child_name() != "main_page":
                     self.main_stack.set_visible_child_name("main_page")
-                self.central_view.set_visible_child_name("albums_page")
                 return True
         elif modifiers == control_mask:
             if keyval in [Gdk.KEY_space, Gdk.KEY_KP_Space]:
@@ -114,4 +147,11 @@ class ArgosWindow(Gtk.ApplicationWindow):
                 self._app.send_message(MessageType.PLAY_NEXT_TRACK)
             elif keyval == Gdk.KEY_p:
                 self._app.send_message(MessageType.PLAY_PREV_TRACK)
+            elif keyval == Gdk.KEY_f:
+                self.props.titlebar.toggle_search_entry_focus_maybe()
+                return True
+        elif not modifiers:
+            if keyval == Gdk.KEY_Escape:
+                self.props.titlebar.toggle_search_entry_focus_maybe()
+                return True
         return False

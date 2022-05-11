@@ -1,5 +1,6 @@
 from enum import IntEnum
 import logging
+import re
 import threading
 
 from gi.repository import GLib, GObject, Gtk
@@ -29,13 +30,19 @@ class AlbumsWindow(Gtk.ScrolledWindow):
 
     albums_view: Gtk.IconView = Gtk.Template.Child()
 
+    filtered_albums_store = GObject.Property(type=Gtk.TreeModelFilter)
+    filtering_text = GObject.Property(type=str)
+
     def __init__(self, application: Gtk.Application):
         super().__init__()
 
         self._model = application.model
 
         albums_store = Gtk.ListStore(str, str, str, str, Pixbuf)
-        self.albums_view.set_model(albums_store)
+        self.props.filtered_albums_store = albums_store.filter_new()
+        self.props.filtered_albums_store.set_visible_func(self._filter_album_row, None)
+        self.albums_view.set_model(self.props.filtered_albums_store)
+
         self.albums_view.set_text_column(AlbumStoreColumns.TEXT)
         self.albums_view.set_tooltip_column(AlbumStoreColumns.TOOLTIP)
         self.albums_view.set_pixbuf_column(AlbumStoreColumns.PIXBUF)
@@ -52,6 +59,27 @@ class AlbumsWindow(Gtk.ScrolledWindow):
         self._model.connect("notify::albums-loaded", self.update_album_list)
         self._model.connect("notify::albums-images-loaded", self.update_images)
 
+    def set_filtering_text(self, text: str) -> None:
+        stripped = text.strip()
+        if stripped != self.props.filtering_text:
+            LOGGER.debug(f"Filtering albums store according to {stripped}")
+
+            self.props.filtering_text = stripped
+            self.props.filtered_albums_store.refilter()
+
+    def _filter_album_row(
+        self,
+        model: Gtk.ListStore,
+        iter: Gtk.TreeIter,
+        data: None,
+    ) -> bool:
+        if not self.props.filtering_text:
+            return True
+
+        pattern = re.escape(self.props.filtering_text)
+        text = model.get_value(iter, AlbumStoreColumns.TEXT)
+        return re.search(pattern, text, re.IGNORECASE) is not None
+
     def update_album_list(
         self,
         _1: GObject.GObject,
@@ -59,7 +87,7 @@ class AlbumsWindow(Gtk.ScrolledWindow):
     ) -> None:
         LOGGER.debug("Updating album list...")
 
-        store = self.albums_view.get_model()
+        store = self.props.filtered_albums_store.get_model()
         store.clear()
 
         for album in self._model.albums:
@@ -88,7 +116,7 @@ class AlbumsWindow(Gtk.ScrolledWindow):
     def _update_images(self) -> None:
         LOGGER.debug("Updating album images...")
 
-        store = self.albums_view.get_model()
+        store = self.props.filtered_albums_store.get_model()
 
         def update_album_image(path: Gtk.TreePath, pixbuf: Pixbuf) -> None:
             store_iter = store.get_iter(path)
@@ -116,7 +144,7 @@ class AlbumsWindow(Gtk.ScrolledWindow):
         if not sensitive:
             return
 
-        store = icon_view.get_model()
-        store_iter = store.get_iter(path)
-        uri = store.get_value(store_iter, AlbumStoreColumns.URI)
+        filtered_store = icon_view.get_model()
+        store_iter = filtered_store.get_iter(path)
+        uri = filtered_store.get_value(store_iter, AlbumStoreColumns.URI)
         self.emit("album-selected", uri)
