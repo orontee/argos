@@ -183,16 +183,17 @@ class PlayingBox(Gtk.Box):
     ) -> None:
         image_path = Path(self._model.image_path)
         scaled_pixbuf = None
+        rectangle = self.playing_track_image.get_allocation()
+        target_width = min(rectangle.width, rectangle.height)
         if image_path:
-            rectangle = self.playing_track_image.get_allocation()
-            target_width = min(rectangle.width, rectangle.height)
             scaled_pixbuf = scale_album_image(image_path, target_width=target_width)
 
         if scaled_pixbuf:
             self.playing_track_image.set_from_pixbuf(scaled_pixbuf)
         else:
-            self.playing_track_image.set_from_resource(
-                "/app/argos/Argos/icons/welcome-music.svg"
+            self.playing_track_image.set_from_icon_name(
+                "image-x-generic-symbolic",
+                Gtk.IconSize.DIALOG,
             )
 
         self.playing_track_image.show_now()

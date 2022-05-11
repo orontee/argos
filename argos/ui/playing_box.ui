@@ -74,8 +74,8 @@
             <property name="can-focus">False</property>
             <property name="hexpand">True</property>
             <property name="vexpand">True</property>
-            <property name="resource">/app/argos/Argos/icons/welcome-music.svg</property>
-            <property name="icon_size">5</property>
+            <property name="icon-name">image-x-generic-symbolic</property>
+            <property name="icon_size">6</property>
           </object>
           <packing>
             <property name="expand">False</property>
