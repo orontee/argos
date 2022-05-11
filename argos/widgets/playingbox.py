@@ -181,11 +181,11 @@ class PlayingBox(Gtk.Box):
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
-        image_path = Path(self._model.image_path)
+        image_path = Path(self._model.image_path) if self._model.image_path else None
         scaled_pixbuf = None
-        rectangle = self.playing_track_image.get_allocation()
-        target_width = min(rectangle.width, rectangle.height)
         if image_path:
+            rectangle = self.playing_track_image.get_allocation()
+            target_width = min(rectangle.width, rectangle.height)
             scaled_pixbuf = scale_album_image(image_path, target_width=target_width)
 
         if scaled_pixbuf:
