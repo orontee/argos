@@ -20,6 +20,7 @@ class AlbumStoreColumns(IntEnum):
     URI = 2
     IMAGE_FILE_PATH = 3
     PIXBUF = 4
+    FILTER_TEXT = 5
 
 
 @Gtk.Template(resource_path="/app/argos/Argos/ui/albums_window.ui")
@@ -38,7 +39,7 @@ class AlbumsWindow(Gtk.ScrolledWindow):
 
         self._model = application.model
 
-        albums_store = Gtk.ListStore(str, str, str, str, Pixbuf)
+        albums_store = Gtk.ListStore(str, str, str, str, Pixbuf, str)
         self.props.filtered_albums_store = albums_store.filter_new()
         self.props.filtered_albums_store.set_visible_func(self._filter_album_row, None)
         self.albums_view.set_model(self.props.filtered_albums_store)
@@ -77,7 +78,7 @@ class AlbumsWindow(Gtk.ScrolledWindow):
             return True
 
         pattern = re.escape(self.props.filtering_text)
-        text = model.get_value(iter, AlbumStoreColumns.TEXT)
+        text = model.get_value(iter, AlbumStoreColumns.FILTER_TEXT)
         return re.search(pattern, text, re.IGNORECASE) is not None
 
     def update_album_list(
@@ -98,6 +99,7 @@ class AlbumsWindow(Gtk.ScrolledWindow):
                     album.uri,
                     str(album.image_path) if album.image_path else None,
                     self._default_album_image,
+                    album.name,
                 ]
             )
 
