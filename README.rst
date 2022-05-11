@@ -26,11 +26,11 @@ Mopidy front-end for small devices.
 
    Albums view
 
-.. figure:: screenshot-preferences.png
-   :alt: Preferences window screenshot
+.. figure:: screenshot-album-view.png
+   :alt: Album view screenshot
    :align: center
-   :width: 152
-   :height: 96
+   :width: 407
+   :height: 249
 
    Preferences window
 
