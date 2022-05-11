@@ -73,7 +73,7 @@ class AlbumBox(Gtk.Box):
 
         self._app = application
         self._model = application.model
-        self._disable_tooltips = application.disable_tooltips
+        self._disable_tooltips = application.props.disable_tooltips
 
         track_store = Gtk.ListStore(int, int, str, str, str, str)
         track_store.set_default_sort_func(_compare_track_rows, None)

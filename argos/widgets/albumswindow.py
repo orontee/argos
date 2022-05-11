@@ -42,7 +42,7 @@ class AlbumsWindow(Gtk.ScrolledWindow):
         self.albums_view.set_item_width(ALBUM_IMAGE_SIZE)
         self.albums_view.set_activate_on_single_click(True)
 
-        if application.disable_tooltips:
+        if application.props.disable_tooltips:
             self.albums_view.props.has_tooltip = False
 
         self._default_album_image = default_album_image_pixbuf(

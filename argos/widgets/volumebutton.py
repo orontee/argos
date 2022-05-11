@@ -24,7 +24,7 @@ class VolumeButton(Gtk.VolumeButton):
         self.props.margin_end = 5
         self.props.halign = Gtk.Align.END
 
-        if application.disable_tooltips:
+        if application.props.disable_tooltips:
             self.props.has_tooltip = False
 
         self.set_sensitive(self._model.network_available and self._model.connected)

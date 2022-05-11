@@ -47,6 +47,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
         )
         self._model.connect("notify::track-name", self.notify_attention_needed)
         self._model.connect("notify::artist-name", self.notify_attention_needed)
+        self.connect("notify::is-maximized", self.handle_maximized_state_changed)
 
         self.show_all()
 
@@ -61,6 +62,13 @@ class ArgosWindow(Gtk.ApplicationWindow):
         self._album_box.set_property("uri", uri)
         self._album_box.show_now()
         self.main_stack.set_visible_child_name("album_page")
+
+    def handle_maximized_state_changed(
+        self,
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
+    ) -> None:
+        self.titlebar.set_show_close_button(not self.props.is_maximized)
 
     def on_main_stack_page_changed(
         self,

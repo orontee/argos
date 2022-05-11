@@ -21,10 +21,6 @@ msgstr ""
 msgid "Enable debug logs"
 msgstr "Enable debug logs"
 
-#: argos/app.py:78
-msgid "Start with fullscreen window"
-msgstr "Start with fullscreen window"
-
 #: argos/app.py:86
 msgid "Start with maximized window"
 msgstr "Start with maximized window"

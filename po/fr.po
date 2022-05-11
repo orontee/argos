@@ -20,10 +20,6 @@ msgstr ""
 msgid "Enable debug logs"
 msgstr "Activer le journal de débogage"
 
-#: argos/app.py:78
-msgid "Start with fullscreen window"
-msgstr "Démarrer avec une fenêtre plein-écran"
-
 #: argos/app.py:86
 msgid "Start with maximized window"
 msgstr "Démarrer avec une fenêtre de taille maximale"

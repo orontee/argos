@@ -20,7 +20,7 @@ class TitleBar(Gtk.HeaderBar):
     def __init__(self, application: Gtk.Application):
         super().__init__()
 
-        if application.disable_tooltips:
+        if application.props.disable_tooltips:
             self.back_button.props.has_tooltip = False
 
         builder = Gtk.Builder.new_from_resource("/app/argos/Argos/ui/app_menu.ui")
@@ -30,7 +30,13 @@ class TitleBar(Gtk.HeaderBar):
         volume_button = VolumeButton(application)
         self.pack_end(volume_button)
 
-        self.set_show_close_button(True)
+        if not application.props.start_maximized:
+            self.set_show_close_button(True)
+
+            # On LXDE with Openbox window manager, showing close
+            # button also decorate title bar with minimize, maximize
+            # buttons whatever the Openbox configuration for the
+            # application is...
 
     @Gtk.Template.Callback()
     def on_back_button_clicked(self, _1: Gtk.Button) -> None:

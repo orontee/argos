@@ -27,13 +27,14 @@ _ = gettext.gettext
 
 
 class Application(Gtk.Application):
-    def __init__(self, application_id: str, *args, **kwargs):
-        Gtk.Application.__init__(
-            self,
-            *args,
+
+    start_maximized = GObject.Property(type=bool, default=False)
+    disable_tooltips = GObject.Property(type=bool, default=False)
+
+    def __init__(self, application_id: str):
+        super().__init__(
             application_id=application_id,
             flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
-            **kwargs,
         )
         self._loop = asyncio.get_event_loop()
         self._message_queue: asyncio.Queue = asyncio.Queue()
@@ -58,24 +59,12 @@ class Application(Gtk.Application):
         ):
             self._model.connect(signal, self._on_model_changed)
 
-        self._start_fullscreen: Optional[bool] = None
-        self._start_maximized: Optional[bool] = None
-        self.disable_tooltips: Optional[bool] = None
-
         self.add_main_option(
             "debug",
             ord("d"),
             GLib.OptionFlags.NONE,
             GLib.OptionArg.NONE,
             _("Enable debug logs"),
-            None,
-        )
-        self.add_main_option(
-            "fullscreen",
-            0,
-            GLib.OptionFlags.NONE,
-            GLib.OptionArg.NONE,
-            _("Start with fullscreen window"),
             None,
         )
         self.add_main_option(
@@ -120,9 +109,8 @@ class Application(Gtk.Application):
         options = options.end().unpack()
 
         configure_logger(options)
-        self._start_fullscreen = "fullscreen" in options
-        self._start_maximized = "maximized" in options and "fullscreen" not in options
-        self.disable_tooltips = "no-tooltips" in options
+        self.props.start_maximized = "maximized" in options
+        self.props.disable_tooltips = "no-tooltips" in options
 
         self.activate()
         return 0
@@ -137,10 +125,7 @@ class Application(Gtk.Application):
             t = Thread(target=self._start_event_loop, daemon=True)
             t.start()
 
-        if self._start_fullscreen:
-            self.window.fullscreen()
-
-        if self._start_maximized:
+        if self.props.start_maximized:
             self.window.maximize()
 
         self.window.present()
@@ -571,6 +556,7 @@ class Application(Gtk.Application):
 
         about_dialog = AboutDialog()
         about_dialog.set_transient_for(self.window)
+        about_dialog.set_wmclass("Argos", "about")
         about_dialog.run()
         about_dialog.destroy()
 
@@ -580,6 +566,7 @@ class Application(Gtk.Application):
 
         self.prefs_window = PreferencesWindow(self)
         self.prefs_window.set_transient_for(self.window)
+        self.prefs_window.set_wmclass("Argos", "preferences")
         self.prefs_window.connect("destroy", self.prefs_window_destroy_cb)
 
         self.prefs_window.present()

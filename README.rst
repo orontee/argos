@@ -45,8 +45,6 @@ Features 🥳
 
 * Display album cover from Mopidy-Local HTTP API
 
-* Fullscreen mode
-
 * Keyboard shortcuts
 
 Install
@@ -94,7 +92,7 @@ Once the package is installed, it can be automatically started through
 a dedicated user (with auto-login configured) using the
 ``~/.config/lxsession/LXDE-pi/autostart`` file::
 
-  @argos --fullscreen --no-tooltips
+  @argos --maximized --no-tooltips
 
 Debugging
 =========
