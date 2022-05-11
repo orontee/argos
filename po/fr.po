@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-10 23:43+0200\n"
+"POT-Creation-Date: 2022-05-11 08:02+0200\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -132,23 +132,23 @@ msgstr "Suivant"
 
 #: argos/ui/playing_box.ui:320
 msgid "Clear tracklist"
-msgstr ""
+msgstr "Vider la file d'attente"
 
 #: argos/ui/playing_box.ui:343
 msgid "Consume tracks"
-msgstr ""
+msgstr "Retirer les pistes lues"
 
 #: argos/ui/playing_box.ui:363
 msgid "Shuffle tracklist"
-msgstr ""
+msgstr "Lecture aléatoire"
 
 #: argos/ui/playing_box.ui:383
 msgid "Play single track"
-msgstr ""
+msgstr "Lecture d'une seule piste"
 
 #: argos/ui/playing_box.ui:403
 msgid "Repeat"
-msgstr ""
+msgstr "Lecture en boucle"
 
 #: argos/ui/preferences.ui:7
 msgid "Preferences"
@@ -174,29 +174,25 @@ msgstr "Liste de lecture favorite"
 msgid "Automatically populate track list"
 msgstr "Lecture en continu d'albums choisis aléatoirement"
 
-#: argos/ui/top_controls_box.ui:23
-msgid "Play favorite playlist"
-msgstr "Lire la liste de lecture favorite"
-
-#: argos/ui/top_controls_box.ui:41
-msgid "Play random album"
-msgstr "Lire un album au hasard"
-
-#: argos/ui/window.ui:13 data/app.argos.Argos.desktop.in:3
-msgid "Argos"
-msgstr "Argos"
+#: argos/ui/window.ui:50
+msgid "page0"
+msgstr ""
 
 #: argos/widgets/albumbox.py:88
 msgid "Track"
 msgstr "Morceau"
 
-#: argos/window.py:33
+#: argos/window.py:36
 msgid "Playing"
 msgstr "En cours"
 
-#: argos/window.py:36
+#: argos/window.py:39
 msgid "Albums"
 msgstr "Albums"
+
+#: data/app.argos.Argos.desktop.in:3
+msgid "Argos"
+msgstr "Argos"
 
 #: data/app.argos.Argos.gschema.xml:6
 msgid "Connection retry delay"
@@ -216,7 +212,7 @@ msgstr "L'URL de base des APIs JSON-RPC et websocket de Mopidy."
 
 #: data/app.argos.Argos.gschema.xml:26
 msgid "URI of favorite playlist"
-msgstr "Liste de lecture favorite"
+msgstr "URI de la liste de lecture favorite"
 
 #: data/app.argos.Argos.gschema.xml:29
 msgid ""
@@ -235,8 +231,14 @@ msgid ""
 "Whether to automatically populate the tracklist with a random choosen album "
 "when its last track playback ended."
 msgstr ""
-"Peupler automatiquement la liste d'attente avec un album choisi au hasard "
+"Peupler automatiquement la file d'attente avec un album choisi au hasard "
 "quand son dernier morceau se termine"
+
+#~ msgid "Play favorite playlist"
+#~ msgstr "Lire la liste de lecture favorite"
+
+#~ msgid "Play random album"
+#~ msgstr "Lire un album au hasard"
 
 #~ msgid "Back to albums"
 #~ msgstr "Retourner aux albums"

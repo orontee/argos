@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: argos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-10 23:43+0200\n"
+"POT-Creation-Date: 2022-05-11 08:02+0200\n"
 "PO-Revision-Date: 2022-02-20 20:54+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -175,29 +175,25 @@ msgstr "Favorite playlist"
 msgid "Automatically populate track list"
 msgstr "Automatically populate track list"
 
-#: argos/ui/top_controls_box.ui:23
-msgid "Play favorite playlist"
-msgstr "Play favorite playlist"
-
-#: argos/ui/top_controls_box.ui:41
-msgid "Play random album"
-msgstr "Play random album"
-
-#: argos/ui/window.ui:13 data/app.argos.Argos.desktop.in:3
-msgid "Argos"
-msgstr "Argos"
+#: argos/ui/window.ui:50
+msgid "page0"
+msgstr ""
 
 #: argos/widgets/albumbox.py:88
 msgid "Track"
 msgstr "Track"
 
-#: argos/window.py:33
+#: argos/window.py:36
 msgid "Playing"
 msgstr "Playing"
 
-#: argos/window.py:36
+#: argos/window.py:39
 msgid "Albums"
 msgstr "Albums"
+
+#: data/app.argos.Argos.desktop.in:3
+msgid "Argos"
+msgstr "Argos"
 
 #: data/app.argos.Argos.gschema.xml:6
 msgid "Connection retry delay"
@@ -238,6 +234,12 @@ msgid ""
 msgstr ""
 "Whether to automatically populate the tracklist with a random choosen album "
 "when its last track playback ended."
+
+#~ msgid "Play favorite playlist"
+#~ msgstr "Play favorite playlist"
+
+#~ msgid "Play random album"
+#~ msgstr "Play random album"
 
 #~ msgid "Back to albums"
 #~ msgstr "Go to Albums"
