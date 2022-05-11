@@ -23,7 +23,7 @@
         <property name="margin-end">5</property>
         <property name="margin-top">5</property>
         <property name="margin-bottom">5</property>
-        <property name="transition-type">crossfade</property>
+        <property name="transition-type">slide-left-right</property>
         <child>
           <object class="GtkBox" id="vertical_box">
             <property name="visible">True</property>
@@ -51,9 +51,6 @@
           </packing>
         </child>
       </object>
-    </child>
-    <child type="titlebar">
-      <placeholder/>
     </child>
   </template>
 </interface>
