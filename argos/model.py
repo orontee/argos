@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from enum import IntEnum
 from functools import partial
 import logging
-from typing import Any, cast, Dict, List, Optional, TYPE_CHECKING
+from typing import Any, cast, Dict, List, Optional, Protocol, TYPE_CHECKING
 
 from gi.repository import Gio, GLib, GObject
 
@@ -10,6 +10,36 @@ if TYPE_CHECKING:
     from .app import Application
 
 LOGGER = logging.getLogger(__name__)
+
+
+class HasPropertiesProtocol(Protocol):
+    def get_property(self, name: str) -> Any:
+        ...
+
+    def set_property(self, name: str, value: Any) -> None:
+        ...
+
+
+class WithSafePropertySetterMixin:
+    def set_property_in_gtk_thread(
+        self: HasPropertiesProtocol,
+        name: str,
+        value: Any,
+        *,
+        force: bool = False,
+    ) -> None:
+        current_value = self.get_property(name)
+        if force or current_value != value:
+            LOGGER.debug(f"Updating {name!r} from {current_value!r} to {value!r}")
+            GLib.idle_add(
+                partial(
+                    self.set_property,
+                    name,
+                    value,
+                )
+            )
+        else:
+            LOGGER.debug(f"Property {name!r} already equal to {value!r}")
 
 
 class PlaybackState(IntEnum):
@@ -69,7 +99,7 @@ class Album:
     tracks: List[Track] = field(default_factory=list)
 
 
-class Model(GObject.GObject):
+class Model(GObject.GObject, WithSafePropertySetterMixin):
     __gsignals__ = {"album-completed": (GObject.SIGNAL_RUN_FIRST, None, (str,))}
 
     network_available = GObject.Property(type=bool, default=False)
@@ -120,32 +150,6 @@ class Model(GObject.GObject):
         self.set_property_in_gtk_thread("artist_uri", "")
         self.set_property_in_gtk_thread("artist_name", "")
         self.set_property_in_gtk_thread("image_path", "")
-
-    def set_property_in_gtk_thread(
-        self,
-        name: str,
-        value: Any,
-        *,
-        force: bool = False,
-    ) -> None:
-        if name == "albums":
-            # albums isn't a GObject.Property()!
-            LOGGER.debug(f"Updating {name!r}")
-            self._set_albums(value)
-        else:
-            if force or self.get_property(name) != value:
-                LOGGER.debug(
-                    f"Updating {name!r} from {self.get_property(name)!r} to {value!r}"
-                )
-                GLib.idle_add(
-                    partial(
-                        self.set_property,
-                        name,
-                        value,
-                    )
-                )
-            else:
-                LOGGER.debug(f"No need to set {name!r} to {value!r}")
 
     def complete_album_description(
         self,
@@ -225,7 +229,7 @@ class Model(GObject.GObject):
 
         self.set_property_in_gtk_thread("tracklist_loaded", True, force=True)
 
-    def _set_albums(self, value: Any) -> None:
+    def set_albums(self, value: Any) -> None:
         if self.albums_loaded:
             self.set_property_in_gtk_thread("albums_loaded", False)
             self.set_property_in_gtk_thread("albums_images_loaded", False)

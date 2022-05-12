@@ -379,12 +379,14 @@ class Application(Gtk.Application):
         values_by_name = {
             "time_position": time_position,
             "image_path": image_path,
-            "albums": albums,
         }
         for name in values_by_name:
             value = values_by_name[name]
             if value is not None:
                 self.model.set_property_in_gtk_thread(name, value)
+
+        if albums is not None:
+            self.model.set_albums(albums)
 
     def _update_network_actions_state(self) -> None:
         for action_name in ["play_random_album", "play_favorite_playlist"]:
