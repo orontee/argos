@@ -178,7 +178,7 @@ class Application(Gtk.Application):
 
             # Commands
             if type == MessageType.TOGGLE_PLAYBACK_STATE:
-                current_state = self._model.state
+                current_state = self._model.playback.state
                 if current_state == PlaybackState.PLAYING:
                     await self._http.pause()
                 elif current_state == PlaybackState.PAUSED:
@@ -279,10 +279,10 @@ class Application(Gtk.Application):
                 self.update_model_from(tl_track=tl_track)
 
             elif type == MessageType.TRACK_PLAYBACK_PAUSED:
-                self.update_model_from(raw_state="paused")
+                self.model.playback.set_state("paused")
 
             elif type == MessageType.TRACK_PLAYBACK_RESUMED:
-                self.update_model_from(raw_state="playing")
+                self.model.playback.set_state("playing")
 
             elif type == MessageType.TRACK_PLAYBACK_ENDED:
                 self.model.clear_track_playback_state()
@@ -298,20 +298,19 @@ class Application(Gtk.Application):
 
             elif type == MessageType.PLAYBACK_STATE_CHANGED:
                 raw_state = message.data.get("new_state")
-                self.update_model_from(raw_state=raw_state)
+                self.model.playback.set_state(raw_state)
 
             elif type == MessageType.MUTE_CHANGED:
                 mute = message.data.get("mute")
-                self.update_model_from(mute=mute)
+                self.model.mixer.set_mute(mute)
 
             elif type == MessageType.VOLUME_CHANGED:
                 volume = message.data.get("volume")
-                self.update_model_from(volume=volume)
+                self.model.mixer.set_volume(volume)
 
             elif type == MessageType.SEEKED:
                 time_position = message.data.get("time_position")
-                self.update_model_from(time_position=time_position)
-                self._time_position_tracker.time_position_synced()
+                self.model.playback.set_time_position(time_position)
 
             elif type == MessageType.TRACKLIST_CHANGED:
                 await self._get_tracklist()
@@ -327,10 +326,6 @@ class Application(Gtk.Application):
     def update_model_from(
         self,
         *,
-        raw_state: Any = None,
-        mute: Any = None,
-        volume: Any = None,
-        time_position: Any = None,
         tl_track: Any = None,
         image_path: Any = None,
         albums: List[Any] = None,
@@ -339,12 +334,7 @@ class Application(Gtk.Application):
         repeat: Any = None,
         single: Any = None,
     ) -> None:
-        state = PlaybackState.from_string(raw_state) if raw_state is not None else None
-
         values_by_name = {
-            "state": state,
-            "mute": mute,
-            "volume": volume,
             "consume": consume,
             "random": random,
             "repeat": repeat,
@@ -372,12 +362,9 @@ class Application(Gtk.Application):
             artist_name = artist.get("name", "")
             self._model.set_property_in_gtk_thread("artist_uri", artist_uri)
             self._model.set_property_in_gtk_thread("artist_name", artist_name)
-
-            if time_position is None:
-                self._model.set_property_in_gtk_thread("time_position", -1)
+            self._model.playback.set_time_position(-1)
 
         values_by_name = {
-            "time_position": time_position,
             "image_path": image_path,
         }
         for name in values_by_name:
@@ -408,18 +395,19 @@ class Application(Gtk.Application):
         repeat = await self._http.get_repeat()
         single = await self._http.get_single()
 
+        self.model.mixer.set_mute(mute)
+        self.model.mixer.set_volume(volume)
+
+        self.model.playback.set_state(raw_state)
+        self.model.playback.set_time_position(time_position)
+
         self.update_model_from(
-            raw_state=raw_state,
-            mute=mute,
-            volume=volume,
-            time_position=time_position,
             tl_track=tl_track,
             consume=consume,
             random=random,
             repeat=repeat,
             single=single,
         )
-        self._time_position_tracker.time_position_synced()
 
     def _on_model_changed(
         self,

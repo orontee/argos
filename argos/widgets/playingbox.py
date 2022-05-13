@@ -118,8 +118,9 @@ class PlayingBox(Gtk.Box):
         self._model.connect("notify::track-name", self.update_track_name_label)
         self._model.connect("notify::track-length", self.update_track_length_label)
         self._model.connect("notify::artist-name", self.update_artist_name_label)
-        self._model.connect("notify::state", self.update_play_button)
-        self._model.connect(
+
+        self._model.playback.connect("notify::state", self.update_play_button)
+        self._model.playback.connect(
             "notify::time-position", self.update_time_position_scale_and_label
         )
         self._model.connect("notify::tracklist-loaded", self.update_tracklist_view)
@@ -258,10 +259,10 @@ class PlayingBox(Gtk.Box):
 
     def update_time_position_scale_and_label(
         self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
+        model: GObject.GObject,
+        _1: GObject.GParamSpec,
     ) -> None:
-        time_position = self._model.time_position
+        time_position = model.props.time_position
         pretty_time_position = ms_to_text(time_position)
         self.time_position_label.set_text(pretty_time_position)
         self.time_position_adjustement.set_value(
@@ -273,10 +274,10 @@ class PlayingBox(Gtk.Box):
 
     def update_play_button(
         self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
+        model: GObject.GObject,
+        _1: GObject.GParamSpec,
     ) -> None:
-        state = self._model.state
+        state = model.props.state
         if state in (
             PlaybackState.UNKNOWN,
             PlaybackState.PAUSED,

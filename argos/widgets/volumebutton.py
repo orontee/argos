@@ -31,8 +31,8 @@ class VolumeButton(Gtk.VolumeButton):
 
         self._model.connect("notify::network-available", self.handle_connection_changed)
         self._model.connect("notify::connected", self.handle_connection_changed)
-        self._model.connect("notify::volume", self.update_value)
-        self._model.connect("notify::mute", self.update_value)
+        self._model.mixer.connect("notify::volume", self.update_value)
+        self._model.mixer.connect("notify::mute", self.update_value)
 
     def handle_connection_changed(
         self,
@@ -47,8 +47,8 @@ class VolumeButton(Gtk.VolumeButton):
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
-        volume = self._model.volume
-        if self._model.mute:
+        volume = self._model.mixer.volume
+        if self._model.mixer.mute:
             volume = 0
 
         if volume != -1:

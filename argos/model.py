@@ -1,8 +1,18 @@
+import contextlib
 from dataclasses import dataclass, field
 from enum import IntEnum
 from functools import partial
 import logging
-from typing import Any, cast, Dict, List, Optional, Protocol, TYPE_CHECKING
+from typing import (
+    Any,
+    cast,
+    ContextManager,
+    Dict,
+    List,
+    Optional,
+    Protocol,
+    TYPE_CHECKING,
+)
 
 from gi.repository import Gio, GLib, GObject
 
@@ -19,6 +29,9 @@ class HasPropertiesProtocol(Protocol):
     def set_property(self, name: str, value: Any) -> None:
         ...
 
+    def handler_block(self, handler_id: int) -> ContextManager:
+        ...
+
 
 class WithSafePropertySetterMixin:
     def set_property_in_gtk_thread(
@@ -27,17 +40,21 @@ class WithSafePropertySetterMixin:
         value: Any,
         *,
         force: bool = False,
+        block_handler: Optional[int] = None,
     ) -> None:
         current_value = self.get_property(name)
         if force or current_value != value:
-            LOGGER.debug(f"Updating {name!r} from {current_value!r} to {value!r}")
-            GLib.idle_add(
-                partial(
-                    self.set_property,
-                    name,
-                    value,
-                )
-            )
+            if block_handler is not None:
+                cm = self.handler_block(block_handler)
+            else:
+                cm = contextlib.nullcontext()
+
+            def wrapped_setter() -> None:
+                LOGGER.debug(f"Updating {name!r} from {current_value!r} to {value!r}")
+                with cm:
+                    self.set_property(name, value)
+
+            GLib.idle_add(wrapped_setter)
         else:
             LOGGER.debug(f"Property {name!r} already equal to {value!r}")
 
@@ -99,16 +116,42 @@ class Album:
     tracks: List[Track] = field(default_factory=list)
 
 
+class PlaybackModel(GObject.GObject, WithSafePropertySetterMixin):
+    state = GObject.Property(type=int, default=PlaybackState.UNKNOWN)
+    time_position = GObject.Property(type=int, default=-1)  # ms
+    current_tl_track_tlid = GObject.Property(type=int, default=-1)
+
+    def set_state(self, value: str) -> None:
+        state = PlaybackState.from_string(value)
+        self.set_property_in_gtk_thread("state", state)
+
+    def set_time_position(
+        self, value: int, *, block_handler: Optional[int] = None
+    ) -> None:
+        self.set_property_in_gtk_thread(
+            "time_position", value, block_handler=block_handler
+        )
+
+
+class MixerModel(GObject.GObject, WithSafePropertySetterMixin):
+    volume = GObject.Property(type=int, default=0)
+    mute = GObject.Property(type=bool, default=False)
+
+    def set_volume(self, value: str) -> None:
+        self.set_property_in_gtk_thread("volume", value)
+
+    def set_mute(self, value: str) -> None:
+        self.set_property_in_gtk_thread("mute", value)
+
+
 class Model(GObject.GObject, WithSafePropertySetterMixin):
     __gsignals__ = {"album-completed": (GObject.SIGNAL_RUN_FIRST, None, (str,))}
 
     network_available = GObject.Property(type=bool, default=False)
     connected = GObject.Property(type=bool, default=False)
 
-    state = GObject.Property(type=int, default=PlaybackState.UNKNOWN)
-
-    mute = GObject.Property(type=bool, default=False)
-    volume = GObject.Property(type=int, default=0)
+    playback: PlaybackModel
+    mixer: MixerModel
 
     consume = GObject.Property(type=bool, default=False)
     random = GObject.Property(type=bool, default=False)
@@ -118,8 +161,6 @@ class Model(GObject.GObject, WithSafePropertySetterMixin):
     track_uri = GObject.Property(type=str, default="")
     track_name = GObject.Property(type=str, default="")
     track_length = GObject.Property(type=int, default=-1)
-
-    time_position = GObject.Property(type=int, default=-1)  # ms
 
     artist_uri = GObject.Property(type=str, default="")
     artist_name = GObject.Property(type=str, default="")
@@ -139,6 +180,9 @@ class Model(GObject.GObject, WithSafePropertySetterMixin):
         self.network_available = application._nm.get_network_available()
         application._nm.connect("network-changed", self._on_nm_network_changed)
 
+        self.playback = PlaybackModel()
+        self.mixer = MixerModel()
+
         self.albums: List[Album] = []
         self.tracklist: Tracklist = Tracklist()
 
@@ -146,7 +190,7 @@ class Model(GObject.GObject, WithSafePropertySetterMixin):
         self.set_property_in_gtk_thread("track_uri", "")
         self.set_property_in_gtk_thread("track_name", "")
         self.set_property_in_gtk_thread("track_length", -1)
-        self.set_property_in_gtk_thread("time_position", -1)
+        self.playback.set_time_position(-1)
         self.set_property_in_gtk_thread("artist_uri", "")
         self.set_property_in_gtk_thread("artist_name", "")
         self.set_property_in_gtk_thread("image_path", "")
