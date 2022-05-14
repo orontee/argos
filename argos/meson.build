@@ -40,5 +40,6 @@ argos_sources = [
 ]
 
 install_data(argos_sources, install_dir: moduledir)
+install_subdir('controllers', install_dir: moduledir)
 install_subdir('model', install_dir: moduledir)
 install_subdir('widgets', install_dir: moduledir)

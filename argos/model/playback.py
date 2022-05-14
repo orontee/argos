@@ -38,7 +38,7 @@ class PlaybackModel(WithThreadSafePropertySetter, GObject.Object):
             block_handler=block_handler,
         )
 
-    def set_current_tl_track_tlid(self, value: Optional[int]) -> None:
+    def set_current_tl_track_tlid(self, value: Optional[int] = None) -> None:
         if value is None:
             value = -1
         self.set_property_in_gtk_thread("current_tl_track_tlid", value)

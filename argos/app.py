@@ -1,9 +1,8 @@
 import asyncio
 import gettext
 import logging
-from functools import partial
 from threading import Thread
-from typing import Any, cast, Dict, List, Optional
+from typing import Any, cast, Dict, Optional, Tuple
 
 import gi
 
@@ -11,10 +10,17 @@ gi.require_version("Gtk", "3.0")  # noqa
 
 from gi.repository import Gio, GLib, GObject, Gtk
 
+from .controllers import (
+    AlbumsController,
+    ControllerBase,
+    PlaybackController,
+    TracklistController,
+    MixerController,
+)
 from .download import ImageDownloader
 from .http import MopidyHTTPClient
 from .message import Message, MessageType
-from .model import Model, PlaybackState, TrackModel
+from .model import Model
 from .time import TimePositionTracker
 from .utils import configure_logger
 from .widgets import AboutDialog, PreferencesWindow
@@ -51,16 +57,18 @@ class Application(Gtk.Application):
         self._download = ImageDownloader(self)
         self._time_position_tracker = TimePositionTracker(self)
 
+        self._consumers = cast(
+            Tuple[ControllerBase],
+            (
+                PlaybackController(self),
+                TracklistController(self),
+                AlbumsController(self),
+                MixerController(self),
+            ),
+        )
+
         self._model.connect("notify::network-available", self._on_connection_changed)
         self._model.connect("notify::connected", self._on_connection_changed)
-        self._model.connect("notify::albums-loaded", self._on_albums_loaded_changed)
-        self._model.connect(
-            "notify::tracklist-loaded", self._on_tracklist_loaded_changed
-        )
-        self._model.playback.connect(
-            "notify::current-tl-track-tlid",
-            self._on_playback_current_tl_track_tlid_changed,
-        )
 
         self.add_main_option(
             "debug",
@@ -108,8 +116,12 @@ class Application(Gtk.Application):
         return self._model
 
     @property
-    def message_queue(self):
+    def message_queue(self) -> asyncio.Queue:
         return self._message_queue
+
+    @property
+    def loop(self) -> asyncio.AbstractEventLoop:
+        return self._loop
 
     def do_command_line(self, command_line: Gio.ApplicationCommandLine):
         options = command_line.get_options_dict()
@@ -179,154 +191,11 @@ class Application(Gtk.Application):
         LOGGER.debug("Waiting for new messages...")
         while True:
             message = await self._message_queue.get()
-            type = message.type
+            message_type = message.type
+            LOGGER.debug(f"Processing {message_type} message")
 
-            LOGGER.debug(f"Processing {type} message")
-
-            # Commands
-            if type == MessageType.TOGGLE_PLAYBACK_STATE:
-                current_state = self._model.playback.state
-                if current_state == PlaybackState.PLAYING:
-                    await self._http.pause()
-                elif current_state == PlaybackState.PAUSED:
-                    await self._http.resume()
-                elif (
-                    current_state == PlaybackState.STOPPED
-                    or current_state == PlaybackState.UNKNOWN
-                ):
-                    await self._http.play()
-
-            elif type == MessageType.PLAY_PREV_TRACK:
-                await self._http.previous()
-
-            elif type == MessageType.PLAY_NEXT_TRACK:
-                await self._http.next()
-
-            elif type == MessageType.ADD_TO_TRACKLIST:
-                uris = message.data.get("uris")
-                await self._http.add_to_tracklist(uris=uris)
-
-            elif type == MessageType.CLEAR_TRACKLIST:
-                await self._http.clear_tracklist()
-
-            elif type == MessageType.GET_TRACKLIST:
-                await self._get_tracklist()
-
-            elif type == MessageType.GET_CURRENT_TRACKLIST_TRACK:
-                tl_track = await self._http.get_current_tl_track()
-                tlid = tl_track.get("tlid") if tl_track else None
-                self._model.playback.set_current_tl_track_tlid(tlid)
-
-            elif type == MessageType.PLAY:
-                await self._http.play(**message.data)
-
-            elif type == MessageType.PLAY_TRACKS:
-                await self._http.play_tracks(**message.data)
-
-            elif type == MessageType.PLAY_FAVORITE_PLAYLIST:
-                await self._http.play_favorite_playlist()
-
-            elif type == MessageType.SEEK:
-                time_position = round(message.data.get("time_position"))
-                await self._http.seek(time_position)
-
-            elif type == MessageType.SET_VOLUME:
-                volume = round(message.data.get("volume"))
-                await self._http.set_volume(volume)
-
-            elif type == MessageType.LIST_PLAYLISTS:
-                playlists = await self._http.list_playlists()
-                if self.prefs_window and playlists:
-                    GLib.idle_add(
-                        partial(
-                            self.prefs_window.update_favorite_playlist_completion,
-                            playlists=playlists,
-                        )
-                    )
-
-            elif type == MessageType.FETCH_TRACK_IMAGE:
-                track_uri = message.data.get("track_uri", "")
-                if track_uri:
-                    await self._fetch_track_image(track_uri)
-
-            elif type == MessageType.FETCH_ALBUM_IMAGES:
-                await self._fetch_album_images()
-
-            elif type == MessageType.IDENTIFY_PLAYING_STATE:
-                await self._identify_playback_state()
-                await self._identify_mixer_state()
-                await self._identify_tracklist_state()
-
-            elif type == MessageType.BROWSE_ALBUMS:
-                await self._browse_albums()
-
-            elif type == MessageType.COMPLETE_ALBUM_DESCRIPTION:
-                album_uri = message.data.get("album_uri", "")
-                if album_uri:
-                    await self._describe_album(album_uri)
-
-            elif type == MessageType.SET_CONSUME:
-                await self._http.set_consume(**message.data)
-
-            elif type == MessageType.SET_RANDOM:
-                await self._http.set_random(**message.data)
-
-            elif type == MessageType.SET_REPEAT:
-                await self._http.set_repeat(**message.data)
-
-            elif type == MessageType.SET_SINGLE:
-                await self._http.set_single(**message.data)
-
-            # Events (from websocket)
-            elif type == MessageType.TRACK_PLAYBACK_STARTED:
-                tl_track = message.data.get("tl_track")
-                tlid = tl_track.get("tlid") if tl_track else None
-                self._model.playback.set_current_tl_track_tlid(tlid)
-
-            elif type == MessageType.TRACK_PLAYBACK_PAUSED:
-                self._model.playback.set_state("paused")
-
-            elif type == MessageType.TRACK_PLAYBACK_RESUMED:
-                self._model.playback.set_state("playing")
-
-            elif type == MessageType.TRACK_PLAYBACK_ENDED:
-                self._model.playback.set_current_tl_track_tlid(-1)
-
-                auto_populate = self.settings.get_boolean("auto-populate-tracklist")
-                if not auto_populate:
-                    continue
-
-                eot_tlid = await self._http.get_eot_tlid()
-                if not eot_tlid:
-                    LOGGER.info("Will populate track list with random album")
-                    await self._http.play_tracks()
-
-            elif type == MessageType.PLAYBACK_STATE_CHANGED:
-                raw_state = message.data.get("new_state")
-                self._model.playback.set_state(raw_state)
-
-            elif type == MessageType.MUTE_CHANGED:
-                mute = message.data.get("mute")
-                self._model.mixer.set_mute(mute)
-
-            elif type == MessageType.VOLUME_CHANGED:
-                volume = message.data.get("volume")
-                self._model.mixer.set_volume(volume)
-
-            elif type == MessageType.SEEKED:
-                time_position = message.data.get("time_position")
-                self._model.playback.set_time_position(time_position)
-
-            elif type == MessageType.TRACKLIST_CHANGED:
-                await self._get_tracklist()
-
-            elif type == MessageType.OPTIONS_CHANGED:
-                await self._get_options()
-
-            else:
-                LOGGER.warning(
-                    f"Unhandled message type {type!r} " f"with data {message.data!r}"
-                )
+            for consumer in self._consumers:
+                await consumer.process_message(message_type, message)
 
     def _update_network_actions_state(self) -> None:
         for action_name in ["play_random_album", "play_favorite_playlist"]:
@@ -336,197 +205,12 @@ class Application(Gtk.Application):
 
             action.set_enabled(self._model.network_available and self._model.connected)
 
-    async def _identify_mixer_state(self) -> None:
-        LOGGER.debug("Identifying mixer state...")
-        mute = await self._http.get_mute()
-        if mute is not None:
-            self._model.mixer.set_mute(mute)
-
-        volume = await self._http.get_volume()
-        if volume is not None:
-            self._model.mixer.set_volume(volume)
-
-    async def _identify_playback_state(self) -> None:
-        LOGGER.debug("Identifying playing state...")
-        raw_state = await self._http.get_state()
-        if raw_state is not None:
-            self._model.playback.set_state(raw_state)
-
-        time_position = await self._http.get_time_position()
-        if time_position is not None:
-            self._model.playback.set_time_position(time_position)
-
-    async def _identify_tracklist_state(self) -> None:
-        consume = await self._http.get_consume()
-        if consume is not None:
-            self._model.tracklist.set_consume(consume)
-
-        random = await self._http.get_random()
-        if random is not None:
-            self._model.tracklist.set_random(random)
-
-        repeat = await self._http.get_repeat()
-        if repeat is not None:
-            self._model.tracklist.set_repeat(repeat)
-
-        single = await self._http.get_single()
-        if single is not None:
-            self._model.tracklist.set_single(single)
-
     def _on_connection_changed(
         self,
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
         self._update_network_actions_state()
-        self._schedule_track_list_update_maybe()
-        self._schedule_browse_albums_maybe()
-
-    def _on_albums_loaded_changed(
-        self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
-    ) -> None:
-        self.send_message(MessageType.FETCH_ALBUM_IMAGES)
-
-    def _on_tracklist_loaded_changed(
-        self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
-    ) -> None:
-        self.send_message(MessageType.GET_CURRENT_TRACKLIST_TRACK)
-
-    def _on_playback_current_tl_track_tlid_changed(
-        self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
-    ) -> None:
-        track_uri = self._model.get_current_tl_track_uri()
-        self.send_message(MessageType.FETCH_TRACK_IMAGE, {"track_uri": track_uri})
-
-    def _schedule_track_list_update_maybe(self) -> None:
-        if self._model.network_available and self._model.connected:
-            LOGGER.debug("Will identify playing state since connected to Mopidy server")
-            self.send_message(MessageType.IDENTIFY_PLAYING_STATE)
-            self.send_message(MessageType.GET_TRACKLIST)
-        else:
-            LOGGER.debug("Clearing track playback state since not connected")
-            self._model.playback.set_current_tl_track_tlid(-1)
-
-    def _schedule_browse_albums_maybe(self) -> None:
-        if (
-            self._model.network_available
-            and self._model.connected
-            and not self._model.albums_loaded
-        ):
-            LOGGER.debug("Will browse albums since connected to Mopidy server")
-            self.send_message(MessageType.BROWSE_ALBUMS)
-
-    async def _browse_albums(self) -> None:
-        LOGGER.debug("Starting to  browse albums...")
-        albums = await self._http.browse_albums()
-        if not albums:
-            return
-
-        album_uris = [a["uri"] for a in albums]
-        images = await self._http.get_images(album_uris)
-        if not images:
-            return
-
-        for a in albums:
-            album_uri = a["uri"]
-            if album_uri not in images or len(images[album_uri]) == 0:
-                continue
-
-            image_uri = images[album_uri][0]["uri"]
-            a["image_uri"] = image_uri
-            filepath = self._download.get_image_filepath(image_uri)
-            a["image_path"] = filepath
-
-        self._model.update_albums(albums)
-
-    async def _describe_album(self, uri: str) -> None:
-        LOGGER.debug(f"Completing description of album with uri {uri}")
-
-        tracks = await self._http.lookup_library([uri])
-        album_tracks = tracks.get(uri) if tracks else None
-        if album_tracks and len(album_tracks) > 0:
-            album = album_tracks[0].get("album")
-            if not album:
-                return
-
-            artists = cast(List[Dict[str, Any]], album_tracks[0].get("artists"))
-            artist_name = artists[0].get("name") if len(artists) > 0 else None
-
-            num_tracks = album.get("num_tracks")
-            num_discs = album.get("num_discs")
-            date = album.get("date")
-            length = sum([track.get("length", 0) for track in album_tracks])
-
-            parsed_tracks: List[TrackModel] = [
-                TrackModel(
-                    uri=cast(str, t.get("uri")),
-                    name=cast(str, t.get("name")),
-                    track_no=cast(int, t.get("track_no")),
-                    disc_no=cast(int, t.get("disc_no", 1)),
-                    length=t.get("length"),
-                )
-                for t in album_tracks
-                if "uri" in t and "track_no" in t and "name" in t
-            ]
-
-            self._model.complete_album_description(
-                uri,
-                artist_name=artist_name,
-                num_tracks=num_tracks,
-                num_discs=num_discs,
-                date=date,
-                length=length,
-                tracks=parsed_tracks,
-            )
-
-    async def _fetch_track_image(self, track_uri: str) -> None:
-        LOGGER.debug(f"Starting track image download for {track_uri}")
-        images = await self._http.get_images([track_uri])
-        image_path = None
-        if images:
-            track_images = images.get(track_uri)
-            if track_images and len(track_images) > 0:
-                image_uri = track_images[0]["uri"]
-                image_path = await self._download.fetch_image(image_uri)
-
-        if self._model.get_current_tl_track_uri() != track_uri:
-            image_path = None
-
-        self._model.playback.set_image_path(image_path)
-
-    async def _fetch_album_images(self) -> None:
-        LOGGER.debug("Starting album image download...")
-        albums = self._model.albums
-        image_uris = [albums.get_item(i).image_uri for i in range(albums.get_n_items())]
-        await self._download.fetch_images(image_uris)
-
-    async def _get_tracklist(self) -> None:
-        version = await self._http.get_tracklist_version()
-        tracks = await self._http.get_tracklist_tracks()
-        self._model.update_tracklist(version, tracks)
-
-    async def _get_options(self) -> None:
-        consume = await self._http.get_consume()
-        if consume is not None:
-            self._model.tracklist.set_consume(consume)
-
-        random = await self._http.get_random()
-        if random is not None:
-            self._model.tracklist.set_random(random)
-
-        repeat = await self._http.get_repeat()
-        if repeat is not None:
-            self._model.tracklist.set_repeat(repeat)
-
-        single = await self._http.get_single()
-        if single is not None:
-            self._model.tracklist.set_single(single)
 
     def send_message(
         self, message_type: MessageType, data: Optional[Dict[str, Any]] = None
