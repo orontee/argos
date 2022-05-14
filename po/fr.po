@@ -166,10 +166,6 @@ msgstr "Entrer l'URL du serveur Mopidy"
 msgid "Favorite playlist"
 msgstr "Liste de lecture favorite"
 
-#: argos/ui/preferences.ui:122
-msgid "Automatically populate track list"
-msgstr "Lecture en continu d'albums choisis aléatoirement"
-
 #: argos/ui/window.ui:50
 msgid "page0"
 msgstr ""
@@ -217,18 +213,6 @@ msgid ""
 msgstr ""
 "L'URI de la liste de lecture qui es chargée et jouée quand \"Lire la liste "
 "de lecture favorite est activé"
-
-#: data/app.argos.Argos.gschema.xml:37
-msgid "Automatically populate tracklist"
-msgstr "Lecture en continu d'albums choisis aléatoirement"
-
-#: data/app.argos.Argos.gschema.xml:40
-msgid ""
-"Whether to automatically populate the tracklist with a random choosen album "
-"when its last track playback ended."
-msgstr ""
-"Peupler automatiquement la file d'attente avec un album choisi au hasard "
-"quand son dernier morceau se termine"
 
 #~ msgid "Play favorite playlist"
 #~ msgstr "Lire la liste de lecture favorite"

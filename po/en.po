@@ -167,10 +167,6 @@ msgstr "Enter the URL of the Mopidy server"
 msgid "Favorite playlist"
 msgstr "Favorite playlist"
 
-#: argos/ui/preferences.ui:122
-msgid "Automatically populate track list"
-msgstr "Automatically populate track list"
-
 #: argos/ui/window.ui:50
 msgid "page0"
 msgstr ""
@@ -218,18 +214,6 @@ msgid ""
 msgstr ""
 "The URI of the playlist that will be loaded and played when \"play favorite "
 "playlist\" button is triggered."
-
-#: data/app.argos.Argos.gschema.xml:37
-msgid "Automatically populate tracklist"
-msgstr "Automatically populate tracklist"
-
-#: data/app.argos.Argos.gschema.xml:40
-msgid ""
-"Whether to automatically populate the tracklist with a random choosen album "
-"when its last track playback ended."
-msgstr ""
-"Whether to automatically populate the tracklist with a random choosen album "
-"when its last track playback ended."
 
 #~ msgid "Play favorite playlist"
 #~ msgstr "Play favorite playlist"
