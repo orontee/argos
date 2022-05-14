@@ -14,11 +14,15 @@ def default_album_image_pixbuf(target_width: int) -> Pixbuf:
     pixbuf = Gtk.IconTheme.get_default().load_icon(
         "media-optical-cd-audio-symbolic", target_width, 0
     )
+    original_width, original_height = pixbuf.get_width(), pixbuf.get_height()
     width, height = compute_target_size(
-        pixbuf.get_width(),
-        pixbuf.get_height(),
+        original_width,
+        original_height,
         target_width=target_width,
     )
+    if (original_width, original_height) == (width, height):
+        return pixbuf
+
     scaled_pixbuf = pixbuf.scale_simple(width, height, GdkPixbuf.InterpType.BILINEAR)
     return scaled_pixbuf
 

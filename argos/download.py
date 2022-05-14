@@ -1,13 +1,14 @@
 import asyncio
+from functools import partial
 import logging
 from pathlib import Path
-from typing import Dict, List, Optional, TYPE_CHECKING
+from typing import Any, Dict, List, Optional, Tuple, TYPE_CHECKING
 import urllib.parse
 
 import aiohttp
 import xdg.BaseDirectory  # type: ignore
 
-from gi.repository import Gio, GObject
+from gi.repository import Gio, GLib, GObject
 
 if TYPE_CHECKING:
     from .app import Application
@@ -24,6 +25,10 @@ class ImageDownloader(GObject.GObject):
     Currently only support tracks handled by Mopidy-Local.
 
     """
+
+    __gsignals__: Dict[str, Tuple[int, Any, Tuple]] = {
+        "albums-images-loaded": (GObject.SIGNAL_RUN_FIRST, None, ())
+    }
 
     def __init__(
         self,
@@ -101,7 +106,12 @@ class ImageDownloader(GObject.GObject):
                     if image_uri is not None and filepath is not None:
                         paths[image_uri] = filepath
 
-            self._model.set_property_in_gtk_thread("albums_images_loaded", True)
+            GLib.idle_add(
+                partial(
+                    self.emit,
+                    "albums-images-loaded",
+                )
+            )
 
         if self._ongoing_task:
             if not self._ongoing_task.done() and not self._ongoing_task.cancelled():

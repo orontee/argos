@@ -58,7 +58,7 @@ class AlbumsWindow(Gtk.ScrolledWindow):
         )
 
         self._model.connect("notify::albums-loaded", self.update_album_list)
-        self._model.connect("notify::albums-images-loaded", self.update_images)
+        application.props.download.connect("albums-images-loaded", self.update_images)
 
     def set_filtering_text(self, text: str) -> None:
         stripped = text.strip()
@@ -106,11 +106,7 @@ class AlbumsWindow(Gtk.ScrolledWindow):
     def update_images(
         self,
         _1: GObject.GObject,
-        _2: GObject.GParamSpec,
     ) -> None:
-        if not self._model.albums_images_loaded:
-            return
-
         thread = threading.Thread(target=self._update_images)
         thread.daemon = True
         thread.start()
@@ -135,7 +131,8 @@ class AlbumsWindow(Gtk.ScrolledWindow):
                 path = store.get_path(store_iter)
                 GLib.idle_add(update_album_image, path, scaled_pixbuf)
             else:
-                LOGGER.debug("No image path")
+                uri = store.get_value(store_iter, AlbumStoreColumns.URI)
+                LOGGER.debug(f"No image path for {uri}")
             store_iter = store.iter_next(store_iter)
 
     @Gtk.Template.Callback()

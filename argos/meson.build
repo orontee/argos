@@ -32,7 +32,6 @@ argos_sources = [
   'http.py',
   '__init__.py',
   'message.py',
-  'model.py',
   'session.py',
   'time.py',
   'utils.py',
@@ -41,4 +40,5 @@ argos_sources = [
 ]
 
 install_data(argos_sources, install_dir: moduledir)
+install_subdir('model', install_dir: moduledir)
 install_subdir('widgets', install_dir: moduledir)

@@ -25,7 +25,6 @@ def compute_target_size(
         if not transpose
         else (target_height, target_width)
     )
-    LOGGER.debug(f"Resizing {(width, height)!r} to {size!r}")
     return size
 
 
@@ -42,8 +41,8 @@ def configure_logger(options: dict) -> None:
     logger.setLevel(level)
     logger.addHandler(ch)
 
-    # logger = logging.getLogger("argos.time")
-    # logger.setLevel(logging.INFO)
+    logger = logging.getLogger("argos.time")
+    logger.setLevel(logging.INFO)
 
 
 def elide_maybe(text: str) -> str:

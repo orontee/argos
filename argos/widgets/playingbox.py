@@ -1,7 +1,8 @@
 from enum import IntEnum
 import gettext
-from pathlib import Path
 import logging
+from pathlib import Path
+from typing import Optional
 
 from gi.repository import GLib, GObject, Gtk, Pango
 
@@ -110,20 +111,21 @@ class PlayingBox(Gtk.Box):
 
         self._model.connect("notify::network-available", self.handle_connection_changed)
         self._model.connect("notify::connected", self.handle_connection_changed)
-        self._model.connect("notify::consume", self.handle_consume_changed)
-        self._model.connect("notify::random", self.handle_random_changed)
-        self._model.connect("notify::repeat", self.handle_repeat_changed)
-        self._model.connect("notify::single", self.handle_single_changed)
-        self._model.connect("notify::image-path", self.update_playing_track_image)
-        self._model.connect("notify::track-name", self.update_track_name_label)
-        self._model.connect("notify::track-length", self.update_track_length_label)
-        self._model.connect("notify::artist-name", self.update_artist_name_label)
-
-        self._model.playback.connect("notify::state", self.update_play_button)
+        self._model.tracklist.connect("notify::consume", self.handle_consume_changed)
+        self._model.tracklist.connect("notify::random", self.handle_random_changed)
+        self._model.tracklist.connect("notify::repeat", self.handle_repeat_changed)
+        self._model.tracklist.connect("notify::single", self.handle_single_changed)
         self._model.playback.connect(
-            "notify::time-position", self.update_time_position_scale_and_label
+            "notify::current-tl-track-tlid", self._update_playing_track_labels
         )
-        self._model.connect("notify::tracklist-loaded", self.update_tracklist_view)
+        self._model.playback.connect("notify::state", self._update_play_button)
+        self._model.playback.connect(
+            "notify::time-position", self._update_time_position_scale_and_label
+        )
+        self._model.playback.connect(
+            "notify::image-path", self._update_playing_track_image
+        )
+        self._model.connect("notify::tracklist-loaded", self._update_tracklist_view)
 
     def handle_connection_changed(
         self,
@@ -147,42 +149,62 @@ class PlayingBox(Gtk.Box):
 
     def handle_consume_changed(
         self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
+        model: GObject.GObject,
+        _1: GObject.GParamSpec,
     ) -> None:
-        if self._model.consume != self.consume_button.get_active():
-            self.consume_button.set_active(self._model.consume)
+        if model.props.consume != self.consume_button.get_active():
+            self.consume_button.set_active(model.props.consume)
 
     def handle_random_changed(
         self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
+        model: GObject.GObject,
+        _1: GObject.GParamSpec,
     ) -> None:
-        if self._model.random != self.random_button.get_active():
-            self.random_button.set_active(self._model.random)
+        if model.props.random != self.random_button.get_active():
+            self.random_button.set_active(model.props.random)
 
     def handle_repeat_changed(
         self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
+        model: GObject.GObject,
+        _1: GObject.GParamSpec,
     ) -> None:
-        if self._model.repeat != self.repeat_button.get_active():
-            self.repeat_button.set_active(self._model.repeat)
+        if model.props.repeat != self.repeat_button.get_active():
+            self.repeat_button.set_active(model.props.repeat)
 
     def handle_single_changed(
         self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
+        model: GObject.GObject,
+        _1: GObject.GParamSpec,
     ) -> None:
-        if self._model.single != self.single_button.get_active():
-            self.single_button.set_active(self._model.single)
+        if model.props.single != self.single_button.get_active():
+            self.single_button.set_active(model.props.single)
 
-    def update_playing_track_image(
+    def _update_playing_track_labels(
         self,
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
-        image_path = Path(self._model.image_path) if self._model.image_path else None
+        tlid = self._model.playback.props.current_tl_track_tlid
+        tl_track = self._model.tracklist.get_tl_track(tlid) if tlid != -1 else None
+        if tl_track is not None:
+            self._update_track_name_label(tl_track.track.name)
+            self._update_track_length_label(tl_track.track.length)
+            self._update_artist_name_label(tl_track.artist_name)
+        else:
+            self._update_track_name_label()
+            self._update_track_length_label()
+            self._update_artist_name_label()
+
+    def _update_playing_track_image(
+        self,
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
+    ) -> None:
+        image_path = (
+            Path(self._model.playback.image_path)
+            if self._model.playback.image_path
+            else None
+        )
         scaled_pixbuf = None
         if image_path:
             rectangle = self.playing_track_image.get_allocation()
@@ -199,12 +221,7 @@ class PlayingBox(Gtk.Box):
 
         self.playing_track_image.show_now()
 
-    def update_track_name_label(
-        self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
-    ) -> None:
-        track_name = self._model.track_name
+    def _update_track_name_label(self, track_name: Optional[str] = None) -> None:
         if track_name:
             short_track_name = GLib.markup_escape_text(elide_maybe(track_name))
             track_name_text = (
@@ -220,12 +237,7 @@ class PlayingBox(Gtk.Box):
 
         self.track_name_label.show_now()
 
-    def update_artist_name_label(
-        self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
-    ) -> None:
-        artist_name = self._model.artist_name
+    def _update_artist_name_label(self, artist_name: Optional[str] = None) -> None:
         if artist_name:
             short_artist_name = GLib.markup_escape_text(elide_maybe(artist_name))
             artist_name_text = f"""<span size="x-large">{short_artist_name}</span>"""
@@ -239,16 +251,11 @@ class PlayingBox(Gtk.Box):
 
         self.artist_name_label.show_now()
 
-    def update_track_length_label(
-        self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
-    ) -> None:
-        track_length = self._model.track_length
-        pretty_length = ms_to_text(track_length)
+    def _update_track_length_label(self, track_length: Optional[int] = None) -> None:
+        pretty_length = ms_to_text(track_length if track_length is not None else -1)
         self.track_length_label.set_text(pretty_length)
 
-        if track_length != -1:
+        if track_length and track_length != -1:
             self.time_position_adjustement.set_upper(track_length)
             self.time_position_scale.set_sensitive(True)
         else:
@@ -257,7 +264,7 @@ class PlayingBox(Gtk.Box):
 
         self.track_length_label.show_now()
 
-    def update_time_position_scale_and_label(
+    def _update_time_position_scale_and_label(
         self,
         model: GObject.GObject,
         _1: GObject.GParamSpec,
@@ -272,7 +279,7 @@ class PlayingBox(Gtk.Box):
         self.time_position_label.show_now()
         self.time_position_scale.show_now()
 
-    def update_play_button(
+    def _update_play_button(
         self,
         model: GObject.GObject,
         _1: GObject.GParamSpec,
@@ -287,7 +294,7 @@ class PlayingBox(Gtk.Box):
         elif state == PlaybackState.PLAYING:
             self.play_button.set_image(self.pause_image)
 
-    def update_tracklist_view(
+    def _update_tracklist_view(
         self,
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
@@ -298,7 +305,8 @@ class PlayingBox(Gtk.Box):
         if not self._model.tracklist_loaded:
             return
 
-        for tl_track in self._model.tracklist.tracks:
+        for i in range(self._model.tracklist.tracks.get_n_items()):
+            tl_track = self._model.tracklist.tracks.get_item(i)
             track = tl_track.track
             store.append(
                 [

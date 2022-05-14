@@ -8,7 +8,7 @@ from typing import Optional, List
 from gi.repository import GLib, Gtk, GObject, Pango
 
 from ..message import MessageType
-from ..model import Model, Track
+from ..model import Model, TrackModel
 from ..utils import elide_maybe, ms_to_text
 from .utils import default_album_image_pixbuf, scale_album_image
 
@@ -217,7 +217,7 @@ class AlbumBox(Gtk.Box):
 
         self.album_image.show_now()
 
-    def _update_track_view(self, tracks: List[Track]) -> None:
+    def _update_track_view(self, tracks: List[TrackModel]) -> None:
         store = self.track_view.get_model()
         store.clear()
 

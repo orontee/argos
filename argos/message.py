@@ -22,11 +22,12 @@ class MessageType(Enum):
     REMOVE_FROM_TRACKLIST = 15
     CLEAR_TRACKLIST = 16
     GET_TRACKLIST = 17
-    PLAY = 18
-    SET_CONSUME = 19
-    SET_RANDOM = 20
-    SET_REPEAT = 21
-    SET_SINGLE = 22
+    GET_CURRENT_TRACKLIST_TRACK = 18
+    PLAY = 19
+    SET_CONSUME = 20
+    SET_RANDOM = 21
+    SET_REPEAT = 22
+    SET_SINGLE = 23
 
     # Events (frow websocket)
     TRACK_PLAYBACK_STARTED = 40
