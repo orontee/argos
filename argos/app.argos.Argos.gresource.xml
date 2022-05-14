@@ -9,6 +9,8 @@
     <file preprocess="xml-stripblanks">ui/playing_box.ui</file>
     <file preprocess="xml-stripblanks">ui/preferences.ui</file>
     <file preprocess="xml-stripblanks">ui/title_bar.ui</file>
+    <file preprocess="xml-stripblanks">ui/tracklist_box.ui</file>
+    <file preprocess="xml-stripblanks">ui/tracklist_track_box.ui</file>
     <file preprocess="xml-stripblanks">ui/window.ui</file>
   </gresource>
 </gresources>

@@ -9,6 +9,7 @@ from gi.repository import GLib, GObject, Gtk, Pango
 from ..message import MessageType
 from ..model import PlaybackState
 from ..utils import elide_maybe, ms_to_text
+from .tlbox import TracklistBox
 from .utils import scale_album_image
 
 _ = gettext.gettext
@@ -45,7 +46,7 @@ class PlayingBox(Gtk.Box):
     time_position_adjustement: Gtk.Adjustment = Gtk.Template.Child()
     time_position_label: Gtk.Label = Gtk.Template.Child()
 
-    tracklist_view: Gtk.TreeView = Gtk.Template.Child()
+    tracklist_view_scrolled_window: Gtk.ScrolledWindow = Gtk.Template.Child()
 
     clear_button: Gtk.Button = Gtk.Template.Child()
     consume_button: Gtk.ToggleButton = Gtk.Template.Child()
@@ -55,6 +56,8 @@ class PlayingBox(Gtk.Box):
 
     needs_attention = GObject.Property(type=bool, default=False)
 
+    tracklist_view: TracklistBox
+
     def __init__(self, application: Gtk.Application):
         super().__init__()
 
@@ -62,40 +65,8 @@ class PlayingBox(Gtk.Box):
         self._model = application.model
         self._disable_tooltips = application.props.disable_tooltips
 
-        tracklist_store = Gtk.ListStore(int, str, str, str, str, str)
-        self.tracklist_view.set_model(tracklist_store)
-        if not self._disable_tooltips:
-            self.tracklist_view.set_tooltip_column(TracklistStoreColumns.TOOLTIP)
-
-        column = Gtk.TreeViewColumn(_("Track"))
-        track_name_renderer = Gtk.CellRendererText(
-            xpad=5,
-            ypad=5,
-            ellipsize=Pango.EllipsizeMode.END,
-        )
-        artist_name_renderer = Gtk.CellRendererText(
-            xpad=5,
-            ypad=5,
-            ellipsize=Pango.EllipsizeMode.END,
-        )
-        attrs = Pango.AttrList()
-        attrs.insert(Pango.attr_weight_new(Pango.Weight.LIGHT))
-        artist_name_renderer.props.attributes = attrs
-
-        track_length_renderer = Gtk.CellRendererText(xalign=1.0, xpad=5, ypad=5)
-        column.pack_start(track_name_renderer, True)
-        column.pack_start(artist_name_renderer, True)
-        column.pack_start(track_length_renderer, True)
-        column.add_attribute(
-            track_name_renderer, "text", TracklistStoreColumns.TRACK_NAME
-        )
-        column.add_attribute(
-            artist_name_renderer, "text", TracklistStoreColumns.ARTIST_NAME
-        )
-        column.add_attribute(
-            track_length_renderer, "text", TracklistStoreColumns.LENGTH
-        )
-        self.tracklist_view.append_column(column)
+        self.tracklist_view = TracklistBox(application)
+        self.tracklist_view_scrolled_window.add(self.tracklist_view)
 
         for widget in (
             self.prev_button,
@@ -125,7 +96,8 @@ class PlayingBox(Gtk.Box):
         self._model.playback.connect(
             "notify::image-path", self._update_playing_track_image
         )
-        self._model.connect("notify::tracklist-loaded", self._update_tracklist_view)
+
+        self.show_all()
 
     def handle_connection_changed(
         self,
@@ -294,31 +266,6 @@ class PlayingBox(Gtk.Box):
         elif state == PlaybackState.PLAYING:
             self.play_button.set_image(self.pause_image)
 
-    def _update_tracklist_view(
-        self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
-    ) -> None:
-        store = self.tracklist_view.get_model()
-        store.clear()
-
-        if not self._model.tracklist_loaded:
-            return
-
-        for i in range(self._model.tracklist.tracks.get_n_items()):
-            tl_track = self._model.tracklist.tracks.get_item(i)
-            track = tl_track.track
-            store.append(
-                [
-                    tl_track.tlid,
-                    track.name,
-                    tl_track.artist_name,
-                    tl_track.album_name,
-                    ms_to_text(track.length) if track.length else "",
-                    GLib.markup_escape_text(track.name),
-                ]
-            )
-
     @Gtk.Template.Callback()
     def on_clear_button_clicked(self, _1: Gtk.Button) -> None:
         self._app.send_message(MessageType.CLEAR_TRACKLIST)
@@ -341,22 +288,6 @@ class PlayingBox(Gtk.Box):
     ) -> None:
         time_position = round(value)
         self._app.send_message(MessageType.SEEK, {"time_position": time_position})
-
-    @Gtk.Template.Callback()
-    def on_tracklist_view_row_activated(
-        self,
-        tracklist_view: Gtk.TreeView,
-        path: Gtk.TreePath,
-        _1: Gtk.TreeViewColumn,
-    ) -> None:
-        sensitive = self._model.network_available and self._model.connected
-        if not sensitive:
-            return
-
-        store = tracklist_view.get_model()
-        store_iter = store.get_iter(path)
-        tlid = store.get_value(store_iter, TracklistStoreColumns.TLID)
-        self._app.send_message(MessageType.PLAY, {"tlid": tlid})
 
     @Gtk.Template.Callback()
     def on_consume_button_toggled(

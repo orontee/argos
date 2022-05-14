@@ -180,7 +180,6 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">start</property>
-                <property name="valign">center</property>
                 <property name="label">/</property>
               </object>
               <packing>
@@ -195,7 +194,6 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">start</property>
-                <property name="valign">center</property>
                 <property name="margin-end">10</property>
                 <property name="label">--</property>
               </object>
@@ -442,17 +440,7 @@
             <property name="vexpand">True</property>
             <property name="shadow-type">in</property>
             <child>
-              <object class="GtkTreeView" id="tracklist_view">
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="headers-visible">False</property>
-                <property name="enable-search">False</property>
-                <property name="enable-grid-lines">horizontal</property>
-                <signal name="row-activated" handler="on_tracklist_view_row_activated" swapped="no"/>
-                <child internal-child="selection">
-                  <object class="GtkTreeSelection"/>
-                </child>
-              </object>
+              <placeholder/>
             </child>
           </object>
           <packing>
