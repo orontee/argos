@@ -13,26 +13,23 @@ Mopidy front-end for small devices.
 .. figure:: screenshot.png
    :alt: Application window screenshot
    :align: center
-   :width: 407
-   :height: 249
+   :width: 400
 
    Application window
 
 .. figure:: screenshot-albums-view.png
    :alt: Albums view screenshot
    :align: center
-   :width: 407
-   :height: 249
+   :width: 400
 
    Albums view
 
 .. figure:: screenshot-album-view.png
    :alt: Album view screenshot
    :align: center
-   :width: 407
-   :height: 249
+   :width: 400
 
-   Preferences window
+   Album view
 
 Features 🥳
 ===========
