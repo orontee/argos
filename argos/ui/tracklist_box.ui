@@ -5,6 +5,6 @@
   <template class="TracklistBox" parent="GtkListBox">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
-    <property name="selection-mode">none</property>
+    <property name="activate-on-single-click">False</property>
   </template>
 </interface>
