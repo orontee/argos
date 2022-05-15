@@ -66,7 +66,7 @@ class Application(Gtk.Application):
                 MixerController(self),
             ),
         )
-
+        self._model.props.network_available = self._nm.get_network_available()
         self._model.connect("notify::network-available", self._on_connection_changed)
         self._model.connect("notify::connected", self._on_connection_changed)
 

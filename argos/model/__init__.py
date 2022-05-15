@@ -47,13 +47,12 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
     def __init__(self, application: "Application", *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self._network_available = application._nm.get_network_available()
-        application._nm.connect("network-changed", self._on_nm_network_changed)
-
         self.playback = PlaybackModel()
         self.mixer = MixerModel()
         self.tracklist = TracklistModel()
         self.albums = Gio.ListStore.new(AlbumModel)
+
+        application._nm.connect("network-changed", self._on_nm_network_changed)
 
         self.playback.connect(
             "notify::current-tl-track-tlid",
