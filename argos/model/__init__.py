@@ -185,7 +185,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
                     name=cast(str, track.get("name")),
                     track_no=cast(int, track.get("track_no", -1)),
                     disc_no=cast(int, track.get("disc_no", 1)),
-                    length=cast(int, track.get("length", 0)),
+                    length=cast(int, track.get("length", -1)),
                     artist_name=artist.get("name", ""),
                     album_name=album.get("name", ""),
                 )
