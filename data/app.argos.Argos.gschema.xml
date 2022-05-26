@@ -21,16 +21,5 @@
       </description>
     </key>
 
-    <key type="s" name="favorite-playlist-uri">
-      <default>"Radios"</default>
-      <summary>
-	URI of favorite playlist
-      </summary>
-      <description>
-	The URI of the playlist that will be loaded and played when
-	"play favorite playlist" button is triggered.
-      </description>
-    </key>
-
   </schema>
 </schemalist>

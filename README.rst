@@ -36,11 +36,9 @@ Features 🥳
 
 * Play random album from Mopidy-Local
 
-* Configure and play favorite playlist
+* Albums & playlist views
 
-* Albums view
-
-* Display album cover from Mopidy-Local HTTP API
+* Display album covers from Mopidy-Local HTTP API
 
 * Keyboard shortcuts
 

@@ -27,14 +27,6 @@ class MopidyHTTPClient(GObject.GObject):
 
         self._ws: MopidyWSConnection = application.props.ws
 
-        settings: Gio.Settings = application.props.settings
-
-        favorite_playlist_uri = settings.get_string("favorite-playlist-uri")
-        self._favorite_playlist_uri = favorite_playlist_uri
-        settings.connect(
-            "changed::favorite-playlist-uri", self._on_favorite_playlist_uri_changed
-        )
-
     async def get_state(self) -> Optional[str]:
         return await self._ws.send_command("core.playback.get_state")
 
@@ -198,30 +190,6 @@ class MopidyHTTPClient(GObject.GObject):
         if state != PlaybackState.PLAYING:
             await self._ws.send_command("core.playback.play")
 
-    async def play_favorite_playlist(self) -> None:
-        if not self._favorite_playlist_uri:
-            LOGGER.debug("Favorite playlist URI not set")
-            return
-
-        refs = await self._ws.send_command(
-            "core.playlists.get_items", params={"uri": self._favorite_playlist_uri}
-        )
-        if not refs:
-            return
-
-        await self._ws.send_command("core.tracklist.clear")
-        uris = [ref["uri"] for ref in refs]
-        tltracks = await self._ws.send_command(
-            "core.tracklist.add", params={"uris": uris, "at_position": 0}
-        )
-        if not tltracks or not len(tltracks):
-            return None
-
-        tltrack = tltracks[0]
-        await self._ws.send_command(
-            "core.playback.play", params={"tlid": tltrack["tlid"]}
-        )
-
     async def get_mute(self) -> Optional[bool]:
         mute = await self._ws.send_command("core.mixer.get_mute")
         return bool(mute) if mute is not None else None
@@ -257,11 +225,3 @@ class MopidyHTTPClient(GObject.GObject):
         params = {"uris": uris}
         images = await self._ws.send_command("core.library.get_images", params=params)
         return images
-
-    def _on_favorite_playlist_uri_changed(
-        self,
-        settings: Gio.Settings,
-        key: str,
-    ) -> None:
-        favorite_playlist_uri = settings.get_string(key)
-        self._favorite_playlist_uri = favorite_playlist_uri

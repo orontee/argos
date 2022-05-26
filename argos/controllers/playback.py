@@ -70,9 +70,6 @@ class PlaybackController(ControllerBase):
             uris = message.data.get("uris")
             await self._http.play_tracks(uris)
 
-        elif message_type == MessageType.PLAY_FAVORITE_PLAYLIST:
-            await self._http.play_favorite_playlist()
-
         elif message_type == MessageType.SEEK:
             time_position = round(cast(int, message.data.get("time_position")))
             await self._http.seek(time_position)

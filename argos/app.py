@@ -158,7 +158,6 @@ class Application(Gtk.Application):
             ("show_about_dialog", self.show_about_dialog_cb, None),
             ("show_preferences", self.show_prefs_activate_cb, None),
             ("play_random_album", self.play_random_album_activate_cb, None),
-            ("play_favorite_playlist", self.play_favorite_playlist_activate_cb, None),
             ("quit", self.quit_activate_cb, ("app.quit", ["<Ctrl>Q"])),
         ]
         for action_name, callback, accel in action_descriptions:
@@ -168,7 +167,7 @@ class Application(Gtk.Application):
             if accel is not None:
                 self.set_accels_for_action(*accel)
 
-        for action_name in ["play_random_album", "play_favorite_playlist"]:
+        for action_name in ["play_random_album"]:
             action = self.lookup_action(action_name)
             if not action:
                 continue
@@ -200,7 +199,7 @@ class Application(Gtk.Application):
                 await consumer.process_message(message_type, message)
 
     def _update_network_actions_state(self) -> None:
-        for action_name in ["play_random_album", "play_favorite_playlist"]:
+        for action_name in ["play_random_album"]:
             action = self.lookup_action(action_name)
             if not action:
                 continue
@@ -252,8 +251,3 @@ class Application(Gtk.Application):
         self, action: Gio.SimpleAction, parameter: None
     ) -> None:
         self.send_message(MessageType.PLAY_TRACKS)
-
-    def play_favorite_playlist_activate_cb(
-        self, action: Gio.SimpleAction, parameter: None
-    ) -> None:
-        self.send_message(MessageType.PLAY_FAVORITE_PLAYLIST)
