@@ -52,6 +52,13 @@
                 <property name="accelerator">&lt;Ctrl&gt;P</property>
               </object>
             </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">True</property>
+                <property name="title" translatable="yes" context="shortcut window">Play random album</property>
+                <property name="accelerator">&lt;Ctrl&gt;R</property>
+              </object>
+            </child>
           </object>
         </child>
         <child>

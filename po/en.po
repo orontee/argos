@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: argos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-26 08:38+0200\n"
+"POT-Creation-Date: 2022-05-26 16:23+0200\n"
 "PO-Revision-Date: 2022-02-20 20:54+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -37,11 +37,11 @@ msgstr "Published"
 msgid "Length"
 msgstr "Length"
 
-#: argos/ui/album_box.ui:210
+#: argos/ui/album_box.ui:208
 msgid "Add album to tracklist"
 msgstr "Add album to tracklist"
 
-#: argos/ui/album_box.ui:225
+#: argos/ui/album_box.ui:223
 msgid "Play album"
 msgstr "Play album"
 
@@ -96,22 +96,27 @@ msgctxt "shortcut window"
 msgid "Previous track"
 msgstr "Previous track"
 
-#: argos/ui/help_overlay.ui:60
+#: argos/ui/help_overlay.ui:58
+msgctxt "shortcut window"
+msgid "Play random album"
+msgstr "Play random album"
+
+#: argos/ui/help_overlay.ui:67
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigation"
 
-#: argos/ui/help_overlay.ui:64
+#: argos/ui/help_overlay.ui:71
 msgctxt "shortcut window"
 msgid "Go to Playing"
 msgstr "Go to Playing"
 
-#: argos/ui/help_overlay.ui:71
+#: argos/ui/help_overlay.ui:78
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Go to Albums"
 
-#: argos/ui/help_overlay.ui:78
+#: argos/ui/help_overlay.ui:85
 msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Go to Playlists"
@@ -184,10 +189,6 @@ msgstr "Back to albums"
 msgid "Search albums"
 msgstr "Search albums"
 
-#: argos/widgets/albumbox.py:88
-msgid "Track"
-msgstr "Track"
-
 #: argos/window.py:43
 msgid "Playing"
 msgstr "Playing"
@@ -220,6 +221,9 @@ msgstr "Base URL of Mopidy APIs"
 msgid "The base URL of Mopidy JSON-RPC and websocket APIs."
 msgstr "The base URL of Mopidy JSON-RPC and websocket APIs."
 
+#~ msgid "Track"
+#~ msgstr "Track"
+
 #~ msgid "Play _favorite playlist"
 #~ msgstr "Play _favorite playlist"
 
@@ -235,9 +239,6 @@ msgstr "The base URL of Mopidy JSON-RPC and websocket APIs."
 #~ msgstr ""
 #~ "The URI of the playlist that will be loaded and played when \"play "
 #~ "favorite playlist\" button is triggered."
-
-#~ msgid "Play random album"
-#~ msgstr "Play random album"
 
 #~ msgid "Main"
 #~ msgstr "Main"

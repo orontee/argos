@@ -165,6 +165,9 @@ class ArgosWindow(Gtk.ApplicationWindow):
             elif keyval == Gdk.KEY_f:
                 self.props.titlebar.toggle_search_entry_focus_maybe()
                 return True
+            elif keyval == Gdk.KEY_r:
+                self._app.send_message(MessageType.PLAY_TRACKS)
+                return True
         elif not modifiers:
             if keyval == Gdk.KEY_Escape:
                 self.props.titlebar.toggle_search_entry_focus_maybe()

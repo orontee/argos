@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-26 08:38+0200\n"
+"POT-Creation-Date: 2022-05-26 16:23+0200\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -36,11 +36,11 @@ msgstr "Publication"
 msgid "Length"
 msgstr "Durée"
 
-#: argos/ui/album_box.ui:210
+#: argos/ui/album_box.ui:208
 msgid "Add album to tracklist"
 msgstr "Ajouter l'album à la file d'attente"
 
-#: argos/ui/album_box.ui:225
+#: argos/ui/album_box.ui:223
 msgid "Play album"
 msgstr "Lire l'album"
 
@@ -95,22 +95,27 @@ msgctxt "shortcut window"
 msgid "Previous track"
 msgstr "Morceau précédent"
 
-#: argos/ui/help_overlay.ui:60
+#: argos/ui/help_overlay.ui:58
+msgctxt "shortcut window"
+msgid "Play random album"
+msgstr "Lire un album au hasard"
+
+#: argos/ui/help_overlay.ui:67
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigation"
 
-#: argos/ui/help_overlay.ui:64
+#: argos/ui/help_overlay.ui:71
 msgctxt "shortcut window"
 msgid "Go to Playing"
 msgstr "Aller à la lecture en cours"
 
-#: argos/ui/help_overlay.ui:71
+#: argos/ui/help_overlay.ui:78
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Aller aux albums"
 
-#: argos/ui/help_overlay.ui:78
+#: argos/ui/help_overlay.ui:85
 msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Aller aux listes de lecture"
@@ -183,10 +188,6 @@ msgstr "Retourner aux albums"
 msgid "Search albums"
 msgstr "Rechercher des albums"
 
-#: argos/widgets/albumbox.py:88
-msgid "Track"
-msgstr "Morceau"
-
 #: argos/window.py:43
 msgid "Playing"
 msgstr "En cours"
@@ -219,6 +220,9 @@ msgstr "URL de base des APIs Mopidy"
 msgid "The base URL of Mopidy JSON-RPC and websocket APIs."
 msgstr "L'URL de base des APIs JSON-RPC et websocket de Mopidy."
 
+#~ msgid "Track"
+#~ msgstr "Morceau"
+
 #~ msgid "Play _favorite playlist"
 #~ msgstr "Lire la liste de lecture _favorite"
 
@@ -234,6 +238,3 @@ msgstr "L'URL de base des APIs JSON-RPC et websocket de Mopidy."
 #~ msgstr ""
 #~ "L'URI de la liste de lecture qui es chargée et jouée quand \"Lire la "
 #~ "liste de lecture favorite est activé"
-
-#~ msgid "Play random album"
-#~ msgstr "Lire un album au hasard"
