@@ -32,10 +32,10 @@ class ArgosWindow(Gtk.ApplicationWindow):
         self.props.titlebar = TitleBar(application)
         self.props.titlebar.central_view_switcher.set_stack(self.central_view)
         self.props.titlebar.back_button.connect(
-            "clicked", self.on_title_back_button_clicked
+            "clicked", self._on_title_back_button_clicked
         )
         self.props.titlebar.search_entry.connect(
-            "search-changed", self.on_search_entry_changed
+            "search-changed", self._on_search_entry_changed
         )
         self.set_titlebar(self.props.titlebar)
 
@@ -43,7 +43,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
         self.central_view.add_titled(playing_box, "playing_page", _("Playing"))
 
         self.props.albums_window = AlbumsWindow(application)
-        self.props.albums_window.connect("album-selected", self.on_album_selected)
+        self.props.albums_window.connect("album-selected", self._on_album_selected)
         self.central_view.add_titled(
             self.props.albums_window, "albums_page", _("Albums")
         )
@@ -53,25 +53,30 @@ class ArgosWindow(Gtk.ApplicationWindow):
         )
 
         self.central_view.connect(
-            "notify::visible-child-name", self.on_central_view_changed
+            "notify::visible-child-name", self._on_central_view_changed
         )
 
         self._album_box = AlbumBox(application)
         self.main_stack.add_named(self._album_box, "album_page")
 
         self.main_stack.connect(
-            "notify::visible-child-name", self.on_main_stack_page_changed
+            "notify::visible-child-name", self._on_main_stack_page_changed
         )
 
-        self._model.connect("notify::track-name", self.notify_attention_needed)
-        self._model.connect("notify::artist-name", self.notify_attention_needed)
-        self.connect("notify::is-maximized", self.handle_maximized_state_changed)
+        self.central_view.connect(
+            "notify::visible-child-name", self._on_central_view_page_changed
+        )
+
+        self._model.playback.connect(
+            "notify::current-tl-track-tlid", self._on_attention_requested
+        )
+        self.connect("notify::is-maximized", self._handle_maximized_state_changed)
 
         self.show_all()
 
         self.titlebar.props.main_page_state = True
 
-    def on_album_selected(self, albums_window: AlbumsWindow, uri: str) -> None:
+    def _on_album_selected(self, albums_window: AlbumsWindow, uri: str) -> None:
         LOGGER.debug(f"Album {uri!r} selected")
         self._app.send_message(
             MessageType.COMPLETE_ALBUM_DESCRIPTION, {"album_uri": uri}
@@ -81,14 +86,14 @@ class ArgosWindow(Gtk.ApplicationWindow):
         self._album_box.show_now()
         self.main_stack.set_visible_child_name("album_page")
 
-    def handle_maximized_state_changed(
+    def _handle_maximized_state_changed(
         self,
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
         self.titlebar.set_show_close_button(not self.props.is_maximized)
 
-    def on_central_view_changed(
+    def _on_central_view_changed(
         self,
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
@@ -98,7 +103,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
         )
         self.titlebar.props.search_activated = albums_page_visible
 
-    def on_main_stack_page_changed(
+    def _on_main_stack_page_changed(
         self,
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
@@ -112,22 +117,43 @@ class ArgosWindow(Gtk.ApplicationWindow):
         )
         self.titlebar.props.search_activated = search_activated
 
-    def on_title_back_button_clicked(self, _1: Gtk.Button) -> None:
-        self.main_stack.set_visible_child_name("main_page")
-
-    def on_search_entry_changed(self, search_entry: Gtk.SearchEntry) -> None:
-        filtering_text = search_entry.props.text
-        self.props.albums_window.set_filtering_text(filtering_text)
-
-    def notify_attention_needed(
+    def _on_central_view_page_changed(
         self,
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
+        playing_page_visible = (
+            self.central_view.get_visible_child_name() == "playing_page"
+        )
+        if not playing_page_visible:
+            return
+
+        child = self.central_view.get_child_by_name("playing_page")
+        if child:
+            self.central_view.child_set_property(child, "needs-attention", False)
+
+    def _on_title_back_button_clicked(self, _1: Gtk.Button) -> None:
+        self.main_stack.set_visible_child_name("main_page")
+
+    def _on_search_entry_changed(self, search_entry: Gtk.SearchEntry) -> None:
+        filtering_text = search_entry.props.text
+        self.props.albums_window.set_filtering_text(filtering_text)
+
+    def _on_attention_requested(
+        self,
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
+    ) -> None:
+        playing_page_visible = (
+            self.central_view.get_visible_child_name() == "playing_page"
+        )
+        if playing_page_visible:
+            return
+
         child = self.central_view.get_child_by_name("playing_page")
         if child:
             LOGGER.debug("Requesting attention for playing page")
-            child.set_property("needs-attention", True)
+            self.central_view.child_set_property(child, "needs-attention", True)
 
     @Gtk.Template.Callback()
     def key_press_event_cb(self, widget: Gtk.Widget, event: Gdk.EventKey) -> bool:
