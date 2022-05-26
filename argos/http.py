@@ -58,6 +58,10 @@ class MopidyHTTPClient(GObject.GObject):
         position = await self._ws.send_command("core.playback.get_time_position")
         return int(position) if position is not None else None
 
+    async def get_current_tl_track(self) -> Optional[Dict[str, Any]]:
+        track = await self._ws.send_command("core.playback.get_current_tl_track")
+        return track
+
     async def get_eot_tlid(self) -> Optional[int]:
         eot_tlid = await self._ws.send_command("core.tracklist.get_eot_tlid")
         return int(eot_tlid) if eot_tlid is not None else None
@@ -111,6 +115,11 @@ class MopidyHTTPClient(GObject.GObject):
                 albums += dir_albums
 
         return albums
+
+    async def get_images(self, uris: List[str]) -> Optional[Dict[str, List[Any]]]:
+        params = {"uris": uris}
+        images = await self._ws.send_command("core.library.get_images", params=params)
+        return images
 
     async def add_to_tracklist(self, uris: List[str]) -> None:
         """Add tracks to the tracklist.
@@ -206,6 +215,9 @@ class MopidyHTTPClient(GObject.GObject):
         params = {"volume": volume}
         await self._ws.send_command("core.mixer.set_volume", params=params)
 
+    async def get_playlists_uri_schemes(self) -> Optional[List[str]]:
+        return await self._ws.send_command("core.playlists.get_uri_schemes")
+
     async def list_playlists(self) -> Optional[List[Dict[str, Any]]]:
         list = await self._ws.send_command("core.playlists.as_list")
         return list
@@ -216,12 +228,3 @@ class MopidyHTTPClient(GObject.GObject):
             await self._ws.send_command("core.playlists.lookup", params={"uri": uri}),
         )
         return playlist
-
-    async def get_current_tl_track(self) -> Optional[Dict[str, Any]]:
-        track = await self._ws.send_command("core.playback.get_current_tl_track")
-        return track
-
-    async def get_images(self, uris: List[str]) -> Optional[Dict[str, List[Any]]]:
-        params = {"uris": uris}
-        images = await self._ws.send_command("core.library.get_images", params=params)
-        return images

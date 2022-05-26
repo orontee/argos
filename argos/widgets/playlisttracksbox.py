@@ -87,7 +87,10 @@ class PlaylistTracksBox(Gtk.Box):
     def update_from_playlist(self, uri: Optional[str] = None) -> None:
         LOGGER.debug(f"Updating from playlist {uri!r}")
         self.props.uri = uri if uri is not None else ""
-        self._update_tracks_box()
+
+        playlist = self._model.get_playlist(uri)
+        tracks = playlist.tracks if playlist and playlist.last_modified != -1 else None
+        self._update_tracks_box(tracks)
         # will be updated when playlist is completed, see
         # _on_playlist_completed()
 

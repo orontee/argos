@@ -28,21 +28,29 @@ class PlaylistsController(ControllerBase):
 
     async def _describe_playlist(self, uri: str) -> None:
         LOGGER.debug(f"Completing description of playlist with uri {uri!r}")
+        scheme = uri.split(":")[0]
+        playlists_schemes = await self._http.get_playlists_uri_schemes()
+        if playlists_schemes is None:
+            return
 
-        result = await self._http.lookup_playlist(uri)
-        # TODO compare last modified; signal must be emitted in any
-        # case...
-
-        playlist_tracks = result.get("tracks") if result else None
-        if playlist_tracks and len(playlist_tracks) > 0:
-            uris = [cast(str, t.get("uri")) for t in playlist_tracks if "uri" in t]
-            found_tracks = await self._http.lookup_library(uris)
-            if found_tracks is None:
+        if scheme in playlists_schemes:
+            result = await self._http.lookup_playlist(uri)
+            if result is None:
                 return
 
-            parsed_tracks = parse_tracks(found_tracks)
+            playlist_tracks = result.get("tracks")
+            last_modified = result.get("last_modified", -1)
 
-            self._model.complete_playlist_description(
-                uri,
-                tracks=parsed_tracks,
-            )
+            if playlist_tracks and len(playlist_tracks) > 0:
+                uris = [cast(str, t.get("uri")) for t in playlist_tracks if "uri" in t]
+                found_tracks = await self._http.lookup_library(uris)
+                if found_tracks is None:
+                    return
+
+                parsed_tracks = parse_tracks(found_tracks)
+
+                self._model.complete_playlist_description(
+                    uri,
+                    tracks=parsed_tracks,
+                    last_modified=last_modified,
+                )

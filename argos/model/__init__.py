@@ -228,6 +228,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         playlist_uri: str,
         *,
         tracks: List[TrackModel],
+        last_modified: int,
     ) -> None:
         found = [
             playlist for playlist in self.playlists if playlist.uri == playlist_uri
@@ -238,6 +239,12 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
 
         LOGGER.debug(f"Updating description of playlist with URI {playlist_uri!r}")
         playlist = found[0]
+
+        if playlist.last_modified == last_modified:
+            LOGGER.debug(f"Playlist with URI {playlist_uri!r} hasn't changed")
+            return
+
+        playlist.last_modified = last_modified
 
         playlist.tracks.remove_all()
 

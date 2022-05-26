@@ -13,8 +13,7 @@ class PlaylistModel(WithThreadSafePropertySetter, GObject.Object):
 
     uri = GObject.Property(type=str)
     name = GObject.Property(type=str)
-
-    # TODO store last_modified
+    last_modified = GObject.Property(type=GObject.TYPE_LONG, default=-1)
 
     tracks: Gio.ListStore
 

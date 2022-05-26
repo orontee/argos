@@ -126,8 +126,13 @@ class PlaylistsBox(Gtk.Box):
         playlist = self._model.get_playlist(uri) if uri is not None else None
         playlist_name = playlist.props.name if playlist is not None else None
         self._update_playlist_name_label(playlist_name)
-        self._update_track_count_label()
-        self._update_length_label()
+
+        if playlist is not None and playlist.props.last_modified != -1:
+            tracks = playlist.tracks
+        else:
+            tracks = None
+        self._update_track_count_label(tracks)
+        self._update_length_label(tracks)
         # those widgets will be updated when playlist is completed,
         # see _on_playlist_completed()
 
