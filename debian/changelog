@@ -1,5 +1,5 @@
-argos (0.1.0-1) UNRELEASED; urgency=medium
+argos (1.0.0-1) UNRELEASED; urgency=medium
 
-  * Initial release. (Closes: #XXXXXX)
+  * Initial release.
 
- -- Matthias Meulien <orontee@gmail.com>  Wed, 23 Feb 2022 20:37:28 +0100
+ -- Matthias Meulien <orontee@gmail.com>  Wed, 26 May 2022 16:46:28 +0200
