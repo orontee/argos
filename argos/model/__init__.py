@@ -137,11 +137,13 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         album = found[0]
 
         album.artist_name = artist_name
-        album.num_tracks = num_tracks
-        album.num_discs = num_discs
-        album.date = date
-        album.length = length
-        album.tracks = tracks
+        album.num_tracks = num_tracks or -1
+        album.num_discs = num_discs or -1
+        album.date = date or ""
+        album.length = length or -1
+
+        for track in tracks:
+            album.tracks.append(track)
 
         GLib.idle_add(
             partial(

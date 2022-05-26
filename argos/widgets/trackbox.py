@@ -17,6 +17,7 @@ class TrackBox(Gtk.Box):
     track_name_label: Gtk.Label = Gtk.Template.Child()
     track_details_label: Gtk.Label = Gtk.Template.Child()
     track_length_label: Gtk.Label = Gtk.Template.Child()
+    track_no_label: Gtk.Label = Gtk.Template.Child()
     playing_label: Gtk.Image = Gtk.Template.Child()
 
     def __init__(
@@ -24,6 +25,7 @@ class TrackBox(Gtk.Box):
         application: Gtk.Application,
         *,
         track: TrackModel,
+        hide_track_no: bool = False,
     ):
         super().__init__()
 
@@ -42,6 +44,12 @@ class TrackBox(Gtk.Box):
             GLib.markup_escape_text(track_details)
         )
         self.track_length_label.set_text(track_length)
+
+        if hide_track_no:
+            self.track_no_label.hide()
+        else:
+            track_no = str(track.track_no) if track.track_no != -1 else ""
+            self.track_no_label.set_text(track_no)
 
         if application.props.disable_tooltips:
             for widget in (

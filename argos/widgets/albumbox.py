@@ -1,53 +1,26 @@
-from enum import IntEnum
 import gettext
 import logging
 from pathlib import Path
 import re
-from typing import Optional, List
+from typing import Optional
 
-from gi.repository import GLib, GObject, Gtk, Pango
+from gi.repository import Gio, GLib, GObject, Gtk
 
 from ..message import MessageType
 from ..model import Model, TrackModel
 from ..utils import elide_maybe, ms_to_text
-from .utils import default_album_image_pixbuf, scale_album_image
+from .trackbox import TrackBox
+from .utils import (
+    default_album_image_pixbuf,
+    scale_album_image,
+    set_list_box_header_with_separator,
+)
 
 _ = gettext.gettext
 
 LOGGER = logging.getLogger(__name__)
 
 ALBUM_IMAGE_SIZE = 80
-
-
-class TrackStoreColumns(IntEnum):
-    TRACK_NO = 0
-    DISC_NO = 1
-    NAME = 2
-    LENGTH = 3
-    TOOLTIP = 4
-    URI = 5
-
-
-def _compare_track_rows(
-    model: Gtk.ListStore,
-    a: Gtk.TreeIter,
-    b: Gtk.TreeIter,
-    user_data: None,
-) -> int:
-    a_disc_no = model.get_value(a, TrackStoreColumns.DISC_NO)
-    a_track_no = model.get_value(a, TrackStoreColumns.TRACK_NO)
-    b_disc_no = model.get_value(b, TrackStoreColumns.DISC_NO)
-    b_track_no = model.get_value(b, TrackStoreColumns.TRACK_NO)
-
-    if a_disc_no < b_disc_no:
-        return -1
-    elif a_disc_no == b_disc_no:
-        if a_track_no < b_track_no:
-            return -1
-        elif a_track_no == b_track_no:
-            return 0
-
-    return 1
 
 
 @Gtk.Template(resource_path="/app/argos/Argos/ui/album_box.ui")
@@ -64,7 +37,7 @@ class AlbumBox(Gtk.Box):
     publication_label: Gtk.Label = Gtk.Template.Child()
     length_label: Gtk.Label = Gtk.Template.Child()
 
-    track_view: Gtk.TreeView = Gtk.Template.Child()
+    tracks_box: Gtk.ListBox = Gtk.Template.Child()
 
     uri = GObject.Property(type=str, default="")
 
@@ -75,66 +48,44 @@ class AlbumBox(Gtk.Box):
         self._model = application.model
         self._disable_tooltips = application.props.disable_tooltips
 
-        track_store = Gtk.ListStore(int, int, str, str, str, str)
-        track_store.set_default_sort_func(_compare_track_rows, None)
-        track_store.set_sort_column_id(
-            Gtk.TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID,
-            Gtk.SortType.ASCENDING,
-        )
-        self.track_view.set_model(track_store)
-        if not self._disable_tooltips:
-            self.track_view.set_tooltip_column(TrackStoreColumns.TOOLTIP)
+        self.tracks_box.set_header_func(set_list_box_header_with_separator)
 
-        column = Gtk.TreeViewColumn(_("Track"))
-        track_no_renderer = Gtk.CellRendererText(xpad=5, ypad=5)
-        attrs = Pango.AttrList()
-        attrs.insert(Pango.attr_weight_new(Pango.Weight.LIGHT))
-        track_no_renderer.props.attributes = attrs
-
-        track_name_renderer = Gtk.CellRendererText(
-            xpad=5,
-            ypad=5,
-            ellipsize=Pango.EllipsizeMode.END,
-        )
-        track_length_renderer = Gtk.CellRendererText(xalign=1.0, xpad=5, ypad=5)
-        column.pack_start(track_no_renderer, True)
-        column.pack_start(track_name_renderer, True)
-        column.pack_start(track_length_renderer, True)
-        column.add_attribute(track_no_renderer, "text", TrackStoreColumns.TRACK_NO)
-        column.add_attribute(track_name_renderer, "text", TrackStoreColumns.NAME)
-        column.add_attribute(track_length_renderer, "text", TrackStoreColumns.LENGTH)
-        self.track_view.append_column(column)
-
-        if self._disable_tooltips:
-            for widget in (
-                self.add_button,
-                self.play_button,
-                self.track_view,
-            ):
+        for widget in (
+            self.add_button,
+            self.play_button,
+            self.tracks_box,
+        ):
+            widget.set_sensitive(
+                self._model.network_available and self._model.connected
+            )
+            if self._disable_tooltips:
                 widget.props.has_tooltip = False
 
         self._default_album_image = default_album_image_pixbuf(
             target_width=ALBUM_IMAGE_SIZE,
         )
 
-        self._model.connect("notify::network-available", self.handle_connection_changed)
-        self._model.connect("notify::connected", self.handle_connection_changed)
-        self._model.connect("album-completed", self.update_children)
+        self._model.connect(
+            "notify::network-available", self._handle_connection_changed
+        )
+        self._model.connect("notify::connected", self._handle_connection_changed)
+        self._model.connect("album-completed", self._on_album_completed)
 
-    def handle_connection_changed(
+    def _handle_connection_changed(
         self,
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
         sensitive = self._model.network_available and self._model.connected
-        buttons = [
+        widgets = [
             self.play_button,
             self.add_button,
+            self.tracks_box,
         ]
-        for button in buttons:
-            button.set_sensitive(sensitive)
+        for widget in widgets:
+            widget.set_sensitive(sensitive)
 
-    def update_children(self, model: Model, uri: str) -> None:
+    def _on_album_completed(self, model: Model, uri: str) -> None:
         if self.uri != uri:
             return
 
@@ -217,21 +168,18 @@ class AlbumBox(Gtk.Box):
 
         self.album_image.show_now()
 
-    def _update_track_view(self, tracks: List[TrackModel]) -> None:
-        store = self.track_view.get_model()
-        store.clear()
+    def _update_track_view(self, tracks: Gio.ListStore) -> None:
+        self.tracks_box.bind_model(
+            tracks,
+            self._create_track_box,
+        )
 
-        for track in tracks:
-            store.append(
-                [
-                    track.track_no,
-                    track.disc_no,
-                    track.name,
-                    ms_to_text(track.length) if track.length else "",
-                    GLib.markup_escape_text(track.name),
-                    track.uri,
-                ]
-            )
+    def _create_track_box(
+        self,
+        track: TrackModel,
+    ) -> Gtk.Widget:
+        widget = TrackBox(self._app, track=track)
+        return widget
 
     @Gtk.Template.Callback()
     def on_play_button_clicked(self, _1: Gtk.Button) -> None:
@@ -242,17 +190,16 @@ class AlbumBox(Gtk.Box):
         self._app.send_message(MessageType.ADD_TO_TRACKLIST, {"uris": [self.uri]})
 
     @Gtk.Template.Callback()
-    def on_track_view_row_activated(
+    def on_tracks_box_row_activated(
         self,
-        track_view: Gtk.TreeView,
-        path: Gtk.TreePath,
-        _1: Gtk.TreeViewColumn,
+        box: Gtk.ListBox,
+        row: Gtk.ListBoxRow,
     ) -> None:
         sensitive = self._model.network_available and self._model.connected
         if not sensitive:
             return
 
-        store = track_view.get_model()
-        store_iter = store.get_iter(path)
-        uri = store.get_value(store_iter, TrackStoreColumns.URI)
-        self._app.send_message(MessageType.PLAY_TRACKS, {"uris": [uri]})
+        track_box = row.get_child()
+        uri = track_box.props.uri if track_box else None
+        if uri is not None:
+            self._app.send_message(MessageType.PLAY_TRACKS, {"uris": [uri]})

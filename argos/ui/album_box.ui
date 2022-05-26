@@ -173,18 +173,16 @@
                 <property name="hscrollbar-policy">never</property>
                 <property name="shadow-type">in</property>
                 <child>
-                  <object class="GtkTreeView" id="track_view">
+                  <object class="GtkViewport">
                     <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="hexpand">True</property>
-                    <property name="vexpand">True</property>
-                    <property name="headers-visible">False</property>
-                    <property name="enable-search">False</property>
-                    <property name="show-expanders">False</property>
-                    <property name="enable-grid-lines">horizontal</property>
-                    <signal name="row-activated" handler="on_track_view_row_activated" swapped="no"/>
-                    <child internal-child="selection">
-                      <object class="GtkTreeSelection"/>
+                    <property name="can-focus">False</property>
+                    <child>
+                      <object class="GtkListBox" id="tracks_box">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="activate-on-single-click">False</property>
+                        <signal name="row-activated" handler="on_tracks_box_row_activated" swapped="no"/>
+                      </object>
                     </child>
                   </object>
                 </child>

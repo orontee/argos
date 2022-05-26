@@ -37,29 +37,13 @@
       </packing>
     </child>
     <child>
-      <object class="GtkBox" id="labels_box">
+      <!-- n-columns=2 n-rows=2 -->
+      <object class="GtkGrid">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
-        <property name="valign">start</property>
-        <property name="margin-start">10</property>
         <property name="hexpand">True</property>
-        <property name="orientation">vertical</property>
-        <property name="homogeneous">True</property>
-        <child>
-          <object class="GtkLabel" id="track_name_label">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="halign">start</property>
-            <property name="vexpand">True</property>
-            <property name="ellipsize">end</property>
-            <property name="single-line-mode">True</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
+        <property name="column-spacing">5</property>
+        <property name="row-homogeneous">True</property>
         <child>
           <object class="GtkLabel" id="track_details_label">
             <property name="visible">True</property>
@@ -73,10 +57,39 @@
             </attributes>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
+            <property name="left-attach">1</property>
+            <property name="top-attach">1</property>
           </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="track_name_label">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">start</property>
+            <property name="ellipsize">end</property>
+            <property name="single-line-mode">True</property>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="track_no_label">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">start</property>
+            <attributes>
+              <attribute name="weight" value="light"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
         </child>
       </object>
       <packing>

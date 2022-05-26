@@ -44,3 +44,16 @@ def scale_album_image(image_path: Path, *, target_width: int) -> Optional[Pixbuf
     )
     scaled_pixbuf = pixbuf.scale_simple(width, height, GdkPixbuf.InterpType.BILINEAR)
     return scaled_pixbuf
+
+
+def set_list_box_header_with_separator(
+    row: Gtk.ListBox,
+    before: Gtk.ListBox,
+) -> None:
+    current_header = row.get_header()
+    if current_header:
+        return
+
+    separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
+    separator.show()
+    row.set_header(separator)

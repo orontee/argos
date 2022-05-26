@@ -4,8 +4,9 @@ from typing import Optional
 from gi.repository import Gio, Gtk, GObject
 
 from ..message import MessageType
-from ..model import Model, PlaylistModel, TrackModel
+from ..model import Model, TrackModel
 from .trackbox import TrackBox
+from .utils import set_list_box_header_with_separator
 
 LOGGER = logging.getLogger(__name__)
 
@@ -14,7 +15,7 @@ LOGGER = logging.getLogger(__name__)
 class PlaylistTracksBox(Gtk.Box):
     __gtype_name__ = "PlaylistTracksBox"
 
-    tracks_box: Gtk.Label = Gtk.Template.Child()
+    tracks_box: Gtk.ListBox = Gtk.Template.Child()
 
     add_button: Gtk.Button = Gtk.Template.Child()
     play_button: Gtk.Button = Gtk.Template.Child()
@@ -28,8 +29,7 @@ class PlaylistTracksBox(Gtk.Box):
         self._model = application.model
         self._disable_tooltips = application.props.disable_tooltips
 
-        self.tracks_box.set_header_func(self._set_header_func)
-        self.tracks_box.set_activate_on_single_click(False)
+        self.tracks_box.set_header_func(set_list_box_header_with_separator)
 
         for widget in (
             self.play_button,
@@ -68,21 +68,8 @@ class PlaylistTracksBox(Gtk.Box):
         self,
         track: TrackModel,
     ) -> Gtk.Widget:
-        widget = TrackBox(self._app, track=track)
+        widget = TrackBox(self._app, track=track, hide_track_no=True)
         return widget
-
-    def _set_header_func(
-        self,
-        row: Gtk.ListBox,
-        before: Gtk.ListBox,
-    ) -> None:
-        current_header = row.get_header()
-        if current_header:
-            return
-
-        separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
-        separator.show()
-        row.set_header(separator)
 
     def update_from_playlist(self, uri: Optional[str] = None) -> None:
         LOGGER.debug(f"Updating from playlist {uri!r}")

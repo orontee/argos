@@ -1,4 +1,5 @@
 import logging
+from operator import attrgetter
 from typing import Any, cast, Dict, List, TYPE_CHECKING
 
 from gi.repository import GObject
@@ -94,6 +95,8 @@ class AlbumsController(ControllerBase):
 
             length_acc = LengthAcc()
             parsed_tracks = parse_tracks(tracks, visitor=length_acc)
+
+            parsed_tracks.sort(key=attrgetter("disc_no", "track_no"))
 
             self._model.complete_album_description(
                 uri,
