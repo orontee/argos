@@ -161,7 +161,7 @@ class PlayingBox(Gtk.Box):
         if tl_track is not None:
             self._update_track_name_label(tl_track.track.name)
             self._update_track_length_label(tl_track.track.length)
-            self._update_artist_name_label(tl_track.artist_name)
+            self._update_artist_name_label(tl_track.track.artist_name)
         else:
             self._update_track_name_label()
             self._update_track_length_label()

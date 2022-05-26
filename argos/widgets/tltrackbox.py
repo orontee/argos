@@ -31,8 +31,8 @@ class TracklistTrackBox(Gtk.Box):
 
         track = tl_track.track
         track_name = track.name
-        artist_name = tl_track.artist_name
-        album_name = tl_track.album_name
+        artist_name = track.artist_name
+        album_name = track.album_name
         track_length = ms_to_text(track.length) if track.length else ""
 
         self.track_name_label.set_text(track_name)

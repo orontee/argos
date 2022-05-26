@@ -1,11 +1,11 @@
 import logging
-from typing import cast, List, TYPE_CHECKING
+from typing import cast, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from ..app import Application
-from .base import ControllerBase
 from ..message import Message, MessageType
-from ..model import TrackModel
+from .base import ControllerBase
+from .utils import parse_tracks
 
 LOGGER = logging.getLogger(__name__)
 
@@ -40,22 +40,7 @@ class PlaylistsController(ControllerBase):
             if found_tracks is None:
                 return
 
-            parsed_tracks: List[TrackModel] = []
-            for track_uri in found_tracks:
-                tracks = found_tracks[track_uri]
-
-                if len(tracks) > 0:
-                    t = tracks[0]
-
-                    parsed_tracks.append(
-                        TrackModel(
-                            uri=cast(str, t.get("uri")),
-                            name=cast(str, t.get("name")),
-                            track_no=cast(int, t.get("track_no", -1)),
-                            disc_no=cast(int, t.get("disc_no", 1)),
-                            length=t.get("length", -1),
-                        )
-                    )
+            parsed_tracks = parse_tracks(found_tracks)
 
             self._model.complete_playlist_description(
                 uri,

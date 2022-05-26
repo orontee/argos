@@ -13,3 +13,5 @@ class TrackModel(GObject.Object):
     track_no = GObject.Property(type=int)
     disc_no = GObject.Property(type=int)
     length = GObject.Property(type=int)
+    album_name = GObject.Property(type=str)
+    artist_name = GObject.Property(type=str)

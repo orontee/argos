@@ -7,8 +7,8 @@ if TYPE_CHECKING:
     from ..app import Application
 from ..download import ImageDownloader
 from ..message import Message, MessageType
-from ..model import TrackModel
 from .base import ControllerBase
+from .utils import parse_tracks
 
 LOGGER = logging.getLogger(__name__)
 
@@ -68,31 +68,32 @@ class AlbumsController(ControllerBase):
         LOGGER.debug(f"Completing description of album with uri {uri!r}")
 
         tracks = await self._http.lookup_library([uri])
-        album_tracks = tracks.get(uri) if tracks else None
+        if tracks is None:
+            return
+
+        album_tracks = tracks.get(uri)
         if album_tracks and len(album_tracks) > 0:
             album = album_tracks[0].get("album")
             if not album:
                 return
 
-            artists = cast(List[Dict[str, Any]], album_tracks[0].get("artists"))
+            artists = cast(List[Dict[str, Any]], album_tracks[0].get("artists", []))
             artist_name = artists[0].get("name") if len(artists) > 0 else None
-
             num_tracks = album.get("num_tracks")
             num_discs = album.get("num_discs")
             date = album.get("date")
-            length = sum([track.get("length", 0) for track in album_tracks])
 
-            parsed_tracks: List[TrackModel] = [
-                TrackModel(
-                    uri=cast(str, t.get("uri")),
-                    name=cast(str, t.get("name")),
-                    track_no=cast(int, t.get("track_no")),
-                    disc_no=cast(int, t.get("disc_no", 1)),
-                    length=t.get("length"),
-                )
-                for t in album_tracks
-                if "uri" in t and "track_no" in t and "name" in t
-            ]
+            class LengthAcc:
+                length = 0
+
+                def __call__(self, t: Dict[str, Any]) -> None:
+                    if self.length != -1 and "length" in t:
+                        self.length += int(t["length"])
+                    else:
+                        self.length = -1
+
+            length_acc = LengthAcc()
+            parsed_tracks = parse_tracks(tracks, visitor=length_acc)
 
             self._model.complete_album_description(
                 uri,
@@ -100,7 +101,7 @@ class AlbumsController(ControllerBase):
                 num_tracks=num_tracks,
                 num_discs=num_discs,
                 date=date,
-                length=length,
+                length=length_acc.length,
                 tracks=parsed_tracks,
             )
 

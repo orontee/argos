@@ -8,7 +8,7 @@ import logging
 import random
 from typing import Any, cast, Dict, List, Optional, TYPE_CHECKING
 
-from gi.repository import Gio, GObject
+from gi.repository import GObject
 
 if TYPE_CHECKING:
     from .app import Application

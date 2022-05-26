@@ -10,9 +10,6 @@ class TracklistTrackModel(GObject.Object):
     """Model for a track in the tracklist."""
 
     tlid = GObject.Property(type=int)
-    artist_name = GObject.Property(type=str)
-    album_name = GObject.Property(type=str)
-
     track: TrackModel
 
     def __init__(
@@ -27,7 +24,7 @@ class TracklistTrackModel(GObject.Object):
         artist_name: str,
         album_name: str,
     ):
-        super().__init__(tlid=tlid, artist_name=artist_name, album_name=album_name)
+        super().__init__(tlid=tlid)
 
         self.track = TrackModel(
             uri=uri,
@@ -35,6 +32,8 @@ class TracklistTrackModel(GObject.Object):
             track_no=track_no,
             disc_no=disc_no,
             length=length,
+            album_name=album_name,
+            artist_name=artist_name,
         )
 
 
