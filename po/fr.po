@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-11 08:02+0200\n"
+"POT-Creation-Date: 2022-05-26 08:38+0200\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -16,15 +16,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: argos/app.py:70
+#: argos/app.py:80
 msgid "Enable debug logs"
 msgstr "Activer le journal de débogage"
 
-#: argos/app.py:86
+#: argos/app.py:88
 msgid "Start with maximized window"
 msgstr "Démarrer avec une fenêtre de taille maximale"
 
-#: argos/app.py:94
+#: argos/app.py:96
 msgid "Disable tooltips"
 msgstr "Désactiver les info-bulles"
 
@@ -32,7 +32,7 @@ msgstr "Désactiver les info-bulles"
 msgid "Published"
 msgstr "Publication"
 
-#: argos/ui/album_box.ui:125
+#: argos/ui/album_box.ui:125 argos/ui/playlists_box.ui:74
 msgid "Length"
 msgstr "Durée"
 
@@ -45,22 +45,18 @@ msgid "Play album"
 msgstr "Lire l'album"
 
 #: argos/ui/app_menu.ui:6
-msgid "Play _favorite playlist"
-msgstr "Lire la liste de lecture _favorite"
-
-#: argos/ui/app_menu.ui:10
 msgid "Play _random album"
 msgstr "Lire un album au _hasard"
 
-#: argos/ui/app_menu.ui:16
+#: argos/ui/app_menu.ui:12
 msgid "_Preferences"
 msgstr "_Préférences"
 
-#: argos/ui/app_menu.ui:20
+#: argos/ui/app_menu.ui:16
 msgid "_Shortcuts"
 msgstr "_Raccourcis"
 
-#: argos/ui/app_menu.ui:24
+#: argos/ui/app_menu.ui:20
 msgid "_About"
 msgstr "_À propos"
 
@@ -114,37 +110,54 @@ msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Aller aux albums"
 
-#: argos/ui/playing_box.ui:231
+#: argos/ui/help_overlay.ui:78
+msgctxt "shortcut window"
+msgid "Go to Playlists"
+msgstr "Aller aux listes de lecture"
+
+#: argos/ui/playing_box.ui:229
 msgid "Previous"
 msgstr "Précédent"
 
-#: argos/ui/playing_box.ui:252
+#: argos/ui/playing_box.ui:250
 msgid "Play"
 msgstr "Lire"
 
-#: argos/ui/playing_box.ui:273
+#: argos/ui/playing_box.ui:271
 msgid "Next"
 msgstr "Suivant"
 
-#: argos/ui/playing_box.ui:320
+#: argos/ui/playing_box.ui:318
 msgid "Clear tracklist"
 msgstr "Vider la file d'attente"
 
-#: argos/ui/playing_box.ui:343
+#: argos/ui/playing_box.ui:341
 msgid "Consume tracks"
 msgstr "Retirer les pistes lues"
 
-#: argos/ui/playing_box.ui:363
+#: argos/ui/playing_box.ui:361
 msgid "Shuffle tracklist"
 msgstr "Lecture aléatoire"
 
-#: argos/ui/playing_box.ui:383
+#: argos/ui/playing_box.ui:381
 msgid "Play single track"
 msgstr "Lecture d'une seule piste"
 
-#: argos/ui/playing_box.ui:403
+#: argos/ui/playing_box.ui:401
 msgid "Repeat"
 msgstr "Lecture en boucle"
+
+#: argos/ui/playlists_box.ui:106
+msgid "Tracks"
+msgstr "Morceaux"
+
+#: argos/ui/playlist_tracks_box.ui:56
+msgid "Add playlist to tracklist"
+msgstr "Ajouter la liste de lecture à la file d'attente"
+
+#: argos/ui/playlist_tracks_box.ui:71
+msgid "Play playlist"
+msgstr "Lire la liste de lecture"
 
 #: argos/ui/preferences.ui:7
 msgid "Preferences"
@@ -162,25 +175,29 @@ msgstr "URL de base du serveur Mopidy"
 msgid "Enter the URL of the Mopidy server"
 msgstr "Entrer l'URL du serveur Mopidy"
 
-#: argos/ui/preferences.ui:76
-msgid "Favorite playlist"
-msgstr "Liste de lecture favorite"
+#: argos/ui/title_bar.ui:53
+msgid "Back to albums page"
+msgstr "Retourner aux albums"
 
-#: argos/ui/window.ui:50
-msgid "page0"
-msgstr ""
+#: argos/ui/title_bar.ui:83
+msgid "Search albums"
+msgstr "Rechercher des albums"
 
 #: argos/widgets/albumbox.py:88
 msgid "Track"
 msgstr "Morceau"
 
-#: argos/window.py:36
+#: argos/window.py:43
 msgid "Playing"
 msgstr "En cours"
 
-#: argos/window.py:39
+#: argos/window.py:48
 msgid "Albums"
 msgstr "Albums"
+
+#: argos/window.py:52
+msgid "Playlists"
+msgstr "Listes de lecture"
 
 #: data/app.argos.Argos.desktop.in:3
 msgid "Argos"
@@ -202,23 +219,21 @@ msgstr "URL de base des APIs Mopidy"
 msgid "The base URL of Mopidy JSON-RPC and websocket APIs."
 msgstr "L'URL de base des APIs JSON-RPC et websocket de Mopidy."
 
-#: data/app.argos.Argos.gschema.xml:26
-msgid "URI of favorite playlist"
-msgstr "URI de la liste de lecture favorite"
+#~ msgid "Play _favorite playlist"
+#~ msgstr "Lire la liste de lecture _favorite"
 
-#: data/app.argos.Argos.gschema.xml:29
-msgid ""
-"The URI of the playlist that will be loaded and played when \"play favorite "
-"playlist\" button is triggered."
-msgstr ""
-"L'URI de la liste de lecture qui es chargée et jouée quand \"Lire la liste "
-"de lecture favorite est activé"
+#~ msgid "Favorite playlist"
+#~ msgstr "Liste de lecture favorite"
 
-#~ msgid "Play favorite playlist"
-#~ msgstr "Lire la liste de lecture favorite"
+#~ msgid "URI of favorite playlist"
+#~ msgstr "URI de la liste de lecture favorite"
+
+#~ msgid ""
+#~ "The URI of the playlist that will be loaded and played when \"play "
+#~ "favorite playlist\" button is triggered."
+#~ msgstr ""
+#~ "L'URI de la liste de lecture qui es chargée et jouée quand \"Lire la "
+#~ "liste de lecture favorite est activé"
 
 #~ msgid "Play random album"
 #~ msgstr "Lire un album au hasard"
-
-#~ msgid "Back to albums"
-#~ msgstr "Retourner aux albums"

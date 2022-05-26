@@ -4,7 +4,13 @@ argos/ui/albums_window.ui
 argos/ui/app_menu.ui
 argos/ui/help_overlay.ui
 argos/ui/playing_box.ui
+argos/ui/playlists_box.ui
+argos/ui/playlist_tracks_box.ui
 argos/ui/preferences.ui
+argos/ui/title_bar.ui
+argos/ui/track_box.ui
+argos/ui/tracklist_box.ui
+argos/ui/tracklist_track_box.ui
 argos/ui/window.ui
 argos/widgets/albumbox.py
 argos/window.py
