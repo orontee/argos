@@ -56,7 +56,7 @@ class PlaylistsBox(Gtk.Box):
             ypad=5,
             ellipsize=Pango.EllipsizeMode.END,
         )
-        column = Gtk.TreeViewColumn(_("Playlist"), renderer, text=0, weight=1)
+        column = Gtk.TreeViewColumn(_("Playlist"), renderer, text=0)
         self.playlists_view.append_column(column)
 
         self.props.playlist_tracks_box = PlaylistTracksBox(application)
@@ -127,7 +127,7 @@ class PlaylistsBox(Gtk.Box):
         playlist_name = playlist.props.name if playlist is not None else None
         self._update_playlist_name_label(playlist_name)
 
-        if playlist is not None and playlist.props.last_modified != -1:
+        if playlist is not None and playlist.props.last_modified:
             tracks = playlist.tracks
         else:
             tracks = None

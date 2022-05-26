@@ -13,7 +13,9 @@ class PlaylistModel(WithThreadSafePropertySetter, GObject.Object):
 
     uri = GObject.Property(type=str)
     name = GObject.Property(type=str)
-    last_modified = GObject.Property(type=GObject.TYPE_LONG, default=-1)
+    last_modified = GObject.Property(type=str, default="")
+    # Should use GObject.TYPE_LONG but conversion to gint fails on
+    # Raspberry Pi 2 ARMv7 processor which is 32 bits
 
     tracks: Gio.ListStore
 

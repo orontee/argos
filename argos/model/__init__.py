@@ -240,11 +240,13 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         LOGGER.debug(f"Updating description of playlist with URI {playlist_uri!r}")
         playlist = found[0]
 
-        if playlist.last_modified == last_modified:
+        if playlist.last_modified == str(last_modified):
+            # Conversion to string since GLib expects 32-bits integers
+            # on ARMv7
             LOGGER.debug(f"Playlist with URI {playlist_uri!r} hasn't changed")
             return
 
-        playlist.last_modified = last_modified
+        playlist.last_modified = str(last_modified)
 
         playlist.tracks.remove_all()
 
