@@ -155,10 +155,13 @@ class ArgosWindow(Gtk.ApplicationWindow):
         elif modifiers == control_mask:
             if keyval in [Gdk.KEY_space, Gdk.KEY_KP_Space]:
                 self._app.send_message(MessageType.TOGGLE_PLAYBACK_STATE)
+                return True
             elif keyval == Gdk.KEY_n:
                 self._app.send_message(MessageType.PLAY_NEXT_TRACK)
+                return True
             elif keyval == Gdk.KEY_p:
                 self._app.send_message(MessageType.PLAY_PREV_TRACK)
+                return True
             elif keyval == Gdk.KEY_f:
                 self.props.titlebar.toggle_search_entry_focus_maybe()
                 return True
