@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-26 16:23+0200\n"
+"POT-Creation-Date: 2022-05-27 08:42+0200\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -16,17 +16,21 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: argos/app.py:80
+#: argos/app.py:81
 msgid "Enable debug logs"
 msgstr "Activer le journal de débogage"
 
-#: argos/app.py:88
+#: argos/app.py:89
 msgid "Start with maximized window"
 msgstr "Démarrer avec une fenêtre de taille maximale"
 
-#: argos/app.py:96
+#: argos/app.py:97
 msgid "Disable tooltips"
 msgstr "Désactiver les info-bulles"
+
+#: argos/app.py:105
+msgid "Use single-click"
+msgstr "Utiliser un seul clic"
 
 #: argos/ui/album_box.ui:96
 msgid "Published"

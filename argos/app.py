@@ -37,6 +37,7 @@ class Application(Gtk.Application):
 
     start_maximized = GObject.Property(type=bool, default=False)
     disable_tooltips = GObject.Property(type=bool, default=False)
+    single_click = GObject.Property(type=bool, default=False)
 
     def __init__(self, application_id: str):
         super().__init__(
@@ -96,6 +97,14 @@ class Application(Gtk.Application):
             _("Disable tooltips"),
             None,
         )
+        self.add_main_option(
+            "single-click",
+            0,
+            GLib.OptionFlags.NONE,
+            GLib.OptionArg.NONE,
+            _("Use single-click"),
+            None,
+        )
 
     @GObject.Property(type=Gio.Settings, flags=GObject.ParamFlags.READABLE)
     def settings(self):
@@ -132,6 +141,7 @@ class Application(Gtk.Application):
         configure_logger(options)
         self.props.start_maximized = "maximized" in options
         self.props.disable_tooltips = "no-tooltips" in options
+        self.props.single_click = "single-click" in options
 
         self.activate()
         return 0

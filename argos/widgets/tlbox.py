@@ -23,8 +23,6 @@ class TracklistBox(Gtk.ListBox):
         self.bind_model(self._model.tracklist.tracks, self._create_tracklist_track_box)
         self.set_header_func(self._set_header_func)
 
-        self.set_activate_on_single_click(False)
-
         self.connect("row-activated", self._on_row_activated)
         self._model.playback.connect(
             "notify::current-tl-track-tlid", self._on_current_tl_track_tlid_changed

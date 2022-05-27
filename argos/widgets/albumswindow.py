@@ -48,6 +48,7 @@ class AlbumsWindow(Gtk.ScrolledWindow):
         self.albums_view.set_tooltip_column(AlbumStoreColumns.TOOLTIP)
         self.albums_view.set_pixbuf_column(AlbumStoreColumns.PIXBUF)
         self.albums_view.set_item_width(ALBUM_IMAGE_SIZE)
+        self.albums_view.set_activate_on_single_click(application.props.single_click)
 
         if application.props.disable_tooltips:
             self.albums_view.props.has_tooltip = False

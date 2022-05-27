@@ -30,6 +30,7 @@ class PlaylistTracksBox(Gtk.Box):
         self._disable_tooltips = application.props.disable_tooltips
 
         self.tracks_box.set_header_func(set_list_box_header_with_separator)
+        self.tracks_box.set_activate_on_single_click(application.props.single_click)
 
         for widget in (
             self.play_button,

@@ -66,6 +66,7 @@ class PlayingBox(Gtk.Box):
         self._disable_tooltips = application.props.disable_tooltips
 
         self.tracklist_view = TracklistBox(application)
+        self.tracklist_view.set_activate_on_single_click(application.props.single_click)
         self.tracklist_view_scrolled_window.add(self.tracklist_view)
 
         for widget in (
