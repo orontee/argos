@@ -1,6 +1,11 @@
 import asyncio
 import logging
-from typing import Any, Dict, Optional, TYPE_CHECKING
+from typing import (
+    Any,
+    Dict,
+    Optional,
+    TYPE_CHECKING,
+)
 
 from gi.repository import GObject
 
@@ -12,11 +17,18 @@ from ..model import Model
 
 
 class ControllerBase(GObject.Object):
+    """Base class for controllers.
+
+    Use the ``consume`` decorator on children class methods for the
+    application to identify those methods as being message
+    consumers. As a result messages will be automatically dispatched
+    to those methods.
+
+    """
+
     def __init__(
         self,
         application: "Application",
-        *,
-        logger: logging.Logger,
     ):
         super().__init__()
 
@@ -24,22 +36,6 @@ class ControllerBase(GObject.Object):
         self._loop: asyncio.AbstractEventLoop = application.loop
         self._message_queue: asyncio.Queue = application.message_queue
         self._model: Model = application.props.model
-
-        self._logger = logger
-        # for inherited methods to log using the module logger where
-        # children classes are defined
-
-    async def process_message(
-        self, message_type: MessageType, message: Message
-    ) -> None:
-        processed = await self.do_process_message(message_type, message)
-        if processed:
-            self._logger.debug(f"Processed message of type {message_type}")
-
-    async def do_process_message(
-        self, message_type: MessageType, message: Message
-    ) -> bool:
-        ...
 
     def send_message(
         self, message_type: MessageType, data: Optional[Dict[str, Any]] = None

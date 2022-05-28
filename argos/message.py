@@ -1,6 +1,10 @@
+import collections.abc
+import functools
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict
+from typing import Any, Callable, Dict, TypeVar
+
+T = TypeVar("T")
 
 
 class MessageType(Enum):
@@ -46,3 +50,47 @@ class MessageType(Enum):
 class Message:
     type: MessageType
     data: Dict[str, Any] = field(default_factory=dict)
+
+
+def consume(
+    *args: MessageType,
+) -> Callable[
+    [Callable[[T, Message], collections.abc.Awaitable[None]]],
+    Callable[[T, Message], collections.abc.Awaitable[None]],
+]:
+    """Decorator that identifies message consumers.
+
+    It is expected to be applied to class methods.
+
+    Once the decorator is applied, a message consumer can be
+    identified among all class methods of a given class by inspecting
+    the presence of the ``consume_message`` attribute. This attribute
+    value is the list of message type handled by the consumer.
+
+    Note that it's the message dispatcher responsability to feed
+    consumers with message of type they expect.
+
+    Warning: With current lazzy implementation of
+    ``Application._identify_message_consumers_from_controllers()``,
+    this decorator must be the last operator applied to a class method
+    for the consumer identifier to successfully identify a decorated
+    class method as being a consumer.
+
+    """
+
+    def decorator(
+        method: Callable[[T, Message], collections.abc.Awaitable[None]]
+    ) -> Callable[[T, Message], collections.abc.Awaitable[None]]:
+        @functools.wraps(method)
+        async def inner(ref: T, message: Message) -> None:
+            assert message.type in args
+            logger = getattr(ref, "logger", None)
+            if logger is not None:
+                logger.debug(f"Processing message of type {message.type}")
+            return await method(ref, message)
+
+        setattr(inner, "consume_messages", args)
+
+        return inner
+
+    return decorator

@@ -1,8 +1,10 @@
 import asyncio
+from collections import defaultdict
 import gettext
+import inspect
 import logging
 from threading import Thread
-from typing import Any, cast, Dict, Optional, Tuple
+from typing import Any, Dict, Optional
 
 import gi
 
@@ -12,7 +14,6 @@ from gi.repository import Gio, GLib, GObject, Gtk
 
 from .controllers import (
     AlbumsController,
-    ControllerBase,
     PlaybackController,
     PlaylistsController,
     TracklistController,
@@ -59,16 +60,14 @@ class Application(Gtk.Application):
         self._download = ImageDownloader(self)
         self._time_position_tracker = TimePositionTracker(self)
 
-        self._consumers = cast(
-            Tuple[ControllerBase],
-            (
-                PlaybackController(self),
-                TracklistController(self),
-                AlbumsController(self),
-                MixerController(self),
-                PlaylistsController(self),
-            ),
+        self._controllers = (
+            PlaybackController(self),
+            TracklistController(self),
+            AlbumsController(self),
+            MixerController(self),
+            PlaylistsController(self),
         )
+
         self._model.props.network_available = self._nm.get_network_available()
         self._model.connect("notify::network-available", self._on_connection_changed)
         self._model.connect("notify::connected", self._on_connection_changed)
@@ -147,6 +146,8 @@ class Application(Gtk.Application):
         return 0
 
     def do_activate(self):
+        self._identify_message_consumers_from_controllers()
+
         if not self.window:
             LOGGER.debug("Instantiating application window")
             self.window = ArgosWindow(self)
@@ -192,21 +193,26 @@ class Application(Gtk.Application):
         self._loop.run_until_complete(
             asyncio.gather(
                 self._ws.listen(),
-                self._process_messages(),
+                self._dispatch_messages(),
                 self._time_position_tracker.track(),
             )
         )
         LOGGER.debug("Event loop stopped")
 
-    async def _process_messages(self) -> None:
+    async def _dispatch_messages(self) -> None:
         LOGGER.debug("Waiting for new messages...")
         while True:
             message = await self._message_queue.get()
             message_type = message.type
             LOGGER.debug(f"Dispatching message of type {message_type}")
 
-            for consumer in self._consumers:
-                await consumer.process_message(message_type, message)
+            consumers = self._consumers.get(message_type)
+            if consumers is None:
+                LOGGER.warning(f"No consumer for message of type {message_type}")
+                return
+
+            for consumer in consumers:
+                await consumer(message)
 
     def _update_network_actions_state(self) -> None:
         for action_name in ["play_random_album"]:
@@ -261,3 +267,16 @@ class Application(Gtk.Application):
         self, action: Gio.SimpleAction, parameter: None
     ) -> None:
         self.send_message(MessageType.PLAY_TRACKS)
+
+    def _identify_message_consumers_from_controllers(self) -> None:
+        LOGGER.debug("Identifying message consumers")
+        self._consumers = defaultdict(list)
+        for ctrl in self._controllers:
+            for name in dir(ctrl):
+                subject = getattr(ctrl, name)
+                if callable(subject) and hasattr(subject, "consume_messages"):
+                    for message_type in subject.consume_messages:
+                        self._consumers[message_type].append(subject)
+                        LOGGER.debug(
+                            f"New consumer of {message_type}: {inspect.unwrap(subject)}"
+                        )

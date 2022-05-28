@@ -5,17 +5,29 @@ from gi.repository import GObject
 
 if TYPE_CHECKING:
     from ..app import Application
-from .base import ControllerBase
 from ..download import ImageDownloader
-from ..message import Message, MessageType
+from ..message import consume, Message, MessageType
 from ..model import PlaybackState
+from .base import ControllerBase
 
 LOGGER = logging.getLogger(__name__)
 
 
 class PlaybackController(ControllerBase):
+    """Controls playback.
+
+    This controller maintains the ``Model.playback`` property according
+    to received message from Mopidy websocket or connection state changes.
+
+    It also responsible for sending JSON-RPC commands with
+    ``core.playback`` scope.
+
+    """
+
+    logger = LOGGER  # used by consume decorator
+
     def __init__(self, application: "Application"):
-        super().__init__(application, logger=LOGGER)
+        super().__init__(application)
 
         self._download: ImageDownloader = application.props.download
 
@@ -29,77 +41,8 @@ class PlaybackController(ControllerBase):
             self._on_playback_current_tl_track_tlid_changed,
         )
 
-    async def do_process_message(
-        self, message_type: MessageType, message: Message
-    ) -> bool:
-        if message_type == MessageType.IDENTIFY_PLAYING_STATE:
-            await self._identify_playback_state()
-            return True
-
-        elif message_type == MessageType.TOGGLE_PLAYBACK_STATE:
-            await self._toggle_playback_state()
-            return True
-
-        elif message_type == MessageType.PLAYBACK_STATE_CHANGED:
-            raw_state = cast(Union[int, str], message.data.get("new_state"))
-            self._model.playback.set_state(raw_state)
-            return True
-
-        elif message_type == MessageType.TRACK_PLAYBACK_STARTED:
-            tl_track = message.data.get("tl_track")
-            tlid = tl_track.get("tlid") if tl_track else None
-            self._model.playback.set_current_tl_track_tlid(tlid)
-            return True
-
-        elif message_type == MessageType.TRACK_PLAYBACK_PAUSED:
-            self._model.playback.set_state("paused")
-            return True
-
-        elif message_type == MessageType.TRACK_PLAYBACK_RESUMED:
-            self._model.playback.set_state("playing")
-            return True
-
-        elif message_type == MessageType.TRACK_PLAYBACK_ENDED:
-            self._model.playback.set_current_tl_track_tlid(-1)
-            return True
-
-        elif message_type == MessageType.PLAY_PREV_TRACK:
-            await self._http.previous()
-            return True
-
-        elif message_type == MessageType.PLAY_NEXT_TRACK:
-            await self._http.next()
-            return True
-
-        elif message_type == MessageType.PLAY:
-            tlid = message.data.get("tlid")
-            await self._http.play(tlid)
-            return True
-
-        elif message_type == MessageType.PLAY_TRACKS:
-            uris = message.data.get("uris")
-            await self._http.play_tracks(uris)
-            return True
-
-        elif message_type == MessageType.SEEK:
-            time_position = round(cast(int, message.data.get("time_position")))
-            await self._http.seek(time_position)
-            return True
-
-        elif message_type == MessageType.SEEKED:
-            time_position = cast(int, message.data.get("time_position"))
-            self._model.playback.set_time_position(time_position)
-            return True
-
-        elif message_type == MessageType.FETCH_TRACK_IMAGE:
-            track_uri = message.data.get("track_uri")
-            if track_uri:
-                await self._fetch_track_image(track_uri)
-            return True
-
-        return False
-
-    async def _identify_playback_state(self) -> None:
+    @consume(MessageType.IDENTIFY_PLAYING_STATE)
+    async def identify_playing_state(self, message: Message) -> None:
         LOGGER.debug("Identifying playing state...")
         raw_state = await self._http.get_state()
         if raw_state is not None:
@@ -109,7 +52,8 @@ class PlaybackController(ControllerBase):
         if time_position is not None:
             self._model.playback.set_time_position(time_position)
 
-    async def _toggle_playback_state(self) -> None:
+    @consume(MessageType.TOGGLE_PLAYBACK_STATE)
+    async def toggle_playback_state(self, message: Message) -> None:
         state = self._model.playback.state
 
         if state == PlaybackState.PLAYING:
@@ -123,6 +67,77 @@ class PlaybackController(ControllerBase):
 
         elif state == PlaybackState.UNKNOWN:
             await self._http.play()
+
+    @consume(MessageType.PLAYBACK_STATE_CHANGED)
+    async def update_model_playback_state(self, message: Message) -> None:
+        raw_state = cast(Union[int, str], message.data.get("new_state"))
+        self._model.playback.set_state(raw_state)
+
+    @consume(MessageType.TRACK_PLAYBACK_STARTED)
+    async def identify_current_tracklist_track(self, message: Message) -> None:
+        tl_track = message.data.get("tl_track")
+        tlid = tl_track.get("tlid") if tl_track else None
+        self._model.playback.set_current_tl_track_tlid(tlid)
+
+    @consume(MessageType.TRACK_PLAYBACK_PAUSED)
+    async def acknowledge_playback_paused(self, message: Message) -> None:
+        self._model.playback.set_state("paused")
+
+    @consume(MessageType.TRACK_PLAYBACK_RESUMED)
+    async def acknowledge_playback_playing(self, message: Message) -> None:
+        self._model.playback.set_state("playing")
+
+    @consume(MessageType.TRACK_PLAYBACK_ENDED)
+    async def acknowledge_playback_ended(self, message: Message) -> None:
+        self._model.playback.set_current_tl_track_tlid(-1)
+
+    @consume(MessageType.PLAY_PREV_TRACK)
+    async def play_preview_track(self, message: Message) -> None:
+        await self._http.previous()
+
+    @consume(MessageType.PLAY_NEXT_TRACK)
+    async def play_next_track(self, message: Message) -> None:
+        await self._http.next()
+
+    @consume(MessageType.PLAY)
+    async def play(self, message: Message) -> None:
+        tlid = message.data.get("tlid")
+        await self._http.play(tlid)
+
+    @consume(MessageType.PLAY_TRACKS)
+    async def play_tracks(self, message: Message) -> None:
+        uris = message.data.get("uris")
+        await self._http.play_tracks(uris)
+
+    @consume(MessageType.SEEK)
+    async def seek_time_position(self, message: Message) -> None:
+        time_position = round(cast(int, message.data.get("time_position")))
+        await self._http.seek(time_position)
+
+    @consume(MessageType.SEEKED)
+    async def acknowledge_time_position_seeked(self, message: Message) -> None:
+        time_position = cast(int, message.data.get("time_position"))
+        self._model.playback.set_time_position(time_position)
+
+    @consume(MessageType.FETCH_TRACK_IMAGE)
+    async def fetch_track_image(self, message: Message) -> None:
+        track_uri = message.data.get("track_uri")
+        if not track_uri:
+            return
+
+        LOGGER.debug(f"Starting track image download for {track_uri}")
+        images = await self._http.get_images([track_uri])
+        image_path = None
+        if images:
+            track_images = images.get(track_uri)
+            if track_images and len(track_images) > 0:
+                image_uri = track_images[0]["uri"]
+                image_path = await self._download.fetch_image(image_uri)
+
+        if self._model.get_current_tl_track_uri() != track_uri:
+            image_path = None
+
+        self._model.playback.set_image_path(image_path)
 
     def _on_tracklist_loaded_changed(
         self,
@@ -138,21 +153,6 @@ class PlaybackController(ControllerBase):
     ) -> None:
         track_uri = self._model.get_current_tl_track_uri()
         self.send_message(MessageType.FETCH_TRACK_IMAGE, {"track_uri": track_uri})
-
-    async def _fetch_track_image(self, track_uri: str) -> None:
-        LOGGER.debug(f"Starting track image download for {track_uri}")
-        images = await self._http.get_images([track_uri])
-        image_path = None
-        if images:
-            track_images = images.get(track_uri)
-            if track_images and len(track_images) > 0:
-                image_uri = track_images[0]["uri"]
-                image_path = await self._download.fetch_image(image_uri)
-
-        if self._model.get_current_tl_track_uri() != track_uri:
-            image_path = None
-
-        self._model.playback.set_image_path(image_path)
 
     def _on_connection_changed(
         self,

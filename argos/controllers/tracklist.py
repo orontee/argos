@@ -3,81 +3,29 @@ from typing import cast, List, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from ..app import Application
+from ..message import consume, Message, MessageType
 from .base import ControllerBase
-from ..message import Message, MessageType
 
 LOGGER = logging.getLogger(__name__)
 
 
 class TracklistController(ControllerBase):
+    """Controls the tracklist.
+
+    This controller maintains the ``Model.tracklist`` property.
+
+    """
+
+    logger = LOGGER  # used by consume decorator
+
     def __init__(self, application: "Application"):
-        super().__init__(application, logger=LOGGER)
+        super().__init__(application)
 
-    async def do_process_message(
-        self, message_type: MessageType, message: Message
-    ) -> bool:
-        if message_type == MessageType.IDENTIFY_PLAYING_STATE:
-            await self._get_options()
-            return True
-
-        elif message_type == MessageType.ADD_TO_TRACKLIST:
-            uris = cast(List[str], message.data.get("uris"))
-            await self._http.add_to_tracklist(uris=uris)
-            return True
-
-        elif message_type == MessageType.CLEAR_TRACKLIST:
-            await self._http.clear_tracklist()
-            return True
-
-        elif message_type == MessageType.GET_TRACKLIST:
-            await self._get_tracklist()
-            return True
-
-        elif message_type == MessageType.TRACKLIST_CHANGED:
-            await self._get_tracklist()
-            return True
-
-        elif message_type == MessageType.GET_CURRENT_TRACKLIST_TRACK:
-            await self._get_current_tl_track()
-            return True
-
-        elif message_type == MessageType.SET_CONSUME:
-            consume = cast(bool, message.data.get("consume"))
-            await self._http.set_consume(consume)
-            return True
-
-        elif message_type == MessageType.SET_RANDOM:
-            random = cast(bool, message.data.get("random"))
-            await self._http.set_random(random)
-            return True
-
-        elif message_type == MessageType.SET_REPEAT:
-            repeat = cast(bool, message.data.get("repeat"))
-            await self._http.set_repeat(repeat)
-            return True
-
-        elif message_type == MessageType.SET_SINGLE:
-            single = cast(bool, message.data.get("single"))
-            await self._http.set_single(single)
-            return True
-
-        elif message_type == MessageType.OPTIONS_CHANGED:
-            await self._get_options(),
-            return True
-
-        return False
-
-    async def _get_current_tl_track(self) -> None:
-        tl_track = await self._http.get_current_tl_track()
-        tlid = tl_track.get("tlid") if tl_track else None
-        self._model.playback.set_current_tl_track_tlid(tlid)
-
-    async def _get_tracklist(self) -> None:
-        version = await self._http.get_tracklist_version()
-        tracks = await self._http.get_tracklist_tracks()
-        self._model.update_tracklist(version, tracks)
-
-    async def _get_options(self) -> None:
+    @consume(
+        MessageType.IDENTIFY_PLAYING_STATE,
+        MessageType.OPTIONS_CHANGED,
+    )
+    async def get_options(self, message: Message) -> None:
         consume = await self._http.get_consume()
         if consume is not None:
             self._model.tracklist.set_consume(consume)
@@ -93,3 +41,47 @@ class TracklistController(ControllerBase):
         single = await self._http.get_single()
         if single is not None:
             self._model.tracklist.set_single(single)
+
+    @consume(MessageType.ADD_TO_TRACKLIST)
+    async def add_to_tracklist(self, message: Message) -> None:
+        uris = cast(List[str], message.data.get("uris"))
+        await self._http.add_to_tracklist(uris=uris)
+
+    @consume(MessageType.CLEAR_TRACKLIST)
+    async def clear_tracklist(self, message: Message) -> None:
+        await self._http.clear_tracklist()
+
+    @consume(
+        MessageType.GET_TRACKLIST,
+        MessageType.TRACKLIST_CHANGED,
+    )
+    async def get_tracklist(self, message: Message) -> None:
+        version = await self._http.get_tracklist_version()
+        tracks = await self._http.get_tracklist_tracks()
+        self._model.update_tracklist(version, tracks)
+
+    @consume(MessageType.GET_CURRENT_TRACKLIST_TRACK)
+    async def get_current_tracklist_track(self, message: Message) -> None:
+        tl_track = await self._http.get_current_tl_track()
+        tlid = tl_track.get("tlid") if tl_track else None
+        self._model.playback.set_current_tl_track_tlid(tlid)
+
+    @consume(MessageType.SET_CONSUME)
+    async def set_consume(self, message: Message) -> None:
+        consume = cast(bool, message.data.get("consume"))
+        await self._http.set_consume(consume)
+
+    @consume(MessageType.SET_RANDOM)
+    async def set_random(self, message: Message) -> None:
+        random = cast(bool, message.data.get("random"))
+        await self._http.set_random(random)
+
+    @consume(MessageType.SET_REPEAT)
+    async def set_repeat(self, message: Message) -> None:
+        repeat = cast(bool, message.data.get("repeat"))
+        await self._http.set_repeat(repeat)
+
+    @consume(MessageType.SET_SINGLE)
+    async def set_single(self, message: Message) -> None:
+        single = cast(bool, message.data.get("single"))
+        await self._http.set_single(single)
