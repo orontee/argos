@@ -11,25 +11,31 @@ LOGGER = logging.getLogger(__name__)
 
 class MixerController(ControllerBase):
     def __init__(self, application: "Application"):
-        super().__init__(application)
+        super().__init__(application, logger=LOGGER)
 
-    async def process_message(
+    async def do_process_message(
         self, message_type: MessageType, message: Message
-    ) -> None:
+    ) -> bool:
         if message_type == MessageType.IDENTIFY_PLAYING_STATE:
             await self.identify_mixer_state()
+            return True
 
         elif message_type == MessageType.VOLUME_CHANGED:
             volume = cast(int, message.data.get("volume"))
             self._model.mixer.set_volume(volume)
+            return True
 
         elif message_type == MessageType.MUTE_CHANGED:
             mute = cast(bool, message.data.get("mute"))
             self._model.mixer.set_mute(mute)
+            return True
 
         elif message_type == MessageType.SET_VOLUME:
             volume = round(cast(int, message.data.get("volume")))
             await self._http.set_volume(volume)
+            return True
+
+        return False
 
     async def identify_mixer_state(self) -> None:
         LOGGER.debug("Identifying mixer state...")

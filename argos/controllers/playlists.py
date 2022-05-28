@@ -12,19 +12,23 @@ LOGGER = logging.getLogger(__name__)
 
 class PlaylistsController(ControllerBase):
     def __init__(self, application: "Application"):
-        super().__init__(application)
+        super().__init__(application, logger=LOGGER)
 
-    async def process_message(
+    async def do_process_message(
         self, message_type: MessageType, message: Message
-    ) -> None:
+    ) -> bool:
         if message_type == MessageType.LIST_PLAYLISTS:
             playlists = await self._http.list_playlists()
             self._model.update_playlists(playlists)
+            return True
 
         elif message_type == MessageType.COMPLETE_PLAYLIST_DESCRIPTION:
             playlist_uri = message.data.get("playlist_uri", "")
             if playlist_uri:
                 await self._describe_playlist(playlist_uri)
+            return True
+
+        return False
 
     async def _describe_playlist(self, uri: str) -> None:
         LOGGER.debug(f"Completing description of playlist with uri {uri!r}")

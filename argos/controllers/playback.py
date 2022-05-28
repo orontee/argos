@@ -15,7 +15,7 @@ LOGGER = logging.getLogger(__name__)
 
 class PlaybackController(ControllerBase):
     def __init__(self, application: "Application"):
-        super().__init__(application)
+        super().__init__(application, logger=LOGGER)
 
         self._download: ImageDownloader = application.props.download
 
@@ -29,59 +29,75 @@ class PlaybackController(ControllerBase):
             self._on_playback_current_tl_track_tlid_changed,
         )
 
-    async def process_message(
+    async def do_process_message(
         self, message_type: MessageType, message: Message
-    ) -> None:
+    ) -> bool:
         if message_type == MessageType.IDENTIFY_PLAYING_STATE:
             await self._identify_playback_state()
+            return True
 
         elif message_type == MessageType.TOGGLE_PLAYBACK_STATE:
             await self._toggle_playback_state()
+            return True
 
         elif message_type == MessageType.PLAYBACK_STATE_CHANGED:
             raw_state = cast(Union[int, str], message.data.get("new_state"))
             self._model.playback.set_state(raw_state)
+            return True
 
         elif message_type == MessageType.TRACK_PLAYBACK_STARTED:
             tl_track = message.data.get("tl_track")
             tlid = tl_track.get("tlid") if tl_track else None
             self._model.playback.set_current_tl_track_tlid(tlid)
+            return True
 
         elif message_type == MessageType.TRACK_PLAYBACK_PAUSED:
             self._model.playback.set_state("paused")
+            return True
 
         elif message_type == MessageType.TRACK_PLAYBACK_RESUMED:
             self._model.playback.set_state("playing")
+            return True
 
         elif message_type == MessageType.TRACK_PLAYBACK_ENDED:
             self._model.playback.set_current_tl_track_tlid(-1)
+            return True
 
         elif message_type == MessageType.PLAY_PREV_TRACK:
             await self._http.previous()
+            return True
 
         elif message_type == MessageType.PLAY_NEXT_TRACK:
             await self._http.next()
+            return True
 
         elif message_type == MessageType.PLAY:
             tlid = message.data.get("tlid")
             await self._http.play(tlid)
+            return True
 
         elif message_type == MessageType.PLAY_TRACKS:
             uris = message.data.get("uris")
             await self._http.play_tracks(uris)
+            return True
 
         elif message_type == MessageType.SEEK:
             time_position = round(cast(int, message.data.get("time_position")))
             await self._http.seek(time_position)
+            return True
 
         elif message_type == MessageType.SEEKED:
             time_position = cast(int, message.data.get("time_position"))
             self._model.playback.set_time_position(time_position)
+            return True
 
         elif message_type == MessageType.FETCH_TRACK_IMAGE:
             track_uri = message.data.get("track_uri")
             if track_uri:
                 await self._fetch_track_image(track_uri)
+            return True
+
+        return False
 
     async def _identify_playback_state(self) -> None:
         LOGGER.debug("Identifying playing state...")

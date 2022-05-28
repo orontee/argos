@@ -16,25 +16,30 @@ LOGGER = logging.getLogger(__name__)
 
 class AlbumsController(ControllerBase):
     def __init__(self, application: "Application"):
-        super().__init__(application)
+        super().__init__(application, logger=LOGGER)
 
         self._download: ImageDownloader = application.props.download
 
         self._model.connect("notify::albums-loaded", self._on_albums_loaded_changed)
 
-    async def process_message(
+    async def do_process_message(
         self, message_type: MessageType, message: Message
-    ) -> None:
+    ) -> bool:
         if message_type == MessageType.BROWSE_ALBUMS:
             await self._browse_albums()
+            return True
 
         elif message_type == MessageType.FETCH_ALBUM_IMAGES:
             await self._fetch_album_images()
+            return True
 
         elif message_type == MessageType.COMPLETE_ALBUM_DESCRIPTION:
             album_uri = message.data.get("album_uri", "")
             if album_uri:
                 await self._describe_album(album_uri)
+            return True
+
+        return False
 
     async def _browse_albums(self) -> None:
         LOGGER.debug("Starting to browse albums...")

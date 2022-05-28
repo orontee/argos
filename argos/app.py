@@ -203,7 +203,7 @@ class Application(Gtk.Application):
         while True:
             message = await self._message_queue.get()
             message_type = message.type
-            LOGGER.debug(f"Processing {message_type} message")
+            LOGGER.debug(f"Dispatching message of type {message_type}")
 
             for consumer in self._consumers:
                 await consumer.process_message(message_type, message)

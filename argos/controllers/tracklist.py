@@ -11,48 +11,61 @@ LOGGER = logging.getLogger(__name__)
 
 class TracklistController(ControllerBase):
     def __init__(self, application: "Application"):
-        super().__init__(application)
+        super().__init__(application, logger=LOGGER)
 
-    async def process_message(
+    async def do_process_message(
         self, message_type: MessageType, message: Message
-    ) -> None:
+    ) -> bool:
         if message_type == MessageType.IDENTIFY_PLAYING_STATE:
             await self._get_options()
+            return True
 
         elif message_type == MessageType.ADD_TO_TRACKLIST:
             uris = cast(List[str], message.data.get("uris"))
             await self._http.add_to_tracklist(uris=uris)
+            return True
 
         elif message_type == MessageType.CLEAR_TRACKLIST:
             await self._http.clear_tracklist()
+            return True
 
         elif message_type == MessageType.GET_TRACKLIST:
             await self._get_tracklist()
+            return True
 
         elif message_type == MessageType.TRACKLIST_CHANGED:
             await self._get_tracklist()
+            return True
 
         elif message_type == MessageType.GET_CURRENT_TRACKLIST_TRACK:
             await self._get_current_tl_track()
+            return True
 
         elif message_type == MessageType.SET_CONSUME:
             consume = cast(bool, message.data.get("consume"))
             await self._http.set_consume(consume)
+            return True
 
         elif message_type == MessageType.SET_RANDOM:
             random = cast(bool, message.data.get("random"))
             await self._http.set_random(random)
+            return True
 
         elif message_type == MessageType.SET_REPEAT:
             repeat = cast(bool, message.data.get("repeat"))
             await self._http.set_repeat(repeat)
+            return True
 
         elif message_type == MessageType.SET_SINGLE:
             single = cast(bool, message.data.get("single"))
             await self._http.set_single(single)
+            return True
 
         elif message_type == MessageType.OPTIONS_CHANGED:
             await self._get_options(),
+            return True
+
+        return False
 
     async def _get_current_tl_track(self) -> None:
         tl_track = await self._http.get_current_tl_track()
