@@ -1,3 +1,4 @@
+import gettext
 import logging
 from typing import cast, List, TYPE_CHECKING
 
@@ -7,6 +8,8 @@ from ..message import consume, Message, MessageType
 from .base import ControllerBase
 
 LOGGER = logging.getLogger(__name__)
+
+_ = gettext.gettext
 
 
 class TracklistController(ControllerBase):
@@ -46,6 +49,7 @@ class TracklistController(ControllerBase):
     async def add_to_tracklist(self, message: Message) -> None:
         uris = cast(List[str], message.data.get("uris"))
         await self._http.add_to_tracklist(uris=uris)
+        self._notifier.send_notification(_("Tracklist updated"))
 
     @consume(MessageType.CLEAR_TRACKLIST)
     async def clear_tracklist(self, message: Message) -> None:

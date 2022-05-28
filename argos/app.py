@@ -23,6 +23,7 @@ from .download import ImageDownloader
 from .http import MopidyHTTPClient
 from .message import Message, MessageType
 from .model import Model
+from .notify import Notifier
 from .time import TimePositionTracker
 from .utils import configure_logger
 from .widgets import AboutDialog, PreferencesWindow
@@ -54,11 +55,13 @@ class Application(Gtk.Application):
         self.window = None
         self.prefs_window = None
 
+        # services
         self._model = Model(self)
         self._ws = MopidyWSConnection(self)
         self._http = MopidyHTTPClient(self)
         self._download = ImageDownloader(self)
         self._time_position_tracker = TimePositionTracker(self)
+        self._notifier = Notifier(self)
 
         self._controllers = (
             PlaybackController(self),
@@ -124,6 +127,10 @@ class Application(Gtk.Application):
     @GObject.Property(type=Model, flags=GObject.ParamFlags.READABLE)
     def model(self):
         return self._model
+
+    @GObject.Property(type=Notifier, flags=GObject.ParamFlags.READABLE)
+    def notifier(self):
+        return self._notifier
 
     @property
     def message_queue(self) -> asyncio.Queue:

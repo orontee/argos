@@ -76,6 +76,12 @@ class ArgosWindow(Gtk.ApplicationWindow):
 
         self.titlebar.props.main_page_state = True
 
+    def is_playing_page_visible(self) -> None:
+        playing_page_visible = (
+            self.central_view.get_visible_child_name() == "playing_page"
+        )
+        return playing_page_visible
+
     def _on_album_selected(self, albums_window: AlbumsWindow, uri: str) -> None:
         LOGGER.debug(f"Album {uri!r} selected")
         self._app.send_message(

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: argos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-27 08:42+0200\n"
+"POT-Creation-Date: 2022-05-28 22:22+0200\n"
 "PO-Revision-Date: 2022-02-20 20:54+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,21 +17,29 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: argos/app.py:81
+#: argos/app.py:83
 msgid "Enable debug logs"
 msgstr "Enable debug logs"
 
-#: argos/app.py:89
+#: argos/app.py:91
 msgid "Start with maximized window"
 msgstr "Start with maximized window"
 
-#: argos/app.py:97
+#: argos/app.py:99
 msgid "Disable tooltips"
 msgstr "Disable tooltips"
 
-#: argos/app.py:105
+#: argos/app.py:107
 msgid "Use single-click"
 msgstr "Use single-click"
+
+#: argos/controllers/playback.py:174
+msgid "Started to play {}"
+msgstr "Started to play {}"
+
+#: argos/controllers/tracklist.py:52
+msgid "Tracklist updated"
+msgstr "Tracklist updated"
 
 #: argos/ui/album_box.ui:96
 msgid "Published"

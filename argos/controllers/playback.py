@@ -1,3 +1,4 @@
+import gettext
 import logging
 from typing import cast, TYPE_CHECKING, Union
 
@@ -11,6 +12,8 @@ from ..model import PlaybackState
 from .base import ControllerBase
 
 LOGGER = logging.getLogger(__name__)
+
+_ = gettext.gettext
 
 
 class PlaybackController(ControllerBase):
@@ -144,7 +147,8 @@ class PlaybackController(ControllerBase):
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
-        self.send_message(MessageType.GET_CURRENT_TRACKLIST_TRACK)
+        if self._model.props.tracklist_loaded:
+            self.send_message(MessageType.GET_CURRENT_TRACKLIST_TRACK)
 
     def _on_playback_current_tl_track_tlid_changed(
         self,
@@ -152,7 +156,26 @@ class PlaybackController(ControllerBase):
         _2: GObject.GParamSpec,
     ) -> None:
         track_uri = self._model.get_current_tl_track_uri()
+        if not track_uri:
+            return
+
         self.send_message(MessageType.FETCH_TRACK_IMAGE, {"track_uri": track_uri})
+
+        # send notification
+        current_tl_track_tlid = self._model.playback.current_tl_track_tlid
+        current_tl_track = self._model.tracklist.get_tl_track(current_tl_track_tlid)
+        track = current_tl_track.track if current_tl_track is not None else None
+        if not track:
+            return
+
+        track_name = track.name
+        artist_name = track.artist_name
+        album_name = track.album_name
+        summary = _("Started to play {}").format(track_name)
+        body = ", ".join(filter(lambda s: s, [artist_name, album_name]))
+        self._notifier.send_notification(
+            summary, body=body, invisible_playing_page=True
+        )
 
     def _on_connection_changed(
         self,

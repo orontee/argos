@@ -263,6 +263,16 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
             )
         )
 
+    def get_album(self, uri: str) -> Optional[AlbumModel]:
+        found_album = [a for a in self.albums if a.uri == uri]
+        if len(found_album) == 0:
+            LOGGER.warning(f"Album URI not found, {uri!r}")
+            return None
+        elif len(found_album) > 1:
+            LOGGER.warning(f"Ambiguous album URI {uri!r}")
+
+        return found_album[0]
+
     def get_playlist(self, uri: str) -> Optional[PlaylistModel]:
         found_playlist = [p for p in self.playlists if p.uri == uri]
         if len(found_playlist) == 0:
