@@ -4,6 +4,7 @@ from typing import Any, cast, Dict, TYPE_CHECKING
 if TYPE_CHECKING:
     from ..app import Application
 from ..message import consume, Message, MessageType
+from ..model import PlaylistModel
 from .base import ControllerBase
 from .utils import parse_tracks
 
@@ -44,27 +45,26 @@ class PlaylistsController(ControllerBase):
     async def list_playlists(self, message: Message) -> None:
         LOGGER.debug("Listing playlists")
         playlists = await self._http.list_playlists()
-        self._model.update_playlists(playlists)
 
-    @consume(MessageType.COMPLETE_PLAYLIST_DESCRIPTION)
-    async def complete_playlist_description(self, message: Message) -> None:
-        playlist_uri = message.data.get("playlist_uri")
-        if not playlist_uri:
-            return
+        parsed_playlists = []
+        if playlists is not None:
+            for playlist in playlists:
+                assert "__model__" in playlist and playlist["__model__"] == "Ref"
+                assert "type" in playlist and playlist["type"] == "playlist"
 
-        scheme = playlist_uri.split(":")[0]
-        playlists_schemes = await self._http.get_playlists_uri_schemes()
-        if playlists_schemes is None:
-            return
+                name = playlist.get("name")
+                uri = playlist.get("uri")
+                if not name or not uri:
+                    continue
 
-        if scheme not in playlists_schemes:
-            return
+                parsed_playlists.append(PlaylistModel(uri=uri, name=name))
 
-        result = await self._http.lookup_playlist(playlist_uri)
-        if result is None:
-            return
+        self._model.update_playlists(parsed_playlists)
 
-        await self._complete_playlist_from_mopidy_model(result)
+        for playlist in parsed_playlists:
+            result = await self._http.lookup_playlist(playlist.uri)
+            if result is not None:
+                await self._complete_playlist_from_mopidy_model(result)
 
     async def _complete_playlist_from_mopidy_model(
         self,
@@ -79,12 +79,15 @@ class PlaylistsController(ControllerBase):
         LOGGER.debug(f"Completing description of playlist with URI {playlist_uri!r}")
 
         track_uris = [cast(str, t.get("uri")) for t in playlist_tracks if "uri" in t]
-        found_tracks = await self._http.lookup_library(track_uris)
-        if found_tracks is None:
-            return
+        if len(track_uris) > 0:
+            LOGGER.debug(f"Fetching tracks of playlist with URI {playlist_uri!r}")
+            found_tracks = await self._http.lookup_library(track_uris)
+            if found_tracks is None:
+                return
 
-        parsed_tracks = parse_tracks(found_tracks)
-        # for newly created playlists track_uris will be empty
+            parsed_tracks = parse_tracks(found_tracks)
+        else:
+            parsed_tracks = []
 
         self._model.complete_playlist_description(
             playlist_uri,

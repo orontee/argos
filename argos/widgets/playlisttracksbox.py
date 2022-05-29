@@ -1,10 +1,9 @@
 import logging
-from typing import Optional
 
-from gi.repository import Gio, Gtk, GObject
+from gi.repository import Gtk, GObject
 
 from ..message import MessageType
-from ..model import Model, TrackModel
+from ..model import TrackModel
 from .trackbox import TrackBox
 from .utils import set_list_box_header_with_separator
 
@@ -47,7 +46,6 @@ class PlaylistTracksBox(Gtk.Box):
             "notify::network-available", self._handle_connection_changed
         )
         self._model.connect("notify::connected", self._handle_connection_changed)
-        self._model.connect("playlist-completed", self._on_playlist_completed)
 
         self.show_all()
 
@@ -72,31 +70,18 @@ class PlaylistTracksBox(Gtk.Box):
         widget = TrackBox(self._app, track=track, hide_track_no=True)
         return widget
 
-    def update_from_playlist(self, uri: Optional[str] = None) -> None:
-        LOGGER.debug(f"Updating from playlist {uri!r}")
-        self.props.uri = uri if uri is not None else ""
+    def bind_model_to_playlist_tracks(self, uri: str) -> None:
+        if self.props.uri == uri:
+            return
+
+        self.props.uri = uri
 
         playlist = self._model.get_playlist(uri)
-        tracks = playlist.tracks if playlist and playlist.last_modified else None
-        self._update_tracks_box(tracks)
-        # will be updated when playlist is completed, see
-        # _on_playlist_completed()
-
-    def _update_tracks_box(self, tracks: Optional[Gio.ListStore] = None) -> None:
+        tracks = playlist.tracks if playlist else None
         self.tracks_box.bind_model(
             tracks,
             self._create_track_box,
         )
-
-    def _on_playlist_completed(self, model: Model, uri: str) -> None:
-        LOGGER.debug(f"Playlist with URI {uri!r} completed")
-        if uri != self.uri:
-            LOGGER.warning(f"Not displaying playlist tracks with URI {uri!r}")
-            return
-
-        playlist = self._model.get_playlist(uri)
-        tracks = playlist.tracks if playlist else None
-        self._update_tracks_box(tracks)
 
     @Gtk.Template.Callback()
     def on_play_button_clicked(self, _1: Gtk.Button) -> None:
@@ -116,7 +101,8 @@ class PlaylistTracksBox(Gtk.Box):
             return
 
         uris = [t.props.uri for t in tracks]
-        self._app.send_message(MessageType.ADD_TO_TRACKLIST, {"uris": uris})
+        if len(uris) > 0:
+            self._app.send_message(MessageType.ADD_TO_TRACKLIST, {"uris": uris})
 
     @Gtk.Template.Callback()
     def on_tracks_box_row_activated(
@@ -124,11 +110,6 @@ class PlaylistTracksBox(Gtk.Box):
         box: Gtk.ListBox,
         row: Gtk.ListBoxRow,
     ) -> None:
-        sensitive = self._model.network_available and self._model.connected
-        if not sensitive:
-            return
-
         track_box = row.get_child()
-        uri = track_box.props.uri if track_box else None
-        if uri is not None:
-            self._app.send_message(MessageType.PLAY_TRACKS, {"uris": [uri]})
+        uri = track_box.props.uri
+        self._app.send_message(MessageType.PLAY_TRACKS, {"uris": [uri]})
