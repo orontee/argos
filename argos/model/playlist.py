@@ -4,6 +4,24 @@ from .track import TrackModel
 from .utils import WithThreadSafePropertySetter
 
 
+def playlist_compare_func(
+    a: "PlaylistModel",
+    b: "PlaylistModel",
+    user_data: None,
+) -> int:
+    if a.name < b.name:
+        return -1
+    elif a.name > b.name:
+        return 1
+    # a.name == b.name
+    if a.uri < b.uri:
+        return -1
+    elif a.uri > b.uri:
+        return 1
+    # a.uri == b.uri
+    return 0
+
+
 class PlaylistModel(WithThreadSafePropertySetter, GObject.Object):
     """Model for a playlist.
 

@@ -26,6 +26,14 @@ class HasPropertiesProtocol(Protocol):
 
 
 class WithThreadSafePropertySetter:
+    """Mixin implementing thread-safe property setters.
+
+    GObject signals get executed in the context they are emitted
+    from. In which context the object is created or where connect() is
+    called from doesn’t matter.
+
+    """
+
     def set_property_in_gtk_thread(
         self: HasPropertiesProtocol,
         name: str,
@@ -42,9 +50,15 @@ class WithThreadSafePropertySetter:
                 cm = contextlib.nullcontext()
 
             def wrapped_setter() -> None:
-                LOGGER.debug(f"Updating {name!r} from {current_value!r} to {value!r}")
-                with cm:
-                    self.set_property(name, value)
+                current_value = self.get_property(name)
+                if force or current_value != value:
+                    LOGGER.debug(
+                        f"Updating {name!r} from {current_value!r} to {value!r}"
+                    )
+                    with cm:
+                        self.set_property(name, value)
+                else:
+                    LOGGER.debug(f"Property {name!r} already equal to {value!r}")
 
             GLib.idle_add(wrapped_setter)
         else:

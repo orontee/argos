@@ -29,6 +29,9 @@ EVENT_TO_MESSAGE_TYPE: Dict[str, MessageType] = {
     "tracklist_changed": MessageType.TRACKLIST_CHANGED,
     "seeked": MessageType.SEEKED,
     "options_changed": MessageType.OPTIONS_CHANGED,
+    "playlist_changed": MessageType.PLAYLIST_CHANGED,
+    "playlist_deleted": MessageType.PLAYLIST_DELETED,
+    "playlist_loaded": MessageType.PLAYLIST_LOADED,
 }
 
 _COMMAND_ID: int = 0

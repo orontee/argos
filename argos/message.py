@@ -44,6 +44,9 @@ class MessageType(Enum):
     TRACKLIST_CHANGED = 47
     SEEKED = 48
     OPTIONS_CHANGED = 49
+    PLAYLIST_CHANGED = 50
+    PLAYLIST_DELETED = 51
+    PLAYLIST_LOADED = 52
 
 
 @dataclass

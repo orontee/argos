@@ -7,7 +7,7 @@ from gi.repository import Gio, GLib, GObject
 from .album import AlbumModel
 from .mixer import MixerModel
 from .playback import PlaybackModel
-from .playlist import PlaylistModel
+from .playlist import playlist_compare_func, PlaylistModel
 from .track import TrackModel
 from .tracklist import TracklistModel, TracklistTrackModel
 from .utils import PlaybackState, WithThreadSafePropertySetter
@@ -229,44 +229,57 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         self,
         playlist_uri: str,
         *,
+        name: str,
         tracks: List[TrackModel],
         last_modified: int,
     ) -> None:
-        found = [
-            playlist for playlist in self.playlists if playlist.uri == playlist_uri
-        ]
-        if len(found) == 0:
-            LOGGER.warning(f"No playlist found with URI {playlist_uri!r}")
-            return
+        LOGGER.debug(f"Updating playlist with URI {playlist_uri!r}")
 
-        LOGGER.debug(f"Updating description of playlist with URI {playlist_uri!r}")
-        playlist = found[0]
+        playlist = self.get_playlist(playlist_uri)
+        must_insert = playlist is None
+        if playlist is None:
+            LOGGER.debug(f"Creation of playlist with URI {playlist_uri!r}")
 
-        if playlist.last_modified == str(last_modified):
+            playlist = PlaylistModel(uri=playlist_uri, name=name)
+        elif playlist.last_modified == str(last_modified):
             # Conversion to string since GLib expects 32-bits integers
             # on ARMv7
-            LOGGER.debug(f"Playlist with URI {playlist_uri!r} hasn't changed")
+            LOGGER.debug(f"Playlist with URI {playlist_uri!r} is up-to-date")
             return
 
-        playlist.last_modified = str(last_modified)
-
-        playlist.tracks.remove_all()
-
-        for track in tracks:
-            playlist.tracks.append(track)
-
         GLib.idle_add(
-            partial(
-                self.emit,
-                "playlist-completed",
-                playlist_uri,
-            )
+            self._complete_playlist_description,
+            playlist,
+            name,
+            tracks,
+            last_modified,
+            must_insert,
         )
+
+    def _complete_playlist_description(
+        self,
+        playlist: PlaylistModel,
+        name: str,
+        tracks: List[TrackModel],
+        last_modified: int,
+        must_insert: bool,
+    ) -> None:
+        if must_insert:
+            LOGGER.debug(f"Insertion of playlist with URI {playlist.uri!r}")
+            self.playlists.insert_sorted(playlist, playlist_compare_func, None)
+        else:
+            playlist.name = name
+            playlist.last_modified = str(last_modified)
+            playlist.tracks.remove_all()
+            for track in tracks:
+                playlist.tracks.append(track)
+
+        self.emit("playlist-completed", playlist.uri)
 
     def get_album(self, uri: str) -> Optional[AlbumModel]:
         found_album = [a for a in self.albums if a.uri == uri]
         if len(found_album) == 0:
-            LOGGER.warning(f"Album URI not found, {uri!r}")
+            LOGGER.debug(f"No album found with URI {uri!r}")
             return None
         elif len(found_album) > 1:
             LOGGER.warning(f"Ambiguous album URI {uri!r}")
@@ -276,9 +289,26 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
     def get_playlist(self, uri: str) -> Optional[PlaylistModel]:
         found_playlist = [p for p in self.playlists if p.uri == uri]
         if len(found_playlist) == 0:
-            LOGGER.warning(f"Playlist URI not found, {uri!r}")
+            LOGGER.debug(f"No playlist found with URI {uri!r}")
             return None
         elif len(found_playlist) > 1:
             LOGGER.warning(f"Ambiguous playlist URI {uri!r}")
 
         return found_playlist[0]
+
+    def delete_playlist(self, uri: str) -> None:
+        found_playlist = [
+            (i, p) for (i, p) in enumerate(self.playlists) if p.uri == uri
+        ]
+        if len(found_playlist) == 0:
+            LOGGER.debug(f"No playlist found with URI {uri!r}")
+            return None
+        elif len(found_playlist) > 1:
+            LOGGER.warning(f"Ambiguous playlist URI {uri!r}")
+
+        LOGGER.debug(f"Deletion of playlist with URI {uri!r}")
+
+        GLib.idle_add(
+            self.playlists.remove,
+            found_playlist[0][0],
+        )
