@@ -75,7 +75,13 @@ class MopidyWSConnection(GObject.GObject):
         self._ws: Optional[aiohttp.ClientWebSocketResponse] = None
         self._commands: Dict[int, asyncio.Future] = {}
 
-    async def send_command(self, method: str, *, params: dict = None) -> Optional[Any]:
+    async def send_command(
+        self,
+        method: str,
+        *,
+        params: dict = None,
+        timeout: int = None,
+    ) -> Optional[Any]:
         """Invoke a JSON-RPC command.
 
         Args:
@@ -96,6 +102,9 @@ class MopidyWSConnection(GObject.GObject):
         _COMMAND_ID += 1
         jsonrpc_id = _COMMAND_ID
 
+        if timeout is None:
+            timeout = COMMAND_TIMEOUT
+
         data = {"jsonrpc": "2.0", "id": jsonrpc_id, "method": method}
         if params is not None:
             data["params"] = params
@@ -106,7 +115,7 @@ class MopidyWSConnection(GObject.GObject):
         LOGGER.debug(f"Sending JSON-RPC command {jsonrpc_id} with method {method}")
         try:
             try:
-                await asyncio.wait_for(self._ws.send_json(data), COMMAND_TIMEOUT)
+                await asyncio.wait_for(self._ws.send_json(data), timeout)
             except ConnectionResetError:
                 LOGGER.warning(
                     f"Connection reset while sending JSON-RPC command {jsonrpc_id}"
@@ -117,7 +126,7 @@ class MopidyWSConnection(GObject.GObject):
                 future.cancel()
 
             try:
-                await asyncio.wait_for(future, COMMAND_TIMEOUT)
+                await asyncio.wait_for(future, timeout)
             except asyncio.exceptions.TimeoutError:
                 LOGGER.warning(
                     f"Timeout while waiting response of JSON-RPC command {jsonrpc_id}"

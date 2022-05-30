@@ -228,3 +228,7 @@ class MopidyHTTPClient(GObject.GObject):
             await self._ws.send_command("core.playlists.lookup", params={"uri": uri}),
         )
         return playlist
+
+    async def get_history(self) -> Optional[List[Any]]:
+        history = await self._ws.send_command("core.history.get_history", timeout=60)
+        return history
