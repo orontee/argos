@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-28 22:22+0200\n"
+"POT-Creation-Date: 2022-05-30 13:22+0200\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -36,6 +36,14 @@ msgstr "Utiliser un seul clic"
 msgid "Started to play {}"
 msgstr "Lecture de {}"
 
+#: argos/controllers/playlists.py:34
+msgid "Recent additions"
+msgstr "Ajouts récents"
+
+#: argos/controllers/playlists.py:39
+msgid "History"
+msgstr "Historique"
+
 #: argos/controllers/tracklist.py:52
 msgid "Tracklist updated"
 msgstr "File d'attente mise à jour"
@@ -44,7 +52,7 @@ msgstr "File d'attente mise à jour"
 msgid "Published"
 msgstr "Publication"
 
-#: argos/ui/album_box.ui:125 argos/ui/playlists_box.ui:74
+#: argos/ui/album_box.ui:125 argos/ui/playlists_box.ui:78
 msgid "Length"
 msgstr "Durée"
 
@@ -164,7 +172,7 @@ msgstr "Lecture d'une seule piste"
 msgid "Repeat"
 msgstr "Lecture en boucle"
 
-#: argos/ui/playlists_box.ui:106
+#: argos/ui/playlists_box.ui:110
 msgid "Tracks"
 msgstr "Morceaux"
 
