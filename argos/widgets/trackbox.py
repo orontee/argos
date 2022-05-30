@@ -31,7 +31,7 @@ class TrackBox(Gtk.Box):
 
         self.props.uri = track.uri
 
-        track_name = track.name
+        track_name = track.name if track.name else track.uri
         artist_name = track.artist_name
         album_name = track.album_name
         track_length = ms_to_text(track.length) if track.length else ""

@@ -1,12 +1,10 @@
-from enum import IntEnum
 import gettext
 import logging
 from typing import Optional
 
-from gi.repository import Gio, GLib, GObject, Gtk, Pango
+from gi.repository import Gio, GLib, GObject, Gtk
 
-from ..message import MessageType
-from ..model import Model
+from ..model import PlaylistModel
 from ..utils import elide_maybe, ms_to_text
 from .playlisttracksbox import PlaylistTracksBox
 
@@ -15,10 +13,36 @@ _ = gettext.gettext
 LOGGER = logging.getLogger(__name__)
 
 
-class PlaylistsStoreColumns(IntEnum):
-    TEXT = 0
-    TOOLTIP = 1
-    URI = 2
+class PlaylistLabel(Gtk.Label):
+    __gtype_name__ = "PlaylistLabel"
+
+    playlist = GObject.Property(type=PlaylistModel)
+
+    def __init__(self, application: Gtk.Application, *, playlist: PlaylistModel):
+        super().__init__()
+
+        self._app = application
+        self._disable_tooltips = application.props.disable_tooltips
+        self.props.playlist = playlist
+        self.props.margin_top = 5
+        self.props.margin_bottom = 5
+        self.props.halign = Gtk.Align.START
+        self.props.use_underline = False
+        self.props.use_markup = False
+
+        self.set_text(elide_maybe(self.playlist.name))
+
+        self.playlist.connect("notify::name", self._on_playlist_name_changed)
+
+        if not self._disable_tooltips:
+            self.set_tooltip_text(self.playlist.name)
+
+    def _on_playlist_name_changed(
+        self, _1: GObject.Object, _2: GObject.ParamSpec
+    ) -> None:
+        self.set_text(elide_maybe(self.playlist.name))
+        if not self._disable_tooltips:
+            self.set_tooltip_text(self.playlist.name)
 
 
 @Gtk.Template(resource_path="/app/argos/Argos/ui/playlists_box.ui")
@@ -29,7 +53,6 @@ class PlaylistsBox(Gtk.Box):
     playlist_tracks_box = GObject.Property(type=PlaylistTracksBox)
 
     playlist_name_label: Gtk.Label = Gtk.Template.Child()
-
     length_label: Gtk.Label = Gtk.Template.Child()
     track_count_label: Gtk.Label = Gtk.Template.Child()
 
@@ -40,9 +63,13 @@ class PlaylistsBox(Gtk.Box):
         self._model = application.model
         self._disable_tooltips = application.props.disable_tooltips
 
-        albums_store = Gtk.ListStore(str, str, str)
-        self.playlists_view.set_model(albums_store)
-        self.playlists_view.set_tooltip_column(PlaylistsStoreColumns.TOOLTIP)
+        self.playlists_view.bind_model(
+            self._model.playlists,
+            self._create_playlist_box,
+        )
+
+        self.props.playlist_tracks_box = PlaylistTracksBox(application)
+        self.add(self.props.playlist_tracks_box)
 
         for widget in (
             self.playlists_view,
@@ -51,27 +78,10 @@ class PlaylistsBox(Gtk.Box):
             if self._disable_tooltips:
                 widget.props.has_tooltip = False
 
-        renderer = Gtk.CellRendererText(
-            xpad=5,
-            ypad=5,
-            ellipsize=Pango.EllipsizeMode.END,
-        )
-        column = Gtk.TreeViewColumn(_("Playlist"), renderer, text=0)
-        self.playlists_view.append_column(column)
-
-        self.props.playlist_tracks_box = PlaylistTracksBox(application)
-        self.add(self.props.playlist_tracks_box)
-
         self.show_all()
 
-        selection = self.playlists_view.get_selection()
-        selection.set_mode(Gtk.SelectionMode.SINGLE)
-        selection.connect("changed", self._on_playlists_view_selection_changed)
-
-        self._model.connect("notify::playlists-loaded", self._update_playlist_list)
         self._model.connect("notify::network-available", self.handle_connection_changed)
         self._model.connect("notify::connected", self.handle_connection_changed)
-        self._model.connect("playlist-completed", self._on_playlist_completed)
 
     def handle_connection_changed(
         self,
@@ -81,60 +91,38 @@ class PlaylistsBox(Gtk.Box):
         sensitive = self._model.network_available and self._model.connected
         self.playlists_view.set_sensitive(sensitive)
 
-    def _update_playlist_list(
+    def _create_playlist_box(
         self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
-    ) -> None:
-        LOGGER.debug("Updating playlist store")
+        playlist: PlaylistModel,
+    ) -> Gtk.Widget:
+        widget = PlaylistLabel(self._app, playlist=playlist)
+        return widget
 
-        store = self.playlists_view.get_model()
-        store.clear()
-
-        playlists = self._model.playlists
-        for playlist in playlists:
-            store.append(
-                [
-                    playlist.name,
-                    playlist.name,
-                    playlist.uri,
-                ]
-            )
-
-    def _on_playlists_view_selection_changed(
+    @Gtk.Template.Callback()
+    def on_playlists_view_row_selected(
         self,
-        selection: Gtk.TreeSelection,
+        box: Gtk.ListBox,
+        row: Optional[Gtk.ListBoxRow],
     ) -> None:
-        store, store_iter = selection.get_selected()
-        if store_iter is not None:
-            uri = store.get_value(store_iter, PlaylistsStoreColumns.URI)
-            LOGGER.debug(f"Playlist with URI {uri!r} selected")
-        else:
-            uri = None
-
-        self._update_from_playlist(uri)
-        self.props.playlist_tracks_box.update_from_playlist(uri)
-
-        sensitive = self._model.network_available and self._model.connected
-        if uri and sensitive:
-            self._app.send_message(
-                MessageType.COMPLETE_PLAYLIST_DESCRIPTION, {"playlist_uri": uri}
-            )
-
-    def _update_from_playlist(self, uri: Optional[str] = None) -> None:
-        LOGGER.debug(f"Updating from playlist {uri!r}")
-        playlist = self._model.get_playlist(uri) if uri is not None else None
+        playlist_label = row.get_child() if row else None
+        playlist = playlist_label.playlist if playlist_label else None
         playlist_name = playlist.props.name if playlist is not None else None
+
         self._update_playlist_name_label(playlist_name)
 
-        if playlist is not None and playlist.props.last_modified:
-            tracks = playlist.tracks
-        else:
-            tracks = None
+        tracks = playlist.tracks if playlist is not None else None
         self._update_track_count_label(tracks)
         self._update_length_label(tracks)
-        # those widgets will be updated when playlist is completed,
-        # see _on_playlist_completed()
+
+        uri = playlist.uri if playlist else None
+        self.props.playlist_tracks_box.bind_model_to_playlist_tracks(uri)
+
+        if playlist is not None:
+            playlist.connect("notify::name", self._on_playlist_name_changed)
+            playlist.tracks.connect(
+                "items-changed", self._on_playlist_tracks_items_changed
+            )
+            # would be cleaner to disconnect on selection changes...
 
     def _update_playlist_name_label(self, playlist_name: Optional[str] = None) -> None:
         if playlist_name:
@@ -179,21 +167,41 @@ class PlaylistsBox(Gtk.Box):
 
         self.length_label.show_now()
 
-    def _on_playlist_completed(self, model: Model, uri: str) -> None:
-        LOGGER.debug(f"Playlist with URI {uri!r} completed")
-
-        selection = self.playlists_view.get_selection()
-        store, store_iter = selection.get_selected()
-        if store_iter is None:
+    def _on_playlist_name_changed(
+        self, changed_playlist: PlaylistModel, _2: GObject.ParamSpec
+    ) -> None:
+        selected_row = self.playlists_view.get_selected_row()
+        if selected_row is None:
             return
 
-        selected_playlist_uri = store.get_value(store_iter, PlaylistsStoreColumns.URI)
-
-        if uri != selected_playlist_uri:
-            LOGGER.warning(f"Not displaying playlist with URI {uri!r}")
+        playlist_label = selected_row.get_child()
+        playlist = playlist_label.playlist if playlist_label else None
+        if playlist is None:
             return
 
-        playlist = self._model.get_playlist(uri)
-        tracks = playlist.tracks if playlist else None
-        self._update_track_count_label(tracks)
-        self._update_length_label(tracks)
+        if changed_playlist != playlist:
+            return
+
+        self._update_playlist_name_label(changed_playlist.name)
+
+    def _on_playlist_tracks_items_changed(
+        self,
+        changed_tracks: Gio.ListModel,
+        position: int,
+        removed: int,
+        added: int,
+    ) -> None:
+        selected_row = self.playlists_view.get_selected_row()
+        if selected_row is None:
+            return
+
+        playlist_label = selected_row.get_child()
+        playlist = playlist_label.playlist if playlist_label else None
+        if playlist is None:
+            return
+
+        if changed_tracks != playlist.tracks:
+            return
+
+        self._update_length_label(changed_tracks)
+        self._update_track_count_label(changed_tracks)

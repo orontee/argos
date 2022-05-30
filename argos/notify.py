@@ -11,7 +11,8 @@ LOGGER = logging.getLogger(__name__)
 
 class Notifier(GObject.Object):
 
-    expiration_timeout = 3000  # ms
+    expiration_timeout = -1
+    # expiration depends on notification server settings
 
     def __init__(self, application: "Application"):
         super().__init__()

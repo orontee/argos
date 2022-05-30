@@ -7,7 +7,7 @@ from gi.repository import Gio, GLib, GObject
 from .album import AlbumModel
 from .mixer import MixerModel
 from .playback import PlaybackModel
-from .playlist import PlaylistModel
+from .playlist import playlist_compare_func, PlaylistModel
 from .track import TrackModel
 from .tracklist import TracklistModel, TracklistTrackModel
 from .utils import PlaybackState, WithThreadSafePropertySetter
@@ -33,7 +33,6 @@ __all__ = (
 class Model(WithThreadSafePropertySetter, GObject.Object):
     __gsignals__: Dict[str, Tuple[int, Any, Tuple]] = {
         "album-completed": (GObject.SIGNAL_RUN_FIRST, None, (str,)),
-        "playlist-completed": (GObject.SIGNAL_RUN_FIRST, None, (str,)),
     }
 
     network_available = GObject.Property(type=bool, default=False)
@@ -41,7 +40,6 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
 
     albums_loaded = GObject.Property(type=bool, default=False)
     tracklist_loaded = GObject.Property(type=bool, default=False)
-    playlists_loaded = GObject.Property(type=bool, default=False)
 
     playback: PlaybackModel
     mixer: MixerModel
@@ -201,72 +199,75 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
 
         self.props.tracklist_loaded = True
 
-    def update_playlists(self, value: Any) -> None:
+    def update_playlists(self, playlists: List[PlaylistModel]) -> None:
         GLib.idle_add(
             partial(
                 self._update_playlists,
-                value,
+                playlists,
             )
         )
 
-    def _update_playlists(self, value: Any) -> None:
-        if self.props.playlists_loaded:
-            self.props.playlists_loaded = False
+    def _update_playlists(self, playlists: List[PlaylistModel]) -> None:
+        if self.playlists.get_n_items() > 0:
             self.playlists.remove_all()
 
-        for v in value:
-            name = v.get("name")
-            uri = v.get("uri")
-            if not name or not uri:
-                continue
-
-            playlist = PlaylistModel(uri=uri, name=name)
+        for playlist in playlists:
             self.playlists.append(playlist)
-
-        self.props.playlists_loaded = True
 
     def complete_playlist_description(
         self,
         playlist_uri: str,
         *,
+        name: str,
         tracks: List[TrackModel],
         last_modified: int,
     ) -> None:
-        found = [
-            playlist for playlist in self.playlists if playlist.uri == playlist_uri
-        ]
-        if len(found) == 0:
-            LOGGER.warning(f"No playlist found with URI {playlist_uri!r}")
-            return
+        LOGGER.debug(f"Updating playlist with URI {playlist_uri!r}")
 
-        LOGGER.debug(f"Updating description of playlist with URI {playlist_uri!r}")
-        playlist = found[0]
+        playlist = self.get_playlist(playlist_uri)
+        must_insert = playlist is None
+        if playlist is None:
+            LOGGER.debug(f"Creation of playlist with URI {playlist_uri!r}")
 
-        if playlist.last_modified == str(last_modified):
+            playlist = PlaylistModel(uri=playlist_uri, name=name)
+        elif playlist.last_modified == str(last_modified):
             # Conversion to string since GLib expects 32-bits integers
             # on ARMv7
-            LOGGER.debug(f"Playlist with URI {playlist_uri!r} hasn't changed")
+            LOGGER.debug(f"Playlist with URI {playlist_uri!r} is up-to-date")
             return
 
+        GLib.idle_add(
+            self._complete_playlist_description,
+            playlist,
+            name,
+            tracks,
+            last_modified,
+            must_insert,
+        )
+
+    def _complete_playlist_description(
+        self,
+        playlist: PlaylistModel,
+        name: str,
+        tracks: List[TrackModel],
+        last_modified: int,
+        must_insert: bool,
+    ) -> None:
+        if must_insert:
+            LOGGER.debug(f"Insertion of playlist with URI {playlist.uri!r}")
+            self.playlists.insert_sorted(playlist, playlist_compare_func, None)
+        else:
+            playlist.name = name
+            playlist.tracks.remove_all()
+
         playlist.last_modified = str(last_modified)
-
-        playlist.tracks.remove_all()
-
         for track in tracks:
             playlist.tracks.append(track)
-
-        GLib.idle_add(
-            partial(
-                self.emit,
-                "playlist-completed",
-                playlist_uri,
-            )
-        )
 
     def get_album(self, uri: str) -> Optional[AlbumModel]:
         found_album = [a for a in self.albums if a.uri == uri]
         if len(found_album) == 0:
-            LOGGER.warning(f"Album URI not found, {uri!r}")
+            LOGGER.debug(f"No album found with URI {uri!r}")
             return None
         elif len(found_album) > 1:
             LOGGER.warning(f"Ambiguous album URI {uri!r}")
@@ -276,9 +277,26 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
     def get_playlist(self, uri: str) -> Optional[PlaylistModel]:
         found_playlist = [p for p in self.playlists if p.uri == uri]
         if len(found_playlist) == 0:
-            LOGGER.warning(f"Playlist URI not found, {uri!r}")
+            LOGGER.debug(f"No playlist found with URI {uri!r}")
             return None
         elif len(found_playlist) > 1:
             LOGGER.warning(f"Ambiguous playlist URI {uri!r}")
 
         return found_playlist[0]
+
+    def delete_playlist(self, uri: str) -> None:
+        found_playlist = [
+            (i, p) for (i, p) in enumerate(self.playlists) if p.uri == uri
+        ]
+        if len(found_playlist) == 0:
+            LOGGER.debug(f"No playlist found with URI {uri!r}")
+            return None
+        elif len(found_playlist) > 1:
+            LOGGER.warning(f"Ambiguous playlist URI {uri!r}")
+
+        LOGGER.debug(f"Deletion of playlist with URI {uri!r}")
+
+        GLib.idle_add(
+            self.playlists.remove,
+            found_playlist[0][0],
+        )
