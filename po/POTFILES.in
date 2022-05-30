@@ -1,4 +1,6 @@
 argos/app.py
+argos/controllers/playback.py
+argos/controllers/tracklist.py
 argos/ui/album_box.ui
 argos/ui/albums_window.ui
 argos/ui/app_menu.ui

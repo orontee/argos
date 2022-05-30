@@ -32,6 +32,7 @@ argos_sources = [
   'http.py',
   '__init__.py',
   'message.py',
+  'notify.py',
   'session.py',
   'time.py',
   'utils.py',

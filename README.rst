@@ -95,7 +95,7 @@ Debugging
 One can run a shell in sandbox and call the application through
 ``pdb``::
 
-  $ flatpak run --command=sh --devel app.argos.Argos
+  $ flatpak run --devel --command=sh app.argos.Argos
   [📦 app.argos.Argos ~]$ python3 -m pdb /app/bin/argos --debug
 
 Contributing

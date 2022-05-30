@@ -1,5 +1,4 @@
 import asyncio
-import logging
 from typing import (
     Any,
     Dict,
@@ -14,6 +13,7 @@ if TYPE_CHECKING:
 from ..http import MopidyHTTPClient
 from ..message import Message, MessageType
 from ..model import Model
+from ..notify import Notifier
 
 
 class ControllerBase(GObject.Object):
@@ -36,6 +36,7 @@ class ControllerBase(GObject.Object):
         self._loop: asyncio.AbstractEventLoop = application.loop
         self._message_queue: asyncio.Queue = application.message_queue
         self._model: Model = application.props.model
+        self._notifier: Notifier = application.props.notifier
 
     def send_message(
         self, message_type: MessageType, data: Optional[Dict[str, Any]] = None
