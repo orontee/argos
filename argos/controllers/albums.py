@@ -9,6 +9,7 @@ if TYPE_CHECKING:
     from ..app import Application
 from ..download import ImageDownloader
 from ..message import consume, Message, MessageType
+from ..model import AlbumModel
 from .base import ControllerBase
 from .utils import parse_tracks
 
@@ -28,6 +29,12 @@ class AlbumsController(ControllerBase):
         super().__init__(application)
 
         self._download: ImageDownloader = application.props.download
+
+        self._supported_directories = {
+            "local:directory": "local:directory?type=album",
+            "bandcamp:browse": "bandcamp:collection",
+            "podcast+file:///etc/mopidy/podcast/Podcasts.opml": "podcast+file:///etc/mopidy/podcast/Podcasts.opml",
+        }
 
         self._model.connect("notify::albums-loaded", self._on_albums_loaded_changed)
 
@@ -82,7 +89,42 @@ class AlbumsController(ControllerBase):
     @consume(MessageType.BROWSE_ALBUMS)
     async def browse_albums(self, message: Message) -> None:
         LOGGER.debug("Starting to browse albums...")
-        albums = await self._http.browse_albums()
+        directories = await self._http.browse_library()
+        if not directories:
+            return None
+
+        albums = []
+        for directory in directories:
+            assert "__model__" in directory and directory["__model__"] == "Ref"
+            assert "type" in directory and directory["type"] == "directory"
+
+            directory_uri = directory.get("uri")
+            if directory_uri is None:
+                continue
+
+            albums_uri = self._supported_directories.get(directory_uri)
+            if albums_uri is None:
+                LOGGER.warning(
+                    f"Skipping unsupported directory with URI {directory_uri!r}"
+                )
+                continue
+
+            directory_albums = await self._http.browse_library(albums_uri)
+            if directory_albums is None:
+                continue
+
+            if len(directory_albums) == 0:
+                LOGGER.warning(
+                    f"No album found for directory with URI {directory_uri!r}"
+                )
+                continue
+
+            LOGGER.debug(
+                f"Found {len(directory_albums)} albums in directory "
+                f"with URI {directory_uri!r}"
+            )
+            albums += directory_albums
+
         if not albums:
             return
 
@@ -91,17 +133,28 @@ class AlbumsController(ControllerBase):
         if not images:
             return
 
+        parsed_albums = []
         for a in albums:
+            assert "__model__" in a and a["__model__"] == "Ref"
+            assert "type" in a and a["type"] == "album"
+
             album_uri = a["uri"]
-            if album_uri not in images or len(images[album_uri]) == 0:
-                continue
+            if album_uri in images and len(images[album_uri]) > 0:
+                image_uri = images[album_uri][0].get("uri", "")
+                filepath = self._download.get_image_filepath(image_uri)
+            else:
+                image_uri = ""
+                filepath = None
 
-            image_uri = images[album_uri][0]["uri"]
-            a["image_uri"] = image_uri
-            filepath = self._download.get_image_filepath(image_uri)
-            a["image_path"] = filepath
+            album = AlbumModel(
+                uri=album_uri,
+                name=a.get("name", ""),
+                image_path=str(filepath) if filepath is not None else "",
+                image_uri=image_uri,
+            )
+            parsed_albums.append(album)
 
-        self._model.update_albums(albums)
+        self._model.update_albums(parsed_albums)
 
     @consume(MessageType.PLAY_RANDOM_ALBUM)
     async def play_random_album(self, message: Message) -> None:

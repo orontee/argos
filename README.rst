@@ -8,7 +8,10 @@ Argos
 .. image:: http://www.mypy-lang.org/static/mypy_badge.svg
    :target: http://mypy-lang.org/
 
-Mopidy front-end for small devices.
+Light weight `Mopidy <https://mopidy.com/>`_ front-end.
+
+Argos is designed (and used!) with `Gnome <https://gnome.org>`_ desktop
+and small single-board devices with small touchscreen in mind.
 
 .. figure:: screenshot.png
    :alt: Application window screenshot
@@ -24,23 +27,22 @@ Mopidy front-end for small devices.
 
    Albums view
 
-.. figure:: screenshot-album-view.png
-   :alt: Album view screenshot
+.. figure:: screenshot-playlists-view.png
+   :alt: Playlists view screenshot
    :align: center
    :width: 400
 
-   Album view
+   Playlists view
 
 Features 🥳
 ===========
 
-* Play random album from Mopidy-Local
+* Playback state & tracklist view
 
-* Albums & playlist views
+* Library browser populated with Mopidy-Local, Mopidy-Bandcamp and
+  Mopidy-Podcast albums
 
-* Display album covers from Mopidy-Local HTTP API
-
-* Keyboard shortcuts
+* Playlists view
 
 Install
 =======

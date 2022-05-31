@@ -87,30 +87,20 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         tl_track = self.tracklist.get_tl_track(tlid)
         return tl_track.track.props.uri if tl_track else ""
 
-    def update_albums(self, value: Any) -> None:
+    def update_albums(self, albums: List[AlbumModel]) -> None:
         GLib.idle_add(
             partial(
                 self._update_albums,
-                value,
+                albums,
             )
         )
 
-    def _update_albums(self, value: Any) -> None:
+    def _update_albums(self, albums: List[AlbumModel]) -> None:
         if self.props.albums_loaded:
             self.props.albums_loaded = False
             self.albums.remove_all()
 
-        for v in value:
-            name = v.get("name")
-            uri = v.get("uri")
-            if not name or not uri:
-                continue
-
-            image_path = v.get("image_path", "")
-            image_uri = v.get("image_uri", "")
-            album = AlbumModel(
-                uri=uri, name=name, image_path=image_path, image_uri=image_uri
-            )
+        for album in albums:
             self.albums.append(album)
 
         self.props.albums_loaded = True

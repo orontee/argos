@@ -75,7 +75,7 @@
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">True</property>
-                <property name="title" translatable="yes" context="shortcut window">Go to Albums</property>
+                <property name="title" translatable="yes" context="shortcut window">Go to Library</property>
                 <property name="accelerator">&lt;Alt&gt;2</property>
               </object>
             </child>

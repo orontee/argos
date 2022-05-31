@@ -45,7 +45,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
         self.props.albums_window = AlbumsWindow(application)
         self.props.albums_window.connect("album-selected", self._on_album_selected)
         self.central_view.add_titled(
-            self.props.albums_window, "albums_page", _("Albums")
+            self.props.albums_window, "albums_page", _("Library")
         )
         self.props.playlists_box = PlaylistsBox(application)
         self.central_view.add_titled(

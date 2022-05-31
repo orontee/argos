@@ -70,11 +70,6 @@ class MopidyHTTPClient(GObject.GObject):
             Optional[List[Dict[str, Any]]],
             await self._ws.send_command("core.library.browse", params={"uri": uri}),
         )
-        if directories_and_tracks is None:
-            LOGGER.warning("No directories nor tracks found")
-        else:
-            LOGGER.debug(f"Found {len(directories_and_tracks)} directories and tracks")
-
         return directories_and_tracks
 
     async def lookup_library(
@@ -84,36 +79,7 @@ class MopidyHTTPClient(GObject.GObject):
             Optional[Dict[str, List[Dict[str, Any]]]],
             await self._ws.send_command("core.library.lookup", params={"uris": uris}),
         )
-        if tracks is None:
-            LOGGER.warning("No tracks found")
-        else:
-            LOGGER.debug(f"Found tracks for {len(tracks)} URIs")
-
         return tracks
-
-    async def browse_albums(self) -> Optional[List[Any]]:
-        directories = await self.browse_library()
-        if not directories:
-            return None
-
-        albums = []
-        for dir in directories:
-            name = dir.get("name")
-            uri = dir.get("uri")
-            if not name or not uri:
-                LOGGER.debug(f"Skipping unexpected library {dir!r}")
-                continue
-
-            dir_albums = await self._ws.send_command(
-                "core.library.browse", params={"uri": f"{uri}?type=album"}
-            )
-            if dir_albums is None:
-                LOGGER.warning(f"No album found for directory {name!r}")
-            else:
-                LOGGER.debug(f"Found {len(dir_albums)} albums in directory {name!r}")
-                albums += dir_albums
-
-        return albums
 
     async def get_images(self, uris: List[str]) -> Optional[Dict[str, List[Any]]]:
         params = {"uris": uris}

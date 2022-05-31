@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: argos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-30 13:22+0200\n"
+"POT-Creation-Date: 2022-06-01 00:58+0200\n"
 "PO-Revision-Date: 2022-02-20 20:54+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -37,11 +37,11 @@ msgstr "Use single-click"
 msgid "Started to play {}"
 msgstr "Started to play {}"
 
-#: argos/controllers/playlists.py:34
+#: argos/controllers/playlists.py:35
 msgid "Recent additions"
 msgstr "Recent additions"
 
-#: argos/controllers/playlists.py:39
+#: argos/controllers/playlists.py:40
 msgid "History"
 msgstr "History"
 
@@ -133,8 +133,8 @@ msgstr "Go to Playing"
 
 #: argos/ui/help_overlay.ui:78
 msgctxt "shortcut window"
-msgid "Go to Albums"
-msgstr "Go to Albums"
+msgid "Go to Library"
+msgstr "Go to Library"
 
 #: argos/ui/help_overlay.ui:85
 msgctxt "shortcut window"
@@ -214,8 +214,8 @@ msgid "Playing"
 msgstr "Playing"
 
 #: argos/window.py:48
-msgid "Albums"
-msgstr "Albums"
+msgid "Library"
+msgstr "Library"
 
 #: argos/window.py:52
 msgid "Playlists"
