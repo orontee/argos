@@ -1,5 +1,6 @@
 import logging
 from operator import attrgetter
+import random
 from typing import Any, cast, Dict, List, TYPE_CHECKING
 
 from gi.repository import GObject
@@ -101,6 +102,17 @@ class AlbumsController(ControllerBase):
             a["image_path"] = filepath
 
         self._model.update_albums(albums)
+
+    @consume(MessageType.PLAY_RANDOM_ALBUM)
+    async def play_random_album(self, message: Message) -> None:
+        if len(self._model.albums) == 0:
+            LOGGER.warning("Won't play random album since albums list is empty")
+            return
+
+        album = random.choice(self._model.albums)
+        LOGGER.debug(f"Album with URI {album.uri!r} choosen")
+
+        await self._http.play_tracks([album.uri])
 
     @consume(MessageType.FETCH_ALBUM_IMAGES)
     async def fetch_album_images(self, message: Message) -> None:

@@ -5,7 +5,6 @@ Fully implemented using Mopidy websocket.
 """
 
 import logging
-import random
 from typing import Any, cast, Dict, List, Optional, TYPE_CHECKING
 
 from gi.repository import GObject
@@ -177,21 +176,12 @@ class MopidyHTTPClient(GObject.GObject):
     async def play_tracks(self, uris: Optional[List[str]] = None) -> None:
         """Play tracks with given URIs.
 
-        When ``uris`` is ``None``, a random album is choosen.
-
         Args:
-            uris: Optional URIs of the tracks to play.
+            uris: Optional URIs of the tracks, albums, etc. to play.
 
         """
-        if uris is None:
-            albums = await self.browse_albums()
-
-            if not albums or not len(albums):
-                return
-
-            album = random.choice(albums)
-            LOGGER.debug(f"Will play {album['name']}")
-            uris = [album["uri"]]
+        if uris is None or len(uris) == 0:
+            return
 
         await self._ws.send_command("core.tracklist.clear")
         await self._ws.send_command("core.tracklist.add", params={"uris": uris})

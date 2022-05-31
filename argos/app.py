@@ -273,7 +273,7 @@ class Application(Gtk.Application):
     def play_random_album_activate_cb(
         self, action: Gio.SimpleAction, parameter: None
     ) -> None:
-        self.send_message(MessageType.PLAY_TRACKS)
+        self.send_message(MessageType.PLAY_RANDOM_ALBUM)
 
     def _identify_message_consumers_from_controllers(self) -> None:
         LOGGER.debug("Identifying message consumers")

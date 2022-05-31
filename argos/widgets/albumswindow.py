@@ -97,7 +97,7 @@ class AlbumsWindow(Gtk.ScrolledWindow):
                     elide_maybe(album.name),
                     GLib.markup_escape_text(album.name),
                     album.uri,
-                    str(album.image_path) if album.image_path else None,
+                    str(album.image_path) if album.image_path else "",
                     self._default_album_image,
                     album.name,
                 ]
