@@ -107,7 +107,7 @@ class AlbumsWindow(Gtk.ScrolledWindow):
         self,
         _1: GObject.GObject,
     ) -> None:
-        thread = threading.Thread(target=self._update_images)
+        thread = threading.Thread(target=self._update_images, name="ImagesThread")
         thread.daemon = True
         thread.start()
 

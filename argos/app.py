@@ -161,7 +161,11 @@ class Application(Gtk.Application):
             self.window.set_default_icon_name("media-optical")
             # Run an event loop in a dedicated thread and reserve main
             # thread to Gtk processing loop
-            t = Thread(target=self._start_event_loop, daemon=True)
+            t = Thread(
+                target=self._start_event_loop,
+                daemon=True,
+                name="EventLoopThread",
+            )
             t.start()
 
         if self.props.start_maximized:

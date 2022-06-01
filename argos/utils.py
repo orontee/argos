@@ -32,7 +32,7 @@ def configure_logger(options: dict) -> None:
     """Configure logger."""
     ch = logging.StreamHandler()
     formatter = logging.Formatter(
-        "%(asctime)s thread-%(thread)d %(levelname)s: %(name)s - %(message)s"
+        "{asctime} {threadName} {levelname}: {name} - {message}", style="{"
     )
     ch.setFormatter(formatter)
     level = logging.DEBUG if "debug" in options else logging.INFO
