@@ -73,17 +73,16 @@ architecture according to this ``freedesktop-sdk`` issue:
 <https://gitlab.com/freedesktop-sdk/freedesktop-sdk/-/issues/1105>`_.
 
 Installation on such platform is currently handled through a DEB
-package that can be build using the following::
+package that can be build using the following (it's recommended to
+first install ``build-essential``, ``fakeroot``, ``devscripts`` and
+``lintian`` packages)::
 
-  $ sudo apt install build-essential fakeroot devscripts lintian
-  $ git archive --prefix=argos-1.0.0/ --format=tar.gz main > argos_1.0.0.orig.tar.gz
-  $ mkdir builddir && cd builddir
-  builddir$ mv ../argos_1.0.0.orig.tar.gz .
-  builddir$ tar xzf argos_1.0.0.orig.tar.gz
-  builddir$ cd argos-1.0.0
-  builddir/argos-1.0.0$ debuild -b -tc -us -uc
-  builddir/argos-1.0.0$ ls ../argos_1.0.0-1_all.deb
-  ../argos_1.0.0-1_all.deb
+  $ VERSION=1.0.0
+  $ mkdir builddir
+  $ git archive --prefix=builddir/argos-${VERSION}/ --format=tar.gz main | tar xzf -
+  $ pushd builddir/argos-${VERSION} && debuild -b -tc -us -uc && popd
+
+The corresponding DEB package is generated in the ``builddir`` directory.
 
 Once the package is installed, it can be automatically started through
 a dedicated user (with auto-login configured) using the
