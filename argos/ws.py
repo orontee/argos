@@ -122,14 +122,18 @@ class MopidyWSConnection(GObject.GObject):
                 )
                 future.cancel()
             except asyncio.exceptions.TimeoutError:
-                LOGGER.warning(f"Timeout while sending JSON-RPC command {jsonrpc_id}")
+                LOGGER.warning(
+                    f"Timeout {timeout} exceeded while sending "
+                    f"JSON-RPC command {jsonrpc_id} with method {method}"
+                )
                 future.cancel()
 
             try:
                 await asyncio.wait_for(future, timeout)
             except asyncio.exceptions.TimeoutError:
                 LOGGER.warning(
-                    f"Timeout while waiting response of JSON-RPC command {jsonrpc_id}"
+                    f"Timeout {timeout} excedeed while waiting response of "
+                    f"JSON-RPC command {jsonrpc_id} with method {method}"
                 )
                 future.cancel()
 

@@ -68,7 +68,9 @@ class MopidyHTTPClient(GObject.GObject):
     async def browse_library(self, uri: str = None) -> Optional[List[Dict[str, Any]]]:
         directories_and_tracks = cast(
             Optional[List[Dict[str, Any]]],
-            await self._ws.send_command("core.library.browse", params={"uri": uri}),
+            await self._ws.send_command(
+                "core.library.browse", params={"uri": uri}, timeout=60
+            ),
         )
         return directories_and_tracks
 
@@ -77,7 +79,9 @@ class MopidyHTTPClient(GObject.GObject):
     ) -> Optional[Dict[str, List[Dict[str, Any]]]]:
         tracks = cast(
             Optional[Dict[str, List[Dict[str, Any]]]],
-            await self._ws.send_command("core.library.lookup", params={"uris": uris}),
+            await self._ws.send_command(
+                "core.library.lookup", params={"uris": uris}, timeout=60
+            ),
         )
         return tracks
 
