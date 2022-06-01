@@ -1,4 +1,4 @@
-application_id = 'app.argos.Argos'
+application_id = 'io.github.orontee.Argos'
 
 scalable_dir = join_paths('hicolor', 'scalable', 'apps')
 install_data(

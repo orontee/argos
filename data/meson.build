@@ -1,6 +1,6 @@
 desktop_file = i18n.merge_file(
-  input: 'app.argos.Argos.desktop.in',
-  output: 'app.argos.Argos.desktop',
+  input: 'io.github.orontee.Argos.desktop.in',
+  output: 'io.github.orontee.Argos.desktop',
   type: 'desktop',
   po_dir: '../po',
   install: true,
@@ -15,8 +15,8 @@ if desktop_utils.found()
 endif
 
 appstream_file = i18n.merge_file(
-  input: 'app.argos.Argos.appdata.xml.in',
-  output: 'app.argos.Argos.appdata.xml',
+  input: 'io.github.orontee.Argos.appdata.xml.in',
+  output: 'io.github.orontee.Argos.appdata.xml',
   po_dir: '../po',
   install: true,
   install_dir: join_paths(get_option('datadir'), 'appdata')
@@ -29,7 +29,7 @@ if appstream_util.found()
   )
 endif
 
-install_data('app.argos.Argos.gschema.xml',
+install_data('io.github.orontee.Argos.gschema.xml',
   install_dir: join_paths(get_option('datadir'), 'glib-2.0/schemas')
 )
 

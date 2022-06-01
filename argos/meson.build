@@ -3,7 +3,7 @@ moduledir = join_paths(pkgdatadir, 'argos')
 gnome = import('gnome')
 
 gnome.compile_resources('argos',
-  'app.argos.Argos.gresource.xml',
+  'io.github.orontee.Argos.gresource.xml',
   gresource_bundle: true,
   install: true,
   install_dir: pkgdatadir,
@@ -14,7 +14,7 @@ python = import('python')
 conf = configuration_data()
 conf.set('PYTHON', python.find_installation('python3').path())
 conf.set('VERSION', meson.project_version())
-conf.set('application_id', 'app.argos.Argos')
+conf.set('application_id', 'io.github.orontee.Argos')
 conf.set('localedir', join_paths(get_option('prefix'), get_option('localedir')))
 conf.set('pkgdatadir', pkgdatadir)
 

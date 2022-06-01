@@ -1,1 +1,1 @@
-i18n.gettext('app.argos.Argos', preset: 'glib')
+i18n.gettext('io.github.orontee.Argos', preset: 'glib')

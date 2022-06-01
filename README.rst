@@ -54,12 +54,12 @@ Clone the source repository, then build and install for current user
 (You may have to install the expected runtime, but Flatpak will warn
 you about that)::
 
-  $ flatpak-builder --user --install --force-clean builddir app.argos.Argos.json
+  $ flatpak-builder --user --install --force-clean builddir io.github.orontee.Argos.json
 
 Then to start the application use your desktop environment launcher,
 or from a shell run::
 
-  $ flatpak run app.argos.Argos
+  $ flatpak run io.github.orontee.Argos
 
 Other platform
 --------------
@@ -96,8 +96,8 @@ Debugging
 One can run a shell in sandbox and call the application through
 ``pdb``::
 
-  $ flatpak run --devel --command=sh app.argos.Argos
-  [📦 app.argos.Argos ~]$ python3 -m pdb /app/bin/argos --debug
+  $ flatpak run --devel --command=sh io.github.orontee.Argos
+  [📦 io.github.orontee.Argos ~]$ python3 -m pdb /app/bin/argos --debug
 
 Contributing
 ============
@@ -116,7 +116,7 @@ To update translation files::
 
   $ rm -rf builddir
   $ meson builddir && cd builddir
-  builddir$ meson compile app.argos.Argos-update-po
+  builddir$ meson compile io.github.orontee.Argos-update-po
 
 The file `generated-poetry-sources.json
 </generated-poetry-sources.json>`_ is generated from ``poetry``'s lock

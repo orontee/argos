@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schemalist gettext-domain="app.argos.Argos">
-  <schema id="app.argos.Argos" path="/app/argos/Argos/">
+<schemalist gettext-domain="io.github.orontee.Argos">
+  <schema id="io.github.orontee.Argos" path="/app/argos/Argos/">
     <key type="i" name="connection-retry-delay">
       <default>5</default>
       <summary>

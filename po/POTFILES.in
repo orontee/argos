@@ -17,5 +17,5 @@ argos/ui/tracklist_track_box.ui
 argos/ui/window.ui
 argos/widgets/albumbox.py
 argos/window.py
-data/app.argos.Argos.desktop.in
-data/app.argos.Argos.gschema.xml
+data/io.github.orontee.Argos.desktop.in
+data/io.github.orontee.Argos.gschema.xml

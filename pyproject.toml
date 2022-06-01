@@ -6,7 +6,7 @@ authors = ["Matthias Meulien <orontee@gmail.com>"]
 license = "GPL-3.0-or-later"
 readme = "README.rst"
 repository = "https://github.com/orontee/argos"
-include = ["argos/app.argos.Argos.gresource"]
+include = ["argos/io.github.orontee.Argos.gresource"]
 exclude = ["argos/.gitignore"]
 
 [tool.poetry.dependencies]

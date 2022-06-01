@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
-  <id>app.argos.Argos.desktop</id>
+  <id>io.github.orontee.Argos.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
   <name>Argos</name>
-  <summary>Mopidy front-end for small devices</summary>
+  <summary>Light weight Mopidy front-end</summary>
   <description>
-    <p>Gtk front-end to control a Mopidy server through a small touch screen</p>
+    <p>Front-end to control a Mopidy server through a small touch screen</p>
   </description>
   <screenshots>
     <screenshot type="default">
@@ -23,8 +23,8 @@
     </release>
   </releases>
   <developer_name>Matthias Meulien</developer_name>
-  <launchable type="desktop-id">app.argos.Argos.desktop</launchable>
+  <launchable type="desktop-id">io.github.orontee.Argos.desktop</launchable>
   <url type="homepage">https://github.com/orontee/argos</url>
-  <translation type="gettext">app.argos.Argos</translation>
+  <translation type="gettext">io.github.orontee.Argos</translation>
   <content_rating type="oars-1.1" />
 </component>

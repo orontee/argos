@@ -7,10 +7,10 @@ TAGS
 *.pyc
 /dist/
 data/gschemas.compiled
-/argos/app.argos.Argos.gresource
+/argos/io.github.orontee.Argos.gresource
 /README.html
 /builddir/
 /.flatpak-builder/
-po/app.argos.Argos.pot
+po/io.github.orontee.Argos.pot
 /argos_*.orig.tar.gz
 repo/

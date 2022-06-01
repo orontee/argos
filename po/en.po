@@ -221,23 +221,23 @@ msgstr "Library"
 msgid "Playlists"
 msgstr "Playlists"
 
-#: data/app.argos.Argos.desktop.in:3
+#: data/io.github.orontee.Argos.desktop.in:3
 msgid "Argos"
 msgstr "Argos"
 
-#: data/app.argos.Argos.gschema.xml:6
+#: data/io.github.orontee.Argos.gschema.xml:6
 msgid "Connection retry delay"
 msgstr "Connection retry delay"
 
-#: data/app.argos.Argos.gschema.xml:9
+#: data/io.github.orontee.Argos.gschema.xml:9
 msgid "The delay in seconds between two connection tries."
 msgstr "The delay in seconds between two connection tries."
 
-#: data/app.argos.Argos.gschema.xml:16
+#: data/io.github.orontee.Argos.gschema.xml:16
 msgid "Base URL of Mopidy APIs"
 msgstr "Base URL of Mopidy APIs"
 
-#: data/app.argos.Argos.gschema.xml:19
+#: data/io.github.orontee.Argos.gschema.xml:19
 msgid "The base URL of Mopidy JSON-RPC and websocket APIs."
 msgstr "The base URL of Mopidy JSON-RPC and websocket APIs."
 
