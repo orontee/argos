@@ -1,0 +1,16 @@
+# Editors files
+*~
+.dir-locals.el
+TAGS
+
+# Build files
+*.pyc
+/dist/
+data/gschemas.compiled
+/argos/io.github.orontee.Argos.gresource
+/README.html
+/builddir/
+/.flatpak-builder/
+po/io.github.orontee.Argos.pot
+/argos_*.orig.tar.gz
+repo/

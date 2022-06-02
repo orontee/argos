@@ -47,8 +47,8 @@ Features 🥳
 Install
 =======
 
-Platform supporting Flatpak
----------------------------
+Platform with Flatpak support
+-----------------------------
 
 Clone the source repository, then build and install for current user
 (You may have to install the expected runtime, but Flatpak will warn
@@ -73,9 +73,8 @@ architecture according to this ``freedesktop-sdk`` issue:
 <https://gitlab.com/freedesktop-sdk/freedesktop-sdk/-/issues/1105>`_.
 
 Installation on such platform is currently handled through a DEB
-package that can be build using the following (it's recommended to
-first install ``build-essential``, ``fakeroot``, ``devscripts`` and
-``lintian`` packages)::
+package that can be build using the following (first install the
+dependencies listed in the `Dockerfile </Dockerfile>`_ file)::
 
   $ VERSION=1.0.0
   $ mkdir builddir
@@ -84,11 +83,10 @@ first install ``build-essential``, ``fakeroot``, ``devscripts`` and
 
 The corresponding DEB package is generated in the ``builddir`` directory.
 
-Once the package is installed, it can be automatically started through
-a dedicated user (with auto-login configured) using the
-``~/.config/lxsession/LXDE-pi/autostart`` file::
+Some CLI options are provided to adapt to devices with small touch
+screen (complete list can be obtained with ``argos --help``)::
 
-  @argos --maximized --no-tooltips
+  argos --maximized --no-tooltips --single-click
 
 Debugging
 =========
