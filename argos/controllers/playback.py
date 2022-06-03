@@ -174,7 +174,7 @@ class PlaybackController(ControllerBase):
         summary = _("Started to play {}").format(track_name)
         body = ", ".join(filter(lambda s: s, [artist_name, album_name]))
         self._notifier.send_notification(
-            summary, body=body, invisible_playing_page=True
+            summary, body=body, invisible_playing_page=True, is_playing=True
         )
 
     def _on_connection_changed(

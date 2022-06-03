@@ -5,6 +5,7 @@ from gi.repository import Gio, GLib, GObject
 
 if TYPE_CHECKING:
     from .app import Application
+from .model import Model, PlaybackState
 
 LOGGER = logging.getLogger(__name__)
 
@@ -19,6 +20,7 @@ class Notifier(GObject.Object):
 
         self._application_name = "Argos"
         self._app = application
+        self._model: Model = application.model
         self._nid = None  # identifier of last sent notification
         self._disable = False
 
@@ -28,6 +30,7 @@ class Notifier(GObject.Object):
         *,
         body: Optional[str] = None,
         invisible_playing_page: Optional[bool] = False,
+        is_playing: Optional[bool] = False,
     ) -> None:
         if self._disable:
             LOGGER.warning("Sending notifications is disabled")
@@ -37,6 +40,14 @@ class Notifier(GObject.Object):
             [
                 invisible_playing_page,
                 not self._app.window or self._app.window.is_playing_page_visible(),
+            ]
+        ):
+            return
+
+        if all(
+            [
+                is_playing,
+                self._model.playback.state != PlaybackState.PLAYING,
             ]
         ):
             return
