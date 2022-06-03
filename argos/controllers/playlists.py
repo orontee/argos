@@ -174,7 +174,7 @@ class PlaylistsController(ControllerBase):
             self._recent_additions_playlist.uri,
             name=self._recent_additions_playlist.name,
             tracks=parsed_recent_tracks,
-            last_modified=int(time.time()),
+            last_modified=time.time(),
         )
 
     async def _complete_history_playlist(self) -> None:
@@ -202,5 +202,5 @@ class PlaylistsController(ControllerBase):
             self._history_playlist.uri,
             name=self._history_playlist.name,
             tracks=parsed_history_tracks,
-            last_modified=int(time.time()),
+            last_modified=time.time(),
         )

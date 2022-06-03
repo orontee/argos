@@ -210,7 +210,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         *,
         name: str,
         tracks: List[TrackModel],
-        last_modified: int,
+        last_modified: GObject.TYPE_DOUBLE,
     ) -> None:
         LOGGER.debug(f"Updating playlist with URI {playlist_uri!r}")
 
@@ -220,7 +220,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
             LOGGER.debug(f"Creation of playlist with URI {playlist_uri!r}")
 
             playlist = PlaylistModel(uri=playlist_uri, name=name)
-        elif playlist.last_modified == str(last_modified):
+        elif playlist.last_modified == last_modified:
             # Conversion to string since GLib expects 32-bits integers
             # on ARMv7
             LOGGER.debug(f"Playlist with URI {playlist_uri!r} is up-to-date")
@@ -240,7 +240,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         playlist: PlaylistModel,
         name: str,
         tracks: List[TrackModel],
-        last_modified: int,
+        last_modified: GObject.TYPE_DOUBLE,
         must_insert: bool,
     ) -> None:
         if must_insert:
@@ -250,7 +250,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
             playlist.name = name
             playlist.tracks.remove_all()
 
-        playlist.last_modified = str(last_modified)
+        playlist.last_modified = last_modified
         for track in tracks:
             playlist.tracks.append(track)
 
