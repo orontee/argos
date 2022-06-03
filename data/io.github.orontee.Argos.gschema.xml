@@ -12,7 +12,7 @@
     </key>
 
     <key type="s" name="mopidy-base-url">
-      <default>"http://argos.local"</default>
+      <default>"http://127.0.0.1"</default>
       <summary>
 	Base URL of Mopidy APIs
       </summary>
