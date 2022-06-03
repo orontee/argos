@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-01 00:58+0200\n"
+"POT-Creation-Date: 2022-06-03 20:23+0200\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -68,15 +68,19 @@ msgstr "Lire l'album"
 msgid "Play _random album"
 msgstr "Lire un album au _hasard"
 
-#: argos/ui/app_menu.ui:12
+#: argos/ui/app_menu.ui:10
+msgid "Update library"
+msgstr "Mettre à jour la bibiothèque"
+
+#: argos/ui/app_menu.ui:16
 msgid "_Preferences"
 msgstr "_Préférences"
 
-#: argos/ui/app_menu.ui:16
+#: argos/ui/app_menu.ui:20
 msgid "_Shortcuts"
 msgstr "_Raccourcis"
 
-#: argos/ui/app_menu.ui:20
+#: argos/ui/app_menu.ui:24
 msgid "_About"
 msgstr "_À propos"
 
@@ -208,15 +212,15 @@ msgstr "Retourner aux albums"
 msgid "Search albums"
 msgstr "Rechercher des albums"
 
-#: argos/window.py:43
+#: argos/window.py:44
 msgid "Playing"
 msgstr "En cours"
 
-#: argos/window.py:48
+#: argos/window.py:49
 msgid "Library"
 msgstr "Bibliothèque"
 
-#: argos/window.py:52
+#: argos/window.py:53
 msgid "Playlists"
 msgstr "Listes de lecture"
 

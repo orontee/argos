@@ -180,6 +180,7 @@ class Application(Gtk.Application):
             ("show_about_dialog", self.show_about_dialog_cb, None),
             ("show_preferences", self.show_prefs_activate_cb, None),
             ("play_random_album", self.play_random_album_activate_cb, None),
+            ("update_library", self.update_library_activate_cb, None),
             ("quit", self.quit_activate_cb, ("app.quit", ["<Ctrl>Q"])),
         ]
         for action_name, callback, accel in action_descriptions:
@@ -278,6 +279,11 @@ class Application(Gtk.Application):
         self, action: Gio.SimpleAction, parameter: None
     ) -> None:
         self.send_message(MessageType.PLAY_RANDOM_ALBUM)
+
+    def update_library_activate_cb(
+        self, action: Gio.SimpleAction, parameter: None
+    ) -> None:
+        self.send_message(MessageType.BROWSE_ALBUMS)
 
     def _identify_message_consumers_from_controllers(self) -> None:
         LOGGER.debug("Identifying message consumers")
