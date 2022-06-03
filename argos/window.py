@@ -4,6 +4,7 @@ import logging
 from gi.repository import Gdk, GObject, Gtk
 
 from .message import MessageType
+from .model import PlaybackState
 from .widgets import AlbumBox, AlbumsWindow, PlayingBox, PlaylistsBox, TitleBar
 
 _ = gettext.gettext
@@ -154,6 +155,9 @@ class ArgosWindow(Gtk.ApplicationWindow):
             self.central_view.get_visible_child_name() == "playing_page"
         )
         if playing_page_visible:
+            return
+
+        if self._model.playback.state != PlaybackState.PLAYING:
             return
 
         child = self.central_view.get_child_by_name("playing_page")
