@@ -9,7 +9,14 @@ def playlist_compare_func(
     b: "PlaylistModel",
     user_data: None,
 ) -> int:
-    if a.name < b.name:
+    # URIs with argos scheme are virtual playlists not handled by
+    # Mopidy service, and are expected to always be at the end of
+    # playlist lists.
+    if a.uri.startswith("argos:") and not b.uri.startswith("argos:"):
+        return 1
+    elif not a.uri.startswith("argos:") and b.uri.startswith("argos:"):
+        return -1
+    elif a.name < b.name:
         return -1
     elif a.name > b.name:
         return 1
