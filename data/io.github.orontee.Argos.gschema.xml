@@ -21,5 +21,25 @@
       </description>
     </key>
 
+    <key type="i" name="history-max-length">
+      <default>100</default>
+      <summary>
+	History max length
+      </summary>
+      <description>
+	The maximal length of the history playlist.
+      </description>
+    </key>
+
+    <key type="i" name="recent-additions-max-age">
+      <default>6048000</default>
+      <summary>
+	Recent additions max age
+      </summary>
+      <description>
+	The maximal age in seconds qof tracks considered for insertion
+	in the recent additions playlist.
+      </description>
+    </key>
   </schema>
 </schemalist>

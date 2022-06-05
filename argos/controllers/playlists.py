@@ -14,10 +14,6 @@ LOGGER = logging.getLogger(__name__)
 
 _ = gettext.gettext
 
-
-HISTORY_LENGTH = 100
-RECENT_ADDITIONS_MAX_AGE = 3600 * 24 * 70  # s
-
 _CALL_SIZE = 20
 
 
@@ -150,8 +146,9 @@ class PlaylistsController(ControllerBase):
         )
 
     async def _complete_recent_additions_playlist(self) -> None:
+        recent_additions_max_age = self._settings.get_int("recent-additions-max-age")
         recent_refs = await self._http.browse_library(
-            f"local:directory?max-age={RECENT_ADDITIONS_MAX_AGE}"
+            f"local:directory?max-age={recent_additions_max_age}"
         )
         if recent_refs is None:
             return
@@ -185,9 +182,11 @@ class PlaylistsController(ControllerBase):
         if history is None:
             return
 
+        history_max_length = self._settings.get_int("history-max-length")
+
         history_refs = [
             history_item[1]
-            for history_item in history[:HISTORY_LENGTH]
+            for history_item in history[:history_max_length]
             if len(history_item) == 2
         ]
         history_refs_uris = [ref.get("uri") for ref in history_refs if "uri" in ref]

@@ -6,7 +6,7 @@ from typing import (
     TYPE_CHECKING,
 )
 
-from gi.repository import GObject
+from gi.repository import Gio, GObject
 
 if TYPE_CHECKING:
     from ..app import Application
@@ -37,6 +37,7 @@ class ControllerBase(GObject.Object):
         self._message_queue: asyncio.Queue = application.message_queue
         self._model: Model = application.props.model
         self._notifier: Notifier = application.props.notifier
+        self._settings: Gio.Settings = application.props.settings
 
     def send_message(
         self, message_type: MessageType, data: Optional[Dict[str, Any]] = None
