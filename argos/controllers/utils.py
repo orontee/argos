@@ -57,6 +57,7 @@ def parse_tracks(
                     length=t.get("length", -1),
                     album_name=album_name,
                     artist_name=artist_name,
+                    last_modified=t.get("last_modified", -1),
                 )
             )
     return parsed_tracks

@@ -15,3 +15,4 @@ class TrackModel(GObject.Object):
     length = GObject.Property(type=int)
     album_name = GObject.Property(type=str)
     artist_name = GObject.Property(type=str)
+    last_modified = GObject.Property(type=GObject.TYPE_DOUBLE, default=-1)

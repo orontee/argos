@@ -1,5 +1,6 @@
 import gettext
 import logging
+from operator import attrgetter
 import time
 from typing import Any, Callable, cast, Coroutine, Dict, List, Optional, TYPE_CHECKING
 
@@ -170,6 +171,9 @@ class PlaylistsController(ControllerBase):
         if recent_tracks is None:
             return
         parsed_recent_tracks = parse_tracks(recent_tracks)
+        parsed_recent_tracks.sort(
+            key=attrgetter("last_modified", "disc_no", "track_no")
+        )
         self._model.complete_playlist_description(
             self._recent_additions_playlist.uri,
             name=self._recent_additions_playlist.name,
