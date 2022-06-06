@@ -65,6 +65,8 @@ class PlayingBox(Gtk.Box):
         self._model = application.model
         self._disable_tooltips = application.props.disable_tooltips
 
+        self._time_position_scale_jumped_source_id: Optional[int] = None
+
         self.tracklist_view = TracklistBox(application)
         self.tracklist_view.set_activate_on_single_click(application.props.single_click)
         self.tracklist_view_scrolled_window.add(self.tracklist_view)
@@ -245,9 +247,12 @@ class PlayingBox(Gtk.Box):
         time_position = model.props.time_position
         pretty_time_position = ms_to_text(time_position)
         self.time_position_label.set_text(pretty_time_position)
-        self.time_position_adjustement.set_value(
-            time_position if time_position != -1 else 0
-        )
+        if self._time_position_scale_jumped_source_id is None:
+            # User is not adjusting time position, update is ok
+
+            self.time_position_adjustement.set_value(
+                time_position if time_position != -1 else 0
+            )
 
         self.time_position_label.show_now()
         self.time_position_scale.show_now()
@@ -283,12 +288,42 @@ class PlayingBox(Gtk.Box):
     def on_next_button_clicked(self, *args) -> None:
         self._app.send_message(MessageType.PLAY_NEXT_TRACK)
 
+    def _on_time_position_scale_jumped(self) -> bool:
+        if self._time_position_scale_jumped_source_id is not None:
+            time_position = round(self.time_position_adjustement.props.value)
+            self._app.send_message(MessageType.SEEK, {"time_position": time_position})
+            self._time_position_scale_jumped_source_id = None
+        return False  # means stop calling this callback
+
     @Gtk.Template.Callback()
     def on_time_position_scale_change_value(
         self, widget: Gtk.Widget, scroll_type: Gtk.ScrollType, value: float
-    ) -> None:
-        time_position = round(value)
-        self._app.send_message(MessageType.SEEK, {"time_position": time_position})
+    ) -> bool:
+        if scroll_type in (
+            Gtk.ScrollType.JUMP,
+            Gtk.ScrollType.STEP_BACKWARD,
+            Gtk.ScrollType.STEP_FORWARD,
+            Gtk.ScrollType.PAGE_BACKWARD,
+            Gtk.ScrollType.PAGE_FORWARD,
+        ):
+            if self._time_position_scale_jumped_source_id is not None:
+                GLib.source_remove(self._time_position_scale_jumped_source_id)
+
+            self._time_position_scale_jumped_source_id = GLib.timeout_add(
+                100,  # ms
+                self._on_time_position_scale_jumped,
+            )
+            return False
+        elif scroll_type in (
+            Gtk.ScrollType.START,
+            Gtk.ScrollType.END,
+        ):
+            time_position = round(value)
+            self._app.send_message(MessageType.SEEK, {"time_position": time_position})
+            return True
+
+        LOGGER.warning(f"Unhandled scroll type {scroll_type!r}")
+        return False
 
     @Gtk.Template.Callback()
     def on_consume_button_toggled(
