@@ -272,6 +272,8 @@ class PlayingBox(Gtk.Box):
         elif state == PlaybackState.PLAYING:
             self.play_button.set_image(self.pause_image)
 
+        self.play_button.show_now()
+
     @Gtk.Template.Callback()
     def on_clear_button_clicked(self, _1: Gtk.Button) -> None:
         self._app.send_message(MessageType.CLEAR_TRACKLIST)
