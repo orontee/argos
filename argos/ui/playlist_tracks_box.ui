@@ -2,6 +2,16 @@
 <!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
+  <object class="GtkImage" id="add_image">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">list-add-symbolic</property>
+  </object>
+  <object class="GtkImage" id="play_image">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">media-playback-start-symbolic</property>
+  </object>
   <template class="PlaylistTracksBox" parent="GtkBox">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -14,9 +24,10 @@
         <property name="can-focus">True</property>
         <property name="hexpand">True</property>
         <property name="vexpand">True</property>
+        <property name="hscrollbar-policy">never</property>
         <property name="shadow-type">in</property>
         <child>
-          <object class="GtkViewport">
+          <object class="GtkViewport" id="tracks_box_viewport">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="hexpand">True</property>
@@ -95,14 +106,4 @@
       </packing>
     </child>
   </template>
-  <object class="GtkImage" id="add_image">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
-    <property name="icon-name">list-add-symbolic</property>
-  </object>
-  <object class="GtkImage" id="play_image">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
-    <property name="icon-name">media-playback-start-symbolic</property>
-  </object>
 </interface>

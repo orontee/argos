@@ -47,6 +47,7 @@ class PlayingBox(Gtk.Box):
     time_position_label: Gtk.Label = Gtk.Template.Child()
 
     tracklist_view_scrolled_window: Gtk.ScrolledWindow = Gtk.Template.Child()
+    tracklist_view_viewport: Gtk.Viewport = Gtk.Template.Child()
 
     clear_button: Gtk.Button = Gtk.Template.Child()
     consume_button: Gtk.ToggleButton = Gtk.Template.Child()
@@ -69,7 +70,7 @@ class PlayingBox(Gtk.Box):
 
         self.tracklist_view = TracklistBox(application)
         self.tracklist_view.set_activate_on_single_click(application.props.single_click)
-        self.tracklist_view_scrolled_window.add(self.tracklist_view)
+        self.tracklist_view_viewport.add(self.tracklist_view)
 
         for widget in (
             self.prev_button,

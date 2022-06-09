@@ -173,7 +173,7 @@
                 <property name="hscrollbar-policy">never</property>
                 <property name="shadow-type">in</property>
                 <child>
-                  <object class="GtkViewport">
+                  <object class="GtkViewport" id="track_view_viewport">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <child>
