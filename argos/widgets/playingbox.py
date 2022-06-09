@@ -76,6 +76,11 @@ class PlayingBox(Gtk.Box):
             self.play_button,
             self.next_button,
             self.tracklist_view,
+            self.clear_button,
+            self.consume_button,
+            self.random_button,
+            self.repeat_button,
+            self.single_button,
         ):
             widget.set_sensitive(
                 self._model.network_available and self._model.connected
