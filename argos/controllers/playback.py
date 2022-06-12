@@ -32,6 +32,7 @@ class PlaybackController(ControllerBase):
     def __init__(self, application: "Application"):
         super().__init__(application)
 
+        self._must_browse_sources = True
         self._download: ImageDownloader = application.props.download
 
         self._model.connect("notify::network-available", self._on_connection_changed)
@@ -149,6 +150,10 @@ class PlaybackController(ControllerBase):
     ) -> None:
         if self._model.props.tracklist_loaded:
             self.send_message(MessageType.GET_CURRENT_TRACKLIST_TRACK)
+            self._browse_sources_maybe()
+            # For best user experience we wait to have the current
+            # tracklist known before starting to browse sources, which
+            # can be long
 
     def _on_playback_current_tl_track_tlid_changed(
         self,
@@ -183,19 +188,26 @@ class PlaybackController(ControllerBase):
         _2: GObject.GParamSpec,
     ) -> None:
         self._schedule_track_list_update_maybe()
-        self._schedule_browse_albums_maybe()
+        self._must_browse_sources = True
 
     def _schedule_track_list_update_maybe(self) -> None:
         if self._model.network_available and self._model.connected:
             LOGGER.debug("Will identify playing state since connected to Mopidy server")
             self.send_message(MessageType.IDENTIFY_PLAYING_STATE)
             self.send_message(MessageType.GET_TRACKLIST)
-            self.send_message(MessageType.LIST_PLAYLISTS)
         else:
             LOGGER.debug("Clearing track playback state since not connected")
             self._model.playback.set_current_tl_track_tlid()
 
-    def _schedule_browse_albums_maybe(self) -> None:
-        if self._model.network_available and self._model.connected:
-            LOGGER.debug("Will browse albums since connected to Mopidy server")
+    def _browse_sources_maybe(self) -> None:
+        if all(
+            [
+                self._model.network_available,
+                self._model.connected,
+                self._must_browse_sources,
+            ]
+        ):
+            LOGGER.debug("Will browse sources")
             self.send_message(MessageType.BROWSE_ALBUMS)
+            self.send_message(MessageType.LIST_PLAYLISTS)
+            self._must_browse_sources = False
