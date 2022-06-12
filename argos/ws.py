@@ -127,7 +127,7 @@ class MopidyWSConnection(GObject.GObject):
                 future.cancel()
             except asyncio.exceptions.TimeoutError:
                 LOGGER.warning(
-                    f"Timeout {timeout} exceeded while sending "
+                    f"Timeout {timeout}s exceeded while sending "
                     f"JSON-RPC command {jsonrpc_id} with method {method}"
                 )
                 future.cancel()
@@ -136,7 +136,7 @@ class MopidyWSConnection(GObject.GObject):
                 await asyncio.wait_for(future, timeout)
             except asyncio.exceptions.TimeoutError:
                 LOGGER.warning(
-                    f"Timeout {timeout} excedeed while waiting response of "
+                    f"Timeout {timeout}s excedeed while waiting response of "
                     f"JSON-RPC command {jsonrpc_id} with method {method}"
                 )
                 future.cancel()
@@ -205,6 +205,8 @@ class MopidyWSConnection(GObject.GObject):
                     ConnectionError,
                     aiohttp.ClientResponseError,
                     aiohttp.client_exceptions.ClientConnectorError,
+                    aiohttp.client_exceptions.ServerDisconnectedError,
+                    aiohttp.client_exceptions.InvalidURL,
                 ) as error:
                     self._model.set_property_in_gtk_thread("connected", False)
 
@@ -220,7 +222,7 @@ class MopidyWSConnection(GObject.GObject):
                         )
                     else:
                         LOGGER.error(
-                            f"Connection error (retry in {self._connection_retry_delay}): {error}"
+                            f"Connection error (retry in {self._connection_retry_delay}s): {error}"
                         )
 
                     await asyncio.sleep(self._connection_retry_delay)
@@ -291,5 +293,5 @@ class MopidyWSConnection(GObject.GObject):
             await asyncio.wait_for(self._ws.close(), CLOSE_TIMEOUT)
         except asyncio.exceptions.TimeoutError:
             LOGGER.warning(
-                f"Timeout {CLOSE_TIMEOUT} excedeed while closing Mopidy websocket connection"
+                f"Timeout {CLOSE_TIMEOUT}s excedeed while closing Mopidy websocket connection"
             )
