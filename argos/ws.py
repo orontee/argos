@@ -17,6 +17,8 @@ from .session import get_session
 LOGGER = logging.getLogger(__name__)
 
 COMMAND_TIMEOUT: int = 10  # s
+CLOSE_TIMEOUT: int = 10  # s
+CONSECUTIVE_SEND_FAILURE_THRESHOLD = 5
 
 EVENT_TO_MESSAGE_TYPE: Dict[str, MessageType] = {
     "track_playback_started": MessageType.TRACK_PLAYBACK_STARTED,
@@ -45,11 +47,11 @@ def parse_msg(msg: aiohttp.WSMessage) -> Dict[str, Any]:
         return {}
 
 
-class _URLChanged(Exception):
+class _URLUndefined(Exception):
     pass
 
 
-class _URLUndefined(Exception):
+class _WSClosed(Exception):
     pass
 
 
@@ -60,6 +62,7 @@ class MopidyWSConnection(GObject.GObject):
     ):
         super().__init__()
 
+        self._loop: asyncio.AbstractEventLoop = application.loop
         self._model: Model = application.props.model
         self._message_queue: asyncio.Queue = application.message_queue
 
@@ -71,6 +74,7 @@ class MopidyWSConnection(GObject.GObject):
 
         connection_retry_delay = settings.get_int("connection-retry-delay")
         self._connection_retry_delay = connection_retry_delay
+        self._consecutive_send_failures = 0
 
         self._ws: Optional[aiohttp.ClientWebSocketResponse] = None
         self._commands: Dict[int, asyncio.Future] = {}
@@ -147,6 +151,17 @@ class MopidyWSConnection(GObject.GObject):
             # (see cancel_commands()), then it may have been removed
             # from self._commands
             result = None
+
+            self._consecutive_send_failures += 1
+            if self._consecutive_send_failures >= CONSECUTIVE_SEND_FAILURE_THRESHOLD:
+                LOGGER.warning(
+                    f"Closing Mopidy websocket connection after >{CONSECUTIVE_SEND_FAILURE_THRESHOLD} consecutive send failures"
+                )
+                await self._close_ws()
+                self._consecutive_send_failures = 0
+        else:
+            self._consecutive_send_failures = 0
+
         return result
 
     def cancel_commands(self) -> None:
@@ -174,19 +189,19 @@ class MopidyWSConnection(GObject.GObject):
                     self._model.set_property_in_gtk_thread("connected", True)
 
                     async for msg in self._ws:
+                        # Note that iteration stops when a CLOSE
+                        # message is received
                         message = self._handle(msg)
                         if isinstance(message, Message):
                             await self._enqueue(message)
 
-                        if url != self._url:
-                            LOGGER.debug(
-                                "New websocket connection required due to URL change"
-                            )
-                            raise _URLChanged()
+                    if self._ws.closed:
+                        LOGGER.debug("Mopidy websocket connection closed")
+                        raise _WSClosed()
 
                 except (
-                    _URLChanged,
                     _URLUndefined,
+                    _WSClosed,
                     ConnectionError,
                     aiohttp.ClientResponseError,
                     aiohttp.client_exceptions.ClientConnectorError,
@@ -195,9 +210,9 @@ class MopidyWSConnection(GObject.GObject):
 
                     self.cancel_commands()
 
-                    if isinstance(error, _URLChanged):
+                    if isinstance(error, _WSClosed):
                         LOGGER.warning(
-                            "New connection to be established after URL change"
+                            "New connection to be established after connection closed"
                         )
                     elif isinstance(error, _URLUndefined):
                         LOGGER.warning(
@@ -265,3 +280,16 @@ class MopidyWSConnection(GObject.GObject):
     ) -> None:
         mopidy_base_url = settings.get_string(key)
         self._url = urljoin(mopidy_base_url, "/mopidy/ws") if mopidy_base_url else None
+        LOGGER.warning("New connection to be established after URL change")
+        self._loop.create_task(self._close_ws())
+
+    async def _close_ws(self) -> None:
+        if not self._ws:
+            return
+
+        try:
+            await asyncio.wait_for(self._ws.close(), CLOSE_TIMEOUT)
+        except asyncio.exceptions.TimeoutError:
+            LOGGER.warning(
+                f"Timeout {CLOSE_TIMEOUT} excedeed while closing Mopidy websocket connection"
+            )
