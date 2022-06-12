@@ -28,6 +28,7 @@ class TitleBar(Gtk.HeaderBar):
 
         if application.props.disable_tooltips:
             self.back_button.props.has_tooltip = False
+            self.search_button.props.has_tooltip = False
 
         builder = Gtk.Builder.new_from_resource(
             "/io/github/orontee/Argos/ui/app_menu.ui"
