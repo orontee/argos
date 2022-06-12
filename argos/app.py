@@ -230,7 +230,7 @@ class Application(Gtk.Application):
                 await consumer(message)
 
     def _update_network_actions_state(self) -> None:
-        for action_name in ["play_random_album"]:
+        for action_name in ["play_random_album", "update_library"]:
             action = self.lookup_action(action_name)
             if not action:
                 continue
