@@ -196,10 +196,6 @@ class PlaybackController(ControllerBase):
             self._model.playback.set_current_tl_track_tlid()
 
     def _schedule_browse_albums_maybe(self) -> None:
-        if (
-            self._model.network_available
-            and self._model.connected
-            and not self._model.albums_loaded
-        ):
+        if self._model.network_available and self._model.connected:
             LOGGER.debug("Will browse albums since connected to Mopidy server")
             self.send_message(MessageType.BROWSE_ALBUMS)
