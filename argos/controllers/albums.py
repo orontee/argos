@@ -3,8 +3,6 @@ from operator import attrgetter
 import random
 from typing import Any, cast, Dict, List, TYPE_CHECKING
 
-from gi.repository import GObject
-
 if TYPE_CHECKING:
     from ..app import Application
 from ..download import ImageDownloader
@@ -35,8 +33,6 @@ class AlbumsController(ControllerBase):
             "bandcamp:browse": "bandcamp:collection",
             "podcast+file:///etc/mopidy/podcast/Podcasts.opml": "podcast+file:///etc/mopidy/podcast/Podcasts.opml",
         }
-
-        self._model.connect("notify::albums-loaded", self._on_albums_loaded_changed)
 
     @consume(MessageType.COMPLETE_ALBUM_DESCRIPTION)
     async def complete_album_description(self, message: Message) -> None:
@@ -155,6 +151,7 @@ class AlbumsController(ControllerBase):
             parsed_albums.append(album)
 
         self._model.update_albums(parsed_albums)
+        self.send_message(MessageType.FETCH_ALBUM_IMAGES)
 
     @consume(MessageType.PLAY_RANDOM_ALBUM)
     async def play_random_album(self, message: Message) -> None:
@@ -169,14 +166,7 @@ class AlbumsController(ControllerBase):
 
     @consume(MessageType.FETCH_ALBUM_IMAGES)
     async def fetch_album_images(self, message: Message) -> None:
-        LOGGER.debug("Starting album image download...")
+        LOGGER.debug("Starting album images download...")
         albums = self._model.albums
         image_uris = [albums.get_item(i).image_uri for i in range(albums.get_n_items())]
         await self._download.fetch_images(image_uris)
-
-    def _on_albums_loaded_changed(
-        self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
-    ) -> None:
-        self.send_message(MessageType.FETCH_ALBUM_IMAGES)
