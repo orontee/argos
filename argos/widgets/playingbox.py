@@ -26,7 +26,7 @@ class TracklistStoreColumns(IntEnum):
     TOOLTIP = 5
 
 
-@Gtk.Template(resource_path="/app/argos/Argos/ui/playing_box.ui")
+@Gtk.Template(resource_path="/io/github/orontee/Argos/ui/playing_box.ui")
 class PlayingBox(Gtk.Box):
     __gtype_name__ = "PlayingBox"
 

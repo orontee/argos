@@ -9,7 +9,7 @@ from .tltrackbox import TracklistTrackBox
 LOGGER = logging.getLogger(__name__)
 
 
-@Gtk.Template(resource_path="/app/argos/Argos/ui/tracklist_box.ui")
+@Gtk.Template(resource_path="/io/github/orontee/Argos/ui/tracklist_box.ui")
 class TracklistBox(Gtk.ListBox):
     __gtype_name__ = "TracklistBox"
 

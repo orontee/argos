@@ -5,7 +5,7 @@ from gi.repository import Gtk
 LOGGER = logging.getLogger(__name__)
 
 
-@Gtk.Template(resource_path="/app/argos/Argos/ui/about.ui")
+@Gtk.Template(resource_path="/io/github/orontee/Argos/ui/about.ui")
 class AboutDialog(Gtk.AboutDialog):
     __gtype_name__ = "AboutDialog"
 

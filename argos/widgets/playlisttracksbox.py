@@ -10,7 +10,7 @@ from .utils import set_list_box_header_with_separator
 LOGGER = logging.getLogger(__name__)
 
 
-@Gtk.Template(resource_path="/app/argos/Argos/ui/playlist_tracks_box.ui")
+@Gtk.Template(resource_path="/io/github/orontee/Argos/ui/playlist_tracks_box.ui")
 class PlaylistTracksBox(Gtk.Box):
     __gtype_name__ = "PlaylistTracksBox"
 

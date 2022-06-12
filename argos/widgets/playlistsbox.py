@@ -71,7 +71,7 @@ def _set_list_box_header_with_virtual_playlist_separator(
     row.set_header(separator)
 
 
-@Gtk.Template(resource_path="/app/argos/Argos/ui/playlists_box.ui")
+@Gtk.Template(resource_path="/io/github/orontee/Argos/ui/playlists_box.ui")
 class PlaylistsBox(Gtk.Box):
     __gtype_name__ = "PlaylistsBox"
 

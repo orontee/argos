@@ -8,7 +8,7 @@ from ..utils import ms_to_text
 LOGGER = logging.getLogger(__name__)
 
 
-@Gtk.Template(resource_path="/app/argos/Argos/ui/tracklist_track_box.ui")
+@Gtk.Template(resource_path="/io/github/orontee/Argos/ui/tracklist_track_box.ui")
 class TracklistTrackBox(Gtk.Box):
     __gtype_name__ = "TracklistTrackBox"
 

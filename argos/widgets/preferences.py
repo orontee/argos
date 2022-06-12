@@ -10,7 +10,7 @@ from ..message import MessageType
 LOGGER = logging.getLogger(__name__)
 
 
-@Gtk.Template(resource_path="/app/argos/Argos/ui/preferences.ui")
+@Gtk.Template(resource_path="/io/github/orontee/Argos/ui/preferences.ui")
 class PreferencesWindow(Gtk.Window):
     __gtype_name__ = "PreferencesWindow"
 

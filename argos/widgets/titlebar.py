@@ -7,7 +7,7 @@ from .volumebutton import VolumeButton
 LOGGER = logging.getLogger(__name__)
 
 
-@Gtk.Template(resource_path="/app/argos/Argos/ui/title_bar.ui")
+@Gtk.Template(resource_path="/io/github/orontee/Argos/ui/title_bar.ui")
 class TitleBar(Gtk.HeaderBar):
     __gtype_name__ = "TitleBar"
 
@@ -29,7 +29,9 @@ class TitleBar(Gtk.HeaderBar):
         if application.props.disable_tooltips:
             self.back_button.props.has_tooltip = False
 
-        builder = Gtk.Builder.new_from_resource("/app/argos/Argos/ui/app_menu.ui")
+        builder = Gtk.Builder.new_from_resource(
+            "/io/github/orontee/Argos/ui/app_menu.ui"
+        )
         menu_model = builder.get_object("app-menu")
         self.app_menu_button.set_menu_model(menu_model)
 

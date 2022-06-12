@@ -23,7 +23,7 @@ class AlbumStoreColumns(IntEnum):
     FILTER_TEXT = 5
 
 
-@Gtk.Template(resource_path="/app/argos/Argos/ui/albums_window.ui")
+@Gtk.Template(resource_path="/io/github/orontee/Argos/ui/albums_window.ui")
 class AlbumsWindow(Gtk.ScrolledWindow):
     __gtype_name__ = "AlbumsWindow"
 
