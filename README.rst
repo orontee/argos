@@ -88,6 +88,24 @@ screen (complete list can be obtained with ``argos --help``)::
 
   argos --maximized --no-tooltips --single-click
 
+Configuration
+=============
+
+One must set the URL of the Mopidy server using the preference
+dialog. The default value is ``http://127.0.0.1``, meaning Mopidy
+server is listening on the 80 port of the local host using HTTP (not
+HTTPS).
+
+The preference dialog is accessible from the application menu.
+
+The URL of the Mopidy server is backed by GSettings. Thus in case the
+host has no keyboard, one can directly set the URL of the Mopidy
+server through an SSH connection. Make sure changes are done by the
+user that will run Argos. Changes can be made using `Dconf Editor
+<https://wiki.gnome.org/Apps/DconfEditor>`_ or the command line::
+
+  $ gsettings set io.github.orontee.Argos mopidy-base-url http://127.0.0.1
+
 Debugging
 =========
 
