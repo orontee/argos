@@ -39,6 +39,10 @@ class TitleBar(Gtk.HeaderBar):
         volume_button = VolumeButton(application)
         self.pack_end(volume_button)
 
+        if application.props.hide_search_button:
+            self.remove(self.search_button)
+            self.search_button = None
+
         if not application.props.start_maximized:
             self.set_show_close_button(True)
 
@@ -49,12 +53,14 @@ class TitleBar(Gtk.HeaderBar):
 
         self.connect("notify::main-page-state", self.on_main_page_state_changed)
         self.connect("notify::search-activated", self.on_search_activated_changed)
-        self.search_button_toggled_handler_id = self.search_button.connect(
-            "toggled", self.on_search_button_toggled
+        self.search_button_toggled_handler_id = (
+            self.search_button.connect("toggled", self.on_search_button_toggled)
+            if self.search_button
+            else None
         )
 
     def toggle_search_entry_focus_maybe(self) -> None:
-        if not self.search_activated:
+        if not self.search_button or not self.search_activated:
             return
 
         if self.title_stack.get_visible_child_name() == "search_entry_page":
@@ -91,6 +97,9 @@ class TitleBar(Gtk.HeaderBar):
         _2: GObject.GParamSpec,
     ) -> None:
         self.title_stack.set_visible_child_name("switcher_page")
+        if not self.search_button:
+            return
+
         self.search_button.set_active(False)
         self.search_button.set_sensitive(self.props.search_activated)
         self.search_entry.props.text = ""

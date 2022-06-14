@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: argos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-15 00:06+0200\n"
+"POT-Creation-Date: 2022-06-15 00:34+0200\n"
 "PO-Revision-Date: 2022-02-20 20:54+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,21 +17,25 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: argos/app.py:84
+#: argos/app.py:85
 msgid "Enable debug logs"
 msgstr "Enable debug logs"
 
-#: argos/app.py:92
+#: argos/app.py:93
 msgid "Start with maximized window"
 msgstr "Start with maximized window"
 
-#: argos/app.py:100
+#: argos/app.py:101
 msgid "Disable tooltips"
 msgstr "Disable tooltips"
 
-#: argos/app.py:108
+#: argos/app.py:109
 msgid "Use single-click"
 msgstr "Use single-click"
+
+#: argos/app.py:125
+msgid "Hide search button"
+msgstr "Hide search button"
 
 #: argos/controllers/playback.py:179
 msgid "Started to play {}"
@@ -261,7 +265,8 @@ msgstr "Recent additions max age"
 msgid ""
 "The maximal age in seconds of tracks considered for insertion in the recent "
 "additions playlist."
-msgstr "The maximal age in seconds qof tracks considered for insertion in the recent "
+msgstr ""
+"The maximal age in seconds qof tracks considered for insertion in the recent "
 "additions playlist."
 
 #~ msgid "Track"
