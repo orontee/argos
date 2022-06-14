@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: argos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-03 20:23+0200\n"
+"POT-Creation-Date: 2022-06-15 00:06+0200\n"
 "PO-Revision-Date: 2022-02-20 20:54+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,31 +17,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: argos/app.py:83
+#: argos/app.py:84
 msgid "Enable debug logs"
 msgstr "Enable debug logs"
 
-#: argos/app.py:91
+#: argos/app.py:92
 msgid "Start with maximized window"
 msgstr "Start with maximized window"
 
-#: argos/app.py:99
+#: argos/app.py:100
 msgid "Disable tooltips"
 msgstr "Disable tooltips"
 
-#: argos/app.py:107
+#: argos/app.py:108
 msgid "Use single-click"
 msgstr "Use single-click"
 
-#: argos/controllers/playback.py:174
+#: argos/controllers/playback.py:179
 msgid "Started to play {}"
 msgstr "Started to play {}"
 
-#: argos/controllers/playlists.py:35
+#: argos/controllers/playlists.py:54
 msgid "Recent additions"
 msgstr "Recent additions"
 
-#: argos/controllers/playlists.py:40
+#: argos/controllers/playlists.py:59
 msgid "History"
 msgstr "History"
 
@@ -181,11 +181,11 @@ msgstr ""
 msgid "Tracks"
 msgstr "Tracks"
 
-#: argos/ui/playlist_tracks_box.ui:56
+#: argos/ui/playlist_tracks_box.ui:67
 msgid "Add playlist to tracklist"
 msgstr "Add playlist to tracklist"
 
-#: argos/ui/playlist_tracks_box.ui:71
+#: argos/ui/playlist_tracks_box.ui:82
 msgid "Play playlist"
 msgstr "Play playlist"
 
@@ -244,6 +244,25 @@ msgstr "Base URL of Mopidy APIs"
 #: data/io.github.orontee.Argos.gschema.xml:19
 msgid "The base URL of Mopidy JSON-RPC and websocket APIs."
 msgstr "The base URL of Mopidy JSON-RPC and websocket APIs."
+
+#: data/io.github.orontee.Argos.gschema.xml:26
+msgid "History max length"
+msgstr "History max length"
+
+#: data/io.github.orontee.Argos.gschema.xml:29
+msgid "The maximal length of the history playlist."
+msgstr "The maximal length of the history playlist."
+
+#: data/io.github.orontee.Argos.gschema.xml:36
+msgid "Recent additions max age"
+msgstr "Recent additions max age"
+
+#: data/io.github.orontee.Argos.gschema.xml:39
+msgid ""
+"The maximal age in seconds of tracks considered for insertion in the recent "
+"additions playlist."
+msgstr "The maximal age in seconds qof tracks considered for insertion in the recent "
+"additions playlist."
 
 #~ msgid "Track"
 #~ msgstr "Track"

@@ -37,7 +37,7 @@
 	Recent additions max age
       </summary>
       <description>
-	The maximal age in seconds qof tracks considered for insertion
+	The maximal age in seconds of tracks considered for insertion
 	in the recent additions playlist.
       </description>
     </key>

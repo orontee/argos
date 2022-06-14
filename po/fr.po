@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-03 20:23+0200\n"
+"POT-Creation-Date: 2022-06-15 00:06+0200\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -16,31 +16,31 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: argos/app.py:83
+#: argos/app.py:84
 msgid "Enable debug logs"
 msgstr "Activer le journal de débogage"
 
-#: argos/app.py:91
+#: argos/app.py:92
 msgid "Start with maximized window"
 msgstr "Démarrer avec une fenêtre de taille maximale"
 
-#: argos/app.py:99
+#: argos/app.py:100
 msgid "Disable tooltips"
 msgstr "Désactiver les info-bulles"
 
-#: argos/app.py:107
+#: argos/app.py:108
 msgid "Use single-click"
 msgstr "Utiliser un seul clic"
 
-#: argos/controllers/playback.py:174
+#: argos/controllers/playback.py:179
 msgid "Started to play {}"
 msgstr "Lecture de {}"
 
-#: argos/controllers/playlists.py:35
+#: argos/controllers/playlists.py:54
 msgid "Recent additions"
 msgstr "Ajouts récents"
 
-#: argos/controllers/playlists.py:40
+#: argos/controllers/playlists.py:59
 msgid "History"
 msgstr "Historique"
 
@@ -180,11 +180,11 @@ msgstr "Lecture en boucle"
 msgid "Tracks"
 msgstr "Morceaux"
 
-#: argos/ui/playlist_tracks_box.ui:56
+#: argos/ui/playlist_tracks_box.ui:67
 msgid "Add playlist to tracklist"
 msgstr "Ajouter la liste de lecture à la file d'attente"
 
-#: argos/ui/playlist_tracks_box.ui:71
+#: argos/ui/playlist_tracks_box.ui:82
 msgid "Play playlist"
 msgstr "Lire la liste de lecture"
 
@@ -234,7 +234,7 @@ msgstr "Délai entre connexions"
 
 #: data/io.github.orontee.Argos.gschema.xml:9
 msgid "The delay in seconds between two connection tries."
-msgstr "Le délai entre deux tentatives de connexion"
+msgstr "Le délai entre deux tentatives de connexion."
 
 #: data/io.github.orontee.Argos.gschema.xml:16
 msgid "Base URL of Mopidy APIs"
@@ -243,6 +243,25 @@ msgstr "URL de base des APIs Mopidy"
 #: data/io.github.orontee.Argos.gschema.xml:19
 msgid "The base URL of Mopidy JSON-RPC and websocket APIs."
 msgstr "L'URL de base des APIs JSON-RPC et websocket de Mopidy."
+
+#: data/io.github.orontee.Argos.gschema.xml:26
+msgid "History max length"
+msgstr "Taille maximale de l'historique"
+
+#: data/io.github.orontee.Argos.gschema.xml:29
+msgid "The maximal length of the history playlist."
+msgstr "Le nombre maximum de morceaux de l'historique des lectures."
+
+#: data/io.github.orontee.Argos.gschema.xml:36
+msgid "Recent additions max age"
+msgstr "Âge maximal des ajouts récents"
+
+#: data/io.github.orontee.Argos.gschema.xml:39
+msgid ""
+"The maximal age in seconds of tracks considered for insertion in the recent "
+"additions playlist."
+msgstr "L'âge maximal en seconde des morceaux pris en compte dans la liste de lecture "
+"des morceaux récents."
 
 #~ msgid "Track"
 #~ msgstr "Morceau"
