@@ -12,7 +12,7 @@
     </key>
 
     <key type="s" name="mopidy-base-url">
-      <default>"http://127.0.0.1"</default>
+      <default>"http://127.0.0.1:6680"</default>
       <summary>
 	Base URL of Mopidy APIs
       </summary>
