@@ -36,8 +36,8 @@ class TitleBar(Gtk.HeaderBar):
         menu_model = builder.get_object("app-menu")
         self.app_menu_button.set_menu_model(menu_model)
 
-        volume_button = VolumeButton(application)
-        self.pack_end(volume_button)
+        self.volume_button = VolumeButton(application)
+        self.pack_end(self.volume_button)
 
         if application.props.hide_search_button:
             self.remove(self.search_button)

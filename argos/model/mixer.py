@@ -10,7 +10,7 @@ class MixerModel(WithThreadSafePropertySetter, GObject.Object):
 
     """
 
-    volume = GObject.Property(type=int, default=0)
+    volume = GObject.Property(type=int, default=-1)
     mute = GObject.Property(type=bool, default=False)
 
     def set_volume(self, value: int) -> None:

@@ -74,6 +74,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
         self.connect("notify::is-maximized", self._handle_maximized_state_changed)
 
         self.show_all()
+        self.titlebar.volume_button.hide()
 
         self.titlebar.props.main_page_state = True
 

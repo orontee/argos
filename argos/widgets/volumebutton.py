@@ -44,8 +44,8 @@ class VolumeButton(Gtk.VolumeButton):
 
     def update_value(
         self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
+        _1: GObject.GObject = None,
+        _2: GObject.GParamSpec = None,
     ) -> None:
         volume = self._model.mixer.volume
         if self._model.mixer.mute:
@@ -56,6 +56,8 @@ class VolumeButton(Gtk.VolumeButton):
                 self.set_value(volume / 100)
 
             self.show_now()
+        else:
+            self.hide()
 
     def value_changed_cb(self, *args) -> None:
         volume = self.get_value() * 100

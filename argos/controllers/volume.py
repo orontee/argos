@@ -29,18 +29,18 @@ class MixerController(ControllerBase):
             self._model.mixer.set_mute(mute)
 
         volume = await self._http.get_volume()
-        if volume is not None:
-            self._model.mixer.set_volume(volume)
+        self._model.mixer.set_volume(volume if volume is not None else -1)
 
     @consume(MessageType.VOLUME_CHANGED)
     async def update_model_volume(self, message: Message) -> None:
-        volume = cast(int, message.data.get("volume"))
+        volume = message.data.get("volume", -1)
         self._model.mixer.set_volume(volume)
 
     @consume(MessageType.MUTE_CHANGED)
     async def update_model_mute(self, message: Message) -> None:
-        mute = cast(bool, message.data.get("mute"))
-        self._model.mixer.set_mute(mute)
+        mute = message.data.get("mute")
+        if mute is not None:
+            self._model.mixer.set_mute(mute)
 
     @consume(MessageType.SET_VOLUME)
     async def set_volume(self, message: Message) -> None:
