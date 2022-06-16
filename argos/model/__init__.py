@@ -198,8 +198,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         )
 
     def _update_playlists(self, playlists: List[PlaylistModel]) -> None:
-        if self.playlists.get_n_items() > 0:
-            self.playlists.remove_all()
+        self.playlists.remove_all()
 
         for playlist in playlists:
             self.playlists.append(playlist)
@@ -212,41 +211,34 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         tracks: List[TrackModel],
         last_modified: GObject.TYPE_DOUBLE,
     ) -> None:
-        LOGGER.debug(f"Updating playlist with URI {playlist_uri!r}")
-
-        playlist = self.get_playlist(playlist_uri)
-        must_insert = playlist is None
-        if playlist is None:
-            LOGGER.debug(f"Creation of playlist with URI {playlist_uri!r}")
-
-            playlist = PlaylistModel(uri=playlist_uri, name=name)
-        elif playlist.last_modified == last_modified:
-            # Conversion to string since GLib expects 32-bits integers
-            # on ARMv7
-            LOGGER.debug(f"Playlist with URI {playlist_uri!r} is up-to-date")
-            return
-
         GLib.idle_add(
             self._complete_playlist_description,
-            playlist,
+            playlist_uri,
             name,
             tracks,
             last_modified,
-            must_insert,
         )
 
     def _complete_playlist_description(
         self,
-        playlist: PlaylistModel,
+        playlist_uri: str,
         name: str,
         tracks: List[TrackModel],
         last_modified: GObject.TYPE_DOUBLE,
-        must_insert: bool,
     ) -> None:
-        if must_insert:
+        LOGGER.debug(f"Completing playlist with URI {playlist_uri!r}")
+
+        playlist = self.get_playlist(playlist_uri)
+        if playlist is None:
+            LOGGER.debug(f"Creation of playlist with URI {playlist_uri!r}")
+            playlist = PlaylistModel(uri=playlist_uri, name=name)
             LOGGER.debug(f"Insertion of playlist with URI {playlist.uri!r}")
             self.playlists.insert_sorted(playlist, playlist_compare_func, None)
         else:
+            if playlist.last_modified == last_modified:
+                LOGGER.debug(f"Playlist with URI {playlist_uri!r} is up-to-date")
+                return
+
             playlist.name = name
             playlist.tracks.remove_all()
 
