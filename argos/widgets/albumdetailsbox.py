@@ -24,8 +24,8 @@ LOGGER = logging.getLogger(__name__)
 ALBUM_IMAGE_SIZE = 80
 
 
-@Gtk.Template(resource_path="/io/github/orontee/Argos/ui/album_box.ui")
-class AlbumBox(Gtk.Box):
+@Gtk.Template(resource_path="/io/github/orontee/Argos/ui/album_details_box.ui")
+class AlbumDetailsBox(Gtk.Box):
     """Box gathering details on an album.
 
     The box has horizontal orientation, is homogeneous and has two
@@ -35,7 +35,9 @@ class AlbumBox(Gtk.Box):
 
     """
 
-    __gtype_name__ = "AlbumBox"
+    __gtype_name__ = "AlbumDetailsBox"
+
+    default_album_image = default_album_image_pixbuf(target_width=ALBUM_IMAGE_SIZE)
 
     play_button: Gtk.Button = Gtk.Template.Child()
     track_selection_button: Gtk.MenuButton = Gtk.Template.Child()
@@ -72,10 +74,6 @@ class AlbumBox(Gtk.Box):
         ):
             if self._disable_tooltips:
                 widget.props.has_tooltip = False
-
-        self._default_album_image = default_album_image_pixbuf(
-            target_width=ALBUM_IMAGE_SIZE,
-        )
 
         self._model.connect(
             "notify::network-available", self._handle_connection_changed
@@ -200,7 +198,7 @@ class AlbumBox(Gtk.Box):
         if scaled_pixbuf:
             self.album_image.set_from_pixbuf(scaled_pixbuf)
         else:
-            self.album_image.set_from_pixbuf(self._default_album_image)
+            self.album_image.set_from_pixbuf(self.default_album_image)
 
         self.album_image.show_now()
 

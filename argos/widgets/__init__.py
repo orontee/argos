@@ -1,5 +1,5 @@
 from argos.widgets.about import AboutDialog
-from argos.widgets.albumbox import AlbumBox
+from argos.widgets.albumdetailsbox import AlbumDetailsBox
 from argos.widgets.albumswindow import AlbumsWindow
 from argos.widgets.playingbox import PlayingBox
 from argos.widgets.playlistsbox import PlaylistsBox
@@ -9,7 +9,7 @@ from argos.widgets.titlebar import TitleBar
 from argos.widgets.volumebutton import VolumeButton
 
 __all__ = (
-    "AlbumBox",
+    "AlbumDetailsBox",
     "AboutDialog",
     "AlbumsWindow",
     "PlayingBox",
