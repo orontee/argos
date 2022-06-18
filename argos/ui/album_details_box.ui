@@ -7,7 +7,7 @@
     <property name="can-focus">False</property>
     <property name="icon-name">media-playback-start-symbolic</property>
   </object>
-  <template class="AlbumBox" parent="GtkBox">
+  <template class="AlbumDetailsBox" parent="GtkBox">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="homogeneous">True</property>

@@ -5,7 +5,7 @@ from gi.repository import Gdk, Gio, GObject, Gtk
 
 from argos.message import MessageType
 from argos.model import PlaybackState
-from argos.widgets import AlbumBox, AlbumsWindow, PlayingBox, PlaylistsBox, TitleBar
+from argos.widgets import AlbumDetailsBox, AlbumsWindow, PlayingBox, PlaylistsBox, TitleBar
 
 _ = gettext.gettext
 
@@ -57,19 +57,19 @@ class ArgosWindow(Gtk.ApplicationWindow):
             "notify::visible-child-name", self._on_central_view_changed
         )
 
-        self._album_box = AlbumBox(application)
-        self.main_stack.add_named(self._album_box, "album_page")
+        self._album_details_box = AlbumDetailsBox(application)
+        self.main_stack.add_named(self._album_details_box, "album_page")
 
         add_to_tracklist_action = Gio.SimpleAction.new("add-to-tracklist", None)
         self.add_action(add_to_tracklist_action)
         add_to_tracklist_action.connect(
-            "activate", self._album_box.on_add_to_tracklist_activated
+            "activate", self._album_details_box.on_add_to_tracklist_activated
         )
 
         add_to_playlist_action = Gio.SimpleAction.new("add-to-playlist", None)
         self.add_action(add_to_playlist_action)
         add_to_playlist_action.connect(
-            "activate", self._album_box.on_add_to_playlist_activated
+            "activate", self._album_details_box.on_add_to_playlist_activated
         )
 
         playlist_tracks_box = self.props.playlists_box.props.playlist_tracks_box
@@ -128,8 +128,8 @@ class ArgosWindow(Gtk.ApplicationWindow):
             MessageType.COMPLETE_ALBUM_DESCRIPTION, {"album_uri": uri}
         )
 
-        self._album_box.set_property("uri", uri)
-        self._album_box.show_now()
+        self._album_details_box.set_property("uri", uri)
+        self._album_details_box.show_now()
         self.main_stack.set_visible_child_name("album_page")
 
     def _handle_maximized_state_changed(
