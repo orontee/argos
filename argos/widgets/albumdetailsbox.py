@@ -23,9 +23,9 @@ LOGGER = logging.getLogger(__name__)
 ALBUM_IMAGE_SIZE = 80
 
 
-@Gtk.Template(resource_path="/io/github/orontee/Argos/ui/album_box.ui")
-class AlbumBox(Gtk.Box):
-    __gtype_name__ = "AlbumBox"
+@Gtk.Template(resource_path="/io/github/orontee/Argos/ui/album_details_box.ui")
+class AlbumDetailsBox(Gtk.Box):
+    __gtype_name__ = "AlbumDetailsBox"
 
     add_button: Gtk.Button = Gtk.Template.Child()
     play_button: Gtk.Button = Gtk.Template.Child()

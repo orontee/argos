@@ -1,5 +1,5 @@
 from .about import AboutDialog
-from .albumbox import AlbumBox
+from .albumdetailsbox import AlbumDetailsBox
 from .albumswindow import AlbumsWindow
 from .playingbox import PlayingBox
 from .playlistsbox import PlaylistsBox
@@ -8,7 +8,7 @@ from .titlebar import TitleBar
 from .volumebutton import VolumeButton
 
 __all__ = (
-    "AlbumBox",
+    "AlbumDetailsBox",
     "AboutDialog",
     "AlbumsWindow",
     "PlayingBox",

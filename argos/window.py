@@ -5,7 +5,7 @@ from gi.repository import Gdk, GObject, Gtk
 
 from .message import MessageType
 from .model import PlaybackState
-from .widgets import AlbumBox, AlbumsWindow, PlayingBox, PlaylistsBox, TitleBar
+from .widgets import AlbumDetailsBox, AlbumsWindow, PlayingBox, PlaylistsBox, TitleBar
 
 _ = gettext.gettext
 
@@ -57,8 +57,8 @@ class ArgosWindow(Gtk.ApplicationWindow):
             "notify::visible-child-name", self._on_central_view_changed
         )
 
-        self._album_box = AlbumBox(application)
-        self.main_stack.add_named(self._album_box, "album_page")
+        self._album_details_box = AlbumDetailsBox(application)
+        self.main_stack.add_named(self._album_details_box, "album_page")
 
         self.main_stack.connect(
             "notify::visible-child-name", self._on_main_stack_page_changed
@@ -90,8 +90,8 @@ class ArgosWindow(Gtk.ApplicationWindow):
             MessageType.COMPLETE_ALBUM_DESCRIPTION, {"album_uri": uri}
         )
 
-        self._album_box.set_property("uri", uri)
-        self._album_box.show_now()
+        self._album_details_box.set_property("uri", uri)
+        self._album_details_box.show_now()
         self.main_stack.set_visible_child_name("album_page")
 
     def _handle_maximized_state_changed(
