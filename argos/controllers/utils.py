@@ -1,9 +1,40 @@
 import logging
-from typing import cast, Any, Callable, Dict, List, Optional
+from typing import cast, Any, Coroutine, Callable, Dict, List, Optional
 
 from ..model import TrackModel
 
 LOGGER = logging.getLogger(__name__)
+
+_CALL_SIZE = 20
+
+
+async def call_by_slice(
+    func: Callable[[List[str]], Coroutine[Any, Any, Optional[Dict[str, Any]]]],
+    *,
+    params: List[str],
+) -> Dict[str, Any]:
+    """Make multiple synchronous calls.
+
+    The argument ``params`` is splitted in slices of bounded
+    length. There's one ``func`` call per slice.
+
+    Args:
+        func: Callable that will be called.
+
+        params: List of parameters.
+
+    Returns:
+        Dictionnary merging all calls return values.
+
+    """
+    call_count = len(params) // _CALL_SIZE + (0 if len(params) % _CALL_SIZE == 0 else 1)
+    result: Dict[str, Any] = {}
+    for i in range(call_count):
+        ith_result = await func(params[i * _CALL_SIZE : (i + 1) * _CALL_SIZE])
+        if ith_result is None:
+            break
+        result.update(ith_result)
+    return result
 
 
 def parse_tracks(
