@@ -4,7 +4,8 @@ from pathlib import Path
 import re
 from typing import Optional
 
-from gi.repository import Gio, GLib, GObject, Gtk
+from gi.repository import GdkPixbuf, Gio, GLib, GObject, Gtk
+from gi.repository.GdkPixbuf import Pixbuf
 
 from ..message import MessageType
 from ..model import Model, TrackModel
@@ -26,6 +27,10 @@ ALBUM_IMAGE_SIZE = 80
 @Gtk.Template(resource_path="/io/github/orontee/Argos/ui/album_details_box.ui")
 class AlbumDetailsBox(Gtk.Box):
     __gtype_name__ = "AlbumDetailsBox"
+
+    default_album_image: Pixbuf = default_album_image_pixbuf(
+        target_width=ALBUM_IMAGE_SIZE,
+    )
 
     add_button: Gtk.Button = Gtk.Template.Child()
     play_button: Gtk.Button = Gtk.Template.Child()
@@ -61,10 +66,6 @@ class AlbumDetailsBox(Gtk.Box):
             )
             if self._disable_tooltips:
                 widget.props.has_tooltip = False
-
-        self._default_album_image = default_album_image_pixbuf(
-            target_width=ALBUM_IMAGE_SIZE,
-        )
 
         self._model.connect(
             "notify::network-available", self._handle_connection_changed
@@ -165,7 +166,7 @@ class AlbumDetailsBox(Gtk.Box):
         if scaled_pixbuf:
             self.album_image.set_from_pixbuf(scaled_pixbuf)
         else:
-            self.album_image.set_from_pixbuf(self._default_album_image)
+            self.album_image.set_from_pixbuf(self.default_album_image)
 
         self.album_image.show_now()
 

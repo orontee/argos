@@ -6,15 +6,24 @@
   <template class="AlbumsWindow" parent="GtkScrolledWindow">
     <property name="visible">True</property>
     <property name="can-focus">True</property>
+    <property name="hexpand">True</property>
+    <property name="vexpand">True</property>
     <property name="shadow-type">in</property>
     <child>
       <object class="GtkViewport" id="albums_viewport">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
+        <property name="hexpand">True</property>
+        <property name="vexpand">True</property>
         <child>
           <object class="GtkFlowBox" id="albums_flowbox">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
+            <property name="activate-on-single-click">False</property>
+            <signal name="child-activated" handler="on_albums_flowbox_child_activated" swapped="no"/>
+            <signal name="selected-children-changed" handler="on_albums_flowbox_selected_children_changed" swapped="no"/>
           </object>
         </child>
       </object>
