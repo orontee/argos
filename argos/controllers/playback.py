@@ -101,7 +101,11 @@ class PlaybackController(ControllerBase):
 
     @consume(MessageType.PLAY_NEXT_TRACK)
     async def play_next_track(self, message: Message) -> None:
-        await self._http.next()
+        eot_tlid = await self._http.get_eot_tlid()
+        if eot_tlid is not None:
+            await self._http.next()
+        else:
+            self.send_message(MessageType.CLEAR_TRACKLIST)
 
     @consume(MessageType.PLAY)
     async def play(self, message: Message) -> None:
