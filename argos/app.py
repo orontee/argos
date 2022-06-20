@@ -285,17 +285,20 @@ class Application(Gtk.Application):
         self.prefs_window = None
 
     def quit_activate_cb(self, action: Gio.SimpleAction, parameter: None) -> None:
+        LOGGER.debug("Quit requested by end-user")
         if self.window is not None:
             self.window.destroy()
 
     def play_random_album_activate_cb(
         self, action: Gio.SimpleAction, parameter: None
     ) -> None:
+        LOGGER.debug("Random album play requested by end-user")
         self.send_message(MessageType.PLAY_RANDOM_ALBUM)
 
     def update_library_activate_cb(
         self, action: Gio.SimpleAction, parameter: None
     ) -> None:
+        LOGGER.debug("Library update requested by end-user")
         self.send_message(MessageType.BROWSE_ALBUMS)
 
     def _identify_message_consumers_from_controllers(self) -> None:

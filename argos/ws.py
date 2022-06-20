@@ -259,11 +259,11 @@ class MopidyWSConnection(GObject.GObject):
                 # timeout, then it may have been removed from
                 # self._commands
                 if future:
-                    LOGGER.debug(f"Received result of JSON-RPC command id {jsonrpc_id}")
+                    LOGGER.debug(f"Received result of JSON-RPC command {jsonrpc_id}")
                     future.set_result(parsed.get("result"))
                     return True
                 else:
-                    LOGGER.debug(f"Unknown JSON-RPC command id {jsonrpc_id}")
+                    LOGGER.debug(f"Unknown JSON-RPC command {jsonrpc_id}")
             else:
                 LOGGER.debug(f"Unhandled event {parsed!r}")
 
