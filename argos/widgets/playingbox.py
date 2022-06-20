@@ -338,6 +338,9 @@ class PlayingBox(Gtk.Box):
         self,
         button: Gtk.ToggleButton,
     ) -> None:
+        consume = button.get_active()
+        if self._model.tracklist.props.consume == consume:
+            return
         self._app.send_message(
             MessageType.SET_CONSUME, {"consume": button.get_active()}
         )
@@ -347,10 +350,16 @@ class PlayingBox(Gtk.Box):
         self,
         button: Gtk.ToggleButton,
     ) -> None:
+        random = button.get_active()
+        if self._model.tracklist.props.random == random:
+            return
         self._app.send_message(MessageType.SET_RANDOM, {"random": button.get_active()})
 
     @Gtk.Template.Callback()
     def on_repeat_button_toggled(self, button: Gtk.ToggleButton) -> None:
+        repeat = button.get_active()
+        if self._model.tracklist.props.repeat == repeat:
+            return
         self._app.send_message(MessageType.SET_REPEAT, {"repeat": button.get_active()})
 
     @Gtk.Template.Callback()
@@ -358,4 +367,7 @@ class PlayingBox(Gtk.Box):
         self,
         button: Gtk.ToggleButton,
     ) -> None:
+        single = button.get_active()
+        if self._model.tracklist.props.single == single:
+            return
         self._app.send_message(MessageType.SET_SINGLE, {"single": button.get_active()})
