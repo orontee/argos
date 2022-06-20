@@ -40,6 +40,17 @@ class AlbumsController(ControllerBase):
         if not album_uri:
             return
 
+        album = self._model.get_album(album_uri)
+        if album is None:
+            LOGGER.warning(f"Attempt to complete unknow album with URI {album_uri!r}")
+            return
+
+        if len(album.tracks) > 0:
+            LOGGER.debug(
+                f"No need to complete description of album with URI {album_uri!r}"
+            )
+            return
+
         LOGGER.debug(f"Completing description of album with uri {album_uri!r}")
 
         tracks = await self._http.lookup_library([album_uri])

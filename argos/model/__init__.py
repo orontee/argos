@@ -116,6 +116,29 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         length: Optional[int],
         tracks: List[TrackModel],
     ) -> None:
+        GLib.idle_add(
+            partial(
+                self._complete_album_description,
+                album_uri,
+                artist_name,
+                num_tracks,
+                num_discs,
+                date,
+                length,
+                tracks,
+            )
+        )
+
+    def _complete_album_description(
+        self,
+        album_uri: str,
+        artist_name: Optional[str],
+        num_tracks: Optional[int],
+        num_discs: Optional[int],
+        date: Optional[str],
+        length: Optional[int],
+        tracks: List[TrackModel],
+    ) -> None:
         found = [album for album in self.albums if album.uri == album_uri]
         if len(found) == 0:
             LOGGER.warning(f"No album found with URI {album_uri!r}")
