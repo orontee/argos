@@ -1,3 +1,4 @@
+import asyncio
 import gettext
 import logging
 from operator import attrgetter
@@ -58,6 +59,9 @@ class PlaylistsController(ControllerBase):
             uri="argos:history",
             name=_("History"),
         )
+        self._ongoing_complete_history_playlist_task: Optional[
+            asyncio.Task[None]
+        ] = None
 
     @consume(MessageType.PLAYLIST_CHANGED)
     async def update_model_playlist(self, message: Message) -> None:
@@ -182,6 +186,21 @@ class PlaylistsController(ControllerBase):
         )
 
     async def _complete_history_playlist(self) -> None:
+        ongoing_task = self._ongoing_complete_history_playlist_task
+        if ongoing_task:
+            if not ongoing_task.done() and not ongoing_task.cancelled():
+                LOGGER.debug("Cancelling complete history playlist task")
+                ongoing_task.cancel()
+
+        self._ongoing_complete_history_playlist_task = asyncio.create_task(
+            self.__complete_history_playlist()
+        )
+        LOGGER.debug("Complete history playlist task created")
+
+    async def __complete_history_playlist(self) -> None:
+        await asyncio.sleep(10)
+
+        LOGGER.info("Begin of history playlist completion")
         history = await self._http.get_history()
         if history is None:
             return
@@ -208,3 +227,4 @@ class PlaylistsController(ControllerBase):
             tracks=parsed_history_tracks,
             last_modified=time.time(),
         )
+        LOGGER.info("End of history playlist completion")
