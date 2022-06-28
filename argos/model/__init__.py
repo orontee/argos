@@ -174,17 +174,16 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         )
 
     def _update_tracklist(self, version: Optional[int], tracks: Any) -> None:
-        if self.tracklist.props.version == version:
+        if version is None:
+            version = -1
+
+        if self.props.tracklist_loaded and self.tracklist.props.version == version:
             return
 
         if self.props.tracklist_loaded:
             self.props.tracklist_loaded = False
 
         self.tracklist.tracks.remove_all()
-
-        if not version:
-            self.tracklist.props.version = -1
-            return
 
         for tl_track in tracks:
             tlid = cast(int, tl_track.get("tlid"))
