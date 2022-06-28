@@ -61,6 +61,7 @@ class TracklistController(ControllerBase):
     )
     async def get_tracklist(self, message: Message) -> None:
         version = await self._http.get_tracklist_version()
+        LOGGER.debug(f"Current tracklist version is {version}")
         tracks = await self._http.get_tracklist_tracks()
         self._model.update_tracklist(version, tracks)
 

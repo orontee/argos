@@ -178,6 +178,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
             version = -1
 
         if self.props.tracklist_loaded and self.tracklist.props.version == version:
+            LOGGER.info(f"Tracklist with version {version} already loaded")
             return
 
         if self.props.tracklist_loaded:
