@@ -194,7 +194,10 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
                 continue
 
             album = cast(Dict[str, Any], track.get("album", {}))
-            artists = cast(List[Dict[str, Any]], album.get("artists", []))
+            artists = cast(
+                List[Dict[str, Any]],
+                track.get("artists", []) or album.get("artists", []),
+            )
             artist = artists[0] if len(artists) > 0 else {}
 
             self.tracklist.tracks.append(
