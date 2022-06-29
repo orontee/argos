@@ -9,6 +9,9 @@ if TYPE_CHECKING:
 LOGGER = logging.getLogger(__name__)
 
 
+SECONDS_PER_DAY = 3600 * 24
+
+
 @Gtk.Template(resource_path="/io/github/orontee/Argos/ui/preferences.ui")
 class PreferencesWindow(Gtk.Window):
     __gtype_name__ = "PreferencesWindow"
@@ -57,7 +60,7 @@ class PreferencesWindow(Gtk.Window):
 
         recent_additions_max_age = self._settings.get_int("recent-additions-max-age")
         self.recent_additions_playlist_max_age_button.set_value(
-            recent_additions_max_age
+            recent_additions_max_age // SECONDS_PER_DAY
         )
 
         self.mopidy_base_url_entry.connect(
@@ -112,5 +115,5 @@ class PreferencesWindow(Gtk.Window):
     def on_recent_additions_playlist_max_age_button_value_changed(
         self, button: Gtk.CheckButton
     ) -> None:
-        recent_additions_max_age = button.get_value()
+        recent_additions_max_age = button.get_value() * SECONDS_PER_DAY
         self._settings.set_int("recent-additions-max-age", recent_additions_max_age)
