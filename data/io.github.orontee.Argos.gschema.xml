@@ -21,6 +21,16 @@
       </description>
     </key>
 
+    <key type="b" name="history-playlist">
+      <default>true</default>
+      <summary>
+	History playlist
+      </summary>
+      <description>
+	A dynamic playlist of last played tracks can be maintained.
+      </description>
+    </key>
+
     <key type="i" name="history-max-length">
       <default>100</default>
       <summary>
@@ -28,6 +38,16 @@
       </summary>
       <description>
 	The maximal length of the history playlist.
+      </description>
+    </key>
+
+    <key type="b" name="recent-additions-playlist">
+      <default>true</default>
+      <summary>
+	Recent additions playlist
+      </summary>
+      <description>
+	A dynamic playlist of recently added tracks can be maintained.
       </description>
     </key>
 
