@@ -1,7 +1,7 @@
 import logging
 from typing import TYPE_CHECKING
 
-from gi.repository import Gio, Gtk
+from gi.repository import Gio, GObject, Gtk
 
 if TYPE_CHECKING:
     from ..app import Application
@@ -31,6 +31,7 @@ class PreferencesWindow(Gtk.Window):
         Gtk.Window.__init__(self)
         self.set_wmclass("Argos", "Argos")
         self._app = application
+        self._model = application.model
 
         self._settings: Gio.Settings = application.props.settings
         base_url = self._settings.get_string("mopidy-base-url")
@@ -63,6 +64,20 @@ class PreferencesWindow(Gtk.Window):
             recent_additions_max_age // SECONDS_PER_DAY
         )
 
+        for widget in (
+            self.history_playlist_check_button,
+            self.history_playlist_max_length_label,
+            self.history_playlist_max_length_button,
+            self.recent_additions_playlist_check_button,
+            self.recent_additions_playlist_max_age_label,
+            self.recent_additions_playlist_max_age_button,
+        ):
+            widget.set_sensitive(
+                self._model.network_available and self._model.connected
+            )
+
+        self._model.connect("notify::network-available", self.on_connection_changed)
+        self._model.connect("notify::connected", self.on_connection_changed)
         self.mopidy_base_url_entry.connect(
             "changed", self.on_mopidy_base_url_entry_changed
         )
@@ -81,6 +96,23 @@ class PreferencesWindow(Gtk.Window):
         )
 
         # TODO listen to settings changes
+
+    def on_connection_changed(
+        self,
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
+    ) -> None:
+        sensitive = self._model.network_available and self._model.connected
+        widgets = (
+            self.history_playlist_check_button,
+            self.history_playlist_max_length_label,
+            self.history_playlist_max_length_button,
+            self.recent_additions_playlist_check_button,
+            self.recent_additions_playlist_max_age_label,
+            self.recent_additions_playlist_max_age_button,
+        )
+        for widget in widgets:
+            widget.set_sensitive(sensitive)
 
     def on_mopidy_base_url_entry_changed(self, entry: Gtk.Entry) -> None:
         base_url = entry.get_text()
