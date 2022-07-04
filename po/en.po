@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: argos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-15 00:34+0200\n"
+"POT-Creation-Date: 2022-06-29 23:53+0200\n"
 "PO-Revision-Date: 2022-02-20 20:54+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,35 +17,37 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: argos/app.py:85
+#: argos/app.py:84
 msgid "Enable debug logs"
 msgstr "Enable debug logs"
 
-#: argos/app.py:93
+#: argos/app.py:92
 msgid "Start with maximized window"
 msgstr "Start with maximized window"
 
-#: argos/app.py:101
+#: argos/app.py:100
 msgid "Disable tooltips"
 msgstr "Disable tooltips"
 
-#: argos/app.py:109
+#: argos/app.py:108
 msgid "Use single-click"
 msgstr "Use single-click"
 
-#: argos/app.py:125
+#: argos/app.py:116
 msgid "Hide search button"
 msgstr "Hide search button"
 
-#: argos/controllers/playback.py:179
+#: argos/controllers/playback.py:183
 msgid "Started to play {}"
 msgstr "Started to play {}"
 
-#: argos/controllers/playlists.py:54
+#: argos/controllers/playlists.py:59 argos/controllers/playlists.py:276
+#: argos/ui/preferences.ui:172
 msgid "Recent additions"
 msgstr "Recent additions"
 
-#: argos/controllers/playlists.py:59
+#: argos/controllers/playlists.py:72 argos/controllers/playlists.py:284
+#: argos/ui/preferences.ui:116
 msgid "History"
 msgstr "History"
 
@@ -193,21 +195,37 @@ msgstr "Add playlist to tracklist"
 msgid "Play playlist"
 msgstr "Play playlist"
 
-#: argos/ui/preferences.ui:7
+#: argos/ui/preferences.ui:19
 msgid "Preferences"
 msgstr "Preferences"
 
-#: argos/ui/preferences.ui:34
+#: argos/ui/preferences.ui:40
+msgid "Server"
+msgstr "Server"
+
+#: argos/ui/preferences.ui:63
 msgid "Base URL"
 msgstr "Base URL"
 
-#: argos/ui/preferences.ui:48
+#: argos/ui/preferences.ui:77
 msgid "Base URL of Mopidy server"
 msgstr "Base URL of Mopidy server"
 
-#: argos/ui/preferences.ui:49
+#: argos/ui/preferences.ui:78
 msgid "Enter the URL of the Mopidy server"
 msgstr "Enter the URL of the Mopidy server"
+
+#: argos/ui/preferences.ui:99 argos/window.py:53
+msgid "Playlists"
+msgstr "Playlists"
+
+#: argos/ui/preferences.ui:150
+msgid "Max length"
+msgstr "Max length"
+
+#: argos/ui/preferences.ui:206
+msgid "Max age (days)"
+msgstr "Max age (days)"
 
 #: argos/ui/title_bar.ui:53
 msgid "Back to albums page"
@@ -224,10 +242,6 @@ msgstr "Playing"
 #: argos/window.py:49
 msgid "Library"
 msgstr "Library"
-
-#: argos/window.py:53
-msgid "Playlists"
-msgstr "Playlists"
 
 #: data/io.github.orontee.Argos.desktop.in:3
 msgid "Argos"
@@ -250,18 +264,34 @@ msgid "The base URL of Mopidy JSON-RPC and websocket APIs."
 msgstr "The base URL of Mopidy JSON-RPC and websocket APIs."
 
 #: data/io.github.orontee.Argos.gschema.xml:26
+msgid "History playlist"
+msgstr "History playlist"
+
+#: data/io.github.orontee.Argos.gschema.xml:29
+msgid "A dynamic playlist of last played tracks can be maintained."
+msgstr "A dynamic playlist of last played tracks can be maintained."
+
+#: data/io.github.orontee.Argos.gschema.xml:36
 msgid "History max length"
 msgstr "History max length"
 
-#: data/io.github.orontee.Argos.gschema.xml:29
+#: data/io.github.orontee.Argos.gschema.xml:39
 msgid "The maximal length of the history playlist."
 msgstr "The maximal length of the history playlist."
 
-#: data/io.github.orontee.Argos.gschema.xml:36
+#: data/io.github.orontee.Argos.gschema.xml:46
+msgid "Recent additions playlist"
+msgstr "Recent additions playlist"
+
+#: data/io.github.orontee.Argos.gschema.xml:49
+msgid "A dynamic playlist of recently added tracks can be maintained."
+msgstr "A dynamic playlist of recently added tracks can be maintained."
+
+#: data/io.github.orontee.Argos.gschema.xml:56
 msgid "Recent additions max age"
 msgstr "Recent additions max age"
 
-#: data/io.github.orontee.Argos.gschema.xml:39
+#: data/io.github.orontee.Argos.gschema.xml:59
 msgid ""
 "The maximal age in seconds of tracks considered for insertion in the recent "
 "additions playlist."

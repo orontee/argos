@@ -5,6 +5,8 @@ from operator import attrgetter
 import time
 from typing import Any, Callable, cast, Coroutine, Dict, List, Optional, TYPE_CHECKING
 
+from gi.repository import Gio
+
 if TYPE_CHECKING:
     from ..app import Application
 from ..message import consume, Message, MessageType
@@ -50,14 +52,30 @@ class PlaylistsController(ControllerBase):
     def __init__(self, application: "Application"):
         super().__init__(application)
 
-        self._recent_additions_playlist = PlaylistModel(
-            uri="argos:recent",
-            name=_("Recent additions"),
+        self._recent_additions_playlist: Optional[PlaylistModel] = None
+        if self._settings.get_boolean("recent-additions-playlist"):
+            self._recent_additions_playlist = PlaylistModel(
+                uri="argos:recent",
+                name=_("Recent additions"),
+            )
+        self._settings.connect(
+            "changed::recent-additions-playlist", self._on_playlist_settings_changed
+        )
+        self._settings.connect(
+            "changed::recent-additions-max-age", self._on_playlist_settings_changed
         )
 
-        self._history_playlist = PlaylistModel(
-            uri="argos:history",
-            name=_("History"),
+        self._history_playlist: Optional[PlaylistModel] = None
+        if self._settings.get_boolean("history-playlist"):
+            self._history_playlist = PlaylistModel(
+                uri="argos:history",
+                name=_("History"),
+            )
+        self._settings.connect(
+            "changed::history-playlist", self._on_playlist_settings_changed
+        )
+        self._settings.connect(
+            "changed::history-max-length", self._on_playlist_settings_changed
         )
         self._ongoing_complete_history_playlist_task: Optional[
             asyncio.Task[None]
@@ -101,8 +119,10 @@ class PlaylistsController(ControllerBase):
                 parsed_playlists.append(PlaylistModel(uri=uri, name=name))
 
         extended_playlists = [playlist for playlist in parsed_playlists]
-        extended_playlists.append(self._recent_additions_playlist)
-        extended_playlists.append(self._history_playlist)
+        if self._recent_additions_playlist:
+            extended_playlists.append(self._recent_additions_playlist)
+        if self._history_playlist:
+            extended_playlists.append(self._history_playlist)
 
         self._model.update_playlists(extended_playlists)
 
@@ -111,8 +131,11 @@ class PlaylistsController(ControllerBase):
             if result is not None:
                 await self._complete_playlist_from_mopidy_model(result)
 
-        await self._complete_recent_additions_playlist()
-        await self._complete_history_playlist()
+        if self._recent_additions_playlist:
+            await self._complete_recent_additions_playlist()
+
+        if self._history_playlist:
+            await self._complete_history_playlist()
 
     @consume(MessageType.TRACK_PLAYBACK_STARTED)
     async def update_history(self, message: Message) -> None:
@@ -151,6 +174,9 @@ class PlaylistsController(ControllerBase):
         )
 
     async def _complete_recent_additions_playlist(self) -> None:
+        if not self._recent_additions_playlist:
+            return
+
         recent_additions_max_age = self._settings.get_int("recent-additions-max-age")
         recent_refs = await self._http.browse_library(
             f"local:directory?max-age={recent_additions_max_age}"
@@ -186,6 +212,9 @@ class PlaylistsController(ControllerBase):
         )
 
     async def _complete_history_playlist(self) -> None:
+        if not self._history_playlist:
+            return
+
         ongoing_task = self._ongoing_complete_history_playlist_task
         if ongoing_task:
             if not ongoing_task.done() and not ongoing_task.cancelled():
@@ -199,6 +228,9 @@ class PlaylistsController(ControllerBase):
 
     async def __complete_history_playlist(self) -> None:
         await asyncio.sleep(10)
+
+        if not self._history_playlist:
+            return
 
         LOGGER.info("Begin of history playlist completion")
         history = await self._http.get_history()
@@ -221,6 +253,9 @@ class PlaylistsController(ControllerBase):
         if history_tracks is None:
             return
         parsed_history_tracks = parse_tracks(history_tracks)
+        if not self._history_playlist:
+            return
+
         self._model.complete_playlist_description(
             self._history_playlist.uri,
             name=self._history_playlist.name,
@@ -228,3 +263,35 @@ class PlaylistsController(ControllerBase):
             last_modified=time.time(),
         )
         LOGGER.info("End of history playlist completion")
+
+    def _on_playlist_settings_changed(
+        self,
+        settings: Gio.Settings,
+        key: str,
+    ) -> None:
+        if key == "recent-additions-playlist":
+            if self._settings.get_boolean("recent-additions-playlist"):
+                self._recent_additions_playlist = PlaylistModel(
+                    uri="argos:recent",
+                    name=_("Recent additions"),
+                )
+            else:
+                self._recent_additions_playlist = None
+        elif key == "history-playlist":
+            if self._settings.get_boolean("history-playlist"):
+                self._history_playlist = PlaylistModel(
+                    uri="argos:history",
+                    name=_("History"),
+                )
+            else:
+                self._history_playlist = None
+
+        if key in (
+            "recent-additions-playlist",
+            "recent-additions-max-age",
+            "history-playlist",
+            "history-max-length",
+        ):
+            self.send_message(MessageType.LIST_PLAYLISTS)
+        else:
+            LOGGER.warning(f"Unexpected setting {key!r}")
