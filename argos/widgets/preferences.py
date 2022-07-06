@@ -17,6 +17,12 @@ class PreferencesWindow(Gtk.Window):
     __gtype_name__ = "PreferencesWindow"
 
     mopidy_base_url_entry: Gtk.Entry = Gtk.Template.Child()
+    mopidy_local_switch: Gtk.Switch = Gtk.Template.Child()
+    mopidy_local_label: Gtk.Label = Gtk.Template.Child()
+    mopidy_bandcamp_switch: Gtk.Switch = Gtk.Template.Child()
+    mopidy_bandcamp_label: Gtk.Label = Gtk.Template.Child()
+    mopidy_podcast_switch: Gtk.Switch = Gtk.Template.Child()
+    mopidy_podcast_label: Gtk.Label = Gtk.Template.Child()
     history_playlist_check_button: Gtk.CheckButton = Gtk.Template.Child()
     history_playlist_max_length_label: Gtk.Label = Gtk.Template.Child()
     history_playlist_max_length_button: Gtk.SpinButton = Gtk.Template.Child()
@@ -37,6 +43,15 @@ class PreferencesWindow(Gtk.Window):
         base_url = self._settings.get_string("mopidy-base-url")
         if base_url:
             self.mopidy_base_url_entry.set_text(base_url)
+
+        mopidy_local = self._settings.get_boolean("mopidy-local")
+        self.mopidy_local_switch.set_active(mopidy_local)
+
+        mopidy_bandcamp = self._settings.get_boolean("mopidy-bandcamp")
+        self.mopidy_bandcamp_switch.set_active(mopidy_bandcamp)
+
+        mopidy_podcast = self._settings.get_boolean("mopidy-podcast")
+        self.mopidy_podcast_switch.set_active(mopidy_podcast)
 
         history_playlist = self._settings.get_boolean("history-playlist")
         self.history_playlist_check_button.set_active(history_playlist)
@@ -65,6 +80,12 @@ class PreferencesWindow(Gtk.Window):
         )
 
         for widget in (
+            self.mopidy_local_switch,
+            self.mopidy_local_label,
+            self.mopidy_bandcamp_switch,
+            self.mopidy_bandcamp_label,
+            self.mopidy_podcast_switch,
+            self.mopidy_podcast_label,
             self.history_playlist_check_button,
             self.history_playlist_max_length_label,
             self.history_playlist_max_length_button,
@@ -80,6 +101,15 @@ class PreferencesWindow(Gtk.Window):
         self._model.connect("notify::connected", self.on_connection_changed)
         self.mopidy_base_url_entry.connect(
             "changed", self.on_mopidy_base_url_entry_changed
+        )
+        self.mopidy_local_switch.connect(
+            "notify::active", self.on_mopidy_local_switch_activated
+        )
+        self.mopidy_bandcamp_switch.connect(
+            "notify::active", self.on_mopidy_bandcamp_switch_activated
+        )
+        self.mopidy_podcast_switch.connect(
+            "notify::active", self.on_mopidy_podcast_switch_activated
         )
         self.history_playlist_check_button.connect(
             "toggled", self.on_history_playlist_check_button_toggled
@@ -104,6 +134,12 @@ class PreferencesWindow(Gtk.Window):
     ) -> None:
         sensitive = self._model.network_available and self._model.connected
         widgets = (
+            self.mopidy_local_switch,
+            self.mopidy_local_label,
+            self.mopidy_bandcamp_switch,
+            self.mopidy_bandcamp_label,
+            self.mopidy_podcast_switch,
+            self.mopidy_podcast_label,
             self.history_playlist_check_button,
             self.history_playlist_max_length_label,
             self.history_playlist_max_length_button,
@@ -117,6 +153,30 @@ class PreferencesWindow(Gtk.Window):
     def on_mopidy_base_url_entry_changed(self, entry: Gtk.Entry) -> None:
         base_url = entry.get_text()
         self._settings.set_string("mopidy-base-url", base_url)
+
+    def on_mopidy_local_switch_activated(
+        self,
+        switch: Gtk.Switch,
+        _1: bool,
+    ) -> None:
+        mopidy_local = switch.get_active()
+        self._settings.set_boolean("mopidy-local", mopidy_local)
+
+    def on_mopidy_bandcamp_switch_activated(
+        self,
+        switch: Gtk.Switch,
+        _1: bool,
+    ) -> None:
+        mopidy_bandcamp = switch.get_active()
+        self._settings.set_boolean("mopidy-bandcamp", mopidy_bandcamp)
+
+    def on_mopidy_podcast_switch_activated(
+        self,
+        switch: Gtk.Switch,
+        _1: bool,
+    ) -> None:
+        mopidy_podcast = switch.get_active()
+        self._settings.set_boolean("mopidy-podcast", mopidy_podcast)
 
     def on_history_playlist_check_button_toggled(self, button: Gtk.CheckButton) -> None:
         history_playlist = button.get_active()

@@ -21,6 +21,36 @@
       </description>
     </key>
 
+    <key type="b" name="mopidy-local">
+      <default>false</default>
+      <summary>
+	Mopidy-Local
+      </summary>
+      <description>
+	Whether to display albums from Mopidy-Local directory in library.
+      </description>
+    </key>
+
+    <key type="b" name="mopidy-bandcamp">
+      <default>false</default>
+      <summary>
+	Mopidy-Bandcamp
+      </summary>
+      <description>
+	Whether to display albums from Mopidy-Bandcamp directory in library.
+      </description>
+    </key>
+
+    <key type="b" name="mopidy-podcast">
+      <default>false</default>
+      <summary>
+	Mopidy-Podcast
+      </summary>
+      <description>
+	Whether to display albums from Mopidy-Podcast directory in library.
+      </description>
+    </key>
+
     <key type="b" name="history-playlist">
       <default>true</default>
       <summary>
