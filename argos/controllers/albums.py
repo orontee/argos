@@ -5,6 +5,7 @@ from typing import Any, cast, Dict, List, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from ..app import Application
+from ..backends import BackendManager
 from ..download import ImageDownloader
 from ..message import consume, Message, MessageType
 from ..model import AlbumModel
@@ -26,13 +27,8 @@ class AlbumsController(ControllerBase):
     def __init__(self, application: "Application"):
         super().__init__(application)
 
+        self._backend_manager = BackendManager()
         self._download: ImageDownloader = application.props.download
-
-        self._supported_directories = {
-            "local:directory": "local:directory?type=album",
-            "bandcamp:browse": "bandcamp:collection",
-            "podcast+file:///etc/mopidy/podcast/Podcasts.opml": "podcast+file:///etc/mopidy/podcast/Podcasts.opml",
-        }
 
     @consume(MessageType.COMPLETE_ALBUM_DESCRIPTION)
     async def complete_album_description(self, message: Message) -> None:
@@ -109,7 +105,7 @@ class AlbumsController(ControllerBase):
             if directory_uri is None:
                 continue
 
-            albums_uri = self._supported_directories.get(directory_uri)
+            albums_uri = self._backend_manager.get_albums_uri(directory_uri)
             if albums_uri is None:
                 LOGGER.warning(
                     f"Skipping unsupported directory with URI {directory_uri!r}"
