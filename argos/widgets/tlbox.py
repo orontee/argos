@@ -73,5 +73,12 @@ class TracklistBox(Gtk.ListBox):
 
         track_box = row.get_child()
         tlid = track_box.props.tlid if track_box else None
-        if tlid is not None:
-            self._app.send_message(MessageType.PLAY, {"tlid": tlid})
+        if tlid is None:
+            return
+
+        consume = self._model.tracklist.props.consume
+        current_tl_track_tlid = self._model.playback.props.current_tl_track_tlid
+        if consume and current_tl_track_tlid == tlid:
+            return
+
+        self._app.send_message(MessageType.PLAY, {"tlid": tlid})
