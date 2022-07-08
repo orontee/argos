@@ -41,12 +41,6 @@ class AlbumsController(ControllerBase):
             LOGGER.warning(f"Attempt to complete unknow album with URI {album_uri!r}")
             return
 
-        if len(album.tracks) > 0:
-            LOGGER.debug(
-                f"No need to complete description of album with URI {album_uri!r}"
-            )
-            return
-
         LOGGER.debug(f"Completing description of album with uri {album_uri!r}")
 
         tracks = await self._http.lookup_library([album_uri])
