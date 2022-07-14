@@ -116,7 +116,8 @@
                     <property name="margin-top">5</property>
                     <property name="margin-bottom">5</property>
                     <property name="hexpand">True</property>
-                    <property name="wrap">True</property>
+                    <property name="ellipsize">end</property>
+                    <property name="single-line-mode">True</property>
                   </object>
                   <packing>
                     <property name="left-attach">0</property>
@@ -131,7 +132,8 @@
                     <property name="halign">center</property>
                     <property name="margin-bottom">5</property>
                     <property name="hexpand">True</property>
-                    <property name="wrap">True</property>
+                    <property name="ellipsize">end</property>
+                    <property name="single-line-mode">True</property>
                   </object>
                   <packing>
                     <property name="left-attach">0</property>
