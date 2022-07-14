@@ -1,7 +1,8 @@
+from collections import defaultdict
 import logging
 from operator import attrgetter
 import random
-from typing import Any, cast, Dict, List, Optional, TYPE_CHECKING
+from typing import Any, cast, Dict, List, Optional, Tuple, TYPE_CHECKING
 
 from gi.repository import Gio
 
@@ -51,7 +52,9 @@ class AlbumsController(ControllerBase):
                 f"changed::{settings_key}", self._on_backend_settings_changed
             )
 
-    def _get_albums_uri(self, directory_uri: Optional[str]) -> Optional[str]:
+    def _get_directory_backend(
+        self, directory_uri: Optional[str]
+    ) -> Tuple[Optional[MopidyBackend], Optional[str]]:
         for backend, activated in self._backends.items():
             albums_uri = backend.get_albums_uri(directory_uri)
             if albums_uri:
@@ -59,15 +62,15 @@ class AlbumsController(ControllerBase):
                     LOGGER.info(
                         f"Backend {backend.__class__!r} supports URI {albums_uri!r} but is deactivated"
                     )
-                    return None
+                    return backend, None
                 else:
                     LOGGER.debug(
                         f"Backend {backend.__class__!r} supports URI {albums_uri!r}"
                     )
-                return albums_uri
+                return backend, albums_uri
 
         LOGGER.warning(f"No known backend supports URI {directory_uri!r}")
-        return None
+        return None, None
 
     def _on_backend_settings_changed(
         self,
@@ -99,6 +102,10 @@ class AlbumsController(ControllerBase):
             return
 
         LOGGER.debug(f"Completing description of album with uri {album_uri!r}")
+
+        if album.is_complete():
+            LOGGER.warning(f"Album with URI {album_uri!r} already completed")
+            return
 
         tracks = await self._http.lookup_library([album_uri])
         if tracks is None:
@@ -147,7 +154,7 @@ class AlbumsController(ControllerBase):
         if not directories:
             return None
 
-        albums = []
+        albums_by_backend: Dict[MopidyBackend, List[Any]] = defaultdict(list)
         for directory in directories:
             assert "__model__" in directory and directory["__model__"] == "Ref"
             assert "type" in directory and directory["type"] == "directory"
@@ -156,8 +163,8 @@ class AlbumsController(ControllerBase):
             if directory_uri is None:
                 continue
 
-            albums_uri = self._get_albums_uri(directory_uri)
-            if albums_uri is None:
+            backend, albums_uri = self._get_directory_backend(directory_uri)
+            if backend is None or albums_uri is None:
                 LOGGER.warning(
                     f"Skipping unsupported directory with URI {directory_uri!r}"
                 )
@@ -177,36 +184,39 @@ class AlbumsController(ControllerBase):
                 f"Found {len(directory_albums)} albums in directory "
                 f"with URI {directory_uri!r}"
             )
-            albums += directory_albums
+            albums_by_backend[backend] += directory_albums
 
-        if not albums:
+        if len(albums_by_backend.values()) == 0:
             return
 
-        album_uris = [a["uri"] for a in albums]
+        album_uris = [a["uri"] for album in albums_by_backend.values() for a in album]
         images = await self._http.get_images(album_uris)
         if not images:
             return
 
         parsed_albums = []
-        for a in albums:
-            assert "__model__" in a and a["__model__"] == "Ref"
-            assert "type" in a and a["type"] == "album"
+        for backend in albums_by_backend:
+            albums = albums_by_backend[backend]
+            for a in albums:
+                assert "__model__" in a and a["__model__"] == "Ref"
+                assert "type" in a and a["type"] == "album"
 
-            album_uri = a["uri"]
-            if album_uri in images and len(images[album_uri]) > 0:
-                image_uri = images[album_uri][0].get("uri", "")
-                filepath = self._download.get_image_filepath(image_uri)
-            else:
-                image_uri = ""
-                filepath = None
+                album_uri = a["uri"]
+                if album_uri in images and len(images[album_uri]) > 0:
+                    image_uri = images[album_uri][0].get("uri", "")
+                    filepath = self._download.get_image_filepath(image_uri)
+                else:
+                    image_uri = ""
+                    filepath = None
 
-            album = AlbumModel(
-                uri=album_uri,
-                name=a.get("name", ""),
-                image_path=str(filepath) if filepath is not None else "",
-                image_uri=image_uri,
-            )
-            parsed_albums.append(album)
+                album = AlbumModel(
+                    uri=album_uri,
+                    name=a.get("name", ""),
+                    image_path=str(filepath) if filepath is not None else "",
+                    image_uri=image_uri,
+                    backend=backend,
+                )
+                parsed_albums.append(album)
 
         self._model.update_albums(parsed_albums)
         self.send_message(MessageType.FETCH_ALBUM_IMAGES)
