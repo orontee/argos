@@ -82,51 +82,84 @@
           </packing>
         </child>
         <child>
-          <object class="GtkBox" id="labels_box">
+          <object class="GtkBox" id="playback_controls_box">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="valign">center</property>
-            <property name="orientation">vertical</property>
+            <property name="halign">center</property>
+            <property name="margin-top">10</property>
+            <property name="margin-bottom">5</property>
             <child>
-              <object class="GtkLabel" id="track_name_label">
+              <object class="GtkButton" id="prev_button">
+                <property name="width-request">50</property>
+                <property name="height-request">50</property>
                 <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="margin-left">10</property>
-                <property name="margin-right">10</property>
-                <property name="margin-start">10</property>
-                <property name="margin-end">10</property>
-                <property name="margin-bottom">5</property>
-                <property name="justify">center</property>
-                <property name="wrap">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="tooltip-text" translatable="yes">Previous</property>
+                <property name="image">previous_image</property>
+                <property name="always-show-image">True</property>
+                <signal name="clicked" handler="on_prev_button_clicked" swapped="no"/>
+                <style>
+                  <class name="pill"/>
+                </style>
               </object>
               <packing>
-                <property name="expand">False</property>
+                <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="artist_name_label">
+              <object class="GtkButton" id="play_button">
+                <property name="width-request">70</property>
+                <property name="height-request">50</property>
                 <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="margin-left">10</property>
-                <property name="margin-right">10</property>
-                <property name="margin-start">10</property>
-                <property name="margin-end">10</property>
-                <property name="margin-bottom">5</property>
-                <property name="justify">center</property>
-                <property name="wrap">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="tooltip-text" translatable="yes">Play</property>
+                <property name="image">play_image</property>
+                <property name="always-show-image">True</property>
+                <signal name="clicked" handler="on_play_button_clicked" swapped="no"/>
+                <style>
+                  <class name="pill"/>
+                </style>
               </object>
               <packing>
-                <property name="expand">False</property>
+                <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkButton" id="next_button">
+                <property name="width-request">50</property>
+                <property name="height-request">50</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="tooltip-text" translatable="yes">Next</property>
+                <property name="image">next_image</property>
+                <property name="image-position">right</property>
+                <property name="always-show-image">True</property>
+                <signal name="clicked" handler="on_next_button_clicked" swapped="no"/>
+                <style>
+                  <class name="pill"/>
+                </style>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <style>
+              <class name="linked"/>
+            </style>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
+            <property name="pack-type">end</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -204,83 +237,53 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
+            <property name="pack-type">end</property>
             <property name="position">2</property>
           </packing>
         </child>
         <child>
-          <object class="GtkBox" id="playback_controls_box">
+          <object class="GtkBox" id="labels_box">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="halign">center</property>
-            <property name="margin-top">10</property>
-            <property name="margin-bottom">5</property>
+            <property name="valign">center</property>
+            <property name="orientation">vertical</property>
             <child>
-              <object class="GtkButton" id="prev_button">
-                <property name="width-request">50</property>
-                <property name="height-request">50</property>
+              <object class="GtkLabel" id="track_name_label">
                 <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-                <property name="tooltip-text" translatable="yes">Previous</property>
-                <property name="image">previous_image</property>
-                <property name="always-show-image">True</property>
-                <signal name="clicked" handler="on_prev_button_clicked" swapped="no"/>
-                <style>
-                  <class name="pill"/>
-                </style>
+                <property name="can-focus">False</property>
+                <property name="margin-left">10</property>
+                <property name="margin-right">10</property>
+                <property name="margin-start">10</property>
+                <property name="margin-end">10</property>
+                <property name="margin-top">5</property>
+                <property name="margin-bottom">5</property>
+                <property name="justify">center</property>
+                <property name="wrap">True</property>
               </object>
               <packing>
-                <property name="expand">True</property>
+                <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="play_button">
-                <property name="width-request">70</property>
-                <property name="height-request">50</property>
+              <object class="GtkLabel" id="artist_name_label">
                 <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-                <property name="tooltip-text" translatable="yes">Play</property>
-                <property name="image">play_image</property>
-                <property name="always-show-image">True</property>
-                <signal name="clicked" handler="on_play_button_clicked" swapped="no"/>
-                <style>
-                  <class name="pill"/>
-                </style>
+                <property name="can-focus">False</property>
+                <property name="margin-left">10</property>
+                <property name="margin-right">10</property>
+                <property name="margin-start">10</property>
+                <property name="margin-end">10</property>
+                <property name="margin-bottom">5</property>
+                <property name="justify">center</property>
+                <property name="wrap">True</property>
               </object>
               <packing>
-                <property name="expand">True</property>
+                <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
             </child>
-            <child>
-              <object class="GtkButton" id="next_button">
-                <property name="width-request">50</property>
-                <property name="height-request">50</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-                <property name="tooltip-text" translatable="yes">Next</property>
-                <property name="image">next_image</property>
-                <property name="image-position">right</property>
-                <property name="always-show-image">True</property>
-                <signal name="clicked" handler="on_next_button_clicked" swapped="no"/>
-                <style>
-                  <class name="pill"/>
-                </style>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">2</property>
-              </packing>
-            </child>
-            <style>
-              <class name="linked"/>
-            </style>
           </object>
           <packing>
             <property name="expand">False</property>
