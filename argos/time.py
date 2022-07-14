@@ -13,6 +13,7 @@ from .model import Model, PlaybackState
 LOGGER = logging.getLogger(__name__)
 
 DELAY = 10  # s
+SYNCHRONIZATION_TIMEOUT = 4  # s
 
 
 class TimePositionTracker(GObject.GObject):
@@ -79,7 +80,7 @@ class TimePositionTracker(GObject.GObject):
                 try:
                     time_position = await asyncio.wait_for(
                         self._http.get_time_position(),
-                        1,
+                        SYNCHRONIZATION_TIMEOUT,
                     )
                     synced = True
                 except asyncio.exceptions.TimeoutError:

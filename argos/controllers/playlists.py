@@ -227,7 +227,7 @@ class PlaylistsController(ControllerBase):
         LOGGER.debug("Complete history playlist task created")
 
     async def __complete_history_playlist(self) -> None:
-        await asyncio.sleep(10)
+        await asyncio.sleep(11)
 
         if not self._history_playlist:
             return
