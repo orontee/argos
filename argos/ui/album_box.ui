@@ -51,7 +51,6 @@
                 <property name="halign">center</property>
                 <property name="margin-top">5</property>
                 <property name="hexpand">True</property>
-                <property name="vexpand">True</property>
                 <child>
                   <object class="GtkLabel" id="publication_title_label">
                     <property name="visible">True</property>
