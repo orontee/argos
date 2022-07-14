@@ -5,8 +5,14 @@ LOGGER = logging.getLogger(__name__)
 
 
 class MopidyBackend:
-    def __init__(self, *, settings_key: str):
+    def __init__(
+        self,
+        *,
+        settings_key: str,
+        static_albums: bool = True,
+    ):
         self._settings_key = settings_key
+        self._static_albums = static_albums
 
     def get_albums_uri(self, directory_uri: Optional[str]) -> Optional[str]:
         raise NotImplementedError
@@ -14,6 +20,10 @@ class MopidyBackend:
     @property
     def settings_key(self) -> str:
         return self._settings_key
+
+    @property
+    def static_albums(self) -> bool:
+        return self._static_albums
 
 
 class MopidyLocalBackend(MopidyBackend):
@@ -38,7 +48,7 @@ class MopidyBandcampBackend(MopidyBackend):
 
 class MopidyPodcastBackend(MopidyBackend):
     def __init__(self):
-        super().__init__(settings_key="mopidy-podcast")
+        super().__init__(settings_key="mopidy-podcast", static_albums=False)
 
     def get_albums_uri(self, directory_uri: Optional[str]) -> Optional[str]:
         if directory_uri and directory_uri.startswith("podcast+file://"):

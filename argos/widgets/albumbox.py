@@ -71,6 +71,7 @@ class AlbumBox(Gtk.Box):
         )
         self._model.connect("notify::connected", self._handle_connection_changed)
         self._model.connect("album-completed", self._on_album_completed)
+        self.connect("notify::uri", self._on_uri_changed)
 
     def _handle_connection_changed(
         self,
@@ -86,6 +87,30 @@ class AlbumBox(Gtk.Box):
         for widget in widgets:
             widget.set_sensitive(sensitive)
 
+    def _on_uri_changed(
+        self,
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
+    ) -> None:
+        found = [album for album in self._model.albums if album.uri == self.uri]
+        if len(found) == 0:
+            LOGGER.warning(f"No album found with URI {self.uri}")
+            self._update_album_name_label(None)
+            self._update_artist_name_label(None)
+            self._update_publication_label(None)
+            self._update_length_label(None)
+            self._update_album_image(None)
+            self._update_track_view(None)
+            return
+
+        album = found[0]
+        self._update_album_name_label(album.name)
+        self._update_artist_name_label(album.artist_name)
+        self._update_publication_label(album.date)
+        self._update_length_label(album.length)
+        self._update_album_image(Path(album.image_path) if album.image_path else None)
+        self._update_track_view(album.tracks)
+
     def _on_album_completed(self, model: Model, uri: str) -> None:
         if self.uri != uri:
             return
@@ -96,7 +121,6 @@ class AlbumBox(Gtk.Box):
             return
 
         album = found[0]
-        self._update_album_name_label(album.name)
         self._update_artist_name_label(album.artist_name)
         self._update_publication_label(album.date)
         self._update_length_label(album.length)

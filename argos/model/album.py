@@ -1,5 +1,6 @@
 from gi.repository import Gio, GObject
 
+from ..backends import MopidyBackend
 from .track import TrackModel
 from .utils import WithThreadSafePropertySetter
 
@@ -31,6 +32,7 @@ class AlbumModel(WithThreadSafePropertySetter, GObject.Object):
         name: str,
         image_path: str,
         image_uri: str,
+        backend: MopidyBackend,
     ):
         super().__init__(
             uri=uri,
@@ -38,6 +40,7 @@ class AlbumModel(WithThreadSafePropertySetter, GObject.Object):
             image_path=image_path,
             image_uri=image_uri,
         )
+        self._backend = backend
         self.tracks = Gio.ListStore.new(TrackModel)
 
     def set_name(self, value: str) -> None:
@@ -54,3 +57,6 @@ class AlbumModel(WithThreadSafePropertySetter, GObject.Object):
 
     def set_length(self, value: int) -> None:
         self.set_property_in_gtk_thread("length", value)
+
+    def is_complete(self) -> bool:
+        return self._backend.static_albums and len(self.tracks) > 0
