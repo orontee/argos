@@ -22,7 +22,6 @@
       <object class="GtkScrolledWindow" id="right_pane">
         <property name="visible">True</property>
         <property name="can-focus">True</property>
-        <property name="hexpand">True</property>
         <property name="vexpand">True</property>
         <property name="hscrollbar-policy">never</property>
         <property name="shadow-type">in</property>
@@ -30,14 +29,10 @@
           <object class="GtkViewport" id="tracks_box_viewport">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="hexpand">True</property>
-            <property name="vexpand">True</property>
             <child>
               <object class="GtkListBox" id="tracks_box">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="hexpand">True</property>
-                <property name="vexpand">True</property>
                 <property name="activate-on-single-click">False</property>
                 <signal name="row-activated" handler="on_tracks_box_row_activated" swapped="no"/>
               </object>

@@ -72,8 +72,6 @@
             <property name="height-request">200</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="hexpand">True</property>
-            <property name="vexpand">True</property>
             <property name="icon-name">image-x-generic-symbolic</property>
             <property name="icon_size">6</property>
           </object>
@@ -88,7 +86,6 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="valign">center</property>
-            <property name="vexpand">True</property>
             <property name="orientation">vertical</property>
             <child>
               <object class="GtkLabel" id="track_name_label">
@@ -217,8 +214,6 @@
             <property name="halign">center</property>
             <property name="margin-top">10</property>
             <property name="margin-bottom">5</property>
-            <property name="hexpand">True</property>
-            <property name="vexpand">False</property>
             <child>
               <object class="GtkButton" id="prev_button">
                 <property name="width-request">50</property>

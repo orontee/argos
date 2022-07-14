@@ -20,7 +20,6 @@
       <object class="GtkBox" id="vertical_box">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
-        <property name="vexpand">True</property>
         <property name="spacing">5</property>
         <property name="homogeneous">True</property>
         <child>
@@ -35,8 +34,6 @@
                 <property name="height-request">200</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="hexpand">True</property>
-                <property name="vexpand">True</property>
                 <property name="stock">gtk-missing-image</property>
                 <property name="icon_size">6</property>
               </object>
@@ -92,7 +89,6 @@
                     <property name="can-focus">False</property>
                     <property name="halign">end</property>
                     <property name="margin-end">5</property>
-                    <property name="hexpand">True</property>
                     <property name="label" translatable="yes">Published</property>
                     <attributes>
                       <attribute name="weight" value="semilight"/>
@@ -121,7 +117,6 @@
                     <property name="can-focus">False</property>
                     <property name="halign">end</property>
                     <property name="margin-end">5</property>
-                    <property name="hexpand">True</property>
                     <property name="label" translatable="yes">Length</property>
                     <attributes>
                       <attribute name="weight" value="semilight"/>
@@ -162,8 +157,6 @@
           <object class="GtkBox" id="right_pane">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="hexpand">True</property>
-            <property name="vexpand">True</property>
             <property name="orientation">vertical</property>
             <child>
               <object class="GtkScrolledWindow" id="track_view_scrolled_window">
