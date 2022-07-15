@@ -16,7 +16,8 @@ from .session import get_session
 
 LOGGER = logging.getLogger(__name__)
 
-MAX_DOWNLOAD_TASKS = 1024
+MAX_DATA_CHUNK_SIZE = 1024  # bytes
+MAX_SIMULTANEOUS_DOWNLOADS = 10
 
 
 class ImageDownloader(GObject.GObject):
@@ -27,7 +28,7 @@ class ImageDownloader(GObject.GObject):
     """
 
     __gsignals__: Dict[str, Tuple[int, Any, Tuple]] = {
-        "albums-images-loaded": (GObject.SIGNAL_RUN_FIRST, None, ())
+        "albums-images-downloaded": (GObject.SIGNAL_RUN_FIRST, None, ())
     }
 
     def __init__(
@@ -78,7 +79,7 @@ class ImageDownloader(GObject.GObject):
                         LOGGER.debug(f"Writing image to {str(filepath)!r}")
                         with filepath.open("wb") as fd:
                             async for chunk in resp.content.iter_chunked(
-                                MAX_DOWNLOAD_TASKS
+                                MAX_DATA_CHUNK_SIZE
                             ):
                                 fd.write(chunk)
                 except aiohttp.ClientError as err:
@@ -91,14 +92,13 @@ class ImageDownloader(GObject.GObject):
             return None
 
         paths: Dict[str, Path] = {}
-        max_downloads = 10
-        download_count = (len(image_uris) // max_downloads) + 1
+        download_count = (len(image_uris) // MAX_SIMULTANEOUS_DOWNLOADS) + 1
 
         async def download() -> None:
-            LOGGER.debug(f"Starting {download_count} batch of downloads")
+            LOGGER.debug(f"Starting {download_count} batch of images downloads")
             for task_nb in range(download_count):
-                start = task_nb * max_downloads
-                some_image_uris = image_uris[start : start + max_downloads]
+                start = task_nb * MAX_SIMULTANEOUS_DOWNLOADS
+                some_image_uris = image_uris[start : start + MAX_SIMULTANEOUS_DOWNLOADS]
                 tasks = [self.fetch_image(image_uri) for image_uri in some_image_uris]
                 filepaths = await asyncio.gather(*tasks)
 
@@ -106,10 +106,11 @@ class ImageDownloader(GObject.GObject):
                     if image_uri is not None and filepath is not None:
                         paths[image_uri] = filepath
 
+            LOGGER.info("Images have been downloaded")
             GLib.idle_add(
                 partial(
                     self.emit,
-                    "albums-images-loaded",
+                    "albums-images-downloaded",
                 )
             )
 

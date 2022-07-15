@@ -57,13 +57,15 @@ class AlbumsWindow(Gtk.ScrolledWindow):
             target_width=ALBUM_IMAGE_SIZE,
         )
 
-        self._model.connect("notify::albums-loaded", self.update_album_list)
-        application.props.download.connect("albums-images-loaded", self.update_images)
+        self._model.connect("notify::albums-loaded", self._update_store)
+        application.props.download.connect(
+            "albums-images-downloaded", self._update_store_pixbufs
+        )
 
     def set_filtering_text(self, text: str) -> None:
         stripped = text.strip()
         if stripped != self.props.filtering_text:
-            LOGGER.debug(f"Filtering albums store according to {stripped}")
+            LOGGER.debug(f"Filtering albums store according to {stripped!r}")
 
             self.props.filtering_text = stripped
             self.props.filtered_albums_store.refilter()
@@ -81,12 +83,12 @@ class AlbumsWindow(Gtk.ScrolledWindow):
         text = model.get_value(iter, AlbumStoreColumns.FILTER_TEXT)
         return re.search(pattern, text, re.IGNORECASE) is not None
 
-    def update_album_list(
+    def _update_store(
         self,
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
-        LOGGER.debug("Updating album list...")
+        LOGGER.debug("Updating album store...")
 
         store = self.props.filtered_albums_store.get_model()
         store.clear()
@@ -103,20 +105,22 @@ class AlbumsWindow(Gtk.ScrolledWindow):
                 ]
             )
 
-    def update_images(
+    def _update_store_pixbufs(
         self,
         _1: GObject.GObject,
     ) -> None:
-        thread = threading.Thread(target=self._update_images, name="ImagesThread")
+        thread = threading.Thread(
+            target=self._start_store_pixbufs_update_task, name="ImagesThread"
+        )
         thread.daemon = True
         thread.start()
 
-    def _update_images(self) -> None:
-        LOGGER.debug("Updating album images...")
+    def _start_store_pixbufs_update_task(self) -> None:
+        LOGGER.debug("Updating album store pixbufs...")
 
         store = self.props.filtered_albums_store.get_model()
 
-        def update_album_image(path: Gtk.TreePath, pixbuf: Pixbuf) -> None:
+        def update_pixbuf_at(path: Gtk.TreePath, pixbuf: Pixbuf) -> None:
             store_iter = store.get_iter(path)
             store.set_value(store_iter, AlbumStoreColumns.PIXBUF, pixbuf)
 
@@ -129,7 +133,7 @@ class AlbumsWindow(Gtk.ScrolledWindow):
                     target_width=ALBUM_IMAGE_SIZE,
                 )
                 path = store.get_path(store_iter)
-                GLib.idle_add(update_album_image, path, scaled_pixbuf)
+                GLib.idle_add(update_pixbuf_at, path, scaled_pixbuf)
             else:
                 uri = store.get_value(store_iter, AlbumStoreColumns.URI)
                 LOGGER.debug(f"No image path for {uri}")
