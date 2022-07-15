@@ -4,7 +4,7 @@ from operator import attrgetter
 import random
 from typing import Any, cast, Dict, List, Optional, Tuple, TYPE_CHECKING
 
-from gi.repository import Gio
+from gi.repository import Gio, GObject
 
 if TYPE_CHECKING:
     from ..app import Application
@@ -51,6 +51,8 @@ class AlbumsController(ControllerBase):
             self._settings.connect(
                 f"changed::{settings_key}", self._on_backend_settings_changed
             )
+
+        self._model.connect("notify::albums-loaded", self._on_albums_loaded)
 
     def _get_directory_backend(
         self, directory_uri: Optional[str]
@@ -219,7 +221,6 @@ class AlbumsController(ControllerBase):
                 parsed_albums.append(album)
 
         self._model.update_albums(parsed_albums)
-        self.send_message(MessageType.FETCH_ALBUM_IMAGES)
 
     @consume(MessageType.PLAY_RANDOM_ALBUM)
     async def play_random_album(self, message: Message) -> None:
@@ -231,6 +232,15 @@ class AlbumsController(ControllerBase):
         LOGGER.debug(f"Album with URI {album.uri!r} choosen")
 
         await self._http.play_tracks([album.uri])
+
+    def _on_albums_loaded(
+        self,
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
+    ) -> None:
+        if self._model.albums_loaded:
+            LOGGER.debug("Will fetch album images since albums were just loaded")
+            self.send_message(MessageType.FETCH_ALBUM_IMAGES)
 
     @consume(MessageType.FETCH_ALBUM_IMAGES)
     async def fetch_album_images(self, message: Message) -> None:

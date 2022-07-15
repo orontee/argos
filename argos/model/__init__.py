@@ -103,6 +103,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         for album in albums:
             self.albums.append(album)
 
+        LOGGER.debug("Albums loaded")
         self.props.albums_loaded = True
 
     def complete_album_description(
@@ -213,6 +214,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
                 )
             )
 
+        LOGGER.debug(f"Tracklist with {version} loaded")
         self.props.tracklist_loaded = True
 
     def update_playlists(self, playlists: List[PlaylistModel]) -> None:
