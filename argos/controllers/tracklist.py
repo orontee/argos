@@ -51,6 +51,11 @@ class TracklistController(ControllerBase):
         await self._http.add_to_tracklist(uris=uris)
         self._notifier.send_notification(_("Tracklist updated"))
 
+    @consume(MessageType.REMOVE_FROM_TRACKLIST)
+    async def remove_from_tracklist(self, message: Message) -> None:
+        tlids = cast(List[int], message.data.get("tlids"))
+        await self._http.remove_from_tracklist(tlids=tlids)
+
     @consume(MessageType.CLEAR_TRACKLIST)
     async def clear_tracklist(self, message: Message) -> None:
         await self._http.clear_tracklist()
