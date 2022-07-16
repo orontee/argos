@@ -2,7 +2,7 @@ import gettext
 import logging
 from pathlib import Path
 import re
-from typing import Optional
+from typing import List, Optional
 
 from gi.repository import Gio, GLib, GObject, Gtk
 
@@ -25,6 +25,15 @@ ALBUM_IMAGE_SIZE = 80
 
 @Gtk.Template(resource_path="/io/github/orontee/Argos/ui/album_box.ui")
 class AlbumBox(Gtk.Box):
+    """Box gathering details on an album.
+
+    The box has horizontal orientation, is homogeneous and has two
+    children boxes: The left pane displays the album image and the
+    album details; The right pane displays the album tracks view and a
+    button box.
+
+    """
+
     __gtype_name__ = "AlbumBox"
 
     add_button: Gtk.Button = Gtk.Template.Child()
@@ -49,7 +58,12 @@ class AlbumBox(Gtk.Box):
         self._disable_tooltips = application.props.disable_tooltips
 
         self.tracks_box.set_header_func(set_list_box_header_with_separator)
-        self.tracks_box.set_activate_on_single_click(application.props.single_click)
+        if application.props.single_click:
+            self.tracks_box.set_activate_on_single_click(True)
+            self.tracks_box.set_selection_mode(Gtk.SelectionMode.SINGLE)
+        else:
+            self.tracks_box.set_activate_on_single_click(False)
+            self.tracks_box.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
 
         for widget in (
             self.add_button,
@@ -206,13 +220,45 @@ class AlbumBox(Gtk.Box):
         widget = TrackBox(self._app, track=track)
         return widget
 
+    def _track_selection_to_uris(self) -> List[str]:
+        """Returns the list of URIs for current track selection.
+
+        The returned list contains the album URI if current track
+        selection is empty.
+
+        """
+        uris: List[str] = []
+        selected_rows = self.tracks_box.get_selected_rows()
+        for row in selected_rows:
+            track_box = row.get_child()
+            uri = track_box.props.uri if track_box else None
+            if uri is not None:
+                uris.append(uri)
+
+        if len(uris) == 0:
+            uris.append(self.uri)
+
+        return uris
+
     @Gtk.Template.Callback()
     def on_play_button_clicked(self, _1: Gtk.Button) -> None:
-        self._app.send_message(MessageType.PLAY_TRACKS, {"uris": [self.uri]})
+        uris = (
+            self._track_selection_to_uris()
+            if not self.tracks_box.get_activate_on_single_click()
+            else [self.uri]
+        )
+        if len(uris) > 0:
+            self._app.send_message(MessageType.PLAY_TRACKS, {"uris": uris})
 
     @Gtk.Template.Callback()
     def on_add_button_clicked(self, _1: Gtk.Button) -> None:
-        self._app.send_message(MessageType.ADD_TO_TRACKLIST, {"uris": [self.uri]})
+        uris = (
+            self._track_selection_to_uris()
+            if not self.tracks_box.get_activate_on_single_click()
+            else [self.uri]
+        )
+        if len(uris) > 0:
+            self._app.send_message(MessageType.ADD_TO_TRACKLIST, {"uris": uris})
 
     @Gtk.Template.Callback()
     def on_tracks_box_row_activated(
