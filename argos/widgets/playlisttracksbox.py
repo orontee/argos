@@ -1,4 +1,5 @@
 import logging
+from typing import List
 
 from gi.repository import Gtk, GObject
 
@@ -12,6 +13,13 @@ LOGGER = logging.getLogger(__name__)
 
 @Gtk.Template(resource_path="/io/github/orontee/Argos/ui/playlist_tracks_box.ui")
 class PlaylistTracksBox(Gtk.Box):
+    """Box to act on a playlist.
+
+    The box has vertical orientation and has two children boxes: A
+    pane displaying the playlist tracks; And a button box.
+
+    """
+
     __gtype_name__ = "PlaylistTracksBox"
 
     tracks_box: Gtk.ListBox = Gtk.Template.Child()
@@ -29,7 +37,12 @@ class PlaylistTracksBox(Gtk.Box):
         self._disable_tooltips = application.props.disable_tooltips
 
         self.tracks_box.set_header_func(set_list_box_header_with_separator)
-        self.tracks_box.set_activate_on_single_click(application.props.single_click)
+        if application.props.single_click:
+            self.tracks_box.set_activate_on_single_click(True)
+            self.tracks_box.set_selection_mode(Gtk.SelectionMode.SINGLE)
+        else:
+            self.tracks_box.set_activate_on_single_click(False)
+            self.tracks_box.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
 
         for widget in (
             self.play_button,
@@ -83,24 +96,53 @@ class PlaylistTracksBox(Gtk.Box):
             self._create_track_box,
         )
 
-    @Gtk.Template.Callback()
-    def on_play_button_clicked(self, _1: Gtk.Button) -> None:
+    def _track_selection_to_uris(self) -> List[str]:
+        """Returns the list of URIs for current track selection.
+
+        The returned list contains the URIs of the tracks of current
+        playlist if current track selection is empty.
+
+        """
+        uris: List[str] = []
+        selected_rows = self.tracks_box.get_selected_rows()
+        for row in selected_rows:
+            track_box = row.get_child()
+            uri = track_box.props.uri if track_box else None
+            if uri is not None:
+                uris.append(uri)
+
+        if len(uris) == 0:
+            return self._playlist_track_uris()
+
+        return uris
+
+    def _playlist_track_uris(self) -> List[str]:
+        """Returns the list of URIs for the tracks of current playlist."""
+        uris: List[str] = []
         playlist = self._model.get_playlist(self.props.uri)
         tracks = playlist.tracks if playlist else None
-        if tracks is None:
-            return
+        if tracks is not None:
+            for t in tracks:
+                uris.append(t.props.uri)
+        return uris
 
-        uris = [t.props.uri for t in tracks]
-        self._app.send_message(MessageType.PLAY_TRACKS, {"uris": uris})
+    @Gtk.Template.Callback()
+    def on_play_button_clicked(self, _1: Gtk.Button) -> None:
+        uris = (
+            self._track_selection_to_uris()
+            if not self.tracks_box.get_activate_on_single_click()
+            else self._playlist_track_uris()
+        )
+        if len(uris) > 0:
+            self._app.send_message(MessageType.PLAY_TRACKS, {"uris": uris})
 
     @Gtk.Template.Callback()
     def on_add_button_clicked(self, _1: Gtk.Button) -> None:
-        playlist = self._model.get_playlist(self.props.uri)
-        tracks = playlist.tracks if playlist else None
-        if tracks is None:
-            return
-
-        uris = [t.props.uri for t in tracks]
+        uris = (
+            self._track_selection_to_uris()
+            if not self.tracks_box.get_activate_on_single_click()
+            else self._playlist_track_uris()
+        )
         if len(uris) > 0:
             self._app.send_message(MessageType.ADD_TO_TRACKLIST, {"uris": uris})
 

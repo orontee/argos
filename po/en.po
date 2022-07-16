@@ -188,12 +188,12 @@ msgid "Tracks"
 msgstr "Tracks"
 
 #: argos/ui/playlist_tracks_box.ui:67
-msgid "Add playlist to tracklist"
-msgstr "Add playlist to tracklist"
+msgid "Add playlist or selected tracks to tracklist"
+msgstr ""
 
 #: argos/ui/playlist_tracks_box.ui:82
-msgid "Play playlist"
-msgstr "Play playlist"
+msgid "Play playlist or selected tracks"
+msgstr ""
 
 #: argos/ui/preferences.ui:19
 msgid "Preferences"
