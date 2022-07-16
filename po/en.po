@@ -64,12 +64,12 @@ msgid "Length"
 msgstr "Length"
 
 #: argos/ui/album_box.ui:208
-msgid "Add album to tracklist"
-msgstr "Add album to tracklist"
+msgid "Add album or selected tracks to tracklist"
+msgstr "Add album or selected tracks to tracklist"
 
 #: argos/ui/album_box.ui:223
-msgid "Play album"
-msgstr "Play album"
+msgid "Play album or selected tracks"
+msgstr "Play album or selected tracks"
 
 #: argos/ui/app_menu.ui:6
 msgid "Play _random album"

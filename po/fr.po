@@ -63,12 +63,12 @@ msgid "Length"
 msgstr "Durée"
 
 #: argos/ui/album_box.ui:208
-msgid "Add album to tracklist"
-msgstr "Ajouter l'album à la file d'attente"
+msgid "Add album or selected tracks to tracklist"
+msgstr "Ajouter l'album ou les morceaux sélectionnés à la file d'attente"
 
 #: argos/ui/album_box.ui:223
-msgid "Play album"
-msgstr "Lire l'album"
+msgid "Play album or selected tracks"
+msgstr "Lire l'album ou les morceaux sélectionnés"
 
 #: argos/ui/app_menu.ui:6
 msgid "Play _random album"
@@ -168,7 +168,7 @@ msgstr "Vider la file d'attente"
 
 #: argos/ui/playing_box.ui:341
 msgid "Consume tracks"
-msgstr "Retirer les pistes lues"
+msgstr "Retirer les morceaux lus"
 
 #: argos/ui/playing_box.ui:361
 msgid "Shuffle tracklist"
@@ -176,7 +176,7 @@ msgstr "Lecture aléatoire"
 
 #: argos/ui/playing_box.ui:381
 msgid "Play single track"
-msgstr "Lecture d'une seule piste"
+msgstr "Lecture d'un seul morceau"
 
 #: argos/ui/playing_box.ui:401
 msgid "Repeat"
