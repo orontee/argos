@@ -99,6 +99,17 @@ class MopidyHTTPClient(GObject.GObject):
         """
         await self._ws.send_command("core.tracklist.add", params={"uris": uris})
 
+    async def remove_from_tracklist(self, tlids: List[int]) -> None:
+        """Remove tracks from the tracklist.
+
+        Args:
+            tlids: List of tracklist identifier of the tracks to remove.
+
+        """
+        await self._ws.send_command(
+            "core.tracklist.remove", params={"criteria": {"tlid": tlids}}
+        )
+
     async def clear_tracklist(self) -> None:
         """Clear the tracklist."""
         await self._ws.send_command("core.tracklist.clear")

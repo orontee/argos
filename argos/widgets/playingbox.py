@@ -2,7 +2,7 @@ from enum import IntEnum
 import gettext
 import logging
 from pathlib import Path
-from typing import Optional
+from typing import List, Optional
 
 from gi.repository import GLib, GObject, Gtk
 
@@ -69,7 +69,6 @@ class PlayingBox(Gtk.Box):
         self._time_position_scale_jumped_source_id: Optional[int] = None
 
         self.tracklist_view = TracklistBox(application)
-        self.tracklist_view.set_activate_on_single_click(application.props.single_click)
         self.tracklist_view_viewport.add(self.tracklist_view)
 
         for widget in (
@@ -280,9 +279,30 @@ class PlayingBox(Gtk.Box):
 
         self.play_button.show_now()
 
+    def _track_selection_to_tlids(self) -> List[int]:
+        """Returns the tracklist identifiers of current track selection."""
+        tlids: List[int] = []
+        selected_rows = self.tracklist_view.get_selected_rows()
+        for row in selected_rows:
+            tl_track_box = row.get_child()
+            tlid = tl_track_box.props.tlid if tl_track_box else None
+            if tlid is not -1:
+                tlids.append(tlid)
+
+        return tlids
+
     @Gtk.Template.Callback()
     def on_clear_button_clicked(self, _1: Gtk.Button) -> None:
-        self._app.send_message(MessageType.CLEAR_TRACKLIST)
+        tlids = (
+            self._track_selection_to_tlids()
+            if not self.tracklist_view.get_activate_on_single_click()
+            else []
+        )
+        if len(tlids) > 0:
+            LOGGER.debug(f"Will remove tracks with identifier {tlids} from tracklist")
+            self._app.send_message(MessageType.REMOVE_FROM_TRACKLIST, {"tlids": tlids})
+        else:
+            self._app.send_message(MessageType.CLEAR_TRACKLIST)
 
     @Gtk.Template.Callback()
     def on_prev_button_clicked(self, *args) -> None:
