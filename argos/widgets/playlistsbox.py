@@ -30,8 +30,6 @@ class PlaylistLabel(Gtk.Label):
         self.props.use_underline = False
         self.props.use_markup = False
 
-        self._is_virtual = self.playlist.uri.startswith("argos:")
-
         self.set_text(elide_maybe(self.playlist.name))
 
         self.playlist.connect("notify::name", self._on_playlist_name_changed)
@@ -39,8 +37,9 @@ class PlaylistLabel(Gtk.Label):
         if not self._disable_tooltips:
             self.set_tooltip_text(self.playlist.name)
 
-    def is_virtual(self):
-        return self._is_virtual
+    @property
+    def is_virtual(self) -> bool:
+        return self.playlist.is_virtual
 
     def _on_playlist_name_changed(
         self, _1: GObject.Object, _2: GObject.ParamSpec
@@ -59,11 +58,11 @@ def _set_list_box_header_with_virtual_playlist_separator(
         return
 
     playlist_label = row.get_child()
-    if not playlist_label.is_virtual() or before is None:
+    if not playlist_label.is_virtual or before is None:
         return
 
     before_label = before.get_child()
-    if before_label.is_virtual():
+    if before_label.is_virtual:
         return
 
     separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
