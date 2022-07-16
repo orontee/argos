@@ -9,12 +9,11 @@ def playlist_compare_func(
     b: "PlaylistModel",
     user_data: None,
 ) -> int:
-    # URIs with argos scheme are virtual playlists not handled by
-    # Mopidy service, and are expected to always be at the end of
-    # playlist lists.
-    if a.uri.startswith("argos:") and not b.uri.startswith("argos:"):
+    # Virtual playlists aren't handled by Mopidy service, and are
+    # expected to always be at the end of playlist lists
+    if a.is_virtual and not b.is_virtual:
         return 1
-    elif not a.uri.startswith("argos:") and b.uri.startswith("argos:"):
+    elif not a.is_virtual and b.is_virtual:
         return -1
     elif a.name < b.name:
         return -1
@@ -54,3 +53,7 @@ class PlaylistModel(WithThreadSafePropertySetter, GObject.Object):
         )
 
         self.tracks = Gio.ListStore.new(TrackModel)
+
+    @property
+    def is_virtual(self) -> bool:
+        return self.uri.startswith("argos:")
