@@ -187,10 +187,10 @@ class Application(Gtk.Application):
         Gtk.Application.do_startup(self)
 
         action_descriptions = [
-            ("show_about_dialog", self.show_about_dialog_cb, None),
-            ("show_preferences", self.show_prefs_activate_cb, None),
-            ("play_random_album", self.play_random_album_activate_cb, None),
-            ("update_library", self.update_library_activate_cb, None),
+            ("show-about-dialog", self.show_about_dialog_cb, None),
+            ("show-preferences", self.show_prefs_activate_cb, None),
+            ("play-random-album", self.play_random_album_activate_cb, None),
+            ("update-library", self.update_library_activate_cb, None),
             ("quit", self.quit_activate_cb, ("app.quit", ["<Ctrl>Q"])),
         ]
         for action_name, callback, accel in action_descriptions:
