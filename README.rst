@@ -39,10 +39,10 @@ Features 🥳
 
 * Playback state & tracklist view
 
-* Library browser populated with Mopidy-Local, Mopidy-Bandcamp and
-  Mopidy-Podcast albums
+* Library browser populated with albums from Mopidy-Local,
+  Mopidy-Bandcamp and Mopidy-Podcast
 
-* Playlists view
+* View and edition of Mopidy-M3U playlists
 
 Install
 =======
