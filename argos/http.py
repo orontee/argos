@@ -211,6 +211,11 @@ class MopidyHTTPClient(GObject.GObject):
         )
         return playlist
 
+    async def save_playlist(self, playlist: Dict[str, Any]) -> None:
+        await self._ws.send_command(
+            "core.playlists.save", params={"playlist": playlist}
+        )
+
     # Mopidy's API of core.history controller
 
     async def get_history(self) -> Optional[List[Any]]:

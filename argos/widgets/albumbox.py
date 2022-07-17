@@ -7,7 +7,7 @@ from typing import List, Optional
 from gi.repository import Gio, GLib, GObject, Gtk
 
 from argos.message import MessageType
-from argos.model import Model, TrackModel
+from argos.model import Model, PlaylistModel, TrackModel
 from argos.utils import elide_maybe, ms_to_text
 from argos.widgets.trackbox import TrackBox
 from argos.widgets.utils import (
@@ -23,6 +23,61 @@ LOGGER = logging.getLogger(__name__)
 ALBUM_IMAGE_SIZE = 80
 
 
+class AlbumTrackSelectionMenu(Gio.Menu):
+    """Menu used to act on a selection of album tracks.
+
+    Tracks can be added to the tracklist, a new playlist or an
+    existing playlist (non-virtual playlists are skipped).
+
+    """
+
+    def __init__(self, model: Model):
+        super().__init__()
+
+        self._model = model
+
+        self.append(_("Add to tracklist"), "win.add-to-tracklist")
+        self.append(_("Add to new playlist…"), "win.add-to-new_playlist")
+
+        self._sub_menu = Gio.Menu()  # for existing non-virtual playlists
+        self.append_section(None, self._sub_menu)
+
+        self._model.playlists.connect("items-changed", self._on_playlist_items_changed)
+
+    def _on_playlist_items_changed(
+        self,
+        _1: Gio.ListModel,
+        position: int,
+        removed: int,
+        added: int,
+    ) -> None:
+        if removed > 0:
+            LOGGER.debug(
+                f"Removing {removed} menu items starting from {position} position"
+            )
+            for i in range(removed):
+                if position < self._sub_menu.get_n_items():
+                    self._sub_menu.remove(position)
+
+        # Remember that virtual playlists are expected to be at the
+        # end of the playlists store...
+
+        if added > 0:
+            LOGGER.debug(f"Adding {added} menu items starting from {position} position")
+            for i in range(added):
+                item_position = position + i
+                playlist: PlaylistModel = self._model.playlists.get_item(item_position)
+                if playlist is None or playlist.is_virtual:
+                    continue
+
+                action_name_with_param = f"win.add-to-playlist('{playlist.uri}')"
+                self._sub_menu.insert(
+                    item_position,
+                    playlist.name,
+                    action_name_with_param,
+                )
+
+
 @Gtk.Template(resource_path="/io/github/orontee/Argos/ui/album_box.ui")
 class AlbumBox(Gtk.Box):
     """Box gathering details on an album.
@@ -36,8 +91,8 @@ class AlbumBox(Gtk.Box):
 
     __gtype_name__ = "AlbumBox"
 
-    add_button: Gtk.Button = Gtk.Template.Child()
     play_button: Gtk.Button = Gtk.Template.Child()
+    track_selection_button: Gtk.MenuButton = Gtk.Template.Child()
 
     album_image: Gtk.Image = Gtk.Template.Child()
 
@@ -54,7 +109,7 @@ class AlbumBox(Gtk.Box):
         super().__init__()
 
         self._app = application
-        self._model = application.model
+        self._model = application.props.model
         self._disable_tooltips = application.props.disable_tooltips
 
         self.tracks_box.set_header_func(set_list_box_header_with_separator)
@@ -65,9 +120,12 @@ class AlbumBox(Gtk.Box):
             self.tracks_box.set_activate_on_single_click(False)
             self.tracks_box.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
 
+        track_selection_menu = AlbumTrackSelectionMenu(self._model)
+        self.track_selection_button.set_menu_model(track_selection_menu)
+
         for widget in (
-            self.add_button,
             self.play_button,
+            self.track_selection_button,
             self.tracks_box,
         ):
             widget.set_sensitive(
@@ -95,7 +153,7 @@ class AlbumBox(Gtk.Box):
         sensitive = self._model.network_available and self._model.connected
         widgets = [
             self.play_button,
-            self.add_button,
+            self.track_selection_button,
             self.tracks_box,
         ]
         for widget in widgets:
@@ -250,8 +308,11 @@ class AlbumBox(Gtk.Box):
         if len(uris) > 0:
             self._app.send_message(MessageType.PLAY_TRACKS, {"uris": uris})
 
-    @Gtk.Template.Callback()
-    def on_add_button_clicked(self, _1: Gtk.Button) -> None:
+    def on_add_to_tracklist_activated(
+        self,
+        _1: Gio.SimpleAction,
+        _2: None,
+    ) -> None:
         uris = (
             self._track_selection_to_uris()
             if not self.tracks_box.get_activate_on_single_click()
@@ -259,6 +320,29 @@ class AlbumBox(Gtk.Box):
         )
         if len(uris) > 0:
             self._app.send_message(MessageType.ADD_TO_TRACKLIST, {"uris": uris})
+
+    def on_add_to_playlist_activated(
+        self,
+        _1: Gio.SimpleAction,
+        param: GLib.Variant,
+    ) -> None:
+        param_type = param.get_type()
+        if param_type.equal(GLib.VariantType("s")):
+            playlist_uri = param.get_string()
+        else:
+            LOGGER.warning(f"Unexpected param type {param.get_type_string()!r}")
+            return
+
+        track_uris = (
+            self._track_selection_to_uris()
+            if not self.tracks_box.get_activate_on_single_click()
+            else [self.uri]
+        )
+        if len(track_uris) > 0:
+            self._app.send_message(
+                MessageType.ADD_TO_PLAYLIST,
+                {"uri": playlist_uri, "track_uris": track_uris},
+            )
 
     @Gtk.Template.Callback()
     def on_tracks_box_row_activated(
