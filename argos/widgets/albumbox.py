@@ -340,8 +340,8 @@ class AlbumBox(Gtk.Box):
         )
         if len(track_uris) > 0:
             self._app.send_message(
-                MessageType.ADD_TO_PLAYLIST,
-                {"uri": playlist_uri, "track_uris": track_uris},
+                MessageType.SAVE_PLAYLIST,
+                {"uri": playlist_uri, "add_track_uris": track_uris},
             )
 
     @Gtk.Template.Callback()
