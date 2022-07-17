@@ -138,6 +138,28 @@ class PlaylistsController(ControllerBase):
         if self._history_playlist:
             await self._complete_history_playlist()
 
+    @consume(MessageType.ADD_TO_PLAYLIST)
+    async def save_playlist(self, message: Message) -> None:
+        playlist_uri = message.data.get("uri", "")
+        track_uris = message.data.get("track_uris", [])
+
+        playlist = self._model.get_playlist(playlist_uri)
+        if playlist is None:
+            return
+
+        extended_tracks = [
+            {"__model__": "Track", "uri": t.uri} for t in playlist.tracks
+        ] + [{"__model__": "Track", "uri": uri} for uri in track_uris]
+        updated_playlist = {
+            "__model__": "Playlist",
+            "uri": playlist.uri,
+            "name": playlist.name,
+            "last_modified": int(playlist.last_modified),
+            "tracks": extended_tracks,
+        }
+        LOGGER.debug(f"Saving playlist with URI {playlist_uri!r}")
+        await self._http.save_playlist(updated_playlist)
+
     @consume(MessageType.TRACK_PLAYBACK_STARTED)
     async def update_history(self, message: Message) -> None:
         await self._complete_history_playlist()
