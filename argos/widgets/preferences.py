@@ -157,7 +157,7 @@ class PreferencesWindow(Gtk.Window):
     def on_mopidy_local_switch_activated(
         self,
         switch: Gtk.Switch,
-        _1: bool,
+        _1: GObject.ParamSpec,
     ) -> None:
         mopidy_local = switch.get_active()
         self._settings.set_boolean("mopidy-local", mopidy_local)
@@ -165,7 +165,7 @@ class PreferencesWindow(Gtk.Window):
     def on_mopidy_bandcamp_switch_activated(
         self,
         switch: Gtk.Switch,
-        _1: bool,
+        _1: GObject.ParamSpec,
     ) -> None:
         mopidy_bandcamp = switch.get_active()
         self._settings.set_boolean("mopidy-bandcamp", mopidy_bandcamp)
@@ -173,7 +173,7 @@ class PreferencesWindow(Gtk.Window):
     def on_mopidy_podcast_switch_activated(
         self,
         switch: Gtk.Switch,
-        _1: bool,
+        _1: GObject.ParamSpec,
     ) -> None:
         mopidy_podcast = switch.get_active()
         self._settings.set_boolean("mopidy-podcast", mopidy_podcast)
