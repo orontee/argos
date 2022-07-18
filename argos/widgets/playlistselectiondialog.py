@@ -20,12 +20,9 @@ class PlaylistSelectionDialog(Gtk.Dialog):
 
     __gtype_name__ = "PlaylistSelectionDialog"
 
-    playlist_name_entry_completion: Gtk.EntryCompletion = Gtk.Template.Child()
-    create_new_playlist_switch: Gtk.Switch = Gtk.Template.Child()
+    playlist_name_tree_view: Gtk.EntryCompletion = Gtk.Template.Child()
 
-    playlist_name = GObject.Property(type=str, default="")
     playlist_uri = GObject.Property(type=str, default="")
-    create_playlist = GObject.Property(type=bool, default=False)
 
     def __init__(self, application: Gtk.Application):
         super().__init__(transient_for=application.window)
@@ -39,26 +36,32 @@ class PlaylistSelectionDialog(Gtk.Dialog):
                 continue
             store.append([playlist.name, playlist.uri])
 
-        self.playlist_name_entry_completion.set_model(store)
-        self.playlist_name_entry_completion.set_text_column(
-            PlaylistNameStoreColumn.NAME
+        self.playlist_name_tree_view.set_model(store)
+        self.playlist_name_tree_view.set_activate_on_single_click(True)
+        self.playlist_name_tree_view.set_headers_visible(False)
+        renderer = Gtk.CellRendererText()
+        column = Gtk.TreeViewColumn(
+            cell_renderer=renderer, text=PlaylistNameStoreColumn.NAME
         )
+        self.playlist_name_tree_view.append_column(column)
+
+        self.playlist_name_tree_view.set_enable_search(True)
+        self.playlist_name_tree_view.set_search_column(PlaylistNameStoreColumn.NAME)
 
     @Gtk.Template.Callback()
-    def on_playlist_name_entry_completion_match_selected(
+    def on_PlaylistSelectionDialog_response(
         self,
-        _1: Gtk.EntryCompletion,
-        model: Gtk.TreeModel,
-        iter: Gtk.TreeIter,
+        _1: Gtk.Dialog,
+        response_id: int,
     ) -> None:
-        self.props.playlist_name = model.get_value(iter, PlaylistNameStoreColumn.NAME)
-        self.props.playlist_uri = model.get_value(iter, PlaylistNameStoreColumn.URI)
-        self.create_new_playlist_switch.props.active = False
+        selection = self.playlist_name_tree_view.get_selection()
+        store, store_iter = selection.get_selected()
+        if not store_iter or response_id != Gtk.ResponseType.OK:
+            self.props.playlist_uri = ""
+            return
 
-    @Gtk.Template.Callback()
-    def on_create_new_playlist_switch_active_notify(
-        self,
-        switch: Gtk.Switch,
-        _1: GObject.ParamSpec,
-    ) -> None:
-        self.props.create_playlist = switch.props.active
+        playlist_name = store.get_value(store_iter, PlaylistNameStoreColumn.NAME)
+        self.props.playlist_uri = store.get_value(
+            store_iter, PlaylistNameStoreColumn.URI
+        )
+        LOGGER.debug(f"Playlist name {playlist_name!r} selected")
