@@ -211,10 +211,23 @@ class MopidyHTTPClient(GObject.GObject):
         )
         return playlist
 
+    async def create_playlist(
+        self, name: str, *, uri_scheme: Optional[str] = None
+    ) -> Optional[Dict[str, Any]]:
+        params = {"name": name}
+        if uri_scheme is not None:
+            params["uri_scheme"] = uri_scheme
+
+        playlist = await self._ws.send_command("core.playlists.create", params=params)
+        return playlist
+
     async def save_playlist(self, playlist: Dict[str, Any]) -> None:
         await self._ws.send_command(
             "core.playlists.save", params={"playlist": playlist}
         )
+
+    async def delete_playlist(self, uri: str) -> Optional[bool]:
+        return await self._ws.send_command("core.playlists.delete", params={"uri": uri})
 
     # Mopidy's API of core.history controller
 

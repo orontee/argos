@@ -32,8 +32,9 @@ class MessageType(Enum):
     SET_REPEAT = 23
     SET_SINGLE = 24
     LIST_PLAYLISTS = 30
-    SAVE_PLAYLIST = 31
-    CREATE_PLAYLIST = 32
+    CREATE_PLAYLIST = 31
+    SAVE_PLAYLIST = 32
+    DELETE_PLAYLIST = 33
 
     # Events (frow websocket)
     TRACK_PLAYBACK_STARTED = 40

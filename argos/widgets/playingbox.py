@@ -286,7 +286,7 @@ class PlayingBox(Gtk.Box):
         for row in selected_rows:
             tl_track_box = row.get_child()
             tlid = tl_track_box.props.tlid if tl_track_box else None
-            if tlid is not -1:
+            if tlid != -1:
                 tlids.append(tlid)
 
         return tlids
