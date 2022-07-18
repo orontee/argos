@@ -66,9 +66,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
             "activate", self._album_box.on_add_to_tracklist_activated
         )
 
-        add_to_playlist_action = Gio.SimpleAction.new(
-            "add-to-playlist", GLib.VariantType.new("s")
-        )
+        add_to_playlist_action = Gio.SimpleAction.new("add-to-playlist", None)
         self.add_action(add_to_playlist_action)
         add_to_playlist_action.connect(
             "activate", self._album_box.on_add_to_playlist_activated

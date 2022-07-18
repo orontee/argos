@@ -7,8 +7,9 @@ from typing import List, Optional
 from gi.repository import Gio, GLib, GObject, Gtk
 
 from argos.message import MessageType
-from argos.model import Model, PlaylistModel, TrackModel
+from argos.model import Model, TrackModel
 from argos.utils import elide_maybe, ms_to_text
+from argos.widgets.playlistselectiondialog import PlaylistSelectionDialog
 from argos.widgets.trackbox import TrackBox
 from argos.widgets.utils import (
     default_album_image_pixbuf,
@@ -21,61 +22,6 @@ _ = gettext.gettext
 LOGGER = logging.getLogger(__name__)
 
 ALBUM_IMAGE_SIZE = 80
-
-
-class AlbumTrackSelectionMenu(Gio.Menu):
-    """Menu used to act on a selection of album tracks.
-
-    Tracks can be added to the tracklist, a new playlist or an
-    existing playlist (non-virtual playlists are skipped).
-
-    """
-
-    def __init__(self, model: Model):
-        super().__init__()
-
-        self._model = model
-
-        self.append(_("Add to tracklist"), "win.add-to-tracklist")
-        self.append(_("Add to new playlist…"), "win.add-to-new_playlist")
-
-        self._sub_menu = Gio.Menu()  # for existing non-virtual playlists
-        self.append_section(None, self._sub_menu)
-
-        self._model.playlists.connect("items-changed", self._on_playlist_items_changed)
-
-    def _on_playlist_items_changed(
-        self,
-        _1: Gio.ListModel,
-        position: int,
-        removed: int,
-        added: int,
-    ) -> None:
-        if removed > 0:
-            LOGGER.debug(
-                f"Removing {removed} menu items starting from {position} position"
-            )
-            for i in range(removed):
-                if position < self._sub_menu.get_n_items():
-                    self._sub_menu.remove(position)
-
-        # Remember that virtual playlists are expected to be at the
-        # end of the playlists store...
-
-        if added > 0:
-            LOGGER.debug(f"Adding {added} menu items starting from {position} position")
-            for i in range(added):
-                item_position = position + i
-                playlist: PlaylistModel = self._model.playlists.get_item(item_position)
-                if playlist is None or playlist.is_virtual:
-                    continue
-
-                action_name_with_param = f"win.add-to-playlist('{playlist.uri}')"
-                self._sub_menu.insert(
-                    item_position,
-                    playlist.name,
-                    action_name_with_param,
-                )
 
 
 @Gtk.Template(resource_path="/io/github/orontee/Argos/ui/album_box.ui")
@@ -120,7 +66,9 @@ class AlbumBox(Gtk.Box):
             self.tracks_box.set_activate_on_single_click(False)
             self.tracks_box.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
 
-        track_selection_menu = AlbumTrackSelectionMenu(self._model)
+        track_selection_menu = Gio.Menu()
+        track_selection_menu.append(_("Add to tracklist"), "win.add-to-tracklist")
+        track_selection_menu.append(_("Add to playlist…"), "win.add-to-playlist")
         self.track_selection_button.set_menu_model(track_selection_menu)
 
         for widget in (
@@ -324,21 +272,42 @@ class AlbumBox(Gtk.Box):
     def on_add_to_playlist_activated(
         self,
         _1: Gio.SimpleAction,
-        param: GLib.Variant,
+        _2: None,
     ) -> None:
-        param_type = param.get_type()
-        if param_type.equal(GLib.VariantType("s")):
-            playlist_uri = param.get_string()
-        else:
-            LOGGER.warning(f"Unexpected param type {param.get_type_string()!r}")
-            return
-
         track_uris = (
             self._track_selection_to_uris()
             if not self.tracks_box.get_activate_on_single_click()
             else [self.uri]
         )
-        if len(track_uris) > 0:
+        if len(track_uris) == 0:
+            LOGGER.debug("Nothing to add to playlist")
+            return
+
+        playlist_selection_dialog = PlaylistSelectionDialog(self._app)
+        response = playlist_selection_dialog.run()
+
+        if response == Gtk.ResponseType.OK:
+            LOGGER.debug("")
+            playlist_uri = playlist_selection_dialog.props.playlist_uri
+            playlist_name = playlist_selection_dialog.props.playlist_name
+            create_playlist = playlist_selection_dialog.props.create_playlist
+        else:
+            playlist_uri = ""
+            playlist_name = ""
+            create_playlist = False
+
+        playlist_selection_dialog.destroy()
+
+        if not (playlist_uri or (create_playlist and playlist_name)):
+            LOGGER.debug("Aborting adding tracks to playlist")
+            return
+
+        if create_playlist:
+            self._app.send_message(
+                MessageType.CREATE_PLAYLIST,
+                {"name": playlist_name, "add_track_uris": track_uris},
+            )
+        else:
             self._app.send_message(
                 MessageType.SAVE_PLAYLIST,
                 {"uri": playlist_uri, "add_track_uris": track_uris},
