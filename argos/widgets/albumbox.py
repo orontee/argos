@@ -285,33 +285,21 @@ class AlbumBox(Gtk.Box):
 
         playlist_selection_dialog = PlaylistSelectionDialog(self._app)
         response = playlist_selection_dialog.run()
-
-        if response == Gtk.ResponseType.OK:
-            LOGGER.debug("")
-            playlist_uri = playlist_selection_dialog.props.playlist_uri
-            playlist_name = playlist_selection_dialog.props.playlist_name
-            create_playlist = playlist_selection_dialog.props.create_playlist
-        else:
-            playlist_uri = ""
-            playlist_name = ""
-            create_playlist = False
-
+        playlist_uri = (
+            playlist_selection_dialog.props.playlist_uri
+            if response == Gtk.ResponseType.OK
+            else ""
+        )
         playlist_selection_dialog.destroy()
 
-        if not (playlist_uri or (create_playlist and playlist_name)):
+        if not playlist_uri:
             LOGGER.debug("Aborting adding tracks to playlist")
             return
 
-        if create_playlist:
-            self._app.send_message(
-                MessageType.CREATE_PLAYLIST,
-                {"name": playlist_name, "add_track_uris": track_uris},
-            )
-        else:
-            self._app.send_message(
-                MessageType.SAVE_PLAYLIST,
-                {"uri": playlist_uri, "add_track_uris": track_uris},
-            )
+        self._app.send_message(
+            MessageType.SAVE_PLAYLIST,
+            {"uri": playlist_uri, "add_track_uris": track_uris},
+        )
 
     @Gtk.Template.Callback()
     def on_tracks_box_row_activated(
