@@ -16,6 +16,8 @@ argos/ui/tracklist_box.ui
 argos/ui/tracklist_track_box.ui
 argos/ui/window.ui
 argos/widgets/albumbox.py
+argos/widgets/playlistsbox.py
+argos/widgets/playlistselectiondialog.py
 argos/window.py
 data/io.github.orontee.Argos.desktop.in
 data/io.github.orontee.Argos.gschema.xml
