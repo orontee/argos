@@ -192,7 +192,6 @@
                 <property name="can-focus">True</property>
                 <property name="focus-on-click">False</property>
                 <property name="receives-default">True</property>
-                <property name="tooltip-text" translatable="yes">Add album or selected tracks to a playlist</property>
                 <child>
                   <object class="GtkImage">
                     <property name="visible">True</property>
