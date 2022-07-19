@@ -50,17 +50,8 @@ class PlaylistTracksBox(Gtk.Box):
             self.add_button,
             self.tracks_box,
         ):
-            widget.set_sensitive(
-                self._model.network_available and self._model.connected
-            )
             if self._disable_tooltips:
                 widget.props.has_tooltip = False
-
-        self.clear_button.set_sensitive(
-            self._model.network_available
-            and self._model.connected
-            and len(self.tracks_box.get_selected_rows()) > 0
-        )
 
         self._model.connect(
             "notify::network-available", self._handle_connection_changed
