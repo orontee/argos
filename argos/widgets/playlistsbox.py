@@ -4,6 +4,7 @@ from typing import Optional
 
 from gi.repository import Gio, GLib, GObject, Gtk
 
+from argos.message import MessageType
 from argos.model import PlaylistModel
 from argos.utils import elide_maybe, ms_to_text
 from argos.widgets.playlisttracksbox import PlaylistTracksBox
@@ -81,6 +82,9 @@ class PlaylistsBox(Gtk.Box):
     length_label: Gtk.Label = Gtk.Template.Child()
     track_count_label: Gtk.Label = Gtk.Template.Child()
 
+    add_playlist_button: Gtk.Button = Gtk.Template.Child()
+    remove_playlist_button: Gtk.Button = Gtk.Template.Child()
+
     def __init__(self, application: Gtk.Application):
         super().__init__()
 
@@ -100,6 +104,8 @@ class PlaylistsBox(Gtk.Box):
         self.add(self.props.playlist_tracks_box)
 
         for widget in (
+            self.add_playlist_button,
+            self.remove_playlist_button,
             self.playlists_view,
             self.playlist_name_label,
         ):
@@ -117,7 +123,19 @@ class PlaylistsBox(Gtk.Box):
         _2: GObject.GParamSpec,
     ) -> None:
         sensitive = self._model.network_available and self._model.connected
-        self.playlists_view.set_sensitive(sensitive)
+        for widget in (
+            self.playlists_view,
+            self.add_playlist_button,
+        ):
+            widget.set_sensitive(sensitive)
+
+        playlist = self._get_selected_playlist()
+        self.remove_playlist_button.set_sensitive(
+            sensitive and self._is_playlist_removable(playlist)
+        )
+
+    def _is_playlist_removable(self, playlist: Optional[PlaylistModel]) -> bool:
+        return playlist is not None and not playlist.is_virtual
 
     def _create_playlist_box(
         self,
@@ -144,6 +162,8 @@ class PlaylistsBox(Gtk.Box):
 
         uri = playlist.uri if playlist else None
         self.props.playlist_tracks_box.bind_model_to_playlist_tracks(uri)
+
+        self.remove_playlist_button.set_sensitive(self._is_playlist_removable(playlist))
 
         if playlist is not None:
             playlist.connect("notify::name", self._on_playlist_name_changed)
@@ -212,6 +232,12 @@ class PlaylistsBox(Gtk.Box):
 
         self._update_playlist_name_label(changed_playlist.name)
 
+    def _get_selected_playlist(self) -> Optional[PlaylistModel]:
+        selected_row = self.playlists_view.get_selected_row()
+        playlist_label = selected_row.get_child() if selected_row else None
+        playlist = playlist_label.playlist if playlist_label else None
+        return playlist
+
     def _on_playlist_tracks_items_changed(
         self,
         changed_tracks: Gio.ListModel,
@@ -219,12 +245,7 @@ class PlaylistsBox(Gtk.Box):
         removed: int,
         added: int,
     ) -> None:
-        selected_row = self.playlists_view.get_selected_row()
-        if selected_row is None:
-            return
-
-        playlist_label = selected_row.get_child()
-        playlist = playlist_label.playlist if playlist_label else None
+        playlist = self._get_selected_playlist()
         if playlist is None:
             return
 
@@ -233,3 +254,38 @@ class PlaylistsBox(Gtk.Box):
 
         self._update_length_label(changed_tracks)
         self._update_track_count_label(changed_tracks)
+
+    @Gtk.Template.Callback()
+    def on_add_playlist_button_clicked(self, _1: Gtk.Button) -> None:
+        name = _("New playlist")
+
+        LOGGER.debug(f"Will create playlist with name {name!r}")
+        self._app.send_message(MessageType.CREATE_PLAYLIST, {"name": name})
+
+    @Gtk.Template.Callback()
+    def on_remove_playlist_button_clicked(self, _1: Gtk.Button) -> None:
+        LOGGER.debug("Handling remove playlist request")
+
+        playlist = self._get_selected_playlist()
+        if playlist is None:
+            return
+
+        dialog = Gtk.MessageDialog(
+            transient_for=self._app.window,
+            flags=0,
+            message_type=Gtk.MessageType.WARNING,
+            buttons=Gtk.ButtonsType.OK_CANCEL,
+            text=f"Confirm the deletion of the {playlist.name!r} playlist",
+        )
+        dialog.format_secondary_text("The deletion can't be reverted.")
+        response = dialog.run()
+        if response == Gtk.ResponseType.OK:
+            LOGGER.debug(f"Will delete playlist with URI {playlist.uri!r}")
+            self._app.send_message(
+                MessageType.DELETE_PLAYLIST,
+                {"uri": playlist.uri},
+            )
+        elif response == Gtk.ResponseType.CANCEL:
+            LOGGER.debug(f"Aborting deletion of playlist with URI {playlist.uri!r}")
+
+        dialog.destroy()
