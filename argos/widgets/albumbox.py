@@ -76,9 +76,6 @@ class AlbumBox(Gtk.Box):
             self.track_selection_button,
             self.tracks_box,
         ):
-            widget.set_sensitive(
-                self._model.network_available and self._model.connected
-            )
             if self._disable_tooltips:
                 widget.props.has_tooltip = False
 
