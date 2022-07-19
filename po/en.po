@@ -7,13 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: argos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-06 23:37+0200\n"
+"POT-Creation-Date: 2022-08-14 13:48+0200\n"
 "PO-Revision-Date: 2022-02-20 20:54+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ASCII\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -37,57 +37,57 @@ msgstr "Use single-click"
 msgid "Hide search button"
 msgstr "Hide search button"
 
-#: argos/controllers/playback.py:183
+#: argos/app.py:310 argos/ui/app_menu.ui:6
+msgid "New playlist"
+msgstr ""
+
+#: argos/controllers/playback.py:184
 msgid "Started to play {}"
 msgstr "Started to play {}"
 
-#: argos/controllers/playlists.py:59 argos/controllers/playlists.py:276
-#: argos/ui/preferences.ui:254
+#: argos/controllers/playlists.py:60 argos/controllers/playlists.py:348
+#: argos/ui/preferences.ui:230
 msgid "Recent additions"
 msgstr "Recent additions"
 
-#: argos/controllers/playlists.py:72 argos/controllers/playlists.py:284
-#: argos/ui/preferences.ui:310
+#: argos/controllers/playlists.py:73 argos/controllers/playlists.py:356
+#: argos/ui/preferences.ui:287
 msgid "History"
 msgstr "History"
 
-#: argos/controllers/tracklist.py:52
+#: argos/controllers/tracklist.py:53
 msgid "Tracklist updated"
 msgstr "Tracklist updated"
 
-#: argos/ui/album_box.ui:96
+#: argos/ui/album_box.ui:51
 msgid "Published"
 msgstr "Published"
 
-#: argos/ui/album_box.ui:125 argos/ui/playlists_box.ui:78
+#: argos/ui/album_box.ui:79 argos/ui/playlists_box.ui:78
 msgid "Length"
 msgstr "Length"
 
-#: argos/ui/album_box.ui:208
-msgid "Add album or selected tracks to tracklist"
-msgstr "Add album or selected tracks to tracklist"
+#: argos/ui/album_box.ui:217
+msgid "Play album"
+msgstr ""
 
-#: argos/ui/album_box.ui:223
-msgid "Play album or selected tracks"
-msgstr "Play album or selected tracks"
-
-#: argos/ui/app_menu.ui:6
+#: argos/ui/app_menu.ui:10
 msgid "Play _random album"
 msgstr "Play _random album"
 
-#: argos/ui/app_menu.ui:10
+#: argos/ui/app_menu.ui:14
 msgid "Update library"
 msgstr "Update library"
 
-#: argos/ui/app_menu.ui:16
+#: argos/ui/app_menu.ui:20
 msgid "_Preferences"
 msgstr "_Preferences"
 
-#: argos/ui/app_menu.ui:20
+#: argos/ui/app_menu.ui:24
 msgid "_Shortcuts"
 msgstr "_Shortcuts"
 
-#: argos/ui/app_menu.ui:24
+#: argos/ui/app_menu.ui:28
 msgid "_About"
 msgstr "_About"
 
@@ -151,15 +151,15 @@ msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Go to Playlists"
 
-#: argos/ui/playing_box.ui:229
+#: argos/ui/playing_box.ui:100
 msgid "Previous"
 msgstr "Previous"
 
-#: argos/ui/playing_box.ui:250
+#: argos/ui/playing_box.ui:121
 msgid "Play"
 msgstr "Play"
 
-#: argos/ui/playing_box.ui:271
+#: argos/ui/playing_box.ui:142
 msgid "Next"
 msgstr "Next"
 
@@ -187,11 +187,15 @@ msgstr ""
 msgid "Tracks"
 msgstr "Tracks"
 
-#: argos/ui/playlist_tracks_box.ui:67
+#: argos/ui/playlist_tracks_box.ui:61
+msgid "Edit playlist"
+msgstr ""
+
+#: argos/ui/playlist_tracks_box.ui:91
 msgid "Add playlist or selected tracks to tracklist"
 msgstr ""
 
-#: argos/ui/playlist_tracks_box.ui:82
+#: argos/ui/playlist_tracks_box.ui:109
 msgid "Play playlist or selected tracks"
 msgstr ""
 
@@ -203,45 +207,45 @@ msgstr "Preferences"
 msgid "Mopidy Server"
 msgstr "Mopidy server"
 
-#: argos/ui/preferences.ui:63
-msgid "Base URL"
-msgstr "Base URL"
+#: argos/ui/preferences.ui:64
+msgid "Base URL:"
+msgstr ""
 
-#: argos/ui/preferences.ui:77
+#: argos/ui/preferences.ui:78
 msgid "Base URL of Mopidy server"
 msgstr "Base URL of Mopidy server"
 
-#: argos/ui/preferences.ui:78
+#: argos/ui/preferences.ui:79
 msgid "Enter the URL of the Mopidy server"
 msgstr "Enter the URL of the Mopidy server"
 
-#: argos/ui/preferences.ui:99 argos/window.py:49
+#: argos/ui/preferences.ui:100 argos/window.py:49
 msgid "Library"
 msgstr "Library"
 
-#: argos/ui/preferences.ui:138
-msgid "Local"
-msgstr "Local"
+#: argos/ui/preferences.ui:137
+msgid "Podcasts:"
+msgstr ""
 
-#: argos/ui/preferences.ui:173
-msgid "Bandcamp"
-msgstr "Bandcamp"
+#: argos/ui/preferences.ui:162
+msgid "Bandcamp:"
+msgstr ""
 
-#: argos/ui/preferences.ui:208
-msgid "Podcasts"
-msgstr "Podcasts"
+#: argos/ui/preferences.ui:187
+msgid "Local:"
+msgstr ""
 
-#: argos/ui/preferences.ui:237 argos/window.py:53
+#: argos/ui/preferences.ui:212 argos/window.py:53
 msgid "Playlists"
 msgstr "Playlists"
 
-#: argos/ui/preferences.ui:288
-msgid "Max age (days)"
-msgstr "Max age (days)"
+#: argos/ui/preferences.ui:264
+msgid "Max age (days):"
+msgstr ""
 
-#: argos/ui/preferences.ui:344
-msgid "Max length"
-msgstr "Max length"
+#: argos/ui/preferences.ui:321
+msgid "Max length:"
+msgstr ""
 
 #: argos/ui/title_bar.ui:53
 msgid "Back to albums page"
@@ -250,6 +254,30 @@ msgstr "Back to albums"
 #: argos/ui/title_bar.ui:83
 msgid "Search albums"
 msgstr "Search albums"
+
+#: argos/widgets/albumbox.py:70
+msgid "Add to tracklist"
+msgstr ""
+
+#: argos/widgets/albumbox.py:71
+msgid "Add to playlist…"
+msgstr ""
+
+#: argos/widgets/playlistsbox.py:223
+msgid "Confirm the deletion of the {!r} playlist"
+msgstr ""
+
+#: argos/widgets/playlistsbox.py:225
+msgid "The deletion can't be reverted."
+msgstr ""
+
+#: argos/widgets/playlisttracksbox.py:52
+msgid "Remove selected tracks"
+msgstr ""
+
+#: argos/widgets/playlisttracksbox.py:53
+msgid "Delete playlist…"
+msgstr ""
 
 #: argos/window.py:44
 msgid "Playing"
@@ -343,9 +371,6 @@ msgstr ""
 
 #~ msgid "Play _favorite playlist"
 #~ msgstr "Play _favorite playlist"
-
-#~ msgid "Favorite playlist"
-#~ msgstr "Favorite playlist"
 
 #~ msgid "URI of favorite playlist"
 #~ msgstr "URI of favorite playlist"
