@@ -155,14 +155,19 @@ class PlaylistsController(ControllerBase):
 
     @consume(MessageType.SAVE_PLAYLIST)
     async def save_playlist(self, message: Message) -> None:
+        name = message.data.get("name")
         playlist_uri = message.data.get("uri", "")
         add_track_uris = message.data.get("add_track_uris", [])
         remove_track_uris = message.data.get("remove_track_uris", [])
-        await self._save_playlist(
+        result = await self._save_playlist(
             playlist_uri,
+            name=name,
             add_track_uris=add_track_uris,
             remove_track_uris=remove_track_uris,
         )
+        if result and result.get("uri") != playlist_uri:
+            # happens when name is changed
+            self._model.delete_playlist(playlist_uri)
 
     @consume(MessageType.DELETE_PLAYLIST)
     async def delete_playlist(self, message: Message) -> None:
@@ -173,12 +178,13 @@ class PlaylistsController(ControllerBase):
         self,
         playlist_uri: str,
         *,
+        name: Optional[str] = None,
         add_track_uris: Optional[List[str]] = None,
         remove_track_uris: Optional[List[str]] = None,
-    ) -> None:
+    ) -> Optional[Dict[str, Any]]:
         playlist = self._model.get_playlist(playlist_uri)
         if playlist is None:
-            return
+            return None
 
         if add_track_uris is None:
             add_track_uris = []
@@ -195,12 +201,13 @@ class PlaylistsController(ControllerBase):
         updated_playlist = {
             "__model__": "Playlist",
             "uri": playlist.uri,
-            "name": playlist.name,
+            "name": name or playlist.name,
             "last_modified": int(playlist.last_modified),
             "tracks": updated_tracks,
         }
         LOGGER.debug(f"Saving playlist with URI {playlist_uri!r}")
-        await self._http.save_playlist(updated_playlist)
+        result = await self._http.save_playlist(updated_playlist)
+        return result
 
     @consume(MessageType.TRACK_PLAYBACK_STARTED)
     async def update_history(self, message: Message) -> None:

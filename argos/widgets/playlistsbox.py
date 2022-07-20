@@ -7,47 +7,12 @@ from gi.repository import Gio, GLib, GObject, Gtk
 from argos.message import MessageType
 from argos.model import PlaylistModel
 from argos.utils import elide_maybe, ms_to_text
+from argos.widgets.playlistlabel import PlaylistLabel
 from argos.widgets.playlisttracksbox import PlaylistTracksBox
 
 _ = gettext.gettext
 
 LOGGER = logging.getLogger(__name__)
-
-
-class PlaylistLabel(Gtk.Label):
-    __gtype_name__ = "PlaylistLabel"
-
-    playlist = GObject.Property(type=PlaylistModel)
-
-    def __init__(self, application: Gtk.Application, *, playlist: PlaylistModel):
-        super().__init__()
-
-        self._app = application
-        self._disable_tooltips = application.props.disable_tooltips
-        self.props.playlist = playlist
-        self.props.margin_top = 5
-        self.props.margin_bottom = 5
-        self.props.halign = Gtk.Align.START
-        self.props.use_underline = False
-        self.props.use_markup = False
-
-        self.set_text(elide_maybe(self.playlist.name))
-
-        self.playlist.connect("notify::name", self._on_playlist_name_changed)
-
-        if not self._disable_tooltips:
-            self.set_tooltip_text(self.playlist.name)
-
-    @property
-    def is_virtual(self) -> bool:
-        return self.playlist.is_virtual
-
-    def _on_playlist_name_changed(
-        self, _1: GObject.Object, _2: GObject.ParamSpec
-    ) -> None:
-        self.set_text(elide_maybe(self.playlist.name))
-        if not self._disable_tooltips:
-            self.set_tooltip_text(self.playlist.name)
 
 
 def _set_list_box_header_with_virtual_playlist_separator(
