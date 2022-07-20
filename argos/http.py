@@ -221,10 +221,14 @@ class MopidyHTTPClient(GObject.GObject):
         playlist = await self._ws.send_command("core.playlists.create", params=params)
         return playlist
 
-    async def save_playlist(self, playlist: Dict[str, Any]) -> None:
-        await self._ws.send_command(
-            "core.playlists.save", params={"playlist": playlist}
+    async def save_playlist(self, playlist: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+        result = cast(
+            Optional[Dict[str, Any]],
+            await self._ws.send_command(
+                "core.playlists.save", params={"playlist": playlist}
+            ),
         )
+        return result
 
     async def delete_playlist(self, uri: str) -> Optional[bool]:
         return await self._ws.send_command("core.playlists.delete", params={"uri": uri})
