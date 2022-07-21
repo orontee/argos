@@ -15,7 +15,6 @@ class MessageType(Enum):
     PLAY_TRACKS = 4
     SEEK = 6
     SET_VOLUME = 7
-    LIST_PLAYLISTS = 8
     FETCH_TRACK_IMAGE = 9
     FETCH_ALBUM_IMAGES = 10
     BROWSE_ALBUMS = 11
@@ -32,6 +31,10 @@ class MessageType(Enum):
     SET_RANDOM = 22
     SET_REPEAT = 23
     SET_SINGLE = 24
+    LIST_PLAYLISTS = 30
+    CREATE_PLAYLIST = 31
+    SAVE_PLAYLIST = 32
+    DELETE_PLAYLIST = 33
 
     # Events (frow websocket)
     TRACK_PLAYBACK_STARTED = 40

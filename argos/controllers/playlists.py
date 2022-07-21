@@ -137,6 +137,77 @@ class PlaylistsController(ControllerBase):
         if self._history_playlist:
             await self._complete_history_playlist()
 
+    @consume(MessageType.CREATE_PLAYLIST)
+    async def create_playlist(self, message: Message) -> None:
+        name = message.data.get("name", "")
+        uri_scheme = "m3u:"
+
+        LOGGER.debug(f"Creation of a playlist with name {name!r}")
+
+        playlist = await self._http.create_playlist(name, uri_scheme=uri_scheme)
+        if playlist is None:
+            return
+
+        assert "__model__" in playlist and playlist["__model__"] == "Playlist"
+        playlist_uri = playlist.get("uri", "")
+        LOGGER.debug(f"Playlist with URI {playlist_uri!r} created")
+
+    @consume(MessageType.SAVE_PLAYLIST)
+    async def save_playlist(self, message: Message) -> None:
+        name = message.data.get("name")
+        playlist_uri = message.data.get("uri", "")
+        add_track_uris = message.data.get("add_track_uris", [])
+        remove_track_uris = message.data.get("remove_track_uris", [])
+        result = await self._save_playlist(
+            playlist_uri,
+            name=name,
+            add_track_uris=add_track_uris,
+            remove_track_uris=remove_track_uris,
+        )
+        if result and result.get("uri") != playlist_uri:
+            # happens when name is changed
+            self._model.delete_playlist(playlist_uri)
+
+    @consume(MessageType.DELETE_PLAYLIST)
+    async def delete_playlist(self, message: Message) -> None:
+        playlist_uri = message.data.get("uri", "")
+        await self._http.delete_playlist(playlist_uri)
+
+    async def _save_playlist(
+        self,
+        playlist_uri: str,
+        *,
+        name: Optional[str] = None,
+        add_track_uris: Optional[List[str]] = None,
+        remove_track_uris: Optional[List[str]] = None,
+    ) -> Optional[Dict[str, Any]]:
+        playlist = self._model.get_playlist(playlist_uri)
+        if playlist is None:
+            return None
+
+        if add_track_uris is None:
+            add_track_uris = []
+
+        if remove_track_uris is None:
+            remove_track_uris = []
+
+        updated_tracks = [
+            {"__model__": "Track", "uri": t.uri}
+            for t in playlist.tracks
+            if t.uri not in remove_track_uris
+        ] + [{"__model__": "Track", "uri": uri} for uri in add_track_uris]
+
+        updated_playlist = {
+            "__model__": "Playlist",
+            "uri": playlist.uri,
+            "name": name or playlist.name,
+            "last_modified": int(playlist.last_modified),
+            "tracks": updated_tracks,
+        }
+        LOGGER.debug(f"Saving playlist with URI {playlist_uri!r}")
+        result = await self._http.save_playlist(updated_playlist)
+        return result
+
     @consume(MessageType.TRACK_PLAYBACK_STARTED)
     async def update_history(self, message: Message) -> None:
         await self._complete_history_playlist()

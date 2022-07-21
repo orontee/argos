@@ -1,7 +1,7 @@
 import gettext
 import logging
 
-from gi.repository import Gdk, GObject, Gtk
+from gi.repository import Gdk, Gio, GLib, GObject, Gtk
 
 from .message import MessageType
 from .model import PlaybackState
@@ -59,6 +59,18 @@ class ArgosWindow(Gtk.ApplicationWindow):
 
         self._album_box = AlbumBox(application)
         self.main_stack.add_named(self._album_box, "album_page")
+
+        add_to_tracklist_action = Gio.SimpleAction.new("add-to-tracklist", None)
+        self.add_action(add_to_tracklist_action)
+        add_to_tracklist_action.connect(
+            "activate", self._album_box.on_add_to_tracklist_activated
+        )
+
+        add_to_playlist_action = Gio.SimpleAction.new("add-to-playlist", None)
+        self.add_action(add_to_playlist_action)
+        add_to_playlist_action.connect(
+            "activate", self._album_box.on_add_to_playlist_activated
+        )
 
         self.main_stack.connect(
             "notify::visible-child-name", self._on_main_stack_page_changed
@@ -207,6 +219,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
                 return True
         elif not modifiers:
             if keyval == Gdk.KEY_Escape:
-                self.props.titlebar.toggle_search_entry_focus_maybe()
-                return True
+                if self.props.titlebar.search_entry.has_focus():
+                    self.props.titlebar.toggle_search_entry_focus_maybe()
+                    return True
         return False

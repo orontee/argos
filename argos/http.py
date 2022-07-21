@@ -26,6 +26,8 @@ class MopidyHTTPClient(GObject.GObject):
 
         self._ws: MopidyWSConnection = application.props.ws
 
+    # API of Mopidy's core.playback controller
+
     async def get_state(self) -> Optional[str]:
         return await self._ws.send_command("core.playback.get_state")
 
@@ -61,9 +63,7 @@ class MopidyHTTPClient(GObject.GObject):
         track = await self._ws.send_command("core.playback.get_current_tl_track")
         return track
 
-    async def get_eot_tlid(self) -> Optional[int]:
-        eot_tlid = await self._ws.send_command("core.tracklist.get_eot_tlid")
-        return int(eot_tlid) if eot_tlid is not None else None
+    # Mopidy's API of core.library controller
 
     async def browse_library(self, uri: str = None) -> Optional[List[Dict[str, Any]]]:
         directories_and_tracks = cast(
@@ -89,6 +89,12 @@ class MopidyHTTPClient(GObject.GObject):
         params = {"uris": uris}
         images = await self._ws.send_command("core.library.get_images", params=params)
         return images
+
+    # Mopidy's API of core.tracklist controller
+
+    async def get_eot_tlid(self) -> Optional[int]:
+        eot_tlid = await self._ws.send_command("core.tracklist.get_eot_tlid")
+        return int(eot_tlid) if eot_tlid is not None else None
 
     async def add_to_tracklist(self, uris: List[str]) -> None:
         """Add tracks to the tracklist.
@@ -170,6 +176,8 @@ class MopidyHTTPClient(GObject.GObject):
         if state != PlaybackState.PLAYING:
             await self._ws.send_command("core.playback.play")
 
+    # Mopidy's API of core.mixer controller
+
     async def get_mute(self) -> Optional[bool]:
         mute = await self._ws.send_command("core.mixer.get_mute")
         return bool(mute) if mute is not None else None
@@ -186,6 +194,8 @@ class MopidyHTTPClient(GObject.GObject):
         params = {"volume": volume}
         await self._ws.send_command("core.mixer.set_volume", params=params)
 
+    # Mopidy's API of core.playlists controller
+
     async def get_playlists_uri_schemes(self) -> Optional[List[str]]:
         return await self._ws.send_command("core.playlists.get_uri_schemes")
 
@@ -199,6 +209,30 @@ class MopidyHTTPClient(GObject.GObject):
             await self._ws.send_command("core.playlists.lookup", params={"uri": uri}),
         )
         return playlist
+
+    async def create_playlist(
+        self, name: str, *, uri_scheme: Optional[str] = None
+    ) -> Optional[Dict[str, Any]]:
+        params = {"name": name}
+        if uri_scheme is not None:
+            params["uri_scheme"] = uri_scheme
+
+        playlist = await self._ws.send_command("core.playlists.create", params=params)
+        return playlist
+
+    async def save_playlist(self, playlist: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+        result = cast(
+            Optional[Dict[str, Any]],
+            await self._ws.send_command(
+                "core.playlists.save", params={"playlist": playlist}
+            ),
+        )
+        return result
+
+    async def delete_playlist(self, uri: str) -> Optional[bool]:
+        return await self._ws.send_command("core.playlists.delete", params={"uri": uri})
+
+    # Mopidy's API of core.history controller
 
     async def get_history(self) -> Optional[List[Any]]:
         history = await self._ws.send_command("core.history.get_history", timeout=60)

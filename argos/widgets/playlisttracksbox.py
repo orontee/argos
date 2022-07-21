@@ -26,6 +26,7 @@ class PlaylistTracksBox(Gtk.Box):
 
     add_button: Gtk.Button = Gtk.Template.Child()
     play_button: Gtk.Button = Gtk.Template.Child()
+    clear_button: Gtk.Button = Gtk.Template.Child()
 
     uri = GObject.Property(type=str, default="")
 
@@ -49,9 +50,6 @@ class PlaylistTracksBox(Gtk.Box):
             self.add_button,
             self.tracks_box,
         ):
-            widget.set_sensitive(
-                self._model.network_available and self._model.connected
-            )
             if self._disable_tooltips:
                 widget.props.has_tooltip = False
 
@@ -75,6 +73,10 @@ class PlaylistTracksBox(Gtk.Box):
         ]
         for widget in widgets:
             widget.set_sensitive(sensitive)
+
+        self.clear_button.set_sensitive(
+            sensitive and len(self.tracks_box.get_selected_rows()) > 0
+        )
 
     def _create_track_box(
         self,
@@ -147,6 +149,18 @@ class PlaylistTracksBox(Gtk.Box):
             self._app.send_message(MessageType.ADD_TO_TRACKLIST, {"uris": uris})
 
     @Gtk.Template.Callback()
+    def on_clear_button_clicked(self, _1: Gtk.Button) -> None:
+        track_uris = self._track_selection_to_uris()
+        if len(track_uris) > 0:
+            self._app.send_message(
+                MessageType.SAVE_PLAYLIST,
+                {
+                    "uri": self.props.uri,
+                    "remove_track_uris": track_uris,
+                },
+            )
+
+    @Gtk.Template.Callback()
     def on_tracks_box_row_activated(
         self,
         box: Gtk.ListBox,
@@ -155,3 +169,9 @@ class PlaylistTracksBox(Gtk.Box):
         track_box = row.get_child()
         uri = track_box.props.uri
         self._app.send_message(MessageType.PLAY_TRACKS, {"uris": [uri]})
+
+    @Gtk.Template.Callback()
+    def on_tracks_box_selected_rows_changed(self, *args) -> None:
+        LOGGER.debug(f"{args}")
+        selected_rows = self.tracks_box.get_selected_rows()
+        self.clear_button.set_sensitive(len(selected_rows) > 0)

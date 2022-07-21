@@ -21,8 +21,6 @@ class TitleBar(Gtk.HeaderBar):
     main_page_state = GObject.Property(type=bool, default=True)
     search_activated = GObject.Property(type=bool, default=False)
 
-    filtered_model = GObject.Property(type=Gtk.TreeModelFilter, default=None)
-
     def __init__(self, application: Gtk.Application):
         super().__init__()
 

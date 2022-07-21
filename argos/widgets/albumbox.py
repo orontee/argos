@@ -9,6 +9,7 @@ from gi.repository import Gio, GLib, GObject, Gtk
 from ..message import MessageType
 from ..model import Model, TrackModel
 from ..utils import elide_maybe, ms_to_text
+from .playlistselectiondialog import PlaylistSelectionDialog
 from .trackbox import TrackBox
 from .utils import (
     default_album_image_pixbuf,
@@ -36,8 +37,8 @@ class AlbumBox(Gtk.Box):
 
     __gtype_name__ = "AlbumBox"
 
-    add_button: Gtk.Button = Gtk.Template.Child()
     play_button: Gtk.Button = Gtk.Template.Child()
+    track_selection_button: Gtk.MenuButton = Gtk.Template.Child()
 
     album_image: Gtk.Image = Gtk.Template.Child()
 
@@ -54,7 +55,7 @@ class AlbumBox(Gtk.Box):
         super().__init__()
 
         self._app = application
-        self._model = application.model
+        self._model = application.props.model
         self._disable_tooltips = application.props.disable_tooltips
 
         self.tracks_box.set_header_func(set_list_box_header_with_separator)
@@ -65,14 +66,16 @@ class AlbumBox(Gtk.Box):
             self.tracks_box.set_activate_on_single_click(False)
             self.tracks_box.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
 
+        track_selection_menu = Gio.Menu()
+        track_selection_menu.append(_("Add to tracklist"), "win.add-to-tracklist")
+        track_selection_menu.append(_("Add to playlist…"), "win.add-to-playlist")
+        self.track_selection_button.set_menu_model(track_selection_menu)
+
         for widget in (
-            self.add_button,
             self.play_button,
+            self.track_selection_button,
             self.tracks_box,
         ):
-            widget.set_sensitive(
-                self._model.network_available and self._model.connected
-            )
             if self._disable_tooltips:
                 widget.props.has_tooltip = False
 
@@ -95,7 +98,7 @@ class AlbumBox(Gtk.Box):
         sensitive = self._model.network_available and self._model.connected
         widgets = [
             self.play_button,
-            self.add_button,
+            self.track_selection_button,
             self.tracks_box,
         ]
         for widget in widgets:
@@ -250,8 +253,11 @@ class AlbumBox(Gtk.Box):
         if len(uris) > 0:
             self._app.send_message(MessageType.PLAY_TRACKS, {"uris": uris})
 
-    @Gtk.Template.Callback()
-    def on_add_button_clicked(self, _1: Gtk.Button) -> None:
+    def on_add_to_tracklist_activated(
+        self,
+        _1: Gio.SimpleAction,
+        _2: None,
+    ) -> None:
         uris = (
             self._track_selection_to_uris()
             if not self.tracks_box.get_activate_on_single_click()
@@ -259,6 +265,38 @@ class AlbumBox(Gtk.Box):
         )
         if len(uris) > 0:
             self._app.send_message(MessageType.ADD_TO_TRACKLIST, {"uris": uris})
+
+    def on_add_to_playlist_activated(
+        self,
+        _1: Gio.SimpleAction,
+        _2: None,
+    ) -> None:
+        track_uris = (
+            self._track_selection_to_uris()
+            if not self.tracks_box.get_activate_on_single_click()
+            else [self.uri]
+        )
+        if len(track_uris) == 0:
+            LOGGER.debug("Nothing to add to playlist")
+            return
+
+        playlist_selection_dialog = PlaylistSelectionDialog(self._app)
+        response = playlist_selection_dialog.run()
+        playlist_uri = (
+            playlist_selection_dialog.props.playlist_uri
+            if response == Gtk.ResponseType.OK
+            else ""
+        )
+        playlist_selection_dialog.destroy()
+
+        if not playlist_uri:
+            LOGGER.debug("Aborting adding tracks to playlist")
+            return
+
+        self._app.send_message(
+            MessageType.SAVE_PLAYLIST,
+            {"uri": playlist_uri, "add_track_uris": track_uris},
+        )
 
     @Gtk.Template.Callback()
     def on_tracks_box_row_activated(
