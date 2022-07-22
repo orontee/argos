@@ -40,7 +40,6 @@ class PlaylistLabel(Gtk.Stack):
 
         if not playlist.is_virtual:
             self.entry = Gtk.Entry()
-            self.entry.props.has_frame = False
             self.entry.show()
             self.add_named(self.entry, "entry")
 
