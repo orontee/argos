@@ -57,6 +57,8 @@ class PlaylistsBox(Gtk.Box):
         self._model = application.model
         self._disable_tooltips = application.props.disable_tooltips
 
+        PlaylistLabel.set_css_name("playlistlabel")
+
         self.playlists_view.bind_model(
             self._model.playlists,
             self._create_playlist_box,

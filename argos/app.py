@@ -8,9 +8,10 @@ from typing import Any, Dict, Optional
 
 import gi
 
+gi.require_version("Gdk", "3.0")  # noqa
 gi.require_version("Gtk", "3.0")  # noqa
 
-from gi.repository import Gio, GLib, GObject, Gtk
+from gi.repository import Gdk, Gio, GLib, GObject, Gtk
 
 from argos.controllers import (
     AlbumsController,
@@ -116,6 +117,8 @@ class Application(Gtk.Application):
             None,
         )
 
+        self._apply_style()
+
     @GObject.Property(type=Gio.Settings, flags=GObject.ParamFlags.READABLE)
     def settings(self):
         return self._settings
@@ -147,6 +150,15 @@ class Application(Gtk.Application):
     @property
     def loop(self) -> asyncio.AbstractEventLoop:
         return self._loop
+
+    def _apply_style(self):
+        css_provider = Gtk.CssProvider()
+        css_provider.load_from_resource("/io/github/orontee/Argos/ui/stylesheet.css")
+        screen = Gdk.Screen.get_default()
+        style_context = Gtk.StyleContext()
+        style_context.add_provider_for_screen(
+            screen, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
 
     def do_command_line(self, command_line: Gio.ApplicationCommandLine):
         options = command_line.get_options_dict()
