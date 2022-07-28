@@ -196,14 +196,51 @@ class AlbumsController(ControllerBase):
                     image_uri = ""
                     filepath = None
 
-                album = AlbumModel(
-                    uri=album_uri,
-                    name=a.get("name", ""),
-                    image_path=str(filepath) if filepath is not None else "",
-                    image_uri=image_uri,
-                    backend=backend,
-                )
-                parsed_albums.append(album)
+                tracks = await self._http.lookup_library([album_uri])
+                if tracks is None:
+                    continue
+
+                album_tracks = tracks.get(album_uri)
+                if album_tracks and len(album_tracks) > 0:
+                    album = album_tracks[0].get("album")
+                    if not album:
+                        continue
+
+                    artists = cast(
+                        List[Dict[str, Any]], album_tracks[0].get("artists", [])
+                    )
+                    artist_name = artists[0].get("name") if len(artists) > 0 else None
+                    num_tracks = album.get("num_tracks")
+                    num_discs = album.get("num_discs")
+                    date = album.get("date")
+
+                    class LengthAcc:
+                        length = 0
+
+                        def __call__(self, t: Dict[str, Any]) -> None:
+                            if self.length != -1 and "length" in t:
+                                self.length += int(t["length"])
+                            else:
+                                self.length = -1
+
+                    length_acc = LengthAcc()
+                    parsed_tracks = parse_tracks(tracks, visitor=length_acc)
+
+                    parsed_tracks.sort(key=attrgetter("disc_no", "track_no"))
+
+                    album = AlbumModel(
+                        backend=backend,
+                        uri=album_uri,
+                        name=a.get("name", ""),
+                        image_path=str(filepath) if filepath is not None else "",
+                        image_uri=image_uri,
+                        artist_name=artist_name,
+                        num_tracks=num_tracks,
+                        num_discs=num_discs,
+                        date=date,
+                        length=length_acc.length,
+                    )
+                    parsed_albums.append(album)
 
         self._model.update_albums(parsed_albums)
 

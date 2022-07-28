@@ -150,7 +150,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         LOGGER.debug(f"Updating description of album with URI {album_uri!r}")
         album = found[0]
 
-        album.artist_name = artist_name
+        album.artist_name = artist_name or ""
         album.num_tracks = num_tracks or -1
         album.num_discs = num_discs or -1
         album.date = date or ""

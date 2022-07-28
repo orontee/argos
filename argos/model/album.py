@@ -1,3 +1,5 @@
+from typing import Optional
+
 from gi.repository import Gio, GObject
 
 from argos.backends import MopidyBackend
@@ -33,6 +35,11 @@ class AlbumModel(WithThreadSafePropertySetter, GObject.Object):
         image_path: str,
         image_uri: str,
         backend: MopidyBackend,
+        artist_name: Optional[str] = None,
+        num_tracks: Optional[int] = None,
+        num_discs: Optional[int] = None,
+        date: Optional[str] = None,
+        length: Optional[int] = None
     ):
         super().__init__(
             uri=uri,
@@ -42,6 +49,11 @@ class AlbumModel(WithThreadSafePropertySetter, GObject.Object):
         )
         self._backend = backend
         self.tracks = Gio.ListStore.new(TrackModel)
+        self.artist_name = artist_name or ""
+        self.num_tracks = num_tracks or -1
+        self.num_discs = num_discs or -1
+        self.date = date or ""
+        self.length = length or -1
 
     def set_name(self, value: str) -> None:
         self.set_property_in_gtk_thread("name", value)
