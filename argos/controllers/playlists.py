@@ -3,7 +3,7 @@ import gettext
 import logging
 import time
 from operator import attrgetter
-from typing import TYPE_CHECKING, Any, Callable, Coroutine, Dict, List, Optional, cast
+from typing import TYPE_CHECKING, Any, cast, Dict, List, Optional
 
 from gi.repository import Gio
 
@@ -11,35 +11,13 @@ if TYPE_CHECKING:
     from argos.app import Application
 
 from argos.controllers.base import ControllerBase
-from argos.controllers.utils import parse_tracks
+from argos.controllers.utils import call_by_slice, parse_tracks
 from argos.message import Message, MessageType, consume
 from argos.model import PlaylistModel, TrackModel
 
 LOGGER = logging.getLogger(__name__)
 
 _ = gettext.gettext
-
-_CALL_SIZE = 20
-
-
-async def _call_by_slice(
-    func: Callable[[List[str]], Coroutine[Any, Any, Optional[Dict[str, Any]]]],
-    *,
-    params: List[str],
-) -> Dict[str, Any]:
-    """Make multiple synchronous calls.
-
-    The argument ``params`` is splitted in slices of bounded length.
-
-    """
-    call_count = len(params) // _CALL_SIZE + (0 if len(params) % _CALL_SIZE == 0 else 1)
-    result: Dict[str, Any] = {}
-    for i in range(call_count):
-        ith_result = await func(params[i * _CALL_SIZE : (i + 1) * _CALL_SIZE])
-        if ith_result is None:
-            break
-        result.update(ith_result)
-    return result
 
 
 class PlaylistsController(ControllerBase):
@@ -228,7 +206,7 @@ class PlaylistsController(ControllerBase):
         track_uris = [cast(str, t.get("uri")) for t in playlist_tracks if "uri" in t]
         if len(track_uris) > 0:
             LOGGER.debug(f"Fetching tracks of playlist with URI {playlist_uri!r}")
-            found_tracks = await _call_by_slice(
+            found_tracks = await call_by_slice(
                 self._http.lookup_library,
                 params=track_uris,
             )
@@ -266,7 +244,7 @@ class PlaylistsController(ControllerBase):
                 cast(str, ref.get("uri")) for ref in track_refs if "uri" in ref
             ]
 
-        recent_tracks = await _call_by_slice(
+        recent_tracks = await call_by_slice(
             self._http.lookup_library,
             params=recent_track_refs_uris,
         )
@@ -320,7 +298,7 @@ class PlaylistsController(ControllerBase):
         ]
         history_refs_uris = [ref.get("uri") for ref in history_refs if "uri" in ref]
 
-        history_tracks = await _call_by_slice(
+        history_tracks = await call_by_slice(
             self._http.lookup_library,
             params=history_refs_uris,
         )
