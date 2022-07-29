@@ -126,7 +126,7 @@ dedicated virtual environment using ``poetry``::
   $ pre-commit install
 
 Pre-commit hooks run ``mypy`` check and make sure code is properly
-formatted (using ``black``).
+formatted (using ``black`` and ``isort``).
 
 To update translation files::
 
