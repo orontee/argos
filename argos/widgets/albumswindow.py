@@ -1,7 +1,7 @@
-from enum import IntEnum
 import logging
 import re
 import threading
+from enum import IntEnum
 
 from gi.repository import GLib, GObject, Gtk
 from gi.repository.GdkPixbuf import Pixbuf

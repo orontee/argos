@@ -1,21 +1,22 @@
-from collections import defaultdict
 import logging
-from operator import attrgetter
 import random
-from typing import Any, cast, Dict, List, Optional, Tuple, TYPE_CHECKING
+from collections import defaultdict
+from operator import attrgetter
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, cast
 
 from gi.repository import Gio, GObject
 
 if TYPE_CHECKING:
     from ..app import Application
+
 from ..backends import (
     MopidyBackend,
-    MopidyLocalBackend,
     MopidyBandcampBackend,
+    MopidyLocalBackend,
     MopidyPodcastBackend,
 )
 from ..download import ImageDownloader
-from ..message import consume, Message, MessageType
+from ..message import Message, MessageType, consume
 from ..model import AlbumModel
 from .base import ControllerBase
 from .utils import parse_tracks

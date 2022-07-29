@@ -1,7 +1,7 @@
 import gettext
 import logging
-from pathlib import Path
 import re
+from pathlib import Path
 from typing import List, Optional
 
 from gi.repository import Gio, GLib, GObject, Gtk

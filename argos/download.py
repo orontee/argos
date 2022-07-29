@@ -1,17 +1,17 @@
 import asyncio
-from functools import partial
 import logging
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, TYPE_CHECKING
 import urllib.parse
+from functools import partial
+from pathlib import Path
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple
 
 import aiohttp
 import xdg.BaseDirectory  # type: ignore
-
 from gi.repository import Gio, GLib, GObject
 
 if TYPE_CHECKING:
     from .app import Application
+
 from .session import get_session
 
 LOGGER = logging.getLogger(__name__)

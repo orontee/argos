@@ -1,10 +1,11 @@
 import gettext
 import logging
-from typing import cast, List, TYPE_CHECKING
+from typing import TYPE_CHECKING, List, cast
 
 if TYPE_CHECKING:
     from ..app import Application
-from ..message import consume, Message, MessageType
+
+from ..message import Message, MessageType, consume
 from .base import ControllerBase
 
 LOGGER = logging.getLogger(__name__)

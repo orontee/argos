@@ -1,7 +1,8 @@
-import aiohttp
 import contextlib
 import logging
 from typing import Optional
+
+import aiohttp
 
 LOGGER = logging.getLogger(__name__)
 

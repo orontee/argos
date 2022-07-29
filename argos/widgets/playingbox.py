@@ -1,6 +1,6 @@
-from enum import IntEnum
 import gettext
 import logging
+from enum import IntEnum
 from pathlib import Path
 from typing import List, Optional
 

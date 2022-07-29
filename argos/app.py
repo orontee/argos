@@ -1,8 +1,8 @@
 import asyncio
-from collections import defaultdict
 import gettext
 import inspect
 import logging
+from collections import defaultdict
 from threading import Thread
 from typing import Any, Dict, Optional
 
@@ -14,10 +14,10 @@ from gi.repository import Gio, GLib, GObject, Gtk
 
 from .controllers import (
     AlbumsController,
+    MixerController,
     PlaybackController,
     PlaylistsController,
     TracklistController,
-    MixerController,
 )
 from .download import ImageDownloader
 from .http import MopidyHTTPClient

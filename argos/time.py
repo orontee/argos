@@ -1,12 +1,13 @@
 import asyncio
-from datetime import datetime
 import logging
-from typing import Optional, TYPE_CHECKING
+from datetime import datetime
+from typing import TYPE_CHECKING, Optional
 
 from gi.repository import GObject
 
 if TYPE_CHECKING:
     from .app import Application
+
 from .http import MopidyHTTPClient
 from .model import Model, PlaybackState
 

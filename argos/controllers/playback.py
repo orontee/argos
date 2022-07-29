@@ -1,13 +1,14 @@
 import gettext
 import logging
-from typing import cast, TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Union, cast
 
 from gi.repository import GObject
 
 if TYPE_CHECKING:
     from ..app import Application
+
 from ..download import ImageDownloader
-from ..message import consume, Message, MessageType
+from ..message import Message, MessageType, consume
 from ..model import PlaybackState
 from .base import ControllerBase
 

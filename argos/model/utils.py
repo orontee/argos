@@ -1,15 +1,9 @@
 import contextlib
-from enum import IntEnum
 import logging
-from typing import (
-    Any,
-    ContextManager,
-    Optional,
-    Protocol,
-)
+from enum import IntEnum
+from typing import Any, ContextManager, Optional, Protocol
 
 from gi.repository import GLib
-
 
 LOGGER = logging.getLogger(__name__)
 

@@ -1,10 +1,11 @@
 import logging
-from typing import Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 from gi.repository import Gio, GLib, GObject
 
 if TYPE_CHECKING:
     from .app import Application
+
 from .model import Model, PlaybackState
 
 LOGGER = logging.getLogger(__name__)

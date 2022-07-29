@@ -1,7 +1,7 @@
 import logging
 from typing import List
 
-from gi.repository import Gtk, GObject
+from gi.repository import GObject, Gtk
 
 from ..message import MessageType
 from ..model import TrackModel

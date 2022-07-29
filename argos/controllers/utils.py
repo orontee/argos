@@ -1,5 +1,5 @@
 import logging
-from typing import cast, Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, cast
 
 from ..model import TrackModel
 

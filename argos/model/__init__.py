@@ -1,13 +1,13 @@
-from functools import partial
 import logging
-from typing import Any, cast, Dict, List, Optional, Tuple, TYPE_CHECKING
+from functools import partial
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, cast
 
 from gi.repository import Gio, GLib, GObject
 
 from .album import AlbumModel
 from .mixer import MixerModel
 from .playback import PlaybackModel
-from .playlist import playlist_compare_func, PlaylistModel
+from .playlist import PlaylistModel, playlist_compare_func
 from .track import TrackModel
 from .tracklist import TracklistModel, TracklistTrackModel
 from .utils import PlaybackState, WithThreadSafePropertySetter

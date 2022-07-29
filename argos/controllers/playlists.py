@@ -1,15 +1,16 @@
 import asyncio
 import gettext
 import logging
-from operator import attrgetter
 import time
-from typing import Any, Callable, cast, Coroutine, Dict, List, Optional, TYPE_CHECKING
+from operator import attrgetter
+from typing import TYPE_CHECKING, Any, Callable, Coroutine, Dict, List, Optional, cast
 
 from gi.repository import Gio
 
 if TYPE_CHECKING:
     from ..app import Application
-from ..message import consume, Message, MessageType
+
+from ..message import Message, MessageType, consume
 from ..model import PlaylistModel
 from .base import ControllerBase
 from .utils import parse_tracks

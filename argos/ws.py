@@ -1,15 +1,15 @@
 import asyncio
 import json
 import logging
-from typing import Any, Dict, Optional, Union, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Dict, Optional, Union
 from urllib.parse import urljoin
 
 import aiohttp
-
 from gi.repository import Gio, GObject
 
 if TYPE_CHECKING:
     from .app import Application
+
 from .message import Message, MessageType
 from .model import Model
 from .session import get_session

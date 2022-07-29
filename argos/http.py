@@ -5,12 +5,13 @@ Fully implemented using Mopidy websocket.
 """
 
 import logging
-from typing import Any, cast, Dict, List, Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, cast
 
 from gi.repository import GObject
 
 if TYPE_CHECKING:
     from .app import Application
+
 from .model import PlaybackState
 from .ws import MopidyWSConnection
 

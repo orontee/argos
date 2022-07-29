@@ -1,15 +1,11 @@
 import asyncio
-from typing import (
-    Any,
-    Dict,
-    Optional,
-    TYPE_CHECKING,
-)
+from typing import TYPE_CHECKING, Any, Dict, Optional
 
 from gi.repository import Gio, GObject
 
 if TYPE_CHECKING:
     from ..app import Application
+
 from ..http import MopidyHTTPClient
 from ..message import Message, MessageType
 from ..model import Model
