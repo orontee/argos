@@ -1,12 +1,15 @@
+import gettext
 import logging
 from typing import List
 
-from gi.repository import GObject, Gtk
+from gi.repository import Gio, GObject, Gtk
 
 from argos.message import MessageType
 from argos.model import TrackModel
 from argos.widgets.trackbox import TrackBox
 from argos.widgets.utils import set_list_box_header_with_separator
+
+_ = gettext.gettext
 
 LOGGER = logging.getLogger(__name__)
 
@@ -26,7 +29,7 @@ class PlaylistTracksBox(Gtk.Box):
 
     add_button: Gtk.Button = Gtk.Template.Child()
     play_button: Gtk.Button = Gtk.Template.Child()
-    clear_button: Gtk.Button = Gtk.Template.Child()
+    edit_button: Gtk.Button = Gtk.Template.Child()
 
     uri = GObject.Property(type=str, default="")
 
@@ -45,6 +48,11 @@ class PlaylistTracksBox(Gtk.Box):
             self.tracks_box.set_activate_on_single_click(False)
             self.tracks_box.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
 
+        edition_menu = Gio.Menu()
+        edition_menu.append(_("Remove selected tracks"), "win.remove-from-playlist")
+        edition_menu.append(_("Delete playlist…"), "win.remove-playlist")
+        self.edit_button.set_menu_model(edition_menu)
+
         for widget in (
             self.play_button,
             self.add_button,
@@ -60,6 +68,10 @@ class PlaylistTracksBox(Gtk.Box):
 
         self.show_all()
 
+    def _is_playlist_removable(self) -> bool:
+        playlist = self._model.get_playlist(self.props.uri)
+        return playlist is not None and not playlist.is_virtual
+
     def _handle_connection_changed(
         self,
         _1: GObject.GObject,
@@ -74,9 +86,7 @@ class PlaylistTracksBox(Gtk.Box):
         for widget in widgets:
             widget.set_sensitive(sensitive)
 
-        self.clear_button.set_sensitive(
-            sensitive and len(self.tracks_box.get_selected_rows()) > 0
-        )
+        self.edit_button.set_sensitive(sensitive and self._is_playlist_removable())
 
     def _create_track_box(
         self,
@@ -97,6 +107,9 @@ class PlaylistTracksBox(Gtk.Box):
             tracks,
             self._create_track_box,
         )
+
+        sensitive = self._model.network_available and self._model.connected
+        self.edit_button.set_sensitive(sensitive and self._is_playlist_removable())
 
     def _track_selection_to_uris(self) -> List[str]:
         """Returns the list of URIs for current track selection.
@@ -148,8 +161,11 @@ class PlaylistTracksBox(Gtk.Box):
         if len(uris) > 0:
             self._app.send_message(MessageType.ADD_TO_TRACKLIST, {"uris": uris})
 
-    @Gtk.Template.Callback()
-    def on_clear_button_clicked(self, _1: Gtk.Button) -> None:
+    def on_remove_from_playlist_activated(
+        self,
+        _1: Gio.SimpleAction,
+        _2: None,
+    ) -> None:
         track_uris = self._track_selection_to_uris()
         if len(track_uris) > 0:
             self._app.send_message(
@@ -169,9 +185,3 @@ class PlaylistTracksBox(Gtk.Box):
         track_box = row.get_child()
         uri = track_box.props.uri
         self._app.send_message(MessageType.PLAY_TRACKS, {"uris": [uri]})
-
-    @Gtk.Template.Callback()
-    def on_tracks_box_selected_rows_changed(self, *args) -> None:
-        LOGGER.debug(f"{args}")
-        selected_rows = self.tracks_box.get_selected_rows()
-        self.clear_button.set_sensitive(len(selected_rows) > 0)

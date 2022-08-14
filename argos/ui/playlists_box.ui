@@ -2,16 +2,6 @@
 <!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
-  <object class="GtkImage" id="add_playlist_image">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
-    <property name="icon-name">list-add-symbolic</property>
-  </object>
-  <object class="GtkImage" id="remove_playlist_image">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
-    <property name="icon-name">list-remove-symbolic</property>
-  </object>
   <template class="PlaylistsBox" parent="GtkBox">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -23,103 +13,24 @@
         <property name="can-focus">False</property>
         <property name="spacing">50</property>
         <child>
-          <object class="GtkBox">
+          <object class="GtkScrolledWindow" id="playlists_window">
+            <property name="width-request">150</property>
             <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="orientation">vertical</property>
-            <property name="spacing">5</property>
+            <property name="can-focus">True</property>
+            <property name="vexpand">True</property>
+            <property name="shadow-type">in</property>
             <child>
-              <object class="GtkScrolledWindow" id="playlists_window">
-                <property name="width-request">150</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="vexpand">True</property>
-                <property name="shadow-type">in</property>
-                <child>
-                  <object class="GtkViewport" id="playlists_viewport">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <child>
-                      <object class="GtkListBox" id="playlists_view">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <signal name="row-selected" handler="on_playlists_view_row_selected" swapped="no"/>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox">
+              <object class="GtkViewport" id="playlists_viewport">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <child>
-                  <object class="GtkButtonBox">
+                  <object class="GtkListBox" id="playlists_view">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="halign">end</property>
-                    <property name="layout-style">expand</property>
-                    <child>
-                      <object class="GtkButton" id="remove_playlist_button">
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">True</property>
-                        <property name="tooltip-text" translatable="yes">Delete playlist</property>
-                        <property name="halign">end</property>
-                        <property name="image">remove_playlist_image</property>
-                        <signal name="clicked" handler="on_remove_playlist_button_clicked" swapped="no"/>
-                        <style>
-                          <class name="pill"/>
-                        </style>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkButton" id="add_playlist_button">
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">True</property>
-                        <property name="tooltip-text" translatable="yes">Create playlist</property>
-                        <property name="halign">end</property>
-                        <property name="image">add_playlist_image</property>
-                        <signal name="clicked" handler="on_add_playlist_button_clicked" swapped="no"/>
-                        <style>
-                          <class name="pill"/>
-                        </style>
-                      </object>
-                      <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
-                      </packing>
-                    </child>
-                    <style>
-                      <class name="linked"/>
-                    </style>
+                    <signal name="row-selected" handler="on_playlists_view_row_selected" swapped="no"/>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="pack-type">end</property>
-                    <property name="position">0</property>
-                  </packing>
                 </child>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">1</property>
-              </packing>
             </child>
           </object>
           <packing>

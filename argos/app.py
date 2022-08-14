@@ -202,6 +202,7 @@ class Application(Gtk.Application):
         action_descriptions = [
             ("show-about-dialog", self.show_about_dialog_cb, None),
             ("show-preferences", self.show_prefs_activate_cb, None),
+            ("new-playlist", self.new_playlist_activate_cb, None),
             ("play-random-album", self.play_random_album_activate_cb, None),
             ("update-library", self.update_library_activate_cb, None),
             ("quit", self.quit_activate_cb, ("app.quit", ["<Ctrl>Q"])),
@@ -214,8 +215,9 @@ class Application(Gtk.Application):
                 self.set_accels_for_action(*accel)
 
         for action_name in [
-            "play_random_album",
-            "update_library",
+            "new-playlist",
+            "play-random-album",
+            "update-library",
         ]:
             action = self.lookup_action(action_name)
             if not action:
@@ -253,7 +255,7 @@ class Application(Gtk.Application):
                 await consumer(message)
 
     def _update_network_actions_state(self) -> None:
-        for action_name in ["play_random_album", "update_library"]:
+        for action_name in ["new-playlist", "play-random-album", "update-library"]:
             action = self.lookup_action(action_name)
             if not action:
                 continue
@@ -301,6 +303,17 @@ class Application(Gtk.Application):
         LOGGER.debug("Quit requested by end-user")
         if self.window is not None:
             self.window.destroy()
+
+    def new_playlist_activate_cb(
+        self, action: Gio.SimpleAction, parameter: None
+    ) -> None:
+        name = _("New playlist")
+        LOGGER.debug(f"Creation of new playlist {name!r} requested by end-user")
+
+        if self.window is not None:
+            self.window.set_central_view_visible_child("playlists_page")
+
+        self.send_message(MessageType.CREATE_PLAYLIST, {"name": name})
 
     def play_random_album_activate_cb(
         self, action: Gio.SimpleAction, parameter: None

@@ -13,6 +13,12 @@
     </section>
     <section>
       <item>
+        <attribute name="label" translatable="yes">New playlist</attribute>
+        <attribute name="action">app.new-playlist</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
 	<attribute name="label" translatable="yes">_Preferences</attribute>
 	<attribute name="action">app.show-preferences</attribute>
       </item>
