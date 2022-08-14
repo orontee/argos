@@ -1,11 +1,11 @@
-from .about import AboutDialog
-from .albumbox import AlbumBox
-from .albumswindow import AlbumsWindow
-from .playingbox import PlayingBox
-from .playlistsbox import PlaylistsBox
-from .preferences import PreferencesWindow
-from .titlebar import TitleBar
-from .volumebutton import VolumeButton
+from argos.widgets.about import AboutDialog
+from argos.widgets.albumbox import AlbumBox
+from argos.widgets.albumswindow import AlbumsWindow
+from argos.widgets.playingbox import PlayingBox
+from argos.widgets.playlistsbox import PlaylistsBox
+from argos.widgets.preferences import PreferencesWindow
+from argos.widgets.titlebar import TitleBar
+from argos.widgets.volumebutton import VolumeButton
 
 __all__ = (
     "AlbumBox",

@@ -6,10 +6,10 @@ from typing import TYPE_CHECKING, Optional
 from gi.repository import GObject
 
 if TYPE_CHECKING:
-    from .app import Application
+    from argos.app import Application
 
-from .http import MopidyHTTPClient
-from .model import Model, PlaybackState
+from argos.http import MopidyHTTPClient
+from argos.model import Model, PlaybackState
 
 LOGGER = logging.getLogger(__name__)
 

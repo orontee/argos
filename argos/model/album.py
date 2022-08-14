@@ -1,8 +1,8 @@
 from gi.repository import Gio, GObject
 
-from ..backends import MopidyBackend
-from .track import TrackModel
-from .utils import WithThreadSafePropertySetter
+from argos.backends import MopidyBackend
+from argos.model.track import TrackModel
+from argos.model.utils import WithThreadSafePropertySetter
 
 
 class AlbumModel(WithThreadSafePropertySetter, GObject.Object):

@@ -6,11 +6,11 @@ from typing import List, Optional
 
 from gi.repository import Gio, GLib, GObject, Gtk
 
-from ..message import MessageType
-from ..model import Model, TrackModel
-from ..utils import elide_maybe, ms_to_text
-from .trackbox import TrackBox
-from .utils import (
+from argos.message import MessageType
+from argos.model import Model, TrackModel
+from argos.utils import elide_maybe, ms_to_text
+from argos.widgets.trackbox import TrackBox
+from argos.widgets.utils import (
     default_album_image_pixbuf,
     scale_album_image,
     set_list_box_header_with_separator,

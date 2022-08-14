@@ -2,8 +2,8 @@ from typing import Optional
 
 from gi.repository import Gio, GObject
 
-from .track import TrackModel
-from .utils import WithThreadSafePropertySetter
+from argos.model.track import TrackModel
+from argos.model.utils import WithThreadSafePropertySetter
 
 
 class TracklistTrackModel(GObject.Object):

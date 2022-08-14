@@ -1,6 +1,6 @@
 from gi.repository import GObject
 
-from .utils import WithThreadSafePropertySetter
+from argos.model.utils import WithThreadSafePropertySetter
 
 
 class MixerModel(WithThreadSafePropertySetter, GObject.Object):

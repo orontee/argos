@@ -4,9 +4,9 @@ from typing import Optional
 
 from gi.repository import Gio, GLib, GObject, Gtk
 
-from ..model import PlaylistModel
-from ..utils import elide_maybe, ms_to_text
-from .playlisttracksbox import PlaylistTracksBox
+from argos.model import PlaylistModel
+from argos.utils import elide_maybe, ms_to_text
+from argos.widgets.playlisttracksbox import PlaylistTracksBox
 
 _ = gettext.gettext
 

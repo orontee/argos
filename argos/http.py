@@ -10,10 +10,10 @@ from typing import TYPE_CHECKING, Any, Dict, List, Optional, cast
 from gi.repository import GObject
 
 if TYPE_CHECKING:
-    from .app import Application
+    from argos.app import Application
 
-from .model import PlaybackState
-from .ws import MopidyWSConnection
+from argos.model import PlaybackState
+from argos.ws import MopidyWSConnection
 
 LOGGER = logging.getLogger(__name__)
 

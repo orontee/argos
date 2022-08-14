@@ -7,19 +7,19 @@ from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, cast
 from gi.repository import Gio, GObject
 
 if TYPE_CHECKING:
-    from ..app import Application
+    from argos.app import Application
 
-from ..backends import (
+from argos.backends import (
     MopidyBackend,
     MopidyBandcampBackend,
     MopidyLocalBackend,
     MopidyPodcastBackend,
 )
-from ..download import ImageDownloader
-from ..message import Message, MessageType, consume
-from ..model import AlbumModel
-from .base import ControllerBase
-from .utils import parse_tracks
+from argos.controllers.base import ControllerBase
+from argos.controllers.utils import parse_tracks
+from argos.download import ImageDownloader
+from argos.message import Message, MessageType, consume
+from argos.model import AlbumModel
 
 LOGGER = logging.getLogger(__name__)
 

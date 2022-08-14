@@ -6,11 +6,11 @@ from typing import List, Optional
 
 from gi.repository import GLib, GObject, Gtk
 
-from ..message import MessageType
-from ..model import PlaybackState
-from ..utils import elide_maybe, ms_to_text
-from .tlbox import TracklistBox
-from .utils import scale_album_image
+from argos.message import MessageType
+from argos.model import PlaybackState
+from argos.utils import elide_maybe, ms_to_text
+from argos.widgets.tlbox import TracklistBox
+from argos.widgets.utils import scale_album_image
 
 _ = gettext.gettext
 

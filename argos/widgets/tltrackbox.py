@@ -2,8 +2,8 @@ import logging
 
 from gi.repository import GLib, GObject, Gtk
 
-from ..model import TracklistTrackModel
-from ..utils import ms_to_text
+from argos.model import TracklistTrackModel
+from argos.utils import ms_to_text
 
 LOGGER = logging.getLogger(__name__)
 

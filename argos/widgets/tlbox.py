@@ -2,9 +2,9 @@ import logging
 
 from gi.repository import GObject, Gtk
 
-from ..message import MessageType
-from ..model import TracklistTrackModel
-from .tltrackbox import TracklistTrackBox
+from argos.message import MessageType
+from argos.model import TracklistTrackModel
+from argos.widgets.tltrackbox import TracklistTrackBox
 
 LOGGER = logging.getLogger(__name__)
 

@@ -8,12 +8,12 @@ from typing import TYPE_CHECKING, Any, Callable, Coroutine, Dict, List, Optional
 from gi.repository import Gio
 
 if TYPE_CHECKING:
-    from ..app import Application
+    from argos.app import Application
 
-from ..message import Message, MessageType, consume
-from ..model import PlaylistModel
-from .base import ControllerBase
-from .utils import parse_tracks
+from argos.controllers.base import ControllerBase
+from argos.controllers.utils import parse_tracks
+from argos.message import Message, MessageType, consume
+from argos.model import PlaylistModel
 
 LOGGER = logging.getLogger(__name__)
 

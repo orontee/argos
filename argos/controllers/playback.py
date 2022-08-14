@@ -5,12 +5,12 @@ from typing import TYPE_CHECKING, Union, cast
 from gi.repository import GObject
 
 if TYPE_CHECKING:
-    from ..app import Application
+    from argos.app import Application
 
-from ..download import ImageDownloader
-from ..message import Message, MessageType, consume
-from ..model import PlaybackState
-from .base import ControllerBase
+from argos.controllers.base import ControllerBase
+from argos.download import ImageDownloader
+from argos.message import Message, MessageType, consume
+from argos.model import PlaybackState
 
 LOGGER = logging.getLogger(__name__)
 

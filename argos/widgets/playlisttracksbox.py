@@ -3,10 +3,10 @@ from typing import List
 
 from gi.repository import GObject, Gtk
 
-from ..message import MessageType
-from ..model import TrackModel
-from .trackbox import TrackBox
-from .utils import set_list_box_header_with_separator
+from argos.message import MessageType
+from argos.model import TrackModel
+from argos.widgets.trackbox import TrackBox
+from argos.widgets.utils import set_list_box_header_with_separator
 
 LOGGER = logging.getLogger(__name__)
 

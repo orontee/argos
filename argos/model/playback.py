@@ -3,7 +3,7 @@ from typing import Optional, Union
 
 from gi.repository import GObject
 
-from .utils import PlaybackState, WithThreadSafePropertySetter
+from argos.model.utils import PlaybackState, WithThreadSafePropertySetter
 
 
 class PlaybackModel(WithThreadSafePropertySetter, GObject.Object):

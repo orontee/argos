@@ -5,7 +5,7 @@ from typing import Optional
 from gi.repository import GdkPixbuf, GLib, Gtk
 from gi.repository.GdkPixbuf import Pixbuf
 
-from ..utils import compute_target_size
+from argos.utils import compute_target_size
 
 LOGGER = logging.getLogger(__name__)
 

@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 from gi.repository import Gio, GObject, Gtk
 
 if TYPE_CHECKING:
-    from ..app import Application
+    from argos.app import Application
 
 LOGGER = logging.getLogger(__name__)
 

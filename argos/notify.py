@@ -4,9 +4,9 @@ from typing import TYPE_CHECKING, Optional
 from gi.repository import Gio, GLib, GObject
 
 if TYPE_CHECKING:
-    from .app import Application
+    from argos.app import Application
 
-from .model import Model, PlaybackState
+from argos.model import Model, PlaybackState
 
 LOGGER = logging.getLogger(__name__)
 

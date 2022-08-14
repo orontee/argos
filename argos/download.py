@@ -10,9 +10,9 @@ import xdg.BaseDirectory  # type: ignore
 from gi.repository import Gio, GLib, GObject
 
 if TYPE_CHECKING:
-    from .app import Application
+    from argos.app import Application
 
-from .session import get_session
+from argos.session import get_session
 
 LOGGER = logging.getLogger(__name__)
 

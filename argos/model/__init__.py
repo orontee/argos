@@ -4,16 +4,16 @@ from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, cast
 
 from gi.repository import Gio, GLib, GObject
 
-from .album import AlbumModel
-from .mixer import MixerModel
-from .playback import PlaybackModel
-from .playlist import PlaylistModel, playlist_compare_func
-from .track import TrackModel
-from .tracklist import TracklistModel, TracklistTrackModel
-from .utils import PlaybackState, WithThreadSafePropertySetter
+from argos.model.album import AlbumModel
+from argos.model.mixer import MixerModel
+from argos.model.playback import PlaybackModel
+from argos.model.playlist import PlaylistModel, playlist_compare_func
+from argos.model.track import TrackModel
+from argos.model.tracklist import TracklistModel, TracklistTrackModel
+from argos.model.utils import PlaybackState, WithThreadSafePropertySetter
 
 if TYPE_CHECKING:
-    from ..app import Application
+    from argos.app import Application
 
 LOGGER = logging.getLogger(__name__)
 

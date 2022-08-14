@@ -3,9 +3,9 @@ import logging
 
 from gi.repository import Gdk, GObject, Gtk
 
-from .message import MessageType
-from .model import PlaybackState
-from .widgets import AlbumBox, AlbumsWindow, PlayingBox, PlaylistsBox, TitleBar
+from argos.message import MessageType
+from argos.model import PlaybackState
+from argos.widgets import AlbumBox, AlbumsWindow, PlayingBox, PlaylistsBox, TitleBar
 
 _ = gettext.gettext
 

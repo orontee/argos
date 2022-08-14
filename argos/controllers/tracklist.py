@@ -3,10 +3,10 @@ import logging
 from typing import TYPE_CHECKING, List, cast
 
 if TYPE_CHECKING:
-    from ..app import Application
+    from argos.app import Application
 
-from ..message import Message, MessageType, consume
-from .base import ControllerBase
+from argos.controllers.base import ControllerBase
+from argos.message import Message, MessageType, consume
 
 LOGGER = logging.getLogger(__name__)
 

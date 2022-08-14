@@ -8,11 +8,11 @@ import aiohttp
 from gi.repository import Gio, GObject
 
 if TYPE_CHECKING:
-    from .app import Application
+    from argos.app import Application
 
-from .message import Message, MessageType
-from .model import Model
-from .session import get_session
+from argos.message import Message, MessageType
+from argos.model import Model
+from argos.session import get_session
 
 LOGGER = logging.getLogger(__name__)
 

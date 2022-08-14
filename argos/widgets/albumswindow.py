@@ -6,8 +6,8 @@ from enum import IntEnum
 from gi.repository import GLib, GObject, Gtk
 from gi.repository.GdkPixbuf import Pixbuf
 
-from ..utils import elide_maybe
-from .utils import default_album_image_pixbuf, scale_album_image
+from argos.utils import elide_maybe
+from argos.widgets.utils import default_album_image_pixbuf, scale_album_image
 
 LOGGER = logging.getLogger(__name__)
 

@@ -12,23 +12,23 @@ gi.require_version("Gtk", "3.0")  # noqa
 
 from gi.repository import Gio, GLib, GObject, Gtk
 
-from .controllers import (
+from argos.controllers import (
     AlbumsController,
     MixerController,
     PlaybackController,
     PlaylistsController,
     TracklistController,
 )
-from .download import ImageDownloader
-from .http import MopidyHTTPClient
-from .message import Message, MessageType
-from .model import Model
-from .notify import Notifier
-from .time import TimePositionTracker
-from .utils import configure_logger
-from .widgets import AboutDialog, PreferencesWindow
-from .window import ArgosWindow
-from .ws import MopidyWSConnection
+from argos.download import ImageDownloader
+from argos.http import MopidyHTTPClient
+from argos.message import Message, MessageType
+from argos.model import Model
+from argos.notify import Notifier
+from argos.time import TimePositionTracker
+from argos.utils import configure_logger
+from argos.widgets import AboutDialog, PreferencesWindow
+from argos.window import ArgosWindow
+from argos.ws import MopidyWSConnection
 
 LOGGER = logging.getLogger(__name__)
 

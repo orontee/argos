@@ -2,7 +2,7 @@ import logging
 
 from gi.repository import GObject, Gtk
 
-from ..message import MessageType
+from argos.message import MessageType
 
 LOGGER = logging.getLogger(__name__)
 

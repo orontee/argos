@@ -4,12 +4,12 @@ from typing import TYPE_CHECKING, Any, Dict, Optional
 from gi.repository import Gio, GObject
 
 if TYPE_CHECKING:
-    from ..app import Application
+    from argos.app import Application
 
-from ..http import MopidyHTTPClient
-from ..message import Message, MessageType
-from ..model import Model
-from ..notify import Notifier
+from argos.http import MopidyHTTPClient
+from argos.message import Message, MessageType
+from argos.model import Model
+from argos.notify import Notifier
 
 
 class ControllerBase(GObject.Object):

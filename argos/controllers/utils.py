@@ -1,7 +1,7 @@
 import logging
 from typing import Any, Callable, Dict, List, Optional, cast
 
-from ..model import TrackModel
+from argos.model import TrackModel
 
 LOGGER = logging.getLogger(__name__)
 

@@ -2,7 +2,7 @@ import logging
 
 from gi.repository import GObject, Gtk
 
-from .volumebutton import VolumeButton
+from argos.widgets.volumebutton import VolumeButton
 
 LOGGER = logging.getLogger(__name__)
 
