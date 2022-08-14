@@ -1,7 +1,7 @@
 import gettext
 import logging
 
-from gi.repository import Gdk, Gio, GLib, GObject, Gtk
+from gi.repository import Gdk, Gio, GObject, Gtk
 
 from argos.message import MessageType
 from argos.model import PlaybackState
@@ -72,6 +72,20 @@ class ArgosWindow(Gtk.ApplicationWindow):
             "activate", self._album_box.on_add_to_playlist_activated
         )
 
+        playlist_tracks_box = self.props.playlists_box.props.playlist_tracks_box
+        remove_from_playlist_action = Gio.SimpleAction.new("remove-from-playlist", None)
+        remove_from_playlist_action.set_enabled(False)
+        self.add_action(remove_from_playlist_action)
+        remove_from_playlist_action.connect(
+            "activate", playlist_tracks_box.on_remove_from_playlist_activated
+        )
+
+        remove_playlist_action = Gio.SimpleAction.new("remove-playlist", None)
+        self.add_action(remove_playlist_action)
+        remove_playlist_action.connect(
+            "activate", self.props.playlists_box.on_remove_playlist_activated
+        )
+
         self.main_stack.connect(
             "notify::visible-child-name", self._on_main_stack_page_changed
         )
@@ -84,6 +98,10 @@ class ArgosWindow(Gtk.ApplicationWindow):
             "notify::current-tl-track-tlid", self._on_attention_requested
         )
         self.connect("notify::is-maximized", self._handle_maximized_state_changed)
+
+        playlist_tracks_box.tracks_box.connect(
+            "selected-rows-changed", self.on_playlist_tracks_box_selected_rows_changed
+        )
 
         self.show_all()
         self.titlebar.volume_button.hide()
@@ -178,6 +196,27 @@ class ArgosWindow(Gtk.ApplicationWindow):
             LOGGER.debug("Requesting attention for playing page")
             self.central_view.child_set_property(child, "needs-attention", True)
 
+    def set_central_view_visible_child(self, name: str) -> None:
+        child = self.central_view.get_child_by_name(name)
+        if not child:
+            LOGGER.warning(f"Unexpected stack child name {name!r}")
+            return
+
+        self.central_view.set_visible_child(child)
+
+        if self.main_stack.get_visible_child_name() != "main_page":
+            self.main_stack.set_visible_child_name("main_page")
+
+    def on_playlist_tracks_box_selected_rows_changed(self, *args) -> None:
+        remove_from_playlist_action = self.lookup_action("remove-from-playlist")
+        if not remove_from_playlist_action:
+            return
+
+        enabled = self._model.network_available and self._model.connected
+        playlist_tracks_box = self.props.playlists_box.props.playlist_tracks_box
+        selected_rows = playlist_tracks_box.tracks_box.get_selected_rows()
+        remove_from_playlist_action.set_enabled(enabled and len(selected_rows) > 0)
+
     @Gtk.Template.Callback()
     def key_press_event_cb(self, widget: Gtk.Widget, event: Gdk.EventKey) -> bool:
         # See /usr/include/gtk-3.0/gdk/gdkkeysyms.h for key definitions
@@ -187,19 +226,13 @@ class ArgosWindow(Gtk.ApplicationWindow):
         keyval = event.keyval
         if modifiers == mod1_mask:
             if keyval in [Gdk.KEY_1, Gdk.KEY_KP_1]:
-                self.central_view.set_visible_child_name("playing_page")
-                if self.main_stack.get_visible_child_name() != "main_page":
-                    self.main_stack.set_visible_child_name("main_page")
+                self.set_central_view_visible_child("playing_page")
                 return True
             elif keyval in [Gdk.KEY_2, Gdk.KEY_KP_2]:
-                self.central_view.set_visible_child_name("albums_page")
-                if self.main_stack.get_visible_child_name() != "main_page":
-                    self.main_stack.set_visible_child_name("main_page")
+                self.set_central_view_visible_child("albums_page")
                 return True
             elif keyval in [Gdk.KEY_3, Gdk.KEY_KP_3]:
-                self.central_view.set_visible_child_name("playlists_page")
-                if self.main_stack.get_visible_child_name() != "main_page":
-                    self.main_stack.set_visible_child_name("main_page")
+                self.set_central_view_visible_child("playlists_page")
                 return True
         elif modifiers == control_mask:
             if keyval in [Gdk.KEY_space, Gdk.KEY_KP_Space]:
