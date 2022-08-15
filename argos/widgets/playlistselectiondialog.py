@@ -20,7 +20,7 @@ class PlaylistSelectionDialog(Gtk.Dialog):
 
     __gtype_name__ = "PlaylistSelectionDialog"
 
-    playlist_name_tree_view: Gtk.EntryCompletion = Gtk.Template.Child()
+    playlist_name_tree_view: Gtk.TreeView = Gtk.Template.Child()
 
     playlist_uri = GObject.Property(type=str, default="")
 
@@ -47,6 +47,12 @@ class PlaylistSelectionDialog(Gtk.Dialog):
 
         self.playlist_name_tree_view.set_enable_search(True)
         self.playlist_name_tree_view.set_search_column(PlaylistNameStoreColumn.NAME)
+
+    @Gtk.Template.Callback()
+    def on_playlist_name_tree_view_row_activated(
+        self, _1: Gtk.TreeView, _2: Gtk.TreePath, _3: Gtk.TreeViewColumn
+    ) -> None:
+        self.response(Gtk.ResponseType.OK)
 
     @Gtk.Template.Callback()
     def on_PlaylistSelectionDialog_response(

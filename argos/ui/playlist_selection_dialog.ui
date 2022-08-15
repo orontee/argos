@@ -64,8 +64,4 @@
       </object>
     </child>
   </template>
-  <object class="GtkEntryCompletion" id="playlist_name_entry_completion">
-    <signal name="match-selected" handler="on_playlist_name_entry_completion_match_selected" swapped="no"/>
-    <signal name="no-matches" handler="on_playlist_name_entry_completion_no_matches" swapped="no"/>
-  </object>
 </interface>
