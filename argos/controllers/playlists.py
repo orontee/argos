@@ -3,7 +3,7 @@ import gettext
 import logging
 import time
 from operator import attrgetter
-from typing import TYPE_CHECKING, Any, cast, Dict, List, Optional
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, cast
 
 from gi.repository import Gio
 
