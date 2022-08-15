@@ -6,6 +6,7 @@ from gi.repository import Gio, GObject, Gtk
 
 from argos.message import MessageType
 from argos.model import TrackModel
+from argos.widgets.streamuridialog import StreamUriDialog
 from argos.widgets.trackbox import TrackBox
 from argos.widgets.utils import set_list_box_header_with_separator
 
@@ -49,6 +50,7 @@ class PlaylistTracksBox(Gtk.Box):
             self.tracks_box.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
 
         edition_menu = Gio.Menu()
+        edition_menu.append(_("Add stream to playlist…"), "win.add-stream-to-playlist")
         edition_menu.append(_("Remove selected tracks"), "win.remove-from-playlist")
         edition_menu.append(_("Delete playlist…"), "win.remove-playlist")
         self.edit_button.set_menu_model(edition_menu)
@@ -160,6 +162,28 @@ class PlaylistTracksBox(Gtk.Box):
         )
         if len(uris) > 0:
             self._app.send_message(MessageType.ADD_TO_TRACKLIST, {"uris": uris})
+
+    def on_add_stream_to_playlist_activated(
+        self,
+        _1: Gio.SimpleAction,
+        _2: None,
+    ) -> None:
+        dialog = StreamUriDialog(self._app)
+        response = dialog.run()
+        stream_uri = dialog.props.stream_uri if response == Gtk.ResponseType.OK else ""
+        dialog.destroy()
+
+        if not stream_uri:
+            LOGGER.debug("Aborting adding stream to playlist")
+            return
+
+        self._app.send_message(
+            MessageType.SAVE_PLAYLIST,
+            {
+                "uri": self.props.uri,
+                "add_track_uris": [stream_uri],
+            },
+        )
 
     def on_remove_from_playlist_activated(
         self,

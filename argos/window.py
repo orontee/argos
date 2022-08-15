@@ -73,6 +73,14 @@ class ArgosWindow(Gtk.ApplicationWindow):
         )
 
         playlist_tracks_box = self.props.playlists_box.props.playlist_tracks_box
+        add_stream_to_playlist_action = Gio.SimpleAction.new(
+            "add-stream-to-playlist", None
+        )
+        self.add_action(add_stream_to_playlist_action)
+        add_stream_to_playlist_action.connect(
+            "activate", playlist_tracks_box.on_add_stream_to_playlist_activated
+        )
+
         remove_from_playlist_action = Gio.SimpleAction.new("remove-from-playlist", None)
         remove_from_playlist_action.set_enabled(False)
         self.add_action(remove_from_playlist_action)
