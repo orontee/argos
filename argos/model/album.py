@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 
 from gi.repository import Gio, GObject
 
@@ -39,7 +39,8 @@ class AlbumModel(WithThreadSafePropertySetter, GObject.Object):
         num_tracks: Optional[int] = None,
         num_discs: Optional[int] = None,
         date: Optional[str] = None,
-        length: Optional[int] = None
+        length: Optional[int] = None,
+        tracks: Optional[List[TrackModel]] = None,
     ):
         super().__init__(
             uri=uri,
@@ -54,6 +55,10 @@ class AlbumModel(WithThreadSafePropertySetter, GObject.Object):
         self.num_discs = num_discs or -1
         self.date = date or ""
         self.length = length or -1
+
+        if tracks is not None:
+            for t in tracks:
+                self.tracks.append(t)
 
     def set_name(self, value: str) -> None:
         self.set_property_in_gtk_thread("name", value)

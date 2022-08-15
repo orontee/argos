@@ -13,6 +13,7 @@ async def call_by_slice(
     func: Callable[[List[str]], Coroutine[Any, Any, Optional[Dict[str, Any]]]],
     *,
     params: List[str],
+    call_size: Optional[int] = None,
 ) -> Dict[str, Any]:
     """Make multiple synchronous calls.
 
@@ -24,14 +25,17 @@ async def call_by_slice(
 
         params: List of parameters.
 
+        call_size: Number of parameters to handle through each call.
+
     Returns:
         Dictionnary merging all calls return values.
 
     """
-    call_count = len(params) // _CALL_SIZE + (0 if len(params) % _CALL_SIZE == 0 else 1)
+    call_size = call_size if call_size is not None and call_size > 0 else _CALL_SIZE
+    call_count = len(params) // call_size + (0 if len(params) % call_size == 0 else 1)
     result: Dict[str, Any] = {}
     for i in range(call_count):
-        ith_result = await func(params[i * _CALL_SIZE : (i + 1) * _CALL_SIZE])
+        ith_result = await func(params[i * call_size : (i + 1) * call_size])
         if ith_result is None:
             break
         result.update(ith_result)

@@ -14,7 +14,7 @@ from argos.backends import (
     MopidyPodcastBackend,
 )
 from argos.controllers.base import ControllerBase
-from argos.controllers.utils import parse_tracks
+from argos.controllers.utils import call_by_slice, parse_tracks
 from argos.controllers.visitors import AlbumMetadataCollector, LengthAcc
 from argos.download import ImageDownloader
 from argos.message import Message, MessageType, consume
@@ -183,12 +183,36 @@ class AlbumsController(ControllerBase):
             LOGGER.info(
                 f"Collecting album descriptions for directory with URI {directory_uri!r}"
             )
+            directory_tracks = await call_by_slice(
+                self._http.lookup_library,
+                params=album_uris,
+                call_size=50,
+            )
 
+            LOGGER.debug(f"Parsing tracks for directory with URI {directory_uri!r}")
+            length_acc = LengthAcc()
+            metadata_collector = AlbumMetadataCollector()
+            parsed_tracks = parse_tracks(
+                directory_tracks,
+                visitors=[length_acc, metadata_collector]
+            )
             for a in directory_albums:
                 assert "__model__" in a and a["__model__"] == "Ref"
                 assert "type" in a and a["type"] == "album"
 
                 album_uri = a["uri"]
+                album_tracks = directory_tracks.get(album_uri)
+                if album_tracks is None or len(album_tracks) == 0:
+                    continue
+
+                album = album_tracks[0].get("album")
+
+                length = length_acc.length[album_uri]
+                artist_name = metadata_collector.artist_name(album_uri)
+                num_tracks = metadata_collector.num_tracks(album_uri)
+                num_discs = metadata_collector.num_discs(album_uri)
+                date = metadata_collector.date(album_uri)
+
                 if album_uri in images and len(images[album_uri]) > 0:
                     image_uri = images[album_uri][0].get("uri", "")
                     filepath = self._download.get_image_filepath(image_uri)
@@ -196,51 +220,23 @@ class AlbumsController(ControllerBase):
                     image_uri = ""
                     filepath = None
 
-                tracks = await self._http.lookup_library([album_uri])
-                if tracks is None:
-                    continue
+                album_parsed_tracks = parsed_tracks.get(album_uri, [])
+                album_parsed_tracks.sort(key=attrgetter("disc_no", "track_no"))
 
-                album_tracks = tracks.get(album_uri)
-                if album_tracks and len(album_tracks) > 0:
-                    album = album_tracks[0].get("album")
-                    if not album:
-                        continue
-
-                    artists = cast(
-                        List[Dict[str, Any]], album_tracks[0].get("artists", [])
-                    )
-                    artist_name = artists[0].get("name") if len(artists) > 0 else None
-                    num_tracks = album.get("num_tracks")
-                    num_discs = album.get("num_discs")
-                    date = album.get("date")
-
-                    class LengthAcc:
-                        length = 0
-
-                        def __call__(self, t: Dict[str, Any]) -> None:
-                            if self.length != -1 and "length" in t:
-                                self.length += int(t["length"])
-                            else:
-                                self.length = -1
-
-                    length_acc = LengthAcc()
-                    parsed_tracks = parse_tracks(tracks, visitor=length_acc)
-
-                    parsed_tracks.sort(key=attrgetter("disc_no", "track_no"))
-
-                    album = AlbumModel(
-                        backend=backend,
-                        uri=album_uri,
-                        name=a.get("name", ""),
-                        image_path=str(filepath) if filepath is not None else "",
-                        image_uri=image_uri,
-                        artist_name=artist_name,
-                        num_tracks=num_tracks,
-                        num_discs=num_discs,
-                        date=date,
-                        length=length_acc.length,
-                    )
-                    parsed_albums.append(album)
+                album = AlbumModel(
+                    backend=backend,
+                    uri=album_uri,
+                    name=a.get("name", ""),
+                    image_path=str(filepath) if filepath is not None else "",
+                    image_uri=image_uri,
+                    artist_name=artist_name,
+                    num_tracks=num_tracks,
+                    num_discs=num_discs,
+                    date=date,
+                    length=length,
+                    tracks=album_parsed_tracks,
+                )
+                parsed_albums.append(album)
 
         self._model.update_albums(parsed_albums)
 
