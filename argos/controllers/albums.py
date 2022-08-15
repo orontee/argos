@@ -1,8 +1,7 @@
 import logging
 import random
-from collections import defaultdict
 from operator import attrgetter
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, cast
+from typing import TYPE_CHECKING, Dict, List, Optional, Tuple
 
 from gi.repository import Gio, GObject
 
@@ -17,6 +16,7 @@ from argos.backends import (
 )
 from argos.controllers.base import ControllerBase
 from argos.controllers.utils import parse_tracks
+from argos.controllers.visitors import AlbumArtistNameIdentifier, LengthAcc
 from argos.download import ImageDownloader
 from argos.message import Message, MessageType, consume
 from argos.model import AlbumModel
@@ -120,25 +120,20 @@ class AlbumsController(ControllerBase):
             if not album:
                 return
 
-            artists = cast(List[Dict[str, Any]], album_tracks[0].get("artists", []))
-            artist_name = artists[0].get("name") if len(artists) > 0 else None
             num_tracks = album.get("num_tracks")
             num_discs = album.get("num_discs")
             date = album.get("date")
 
-            class LengthAcc:
-                length = 0
-
-                def __call__(self, t: Dict[str, Any]) -> None:
-                    if self.length != -1 and "length" in t:
-                        self.length += int(t["length"])
-                    else:
-                        self.length = -1
-
             length_acc = LengthAcc()
-            parsed_tracks = parse_tracks(tracks, visitor=length_acc)
+            artist_name_identifier = AlbumArtistNameIdentifier()
+            parsed_tracks = parse_tracks(
+                tracks, visitors=[length_acc, artist_name_identifier]
+            ).get(album_uri, [])
 
             parsed_tracks.sort(key=attrgetter("disc_no", "track_no"))
+
+            length = length_acc.length[album_uri]
+            artist_name = artist_name_identifier.artist_name(album_uri)
 
             self._model.complete_album_description(
                 album_uri,
@@ -146,7 +141,7 @@ class AlbumsController(ControllerBase):
                 num_tracks=num_tracks,
                 num_discs=num_discs,
                 date=date,
-                length=length_acc.length,
+                length=length,
                 tracks=parsed_tracks,
             )
 
@@ -157,7 +152,7 @@ class AlbumsController(ControllerBase):
         if not directories:
             return None
 
-        albums_by_backend: Dict[MopidyBackend, List[Any]] = defaultdict(list)
+        parsed_albums: List[AlbumModel] = []
         for directory in directories:
             assert "__model__" in directory and directory["__model__"] == "Ref"
             assert "type" in directory and directory["type"] == "directory"
@@ -187,20 +182,17 @@ class AlbumsController(ControllerBase):
                 f"Found {len(directory_albums)} albums in directory "
                 f"with URI {directory_uri!r}"
             )
-            albums_by_backend[backend] += directory_albums
 
-        if len(albums_by_backend.values()) == 0:
-            return
+            album_uris = [a["uri"] for a in directory_albums]
+            images = await self._http.get_images(album_uris)
+            if not images:
+                continue
 
-        album_uris = [a["uri"] for album in albums_by_backend.values() for a in album]
-        images = await self._http.get_images(album_uris)
-        if not images:
-            return
+            LOGGER.debug(
+                f"Collecting album descriptions for directory with URI {directory_uri!r}"
+            )
 
-        parsed_albums = []
-        for backend in albums_by_backend:
-            albums = albums_by_backend[backend]
-            for a in albums:
+            for a in directory_albums:
                 assert "__model__" in a and a["__model__"] == "Ref"
                 assert "type" in a and a["type"] == "album"
 

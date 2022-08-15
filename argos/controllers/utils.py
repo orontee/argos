@@ -1,4 +1,5 @@
 import logging
+from collections import defaultdict
 from typing import Any, Callable, Dict, List, Optional, cast
 
 from argos.model import TrackModel
@@ -9,8 +10,8 @@ LOGGER = logging.getLogger(__name__)
 def parse_tracks(
     tracks: Dict[str, List[Dict[str, Any]]],
     *,
-    visitor: Optional[Callable[[Dict[str, Any]], None]] = None,
-) -> List[TrackModel]:
+    visitors: Optional[List[Callable[[str, Dict[str, Any]], None]]] = None,
+) -> Dict[str, List[TrackModel]]:
     """Parse a track list.
 
     Args:
@@ -18,16 +19,16 @@ def parse_tracks(
             result of a call to Mopidy's ``core.library.lookup``
             action.
 
-        visitor: An optional callable to be called on each visited
-            track.
+        visitors: An optional list of callable to be called on each
+            visited track.
 
     Returns:
-        List of ``TrackModel``.
+        Dict of list of ``TrackModel``.
 
     """
-    parsed_tracks: List[TrackModel] = []
-    for track_uri in tracks:
-        uri_tracks = tracks[track_uri]
+    parsed_tracks: Dict[str, List[TrackModel]] = defaultdict(list)
+    for uri in tracks:
+        uri_tracks = tracks[uri]
         for t in uri_tracks:
             assert "__model__" in t and t["__model__"] == "Track"
 
@@ -45,10 +46,11 @@ def parse_tracks(
             else:
                 artist_name = ""
 
-            if visitor is not None:
-                visitor(t)
+            if visitors is not None:
+                for visitor in visitors:
+                    visitor(uri, t)
 
-            parsed_tracks.append(
+            parsed_tracks[uri].append(
                 TrackModel(
                     uri=cast(str, t.get("uri", "")),
                     name=cast(str, t.get("name", "")),

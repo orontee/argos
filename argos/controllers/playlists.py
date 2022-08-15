@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 from argos.controllers.base import ControllerBase
 from argos.controllers.utils import parse_tracks
 from argos.message import Message, MessageType, consume
-from argos.model import PlaylistModel
+from argos.model import PlaylistModel, TrackModel
 
 LOGGER = logging.getLogger(__name__)
 
@@ -232,9 +232,9 @@ class PlaylistsController(ControllerBase):
                 self._http.lookup_library,
                 params=track_uris,
             )
-            if found_tracks is None:
-                return
-            parsed_tracks = parse_tracks(found_tracks)
+            parsed_tracks: List[TrackModel] = []
+            for tracks in parse_tracks(found_tracks).values():
+                parsed_tracks += tracks
         else:
             parsed_tracks = []
 
@@ -270,9 +270,11 @@ class PlaylistsController(ControllerBase):
             self._http.lookup_library,
             params=recent_track_refs_uris,
         )
-        if recent_tracks is None:
-            return
-        parsed_recent_tracks = parse_tracks(recent_tracks)
+
+        parsed_recent_tracks: List[TrackModel] = []
+        for tracks in parse_tracks(recent_tracks).values():
+            parsed_recent_tracks += tracks
+
         parsed_recent_tracks.sort(
             key=attrgetter("last_modified", "disc_no", "track_no")
         )
@@ -322,9 +324,11 @@ class PlaylistsController(ControllerBase):
             self._http.lookup_library,
             params=history_refs_uris,
         )
-        if history_tracks is None:
-            return
-        parsed_history_tracks = parse_tracks(history_tracks)
+
+        parsed_history_tracks: List[TrackModel] = []
+        for tracks in parse_tracks(history_tracks).values():
+            parsed_history_tracks += tracks
+
         if not self._history_playlist:
             return
 
