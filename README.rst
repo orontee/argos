@@ -91,12 +91,20 @@ screen (complete list can be obtained with ``argos --help``)::
 Configuration
 =============
 
-One must set the URL of the Mopidy server using the preference
+One must set the URL of the Mopidy server using the preferences
 dialog. The default value is ``http://127.0.0.1:6680``, meaning Mopidy
 server is expected to be listening on the local host using HTTP and
 the default 6680 port.
 
-The preference dialog is accessible from the application menu.
+The preferences dialog is accessible from the application menu.
+
+.. figure:: screenshot-preferences.png
+   :alt: Preferences dialog
+   :align: center
+   :width: 200
+
+   Preferences dialog
+
 
 The URL of the Mopidy server is backed by GSettings. Thus in case the
 host has no keyboard, one can directly set the URL of the Mopidy
