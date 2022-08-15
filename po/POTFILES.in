@@ -10,6 +10,7 @@ argos/ui/playing_box.ui
 argos/ui/playlists_box.ui
 argos/ui/playlist_tracks_box.ui
 argos/ui/preferences.ui
+argos/ui/stream_uri_dialog.ui
 argos/ui/title_bar.ui
 argos/ui/track_box.ui
 argos/ui/tracklist_box.ui
@@ -19,6 +20,7 @@ argos/widgets/albumbox.py
 argos/widgets/playlistsbox.py
 argos/widgets/playlistselectiondialog.py
 argos/widgets/playlisttracksbox.py
+argos/widgets/streamuridialog.py
 argos/window.py
 data/io.github.orontee.Argos.desktop.in
 data/io.github.orontee.Argos.gschema.xml

@@ -2,17 +2,17 @@
 <!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
-  <template class="PlaylistSelectionDialog" parent="GtkDialog">
+  <template class="StreamUriDialog" parent="GtkDialog">
     <property name="can-focus">False</property>
     <property name="type">popup</property>
-    <property name="title" translatable="yes">Select playlist by name</property>
+    <property name="title" translatable="yes">Stream URI</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
     <property name="window-position">center-on-parent</property>
     <property name="destroy-with-parent">True</property>
     <property name="type-hint">dialog</property>
     <property name="skip-taskbar-hint">True</property>
-    <signal name="response" handler="on_PlaylistSelectionDialog_response" swapped="no"/>
+    <signal name="response" handler="on_StreamUriDialog_response" swapped="no"/>
     <child internal-child="vbox">
       <object class="GtkBox" id="main_box">
         <property name="width-request">200</property>
@@ -40,21 +40,30 @@
           </packing>
         </child>
         <child>
-          <object class="GtkScrolledWindow" id="playlist_name_window">
-            <property name="height-request">100</property>
+          <object class="GtkEntry" id="stream_uri_entry">
             <property name="visible">True</property>
             <property name="can-focus">True</property>
-            <property name="shadow-type">in</property>
-            <child>
-              <object class="GtkTreeView" id="playlist_name_tree_view">
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <signal name="row-activated" handler="on_playlist_name_tree_view_row_activated" swapped="no"/>
-                <child internal-child="selection">
-                  <object class="GtkTreeSelection"/>
-                </child>
-              </object>
-            </child>
+            <property name="activates-default">True</property>
+            <property name="primary-icon-tooltip-text" translatable="yes">The URI of the stream</property>
+            <property name="placeholder-text" translatable="yes">Stream URI</property>
+            <property name="input-purpose">url</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="protocols_label">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Supported protocols may vary and URI blacklisting
+may apply depending on Mopidy-Stream configuration.</property>
+            <property name="wrap">True</property>
+            <attributes>
+              <attribute name="style" value="italic"/>
+            </attributes>
           </object>
           <packing>
             <property name="expand">False</property>

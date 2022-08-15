@@ -11,6 +11,7 @@
     <file preprocess="xml-stripblanks">ui/playlist_tracks_box.ui</file>
     <file preprocess="xml-stripblanks">ui/playlists_box.ui</file>
     <file preprocess="xml-stripblanks">ui/preferences.ui</file>
+    <file preprocess="xml-stripblanks">ui/stream_uri_dialog.ui</file>
     <file preprocess="xml-stripblanks">ui/title_bar.ui</file>
     <file preprocess="xml-stripblanks">ui/track_box.ui</file>
     <file preprocess="xml-stripblanks">ui/tracklist_box.ui</file>

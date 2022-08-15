@@ -27,7 +27,7 @@ from argos.model import Model
 from argos.notify import Notifier
 from argos.time import TimePositionTracker
 from argos.utils import configure_logger
-from argos.widgets import AboutDialog, PreferencesWindow
+from argos.widgets import AboutDialog, PreferencesWindow, StreamUriDialog
 from argos.window import ArgosWindow
 from argos.ws import MopidyWSConnection
 
@@ -204,6 +204,7 @@ class Application(Gtk.Application):
             ("show-preferences", self.show_prefs_activate_cb, None),
             ("new-playlist", self.new_playlist_activate_cb, None),
             ("play-random-album", self.play_random_album_activate_cb, None),
+            ("play-stream", self.play_stream_activate_cb, None),
             ("update-library", self.update_library_activate_cb, None),
             ("quit", self.quit_activate_cb, ("app.quit", ["<Ctrl>Q"])),
         ]
@@ -217,6 +218,7 @@ class Application(Gtk.Application):
         for action_name in [
             "new-playlist",
             "play-random-album",
+            "play-stream",
             "update-library",
         ]:
             action = self.lookup_action(action_name)
@@ -255,7 +257,12 @@ class Application(Gtk.Application):
                 await consumer(message)
 
     def _update_network_actions_state(self) -> None:
-        for action_name in ["new-playlist", "play-random-album", "update-library"]:
+        for action_name in [
+            "new-playlist",
+            "play-random-album",
+            "play-stream",
+            "update-library",
+        ]:
             action = self.lookup_action(action_name)
             if not action:
                 continue
@@ -320,6 +327,25 @@ class Application(Gtk.Application):
     ) -> None:
         LOGGER.debug("Random album play requested by end-user")
         self.send_message(MessageType.PLAY_RANDOM_ALBUM)
+
+    def play_stream_activate_cb(
+        self, action: Gio.SimpleAction, parameter: None
+    ) -> None:
+        LOGGER.debug("Play stream requested by end-user")
+
+        dialog = StreamUriDialog(self)
+        response = dialog.run()
+        stream_uri = dialog.props.stream_uri if response == Gtk.ResponseType.OK else ""
+        dialog.destroy()
+
+        if not stream_uri:
+            LOGGER.debug("Aborting playing stream")
+            return
+
+        self.send_message(
+            MessageType.PLAY_TRACKS,
+            {"uris": [stream_uri]},
+        )
 
     def update_library_activate_cb(
         self, action: Gio.SimpleAction, parameter: None

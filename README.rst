@@ -44,6 +44,8 @@ Features 🥳
 
 * View and edition of Mopidy-M3U playlists
 
+* Play streams supported by Mopidy-Stream
+
 Install
 =======
 

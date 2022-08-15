@@ -7,11 +7,15 @@
         <attribute name="action">app.play-random-album</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">Update library</attribute>
-        <attribute name="action">app.update-library</attribute>
+        <attribute name="label" translatable="yes">Play stream…</attribute>
+        <attribute name="action">app.play-stream</attribute>
       </item>
     </section>
     <section>
+      <item>
+        <attribute name="label" translatable="yes">Update library</attribute>
+        <attribute name="action">app.update-library</attribute>
+      </item>
       <item>
         <attribute name="label" translatable="yes">New playlist</attribute>
         <attribute name="action">app.new-playlist</attribute>
