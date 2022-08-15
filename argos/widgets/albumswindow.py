@@ -15,12 +15,13 @@ ALBUM_IMAGE_SIZE = 100
 
 
 class AlbumStoreColumns(IntEnum):
-    TEXT = 0
+    MARKUP = 0
     TOOLTIP = 1
     URI = 2
     IMAGE_FILE_PATH = 3
     PIXBUF = 4
     FILTER_TEXT = 5
+    FILTER_TEXT_SECONDARY = 6
 
 
 @Gtk.Template(resource_path="/io/github/orontee/Argos/ui/albums_window.ui")
@@ -39,12 +40,12 @@ class AlbumsWindow(Gtk.ScrolledWindow):
 
         self._model = application.model
 
-        albums_store = Gtk.ListStore(str, str, str, str, Pixbuf, str)
+        albums_store = Gtk.ListStore(str, str, str, str, Pixbuf, str, str)
         self.props.filtered_albums_store = albums_store.filter_new()
         self.props.filtered_albums_store.set_visible_func(self._filter_album_row, None)
         self.albums_view.set_model(self.props.filtered_albums_store)
 
-        self.albums_view.set_text_column(AlbumStoreColumns.TEXT)
+        self.albums_view.set_markup_column(AlbumStoreColumns.MARKUP)
         self.albums_view.set_tooltip_column(AlbumStoreColumns.TOOLTIP)
         self.albums_view.set_pixbuf_column(AlbumStoreColumns.PIXBUF)
         self.albums_view.set_item_width(ALBUM_IMAGE_SIZE)
@@ -80,7 +81,11 @@ class AlbumsWindow(Gtk.ScrolledWindow):
 
         pattern = re.escape(self.props.filtering_text)
         text = model.get_value(iter, AlbumStoreColumns.FILTER_TEXT)
-        return re.search(pattern, text, re.IGNORECASE) is not None
+        if re.search(pattern, text, re.IGNORECASE) is not None:
+            return True
+
+        secondary_text = model.get_value(iter, AlbumStoreColumns.FILTER_TEXT_SECONDARY)
+        return re.search(pattern, secondary_text, re.IGNORECASE) is not None
 
     def _update_store(
         self,
@@ -93,13 +98,20 @@ class AlbumsWindow(Gtk.ScrolledWindow):
         store.clear()
 
         for album in self._model.albums:
+            escaped_album_name = GLib.markup_escape_text(album.name)
+            elided_escaped_album_name = GLib.markup_escape_text(elide_maybe(album.name))
+            escaped_artist_name = GLib.markup_escape_text(album.artist_name)
+            elided_escaped_artist_name = GLib.markup_escape_text(
+                elide_maybe(album.artist_name)
+            )
             store.append(
                 [
-                    elide_maybe(album.name),
-                    GLib.markup_escape_text(album.name),
+                    f"<b>{elided_escaped_album_name}</b>\n{elided_escaped_artist_name}",
+                    f"<b>{escaped_album_name}</b>\n{escaped_artist_name}",
                     album.uri,
                     str(album.image_path) if album.image_path else "",
                     self._default_album_image,
+                    album.artist_name,
                     album.name,
                 ]
             )
