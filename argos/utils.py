@@ -28,14 +28,13 @@ def compute_target_size(
     return size
 
 
-def configure_logger(options: dict) -> None:
+def configure_logger(level: int = logging.INFO) -> None:
     """Configure logger."""
     ch = logging.StreamHandler()
     formatter = logging.Formatter(
         "{asctime} {threadName} {levelname}: {name} - {message}", style="{"
     )
     ch.setFormatter(formatter)
-    level = logging.DEBUG if "debug" in options else logging.INFO
     ch.setLevel(level)
     logger = logging.getLogger("argos")
     logger.setLevel(level)

@@ -164,7 +164,14 @@ class Application(Gtk.Application):
         options = command_line.get_options_dict()
         options = options.end().unpack()
 
-        configure_logger(options)
+        if "debug" in options:
+            level = logging.DEBUG
+            self._loop.set_debug(True)
+        else:
+            level = logging.INFO
+
+        configure_logger(level)
+
         self.props.start_maximized = "maximized" in options
         self.props.disable_tooltips = "no-tooltips" in options
         self.props.single_click = "single-click" in options
