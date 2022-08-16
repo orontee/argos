@@ -28,10 +28,6 @@ msgstr "Démarrer avec une fenêtre de taille maximale"
 msgid "Disable tooltips"
 msgstr "Désactiver les info-bulles"
 
-#: argos/app.py:108
-msgid "Use single-click"
-msgstr "Utiliser un seul clic"
-
 #: argos/app.py:116
 msgid "Hide search button"
 msgstr "Masquer le button de recherche"

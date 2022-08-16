@@ -42,12 +42,6 @@ class PlaylistTracksBox(Gtk.Box):
         self._disable_tooltips = application.props.disable_tooltips
 
         self.tracks_box.set_header_func(set_list_box_header_with_separator)
-        if application.props.single_click:
-            self.tracks_box.set_activate_on_single_click(True)
-            self.tracks_box.set_selection_mode(Gtk.SelectionMode.SINGLE)
-        else:
-            self.tracks_box.set_activate_on_single_click(False)
-            self.tracks_box.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
 
         edition_menu = Gio.Menu()
         edition_menu.append(_("Add stream to playlist…"), "win.add-stream-to-playlist")
@@ -145,21 +139,13 @@ class PlaylistTracksBox(Gtk.Box):
 
     @Gtk.Template.Callback()
     def on_play_button_clicked(self, _1: Gtk.Button) -> None:
-        uris = (
-            self._track_selection_to_uris()
-            if not self.tracks_box.get_activate_on_single_click()
-            else self._playlist_track_uris()
-        )
+        uris = self._track_selection_to_uris()
         if len(uris) > 0:
             self._app.send_message(MessageType.PLAY_TRACKS, {"uris": uris})
 
     @Gtk.Template.Callback()
     def on_add_button_clicked(self, _1: Gtk.Button) -> None:
-        uris = (
-            self._track_selection_to_uris()
-            if not self.tracks_box.get_activate_on_single_click()
-            else self._playlist_track_uris()
-        )
+        uris = self._track_selection_to_uris()
         if len(uris) > 0:
             self._app.send_message(MessageType.ADD_TO_TRACKLIST, {"uris": uris})
 
