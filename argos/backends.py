@@ -25,6 +25,9 @@ class MopidyBackend:
     def static_albums(self) -> bool:
         return self._static_albums
 
+    def __str__(self) -> str:
+        return self.__class__.__name__
+
 
 class MopidyLocalBackend(MopidyBackend):
     def __init__(self):

@@ -95,7 +95,7 @@ class ImageDownloader(GObject.GObject):
         download_count = (len(image_uris) // MAX_SIMULTANEOUS_DOWNLOADS) + 1
 
         async def download() -> None:
-            LOGGER.debug(f"Starting {download_count} batch of images downloads")
+            LOGGER.info(f"Starting {download_count} batch of images downloads")
             for task_nb in range(download_count):
                 start = task_nb * MAX_SIMULTANEOUS_DOWNLOADS
                 some_image_uris = image_uris[start : start + MAX_SIMULTANEOUS_DOWNLOADS]

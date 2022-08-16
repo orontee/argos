@@ -63,13 +63,11 @@ class AlbumsController(ControllerBase):
             if albums_uri:
                 if not activated:
                     LOGGER.info(
-                        f"Backend {backend.__class__!r} supports URI {albums_uri!r} but is deactivated"
+                        f"Backend {backend} supports URI {albums_uri!r} but is deactivated"
                     )
                     return backend, None
                 else:
-                    LOGGER.debug(
-                        f"Backend {backend.__class__!r} supports URI {albums_uri!r}"
-                    )
+                    LOGGER.info(f"Backend {backend} supports URI {albums_uri!r}")
                 return backend, albums_uri
 
         LOGGER.warning(f"No known backend supports URI {directory_uri!r}")
@@ -87,9 +85,9 @@ class AlbumsController(ControllerBase):
             activated = self._settings.get_boolean(key)
             self._backends[backend] = activated
             if activated:
-                LOGGER.debug(f"Backend {backend!r} activated")
+                LOGGER.debug(f"Backend {backend} activated")
             else:
-                LOGGER.debug(f"Backend {backend!r} deactivated")
+                LOGGER.debug(f"Backend {backend} deactivated")
 
             self.send_message(MessageType.BROWSE_ALBUMS)
 
@@ -142,7 +140,7 @@ class AlbumsController(ControllerBase):
 
     @consume(MessageType.BROWSE_ALBUMS)
     async def browse_albums(self, message: Message) -> None:
-        LOGGER.debug("Starting to browse albums...")
+        LOGGER.info("Starting to browse albums...")
         directories = await self._http.browse_library()
         if not directories:
             return None
@@ -173,7 +171,7 @@ class AlbumsController(ControllerBase):
                 )
                 continue
 
-            LOGGER.debug(
+            LOGGER.info(
                 f"Found {len(directory_albums)} albums in directory "
                 f"with URI {directory_uri!r}"
             )
@@ -183,7 +181,7 @@ class AlbumsController(ControllerBase):
             if not images:
                 continue
 
-            LOGGER.debug(
+            LOGGER.info(
                 f"Collecting album descriptions for directory with URI {directory_uri!r}"
             )
 

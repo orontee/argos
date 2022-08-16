@@ -103,7 +103,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         for album in albums:
             self.albums.append(album)
 
-        LOGGER.debug("Albums loaded")
+        LOGGER.info("Albums loaded")
         self.props.albums_loaded = True
 
     def complete_album_description(
