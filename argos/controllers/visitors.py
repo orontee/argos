@@ -1,5 +1,5 @@
 import logging
-from collections import defaultdict
+from collections import Counter, defaultdict
 from typing import Any, Dict, List, Optional, cast
 
 LOGGER = logging.getLogger(__name__)
@@ -28,10 +28,16 @@ class AlbumMetadataCollector:
     The identified metadata are: The album artist name, the number of
     tracks, the number of discs and the publication date.
 
+    The album artist name is defined to be the name of the first
+    artist in the ``artists`` property of an album; If not defined,
+    the names of the artists of the album tracks are collected and the
+    most common name is returned.
+
     See ``argos.utils.parse_tracks()``."""
 
     def __init__(self):
         self._name: Dict[str, str] = {}
+        self._track_names: Dict[str, List[str]] = defaultdict(list)
         self._num_tracks: Dict[str, int] = {}
         self._num_discs: Dict[str, int] = {}
         self._date: Dict[str, str] = {}
@@ -45,6 +51,11 @@ class AlbumMetadataCollector:
             album_artists = cast(List[Dict[str, str]], album.get("artists", []))
             if len(album_artists) > 0:
                 self._name[uri] = album_artists[0].get("name", "")
+            else:
+                artists = cast(List[Dict[str, str]], track.get("artists", []))
+                self._track_names[uri] += [
+                    a.get("name", "") for a in artists if "name" in a
+                ]
 
         if uri not in self._num_tracks:
             num_tracks = cast(int, album.get("num_tracks"))
@@ -62,7 +73,12 @@ class AlbumMetadataCollector:
                 self._date[uri] = date
 
     def artist_name(self, album_uri: str) -> str:
-        return self._name.get(album_uri, "")
+        if album_uri in self._name:
+            return self._name.get(album_uri, "")
+
+        count = Counter(self._track_names[album_uri])
+        ranking = count.most_common(1)
+        return ranking[0][0] if len(ranking) > 0 else ""
 
     def num_tracks(self, album_uri: str) -> Optional[int]:
         return self._num_tracks.get(album_uri)
