@@ -16,7 +16,7 @@ from argos.backends import (
 )
 from argos.controllers.base import ControllerBase
 from argos.controllers.utils import parse_tracks
-from argos.controllers.visitors import AlbumArtistNameIdentifier, LengthAcc
+from argos.controllers.visitors import AlbumMetadataCollector, LengthAcc
 from argos.download import ImageDownloader
 from argos.message import Message, MessageType, consume
 from argos.model import AlbumModel
@@ -116,24 +116,19 @@ class AlbumsController(ControllerBase):
 
         album_tracks = tracks.get(album_uri)
         if album_tracks and len(album_tracks) > 0:
-            album = album_tracks[0].get("album")
-            if not album:
-                return
-
-            num_tracks = album.get("num_tracks")
-            num_discs = album.get("num_discs")
-            date = album.get("date")
-
             length_acc = LengthAcc()
-            artist_name_identifier = AlbumArtistNameIdentifier()
+            metadata_collector = AlbumMetadataCollector()
             parsed_tracks = parse_tracks(
-                tracks, visitors=[length_acc, artist_name_identifier]
+                tracks, visitors=[length_acc, metadata_collector]
             ).get(album_uri, [])
 
             parsed_tracks.sort(key=attrgetter("disc_no", "track_no"))
 
             length = length_acc.length[album_uri]
-            artist_name = artist_name_identifier.artist_name(album_uri)
+            artist_name = metadata_collector.artist_name(album_uri)
+            num_tracks = metadata_collector.num_tracks(album_uri)
+            num_discs = metadata_collector.num_discs(album_uri)
+            date = metadata_collector.date(album_uri)
 
             self._model.complete_album_description(
                 album_uri,

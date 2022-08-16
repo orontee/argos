@@ -6,7 +6,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 class LengthAcc:
-    """Visitor accumulating track length by album.
+    """Visitor accumulating track length by uri.
 
     See ``argos.utils.parse_tracks()``.
 
@@ -15,32 +15,60 @@ class LengthAcc:
     def __init__(self):
         self.length: Dict[str, int] = defaultdict(int)
 
-    def __call__(self, album_uri: str, track: Dict[str, Any]) -> None:
-        if self.length[album_uri] != -1 and "length" in track:
-            self.length[album_uri] += int(track["length"])
+    def __call__(self, uri: str, track: Dict[str, Any]) -> None:
+        if self.length[uri] != -1 and "length" in track:
+            self.length[uri] += int(track["length"])
         else:
-            self.length[album_uri] = -1
+            self.length[uri] = -1
 
 
-class AlbumArtistNameIdentifier:
-    """Visitor identifying each album artist name.
+class AlbumMetadataCollector:
+    """Visitor identifying album metadatas.
 
-    See ``argos.utils.parse_tracks()``.
+    The identified metadata are: The album artist name, the number of
+    tracks, the number of discs and the publication date.
 
-    """
+    See ``argos.utils.parse_tracks()``."""
 
     def __init__(self):
-        self._names: Dict[str, str] = {}
+        self._name: Dict[str, str] = {}
+        self._num_tracks: Dict[str, int] = {}
+        self._num_discs: Dict[str, int] = {}
+        self._date: Dict[str, str] = {}
 
     def __call__(self, uri: str, track: Dict[str, Any]) -> None:
-        if uri in self._names:
+        album: Optional[Dict[str, Dict[str, Any]]] = track.get("album")
+        if album is None:
             return
 
-        album: Optional[Dict[str, Dict[str, Any]]] = track.get("album")
-        if album is not None:
+        if uri not in self._name:
             album_artists = cast(List[Dict[str, str]], album.get("artists", []))
             if len(album_artists) > 0:
-                self._names[uri] = album_artists[0].get("name", "")
+                self._name[uri] = album_artists[0].get("name", "")
+
+        if uri not in self._num_tracks:
+            num_tracks = cast(int, album.get("num_tracks"))
+            if num_tracks is not None:
+                self._num_tracks[uri] = num_tracks
+
+        if uri not in self._num_discs:
+            num_discs = cast(int, album.get("num_discs"))
+            if num_discs is not None:
+                self._num_discs[uri] = num_discs
+
+        if uri not in self._date:
+            date = cast(str, album.get("date"))
+            if date is not None:
+                self._date[uri] = date
 
     def artist_name(self, album_uri: str) -> str:
-        return self._names.get(album_uri, "")
+        return self._name.get(album_uri, "")
+
+    def num_tracks(self, album_uri: str) -> Optional[int]:
+        return self._num_tracks.get(album_uri)
+
+    def num_discs(self, album_uri: str) -> Optional[int]:
+        return self._num_discs.get(album_uri)
+
+    def date(self, album_uri: str) -> Optional[str]:
+        return self._date.get(album_uri)
