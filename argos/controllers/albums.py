@@ -189,12 +189,11 @@ class AlbumsController(ControllerBase):
                 call_size=50,
             )
 
-            LOGGER.debug(f"Parsing tracks for directory with URI {directory_uri!r}")
+            LOGGER.info(f"Parsing tracks for directory with URI {directory_uri!r}")
             length_acc = LengthAcc()
             metadata_collector = AlbumMetadataCollector()
             parsed_tracks = parse_tracks(
-                directory_tracks,
-                visitors=[length_acc, metadata_collector]
+                directory_tracks, visitors=[length_acc, metadata_collector]
             )
             for a in directory_albums:
                 assert "__model__" in a and a["__model__"] == "Ref"
