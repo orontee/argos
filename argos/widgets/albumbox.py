@@ -59,12 +59,6 @@ class AlbumBox(Gtk.Box):
         self._disable_tooltips = application.props.disable_tooltips
 
         self.tracks_box.set_header_func(set_list_box_header_with_separator)
-        if application.props.single_click:
-            self.tracks_box.set_activate_on_single_click(True)
-            self.tracks_box.set_selection_mode(Gtk.SelectionMode.SINGLE)
-        else:
-            self.tracks_box.set_activate_on_single_click(False)
-            self.tracks_box.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
 
         track_selection_menu = Gio.Menu()
         track_selection_menu.append(_("Add to tracklist"), "win.add-to-tracklist")
@@ -245,11 +239,7 @@ class AlbumBox(Gtk.Box):
 
     @Gtk.Template.Callback()
     def on_play_button_clicked(self, _1: Gtk.Button) -> None:
-        uris = (
-            self._track_selection_to_uris()
-            if not self.tracks_box.get_activate_on_single_click()
-            else [self.uri]
-        )
+        uris = self._track_selection_to_uris()
         if len(uris) > 0:
             self._app.send_message(MessageType.PLAY_TRACKS, {"uris": uris})
 
@@ -258,11 +248,7 @@ class AlbumBox(Gtk.Box):
         _1: Gio.SimpleAction,
         _2: None,
     ) -> None:
-        uris = (
-            self._track_selection_to_uris()
-            if not self.tracks_box.get_activate_on_single_click()
-            else [self.uri]
-        )
+        uris = self._track_selection_to_uris()
         if len(uris) > 0:
             self._app.send_message(MessageType.ADD_TO_TRACKLIST, {"uris": uris})
 
@@ -271,11 +257,7 @@ class AlbumBox(Gtk.Box):
         _1: Gio.SimpleAction,
         _2: None,
     ) -> None:
-        track_uris = (
-            self._track_selection_to_uris()
-            if not self.tracks_box.get_activate_on_single_click()
-            else [self.uri]
-        )
+        track_uris = self._track_selection_to_uris()
         if len(track_uris) == 0:
             LOGGER.debug("Nothing to add to playlist")
             return

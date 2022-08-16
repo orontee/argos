@@ -88,7 +88,7 @@ The corresponding DEB package is generated in the ``builddir`` directory.
 Some CLI options are provided to adapt to devices with small touch
 screen (complete list can be obtained with ``argos --help``)::
 
-  argos --maximized --no-tooltips --single-click
+  argos --maximized --no-tooltips --hide-search-button
 
 Configuration
 =============

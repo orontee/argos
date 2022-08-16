@@ -12,6 +12,7 @@
         <property name="visible">True</property>
         <property name="can-focus">True</property>
         <property name="margin">0</property>
+	<property name="activate-on-single-click">True</property>
         <signal name="item-activated" handler="albums_view_item_activated_cb" swapped="no"/>
       </object>
     </child>
