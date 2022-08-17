@@ -2,10 +2,13 @@ import logging
 import re
 import threading
 from enum import IntEnum
+from pathlib import Path
+from typing import List
 
 from gi.repository import GLib, GObject, Gtk
 from gi.repository.GdkPixbuf import Pixbuf
 
+from argos.message import MessageType
 from argos.utils import elide_maybe
 from argos.widgets.utils import default_album_image_pixbuf, scale_album_image
 
@@ -38,6 +41,7 @@ class AlbumsWindow(Gtk.ScrolledWindow):
     def __init__(self, application: Gtk.Application):
         super().__init__()
 
+        self._app = application
         self._model = application.model
 
         albums_store = Gtk.ListStore(str, str, str, str, Pixbuf, str, str)
@@ -61,6 +65,10 @@ class AlbumsWindow(Gtk.ScrolledWindow):
         application.props.download.connect(
             "albums-images-downloaded", self._update_store_pixbufs
         )
+        # Don't make expectations on the order both signals are emitted!!
+
+        self._ongoing_store_update = threading.Lock()
+        self._abort_pixbufs_update = False
 
     def set_filtering_text(self, text: str) -> None:
         stripped = text.strip()
@@ -94,27 +102,43 @@ class AlbumsWindow(Gtk.ScrolledWindow):
     ) -> None:
         LOGGER.debug("Updating album store...")
 
-        store = self.props.filtered_albums_store.get_model()
-        store.clear()
+        if self._ongoing_store_update.locked():
+            self._abort_pixbufs_update = True
+            LOGGER.info("Pixbufs update thread has been requested to abort...")
 
-        for album in self._model.albums:
-            escaped_album_name = GLib.markup_escape_text(album.name)
-            elided_escaped_album_name = GLib.markup_escape_text(elide_maybe(album.name))
-            escaped_artist_name = GLib.markup_escape_text(album.artist_name)
-            elided_escaped_artist_name = GLib.markup_escape_text(
-                elide_maybe(album.artist_name)
-            )
-            store.append(
-                [
-                    f"<b>{elided_escaped_album_name}</b>\n{elided_escaped_artist_name}",
-                    f"<b>{escaped_album_name}</b>\n{escaped_artist_name}",
-                    album.uri,
-                    str(album.image_path) if album.image_path else "",
-                    self._default_album_image,
-                    album.artist_name,
-                    album.name,
-                ]
-            )
+        image_uris: List[Path] = []
+        with self._ongoing_store_update:
+            self._abort_pixbufs_update = False
+            store = self.props.filtered_albums_store.get_model()
+            store.clear()
+
+            for album in self._model.albums:
+                escaped_album_name = GLib.markup_escape_text(album.name)
+                elided_escaped_album_name = GLib.markup_escape_text(
+                    elide_maybe(album.name)
+                )
+                escaped_artist_name = GLib.markup_escape_text(album.artist_name)
+                elided_escaped_artist_name = GLib.markup_escape_text(
+                    elide_maybe(album.artist_name)
+                )
+                store.append(
+                    [
+                        f"<b>{elided_escaped_album_name}</b>\n{elided_escaped_artist_name}",
+                        f"<b>{escaped_album_name}</b>\n{escaped_artist_name}",
+                        album.uri,
+                        str(album.image_path) if album.image_path else "",
+                        self._default_album_image,
+                        album.artist_name,
+                        album.name,
+                    ]
+                )
+                if album.image_uri:
+                    image_uris.append(album.image_uri)
+
+        LOGGER.debug("Will fetch album images since albums were just loaded")
+        self._app.send_message(
+            MessageType.FETCH_ALBUM_IMAGES, data={"image_uris": image_uris}
+        )
 
     def _update_store_pixbufs(
         self,
@@ -127,28 +151,36 @@ class AlbumsWindow(Gtk.ScrolledWindow):
         thread.start()
 
     def _start_store_pixbufs_update_task(self) -> None:
-        LOGGER.debug("Updating album store pixbufs...")
+        # wait for model.albums_loaded
+        with self._ongoing_store_update:
+            # Will wait for ongoing store update to finish
+            LOGGER.debug("Updating album store pixbufs...")
 
-        store = self.props.filtered_albums_store.get_model()
+            store = self.props.filtered_albums_store.get_model()
 
-        def update_pixbuf_at(path: Gtk.TreePath, pixbuf: Pixbuf) -> None:
-            store_iter = store.get_iter(path)
-            store.set_value(store_iter, AlbumStoreColumns.PIXBUF, pixbuf)
+            def update_pixbuf_at(path: Gtk.TreePath, pixbuf: Pixbuf) -> None:
+                store_iter = store.get_iter(path)
+                store.set_value(store_iter, AlbumStoreColumns.PIXBUF, pixbuf)
 
-        store_iter = store.get_iter_first()
-        while store_iter is not None:
-            image_path = store.get_value(store_iter, AlbumStoreColumns.IMAGE_FILE_PATH)
-            if image_path:
-                scaled_pixbuf = scale_album_image(
-                    image_path,
-                    target_width=ALBUM_IMAGE_SIZE,
+            store_iter = store.get_iter_first()
+            while store_iter is not None and not self._abort_pixbufs_update:
+                image_path, current_pixbuf = store.get(
+                    store_iter,
+                    AlbumStoreColumns.IMAGE_FILE_PATH,
+                    AlbumStoreColumns.PIXBUF,
                 )
-                path = store.get_path(store_iter)
-                GLib.idle_add(update_pixbuf_at, path, scaled_pixbuf)
-            else:
-                uri = store.get_value(store_iter, AlbumStoreColumns.URI)
-                LOGGER.debug(f"No image path for {uri}")
-            store_iter = store.iter_next(store_iter)
+                if image_path:
+                    if current_pixbuf == self._default_album_image:
+                        scaled_pixbuf = scale_album_image(
+                            image_path,
+                            target_width=ALBUM_IMAGE_SIZE,
+                        )
+                        path = store.get_path(store_iter)
+                        GLib.idle_add(update_pixbuf_at, path, scaled_pixbuf)
+                else:
+                    uri = store.get_value(store_iter, AlbumStoreColumns.URI)
+                    LOGGER.debug(f"No image path for {uri}")
+                store_iter = store.iter_next(store_iter)
 
     @Gtk.Template.Callback()
     def albums_view_item_activated_cb(

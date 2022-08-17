@@ -1,4 +1,5 @@
 import logging
+from functools import lru_cache
 from pathlib import Path
 from typing import Optional
 
@@ -27,6 +28,7 @@ def default_album_image_pixbuf(target_width: int) -> Pixbuf:
     return scaled_pixbuf
 
 
+@lru_cache
 def scale_album_image(image_path: Path, *, target_width: int) -> Optional[Pixbuf]:
     pixbuf = None
     try:
