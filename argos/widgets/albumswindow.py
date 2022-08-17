@@ -10,6 +10,7 @@ from gi.repository.GdkPixbuf import Pixbuf
 
 from argos.message import MessageType
 from argos.utils import elide_maybe
+from argos.widgets.albumsbrowsingprogressbox import AlbumsBrowsingProgressBox
 from argos.widgets.utils import default_album_image_pixbuf, scale_album_image
 
 LOGGER = logging.getLogger(__name__)
@@ -28,7 +29,7 @@ class AlbumStoreColumns(IntEnum):
 
 
 @Gtk.Template(resource_path="/io/github/orontee/Argos/ui/albums_window.ui")
-class AlbumsWindow(Gtk.ScrolledWindow):
+class AlbumsWindow(Gtk.Overlay):
     __gtype_name__ = "AlbumsWindow"
 
     __gsignals__ = {"album-selected": (GObject.SIGNAL_RUN_FIRST, None, (str,))}
@@ -60,6 +61,11 @@ class AlbumsWindow(Gtk.ScrolledWindow):
         self._default_album_image = default_album_image_pixbuf(
             target_width=ALBUM_IMAGE_SIZE,
         )
+
+        self._progress_box = AlbumsBrowsingProgressBox()
+        self.add_overlay(self._progress_box)
+        self._progress_box.show_all()
+        self.show_all()
 
         self._model.connect("notify::albums-loaded", self._update_store)
         application.props.download.connect(
@@ -102,6 +108,8 @@ class AlbumsWindow(Gtk.ScrolledWindow):
     ) -> None:
         LOGGER.debug("Updating album store...")
 
+        self._progress_box.show()
+
         if self._ongoing_store_update.locked():
             self._abort_pixbufs_update = True
             LOGGER.info("Pixbufs update thread has been requested to abort...")
@@ -139,6 +147,8 @@ class AlbumsWindow(Gtk.ScrolledWindow):
         self._app.send_message(
             MessageType.FETCH_ALBUM_IMAGES, data={"image_uris": image_uris}
         )
+
+        self._progress_box.hide()
 
     def _update_store_pixbufs(
         self,

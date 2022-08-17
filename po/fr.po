@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-15 19:03+0200\n"
+"POT-Creation-Date: 2022-08-17 19:41+0200\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -16,23 +16,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: argos/app.py:84
+#: argos/app.py:83
 msgid "Enable debug logs"
 msgstr "Activer le journal de débogage"
 
-#: argos/app.py:92
+#: argos/app.py:91
 msgid "Start with maximized window"
 msgstr "Démarrer avec une fenêtre de taille maximale"
 
-#: argos/app.py:100
+#: argos/app.py:99
 msgid "Disable tooltips"
 msgstr "Désactiver les info-bulles"
 
-#: argos/app.py:116
+#: argos/app.py:107
 msgid "Hide search button"
 msgstr "Masquer le button de recherche"
 
-#: argos/app.py:317 argos/ui/app_menu.ui:20
+#: argos/app.py:314 argos/ui/app_menu.ui:20
 msgid "New playlist"
 msgstr "Nouvelle liste de lecture"
 
@@ -40,12 +40,12 @@ msgstr "Nouvelle liste de lecture"
 msgid "Started to play {}"
 msgstr "Lecture de {}"
 
-#: argos/controllers/playlists.py:60 argos/controllers/playlists.py:348
+#: argos/controllers/playlists.py:38 argos/controllers/playlists.py:330
 #: argos/ui/preferences.ui:230
 msgid "Recent additions"
 msgstr "Ajouts récents"
 
-#: argos/controllers/playlists.py:73 argos/controllers/playlists.py:356
+#: argos/controllers/playlists.py:51 argos/controllers/playlists.py:338
 #: argos/ui/preferences.ui:287
 msgid "History"
 msgstr "Historique"
@@ -54,17 +54,21 @@ msgstr "Historique"
 msgid "Tracklist updated"
 msgstr "File d'attente mise à jour"
 
-#: argos/ui/album_box.ui:51
+#: argos/ui/album_details_box.ui:51
 msgid "Published"
 msgstr "Publication"
 
-#: argos/ui/album_box.ui:79 argos/ui/playlists_box.ui:78
+#: argos/ui/album_details_box.ui:79 argos/ui/playlists_box.ui:78
 msgid "Length"
 msgstr "Durée"
 
-#: argos/ui/album_box.ui:217
+#: argos/ui/album_details_box.ui:217
 msgid "Play album"
 msgstr "Lire l'album"
+
+#: argos/ui/albums_browsing_progress_box.ui:34
+msgid "Keep calm, albums indexation in progress…"
+msgstr "Patience, l'indexation des albums est en cours…"
 
 #: argos/ui/app_menu.ui:6
 msgid "Play _random album"
@@ -186,18 +190,18 @@ msgstr "Lecture en boucle"
 msgid "Tracks"
 msgstr "Morceaux"
 
-#: argos/ui/playlist_tracks_box.ui:61
-msgid "Edit playlist"
-msgstr "Édition de la liste de lecture"
-
-#: argos/ui/playlist_tracks_box.ui:91
+#: argos/ui/playlist_tracks_box.ui:67
 msgid "Add playlist or selected tracks to tracklist"
 msgstr ""
 "Ajouter la liste de lecture ou les morceaux sélectionnés à la file d'attente"
 
-#: argos/ui/playlist_tracks_box.ui:109
+#: argos/ui/playlist_tracks_box.ui:85
 msgid "Play playlist or selected tracks"
 msgstr "Lire la liste de lecture ou les morceaux sélectionnés"
+
+#: argos/ui/playlist_tracks_box.ui:117
+msgid "Edit playlist"
+msgstr "Édition de la liste de lecture"
 
 #: argos/ui/preferences.ui:19
 msgid "Preferences"
@@ -272,11 +276,11 @@ msgstr "Retourner aux albums"
 msgid "Search albums"
 msgstr "Rechercher des albums"
 
-#: argos/widgets/albumbox.py:70
+#: argos/widgets/albumdetailsbox.py:66
 msgid "Add to tracklist"
 msgstr "Ajoute à la file d'attente"
 
-#: argos/widgets/albumbox.py:71
+#: argos/widgets/albumdetailsbox.py:67
 msgid "Add to playlist…"
 msgstr "Ajouter à une liste de lecture…"
 
@@ -288,15 +292,15 @@ msgstr "Confirmer la suppression de la liste de lecture {!r}"
 msgid "The deletion can't be reverted."
 msgstr "La suppression est définitive."
 
-#: argos/widgets/playlisttracksbox.py:53
+#: argos/widgets/playlisttracksbox.py:47
 msgid "Add stream to playlist…"
 msgstr "Ajouter un flux à la liste de lecture…"
 
-#: argos/widgets/playlisttracksbox.py:54
+#: argos/widgets/playlisttracksbox.py:48
 msgid "Remove selected tracks"
 msgstr "Retirer les morceaux sélectionnés"
 
-#: argos/widgets/playlisttracksbox.py:55
+#: argos/widgets/playlisttracksbox.py:49
 msgid "Delete playlist…"
 msgstr "Suppprimer la liste de lecture…"
 
