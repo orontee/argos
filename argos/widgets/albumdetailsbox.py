@@ -21,7 +21,7 @@ _ = gettext.gettext
 
 LOGGER = logging.getLogger(__name__)
 
-ALBUM_IMAGE_SIZE = 80
+ALBUM_IMAGE_SIZE = 200
 
 
 @Gtk.Template(resource_path="/io/github/orontee/Argos/ui/album_details_box.ui")
@@ -191,9 +191,7 @@ class AlbumDetailsBox(Gtk.Box):
     def _update_album_image(self, image_path: Optional[Path]) -> None:
         scaled_pixbuf = None
         if image_path:
-            rectangle = self.album_image.get_allocation()
-            target_width = min(rectangle.width, rectangle.height)
-            scaled_pixbuf = scale_album_image(image_path, target_width=target_width)
+            scaled_pixbuf = scale_album_image(image_path, target_width=ALBUM_IMAGE_SIZE)
 
         if scaled_pixbuf:
             self.album_image.set_from_pixbuf(scaled_pixbuf)
