@@ -7,6 +7,80 @@ from argos.model.track import TrackModel
 from argos.model.utils import WithThreadSafePropertySetter
 
 
+def compare_by_album_name_func(
+    a: "AlbumModel",
+    b: "AlbumModel",
+    user_data: None,
+) -> int:
+    if a.name < b.name:
+        return -1
+    elif a.name > b.name:
+        return 1
+    # a.name == b.name
+    if a.artist_name < b.artist_name:
+        return -1
+    elif a.artist_name > b.artist_name:
+        return 1
+    # a.artist_name == b.artist_name
+    if a.uri < b.uri:
+        return -1
+    elif a.uri > b.uri:
+        return 1
+    # a.uri == b.uri
+    return 0
+
+
+def compare_by_artist_name_func(
+    a: "AlbumModel",
+    b: "AlbumModel",
+    user_data: None,
+) -> int:
+    if a.artist_name < b.artist_name:
+        return -1
+    elif a.artist_name > b.artist_name:
+        return 1
+    # a.artist_name == b.artist_name
+    if a.date < b.date:
+        return -1
+    elif a.date > b.date:
+        return 1
+    # a.date == b.date
+    if a.name < b.name:
+        return -1
+    elif a.name > b.name:
+        return 1
+    # a.name == b.name
+    if a.uri < b.uri:
+        return -1
+    elif a.uri > b.uri:
+        return 1
+    # a.uri == b.uri
+    return 0
+
+
+def compare_by_publication_date_func(
+    a: "AlbumModel",
+    b: "AlbumModel",
+    user_data: None,
+) -> int:
+    if a.date < b.date:
+        return -1
+    elif a.date > b.date:
+        return 1
+    # a.date == b.date
+    if a.name < b.name:
+        return -1
+    elif a.name > b.name:
+        return 1
+    # a.name == b.name
+    if a.uri < b.uri:
+        return -1
+    elif a.uri > b.uri:
+        return 1
+    # a.uri == b.uri
+    return 0
+
+
 class AlbumModel(WithThreadSafePropertySetter, GObject.Object):
     """Model for an album.
 

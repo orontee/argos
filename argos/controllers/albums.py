@@ -2,7 +2,7 @@ import logging
 from operator import attrgetter
 from typing import TYPE_CHECKING, Dict, List, Optional, Tuple
 
-from gi.repository import Gio, GObject
+from gi.repository import Gio
 
 if TYPE_CHECKING:
     from argos.app import Application
@@ -51,6 +51,8 @@ class AlbumsController(ControllerBase):
             self._settings.connect(
                 f"changed::{settings_key}", self._on_backend_settings_changed
             )
+
+        self._settings.connect("changed::album-sort", self._on_album_sort_changed)
 
     def _get_directory_backend(
         self, directory_uri: Optional[str]
@@ -235,7 +237,12 @@ class AlbumsController(ControllerBase):
                 )
                 parsed_albums.append(album)
 
-        self._model.update_albums(parsed_albums)
+        album_sort_id = self._settings.get_string("album-sort")
+        self._model.update_albums(parsed_albums, album_sort_id)
+
+    def _on_album_sort_changed(self, settings: Gio.Settings, key: str) -> None:
+        album_sort_id = self._settings.get_string("album-sort")
+        self._model.sort_albums(album_sort_id)
 
     @consume(MessageType.PLAY_RANDOM_ALBUM)
     async def play_random_album(self, message: Message) -> None:

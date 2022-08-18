@@ -2,11 +2,16 @@ import logging
 import random
 import threading
 from functools import partial
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, cast
+from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Tuple, cast
 
 from gi.repository import Gio, GLib, GObject
 
-from argos.model.album import AlbumModel
+from argos.model.album import (
+    AlbumModel,
+    compare_by_album_name_func,
+    compare_by_artist_name_func,
+    compare_by_publication_date_func,
+)
 from argos.model.mixer import MixerModel
 from argos.model.playback import PlaybackModel
 from argos.model.playlist import PlaylistModel, playlist_compare_func
@@ -89,23 +94,57 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         tl_track = self.tracklist.get_tl_track(tlid)
         return tl_track.track.props.uri if tl_track else ""
 
-    def update_albums(self, albums: List[AlbumModel]) -> None:
+    def update_albums(self, albums: List[AlbumModel], album_sort_id: str) -> None:
         GLib.idle_add(
             partial(
                 self._update_albums,
                 albums,
+                album_sort_id,
             )
         )
 
-    def _update_albums(self, albums: List[AlbumModel]) -> None:
+    def _get_album_compare_func(
+        self, album_sort_id: str
+    ) -> Callable[[AlbumModel, AlbumModel, None], int]:
+        if album_sort_id == "by_album_name":
+            return compare_by_album_name_func
+        elif album_sort_id == "by_publication_date":
+            return compare_by_publication_date_func
+
+        if album_sort_id != "by_artist_name":
+            LOGGER.warning(f"Unexpecting album sort identifier {album_sort_id!r}")
+
+        return compare_by_artist_name_func
+
+    def _update_albums(self, albums: List[AlbumModel], album_sort_id: str) -> None:
         if self.props.albums_loaded:
             self.props.albums_loaded = False
             self.albums.remove_all()
 
+        compare_func = self._get_album_compare_func(album_sort_id)
+
         for album in albums:
-            self.albums.append(album)
+            self.albums.insert_sorted(album, compare_func, None)
 
         LOGGER.info("Albums loaded")
+        self.props.albums_loaded = True
+
+    def sort_albums(self, album_sort_id: str) -> None:
+        GLib.idle_add(
+            partial(
+                self._sort_albums,
+                album_sort_id,
+            )
+        )
+
+    def _sort_albums(self, album_sort_id: str) -> None:
+        if self.props.albums_loaded:
+            self.props.albums_loaded = False
+
+        compare_func = self._get_album_compare_func(album_sort_id)
+        self.albums.sort(compare_func, None)
+
+        LOGGER.info("Albums sorted")
         self.props.albums_loaded = True
 
     def complete_album_description(

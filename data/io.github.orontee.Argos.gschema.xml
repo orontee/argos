@@ -51,6 +51,21 @@
       </description>
     </key>
 
+    <key type="s" name="album-sort">
+      <default>"by_artist_name"</default>
+      <summary>
+	Album sort order
+      </summary>
+      <description>
+	Order applied when sorting albums.
+      </description>
+      <choices>
+        <choice value='by_artist_name'/>
+        <choice value='by_album_name'/>
+        <choice value='by_publication_date'/>
+      </choices>
+    </key>
+
     <key type="b" name="history-playlist">
       <default>true</default>
       <summary>

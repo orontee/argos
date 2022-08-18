@@ -1,4 +1,6 @@
+import gettext
 import logging
+from enum import IntEnum
 from typing import TYPE_CHECKING
 
 from gi.repository import Gio, GObject, Gtk
@@ -8,8 +10,14 @@ if TYPE_CHECKING:
 
 LOGGER = logging.getLogger(__name__)
 
+_ = gettext.gettext
 
 SECONDS_PER_DAY = 3600 * 24
+
+
+class AlbumSortStoreColumns(IntEnum):
+    ID = 0
+    TEXT = 1
 
 
 @Gtk.Template(resource_path="/io/github/orontee/Argos/ui/preferences.ui")
@@ -23,6 +31,7 @@ class PreferencesWindow(Gtk.Window):
     mopidy_bandcamp_label: Gtk.Label = Gtk.Template.Child()
     mopidy_podcast_switch: Gtk.Switch = Gtk.Template.Child()
     mopidy_podcast_label: Gtk.Label = Gtk.Template.Child()
+    album_sort_combobox: Gtk.ComboBoxText = Gtk.Template.Child()
     history_playlist_check_button: Gtk.CheckButton = Gtk.Template.Child()
     history_playlist_max_length_label: Gtk.Label = Gtk.Template.Child()
     history_playlist_max_length_button: Gtk.SpinButton = Gtk.Template.Child()
@@ -52,6 +61,9 @@ class PreferencesWindow(Gtk.Window):
 
         mopidy_podcast = self._settings.get_boolean("mopidy-podcast")
         self.mopidy_podcast_switch.set_active(mopidy_podcast)
+
+        album_sort_id = self._settings.get_string("album-sort")
+        self.album_sort_combobox.set_active_id(album_sort_id)
 
         history_playlist = self._settings.get_boolean("history-playlist")
         self.history_playlist_check_button.set_active(history_playlist)
@@ -99,6 +111,11 @@ class PreferencesWindow(Gtk.Window):
 
         self._model.connect("notify::network-available", self.on_connection_changed)
         self._model.connect("notify::connected", self.on_connection_changed)
+
+        # ⚠️ Don't connect signals to handlers automatically through
+        # Gtk.Template since otherwise handlers will be called during
+        # initialization from settings
+
         self.mopidy_base_url_entry.connect(
             "changed", self.on_mopidy_base_url_entry_changed
         )
@@ -111,6 +128,7 @@ class PreferencesWindow(Gtk.Window):
         self.mopidy_podcast_switch.connect(
             "notify::active", self.on_mopidy_podcast_switch_activated
         )
+        self.album_sort_combobox.connect("changed", self.on_album_sort_combobox_changed)
         self.history_playlist_check_button.connect(
             "toggled", self.on_history_playlist_check_button_toggled
         )
@@ -124,8 +142,6 @@ class PreferencesWindow(Gtk.Window):
             "value-changed",
             self.on_recent_additions_playlist_max_age_button_value_changed,
         )
-
-        # TODO listen to settings changes
 
     def on_connection_changed(
         self,
@@ -177,6 +193,13 @@ class PreferencesWindow(Gtk.Window):
     ) -> None:
         mopidy_podcast = switch.get_active()
         self._settings.set_boolean("mopidy-podcast", mopidy_podcast)
+
+    def on_album_sort_combobox_changed(
+        self,
+        combobox: Gtk.ComboBox,
+    ) -> None:
+        album_sort_id = combobox.get_active_id()
+        self._settings.set_string("album-sort", album_sort_id)
 
     def on_history_playlist_check_button_toggled(self, button: Gtk.CheckButton) -> None:
         history_playlist = button.get_active()
