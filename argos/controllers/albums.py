@@ -1,5 +1,4 @@
 import logging
-import random
 from operator import attrgetter
 from typing import TYPE_CHECKING, Dict, List, Optional, Tuple
 
@@ -226,11 +225,13 @@ class AlbumsController(ControllerBase):
     ) -> None:
         if self._model.albums_loaded:
             LOGGER.debug("Will fetch album images since albums were just loaded")
-            self.send_message(MessageType.FETCH_ALBUM_IMAGES)
+            image_uris = [a.image_uri for a in self._model.albums]
+            self.send_message(
+                MessageType.FETCH_ALBUM_IMAGES, data={"image_uris": image_uris}
+            )
 
     @consume(MessageType.FETCH_ALBUM_IMAGES)
     async def fetch_album_images(self, message: Message) -> None:
         LOGGER.debug("Starting album images download...")
-        albums = self._model.albums
-        image_uris = [albums.get_item(i).image_uri for i in range(albums.get_n_items())]
+        image_uris = message.data.get("image_uris", [])
         await self._download.fetch_images(image_uris)
