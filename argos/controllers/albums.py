@@ -209,14 +209,13 @@ class AlbumsController(ControllerBase):
 
     @consume(MessageType.PLAY_RANDOM_ALBUM)
     async def play_random_album(self, message: Message) -> None:
-        if len(self._model.albums) == 0:
+        album_uri = self._model.choose_random_album()
+        if album_uri is None:
             LOGGER.warning("Won't play random album since albums list is empty")
             return
 
-        album = random.choice(self._model.albums)
-        LOGGER.debug(f"Album with URI {album.uri!r} choosen")
-
-        await self._http.play_tracks([album.uri])
+        LOGGER.debug(f"Album with URI {album_uri!r} choosen")
+        await self._http.play_tracks([album_uri])
 
     def _on_albums_loaded(
         self,

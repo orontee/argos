@@ -1,4 +1,6 @@
 import logging
+import random
+import threading
 from functools import partial
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, cast
 
@@ -164,6 +166,21 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
                 album_uri,
             )
         )
+
+    def choose_random_album(self) -> Optional[str]:
+        def _choose_random_album_uri(event: threading.Event, uris: List[str]) -> None:
+            try:
+                album = random.choice(self.albums)
+            except IndexError:
+                pass
+            uris.append(album.uri)
+            event.set()
+
+        event = threading.Event()
+        uris: List[str] = []
+
+        GLib.idle_add(_choose_random_album_uri, event, uris)
+        return uris[0] if event.wait(timeout=1.0) else None
 
     def update_tracklist(self, version: Optional[int], tracks: Any) -> None:
         GLib.idle_add(
