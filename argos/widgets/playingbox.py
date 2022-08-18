@@ -10,11 +10,13 @@ from argos.message import MessageType
 from argos.model import PlaybackState
 from argos.utils import elide_maybe, ms_to_text
 from argos.widgets.tlbox import TracklistBox
-from argos.widgets.utils import scale_album_image
+from argos.widgets.utils import default_image_pixbuf, scale_album_image
 
 _ = gettext.gettext
 
 LOGGER = logging.getLogger(__name__)
+
+TRACK_IMAGE_SIZE = 80
 
 
 class TracklistStoreColumns(IntEnum):
@@ -29,6 +31,11 @@ class TracklistStoreColumns(IntEnum):
 @Gtk.Template(resource_path="/io/github/orontee/Argos/ui/playing_box.ui")
 class PlayingBox(Gtk.Box):
     __gtype_name__ = "PlayingBox"
+
+    default_track_image = default_image_pixbuf(
+        "image-x-generic-symbolic",
+        target_width=TRACK_IMAGE_SIZE,
+    )
 
     playing_track_image: Gtk.Image = Gtk.Template.Child()
     play_image: Gtk.Image = Gtk.Template.Child()
@@ -194,10 +201,7 @@ class PlayingBox(Gtk.Box):
         if scaled_pixbuf:
             self.playing_track_image.set_from_pixbuf(scaled_pixbuf)
         else:
-            self.playing_track_image.set_from_icon_name(
-                "image-x-generic-symbolic",
-                Gtk.IconSize.DIALOG,
-            )
+            self.playing_track_image.set_from_pixbuf(self.default_track_image)
 
         self.playing_track_image.show_now()
 

@@ -11,10 +11,8 @@ from argos.utils import compute_target_size
 LOGGER = logging.getLogger(__name__)
 
 
-def default_album_image_pixbuf(target_width: int) -> Pixbuf:
-    pixbuf = Gtk.IconTheme.get_default().load_icon(
-        "media-optical-cd-audio-symbolic", target_width, 0
-    )
+def default_image_pixbuf(icon_name: str, target_width: int) -> Pixbuf:
+    pixbuf = Gtk.IconTheme.get_default().load_icon(icon_name, target_width, 0)
     original_width, original_height = pixbuf.get_width(), pixbuf.get_height()
     width, height = compute_target_size(
         original_width,

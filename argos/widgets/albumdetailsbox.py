@@ -12,7 +12,7 @@ from argos.utils import elide_maybe, ms_to_text
 from argos.widgets.playlistselectiondialog import PlaylistSelectionDialog
 from argos.widgets.trackbox import TrackBox
 from argos.widgets.utils import (
-    default_album_image_pixbuf,
+    default_image_pixbuf,
     scale_album_image,
     set_list_box_header_with_separator,
 )
@@ -37,7 +37,9 @@ class AlbumDetailsBox(Gtk.Box):
 
     __gtype_name__ = "AlbumDetailsBox"
 
-    default_album_image = default_album_image_pixbuf(target_width=ALBUM_IMAGE_SIZE)
+    default_album_image = default_image_pixbuf(
+        "media-optical-cd-audio-symbolic", target_width=ALBUM_IMAGE_SIZE
+    )
 
     play_button: Gtk.Button = Gtk.Template.Child()
     track_selection_button: Gtk.MenuButton = Gtk.Template.Child()
