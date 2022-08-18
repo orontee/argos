@@ -11,7 +11,7 @@ from gi.repository.GdkPixbuf import Pixbuf
 from argos.message import MessageType
 from argos.utils import elide_maybe
 from argos.widgets.albumsbrowsingprogressbox import AlbumsBrowsingProgressBox
-from argos.widgets.utils import default_album_image_pixbuf, scale_album_image
+from argos.widgets.utils import default_image_pixbuf, scale_album_image
 
 LOGGER = logging.getLogger(__name__)
 
@@ -33,6 +33,11 @@ class AlbumsWindow(Gtk.Overlay):
     __gtype_name__ = "AlbumsWindow"
 
     __gsignals__ = {"album-selected": (GObject.SIGNAL_RUN_FIRST, None, (str,))}
+
+    default_album_image = default_image_pixbuf(
+        "media-optical-cd-audio-symbolic",
+        target_width=ALBUM_IMAGE_SIZE,
+    )
 
     albums_view: Gtk.IconView = Gtk.Template.Child()
 
@@ -57,10 +62,6 @@ class AlbumsWindow(Gtk.Overlay):
 
         if application.props.disable_tooltips:
             self.albums_view.props.has_tooltip = False
-
-        self._default_album_image = default_album_image_pixbuf(
-            target_width=ALBUM_IMAGE_SIZE,
-        )
 
         self._progress_box = AlbumsBrowsingProgressBox()
         self.add_overlay(self._progress_box)
@@ -135,7 +136,7 @@ class AlbumsWindow(Gtk.Overlay):
                         f"<b>{escaped_album_name}</b>\n{escaped_artist_name}",
                         album.uri,
                         str(album.image_path) if album.image_path else "",
-                        self._default_album_image,
+                        self.default_album_image,
                         album.artist_name,
                         album.name,
                     ]
@@ -180,7 +181,7 @@ class AlbumsWindow(Gtk.Overlay):
                     AlbumStoreColumns.PIXBUF,
                 )
                 if image_path:
-                    if current_pixbuf == self._default_album_image:
+                    if current_pixbuf == self.default_album_image:
                         scaled_pixbuf = scale_album_image(
                             image_path,
                             target_width=ALBUM_IMAGE_SIZE,
