@@ -283,7 +283,7 @@ class MopidyWSConnection(GObject.GObject):
         mopidy_base_url = settings.get_string(key)
         self._url = urljoin(mopidy_base_url, "/mopidy/ws") if mopidy_base_url else None
         LOGGER.warning("New connection to be established after URL change")
-        self._loop.create_task(self._close_ws())
+        asyncio.run_coroutine_threadsafe(self._close_ws(), self._loop)
 
     async def _close_ws(self) -> None:
         if not self._ws:
