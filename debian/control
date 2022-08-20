@@ -23,5 +23,5 @@ Depends: gettext,
          ${misc:Depends},
          ${python3:Depends},
          ${shlibs:Depends}
-Description: Front-end to Mopidy for small devices
- Gtk front-end to control a Mopidy server through a small touch screen.
+Description: Light weight Mopidy front-end.
+ Argos is designed with Gnome desktop and small single-boad devices in mind.

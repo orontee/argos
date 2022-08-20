@@ -25,9 +25,9 @@ COPY . /src
 
 WORKDIR /src
 
-ARG VERSION=1.0.0
+ARG VERSION=1.1.0
 RUN mkdir builddir
-RUN git archive --prefix=builddir/argos-${VERSION}/ --format=tar.gz main | tar xzf -
+RUN git archive --prefix=builddir/argos-${VERSION}/ --format=tar.gz v${VERSION} | tar xzf -
 RUN cd builddir/argos-${VERSION} \
     && debuild -b -tc -us -uc
 RUN ls builddir
