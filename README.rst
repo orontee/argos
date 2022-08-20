@@ -46,6 +46,9 @@ Features 🥳
 
 * Play streams supported by Mopidy-Stream
 
+Consult the `NEWS file </NEWS.rst>`_ for notable changes between
+versions.
+
 Install
 =======
 
