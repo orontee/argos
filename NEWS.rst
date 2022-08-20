@@ -12,7 +12,7 @@ Unreleased
 ==========
 
 Added
-~~~~~
+-----
 - Add a stream URI to the tracklist `#38
   <https://github.com/orontee/argos/issues/38>`_
 - Play or enqueue a track selection `#33
@@ -28,12 +28,12 @@ Added
   <https://github.com/orontee/argos/issues/16>`_
 - Virtual playlists for recently added and recently played tracks `#4
   <https://github.com/orontee/argos/issues/4>`_
-- Display playlists `#1 <https://github.com/orontee/argos/issues/1>`_
+- Listen to playlists related events `#1 <https://github.com/orontee/argos/issues/1>`_
 - Support desktop notifications `#2
   <https://github.com/orontee/argos/issues/2>`_
 
 Changed
-~~~~~~~
+-------
 - Computation of album artist name `#39
   <https://github.com/orontee/argos/issues/39>`_
 - Album cover don't show up for albums discovered after user clicked
@@ -56,3 +56,10 @@ Removed
 
 [1.0.0] - 2022-05-22
 ====================
+
+First version with most notable features:
+
+- Library browser populated with albums from Mopidy-Local,
+  Mopidy-Bandcamp and Mopidy-Podcast
+- View of Mopidy-M3U playlists
+- Playback state & tracklist view
