@@ -14,10 +14,24 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="1.1.1" date="2022-08-21">
+      <description>
+        <p>
+          Attempt to comply to Flathub expectations.
+        </p>
+      </description>
+    </release>
     <release version="1.1.0" date="2022-08-20">
       <description>
         <p>
-          Delivered during after holidays, use at your own risks!
+          Delivered during holidays, use at your own risks!
+        </p>
+      </description>
+    </release>
+    <release version="1.0.0" date="2022-05-26">
+      <description>
+        <p>
+          Delivered during a toothache, use at your own risks!
         </p>
       </description>
     </release>

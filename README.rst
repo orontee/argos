@@ -81,7 +81,7 @@ Installation on such platform is currently handled through a DEB
 package that can be build using the following (first install the
 dependencies listed in the `Dockerfile </Dockerfile>`_ file)::
 
-  $ VERSION=1.1.0
+  $ VERSION=1.1.1
   $ mkdir builddir
   $ git archive --prefix=builddir/argos-${VERSION}/ --format=tar.gz HEAD | tar xzf -
   $ pushd builddir/argos-${VERSION} && debuild -b -tc -us -uc && popd
