@@ -13,6 +13,8 @@ The format is based on `Keep a Changelog
 
 Added
 -----
+- Start documentation page `#12
+  <https://github.com/orontee/argos/issues/12>`_
 
 Changed
 -------
