@@ -13,6 +13,8 @@ The format is based on `Keep a Changelog
 
 Changed
 -------
+- Remove usage of stock icon for the application icon `#12
+  <https://github.com/orontee/argos/issues/12>`_
 - Upgrade version of Flatpak runtime version  `#12
   <https://github.com/orontee/argos/issues/12>`_
 

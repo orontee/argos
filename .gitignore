@@ -8,6 +8,7 @@ TAGS
 /dist/
 data/gschemas.compiled
 /argos/io.github.orontee.Argos.gresource
+/argos/ui/about.ui
 /README.html
 /builddir/
 /.flatpak-builder/

@@ -2,11 +2,15 @@ pkgdatadir = join_paths(get_option('prefix'), get_option('datadir'), meson.proje
 moduledir = join_paths(pkgdatadir, 'argos')
 gnome = import('gnome')
 
+subdir('ui')
+
 gnome.compile_resources('argos',
   'io.github.orontee.Argos.gresource.xml',
   gresource_bundle: true,
+  source_dir: meson.current_build_dir(),
   install: true,
   install_dir: pkgdatadir,
+  dependencies: about_ui
 )
 
 python = import('python')
