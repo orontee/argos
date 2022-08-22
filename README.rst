@@ -52,22 +52,21 @@ versions.
 Install
 =======
 
-Platform with Flatpak support
------------------------------
+Install using Flatpak
+---------------------
 
-Clone the source repository, then build and install for current user
-(You may have to install the expected runtime, but Flatpak will warn
-you about that)::
+Argos can be easily installed on Linux distributions supporting
+`Flatpak <https://flatpak.org/>`_::
 
-  $ flatpak-builder --user --install --force-clean builddir io.github.orontee.Argos.json
-
-Then to start the application use your desktop environment launcher,
-or from a shell run::
-
+  $ flatpak install flathub io.github.orontee.Argos
   $ flatpak run io.github.orontee.Argos
 
-Other platform
---------------
+Visit `Argos page on Flathub
+<https://flathub.org/apps/details/io.github.orontee.Argos>`_ for
+detailed instructions.
+
+Install using DEB package
+-------------------------
 
 ``Argos`` was developed to be deployed on a Raspberry Pi Model 2B
 (hosting a Mopidy server) running Raspian OS with `LXDE desktop
@@ -77,21 +76,13 @@ architecture according to this ``freedesktop-sdk`` issue:
 `Decommissioning armv7
 <https://gitlab.com/freedesktop-sdk/freedesktop-sdk/-/issues/1105>`_.
 
-Installation on such platform is currently handled through a DEB
-package that can be build using the following (first install the
-dependencies listed in the `Dockerfile </Dockerfile>`_ file)::
+Installation on such platform is handled through a DEB package that
+can be downloaded from the `Releases page
+<https://github.com/orontee/argos/releases>`_::
 
   $ VERSION=1.1.1
-  $ mkdir builddir
-  $ git archive --prefix=builddir/argos-${VERSION}/ --format=tar.gz HEAD | tar xzf -
-  $ pushd builddir/argos-${VERSION} && debuild -b -tc -us -uc && popd
-
-The corresponding DEB package is generated in the ``builddir`` directory.
-
-Some CLI options are provided to adapt to devices with small touch
-screen (complete list can be obtained with ``argos --help``)::
-
-  argos --maximized --no-tooltips --hide-search-button
+  $ wget https://github.com/orontee/argos/releases/download/v${VERSION}/argos_${VERSION}-1_all.deb
+  $ sudo dpkg -i argos_${VERSION}-1_all.deb
 
 Configuration
 =============
@@ -110,7 +101,6 @@ The preferences dialog is accessible from the application menu.
 
    Preferences dialog
 
-
 The URL of the Mopidy server is backed by GSettings. Thus in case the
 host has no keyboard, one can directly set the URL of the Mopidy
 server through an SSH connection. Make sure changes are done by the
@@ -119,14 +109,10 @@ user that will run Argos. Changes can be made using `Dconf Editor
 
   $ gsettings set io.github.orontee.Argos mopidy-base-url http://192.168.1.45
 
-Debugging
-=========
+Some CLI options are provided to adapt to devices with small touch
+screen (complete list can be obtained with ``argos --help``)::
 
-One can run a shell in sandbox and call the application through
-``pdb``::
-
-  $ flatpak run --devel --command=sh io.github.orontee.Argos
-  [📦 io.github.orontee.Argos ~]$ python3 -m pdb /app/bin/argos --debug
+  $ argos --maximized --no-tooltips --hide-search-button
 
 Contributing
 ============
@@ -141,13 +127,65 @@ dedicated virtual environment using ``poetry``::
 Pre-commit hooks run ``mypy`` check and make sure code is properly
 formatted (using ``black`` and ``isort``).
 
+Build and run from sources using Flatpak
+---------------------------------------
+
+Clone the source repository, then build and install for current user
+(You may have to install the expected runtime, but Flatpak will warn
+you about that)::
+
+  $ flatpak-builder --user --install --force-clean builddir io.github.orontee.Argos.json
+
+Then to start the application use your desktop environment launcher,
+or from a shell run::
+
+  $ flatpak run io.github.orontee.Argos
+
+Debugging
+~~~~~~~~~
+
+One can run a shell in sandbox and call the application through
+``pdb``::
+
+  $ flatpak run --devel --command=sh io.github.orontee.Argos
+  [📦 io.github.orontee.Argos ~]$ python3 -m pdb /app/bin/argos --debug
+
+Build from sources using DEB package
+-----------------------------------
+
+To build the DEB package, one can build a Docker image and export the
+DEB file from that image::
+
+  $ VERSION=1.1.1
+  $ docker build -t argos-build:$VERSION --build-arg VERSION=${VERSION} .
+  $ docker run --rm -v ${PWD}:/opt/argos argos-build:$VERSION -- bash -c "cp builddir/*.deb /opt/argos"
+
+To manually build the DEB package, first install the dependencies
+listed in the `Dockerfile </Dockerfile>`_, then run the following
+commands::
+
+  $ VERSION=1.1.1
+  $ mkdir builddir
+  $ git archive --prefix=builddir/argos-${VERSION}/ --format=tar.gz HEAD | tar xzf -
+  $ pushd builddir/argos-${VERSION} && debuild -b -tc -us -uc && popd
+
+The corresponding DEB package is generated in the ``builddir`` directory.
+
+Translations
+------------
+
 To update translation files::
 
   $ rm -rf builddir
   $ meson builddir && cd builddir
   builddir$ meson compile io.github.orontee.Argos-update-po
 
-The file `generated-poetry-sources.json
-</generated-poetry-sources.json>`_ is generated from ``poetry``'s lock
-file using `flatpak-builder-tools
+Dependencies
+------------
+
+Runtime dependencies are listed in the file
+`generated-poetry-sources.json </generated-poetry-sources.json>`_. It
+is generated from ``poetry``'s lock file using `flatpak-builder-tools
 <https://github.com/flatpak/flatpak-builder-tools>`_.
+
+Build dependencies are listed in the `Dockerfile </Dockerfile>`_.
