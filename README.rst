@@ -128,7 +128,7 @@ Pre-commit hooks run ``mypy`` check and make sure code is properly
 formatted (using ``black`` and ``isort``).
 
 Build and run from sources using Flatpak
----------------------------------------
+----------------------------------------
 
 Clone the source repository, then build and install for current user
 (You may have to install the expected runtime, but Flatpak will warn
@@ -150,8 +150,8 @@ One can run a shell in sandbox and call the application through
   $ flatpak run --devel --command=sh io.github.orontee.Argos
   [📦 io.github.orontee.Argos ~]$ python3 -m pdb /app/bin/argos --debug
 
-Build from sources using DEB package
------------------------------------
+Build DEB package
+-----------------
 
 To build the DEB package, one can build a Docker image and export the
 DEB file from that image::

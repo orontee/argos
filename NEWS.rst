@@ -16,6 +16,8 @@ Added
 
 Changed
 -------
+- Don't clear albums search filter when entering album details page `#46
+  <https://github.com/orontee/argos/issues/46>`_
 
 Removed
 -------

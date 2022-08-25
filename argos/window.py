@@ -5,7 +5,13 @@ from gi.repository import Gdk, Gio, GObject, Gtk
 
 from argos.message import MessageType
 from argos.model import PlaybackState
-from argos.widgets import AlbumDetailsBox, AlbumsWindow, PlayingBox, PlaylistsBox, TitleBar
+from argos.widgets import (
+    AlbumDetailsBox,
+    AlbumsWindow,
+    PlayingBox,
+    PlaylistsBox,
+    TitleBar,
+)
 
 _ = gettext.gettext
 
@@ -156,12 +162,6 @@ class ArgosWindow(Gtk.ApplicationWindow):
     ) -> None:
         main_page_visible = self.main_stack.get_visible_child_name() == "main_page"
         self.titlebar.props.main_page_state = main_page_visible
-
-        search_activated = (
-            main_page_visible
-            and self.central_view.get_visible_child_name() == "albums_page"
-        )
-        self.titlebar.props.search_activated = search_activated
 
     def _on_central_view_page_changed(
         self,
