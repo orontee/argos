@@ -230,9 +230,11 @@ class ArgosWindow(Gtk.ApplicationWindow):
         # See /usr/include/gtk-3.0/gdk/gdkkeysyms.h for key definitions
         mod1_mask = Gdk.ModifierType.MOD1_MASK
         control_mask = Gdk.ModifierType.CONTROL_MASK
+        shift_mask = Gdk.ModifierType.SHIFT_MASK
+        mod1_and_shift_mask = mod1_mask | shift_mask
         modifiers = event.state & Gtk.accelerator_get_default_mod_mask()
         keyval = event.keyval
-        if modifiers == mod1_mask:
+        if modifiers in [mod1_mask, mod1_and_shift_mask]:
             if keyval in [Gdk.KEY_1, Gdk.KEY_KP_1]:
                 self.set_central_view_visible_child("playing_page")
                 return True

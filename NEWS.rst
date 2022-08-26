@@ -16,6 +16,8 @@ Added
 
 Changed
 -------
+- Listen to key events with Mod1 and Shift modifiers `#47
+  <https://github.com/orontee/argos/issues/47>`_
 - Don't clear albums search filter when entering album details page `#46
   <https://github.com/orontee/argos/issues/46>`_
 
