@@ -8,11 +8,8 @@ The format is based on `Keep a Changelog
 <https://keepachangelog.com/en/1.0.0/>`_, and this project adheres to
 `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
-[Unreleased]
-============
-
-Added
------
+[1.1.2] - 2022-08-26
+====================
 
 Changed
 -------
@@ -20,9 +17,6 @@ Changed
   <https://github.com/orontee/argos/issues/47>`_
 - Don't clear albums search filter when entering album details page `#46
   <https://github.com/orontee/argos/issues/46>`_
-
-Removed
--------
 
 [1.1.1] - 2022-08-21
 ====================

@@ -80,7 +80,7 @@ Installation on such platform is handled through a DEB package that
 can be downloaded from the `Releases page
 <https://github.com/orontee/argos/releases>`_::
 
-  $ VERSION=1.1.1
+  $ VERSION=1.1.2
   $ wget https://github.com/orontee/argos/releases/download/v${VERSION}/argos_${VERSION}-1_all.deb
   $ sudo dpkg -i argos_${VERSION}-1_all.deb
 
@@ -156,7 +156,7 @@ Build DEB package
 To build the DEB package, one can build a Docker image and export the
 DEB file from that image::
 
-  $ VERSION=1.1.1
+  $ VERSION=1.1.2
   $ docker build -t argos-build:$VERSION --build-arg VERSION=${VERSION} .
   $ docker run --rm -v ${PWD}:/opt/argos argos-build:$VERSION -- bash -c "cp builddir/*.deb /opt/argos"
 
@@ -164,7 +164,7 @@ To manually build the DEB package, first install the dependencies
 listed in the `Dockerfile </Dockerfile>`_, then run the following
 commands::
 
-  $ VERSION=1.1.1
+  $ VERSION=1.1.2
   $ mkdir builddir
   $ git archive --prefix=builddir/argos-${VERSION}/ --format=tar.gz HEAD | tar xzf -
   $ pushd builddir/argos-${VERSION} && debuild -b -tc -us -uc && popd
