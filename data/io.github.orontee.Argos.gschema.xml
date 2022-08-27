@@ -22,7 +22,7 @@
     </key>
 
     <key type="b" name="mopidy-local">
-      <default>false</default>
+      <default>true</default>
       <summary>
 	Mopidy-Local
       </summary>

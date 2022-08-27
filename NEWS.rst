@@ -16,6 +16,8 @@ Added
 
 Changed
 -------
+- Default is now to enable backend for Mopidy-Local  `#43
+  <https://github.com/orontee/argos/issues/43>`_
 
 Removed
 -------
