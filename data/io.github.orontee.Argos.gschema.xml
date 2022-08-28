@@ -41,6 +41,16 @@
       </description>
     </key>
 
+    <key type="b" name="mopidy-jellyfin">
+      <default>false</default>
+      <summary>
+	Mopidy-Jellyfin
+      </summary>
+      <description>
+	Whether to display albums from Mopidy-Jellyfin directory in library.
+      </description>
+    </key>
+
     <key type="b" name="mopidy-podcast">
       <default>false</default>
       <summary>

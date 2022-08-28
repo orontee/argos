@@ -49,6 +49,16 @@ class MopidyBandcampBackend(MopidyBackend):
         return None
 
 
+class MopidyJellyfinBackend(MopidyBackend):
+    def __init__(self):
+        super().__init__(settings_key="mopidy-jellyfin")
+
+    def get_albums_uri(self, directory_uri: Optional[str]) -> Optional[str]:
+        if directory_uri == "jellyfin:":
+            return "jellyfin:albums"
+        return None
+
+
 class MopidyPodcastBackend(MopidyBackend):
     def __init__(self):
         super().__init__(settings_key="mopidy-podcast", static_albums=False)

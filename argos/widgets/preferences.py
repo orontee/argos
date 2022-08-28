@@ -29,6 +29,8 @@ class PreferencesWindow(Gtk.Window):
     mopidy_local_label: Gtk.Label = Gtk.Template.Child()
     mopidy_bandcamp_switch: Gtk.Switch = Gtk.Template.Child()
     mopidy_bandcamp_label: Gtk.Label = Gtk.Template.Child()
+    mopidy_jellyfin_switch: Gtk.Switch = Gtk.Template.Child()
+    mopidy_jellyfin_label: Gtk.Label = Gtk.Template.Child()
     mopidy_podcast_switch: Gtk.Switch = Gtk.Template.Child()
     mopidy_podcast_label: Gtk.Label = Gtk.Template.Child()
     album_sort_combobox: Gtk.ComboBoxText = Gtk.Template.Child()
@@ -58,6 +60,9 @@ class PreferencesWindow(Gtk.Window):
 
         mopidy_bandcamp = self._settings.get_boolean("mopidy-bandcamp")
         self.mopidy_bandcamp_switch.set_active(mopidy_bandcamp)
+
+        mopidy_jellyfin = self._settings.get_boolean("mopidy-jellyfin")
+        self.mopidy_jellyfin_switch.set_active(mopidy_jellyfin)
 
         mopidy_podcast = self._settings.get_boolean("mopidy-podcast")
         self.mopidy_podcast_switch.set_active(mopidy_podcast)
@@ -96,6 +101,8 @@ class PreferencesWindow(Gtk.Window):
             self.mopidy_local_label,
             self.mopidy_bandcamp_switch,
             self.mopidy_bandcamp_label,
+            self.mopidy_jellyfin_switch,
+            self.mopidy_jellyfin_label,
             self.mopidy_podcast_switch,
             self.mopidy_podcast_label,
             self.history_playlist_check_button,
@@ -124,6 +131,9 @@ class PreferencesWindow(Gtk.Window):
         )
         self.mopidy_bandcamp_switch.connect(
             "notify::active", self.on_mopidy_bandcamp_switch_activated
+        )
+        self.mopidy_jellyfin_switch.connect(
+            "notify::active", self.on_mopidy_jellyfin_switch_activated
         )
         self.mopidy_podcast_switch.connect(
             "notify::active", self.on_mopidy_podcast_switch_activated
@@ -154,6 +164,8 @@ class PreferencesWindow(Gtk.Window):
             self.mopidy_local_label,
             self.mopidy_bandcamp_switch,
             self.mopidy_bandcamp_label,
+            self.mopidy_jellyfin_switch,
+            self.mopidy_jellyfin_label,
             self.mopidy_podcast_switch,
             self.mopidy_podcast_label,
             self.history_playlist_check_button,
@@ -185,6 +197,14 @@ class PreferencesWindow(Gtk.Window):
     ) -> None:
         mopidy_bandcamp = switch.get_active()
         self._settings.set_boolean("mopidy-bandcamp", mopidy_bandcamp)
+
+    def on_mopidy_jellyfin_switch_activated(
+        self,
+        switch: Gtk.Switch,
+        _1: GObject.ParamSpec,
+    ) -> None:
+        mopidy_jellyfin = switch.get_active()
+        self._settings.set_boolean("mopidy-jellyfin", mopidy_jellyfin)
 
     def on_mopidy_podcast_switch_activated(
         self,

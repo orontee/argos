@@ -40,7 +40,7 @@ Features 🥳
 * Playback state & tracklist view
 
 * Library browser populated with albums from Mopidy-Local,
-  Mopidy-Bandcamp and Mopidy-Podcast
+  Mopidy-Bandcamp, Mopidy-Jellyfin and Mopidy-Podcast
 
 * View and edition of Mopidy-M3U playlists
 
@@ -158,7 +158,7 @@ DEB file from that image::
 
   $ VERSION=1.1.2
   $ docker build -t argos-build:$VERSION --build-arg VERSION=${VERSION} .
-  $ docker run --rm -v ${PWD}:/opt/argos argos-build:$VERSION -- bash -c "cp builddir/*.deb /opt/argos"
+  $ docker run --rm -v ${PWD}:/opt/argos argos-build:$VERSION bash -c "cp builddir/*.deb /opt/argos"
 
 To manually build the DEB package, first install the dependencies
 listed in the `Dockerfile </Dockerfile>`_, then run the following

@@ -15,11 +15,17 @@ Added
 -----
 - Start documentation page `#12
   <https://github.com/orontee/argos/issues/12>`_
+- Support download of images with ``http`` URI scheme `#48
+  <https://github.com/orontee/argos/issues/48>`_
+- Support for Mopidy-Jellyfin backend `#48
+  <https://github.com/orontee/argos/issues/48>`_
 
 Changed
 -------
 - Default is now to enable backend for Mopidy-Local  `#43
   <https://github.com/orontee/argos/issues/43>`_
+- Limit size of request to fetch album images URIs `#48
+  <https://github.com/orontee/argos/issues/48>`_
 
 Removed
 -------

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-18 16:26+0200\n"
+"POT-Creation-Date: 2022-08-28 08:27+0200\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -41,12 +41,12 @@ msgid "Started to play {}"
 msgstr "Lecture de {}"
 
 #: argos/controllers/playlists.py:38 argos/controllers/playlists.py:330
-#: argos/ui/preferences.ui:268
+#: argos/ui/preferences.ui:278
 msgid "Recent additions"
 msgstr "Ajouts récents"
 
 #: argos/controllers/playlists.py:51 argos/controllers/playlists.py:338
-#: argos/ui/preferences.ui:327
+#: argos/ui/preferences.ui:335
 msgid "History"
 msgstr "Historique"
 
@@ -211,59 +211,63 @@ msgstr "Préférences"
 msgid "Mopidy Server"
 msgstr "Serveur Mopidy"
 
-#: argos/ui/preferences.ui:64
-msgid "Base URL:"
-msgstr "URL de base:"
-
-#: argos/ui/preferences.ui:78
+#: argos/ui/preferences.ui:65
 msgid "Base URL of Mopidy server"
 msgstr "URL de base du serveur Mopidy"
 
-#: argos/ui/preferences.ui:79
+#: argos/ui/preferences.ui:66
 msgid "Enter the URL of the Mopidy server"
 msgstr "Entrer l'URL du serveur Mopidy"
 
-#: argos/ui/preferences.ui:101 argos/window.py:49
+#: argos/ui/preferences.ui:81
+msgid "Base URL:"
+msgstr "URL de base:"
+
+#: argos/ui/preferences.ui:100 argos/window.py:55
 msgid "Library"
 msgstr "Bibliothèque"
 
-#: argos/ui/preferences.ui:139
+#: argos/ui/preferences.ui:136
 msgid "Podcasts:"
 msgstr "Podcasts:"
 
-#: argos/ui/preferences.ui:165
+#: argos/ui/preferences.ui:160
 msgid "Bandcamp:"
 msgstr "Bandcamp:"
 
-#: argos/ui/preferences.ui:191
+#: argos/ui/preferences.ui:184
 msgid "Local:"
 msgstr "Local:"
 
-#: argos/ui/preferences.ui:203
+#: argos/ui/preferences.ui:196
 msgid "Sort by:"
 msgstr "Trier par:"
 
-#: argos/ui/preferences.ui:217
+#: argos/ui/preferences.ui:210
 msgid "Artist name"
 msgstr "Nom d'artiste"
 
-#: argos/ui/preferences.ui:218
+#: argos/ui/preferences.ui:211
 msgid "Album name"
 msgstr "Nom d'album"
 
-#: argos/ui/preferences.ui:219
+#: argos/ui/preferences.ui:212
 msgid "Publication date"
 msgstr "Date de publication"
 
-#: argos/ui/preferences.ui:250 argos/window.py:53
+#: argos/ui/preferences.ui:238
+msgid "Jellyfin:"
+msgstr "Jellyfin:"
+
+#: argos/ui/preferences.ui:260 argos/window.py:59
 msgid "Playlists"
 msgstr "Listes de lecture"
 
-#: argos/ui/preferences.ui:304
+#: argos/ui/preferences.ui:312
 msgid "Max age (days):"
 msgstr "Nombre de jours max.:"
 
-#: argos/ui/preferences.ui:363
+#: argos/ui/preferences.ui:369
 msgid "Max length:"
 msgstr "Taille maximale:"
 
@@ -320,7 +324,7 @@ msgstr "Retirer les morceaux sélectionnés"
 msgid "Delete playlist…"
 msgstr "Suppprimer la liste de lecture…"
 
-#: argos/window.py:44
+#: argos/window.py:50
 msgid "Playing"
 msgstr "En cours"
 
@@ -362,51 +366,60 @@ msgstr ""
 "Présence des albums du répertoire Mopidy-Bandcamp dans la bibliothèque."
 
 #: data/io.github.orontee.Argos.gschema.xml:46
+msgid "Mopidy-Jellyfin"
+msgstr "Mopidy-Jellyfin"
+
+#: data/io.github.orontee.Argos.gschema.xml:49
+msgid "Whether to display albums from Mopidy-Jellyfin directory in library."
+msgstr ""
+"Présence des albums du répertoire Mopidy-Jellyfin dans la bibliothèque."
+
+#: data/io.github.orontee.Argos.gschema.xml:56
 msgid "Mopidy-Podcast"
 msgstr "Mopidy-Podcast"
 
-#: data/io.github.orontee.Argos.gschema.xml:49
+#: data/io.github.orontee.Argos.gschema.xml:59
 msgid "Whether to display albums from Mopidy-Podcast directory in library."
 msgstr ""
 "Présence des albums des répertoires Mopidy-Podcast dans la bibliothèque."
 
-#: data/io.github.orontee.Argos.gschema.xml:56
+#: data/io.github.orontee.Argos.gschema.xml:66
 msgid "Album sort order"
 msgstr "Ordre de tri des albums"
 
-#: data/io.github.orontee.Argos.gschema.xml:59
+#: data/io.github.orontee.Argos.gschema.xml:69
 msgid "Order applied when sorting albums."
 msgstr "Ordre utilisé pour trier les albums"
 
-#: data/io.github.orontee.Argos.gschema.xml:71
+#: data/io.github.orontee.Argos.gschema.xml:81
 msgid "History playlist"
 msgstr "Historique"
 
-#: data/io.github.orontee.Argos.gschema.xml:74
+#: data/io.github.orontee.Argos.gschema.xml:84
 msgid "A dynamic playlist of last played tracks can be maintained."
 msgstr "Ajout d'une liste de lecture des derniers morceaux joués."
 
-#: data/io.github.orontee.Argos.gschema.xml:81
+#: data/io.github.orontee.Argos.gschema.xml:91
 msgid "History max length"
 msgstr "Taille maximale de l'historique"
 
-#: data/io.github.orontee.Argos.gschema.xml:84
+#: data/io.github.orontee.Argos.gschema.xml:94
 msgid "The maximal length of the history playlist."
 msgstr "Le nombre maximum de morceaux de l'historique des lectures."
 
-#: data/io.github.orontee.Argos.gschema.xml:91
+#: data/io.github.orontee.Argos.gschema.xml:101
 msgid "Recent additions playlist"
 msgstr "Ajouts récents"
 
-#: data/io.github.orontee.Argos.gschema.xml:94
+#: data/io.github.orontee.Argos.gschema.xml:104
 msgid "A dynamic playlist of recently added tracks can be maintained."
 msgstr "Ajout d'une liste de lecture des morceaux récemment ajoutés."
 
-#: data/io.github.orontee.Argos.gschema.xml:101
+#: data/io.github.orontee.Argos.gschema.xml:111
 msgid "Recent additions max age"
 msgstr "Âge maximal des ajouts récents"
 
-#: data/io.github.orontee.Argos.gschema.xml:104
+#: data/io.github.orontee.Argos.gschema.xml:114
 msgid ""
 "The maximal age in seconds of tracks considered for insertion in the recent "
 "additions playlist."

@@ -10,6 +10,7 @@ if TYPE_CHECKING:
 from argos.backends import (
     MopidyBackend,
     MopidyBandcampBackend,
+    MopidyJellyfinBackend,
     MopidyLocalBackend,
     MopidyPodcastBackend,
 )
@@ -41,6 +42,7 @@ class AlbumsController(ControllerBase):
             MopidyLocalBackend(),
             MopidyPodcastBackend(),
             MopidyBandcampBackend(),
+            MopidyJellyfinBackend(),
         ]
         self._backends: Dict[MopidyBackend, bool] = {}
         for backend in backends:
@@ -176,7 +178,11 @@ class AlbumsController(ControllerBase):
             )
 
             album_uris = [a["uri"] for a in directory_albums]
-            images = await self._http.get_images(album_uris)
+            images = await call_by_slice(
+                self._http.get_images,
+                params=album_uris,
+                call_size=50,
+            )
             if not images:
                 continue
 
