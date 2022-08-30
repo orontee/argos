@@ -27,6 +27,13 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="1.2.0" date="2022-08-30">
+      <description>
+        <p>
+          Improve performance while browsing albums and add support for Mopidy-Jellyfin.
+        </p>
+      </description>
+    </release>
     <release version="1.1.2" date="2022-08-26">
       <description>
         <p>
