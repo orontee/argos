@@ -144,7 +144,13 @@ class AlbumsController(ControllerBase):
         LOGGER.info("Starting to browse albums...")
         directories = await self._http.browse_library()
         if not directories:
+            LOGGER.warning("No library found on Mopidy server!")
             return None
+
+        complete_uris = self._model.get_completed_album_uris()
+        if complete_uris is None:
+            LOGGER.warning("Failed to list completed albums")
+            complete_uris = []
 
         parsed_albums: List[AlbumModel] = []
         for directory in directories:
@@ -177,14 +183,29 @@ class AlbumsController(ControllerBase):
                 f"with URI {directory_uri!r}"
             )
 
-            album_uris = [a["uri"] for a in directory_albums]
+            album_uris = [
+                a["uri"] for a in directory_albums if a["uri"] not in complete_uris
+            ]
+
+            if len(album_uris):
+                LOGGER.info(
+                    f"Must collect {len(album_uris)} album descriptions for directory with URI {directory_uri!r}"
+                )
+            else:
+                LOGGER.info(
+                    f"All album descriptions for directory with URI {directory_uri!r} already collected"
+                )
+                continue
+
             images = await call_by_slice(
                 self._http.get_images,
                 params=album_uris,
                 call_size=50,
             )
-            if not images:
-                continue
+            if images is None:
+                LOGGER.warning(
+                    f"Failed to fetch URIs of images of albums for directory with URI {directory_uri!r}"
+                )
 
             LOGGER.info(
                 f"Collecting album descriptions for directory with URI {directory_uri!r}"
