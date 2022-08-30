@@ -13,21 +13,21 @@ Light weight `Mopidy <https://mopidy.com/>`_ front-end.
 Argos is designed (and used!) with `Gnome <https://gnome.org>`_ desktop
 and small single-board devices with small touchscreen in mind.
 
-.. figure:: screenshot.png
+.. figure:: docs/screenshot.png
    :alt: Application window screenshot
    :align: center
    :width: 400
 
    Application window
 
-.. figure:: screenshot-albums-view.png
+.. figure:: docs/screenshot-albums-view.png
    :alt: Albums view screenshot
    :align: center
    :width: 400
 
    Albums view
 
-.. figure:: screenshot-playlists-view.png
+.. figure:: docs/screenshot-playlists-view.png
    :alt: Playlists view screenshot
    :align: center
    :width: 400
@@ -94,7 +94,7 @@ the default 6680 port.
 
 The preferences dialog is accessible from the application menu.
 
-.. figure:: screenshot-preferences.png
+.. figure:: docs/screenshot-preferences.png
    :alt: Preferences dialog
    :align: center
    :width: 200

@@ -10,7 +10,7 @@
   </description>
   <screenshots>
     <screenshot type="default">
-      <image type="source">https://github.com/orontee/argos/raw/main/screenshot.png</image>
+      <image type="source">https://github.com/orontee/argos/raw/main/docs/screenshot.png</image>
     </screenshot>
   </screenshots>
   <releases>
