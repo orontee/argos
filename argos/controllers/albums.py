@@ -144,8 +144,15 @@ class AlbumsController(ControllerBase):
         LOGGER.info("Starting to browse albums...")
         directories = await self._http.browse_library()
         if not directories:
+            LOGGER.warning("No library found on Mopidy server!")
             return None
 
+        complete_album_by_uri = self._model.get_complete_albums()
+        if complete_album_by_uri is None:
+            LOGGER.warning("Failed to list complete albums")
+            complete_album_by_uri = {}
+
+        keep_albums: List[AlbumModel] = []
         parsed_albums: List[AlbumModel] = []
         for directory in directories:
             assert "__model__" in directory and directory["__model__"] == "Ref"
@@ -177,14 +184,34 @@ class AlbumsController(ControllerBase):
                 f"with URI {directory_uri!r}"
             )
 
-            album_uris = [a["uri"] for a in directory_albums]
+            directory_albums_to_complete = []
+            for a in directory_albums:
+                album = complete_album_by_uri.get(a["uri"])
+                if album:
+                    keep_albums.append(album)
+                else:
+                    directory_albums_to_complete.append(a)
+
+            album_uris = [a["uri"] for a in directory_albums_to_complete]
+            if len(album_uris):
+                LOGGER.info(
+                    f"Must collect {len(album_uris)} album descriptions for directory with URI {directory_uri!r}"
+                )
+            else:
+                LOGGER.info(
+                    f"All album descriptions for directory with URI {directory_uri!r} already collected"
+                )
+                continue
+
             images = await call_by_slice(
                 self._http.get_images,
                 params=album_uris,
                 call_size=50,
             )
-            if not images:
-                continue
+            if images is None:
+                LOGGER.warning(
+                    f"Failed to fetch URIs of images of albums for directory with URI {directory_uri!r}"
+                )
 
             LOGGER.info(
                 f"Collecting album descriptions for directory with URI {directory_uri!r}"
@@ -201,7 +228,7 @@ class AlbumsController(ControllerBase):
             parsed_tracks = parse_tracks(
                 directory_tracks, visitors=[length_acc, metadata_collector]
             )
-            for a in directory_albums:
+            for a in directory_albums_to_complete:
                 assert "__model__" in a and a["__model__"] == "Ref"
                 assert "type" in a and a["type"] == "album"
 
@@ -244,7 +271,7 @@ class AlbumsController(ControllerBase):
                 parsed_albums.append(album)
 
         album_sort_id = self._settings.get_string("album-sort")
-        self._model.update_albums(parsed_albums, album_sort_id)
+        self._model.update_albums(parsed_albums + keep_albums, album_sort_id)
 
     def _on_album_sort_changed(self, settings: Gio.Settings, key: str) -> None:
         album_sort_id = self._settings.get_string("album-sort")

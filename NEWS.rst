@@ -22,7 +22,9 @@ Added
 
 Changed
 -------
-- Default is now to enable backend for Mopidy-Local  `#43
+- Make sure descriptions of static albums are collected only once `#49
+  <https://github.com/orontee/argos/issues/49>`_
+- Default is now to enable backend for Mopidy-Local `#43
   <https://github.com/orontee/argos/issues/43>`_
 - Limit size of request to fetch album images URIs `#48
   <https://github.com/orontee/argos/issues/48>`_

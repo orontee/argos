@@ -122,7 +122,6 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
             self.albums.remove_all()
 
         compare_func = self._get_album_compare_func(album_sort_id)
-
         for album in albums:
             self.albums.insert_sorted(album, compare_func, None)
 
@@ -220,6 +219,29 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
 
         GLib.idle_add(_choose_random_album_uri, event, uris)
         return uris[0] if event.wait(timeout=1.0) else None
+
+    def get_complete_albums(self) -> Optional[Dict[str, AlbumModel]]:
+        """Return hash table of complete albums.
+
+        This function iterates on albums; It is guaranteed that the
+        iteration is performed in the Gtk thread, so the album list is
+        unchanged during the iteration.
+
+        """
+
+        def _collect_albums(
+            event: threading.Event, table: Dict[str, AlbumModel]
+        ) -> None:
+            for album in self.albums:
+                if album.is_complete():
+                    table[album.uri] = album
+            event.set()
+
+        event = threading.Event()
+        table: Dict[str, AlbumModel] = {}
+
+        GLib.idle_add(_collect_albums, event, table)
+        return table if event.wait(timeout=1.0) else None
 
     def update_tracklist(self, version: Optional[int], tracks: Any) -> None:
         GLib.idle_add(
