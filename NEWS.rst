@@ -13,6 +13,8 @@ The format is based on `Keep a Changelog
 
 Added
 -----
+- Document software architecture `#51
+  <https://github.com/orontee/argos/issues/51>`_
 - New setting to exclude backends from random album selection `#44
   <https://github.com/orontee/argos/issues/44>`_
 
