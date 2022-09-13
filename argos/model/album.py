@@ -2,7 +2,7 @@ from typing import List, Optional
 
 from gi.repository import Gio, GObject
 
-from argos.backends import MopidyBackend
+from argos.model.backends import MopidyBackend
 from argos.model.track import TrackModel
 from argos.model.utils import WithThreadSafePropertySetter
 

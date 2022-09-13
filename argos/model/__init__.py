@@ -12,6 +12,13 @@ from argos.model.album import (
     compare_by_artist_name_func,
     compare_by_publication_date_func,
 )
+from argos.model.backends import (
+    MopidyBackend,
+    MopidyBandcampBackend,
+    MopidyJellyfinBackend,
+    MopidyLocalBackend,
+    MopidyPodcastBackend,
+)
 from argos.model.mixer import MixerModel
 from argos.model.playback import PlaybackModel
 from argos.model.playlist import PlaylistModel, playlist_compare_func
@@ -28,6 +35,7 @@ __all__ = (
     "AlbumModel",
     "MixerModel",
     "Model",
+    "MopidyBackend",
     "PlaybackModel",
     "PlaybackState",
     "PlaylistModel",
@@ -53,6 +61,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
     albums: Gio.ListStore
     playlists: Gio.ListStore
     tracklist: TracklistModel
+    backends: Gio.ListStore
 
     def __init__(self, application: "Application", *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -62,6 +71,13 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         self.albums = Gio.ListStore.new(AlbumModel)
         self.playlists = Gio.ListStore.new(PlaylistModel)
         self.tracklist = TracklistModel()
+        self.backends = Gio.ListStore.new(MopidyBackend)
+
+        settings = application.props.settings
+        self.backends.append(MopidyLocalBackend(settings))
+        self.backends.append(MopidyPodcastBackend(settings))
+        self.backends.append(MopidyBandcampBackend(settings))
+        self.backends.append(MopidyJellyfinBackend(settings))
 
         application._nm.connect("network-changed", self._on_nm_network_changed)
 

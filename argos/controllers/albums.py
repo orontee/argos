@@ -1,25 +1,18 @@
 import logging
 from operator import attrgetter
-from typing import TYPE_CHECKING, Dict, List, Optional, Tuple
+from typing import TYPE_CHECKING, List, Optional, Tuple
 
 from gi.repository import Gio
 
 if TYPE_CHECKING:
     from argos.app import Application
 
-from argos.backends import (
-    MopidyBackend,
-    MopidyBandcampBackend,
-    MopidyJellyfinBackend,
-    MopidyLocalBackend,
-    MopidyPodcastBackend,
-)
 from argos.controllers.base import ControllerBase
 from argos.controllers.utils import call_by_slice, parse_tracks
 from argos.controllers.visitors import AlbumMetadataCollector, LengthAcc
 from argos.download import ImageDownloader
 from argos.message import Message, MessageType, consume
-from argos.model import AlbumModel
+from argos.model import AlbumModel, MopidyBackend
 
 LOGGER = logging.getLogger(__name__)
 
@@ -38,31 +31,18 @@ class AlbumsController(ControllerBase):
 
         self._download: ImageDownloader = application.props.download
 
-        backends: List[MopidyBackend] = [
-            MopidyLocalBackend(),
-            MopidyPodcastBackend(),
-            MopidyBandcampBackend(),
-            MopidyJellyfinBackend(),
-        ]
-        self._backends: Dict[MopidyBackend, bool] = {}
-        for backend in backends:
-            settings_key = backend.settings_key
-            activated = self._settings.get_boolean(settings_key)
-            self._backends[backend] = activated
-
-            self._settings.connect(
-                f"changed::{settings_key}", self._on_backend_settings_changed
-            )
+        for backend in self._model.backends:
+            backend.connect("notify::activated", self._on_backend_activated_changed)
 
         self._settings.connect("changed::album-sort", self._on_album_sort_changed)
 
     def _get_directory_backend(
         self, directory_uri: Optional[str]
     ) -> Tuple[Optional[MopidyBackend], Optional[str]]:
-        for backend, activated in self._backends.items():
+        for backend in self._model.backends:
             albums_uri = backend.get_albums_uri(directory_uri)
             if albums_uri:
-                if not activated:
+                if not backend.props.activated:
                     LOGGER.info(
                         f"Backend {backend} supports URI {albums_uri!r} but is deactivated"
                     )
@@ -74,23 +54,12 @@ class AlbumsController(ControllerBase):
         LOGGER.warning(f"No known backend supports URI {directory_uri!r}")
         return None, None
 
-    def _on_backend_settings_changed(
+    def _on_backend_activated_changed(
         self,
-        settings: Gio.Settings,
-        key: str,
+        _1: Gio.Settings,
+        _2: str,
     ) -> None:
-        for backend in self._backends:
-            if backend.settings_key != key:
-                continue
-
-            activated = self._settings.get_boolean(key)
-            self._backends[backend] = activated
-            if activated:
-                LOGGER.debug(f"Backend {backend} activated")
-            else:
-                LOGGER.debug(f"Backend {backend} deactivated")
-
-            self.send_message(MessageType.BROWSE_ALBUMS)
+        self.send_message(MessageType.BROWSE_ALBUMS)
 
     @consume(MessageType.COMPLETE_ALBUM_DESCRIPTION)
     async def complete_album_description(self, message: Message) -> None:
