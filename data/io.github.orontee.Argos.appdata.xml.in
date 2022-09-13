@@ -13,18 +13,6 @@
       <image type="source">https://github.com/orontee/argos/raw/main/docs/screenshot.png</image>
       <caption>Tracklist view</caption>
     </screenshot>
-    <screenshot>
-      <image type="source">https://github.com/orontee/argos/raw/main/docs/screenshot-albums-view.png</image>
-      <caption>Albums view</caption>
-    </screenshot>
-    <screenshot>
-      <image type="source">https://github.com/orontee/argos/raw/main/docs/screenshot-playlists-view.png</image>
-      <caption>Playlists view</caption>
-    </screenshot>
-    <screenshot>
-      <image type="source">https://github.com/orontee/argos/raw/main/docs/screenshot-album-details-view.png</image>
-      <caption>Album details view</caption>
-    </screenshot>
   </screenshots>
   <releases>
     <release version="1.2.0" date="2022-08-30">
