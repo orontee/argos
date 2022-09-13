@@ -8,6 +8,20 @@ The format is based on `Keep a Changelog
 <https://keepachangelog.com/en/1.0.0/>`_, and this project adheres to
 `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
+[Unreleased]
+============
+
+Added
+-----
+- New setting to exclude backends from random album selection `#44
+  <https://github.com/orontee/argos/issues/44>`_
+
+Changed
+-------
+
+Removed
+-------
+
 [1.2.0] - 2022-08-30
 ====================
 

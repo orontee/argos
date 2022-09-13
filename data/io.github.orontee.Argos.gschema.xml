@@ -116,5 +116,16 @@
 	in the recent additions playlist.
       </description>
     </key>
+
+     <key type="as" name="album-backends-excluded-from-random-play">
+      <default>["mopidy-bandcamp", "mopidy-jellyfin", "mopidy-podcast"]</default>
+      <summary>
+	Album backends excluded from random play
+      </summary>
+      <description>
+	Albums handled by the selected Mopidy bakends will be filtered
+	out when randomly choosing an album to play.
+      </description>
+    </key>
   </schema>
 </schemalist>

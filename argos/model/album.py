@@ -92,7 +92,7 @@ class AlbumModel(WithThreadSafePropertySetter, GObject.Object):
     name = GObject.Property(type=str)
     image_path = GObject.Property(type=str)
     image_uri = GObject.Property(type=str)
-
+    backend = GObject.Property(type=MopidyBackend)
     artist_name = GObject.Property(type=str)
     num_tracks = GObject.Property(type=int)
     num_discs = GObject.Property(type=int)
@@ -121,8 +121,8 @@ class AlbumModel(WithThreadSafePropertySetter, GObject.Object):
             name=name,
             image_path=image_path,
             image_uri=image_uri,
+            backend=backend,
         )
-        self._backend = backend
         self.tracks = Gio.ListStore.new(TrackModel)
         self.artist_name = artist_name or ""
         self.num_tracks = num_tracks or -1
@@ -150,4 +150,4 @@ class AlbumModel(WithThreadSafePropertySetter, GObject.Object):
         self.set_property_in_gtk_thread("length", value)
 
     def is_complete(self) -> bool:
-        return self._backend.static_albums and len(self.tracks) > 0
+        return self.backend.static_albums and len(self.tracks) > 0

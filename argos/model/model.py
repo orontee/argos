@@ -53,6 +53,8 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
     def __init__(self, application: "Application", *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        self._settings: Gio.Settings = application.props.settings
+
         self.playback = PlaybackModel()
         self.mixer = MixerModel()
         self.albums = Gio.ListStore.new(AlbumModel)
@@ -60,11 +62,10 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         self.tracklist = TracklistModel()
         self.backends = Gio.ListStore.new(MopidyBackend)
 
-        settings = application.props.settings
-        self.backends.append(MopidyLocalBackend(settings))
-        self.backends.append(MopidyPodcastBackend(settings))
-        self.backends.append(MopidyBandcampBackend(settings))
-        self.backends.append(MopidyJellyfinBackend(settings))
+        self.backends.append(MopidyLocalBackend(self._settings))
+        self.backends.append(MopidyPodcastBackend(self._settings))
+        self.backends.append(MopidyBandcampBackend(self._settings))
+        self.backends.append(MopidyJellyfinBackend(self._settings))
 
         application._nm.connect("network-changed", self._on_nm_network_changed)
 
@@ -209,19 +210,30 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         )
 
     def choose_random_album(self) -> Optional[str]:
+        excluded = self._settings.get_strv("album-backends-excluded-from-random-play")
+        LOGGER.debug(f"Album backends excluded from random play: {excluded}")
+
         def _choose_random_album_uri(event: threading.Event, uris: List[str]) -> None:
-            try:
-                album = random.choice(self.albums)
-            except IndexError:
-                pass
-            uris.append(album.uri)
+            candidates = [
+                a for a in self.albums if a.props.backend.settings_key not in excluded
+            ]
+            if len(candidates) == 0:
+                LOGGER.warning("Empty album list for random selection!")
+            else:
+                try:
+                    album = random.choice(candidates)
+                except IndexError:
+                    pass
+                else:
+                    uris.append(album.uri)
+
             event.set()
 
         event = threading.Event()
         uris: List[str] = []
 
         GLib.idle_add(_choose_random_album_uri, event, uris)
-        return uris[0] if event.wait(timeout=1.0) else None
+        return uris[0] if event.wait(timeout=1.0) and len(uris) > 0 else None
 
     def get_complete_albums(self) -> Optional[Dict[str, AlbumModel]]:
         """Return hash table of complete albums.

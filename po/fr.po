@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-28 08:27+0200\n"
+"POT-Creation-Date: 2022-09-13 20:57+0200\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -426,6 +426,18 @@ msgid ""
 msgstr ""
 "L'âge maximal en seconde des morceaux pris en compte dans la liste de "
 "lecture des morceaux récents."
+
+#: data/io.github.orontee.Argos.gschema.xml:122
+msgid "Album backends excluded from random play"
+msgstr "Sources d'albums exclues de la lecture aléatoire"
+
+#: data/io.github.orontee.Argos.gschema.xml:125
+msgid ""
+"Albums handled by the selected Mopidy bakends will be filtered out when "
+"randomly choosing an album to play."
+msgstr ""
+"Les albums gérés par les sources sélectionnées seront exclus de la "
+"sélection aléatoire d'album."
 
 #~ msgid "Add album or selected tracks to a playlist"
 #~ msgstr "Ajouter l'album ou les morceaux sélectionnés à la liste de lecture"
