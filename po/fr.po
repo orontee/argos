@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-13 20:57+0200\n"
+"POT-Creation-Date: 2022-09-15 01:08+0200\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -16,23 +16,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: argos/app.py:83
+#: argos/app.py:84
 msgid "Enable debug logs"
 msgstr "Activer le journal de débogage"
 
-#: argos/app.py:91
+#: argos/app.py:92
 msgid "Start with maximized window"
 msgstr "Démarrer avec une fenêtre de taille maximale"
 
-#: argos/app.py:99
+#: argos/app.py:100
 msgid "Disable tooltips"
 msgstr "Désactiver les info-bulles"
 
-#: argos/app.py:107
+#: argos/app.py:108
 msgid "Hide search button"
 msgstr "Masquer le button de recherche"
 
-#: argos/app.py:314 argos/ui/app_menu.ui:20
+#: argos/app.py:318 argos/ui/app_menu.ui:20
 msgid "New playlist"
 msgstr "Nouvelle liste de lecture"
 
@@ -436,8 +436,32 @@ msgid ""
 "Albums handled by the selected Mopidy bakends will be filtered out when "
 "randomly choosing an album to play."
 msgstr ""
-"Les albums gérés par les sources sélectionnées seront exclus de la "
-"sélection aléatoire d'album."
+"Les albums gérés par les sources sélectionnées seront exclus de la sélection "
+"aléatoire d'album."
+
+#: data/io.github.orontee.Argos.gschema.xml:133
+msgid "Window size"
+msgstr "Taille de la fenêtre"
+
+#: data/io.github.orontee.Argos.gschema.xml:134
+msgid "Window size (width and height)."
+msgstr "Taille de la fenêtre (largeur puis hauteur)."
+
+#: data/io.github.orontee.Argos.gschema.xml:139
+msgid "Window position"
+msgstr "Position de la fenêtre"
+
+#: data/io.github.orontee.Argos.gschema.xml:140
+msgid "Window position (x and y)."
+msgstr "Position de la fenêtre (x puis y)."
+
+#: data/io.github.orontee.Argos.gschema.xml:145
+msgid "Window maximized"
+msgstr "Fenêtre de taille maximale"
+
+#: data/io.github.orontee.Argos.gschema.xml:146
+msgid "Window maximized state."
+msgstr "État de maximisation de la fenêtre."
 
 #~ msgid "Add album or selected tracks to a playlist"
 #~ msgstr "Ajouter l'album ou les morceaux sélectionnés à la liste de lecture"

@@ -13,6 +13,8 @@ The format is based on `Keep a Changelog
 
 Added
 -----
+- Restore application window state at startup `#52
+  <https://github.com/orontee/argos/issues/52>`_
 - Document software architecture `#51
   <https://github.com/orontee/argos/issues/51>`_
 - New setting to exclude backends from random album selection `#44

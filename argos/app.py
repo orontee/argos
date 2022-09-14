@@ -25,6 +25,7 @@ from argos.http import MopidyHTTPClient
 from argos.message import Message, MessageType
 from argos.model import Model
 from argos.notify import Notifier
+from argos.placement import WindowPlacement
 from argos.time import TimePositionTracker
 from argos.utils import configure_logger
 from argos.widgets import AboutDialog, PreferencesWindow, StreamUriDialog
@@ -177,6 +178,9 @@ class Application(Gtk.Application):
             LOGGER.debug("Instantiating application window")
             self.window = ArgosWindow(self)
             self.window.set_default_icon_name("media-optical")
+
+            WindowPlacement(self)
+
             # Run an event loop in a dedicated thread and reserve main
             # thread to Gtk processing loop
             t = Thread(
