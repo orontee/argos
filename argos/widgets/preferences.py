@@ -45,9 +45,8 @@ class PreferencesWindow(Gtk.Window):
         self,
         application: "Application",
     ):
-        Gtk.Window.__init__(self)
+        super().__init__(self, application=application)
         self.set_wmclass("Argos", "Argos")
-        self._app = application
         self._model = application.model
 
         self._settings: Gio.Settings = application.props.settings

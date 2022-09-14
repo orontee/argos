@@ -33,8 +33,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
         super().__init__(application=application)
 
         self.set_wmclass("Argos", "Argos")
-        self._app = application
-        self._model = application.model
+        self._model = application.props.model
 
         self.props.titlebar = TitleBar(application)
         self.props.titlebar.central_view_switcher.set_stack(self.central_view)
@@ -130,7 +129,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
 
     def _on_album_selected(self, albums_window: AlbumsWindow, uri: str) -> None:
         LOGGER.debug(f"Album {uri!r} selected")
-        self._app.send_message(
+        self.application.send_message(
             MessageType.COMPLETE_ALBUM_DESCRIPTION, {"album_uri": uri}
         )
 
@@ -246,19 +245,19 @@ class ArgosWindow(Gtk.ApplicationWindow):
                 return True
         elif modifiers == control_mask:
             if keyval in [Gdk.KEY_space, Gdk.KEY_KP_Space]:
-                self._app.send_message(MessageType.TOGGLE_PLAYBACK_STATE)
+                self.application.send_message(MessageType.TOGGLE_PLAYBACK_STATE)
                 return True
             elif keyval == Gdk.KEY_n:
-                self._app.send_message(MessageType.PLAY_NEXT_TRACK)
+                self.application.send_message(MessageType.PLAY_NEXT_TRACK)
                 return True
             elif keyval == Gdk.KEY_p:
-                self._app.send_message(MessageType.PLAY_PREV_TRACK)
+                self.application.send_message(MessageType.PLAY_PREV_TRACK)
                 return True
             elif keyval == Gdk.KEY_f:
                 self.props.titlebar.toggle_search_entry_focus_maybe()
                 return True
             elif keyval == Gdk.KEY_r:
-                self._app.send_message(MessageType.PLAY_RANDOM_ALBUM)
+                self.application.send_message(MessageType.PLAY_RANDOM_ALBUM)
                 return True
         elif not modifiers:
             if keyval == Gdk.KEY_Escape:

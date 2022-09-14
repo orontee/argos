@@ -19,9 +19,7 @@ class StreamUriDialog(Gtk.Dialog):
     stream_uri = GObject.Property(type=str, default="")
 
     def __init__(self, application: Gtk.Application):
-        super().__init__(transient_for=application.window)
-
-        self._app = application
+        super().__init__(application=application, transient_for=application.window)
 
         self.add_buttons(Gtk.STOCK_OK, Gtk.ResponseType.OK)
 

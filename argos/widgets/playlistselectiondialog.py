@@ -25,13 +25,11 @@ class PlaylistSelectionDialog(Gtk.Dialog):
     playlist_uri = GObject.Property(type=str, default="")
 
     def __init__(self, application: Gtk.Application):
-        super().__init__(transient_for=application.window)
+        super().__init__(application=application, transient_for=application.window)
         self.add_buttons(Gtk.STOCK_OK, Gtk.ResponseType.OK)
 
-        self._app = application
-
         store = Gtk.ListStore(str, str)
-        for playlist in self._app.props.model.playlists:
+        for playlist in self.application.props.model.playlists:
             if playlist.is_virtual:
                 continue
             store.append([playlist.name, playlist.uri])
