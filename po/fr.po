@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-15 01:08+0200\n"
+"POT-Creation-Date: 2022-09-17 20:31+0200\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -62,7 +62,7 @@ msgstr "Publication"
 msgid "Length"
 msgstr "Durée"
 
-#: argos/ui/album_details_box.ui:217
+#: argos/ui/album_details_box.ui:218
 msgid "Play album"
 msgstr "Lire l'album"
 
@@ -223,7 +223,7 @@ msgstr "Entrer l'URL du serveur Mopidy"
 msgid "Base URL:"
 msgstr "URL de base:"
 
-#: argos/ui/preferences.ui:100 argos/window.py:55
+#: argos/ui/preferences.ui:100 argos/window.py:54
 msgid "Library"
 msgstr "Bibliothèque"
 
@@ -259,7 +259,7 @@ msgstr "Date de publication"
 msgid "Jellyfin:"
 msgstr "Jellyfin:"
 
-#: argos/ui/preferences.ui:260 argos/window.py:59
+#: argos/ui/preferences.ui:260 argos/window.py:58
 msgid "Playlists"
 msgstr "Listes de lecture"
 
@@ -296,11 +296,11 @@ msgstr "Retourner aux albums"
 msgid "Search albums"
 msgstr "Rechercher des albums"
 
-#: argos/widgets/albumdetailsbox.py:68
+#: argos/widgets/albumdetailsbox.py:72
 msgid "Add to tracklist"
-msgstr "Ajoute à la file d'attente"
+msgstr "Ajouter à la file d'attente"
 
-#: argos/widgets/albumdetailsbox.py:69
+#: argos/widgets/albumdetailsbox.py:73
 msgid "Add to playlist…"
 msgstr "Ajouter à une liste de lecture…"
 
@@ -324,7 +324,7 @@ msgstr "Retirer les morceaux sélectionnés"
 msgid "Delete playlist…"
 msgstr "Suppprimer la liste de lecture…"
 
-#: argos/window.py:50
+#: argos/window.py:49
 msgid "Playing"
 msgstr "En cours"
 
