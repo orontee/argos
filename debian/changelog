@@ -1,3 +1,9 @@
+argos (1.3.0-1) UNRELEASED; urgency=medium
+
+  * 1.3.0 release.
+
+ -- Matthias Meulien <orontee@gmail.com>  Tue, 17 Sep 2022 20:43:28 +0200
+
 argos (1.2.0-1) UNRELEASED; urgency=medium
 
   * 1.2.0 release.

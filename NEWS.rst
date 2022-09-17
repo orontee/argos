@@ -8,8 +8,8 @@ The format is based on `Keep a Changelog
 <https://keepachangelog.com/en/1.0.0/>`_, and this project adheres to
 `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
-[Unreleased]
-============
+[1.3.0] - 2022-09-17
+====================
 
 Added
 -----
@@ -26,9 +26,6 @@ Changed
   views `#56 <https://github.com/orontee/argos/issues/56>`_
 - Don't automatically select first album track `#53
   <https://github.com/orontee/argos/issues/53>`_
-
-Removed
--------
 
 [1.2.0] - 2022-08-30
 ====================
