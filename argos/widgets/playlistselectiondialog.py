@@ -29,7 +29,7 @@ class PlaylistSelectionDialog(Gtk.Dialog):
         self.add_buttons(Gtk.STOCK_OK, Gtk.ResponseType.OK)
 
         store = Gtk.ListStore(str, str)
-        for playlist in self.application.props.model.playlists:
+        for playlist in self.props.application.props.model.playlists:
             if playlist.is_virtual:
                 continue
             store.append([playlist.name, playlist.uri])
