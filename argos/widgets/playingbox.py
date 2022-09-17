@@ -9,7 +9,7 @@ from gi.repository import GLib, GObject, Gtk
 from argos.message import MessageType
 from argos.model import PlaybackState
 from argos.utils import elide_maybe, ms_to_text
-from argos.widgets.tlbox import TracklistBox
+from argos.widgets.tracklistbox import TracklistBox
 from argos.widgets.utils import default_image_pixbuf, scale_album_image
 
 _ = gettext.gettext

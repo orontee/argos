@@ -4,7 +4,7 @@ from gi.repository import GObject, Gtk
 
 from argos.message import MessageType
 from argos.model import TracklistTrackModel
-from argos.widgets.tltrackbox import TracklistTrackBox
+from argos.widgets.tracklisttrackbox import TracklistTrackBox
 
 LOGGER = logging.getLogger(__name__)
 
