@@ -75,7 +75,7 @@ class AlbumsController(ControllerBase):
         LOGGER.debug(f"Completing description of album with uri {album_uri!r}")
 
         if album.is_complete():
-            LOGGER.warning(f"Album with URI {album_uri!r} already completed")
+            LOGGER.info(f"Album with URI {album_uri!r} already completed")
             return
 
         tracks = await self._http.lookup_library([album_uri])

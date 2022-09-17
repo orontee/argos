@@ -22,6 +22,8 @@ Added
 
 Changed
 -------
+- Don't automatically select first album track `#53
+  <https://github.com/orontee/argos/issues/53>`_
 
 Removed
 -------

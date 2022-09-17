@@ -63,6 +63,10 @@ class AlbumDetailsBox(Gtk.Box):
         self._disable_tooltips = application.props.disable_tooltips
 
         self.tracks_box.set_header_func(set_list_box_header_with_separator)
+        self._clear_tracks_box_selection = False
+        # Gtk automatically add first row to selection when a
+        # non-empty model is bound to track_box; This flag is used to
+        # remove that selection.
 
         track_selection_menu = Gio.Menu()
         track_selection_menu.append(_("Add to tracklist"), "win.add-to-tracklist")
@@ -207,6 +211,7 @@ class AlbumDetailsBox(Gtk.Box):
             tracks,
             self._create_track_box,
         )
+        self._clear_tracks_box_selection = True
 
     def _create_track_box(
         self,
@@ -277,6 +282,21 @@ class AlbumDetailsBox(Gtk.Box):
             MessageType.SAVE_PLAYLIST,
             {"uri": playlist_uri, "add_track_uris": track_uris},
         )
+
+    @Gtk.Template.Callback()
+    def on_tracks_box_selected_rows_changed(
+        self,
+        _1: Gtk.ListBox,
+    ) -> None:
+        if not self._clear_tracks_box_selection:
+            return
+
+        # Hack to fix first row automatically added to selection on
+        # model binding
+        selected_rows = self.tracks_box.get_selected_rows()
+        if len(selected_rows) == 1 and selected_rows[0].get_index() == 0:
+            self.tracks_box.unselect_all()
+        self._clear_tracks_box_selection = False
 
     @Gtk.Template.Callback()
     def on_tracks_box_row_activated(
