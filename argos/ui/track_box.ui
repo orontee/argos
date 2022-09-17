@@ -16,7 +16,7 @@
         <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkImage" id="playing_label">
+          <object class="GtkImage" id="playing_image">
             <property name="can-focus">False</property>
             <property name="vexpand">True</property>
             <property name="pixel-size">10</property>

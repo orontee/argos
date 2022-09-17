@@ -58,7 +58,7 @@ class TracklistBox(Gtk.ListBox):
         row = self.get_row_at_index(row_index)
         while row:
             track_box = row.get_child()
-            track_box.playing_label.set_visible(tlid == track_box.props.tlid)
+            track_box.playing_image.set_visible(tlid == track_box.props.tlid)
             row_index += 1
             row = self.get_row_at_index(row_index)
 

@@ -10,6 +10,14 @@ LOGGER = logging.getLogger(__name__)
 
 @Gtk.Template(resource_path="/io/github/orontee/Argos/ui/tracklist_track_box.ui")
 class TracklistTrackBox(Gtk.Box):
+    """Box used to display a tracklist track.
+
+    It's made of an image displayed iff the track is the current
+    tracklist track, and labels for the track name, track details and
+    the track length.
+
+    """
+
     __gtype_name__ = "TracklistTrackBox"
 
     tlid = GObject.Property(type=int, default=-1)
@@ -17,7 +25,7 @@ class TracklistTrackBox(Gtk.Box):
     track_name_label: Gtk.Label = Gtk.Template.Child()
     track_details_label: Gtk.Label = Gtk.Template.Child()
     track_length_label: Gtk.Label = Gtk.Template.Child()
-    playing_label: Gtk.Image = Gtk.Template.Child()
+    playing_image: Gtk.Image = Gtk.Template.Child()
 
     def __init__(
         self,

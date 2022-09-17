@@ -18,7 +18,6 @@ class TrackBox(Gtk.Box):
     track_details_label: Gtk.Label = Gtk.Template.Child()
     track_length_label: Gtk.Label = Gtk.Template.Child()
     track_no_label: Gtk.Label = Gtk.Template.Child()
-    playing_label: Gtk.Image = Gtk.Template.Child()
 
     def __init__(
         self,
