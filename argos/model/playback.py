@@ -41,7 +41,11 @@ class PlaybackModel(WithThreadSafePropertySetter, GObject.Object):
     def set_current_tl_track_tlid(self, value: Optional[int] = None) -> None:
         if value is None:
             value = -1
-        self.set_property_in_gtk_thread("current_tl_track_tlid", value)
+        self.set_property_in_gtk_thread("current_tl_track_tlid", value, force=True)
+        # Force update since current tracklist track is requested
+        # after events notifying that tracklist has changed and views
+        # may lost the current track list track identifier while
+        # updating the tracklist.
 
     def set_image_path(self, value: Union[str, Path, None]) -> None:
         if isinstance(value, Path):

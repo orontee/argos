@@ -22,6 +22,8 @@ Added
 
 Changed
 -------
+- Force update of current tracklist track identifier to synchronize
+  views `#56 <https://github.com/orontee/argos/issues/56>`_
 - Don't automatically select first album track `#53
   <https://github.com/orontee/argos/issues/53>`_
 
