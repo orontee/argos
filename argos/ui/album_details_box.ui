@@ -168,6 +168,7 @@
                     <property name="selection-mode">multiple</property>
                     <property name="activate-on-single-click">False</property>
                     <signal name="row-activated" handler="on_tracks_box_row_activated" swapped="no"/>
+                    <signal name="selected-rows-changed" handler="on_tracks_box_selected_rows_changed" swapped="no"/>
                   </object>
                 </child>
               </object>
