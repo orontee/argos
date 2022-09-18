@@ -22,6 +22,8 @@ Added
 
 Changed
 -------
+- Fix sensitivity of play and add buttons in playlist view `#59
+  <https://github.com/orontee/argos/issues/59>`_
 - Force update of current tracklist track identifier to synchronize
   views `#56 <https://github.com/orontee/argos/issues/56>`_
 - Don't automatically select first album track `#53

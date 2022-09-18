@@ -77,7 +77,7 @@ class PlaylistTracksBox(Gtk.Box):
     ) -> None:
         sensitive = self._model.network_available and self._model.connected
         self.set_sensitive(sensitive)
-        self.edit_button.set_sensitive(sensitive and self._is_playlist_removable())
+        self.edit_button.set_sensitive(self._is_playlist_removable())
 
     def _create_track_box(
         self,
@@ -99,8 +99,9 @@ class PlaylistTracksBox(Gtk.Box):
             self._create_track_box,
         )
 
-        sensitive = self._model.network_available and self._model.connected
-        self.edit_button.set_sensitive(sensitive and self._is_playlist_removable())
+        self.play_button.set_sensitive(playlist is not None)
+        self.add_button.set_sensitive(playlist is not None)
+        self.edit_button.set_sensitive(self._is_playlist_removable())
 
     def _track_selection_to_uris(self) -> List[str]:
         """Returns the list of URIs for current track selection.
