@@ -73,6 +73,8 @@ class AlbumDetailsBox(Gtk.Box):
         track_selection_menu.append(_("Add to playlist…"), "win.add-to-playlist")
         self.track_selection_button.set_menu_model(track_selection_menu)
 
+        self.set_sensitive(self._model.network_available and self._model.connected)
+
         for widget in (
             self.play_button,
             self.track_selection_button,
@@ -94,13 +96,7 @@ class AlbumDetailsBox(Gtk.Box):
         _2: GObject.GParamSpec,
     ) -> None:
         sensitive = self._model.network_available and self._model.connected
-        widgets = [
-            self.play_button,
-            self.track_selection_button,
-            self.tracks_box,
-        ]
-        for widget in widgets:
-            widget.set_sensitive(sensitive)
+        self.set_sensitive(sensitive)
 
     def _on_uri_changed(
         self,

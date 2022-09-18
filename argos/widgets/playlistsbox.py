@@ -54,6 +54,8 @@ class PlaylistsBox(Gtk.Box):
         self._model = application.model
         self._disable_tooltips = application.props.disable_tooltips
 
+        self.set_sensitive(self._model.network_available and self._model.connected)
+
         PlaylistLabel.set_css_name("playlistlabel")
 
         self.playlists_view.bind_model(
@@ -85,8 +87,7 @@ class PlaylistsBox(Gtk.Box):
         _2: GObject.GParamSpec,
     ) -> None:
         sensitive = self._model.network_available and self._model.connected
-        for widget in (self.playlists_view,):
-            widget.set_sensitive(sensitive)
+        self.set_sensitive(sensitive)
 
     def _create_playlist_box(
         self,

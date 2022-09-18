@@ -78,6 +78,8 @@ class PlayingBox(Gtk.Box):
         self.tracklist_view = TracklistBox(application)
         self.tracklist_view_viewport.add(self.tracklist_view)
 
+        self.set_sensitive(self._model.network_available and self._model.connected)
+
         for widget in (
             self.prev_button,
             self.play_button,
@@ -89,9 +91,6 @@ class PlayingBox(Gtk.Box):
             self.repeat_button,
             self.single_button,
         ):
-            widget.set_sensitive(
-                self._model.network_available and self._model.connected
-            )
             if self._disable_tooltips:
                 widget.props.has_tooltip = False
 
@@ -120,19 +119,7 @@ class PlayingBox(Gtk.Box):
         _2: GObject.GParamSpec,
     ) -> None:
         sensitive = self._model.network_available and self._model.connected
-        widgets = (
-            self.prev_button,
-            self.play_button,
-            self.next_button,
-            self.tracklist_view,
-            self.clear_button,
-            self.consume_button,
-            self.random_button,
-            self.repeat_button,
-            self.single_button,
-        )
-        for widget in widgets:
-            widget.set_sensitive(sensitive)
+        self.set_sensitive(sensitive)
 
     def handle_consume_changed(
         self,

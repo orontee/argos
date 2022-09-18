@@ -49,6 +49,8 @@ class PlaylistTracksBox(Gtk.Box):
         edition_menu.append(_("Delete playlist…"), "win.remove-playlist")
         self.edit_button.set_menu_model(edition_menu)
 
+        self.set_sensitive(self._model.network_available and self._model.connected)
+
         for widget in (
             self.play_button,
             self.add_button,
@@ -74,14 +76,7 @@ class PlaylistTracksBox(Gtk.Box):
         _2: GObject.GParamSpec,
     ) -> None:
         sensitive = self._model.network_available and self._model.connected
-        widgets = [
-            self.play_button,
-            self.add_button,
-            self.tracks_box,
-        ]
-        for widget in widgets:
-            widget.set_sensitive(sensitive)
-
+        self.set_sensitive(sensitive)
         self.edit_button.set_sensitive(sensitive and self._is_playlist_removable())
 
     def _create_track_box(
