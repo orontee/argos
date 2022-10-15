@@ -28,13 +28,16 @@ class PlaylistsController(ControllerBase):
 
     logger = LOGGER  # used by consume decorator
 
+    RECENT_PLAYLIST_URI = "argos:recent"
+    HISTORY_PLAYLIST_URI = "argos:history"
+
     def __init__(self, application: "Application"):
         super().__init__(application)
 
         self._recent_additions_playlist: Optional[PlaylistModel] = None
         if self._settings.get_boolean("recent-additions-playlist"):
             self._recent_additions_playlist = PlaylistModel(
-                uri="argos:recent",
+                uri=PlaylistsController.RECENT_PLAYLIST_URI,
                 name=_("Recent additions"),
             )
         self._settings.connect(
@@ -47,7 +50,7 @@ class PlaylistsController(ControllerBase):
         self._history_playlist: Optional[PlaylistModel] = None
         if self._settings.get_boolean("history-playlist"):
             self._history_playlist = PlaylistModel(
-                uri="argos:history",
+                uri=PlaylistsController.HISTORY_PLAYLIST_URI,
                 name=_("History"),
             )
         self._settings.connect(
@@ -338,7 +341,7 @@ class PlaylistsController(ControllerBase):
         if key == "recent-additions-playlist":
             if self._settings.get_boolean("recent-additions-playlist"):
                 self._recent_additions_playlist = PlaylistModel(
-                    uri="argos:recent",
+                    uri=PlaylistsController.RECENT_PLAYLIST_URI,
                     name=_("Recent additions"),
                 )
             else:
@@ -346,7 +349,7 @@ class PlaylistsController(ControllerBase):
         elif key == "history-playlist":
             if self._settings.get_boolean("history-playlist"):
                 self._history_playlist = PlaylistModel(
-                    uri="argos:history",
+                    uri=PlaylistsController.HISTORY_PLAYLIST_URI,
                     name=_("History"),
                 )
             else:
@@ -354,10 +357,18 @@ class PlaylistsController(ControllerBase):
 
         if key in (
             "recent-additions-playlist",
-            "recent-additions-max-age",
             "history-playlist",
-            "history-max-length",
         ):
             self.send_message(MessageType.LIST_PLAYLISTS)
+        elif key in ("recent-additions-max-age",):
+            self.send_message(
+                MessageType.COMPLETE_PLAYLIST_DESCRIPTION,
+                data={"uri": PlaylistsController.RECENT_PLAYLIST_URI},
+            )
+        elif key in ("history-max-length",):
+            self.send_message(
+                MessageType.COMPLETE_PLAYLIST_DESCRIPTION,
+                data={"uri": PlaylistsController.HISTORY_PLAYLIST_URI},
+            )
         else:
             LOGGER.warning(f"Unexpected setting {key!r}")
