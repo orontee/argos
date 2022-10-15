@@ -11,8 +11,6 @@
     <property name="spacing">5</property>
     <child type="center">
       <object class="GtkSpinner" id="progress_spinner">
-        <property name="width-request">100</property>
-        <property name="height-request">100</property>
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="active">True</property>
