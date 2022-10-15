@@ -1,3 +1,4 @@
+import gettext
 import logging
 
 from gi.repository import GLib, GObject, Gtk
@@ -6,6 +7,8 @@ from argos.model import TracklistTrackModel
 from argos.utils import ms_to_text
 
 LOGGER = logging.getLogger(__name__)
+
+_ = gettext.gettext
 
 
 @Gtk.Template(resource_path="/io/github/orontee/Argos/ui/tracklist_track_box.ui")
@@ -38,14 +41,19 @@ class TracklistTrackBox(Gtk.Box):
         self.props.tlid = tl_track.tlid
 
         track = tl_track.track
-        track_name = track.name
+        track_name = track.name or _("Unknown name")
         artist_name = track.artist_name
         album_name = track.album_name
         track_length = ms_to_text(track.length) if track.length else ""
+        if artist_name:
+            track_details = (
+                f"{artist_name}, {album_name}" if album_name else artist_name
+            )
+        else:
+            track_details = ""
 
         self.track_name_label.set_text(track_name)
         self.track_name_label.set_tooltip_markup(GLib.markup_escape_text(track_name))
-        track_details = f"{artist_name}, {album_name}" if album_name else artist_name
         self.track_details_label.set_text(track_details)
         self.track_details_label.set_tooltip_markup(
             GLib.markup_escape_text(track_details)
