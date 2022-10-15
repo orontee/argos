@@ -8,6 +8,21 @@ The format is based on `Keep a Changelog
 <https://keepachangelog.com/en/1.0.0/>`_, and this project adheres to
 `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
+[Unreleased]
+============
+
+Added
+-----
+
+Changed
+-------
+- Handle tracks without name `#66
+  <https://github.com/orontee/argos/issues/66>`_
+
+Removed
+-------
+
+
 [1.3.0] - 2022-09-17
 ====================
 

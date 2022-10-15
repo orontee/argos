@@ -22,6 +22,7 @@ argos/widgets/playlistsbox.py
 argos/widgets/playlistselectiondialog.py
 argos/widgets/playlisttracksbox.py
 argos/widgets/streamuridialog.py
+argos/widgets/tracklisttrackbox.py
 argos/window.py
 data/io.github.orontee.Argos.desktop.in
 data/io.github.orontee.Argos.gschema.xml
