@@ -13,6 +13,7 @@
     <property name="homogeneous">True</property>
     <child>
       <object class="GtkBox" id="left_pane">
+        <property name="name">album-details-left-pane</property>
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="margin-end">5</property>
@@ -37,6 +38,7 @@
         <child>
           <!-- n-columns=2 n-rows=4 -->
           <object class="GtkGrid" id="album_details_box">
+            <property name="name">album-details-box</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="halign">center</property>
@@ -147,6 +149,7 @@
     </child>
     <child>
       <object class="GtkBox" id="right_pane">
+        <property name="name">album-details-right-pane</property>
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
@@ -163,6 +166,7 @@
                 <property name="can-focus">False</property>
                 <child>
                   <object class="GtkListBox" id="tracks_box">
+                    <property name="name">album-details-tracks-box</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="selection-mode">multiple</property>
@@ -182,6 +186,7 @@
         </child>
         <child>
           <object class="GtkButtonBox" id="album_button_box">
+            <property name="name">album-details-button-box</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="halign">end</property>

@@ -63,6 +63,7 @@
     <property name="homogeneous">True</property>
     <child>
       <object class="GtkBox" id="left_pane_box">
+        <property name="name">playing-box-left-pane</property>
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
@@ -85,6 +86,7 @@
         </child>
         <child>
           <object class="GtkBox" id="playback_controls_box">
+            <property name="name">playing-box-playback-controls-box</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="halign">center</property>
@@ -167,6 +169,7 @@
         </child>
         <child>
           <object class="GtkBox" id="track_length_box">
+            <property name="name">playing-box-track-length-box</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="halign">center</property>
@@ -245,6 +248,7 @@
         </child>
         <child>
           <object class="GtkBox" id="labels_box">
+            <property name="name">playing-box-labels-box</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="valign">center</property>
@@ -302,11 +306,13 @@
     </child>
     <child>
       <object class="GtkBox" id="right_pane_box">
+        <property name="name">playing-box-right-pane</property>
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkBox" id="tracklist_buttons_box">
+            <property name="name">tracklist-button-box</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="margin-top">5</property>
@@ -329,6 +335,7 @@
             </child>
             <child>
               <object class="GtkButtonBox" id="tracklist_state_buttons_box">
+                <property name="name">tracklist-state-button-box</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">end</property>

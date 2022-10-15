@@ -25,6 +25,7 @@
                 <property name="can-focus">False</property>
                 <child>
                   <object class="GtkListBox" id="playlists_view">
+                    <property name="name">playlists-view</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <signal name="row-selected" handler="on_playlists_view_row_selected" swapped="no"/>
@@ -41,6 +42,7 @@
         </child>
         <child>
           <object class="GtkBox" id="selected_playlist_box">
+            <property name="name">selected-playlist-box</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="orientation">vertical</property>
@@ -61,6 +63,7 @@
             <child>
               <!-- n-columns=2 n-rows=2 -->
               <object class="GtkGrid" id="playlist_details_box">
+                <property name="name">selected-playlist-details-box</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">start</property>

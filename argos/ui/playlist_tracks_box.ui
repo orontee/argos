@@ -49,6 +49,7 @@
     </child>
     <child>
       <object class="GtkBox" id="playlist_button_box">
+        <property name="name">playlist-button-box</property>
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="margin-top">5</property>
