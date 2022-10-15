@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-15 10:04+0200\n"
+"POT-Creation-Date: 2022-10-15 12:44+0200\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -40,12 +40,12 @@ msgstr "Nouvelle liste de lecture"
 msgid "Started to play {}"
 msgstr "Lecture de {}"
 
-#: argos/controllers/playlists.py:38 argos/controllers/playlists.py:330
+#: argos/controllers/playlists.py:41 argos/controllers/playlists.py:345
 #: argos/ui/preferences.ui:278
 msgid "Recent additions"
 msgstr "Ajouts récents"
 
-#: argos/controllers/playlists.py:51 argos/controllers/playlists.py:338
+#: argos/controllers/playlists.py:54 argos/controllers/playlists.py:353
 #: argos/ui/preferences.ui:335
 msgid "History"
 msgstr "Historique"
@@ -304,23 +304,27 @@ msgstr "Ajouter à la file d'attente"
 msgid "Add to playlist…"
 msgstr "Ajouter à une liste de lecture…"
 
-#: argos/widgets/playlistsbox.py:224
+#: argos/widgets/playlistemptytracksbox.py:39
+msgid "Loading playlist tracks…"
+msgstr "Chargement des morceaux de la liste de lecture…"
+
+#: argos/widgets/playlistsbox.py:230
 msgid "Confirm the deletion of the {!r} playlist"
 msgstr "Confirmer la suppression de la liste de lecture {!r}"
 
-#: argos/widgets/playlistsbox.py:226
+#: argos/widgets/playlistsbox.py:232
 msgid "The deletion can't be reverted."
 msgstr "La suppression est définitive."
 
-#: argos/widgets/playlisttracksbox.py:47
+#: argos/widgets/playlisttracksbox.py:50
 msgid "Add stream to playlist…"
 msgstr "Ajouter un flux à la liste de lecture…"
 
-#: argos/widgets/playlisttracksbox.py:48
+#: argos/widgets/playlisttracksbox.py:51
 msgid "Remove selected tracks"
 msgstr "Retirer les morceaux sélectionnés"
 
-#: argos/widgets/playlisttracksbox.py:49
+#: argos/widgets/playlisttracksbox.py:52
 msgid "Delete playlist…"
 msgstr "Suppprimer la liste de lecture…"
 

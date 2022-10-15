@@ -18,6 +18,7 @@ argos/ui/tracklist_box.ui
 argos/ui/tracklist_track_box.ui
 argos/ui/window.ui
 argos/widgets/albumdetailsbox.py
+argos/widgets/playlistemptytracksbox.py
 argos/widgets/playlistsbox.py
 argos/widgets/playlistselectiondialog.py
 argos/widgets/playlisttracksbox.py

@@ -13,6 +13,8 @@ The format is based on `Keep a Changelog
 
 Added
 -----
+- Display placeholder for empty tracks box of playlist `#61
+  <https://github.com/orontee/argos/issues/61>`_
 
 Changed
 -------

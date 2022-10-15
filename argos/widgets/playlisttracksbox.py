@@ -6,6 +6,7 @@ from gi.repository import Gio, GObject, Gtk
 
 from argos.message import MessageType
 from argos.model import TrackModel
+from argos.widgets.playlistemptytracksbox import PlaylistEmptyTracksBox
 from argos.widgets.streamuridialog import StreamUriDialog
 from argos.widgets.trackbox import TrackBox
 from argos.widgets.utils import set_list_box_header_with_separator
@@ -40,8 +41,10 @@ class PlaylistTracksBox(Gtk.Box):
         self._app = application
         self._model = application.model
         self._disable_tooltips = application.props.disable_tooltips
+        self._empty_tracks_placeholder = PlaylistEmptyTracksBox(application)
 
         self.tracks_box.set_header_func(set_list_box_header_with_separator)
+        self.tracks_box.set_placeholder(self._empty_tracks_placeholder)
 
         edition_menu = Gio.Menu()
         edition_menu.append(_("Add stream to playlist…"), "win.add-stream-to-playlist")
@@ -98,7 +101,7 @@ class PlaylistTracksBox(Gtk.Box):
             tracks,
             self._create_track_box,
         )
-
+        self._empty_tracks_placeholder.props.loading = playlist is not None
         self.play_button.set_sensitive(playlist is not None)
         self.add_button.set_sensitive(playlist is not None)
         self.edit_button.set_sensitive(self._is_playlist_removable())
