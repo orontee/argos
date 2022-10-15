@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-15 13:52+0200\n"
+"POT-Creation-Date: 2022-10-15 16:19+0200\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -343,6 +343,10 @@ msgstr "En cours"
 #: data/io.github.orontee.Argos.desktop.in:3
 msgid "Argos"
 msgstr "Argos"
+
+#: data/io.github.orontee.Argos.desktop.in:4
+msgid "Light weight front-end for Mopidy music server"
+msgstr "Frontal léger pour serveur de musique Mopidy"
 
 #: data/io.github.orontee.Argos.gschema.xml:6
 msgid "Connection retry delay"

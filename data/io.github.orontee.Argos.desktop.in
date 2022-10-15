@@ -1,8 +1,9 @@
 [Desktop Entry]
 Name=Argos
+Comment=Light weight front-end for Mopidy music server
 Exec=argos
 Icon=io.github.orontee.Argos.svg
 Terminal=false
 Type=Application
-Categories=GTK;AudioVideo;Audio
+Categories=GTK;Player;Audio
 StartupNotify=true

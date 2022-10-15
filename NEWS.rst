@@ -17,6 +17,8 @@ Added
   <https://github.com/orontee/argos/issues/70>`_
 - Display placeholder for empty tracks box of playlist `#61
   <https://github.com/orontee/argos/issues/61>`_
+- Complete desktop file `#62
+  <https://github.com/orontee/argos/issues/62>`_
 
 Changed
 -------
