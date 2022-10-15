@@ -7,7 +7,7 @@ LOGGER = logging.getLogger(__name__)
 
 _ = gettext.gettext
 
-_BOTTOM_LABEL_MARKUP = _(
+_LABEL_MARKUP = _(
     """To populate the tracklist:
 
 • <a href="argos:play-random-album">Play a random album</a>
@@ -32,16 +32,16 @@ class PlayingBoxEmptyTracklistBox(Gtk.Box):
 
     __gtype_name__ = "PlayingBoxEmptyTracklistBox"
 
-    bottom_label: Gtk.Label = Gtk.Template.Child()
+    central_label: Gtk.Label = Gtk.Template.Child()
 
     def __init__(self, application: Gtk.Application):
         super().__init__()
 
         self._app = application
 
-        self.bottom_label.set_markup(_BOTTOM_LABEL_MARKUP)
+        self.central_label.set_markup(_LABEL_MARKUP)
 
-        self.bottom_label.connect("activate-link", self.on_activate_link_cb)
+        self.central_label.connect("activate-link", self.on_activate_link_cb)
 
     def on_activate_link_cb(self, label: Gtk.Label, uri: str) -> bool:
         LOGGER.debug(f"Link activated {uri}")
