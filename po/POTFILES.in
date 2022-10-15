@@ -29,3 +29,4 @@ argos/widgets/tracklisttrackbox.py
 argos/window.py
 data/io.github.orontee.Argos.desktop.in
 data/io.github.orontee.Argos.gschema.xml
+data/io.github.orontee.Argos.appdata.xml.in

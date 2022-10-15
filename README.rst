@@ -8,7 +8,7 @@ Argos
 .. image:: http://www.mypy-lang.org/static/mypy_badge.svg
    :target: http://mypy-lang.org/
 
-Light weight `Mopidy <https://mopidy.com/>`_ front-end.
+Light weight front-end for `Mopidy <https://mopidy.com/>`_ music server.
 
 Argos is designed (and used!) with `Gnome <https://gnome.org>`_ desktop
 and small single-board devices with small touchscreen in mind.

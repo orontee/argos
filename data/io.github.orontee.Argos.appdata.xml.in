@@ -4,9 +4,10 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
   <name>Argos</name>
-  <summary>Light weight Mopidy front-end</summary>
+  <summary>Light weight front-end for Mopidy music server</summary>
   <description>
-    <p>Front-end to control a Mopidy server through a small touch screen</p>
+    <p>Argos is designed (and used!) with Gnome desktop and small
+    single-board devices with small touchscreen in mind.</p>
   </description>
   <screenshots>
     <screenshot type="default">
