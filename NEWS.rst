@@ -34,10 +34,6 @@ Changed
 - Lazy load of playlist descriptions `#61
   <https://github.com/orontee/argos/issues/61>`_
 
-Removed
--------
-
-
 [1.3.0] - 2022-09-17
 ====================
 

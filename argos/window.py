@@ -162,6 +162,14 @@ class ArgosWindow(Gtk.ApplicationWindow):
         main_page_visible = self.main_stack.get_visible_child_name() == "main_page"
         self.titlebar.props.main_page_state = main_page_visible
 
+        albums_page_visible = (
+            self.central_view.get_visible_child_name() == "albums_page"
+        )
+        album_page_visible = self.main_stack.get_visible_child_name() == "album_page"
+        self.titlebar.props.search_activated = (
+            albums_page_visible and not album_page_visible
+        )
+
     def _on_central_view_page_changed(
         self,
         _1: GObject.GObject,
