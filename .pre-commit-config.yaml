@@ -26,3 +26,8 @@ repos:
     hooks:
     -   id: isort
         name: isort (python)
+
+-   repo: https://github.com/PyCQA/doc8
+    rev: v1.0.0
+    hooks:
+    -   id: doc8
