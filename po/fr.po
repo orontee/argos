@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-15 12:44+0200\n"
+"POT-Creation-Date: 2022-10-15 13:52+0200\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -32,7 +32,7 @@ msgstr "Désactiver les info-bulles"
 msgid "Hide search button"
 msgstr "Masquer le button de recherche"
 
-#: argos/app.py:318 argos/ui/app_menu.ui:20
+#: argos/app.py:318 argos/ui/app_menu.ui:14
 msgid "New playlist"
 msgstr "Nouvelle liste de lecture"
 
@@ -50,7 +50,7 @@ msgstr "Ajouts récents"
 msgid "History"
 msgstr "Historique"
 
-#: argos/controllers/tracklist.py:53
+#: argos/controllers/tracklist.py:57
 msgid "Tracklist updated"
 msgstr "File d'attente mise à jour"
 
@@ -75,10 +75,10 @@ msgid "Play _random album"
 msgstr "Lire un album au _hasard"
 
 #: argos/ui/app_menu.ui:10
-msgid "Play stream…"
-msgstr "Lire un flux…"
+msgid "Add stream to tracklist…"
+msgstr "Ajouter un flux à la liste de lecture…"
 
-#: argos/ui/app_menu.ui:16
+#: argos/ui/app_menu.ui:20
 msgid "Update library"
 msgstr "Mettre à jour la bibiothèque"
 
@@ -288,6 +288,10 @@ msgstr ""
 "d'URI s'appliquer en fonction de la configuration\n"
 "de Mopidy-Stream."
 
+#: argos/ui/stream_uri_dialog.ui:76
+msgid "Play stream immediately"
+msgstr "Lire le flux immédiatement"
+
 #: argos/ui/title_bar.ui:53
 msgid "Back to albums page"
 msgstr "Retourner aux albums"
@@ -470,6 +474,9 @@ msgstr "Fenêtre de taille maximale"
 #: data/io.github.orontee.Argos.gschema.xml:146
 msgid "Window maximized state."
 msgstr "État de maximisation de la fenêtre."
+
+#~ msgid "Play stream…"
+#~ msgstr "Lire un flux…"
 
 #~ msgid "Add album or selected tracks to a playlist"
 #~ msgstr "Ajouter l'album ou les morceaux sélectionnés à la liste de lecture"

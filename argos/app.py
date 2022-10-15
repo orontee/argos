@@ -205,7 +205,7 @@ class Application(Gtk.Application):
             ("show-preferences", self.show_prefs_activate_cb, None),
             ("new-playlist", self.new_playlist_activate_cb, None),
             ("play-random-album", self.play_random_album_activate_cb, None),
-            ("play-stream", self.play_stream_activate_cb, None),
+            ("add-stream", self.add_stream_activate_cb, None),
             ("update-library", self.update_library_activate_cb, None),
             ("quit", self.quit_activate_cb, ("app.quit", ["<Ctrl>Q"])),
         ]
@@ -329,23 +329,22 @@ class Application(Gtk.Application):
         LOGGER.debug("Random album play requested by end-user")
         self.send_message(MessageType.PLAY_RANDOM_ALBUM)
 
-    def play_stream_activate_cb(
-        self, action: Gio.SimpleAction, parameter: None
-    ) -> None:
-        LOGGER.debug("Play stream requested by end-user")
+    def add_stream_activate_cb(self, action: Gio.SimpleAction, parameter: None) -> None:
+        LOGGER.debug("Add stream to tracklist requested by end-user")
 
         dialog = StreamUriDialog(self)
         response = dialog.run()
         stream_uri = dialog.props.stream_uri if response == Gtk.ResponseType.OK else ""
+        play = dialog.props.play
         dialog.destroy()
 
         if not stream_uri:
-            LOGGER.debug("Aborting playing stream")
+            LOGGER.debug("Abort adding stream")
             return
 
         self.send_message(
-            MessageType.PLAY_TRACKS,
-            {"uris": [stream_uri]},
+            MessageType.ADD_TO_TRACKLIST,
+            {"uris": [stream_uri], "play": play},
         )
 
     def update_library_activate_cb(

@@ -15,8 +15,10 @@ class StreamUriDialog(Gtk.Dialog):
     __gtype_name__ = "StreamUriDialog"
 
     stream_uri_entry: Gtk.Entry = Gtk.Template.Child()
+    play_button: Gtk.CheckButton = Gtk.Template.Child()
 
     stream_uri = GObject.Property(type=str, default="")
+    play = GObject.Property(type=bool, default=False)
 
     def __init__(self, application: Gtk.Application):
         super().__init__(application=application, transient_for=application.window)
@@ -34,3 +36,4 @@ class StreamUriDialog(Gtk.Dialog):
         response_id: int,
     ) -> None:
         self.props.stream_uri = self.stream_uri_entry.props.text
+        self.props.play = self.play_button.props.active

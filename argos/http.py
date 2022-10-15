@@ -97,14 +97,18 @@ class MopidyHTTPClient(GObject.GObject):
         eot_tlid = await self._ws.send_command("core.tracklist.get_eot_tlid")
         return int(eot_tlid) if eot_tlid is not None else None
 
-    async def add_to_tracklist(self, uris: List[str]) -> None:
+    async def add_to_tracklist(self, uris: List[str]) -> Optional[List[Dict[str, Any]]]:
         """Add tracks to the tracklist.
 
         Args:
             uris: URIs of the tracks to add.
 
+        Returns:
+            Optional list of tracklist tracks.
+
         """
-        await self._ws.send_command("core.tracklist.add", params={"uris": uris})
+        resp = await self._ws.send_command("core.tracklist.add", params={"uris": uris})
+        return resp
 
     async def remove_from_tracklist(self, tlids: List[int]) -> None:
         """Remove tracks from the tracklist.

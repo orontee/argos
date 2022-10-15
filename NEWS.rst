@@ -18,6 +18,9 @@ Added
 
 Changed
 -------
+- "Add stream to tracklist" action replaces "play stream" action, and
+  choice is given to play stream immediately or not `#68
+  <https://github.com/orontee/argos/issues/68>`_
 - Handle tracks without name `#66
   <https://github.com/orontee/argos/issues/66>`_
 - Lazy load of playlist descriptions `#61
