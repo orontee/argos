@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-15 16:19+0200\n"
+"POT-Creation-Date: 2022-10-15 18:31+0200\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -66,7 +66,7 @@ msgstr "Durée"
 msgid "Play album"
 msgstr "Lire l'album"
 
-#: argos/ui/albums_browsing_progress_box.ui:34
+#: argos/ui/albums_browsing_progress_box.ui:32
 msgid "Keep calm, albums indexation in progress…"
 msgstr "Patience, l'indexation des albums est en cours…"
 
@@ -186,9 +186,9 @@ msgstr "Lecture d'un seul morceau"
 msgid "Repeat"
 msgstr "Lecture en boucle"
 
-#: argos/ui/playlists_box.ui:110
-msgid "Tracks"
-msgstr "Morceaux"
+#: argos/ui/playing_box_empty_tracklist_box.ui:31
+msgid "Empty tracklists make the most noise!"
+msgstr "Ce sont les files d'attente vides qui font le plus de bruit !"
 
 #: argos/ui/playlist_tracks_box.ui:68
 msgid "Add playlist or selected tracks to tracklist"
@@ -202,6 +202,10 @@ msgstr "Lire la liste de lecture ou les morceaux sélectionnés"
 #: argos/ui/playlist_tracks_box.ui:119
 msgid "Edit playlist"
 msgstr "Édition de la liste de lecture"
+
+#: argos/ui/playlists_box.ui:110
+msgid "Tracks"
+msgstr "Morceaux"
 
 #: argos/ui/preferences.ui:19
 msgid "Preferences"
@@ -307,6 +311,24 @@ msgstr "Ajouter à la file d'attente"
 #: argos/widgets/albumdetailsbox.py:73
 msgid "Add to playlist…"
 msgstr "Ajouter à une liste de lecture…"
+
+#: argos/widgets/playingboxemptytracklistbox.py:11
+msgid ""
+"To populate the tracklist:\n"
+"\n"
+"• <a href=\"argos:play-random-album\">Play a random album</a>\n"
+"\n"
+"• <a href=\"argos:add-stream\">Add a music stream</a>\n"
+"\n"
+"• Choose tracks from the library or playlists\n"
+msgstr ""
+"Pour peupler la file d'attente :\n"
+"\n"
+"• <a href=\"argos:play-random-album\">Lire un album au hasard</a>\n"
+"\n"
+"• <a href=\"argos:add-stream\">Ajouter un flux</a>\n"
+"\n"
+"• Choisir des morceaux dans la bibliothèque ou les listes de lecture\n"
 
 #: argos/widgets/playlistemptytracksbox.py:39
 msgid "Loading playlist tracks…"

@@ -9,6 +9,7 @@ from gi.repository import GLib, GObject, Gtk
 from argos.message import MessageType
 from argos.model import PlaybackState
 from argos.utils import elide_maybe, ms_to_text
+from argos.widgets.playingboxemptytracklistbox import PlayingBoxEmptyTracklistBox
 from argos.widgets.tracklistbox import TracklistBox
 from argos.widgets.utils import default_image_pixbuf, scale_album_image
 
@@ -76,6 +77,7 @@ class PlayingBox(Gtk.Box):
         self._time_position_scale_jumped_source_id: Optional[int] = None
 
         self.tracklist_view = TracklistBox(application)
+        self.tracklist_view.set_placeholder(PlayingBoxEmptyTracklistBox(application))
         self.tracklist_view_viewport.add(self.tracklist_view)
 
         self.set_sensitive(self._model.network_available and self._model.connected)

@@ -13,6 +13,8 @@ The format is based on `Keep a Changelog
 
 Added
 -----
+- Display labels with links when tracklist is empty `#71
+  <https://github.com/orontee/argos/issues/71>`_
 - Fix playlist widget sensitivity in preferences dialog `#70
   <https://github.com/orontee/argos/issues/70>`_
 - Display placeholder for empty tracks box of playlist `#61
