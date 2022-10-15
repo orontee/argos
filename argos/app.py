@@ -219,7 +219,7 @@ class Application(Gtk.Application):
         for action_name in [
             "new-playlist",
             "play-random-album",
-            "play-stream",
+            "add-stream",
             "update-library",
         ]:
             action = self.lookup_action(action_name)
@@ -261,7 +261,7 @@ class Application(Gtk.Application):
         for action_name in [
             "new-playlist",
             "play-random-album",
-            "play-stream",
+            "add-stream",
             "update-library",
         ]:
             action = self.lookup_action(action_name)
