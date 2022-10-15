@@ -71,8 +71,6 @@ class PreferencesWindow(Gtk.Window):
 
         history_playlist = self._settings.get_boolean("history-playlist")
         self.history_playlist_check_button.set_active(history_playlist)
-        self.history_playlist_max_length_label.set_sensitive(history_playlist)
-        self.history_playlist_max_length_button.set_sensitive(history_playlist)
 
         history_max_length = self._settings.get_int("history-max-length")
         self.history_playlist_max_length_button.set_value(history_max_length)
@@ -83,18 +81,13 @@ class PreferencesWindow(Gtk.Window):
         self.recent_additions_playlist_check_button.set_active(
             recent_additions_playlist
         )
-        self.recent_additions_playlist_max_age_label.set_sensitive(
-            recent_additions_playlist
-        )
-        self.recent_additions_playlist_max_age_button.set_sensitive(
-            recent_additions_playlist
-        )
 
         recent_additions_max_age = self._settings.get_int("recent-additions-max-age")
         self.recent_additions_playlist_max_age_button.set_value(
             recent_additions_max_age // SECONDS_PER_DAY
         )
 
+        sensitive = self._model.network_available and self._model.connected
         for widget in (
             self.mopidy_local_switch,
             self.mopidy_local_label,
@@ -111,9 +104,20 @@ class PreferencesWindow(Gtk.Window):
             self.recent_additions_playlist_max_age_label,
             self.recent_additions_playlist_max_age_button,
         ):
-            widget.set_sensitive(
-                self._model.network_available and self._model.connected
-            )
+            widget.set_sensitive(sensitive)
+
+        self.history_playlist_max_length_label.set_sensitive(
+            sensitive and history_playlist
+        )
+        self.history_playlist_max_length_button.set_sensitive(
+            sensitive and history_playlist
+        )
+        self.recent_additions_playlist_max_age_label.set_sensitive(
+            sensitive and recent_additions_playlist
+        )
+        self.recent_additions_playlist_max_age_button.set_sensitive(
+            sensitive and recent_additions_playlist
+        )
 
         self._model.connect("notify::network-available", self.on_connection_changed)
         self._model.connect("notify::connected", self.on_connection_changed)
@@ -168,14 +172,28 @@ class PreferencesWindow(Gtk.Window):
             self.mopidy_podcast_switch,
             self.mopidy_podcast_label,
             self.history_playlist_check_button,
-            self.history_playlist_max_length_label,
-            self.history_playlist_max_length_button,
             self.recent_additions_playlist_check_button,
-            self.recent_additions_playlist_max_age_label,
-            self.recent_additions_playlist_max_age_button,
         )
         for widget in widgets:
             widget.set_sensitive(sensitive)
+
+        history_playlist = self._settings.get_boolean("history-playlist")
+        self.history_playlist_max_length_label.set_sensitive(
+            sensitive and history_playlist
+        )
+        self.history_playlist_max_length_button.set_sensitive(
+            sensitive and history_playlist
+        )
+
+        recent_additions_playlist = self._settings.get_boolean(
+            "recent-additions-playlist"
+        )
+        self.recent_additions_playlist_max_age_label.set_sensitive(
+            sensitive and recent_additions_playlist
+        )
+        self.recent_additions_playlist_max_age_button.set_sensitive(
+            sensitive and recent_additions_playlist
+        )
 
     def on_mopidy_base_url_entry_changed(self, entry: Gtk.Entry) -> None:
         base_url = entry.get_text()

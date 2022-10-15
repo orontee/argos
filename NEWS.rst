@@ -13,6 +13,8 @@ The format is based on `Keep a Changelog
 
 Added
 -----
+- Fix playlist widget sensitivity in preferences dialog `#70
+  <https://github.com/orontee/argos/issues/70>`_
 - Display placeholder for empty tracks box of playlist `#61
   <https://github.com/orontee/argos/issues/61>`_
 
