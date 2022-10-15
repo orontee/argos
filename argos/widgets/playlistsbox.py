@@ -106,6 +106,11 @@ class PlaylistsBox(Gtk.Box):
         playlist = playlist_label.playlist if playlist_label else None
         playlist_name = playlist.props.name if playlist is not None else None
 
+        self._app.send_message(
+            MessageType.COMPLETE_PLAYLIST_DESCRIPTION,
+            {"uri": playlist.uri},
+        )
+
         self._update_playlist_name_label(playlist_name)
 
         tracks = playlist.tracks if playlist is not None else None

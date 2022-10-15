@@ -18,6 +18,8 @@ Changed
 -------
 - Handle tracks without name `#66
   <https://github.com/orontee/argos/issues/66>`_
+- Lazy load of playlist descriptions `#61
+  <https://github.com/orontee/argos/issues/61>`_
 
 Removed
 -------

@@ -66,6 +66,7 @@ class PlaylistsController(ControllerBase):
         if playlist is None:
             return
 
+        # in case it's the selected playlist
         await self._complete_playlist_from_mopidy_model(playlist)
 
     @consume(MessageType.PLAYLIST_DELETED)
@@ -104,17 +105,6 @@ class PlaylistsController(ControllerBase):
             extended_playlists.append(self._history_playlist)
 
         self._model.update_playlists(extended_playlists)
-
-        for playlist in parsed_playlists:
-            result = await self._http.lookup_playlist(playlist.uri)
-            if result is not None:
-                await self._complete_playlist_from_mopidy_model(result)
-
-        if self._recent_additions_playlist:
-            await self._complete_recent_additions_playlist()
-
-        if self._history_playlist:
-            await self._complete_history_playlist()
 
     @consume(MessageType.CREATE_PLAYLIST)
     async def create_playlist(self, message: Message) -> None:
@@ -187,9 +177,33 @@ class PlaylistsController(ControllerBase):
         result = await self._http.save_playlist(updated_playlist)
         return result
 
-    @consume(MessageType.TRACK_PLAYBACK_STARTED)
-    async def update_history(self, message: Message) -> None:
-        await self._complete_history_playlist()
+    @consume(MessageType.COMPLETE_PLAYLIST_DESCRIPTION)
+    async def complete_playlist(self, message: Message) -> None:
+        playlist_uri = message.data.get("uri")
+        if playlist_uri is None:
+            return
+
+        LOGGER.debug(f"Completing description of playlist with URI {playlist_uri!r}")
+
+        if (
+            self._recent_additions_playlist
+            and playlist_uri == self._recent_additions_playlist.props.uri
+        ):
+            await self._complete_recent_additions_playlist()
+        elif (
+            self._history_playlist and playlist_uri == self._history_playlist.props.uri
+        ):
+            await self._complete_history_playlist()
+        else:
+            playlist = self._model.get_playlist(playlist_uri)
+            if playlist:
+                result = await self._http.lookup_playlist(playlist_uri)
+                if result is not None:
+                    await self._complete_playlist_from_mopidy_model(result)
+            else:
+                LOGGER.warning(
+                    f"Won't complete unkwnown playlist with URI {playlist_uri!r}"
+                )
 
     async def _complete_playlist_from_mopidy_model(
         self,
@@ -200,8 +214,6 @@ class PlaylistsController(ControllerBase):
         playlist_name = model.get("name", "")
         playlist_tracks = model.get("tracks", [])
         last_modified = model.get("last_modified", -1)
-
-        LOGGER.debug(f"Completing description of playlist with URI {playlist_uri!r}")
 
         track_uris = [cast(str, t.get("uri")) for t in playlist_tracks if "uri" in t]
         if len(track_uris) > 0:
