@@ -289,7 +289,6 @@ class Application(Gtk.Application):
 
         about_dialog = AboutDialog()
         about_dialog.set_transient_for(self.window)
-        about_dialog.set_wmclass("Argos", "about")
         about_dialog.run()
         about_dialog.destroy()
 
@@ -299,12 +298,14 @@ class Application(Gtk.Application):
 
         self.prefs_window = PreferencesWindow(self)
         self.prefs_window.set_transient_for(self.window)
-        self.prefs_window.set_wmclass("Argos", "preferences")
         self.prefs_window.connect("destroy", self.prefs_window_destroy_cb)
 
         self.prefs_window.present()
 
     def prefs_window_destroy_cb(self, window: Gtk.Window) -> None:
+        if self.prefs_window:
+            self.prefs_window.destroy()
+
         self.prefs_window = None
 
     def quit_activate_cb(self, action: Gio.SimpleAction, parameter: None) -> None:

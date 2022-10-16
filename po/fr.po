@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-16 10:34+0200\n"
+"POT-Creation-Date: 2022-10-16 13:55+0200\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -32,7 +32,7 @@ msgstr "Désactiver les info-bulles"
 msgid "Hide search button"
 msgstr "Masquer le button de recherche"
 
-#: argos/app.py:318 argos/ui/app_menu.ui:14
+#: argos/app.py:319 argos/ui/app_menu.ui:14
 msgid "New playlist"
 msgstr "Nouvelle liste de lecture"
 
@@ -41,12 +41,12 @@ msgid "Started to play {}"
 msgstr "Lecture de {}"
 
 #: argos/controllers/playlists.py:41 argos/controllers/playlists.py:345
-#: argos/ui/preferences.ui:278
+#: argos/ui/preferences.ui:372
 msgid "Recent additions"
 msgstr "Ajouts récents"
 
 #: argos/controllers/playlists.py:54 argos/controllers/playlists.py:353
-#: argos/ui/preferences.ui:335
+#: argos/ui/preferences.ui:432
 msgid "History"
 msgstr "Historique"
 
@@ -207,76 +207,83 @@ msgstr "Morceaux"
 msgid "Preferences"
 msgstr "Préférences"
 
-#: argos/ui/preferences.ui:40
-msgid "Mopidy Server"
+#: argos/ui/preferences.ui:68
+msgid "Mopidy server"
 msgstr "Serveur Mopidy"
 
-#: argos/ui/preferences.ui:65
-msgid "Base URL of Mopidy server"
-msgstr "URL de base du serveur Mopidy"
-
-#: argos/ui/preferences.ui:66
-msgid "Enter the URL of the Mopidy server"
-msgstr "Entrer l'URL du serveur Mopidy"
-
-#: argos/ui/preferences.ui:81
+#: argos/ui/preferences.ui:91
 msgid "Base URL:"
 msgstr "URL de base:"
 
-#: argos/ui/preferences.ui:100 argos/window.py:54
-msgid "Library"
-msgstr "Bibliothèque"
+#: argos/ui/preferences.ui:105
+msgid "Base URL of Mopidy server"
+msgstr "URL de base du serveur Mopidy"
 
-#: argos/ui/preferences.ui:136
+#: argos/ui/preferences.ui:106
+msgid "Enter the URL of the Mopidy server"
+msgstr "Entrer l'URL du serveur Mopidy"
+
+#: argos/ui/preferences.ui:129
+msgid ""
+"A connection failure indicates that the music server is currently not "
+"accessible at the given URL. Please adapt the URL."
+msgstr ""
+"Une erreur de connexion indique que le serveur de musique n'est pas "
+"actuellement accessible à l'URL indiquée. Veuillez adapter l'URL."
+
+#: argos/ui/preferences.ui:146
+msgid "General"
+msgstr "Général"
+
+#: argos/ui/preferences.ui:178
 msgid "Podcasts:"
 msgstr "Podcasts:"
 
-#: argos/ui/preferences.ui:160
+#: argos/ui/preferences.ui:202
 msgid "Bandcamp:"
 msgstr "Bandcamp:"
 
-#: argos/ui/preferences.ui:184
+#: argos/ui/preferences.ui:226
 msgid "Local:"
 msgstr "Local:"
 
-#: argos/ui/preferences.ui:196
-msgid "Sort by:"
-msgstr "Trier par:"
-
-#: argos/ui/preferences.ui:210
-msgid "Artist name"
-msgstr "Nom d'artiste"
-
-#: argos/ui/preferences.ui:211
-msgid "Album name"
-msgstr "Nom d'album"
-
-#: argos/ui/preferences.ui:212
-msgid "Publication date"
-msgstr "Date de publication"
-
-#: argos/ui/preferences.ui:238
+#: argos/ui/preferences.ui:249
 msgid "Jellyfin:"
 msgstr "Jellyfin:"
 
-#: argos/ui/preferences.ui:260 argos/window.py:58
-msgid "Playlists"
-msgstr "Listes de lecture"
+#: argos/ui/preferences.ui:261
+msgid "Sources"
+msgstr "Sources"
 
-#: argos/ui/preferences.ui:312
+#: argos/ui/preferences.ui:277
+msgid "Sort by:"
+msgstr "Trier par:"
+
+#: argos/ui/preferences.ui:289
+msgid "Presentation"
+msgstr "Présentation"
+
+#: argos/ui/preferences.ui:351 argos/window.py:54
+msgid "Library"
+msgstr "Bibliothèque"
+
+#: argos/ui/preferences.ui:409
 msgid "Max age (days):"
 msgstr "Nombre de jours max.:"
 
-#: argos/ui/preferences.ui:369
+#: argos/ui/preferences.ui:469
 msgid "Max length:"
 msgstr "Taille maximale:"
+
+#: argos/ui/preferences.ui:488 argos/window.py:58
+msgid "Playlists"
+msgstr "Listes de lecture"
 
 #: argos/ui/stream_uri_dialog.ui:8 argos/ui/stream_uri_dialog.ui:48
 msgid "Stream URI"
 msgstr "URI du flux"
 
 #: argos/ui/stream_uri_dialog.ui:47
-#, fuzzy
 msgid "The URI of the stream"
 msgstr "Entrer l'URI du flux"
 
@@ -543,6 +550,15 @@ msgstr "Livraison préparée pendant une rage de dents, prudence !"
 #: data/io.github.orontee.Argos.appdata.xml.in:62
 msgid "Matthias Meulien"
 msgstr ""
+
+#~ msgid "Artist name"
+#~ msgstr "Nom d'artiste"
+
+#~ msgid "Album name"
+#~ msgstr "Nom d'album"
+
+#~ msgid "Publication date"
+#~ msgstr "Date de publication"
 
 #~ msgid "Empty tracklists make the most noise!"
 #~ msgstr "Ce sont les files d'attente vides qui font le plus de bruit !"

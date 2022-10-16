@@ -11,4 +11,4 @@ class AboutDialog(Gtk.AboutDialog):
 
     def __init__(self):
         Gtk.Window.__init__(self)
-        self.set_wmclass("Argos", "Argos")
+        self.set_wmclass("Argos", "about")

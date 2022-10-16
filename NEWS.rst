@@ -17,18 +17,20 @@ Added
   <https://github.com/orontee/argos/issues/72>`_
 - Display labels with links when tracklist is empty `#71
   <https://github.com/orontee/argos/issues/71>`_
-- Fix playlist widget sensitivity in preferences dialog `#70
+- Fix playlist widgets sensitivity in preferences dialog `#70
   <https://github.com/orontee/argos/issues/70>`_
 - Display placeholder for empty tracks box of playlist `#61
   <https://github.com/orontee/argos/issues/61>`_
-- Complete desktop file `#62
-  <https://github.com/orontee/argos/issues/62>`_
 
 Changed
 -------
+- Reorganize preferences dialog to fix album sort selection `#54
+  <https://github.com/orontee/argos/issues/54>`_
 - "Add stream to tracklist" action replaces "play stream" action, and
   choice is given to play stream immediately or not `#68
   <https://github.com/orontee/argos/issues/68>`_
+- Complete desktop and AppStream metadata file `#62
+  <https://github.com/orontee/argos/issues/62>`_
 - Handle tracks without name `#66
   <https://github.com/orontee/argos/issues/66>`_
 - Lazy load of playlist descriptions `#61

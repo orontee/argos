@@ -1,7 +1,7 @@
 import gettext
 import logging
 from enum import IntEnum
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 from gi.repository import Gio, GObject, Gtk
 
@@ -16,14 +16,15 @@ SECONDS_PER_DAY = 3600 * 24
 
 
 class AlbumSortStoreColumns(IntEnum):
-    ID = 0
-    TEXT = 1
+    TEXT = 0
+    ID = 1
 
 
 @Gtk.Template(resource_path="/io/github/orontee/Argos/ui/preferences.ui")
 class PreferencesWindow(Gtk.Window):
     __gtype_name__ = "PreferencesWindow"
 
+    connection_warning_label: Gtk.Label = Gtk.Template.Child()
     mopidy_base_url_entry: Gtk.Entry = Gtk.Template.Child()
     mopidy_local_switch: Gtk.Switch = Gtk.Template.Child()
     mopidy_local_label: Gtk.Label = Gtk.Template.Child()
@@ -33,7 +34,7 @@ class PreferencesWindow(Gtk.Window):
     mopidy_jellyfin_label: Gtk.Label = Gtk.Template.Child()
     mopidy_podcast_switch: Gtk.Switch = Gtk.Template.Child()
     mopidy_podcast_label: Gtk.Label = Gtk.Template.Child()
-    album_sort_combobox: Gtk.ComboBoxText = Gtk.Template.Child()
+    album_sort_view: Gtk.TreeView = Gtk.Template.Child()
     history_playlist_check_button: Gtk.CheckButton = Gtk.Template.Child()
     history_playlist_max_length_label: Gtk.Label = Gtk.Template.Child()
     history_playlist_max_length_button: Gtk.SpinButton = Gtk.Template.Child()
@@ -46,8 +47,19 @@ class PreferencesWindow(Gtk.Window):
         application: "Application",
     ):
         super().__init__(application=application)
-        self.set_wmclass("Argos", "Argos")
+        self.set_wmclass("Argos", "preferences")
         self._model = application.model
+
+        store = Gtk.ListStore(str, str)
+        self.album_sort_view.set_model(store)
+        self.album_sort_view.set_activate_on_single_click(True)
+        self.album_sort_view.set_headers_visible(False)
+        renderer = Gtk.CellRendererText()
+        column = Gtk.TreeViewColumn(
+            cell_renderer=renderer, text=AlbumSortStoreColumns.TEXT
+        )
+        self.album_sort_view.append_column(column)
+        self.album_sort_view.set_enable_search(False)
 
         self._settings: Gio.Settings = application.props.settings
         base_url = self._settings.get_string("mopidy-base-url")
@@ -67,7 +79,19 @@ class PreferencesWindow(Gtk.Window):
         self.mopidy_podcast_switch.set_active(mopidy_podcast)
 
         album_sort_id = self._settings.get_string("album-sort")
-        self.album_sort_combobox.set_active_id(album_sort_id)
+        to_select: Optional[Gtk.TreeIter] = None
+        for name, id in (
+            (_("Album name"), "by_album_name"),
+            (_("Artist name"), "by_artist_name"),
+            (_("Publication date"), "by_publication_date"),
+        ):
+            store_iter = store.append([name, id])
+            if id == album_sort_id:
+                to_select = store_iter
+
+        if to_select is not None:
+            selection = self.album_sort_view.get_selection()
+            selection.select_iter(to_select)
 
         history_playlist = self._settings.get_boolean("history-playlist")
         self.history_playlist_check_button.set_active(history_playlist)
@@ -141,7 +165,9 @@ class PreferencesWindow(Gtk.Window):
         self.mopidy_podcast_switch.connect(
             "notify::active", self.on_mopidy_podcast_switch_activated
         )
-        self.album_sort_combobox.connect("changed", self.on_album_sort_combobox_changed)
+        self.album_sort_view.connect(
+            "row-activated", self.on_album_sort_view_row_activated
+        )
         self.history_playlist_check_button.connect(
             "toggled", self.on_history_playlist_check_button_toggled
         )
@@ -161,6 +187,10 @@ class PreferencesWindow(Gtk.Window):
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
+        self.connection_warning_label.set_visible(
+            self._model.network_available and not self._model.connected
+        )
+
         sensitive = self._model.network_available and self._model.connected
         widgets = (
             self.mopidy_local_switch,
@@ -231,11 +261,12 @@ class PreferencesWindow(Gtk.Window):
         mopidy_podcast = switch.get_active()
         self._settings.set_boolean("mopidy-podcast", mopidy_podcast)
 
-    def on_album_sort_combobox_changed(
-        self,
-        combobox: Gtk.ComboBox,
+    def on_album_sort_view_row_activated(
+        self, _1: Gtk.TreeView, _2: Gtk.TreePath, _3: Gtk.TreeViewColumn
     ) -> None:
-        album_sort_id = combobox.get_active_id()
+        selection = self.album_sort_view.get_selection()
+        store, store_iter = selection.get_selected()
+        album_sort_id = store.get_value(store_iter, AlbumSortStoreColumns.ID)
         self._settings.set_string("album-sort", album_sort_id)
 
     def on_history_playlist_check_button_toggled(self, button: Gtk.CheckButton) -> None:
