@@ -24,6 +24,7 @@ argos/widgets/playlistemptytracksbox.py
 argos/widgets/playlistsbox.py
 argos/widgets/playlistselectiondialog.py
 argos/widgets/playlisttracksbox.py
+argos/widgets/preferences.py
 argos/widgets/streamuridialog.py
 argos/widgets/tracklisttrackbox.py
 argos/window.py

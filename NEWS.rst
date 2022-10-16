@@ -13,6 +13,8 @@ The format is based on `Keep a Changelog
 
 Added
 -----
+- German translation `#63
+  <https://github.com/orontee/argos/issues/63>`_
 - Welcome dialog for users to direct users to the configuration dialog `#43
   <https://github.com/orontee/argos/issues/43>`_
 - CSS identifiers to allow for style customization  `#72
