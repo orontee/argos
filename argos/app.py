@@ -196,6 +196,30 @@ class Application(Gtk.Application):
             self.window.maximize()
 
         self.window.present()
+        self.show_welcome_dialog_maybe()
+
+    def show_welcome_dialog_maybe(self) -> None:
+        if self._model.connected:
+            return
+
+        user_configured_base_url = (
+            self._settings.get_user_value("mopidy-base-url") is not None
+        )
+        if user_configured_base_url:
+            return
+
+        welcome_dialog = Gtk.MessageDialog(
+            self.window,
+            Gtk.DialogFlags.MODAL,
+            Gtk.MessageType.INFO,
+            Gtk.ButtonsType.OK,
+            text=_("Welcome!"),
+            secondary_text=_(
+                "Start by configuring the URL of the music server. The default value expects a server running on the local host and listening to the 6680 port."
+            ),
+        )
+        welcome_dialog.run()
+        welcome_dialog.destroy()
 
     def do_startup(self):
         Gtk.Application.do_startup(self)

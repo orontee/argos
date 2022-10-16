@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-16 13:55+0200\n"
+"POT-Creation-Date: 2022-10-16 15:13+0200\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -32,7 +32,19 @@ msgstr "Désactiver les info-bulles"
 msgid "Hide search button"
 msgstr "Masquer le button de recherche"
 
-#: argos/app.py:319 argos/ui/app_menu.ui:14
+#: argos/app.py:205
+msgid "Welcome!"
+msgstr "Bienvenue !"
+
+#: argos/app.py:207
+msgid ""
+"Start by configuring the URL of the music server. The default value expects "
+"a server running on the local host and listening to the 6680 port."
+msgstr ""
+"Commencez par configurer l'URL du serveur de musique. La valeur par défaut "
+"fait l'hypothèse qu'il tourne sur cet hôte et écoute sur le port 6680."
+
+#: argos/app.py:332 argos/ui/app_menu.ui:14
 msgid "New playlist"
 msgstr "Nouvelle liste de lecture"
 
