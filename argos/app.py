@@ -332,7 +332,7 @@ class Application(Gtk.Application):
     def add_stream_activate_cb(self, action: Gio.SimpleAction, parameter: None) -> None:
         LOGGER.debug("Add stream to tracklist requested by end-user")
 
-        dialog = StreamUriDialog(self)
+        dialog = StreamUriDialog(self, with_play_button=True)
         response = dialog.run()
         stream_uri = dialog.props.stream_uri if response == Gtk.ResponseType.OK else ""
         play = dialog.props.play

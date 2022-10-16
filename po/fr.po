@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-15 18:54+0200\n"
+"POT-Creation-Date: 2022-10-16 10:34+0200\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -54,15 +54,15 @@ msgstr "Historique"
 msgid "Tracklist updated"
 msgstr "File d'attente mise à jour"
 
-#: argos/ui/album_details_box.ui:51
+#: argos/ui/album_details_box.ui:53
 msgid "Published"
 msgstr "Publication"
 
-#: argos/ui/album_details_box.ui:79 argos/ui/playlists_box.ui:78
+#: argos/ui/album_details_box.ui:81 argos/ui/playlists_box.ui:81
 msgid "Length"
 msgstr "Durée"
 
-#: argos/ui/album_details_box.ui:218
+#: argos/ui/album_details_box.ui:223
 msgid "Play album"
 msgstr "Lire l'album"
 
@@ -154,56 +154,52 @@ msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Aller aux listes de lecture"
 
-#: argos/ui/playing_box.ui:100
+#: argos/ui/playing_box.ui:102
 msgid "Previous"
 msgstr "Précédent"
 
-#: argos/ui/playing_box.ui:121
+#: argos/ui/playing_box.ui:123
 msgid "Play"
 msgstr "Lire"
 
-#: argos/ui/playing_box.ui:142
+#: argos/ui/playing_box.ui:144
 msgid "Next"
 msgstr "Suivant"
 
-#: argos/ui/playing_box.ui:318
+#: argos/ui/playing_box.ui:324
 msgid "Clear tracklist"
 msgstr "Vider la file d'attente"
 
-#: argos/ui/playing_box.ui:341
+#: argos/ui/playing_box.ui:348
 msgid "Consume tracks"
 msgstr "Retirer les morceaux lus"
 
-#: argos/ui/playing_box.ui:361
+#: argos/ui/playing_box.ui:368
 msgid "Shuffle tracklist"
 msgstr "Lecture aléatoire"
 
-#: argos/ui/playing_box.ui:381
+#: argos/ui/playing_box.ui:388
 msgid "Play single track"
 msgstr "Lecture d'un seul morceau"
 
-#: argos/ui/playing_box.ui:401
+#: argos/ui/playing_box.ui:408
 msgid "Repeat"
 msgstr "Lecture en boucle"
 
-#: argos/ui/playing_box_empty_tracklist_box.ui:31
-msgid "Empty tracklists make the most noise!"
-msgstr "Ce sont les files d'attente vides qui font le plus de bruit !"
-
-#: argos/ui/playlist_tracks_box.ui:68
+#: argos/ui/playlist_tracks_box.ui:69
 msgid "Add playlist or selected tracks to tracklist"
 msgstr ""
 "Ajouter la liste de lecture ou les morceaux sélectionnés à la file d'attente"
 
-#: argos/ui/playlist_tracks_box.ui:87
+#: argos/ui/playlist_tracks_box.ui:88
 msgid "Play playlist or selected tracks"
 msgstr "Lire la liste de lecture ou les morceaux sélectionnés"
 
-#: argos/ui/playlist_tracks_box.ui:119
+#: argos/ui/playlist_tracks_box.ui:120
 msgid "Edit playlist"
 msgstr "Édition de la liste de lecture"
 
-#: argos/ui/playlists_box.ui:110
+#: argos/ui/playlists_box.ui:113
 msgid "Tracks"
 msgstr "Morceaux"
 
@@ -280,8 +276,9 @@ msgid "Stream URI"
 msgstr "URI du flux"
 
 #: argos/ui/stream_uri_dialog.ui:47
+#, fuzzy
 msgid "The URI of the stream"
-msgstr "L'URI du flux"
+msgstr "Entrer l'URI du flux"
 
 #: argos/ui/stream_uri_dialog.ui:61
 msgid ""
@@ -296,11 +293,11 @@ msgstr ""
 msgid "Play stream immediately"
 msgstr "Lire le flux immédiatement"
 
-#: argos/ui/title_bar.ui:53
+#: argos/ui/title_bar.ui:54
 msgid "Back to albums page"
 msgstr "Retourner aux albums"
 
-#: argos/ui/title_bar.ui:83
+#: argos/ui/title_bar.ui:84
 msgid "Search albums"
 msgstr "Rechercher des albums"
 
@@ -508,8 +505,8 @@ msgid ""
 "Argos is designed (and used!) with Gnome desktop and small single-board "
 "devices with small touchscreen in mind."
 msgstr ""
-"Argos est conçu pour l'environnement de bureau Gnome et les ordinateurs "
-"au format carte de crédit avec un écran tactile."
+"Argos est conçu pour l'environnement de bureau Gnome et les ordinateurs au "
+"format carte de crédit avec un écran tactile."
 
 #: data/io.github.orontee.Argos.appdata.xml.in:15
 msgid "Tracklist view"
@@ -524,8 +521,8 @@ msgid ""
 "Improve performance while browsing albums and add support for Mopidy-"
 "Jellyfin."
 msgstr ""
-"Améliore les performances de la récupération des albums et ajoute le "
-"support de Mopidy-Jellyfin."
+"Améliore les performances de la récupération des albums et ajoute le support "
+"de Mopidy-Jellyfin."
 
 #: data/io.github.orontee.Argos.appdata.xml.in:35
 msgid "Bug fixes release."
@@ -546,6 +543,9 @@ msgstr "Livraison préparée pendant une rage de dents, prudence !"
 #: data/io.github.orontee.Argos.appdata.xml.in:62
 msgid "Matthias Meulien"
 msgstr ""
+
+#~ msgid "Empty tracklists make the most noise!"
+#~ msgstr "Ce sont les files d'attente vides qui font le plus de bruit !"
 
 #~ msgid "Play stream…"
 #~ msgstr "Lire un flux…"

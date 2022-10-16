@@ -20,10 +20,16 @@ class StreamUriDialog(Gtk.Dialog):
     stream_uri = GObject.Property(type=str, default="")
     play = GObject.Property(type=bool, default=False)
 
-    def __init__(self, application: Gtk.Application):
+    def __init__(self, application: Gtk.Application, with_play_button: bool = False):
         super().__init__(application=application, transient_for=application.window)
 
-        self.add_buttons(Gtk.STOCK_OK, Gtk.ResponseType.OK)
+        if not with_play_button:
+            self.play_button.hide()
+
+        self.add_buttons(
+            Gtk.STOCK_OK,
+            Gtk.ResponseType.OK,
+        )
 
         validate_button = self.get_widget_for_response(Gtk.ResponseType.OK)
         validate_button.set_can_default(True)
