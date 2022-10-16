@@ -61,6 +61,10 @@ class PreferencesWindow(Gtk.Window):
         self.album_sort_view.append_column(column)
         self.album_sort_view.set_enable_search(False)
 
+        self.connection_warning_label.set_visible(
+            self._model.network_available and not self._model.connected
+        )
+
         self._settings: Gio.Settings = application.props.settings
         base_url = self._settings.get_string("mopidy-base-url")
         if base_url:
