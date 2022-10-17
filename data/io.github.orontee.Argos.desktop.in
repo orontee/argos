@@ -5,5 +5,5 @@ Exec=argos
 Icon=io.github.orontee.Argos.svg
 Terminal=false
 Type=Application
-Categories=GTK;Player;Audio
+Categories=GTK;Player;Audio;AudioVideo
 StartupNotify=true
