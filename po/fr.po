@@ -88,7 +88,7 @@ msgstr "Lire un album au _hasard"
 
 #: argos/ui/app_menu.ui:10
 msgid "Add stream to tracklist…"
-msgstr "Ajouter un flux à la liste de lecture…"
+msgstr "Ajouter un flux à la file d'attente…"
 
 #: argos/ui/app_menu.ui:20
 msgid "Update library"

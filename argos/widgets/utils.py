@@ -51,8 +51,8 @@ def scale_album_image(image_path: Path, *, target_width: int) -> Optional[Pixbuf
 
 
 def set_list_box_header_with_separator(
-    row: Gtk.ListBox,
-    before: Gtk.ListBox,
+    row: Gtk.ListBoxRow,
+    before: Gtk.ListBoxRow,
 ) -> None:
     current_header = row.get_header()
     if current_header:

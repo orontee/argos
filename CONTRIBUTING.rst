@@ -38,16 +38,17 @@ One can run a shell in sandbox and call the application through
 Build DEB package
 =================
 
-To build the DEB package, one can build a Docker image and export the
-DEB file from that image::
+To build the DEB package *for a given version*, one can build a Docker
+image and export the DEB file from that image::
 
   $ VERSION=$(poetry version | cut -d' ' -f 2)
+  $ git checkout v${VERSION}
   $ docker build -t argos-build:$VERSION --build-arg VERSION=${VERSION} .
   $ docker run --rm -v ${PWD}:/opt/argos argos-build:$VERSION bash -c "cp builddir/*.deb /opt/argos"
 
-To manually build the DEB package, first install the dependencies
-listed in the `Dockerfile </Dockerfile>`_, then run the following
-commands::
+To manually build the DEB package *for current HEAD*, first install
+the dependencies listed in the `Dockerfile </Dockerfile>`_, then run
+the following commands::
 
   $ VERSION=$(poetry version | cut -d' ' -f 2)
   $ mkdir builddir
