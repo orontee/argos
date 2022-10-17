@@ -8,145 +8,25 @@
     <property name="spacing">5</property>
     <property name="homogeneous">True</property>
     <child>
-      <object class="GtkBox">
+      <object class="GtkScrolledWindow" id="playlists_window">
+        <property name="width-request">150</property>
         <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="spacing">50</property>
+        <property name="can-focus">True</property>
+        <property name="vexpand">True</property>
+        <property name="shadow-type">in</property>
         <child>
-          <object class="GtkScrolledWindow" id="playlists_window">
-            <property name="width-request">150</property>
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="vexpand">True</property>
-            <property name="shadow-type">in</property>
-            <child>
-              <object class="GtkViewport" id="playlists_viewport">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <child>
-                  <object class="GtkListBox" id="playlists_view">
-                    <property name="name">playlists-view</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <signal name="row-selected" handler="on_playlists_view_row_selected" swapped="no"/>
-                  </object>
-                </child>
-              </object>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox" id="selected_playlist_box">
-            <property name="name">selected-playlist-box</property>
+          <object class="GtkViewport" id="playlists_viewport">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="orientation">vertical</property>
             <child>
-              <object class="GtkLabel" id="playlist_name_label">
+              <object class="GtkListBox" id="playlists_view">
+                <property name="name">playlists-view</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="halign">start</property>
-                <property name="margin-bottom">5</property>
-                <property name="wrap">True</property>
+                <signal name="row-selected" handler="on_playlists_view_row_selected" swapped="no"/>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <!-- n-columns=2 n-rows=2 -->
-              <object class="GtkGrid" id="playlist_details_box">
-                <property name="name">selected-playlist-details-box</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="halign">start</property>
-                <property name="valign">start</property>
-                <property name="margin-top">5</property>
-                <property name="margin-bottom">5</property>
-                <child>
-                  <object class="GtkLabel" id="length_title_label">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="halign">end</property>
-                    <property name="valign">start</property>
-                    <property name="margin-right">5</property>
-                    <property name="margin-end">5</property>
-                    <property name="label" translatable="yes">Length</property>
-                    <attributes>
-                      <attribute name="weight" value="semilight"/>
-                    </attributes>
-                  </object>
-                  <packing>
-                    <property name="left-attach">0</property>
-                    <property name="top-attach">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="length_label">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="halign">start</property>
-                    <property name="valign">start</property>
-                    <property name="margin-left">5</property>
-                    <property name="margin-start">5</property>
-                  </object>
-                  <packing>
-                    <property name="left-attach">1</property>
-                    <property name="top-attach">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="track_count_title_label">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="halign">end</property>
-                    <property name="valign">start</property>
-                    <property name="margin-right">5</property>
-                    <property name="margin-end">5</property>
-                    <property name="label" translatable="yes">Tracks</property>
-                    <attributes>
-                      <attribute name="weight" value="semilight"/>
-                    </attributes>
-                  </object>
-                  <packing>
-                    <property name="left-attach">0</property>
-                    <property name="top-attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="track_count_label">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="halign">start</property>
-                    <property name="valign">start</property>
-                    <property name="margin-left">5</property>
-                    <property name="margin-start">5</property>
-                  </object>
-                  <packing>
-                    <property name="left-attach">1</property>
-                    <property name="top-attach">0</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
             </child>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
         </child>
       </object>
       <packing>
@@ -156,7 +36,102 @@
       </packing>
     </child>
     <child>
-      <placeholder/>
+      <object class="GtkBox" id="selected_playlist_box">
+        <property name="name">selected-playlist-box</property>
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">5</property>
+        <child>
+          <!-- n-columns=2 n-rows=2 -->
+          <object class="GtkGrid" id="playlist_details_box">
+            <property name="name">selected-playlist-details-box</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">start</property>
+            <property name="valign">start</property>
+            <property name="margin-top">5</property>
+            <property name="margin-bottom">5</property>
+            <child>
+              <object class="GtkLabel" id="length_title_label">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="halign">end</property>
+                <property name="valign">start</property>
+                <property name="margin-right">5</property>
+                <property name="margin-end">5</property>
+                <property name="label" translatable="yes">Length</property>
+                <attributes>
+                  <attribute name="weight" value="semilight"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="length_label">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="halign">start</property>
+                <property name="valign">start</property>
+                <property name="margin-left">5</property>
+                <property name="margin-start">5</property>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="track_count_title_label">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="halign">end</property>
+                <property name="valign">start</property>
+                <property name="margin-right">5</property>
+                <property name="margin-end">5</property>
+                <property name="label" translatable="yes">Tracks</property>
+                <attributes>
+                  <attribute name="weight" value="semilight"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="track_count_label">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="halign">start</property>
+                <property name="valign">start</property>
+                <property name="margin-left">5</property>
+                <property name="margin-start">5</property>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">0</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
     </child>
   </template>
 </interface>

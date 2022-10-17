@@ -26,6 +26,8 @@ Added
 
 Changed
 -------
+- Simplify playlists box layout `#74
+  <https://github.com/orontee/argos/issues/74>`_
 - Reorganize preferences dialog to fix album sort selection `#54
   <https://github.com/orontee/argos/issues/54>`_
 - "Add stream to tracklist" action replaces "play stream" action, and

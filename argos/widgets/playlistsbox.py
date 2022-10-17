@@ -2,11 +2,11 @@ import gettext
 import logging
 from typing import Optional
 
-from gi.repository import Gio, GLib, GObject, Gtk
+from gi.repository import Gio, GObject, Gtk
 
 from argos.message import MessageType
 from argos.model import PlaylistModel
-from argos.utils import elide_maybe, ms_to_text
+from argos.utils import ms_to_text
 from argos.widgets.playlistlabel import PlaylistLabel
 from argos.widgets.playlisttracksbox import PlaylistTracksBox
 
@@ -42,8 +42,8 @@ class PlaylistsBox(Gtk.Box):
 
     playlists_view: Gtk.TreeView = Gtk.Template.Child()
     playlist_tracks_box = GObject.Property(type=PlaylistTracksBox)
+    selected_playlist_box: Gtk.TreeView = Gtk.Template.Child()
 
-    playlist_name_label: Gtk.Label = Gtk.Template.Child()
     length_label: Gtk.Label = Gtk.Template.Child()
     track_count_label: Gtk.Label = Gtk.Template.Child()
 
@@ -67,12 +67,9 @@ class PlaylistsBox(Gtk.Box):
         )
 
         self.props.playlist_tracks_box = PlaylistTracksBox(application)
-        self.add(self.props.playlist_tracks_box)
+        self.selected_playlist_box.add(self.props.playlist_tracks_box)
 
-        for widget in (
-            self.playlists_view,
-            self.playlist_name_label,
-        ):
+        for widget in (self.playlists_view,):
             if self._disable_tooltips:
                 widget.props.has_tooltip = False
 
@@ -104,15 +101,12 @@ class PlaylistsBox(Gtk.Box):
     ) -> None:
         playlist_label = row.get_child() if row else None
         playlist = playlist_label.playlist if playlist_label else None
-        playlist_name = playlist.props.name if playlist is not None else None
 
         if playlist is not None:
             self._app.send_message(
                 MessageType.COMPLETE_PLAYLIST_DESCRIPTION,
                 {"uri": playlist.uri},
             )
-
-        self._update_playlist_name_label(playlist_name)
 
         tracks = playlist.tracks if playlist is not None else None
         self._update_track_count_label(tracks)
@@ -127,25 +121,6 @@ class PlaylistsBox(Gtk.Box):
                 "items-changed", self._on_playlist_tracks_items_changed
             )
             # would be cleaner to disconnect on selection changes...
-
-    def _update_playlist_name_label(self, playlist_name: Optional[str] = None) -> None:
-        if playlist_name:
-            short_playlist_name = GLib.markup_escape_text(elide_maybe(playlist_name))
-            track_name_text = (
-                f"""<span size="xx-large"><b>{short_playlist_name}</b></span>"""
-            )
-            self.playlist_name_label.set_markup(track_name_text)
-            if not self._disable_tooltips:
-                self.playlist_name_label.set_has_tooltip(True)
-                self.playlist_name_label.set_tooltip_text(playlist_name)
-        else:
-            self.playlist_name_label.set_markup(
-                """<span size="xx-large"><b> </b></span>"""
-            )
-            # blank markup required for widget to have constant height
-            self.playlist_name_label.set_has_tooltip(False)
-
-        self.playlist_name_label.show_now()
 
     def _update_track_count_label(self, tracks: Optional[Gio.ListStore] = None) -> None:
         if tracks is None:
@@ -185,8 +160,6 @@ class PlaylistsBox(Gtk.Box):
 
         if changed_playlist != playlist:
             return
-
-        self._update_playlist_name_label(changed_playlist.name)
 
     def _get_selected_playlist(self) -> Optional[PlaylistModel]:
         selected_row = self.playlists_view.get_selected_row()
