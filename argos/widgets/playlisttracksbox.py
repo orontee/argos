@@ -101,7 +101,22 @@ class PlaylistTracksBox(Gtk.Box):
             tracks,
             self._create_track_box,
         )
-        self._empty_tracks_placeholder.props.loading = playlist is not None
+
+        # Since playlist model missed a "loaded" property, the tracks
+        # emptyness must be completed by a check to last_modified
+        # value...
+        self._empty_tracks_placeholder.props.loading = (
+            playlist is not None and playlist.props.last_modified == -1
+        )
+
+        def update_placeholder_loading_prop(
+            playlist: GObject.GObject, _2: GObject.GParamSpec
+        ) -> None:
+            if playlist.props.last_modified != -1:
+                self._empty_tracks_placeholder.props.loading = False
+
+        playlist.connect("notify::last-modified", update_placeholder_loading_prop)
+
         self.play_button.set_sensitive(playlist is not None)
         self.add_button.set_sensitive(playlist is not None)
         self.edit_button.set_sensitive(self._is_playlist_removable())
