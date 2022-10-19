@@ -8,7 +8,7 @@
     <property name="program-name">Argos</property>
     <property name="version">@package_version@</property>
     <property name="copyright" translatable="yes">© Matthias Meulien 2022</property>
-    <property name="comments" translatable="yes">Many thanks to canddoki for valuable feedbacks, bug reports and testing!</property>
+    <property name="comments" translatable="yes">Ce sont les fûts vides qui font le plus de bruit !</property>
     <property name="website">https://github.com/orontee/argos</property>
     <property name="website-label" translatable="yes">Web Site</property>
     <property name="authors">Matthias Meulien
