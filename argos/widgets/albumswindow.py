@@ -1,9 +1,10 @@
 import logging
 import re
 import threading
+import time
 from enum import IntEnum
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 from gi.repository import Gio, GLib, GObject, Gtk
 from gi.repository.GdkPixbuf import Pixbuf
@@ -45,6 +46,9 @@ class AlbumsWindow(Gtk.Overlay):
 
         settings: Gio.Settings = application.props.settings
         self.albums_image_size = settings.get_int("albums-image-size")
+        settings.connect(
+            "changed::albums-image-size", self._on_albums_image_size_changed
+        )
 
         self.default_album_image = default_image_pixbuf(
             "media-optical-cd-audio-symbolic",
@@ -105,8 +109,8 @@ class AlbumsWindow(Gtk.Overlay):
 
     def _update_store(
         self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
+        _1: GObject.GObject = None,
+        _2: GObject.GParamSpec = None,
     ) -> None:
         LOGGER.debug("Updating album store...")
 
@@ -153,39 +157,53 @@ class AlbumsWindow(Gtk.Overlay):
         self._progress_box.hide()
 
     def _update_store_pixbufs(
-        self,
-        _1: GObject.GObject,
+        self, _1: Optional[GObject.GObject] = None, *, force: bool = False
     ) -> None:
         thread = threading.Thread(
-            target=self._start_store_pixbufs_update_task, name="ImagesThread"
+            target=self._start_store_pixbufs_update_task,
+            name="ImagesThread",
+            kwargs={"force": force},
+            daemon=True,
         )
-        thread.daemon = True
         thread.start()
 
-    def _start_store_pixbufs_update_task(self) -> None:
+    def _start_store_pixbufs_update_task(self, *, force: bool = False) -> None:
         # wait for model.albums_loaded
         with self._ongoing_store_update:
             # Will wait for ongoing store update to finish
-            LOGGER.debug("Updating album store pixbufs...")
+
+            albums_image_size = self.albums_image_size
+            default_album_image = self.default_album_image
+            LOGGER.debug(
+                f"Updating album store pixbufs with size {albums_image_size}..."
+            )
 
             store = self.props.filtered_albums_store.get_model()
 
-            def update_pixbuf_at(path: Gtk.TreePath, pixbuf: Pixbuf) -> None:
-                store_iter = store.get_iter(path)
-                store.set_value(store_iter, AlbumStoreColumns.PIXBUF, pixbuf)
+            def update_pixbuf_at(path: Gtk.TreePath, pixbuf: Pixbuf) -> bool:
+                try:
+                    store_iter = store.get_iter(path)
+                    store.set_value(store_iter, AlbumStoreColumns.PIXBUF, pixbuf)
+                except Exception as e:
+                    LOGGER.warning("Failed to set pixbuf", exc_info=e)
+                return False
 
             store_iter = store.get_iter_first()
-            while store_iter is not None and not self._abort_pixbufs_update:
+            while store_iter is not None:
+                if self._abort_pixbufs_update:
+                    LOGGER.debug("Aborting update of album images")
+                    break
+
                 image_path, current_pixbuf = store.get(
                     store_iter,
                     AlbumStoreColumns.IMAGE_FILE_PATH,
                     AlbumStoreColumns.PIXBUF,
                 )
                 if image_path:
-                    if current_pixbuf == self.default_album_image:
+                    if force or current_pixbuf == default_album_image:
                         scaled_pixbuf = scale_album_image(
                             image_path,
-                            target_width=self.albums_image_size,
+                            target_width=albums_image_size,
                         )
                         path = store.get_path(store_iter)
                         GLib.idle_add(update_pixbuf_at, path, scaled_pixbuf)
@@ -206,3 +224,21 @@ class AlbumsWindow(Gtk.Overlay):
         store_iter = filtered_store.get_iter(path)
         uri = filtered_store.get_value(store_iter, AlbumStoreColumns.URI)
         self.emit("album-selected", uri)
+
+    def _on_albums_image_size_changed(
+        self,
+        settings: Gio.Settings,
+        key: str,
+    ) -> None:
+        albums_image_size = settings.get_int("albums-image-size")
+        if albums_image_size == self.albums_image_size:
+            return
+
+        LOGGER.debug(f"Albums image size changed to {albums_image_size}")
+        self.albums_image_size = albums_image_size
+        self.default_album_image = default_image_pixbuf(
+            "media-optical-cd-audio-symbolic",
+            target_width=self.albums_image_size,
+        )
+        self._update_store_pixbufs(force=True)
+        self.albums_view.set_item_width(self.albums_image_size)

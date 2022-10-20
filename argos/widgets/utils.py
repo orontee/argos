@@ -42,10 +42,6 @@ def scale_album_image(image_path: Path, *, target_width: int) -> Optional[Pixbuf
         pixbuf.get_height(),
         target_width=target_width,
     )
-    LOGGER.debug(
-        f"Scaling image at {str(image_path)!r} to {width}x{height} "
-        f"({target_width} requested)"
-    )
     scaled_pixbuf = pixbuf.scale_simple(width, height, GdkPixbuf.InterpType.BILINEAR)
     return scaled_pixbuf
 

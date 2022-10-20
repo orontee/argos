@@ -2,6 +2,25 @@
 <!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
+  <object class="GtkAdjustment" id="albums_image_size_adjustment">
+    <property name="lower">50</property>
+    <property name="upper">250</property>
+    <property name="value">100</property>
+    <property name="step-increment">25</property>
+    <property name="page-increment">50</property>
+  </object>
+  <object class="GtkAdjustment" id="history_playlist_max_length_adjustment">
+    <property name="lower">20</property>
+    <property name="upper">1000</property>
+    <property name="step-increment">20</property>
+    <property name="page-increment">50</property>
+  </object>
+  <object class="GtkAdjustment" id="recent_additions_playlist_max_age_adjustment">
+    <property name="lower">1</property>
+    <property name="upper">100</property>
+    <property name="step-increment">7</property>
+    <property name="page-increment">30</property>
+  </object>
   <template class="PreferencesWindow" parent="GtkWindow">
     <property name="can-focus">False</property>
     <property name="title" translatable="yes">Preferences</property>
@@ -456,7 +475,7 @@
                   </packing>
                 </child>
                 <child>
-                  <!-- n-columns=3 n-rows=2 -->
+                  <!-- n-columns=3 n-rows=3 -->
                   <object class="GtkGrid" id="library_display_grid">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
@@ -493,6 +512,33 @@
                       </packing>
                     </child>
                     <child>
+                      <object class="GtkLabel" id="albums_image_size_label">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="halign">end</property>
+                        <property name="label" translatable="yes">Image size:</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkScale" id="albums_image_size_scale">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="hexpand">True</property>
+                        <property name="adjustment">albums_image_size_adjustment</property>
+                        <property name="round-digits">1</property>
+                        <property name="draw-value">False</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">1</property>
+                        <property name="top-attach">2</property>
+                        <property name="width">2</property>
+                      </packing>
+                    </child>
+                    <child>
                       <placeholder/>
                     </child>
                     <child>
@@ -525,16 +571,4 @@
       </object>
     </child>
   </template>
-  <object class="GtkAdjustment" id="history_playlist_max_length_adjustment">
-    <property name="lower">20</property>
-    <property name="upper">1000</property>
-    <property name="step-increment">20</property>
-    <property name="page-increment">50</property>
-  </object>
-  <object class="GtkAdjustment" id="recent_additions_playlist_max_age_adjustment">
-    <property name="lower">1</property>
-    <property name="upper">100</property>
-    <property name="step-increment">7</property>
-    <property name="page-increment">30</property>
-  </object>
 </interface>

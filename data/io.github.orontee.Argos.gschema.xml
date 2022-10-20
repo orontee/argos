@@ -130,7 +130,7 @@
 
     <key type="i" name="albums-image-size">
       <default>100</default>
-      <range min="50" max="200"/>
+      <range min="50" max="250"/>
       <summary>
 	Albums image size
       </summary>
