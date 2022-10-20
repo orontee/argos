@@ -18,6 +18,8 @@ Added
 
 Changed
 -------
+- Reorganize preferences dialog `#77
+  <https://github.com/orontee/argos/issues/77>`_
 - History playlist can contain duplicated tracks `#80
   <https://github.com/orontee/argos/issues/80>`_
 
