@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-17 23:25+0200\n"
+"POT-Creation-Date: 2022-10-20 19:09+0200\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: André Dokis <em21nummer1@icloud.com>\n"
 "Language-Team: German <em21nummer1@icloud.com>\n"
@@ -53,12 +53,12 @@ msgid "Started to play {}"
 msgstr "Es läuft {}"
 
 #: argos/controllers/playlists.py:41 argos/controllers/playlists.py:345
-#: argos/ui/preferences.ui:373
+#: argos/ui/preferences.ui:327
 msgid "Recent additions"
 msgstr "Zuletzt hinzugefügt"
 
 #: argos/controllers/playlists.py:54 argos/controllers/playlists.py:353
-#: argos/ui/preferences.ui:433
+#: argos/ui/preferences.ui:387
 msgid "History"
 msgstr "Zuletzt gespielt"
 
@@ -214,27 +214,27 @@ msgstr "Playlist bearbeiten"
 msgid "Tracks"
 msgstr "Titel"
 
-#: argos/ui/preferences.ui:19
+#: argos/ui/preferences.ui:26
 msgid "Preferences"
 msgstr "Einstellungen"
 
-#: argos/ui/preferences.ui:68
+#: argos/ui/preferences.ui:75
 msgid "Mopidy server"
 msgstr "Mopidy Server"
 
-#: argos/ui/preferences.ui:91
+#: argos/ui/preferences.ui:98
 msgid "Base URL:"
 msgstr "URL des Servers:"
 
-#: argos/ui/preferences.ui:105
+#: argos/ui/preferences.ui:112
 msgid "Base URL of Mopidy server"
 msgstr "URL des Mopidy Servers"
 
-#: argos/ui/preferences.ui:106
+#: argos/ui/preferences.ui:113
 msgid "Enter the URL of the Mopidy server"
 msgstr "URL des Mopidy Servers eingeben"
 
-#: argos/ui/preferences.ui:130
+#: argos/ui/preferences.ui:137
 msgid ""
 "A connection failure indicates that the music server is currently not "
 "accessible at the given URL. Please adapt the URL."
@@ -242,53 +242,58 @@ msgstr ""
 "Ein Verbindungsfehler weist darauf hin, dass der Musikserver derzeit nicht "
 "unter der angegebeben URL erreichbar ist. Bitte die Einstellung prüfen."
 
-#: argos/ui/preferences.ui:147
+#: argos/ui/preferences.ui:154
 msgid "General"
 msgstr "Allgemein"
 
-#: argos/ui/preferences.ui:179
-msgid "Podcasts:"
-msgstr "Podcasts:"
-
-#: argos/ui/preferences.ui:203
-msgid "Bandcamp:"
-msgstr "Bandcamp:"
-
-#: argos/ui/preferences.ui:227
-msgid "Local:"
-msgstr "Local:"
-
-#: argos/ui/preferences.ui:250
-msgid "Jellyfin:"
-msgstr "Jellyfin:"
-
-#: argos/ui/preferences.ui:262
-msgid "Sources"
-msgstr "Quellen"
-
-#: argos/ui/preferences.ui:278
-msgid "Sort by:"
-msgstr "Sortierung:"
-
-#: argos/ui/preferences.ui:290
-msgid "Presentation"
-msgstr "Ansicht"
-
-#: argos/ui/preferences.ui:352 argos/window.py:54
+#: argos/ui/preferences.ui:169 argos/ui/preferences.ui:466 argos/window.py:54
 msgid "Library"
 msgstr "Sammlung"
 
-#: argos/ui/preferences.ui:410
+#: argos/ui/preferences.ui:209
+msgid "Podcasts:"
+msgstr "Podcasts:"
+
+#: argos/ui/preferences.ui:233
+msgid "Bandcamp:"
+msgstr "Bandcamp:"
+
+#: argos/ui/preferences.ui:257
+msgid "Local:"
+msgstr "Local:"
+
+#: argos/ui/preferences.ui:280
+msgid "Jellyfin:"
+msgstr "Jellyfin:"
+
+#: argos/ui/preferences.ui:299 argos/window.py:58
+msgid "Playlists"
+msgstr "Playlists"
+
+#: argos/ui/preferences.ui:364
 msgid "Max age (days):"
 msgstr "Max. Alter (Tage):"
 
-#: argos/ui/preferences.ui:470
+#: argos/ui/preferences.ui:424
 msgid "Max length:"
 msgstr "Max. Länge:"
 
-#: argos/ui/preferences.ui:489 argos/window.py:58
-msgid "Playlists"
-msgstr "Playlists"
+#: argos/ui/preferences.ui:450
+msgid "Sources"
+msgstr "Quellen"
+
+#: argos/ui/preferences.ui:493
+msgid "Sort by:"
+msgstr "Sortierung:"
+
+#: argos/ui/preferences.ui:519
+#, fuzzy
+msgid "Image size:"
+msgstr "Albenansicht"
+
+#: argos/ui/preferences.ui:560
+msgid "Display"
+msgstr ""
 
 #: argos/ui/stream_uri_dialog.ui:8 argos/ui/stream_uri_dialog.ui:48
 msgid "Stream URI"
@@ -368,15 +373,15 @@ msgstr "Markierte Titel entfernen"
 msgid "Delete playlist…"
 msgstr "Playlist löschen…"
 
-#: argos/widgets/preferences.py:88
+#: argos/widgets/preferences.py:91
 msgid "Album name"
 msgstr "Album"
 
-#: argos/widgets/preferences.py:89
+#: argos/widgets/preferences.py:92
 msgid "Artist name"
 msgstr "Künstler"
 
-#: argos/widgets/preferences.py:90
+#: argos/widgets/preferences.py:93
 msgid "Publication date"
 msgstr "Erscheinungsdatum"
 
@@ -500,27 +505,36 @@ msgstr ""
 "Alben, der ausgewählten Mopidy Backends werden bei zufälliger Wiedergabe "
 "ausgeschlossen."
 
-#: data/io.github.orontee.Argos.gschema.xml:133
+#: data/io.github.orontee.Argos.gschema.xml:134
+#, fuzzy
+msgid "Albums image size"
+msgstr "Albenansicht"
+
+#: data/io.github.orontee.Argos.gschema.xml:137
+msgid "The size of images in the library."
+msgstr ""
+
+#: data/io.github.orontee.Argos.gschema.xml:144
 msgid "Window size"
 msgstr "Fenstergröße"
 
-#: data/io.github.orontee.Argos.gschema.xml:134
+#: data/io.github.orontee.Argos.gschema.xml:145
 msgid "Window size (width and height)."
 msgstr "Fenstergröße (Breite und Höhe)."
 
-#: data/io.github.orontee.Argos.gschema.xml:139
+#: data/io.github.orontee.Argos.gschema.xml:150
 msgid "Window position"
 msgstr "Fensterposition"
 
-#: data/io.github.orontee.Argos.gschema.xml:140
+#: data/io.github.orontee.Argos.gschema.xml:151
 msgid "Window position (x and y)."
 msgstr "Fensterposition (x und y)."
 
-#: data/io.github.orontee.Argos.gschema.xml:145
+#: data/io.github.orontee.Argos.gschema.xml:156
 msgid "Window maximized"
 msgstr "Vollbild"
 
-#: data/io.github.orontee.Argos.gschema.xml:146
+#: data/io.github.orontee.Argos.gschema.xml:157
 msgid "Window maximized state."
 msgstr "Vollbildmodus."
 
@@ -549,10 +563,14 @@ msgid "Album details view"
 msgstr ""
 
 #: data/io.github.orontee.Argos.appdata.xml.in:33
+msgid "Improving user experience."
+msgstr ""
+
+#: data/io.github.orontee.Argos.appdata.xml.in:40
 msgid "Autumnal delivery."
 msgstr "Herbstliche Lieferung"
 
-#: data/io.github.orontee.Argos.appdata.xml.in:40
+#: data/io.github.orontee.Argos.appdata.xml.in:47
 msgid ""
 "Improve performance while browsing albums and add support for Mopidy-"
 "Jellyfin."
@@ -560,25 +578,28 @@ msgstr ""
 "Verbesserung der Leistung beim Durchsuchen von Alben und Unterstützung von "
 "Mopidy-Jellyfin."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:47
+#: data/io.github.orontee.Argos.appdata.xml.in:54
 msgid "Bug fixes release."
 msgstr "Fehlerbehebungen"
 
-#: data/io.github.orontee.Argos.appdata.xml.in:54
+#: data/io.github.orontee.Argos.appdata.xml.in:61
 msgid "Attempt to comply to Flathub expectations."
 msgstr "Versuch die Erwartungen von Flathub zu erfüllen."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:61
+#: data/io.github.orontee.Argos.appdata.xml.in:68
 msgid "Delivered during holidays, use at your own risks!"
 msgstr "Auslieferung während der Ferien, Nutzung auf eigene Gefahr!"
 
-#: data/io.github.orontee.Argos.appdata.xml.in:68
+#: data/io.github.orontee.Argos.appdata.xml.in:75
 msgid "Delivered during a toothache, use at your own risks!"
 msgstr "Auslieferung mit Zahnschmerzen, Nutzung auf eigene Gefahr!"
 
-#: data/io.github.orontee.Argos.appdata.xml.in:74
+#: data/io.github.orontee.Argos.appdata.xml.in:81
 msgid "Matthias Meulien"
 msgstr ""
+
+#~ msgid "Presentation"
+#~ msgstr "Ansicht"
 
 #~ msgid "Play stream…"
 #~ msgstr "Stream abspielen…"
