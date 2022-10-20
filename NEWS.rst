@@ -13,6 +13,8 @@ The format is based on `Keep a Changelog
 
 Added
 -----
+- Setting to change size of images in albums window `#77
+  <https://github.com/orontee/argos/issues/77>`_
 
 Changed
 -------

@@ -5,7 +5,7 @@ from enum import IntEnum
 from pathlib import Path
 from typing import List
 
-from gi.repository import GLib, GObject, Gtk
+from gi.repository import Gio, GLib, GObject, Gtk
 from gi.repository.GdkPixbuf import Pixbuf
 
 from argos.message import MessageType
@@ -14,8 +14,6 @@ from argos.widgets.albumsbrowsingprogressbox import AlbumsBrowsingProgressBox
 from argos.widgets.utils import default_image_pixbuf, scale_album_image
 
 LOGGER = logging.getLogger(__name__)
-
-ALBUM_IMAGE_SIZE = 100
 
 
 class AlbumStoreColumns(IntEnum):
@@ -34,11 +32,6 @@ class AlbumsWindow(Gtk.Overlay):
 
     __gsignals__ = {"album-selected": (GObject.SIGNAL_RUN_FIRST, None, (str,))}
 
-    default_album_image = default_image_pixbuf(
-        "media-optical-cd-audio-symbolic",
-        target_width=ALBUM_IMAGE_SIZE,
-    )
-
     albums_view: Gtk.IconView = Gtk.Template.Child()
 
     filtered_albums_store = GObject.Property(type=Gtk.TreeModelFilter)
@@ -50,6 +43,14 @@ class AlbumsWindow(Gtk.Overlay):
         self._app = application
         self._model = application.model
 
+        settings: Gio.Settings = application.props.settings
+        self.albums_image_size = settings.get_int("albums-image-size")
+
+        self.default_album_image = default_image_pixbuf(
+            "media-optical-cd-audio-symbolic",
+            target_width=self.albums_image_size,
+        )
+
         albums_store = Gtk.ListStore(str, str, str, str, Pixbuf, str, str)
         self.props.filtered_albums_store = albums_store.filter_new()
         self.props.filtered_albums_store.set_visible_func(self._filter_album_row, None)
@@ -58,7 +59,7 @@ class AlbumsWindow(Gtk.Overlay):
         self.albums_view.set_markup_column(AlbumStoreColumns.MARKUP)
         self.albums_view.set_tooltip_column(AlbumStoreColumns.TOOLTIP)
         self.albums_view.set_pixbuf_column(AlbumStoreColumns.PIXBUF)
-        self.albums_view.set_item_width(ALBUM_IMAGE_SIZE)
+        self.albums_view.set_item_width(self.albums_image_size)
 
         if application.props.disable_tooltips:
             self.albums_view.props.has_tooltip = False
@@ -184,7 +185,7 @@ class AlbumsWindow(Gtk.Overlay):
                     if current_pixbuf == self.default_album_image:
                         scaled_pixbuf = scale_album_image(
                             image_path,
-                            target_width=ALBUM_IMAGE_SIZE,
+                            target_width=self.albums_image_size,
                         )
                         path = store.get_path(store_iter)
                         GLib.idle_add(update_pixbuf_at, path, scaled_pixbuf)
