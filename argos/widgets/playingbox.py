@@ -51,7 +51,7 @@ class PlayingBox(Gtk.Box):
     next_button: Gtk.Button = Gtk.Template.Child()
 
     time_position_scale: Gtk.Scale = Gtk.Template.Child()
-    time_position_adjustement: Gtk.Adjustment = Gtk.Template.Child()
+    time_position_adjustment: Gtk.Adjustment = Gtk.Template.Child()
     time_position_label: Gtk.Label = Gtk.Template.Child()
 
     tracklist_view_scrolled_window: Gtk.ScrolledWindow = Gtk.Template.Child()
@@ -229,10 +229,10 @@ class PlayingBox(Gtk.Box):
         self.track_length_label.set_text(pretty_length)
 
         if track_length and track_length != -1:
-            self.time_position_adjustement.set_upper(track_length)
+            self.time_position_adjustment.set_upper(track_length)
             self.time_position_scale.set_sensitive(True)
         else:
-            self.time_position_adjustement.set_upper(0)
+            self.time_position_adjustment.set_upper(0)
             self.time_position_scale.set_sensitive(False)
 
         self.track_length_label.show_now()
@@ -248,7 +248,7 @@ class PlayingBox(Gtk.Box):
         if self._time_position_scale_jumped_source_id is None:
             # User is not adjusting time position, update is ok
 
-            self.time_position_adjustement.set_value(
+            self.time_position_adjustment.set_value(
                 time_position if time_position != -1 else 0
             )
 
@@ -311,7 +311,7 @@ class PlayingBox(Gtk.Box):
 
     def _on_time_position_scale_jumped(self) -> bool:
         if self._time_position_scale_jumped_source_id is not None:
-            time_position = round(self.time_position_adjustement.props.value)
+            time_position = round(self.time_position_adjustment.props.value)
             self._app.send_message(MessageType.SEEK, {"time_position": time_position})
             self._time_position_scale_jumped_source_id = None
         return False  # means stop calling this callback

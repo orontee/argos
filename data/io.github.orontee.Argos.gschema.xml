@@ -123,7 +123,7 @@
 	Album backends excluded from random play
       </summary>
       <description>
-	Albums handled by the selected Mopidy bakends will be filtered
+	Albums handled by the selected Mopidy backends will be filtered
 	out when randomly choosing an album to play.
       </description>
     </key>

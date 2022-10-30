@@ -17,7 +17,7 @@ async def call_by_slice(
 ) -> Dict[str, Any]:
     """Make multiple synchronous calls.
 
-    The argument ``params`` is splitted in slices of bounded
+    The argument ``params`` is split in slices of bounded
     length. There's one ``func`` call per slice.
 
     Args:
@@ -28,7 +28,7 @@ async def call_by_slice(
         call_size: Number of parameters to handle through each call.
 
     Returns:
-        Dictionnary merging all calls return values.
+        Dictionary merging all calls return values.
 
     """
     call_size = call_size if call_size is not None and call_size > 0 else _CALL_SIZE

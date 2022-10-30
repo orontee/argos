@@ -91,7 +91,7 @@ others systems that it interacts with:
    :align: center
    :width: 400
 
-Now a high-level technology focussed diagram:
+Now a high-level technology focused diagram:
 
 .. figure:: docs/containers.svg
    :alt: Containers

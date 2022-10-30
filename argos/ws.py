@@ -136,7 +136,7 @@ class MopidyWSConnection(GObject.GObject):
                 await asyncio.wait_for(future, timeout)
             except asyncio.exceptions.TimeoutError:
                 LOGGER.warning(
-                    f"Timeout {timeout}s excedeed while waiting response of "
+                    f"Timeout {timeout}s exceeded while waiting response of "
                     f"JSON-RPC command {jsonrpc_id} with method {method}"
                 )
                 future.cancel()
@@ -171,7 +171,7 @@ class MopidyWSConnection(GObject.GObject):
             future.cancel()
 
     async def _enqueue(self, message: Message) -> None:
-        LOGGER.debug(f"Enqueing message with type {message.type}")
+        LOGGER.debug(f"Enqueuing message with type {message.type}")
         await self._message_queue.put(message)
 
     async def listen(self) -> None:
@@ -293,5 +293,5 @@ class MopidyWSConnection(GObject.GObject):
             await asyncio.wait_for(self._ws.close(), CLOSE_TIMEOUT)
         except asyncio.exceptions.TimeoutError:
             LOGGER.warning(
-                f"Timeout {CLOSE_TIMEOUT}s excedeed while closing Mopidy websocket connection"
+                f"Timeout {CLOSE_TIMEOUT}s exceeded while closing Mopidy websocket connection"
             )
