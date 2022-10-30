@@ -74,7 +74,7 @@ def consume(
     the presence of the ``consume_message`` attribute. This attribute
     value is the list of message type handled by the consumer.
 
-    Note that it's the message dispatcher responsability to feed
+    Note that it's the message dispatcher responsibility to feed
     consumers with message of type they expect.
 
     Warning: With current lazzy implementation of

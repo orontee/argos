@@ -69,7 +69,7 @@ class AlbumsController(ControllerBase):
 
         album = self._model.get_album(album_uri)
         if album is None:
-            LOGGER.warning(f"Attempt to complete unknow album with URI {album_uri!r}")
+            LOGGER.warning(f"Attempt to complete unknown album with URI {album_uri!r}")
             return
 
         LOGGER.debug(f"Completing description of album with uri {album_uri!r}")
@@ -253,7 +253,7 @@ class AlbumsController(ControllerBase):
             LOGGER.warning("Won't play random album since albums list is empty")
             return
 
-        LOGGER.debug(f"Album with URI {album_uri!r} choosen")
+        LOGGER.debug(f"Album with URI {album_uri!r} chosen")
         await self._http.play_tracks([album_uri])
 
     @consume(MessageType.FETCH_ALBUM_IMAGES)
