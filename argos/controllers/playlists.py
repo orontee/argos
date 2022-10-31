@@ -312,15 +312,25 @@ class PlaylistsController(ControllerBase):
             if len(history_item) == 2
         ]
         history_refs_uris = [ref.get("uri") for ref in history_refs if "uri" in ref]
+        unique_history_refs_uris = list(set(history_refs_uris))
+        LOGGER.debug(
+            f"{len(history_refs_uris)} URIs extracted from {len(history)} tracks "
+            f"in raw history (max length {history_max_length}, "
+            f"{len(history_refs_uris) - len(unique_history_refs_uris)} duplicates)"
+        )
 
         history_tracks = await call_by_slice(
             self._http.lookup_library,
-            params=history_refs_uris,
+            params=unique_history_refs_uris,
         )
 
-        parsed_history_tracks: List[TrackModel] = []
-        for tracks in parse_tracks(history_tracks).values():
-            parsed_history_tracks += tracks
+        parsed_history_tracks_with_duplicates: List[TrackModel] = []
+        parsed_history_tracks: Dict[str, List[TrackModel]] = parse_tracks(
+            history_tracks
+        )
+        for uri in history_refs_uris:
+            tracks = parsed_history_tracks.get(uri, [])
+            parsed_history_tracks_with_duplicates += tracks
 
         if not self._history_playlist:
             return
@@ -328,7 +338,7 @@ class PlaylistsController(ControllerBase):
         self._model.complete_playlist_description(
             self._history_playlist.uri,
             name=self._history_playlist.name,
-            tracks=parsed_history_tracks,
+            tracks=parsed_history_tracks_with_duplicates,
             last_modified=time.time(),
         )
         LOGGER.info("End of history playlist completion")

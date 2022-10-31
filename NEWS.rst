@@ -16,6 +16,8 @@ Added
 
 Changed
 -------
+- History playlist can contain duplicated tracks `#80
+  <https://github.com/orontee/argos/issues/80>`_
 
 Removed
 -------
