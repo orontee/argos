@@ -5,6 +5,7 @@ from gi.repository import GObject, Gtk
 from argos.message import MessageType
 from argos.model import TracklistTrackModel
 from argos.widgets.tracklisttrackbox import TracklistTrackBox
+from argos.widgets.utils import set_list_box_header_with_separator
 
 LOGGER = logging.getLogger(__name__)
 
@@ -21,7 +22,7 @@ class TracklistBox(Gtk.ListBox):
         self._disable_tooltips = application.props.disable_tooltips
 
         self.bind_model(self._model.tracklist.tracks, self._create_tracklist_track_box)
-        self.set_header_func(self._set_header_func)
+        self.set_header_func(set_list_box_header_with_separator)
 
         self.connect("row-activated", self._on_row_activated)
         self._model.playback.connect(
@@ -34,19 +35,6 @@ class TracklistBox(Gtk.ListBox):
     ) -> Gtk.Widget:
         widget = TracklistTrackBox(self._app, tl_track=tl_track)
         return widget
-
-    def _set_header_func(
-        self,
-        row: Gtk.ListBox,
-        before: Gtk.ListBox,
-    ) -> None:
-        current_header = row.get_header()
-        if current_header:
-            return
-
-        separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
-        separator.show()
-        row.set_header(separator)
 
     def _on_current_tl_track_tlid_changed(
         self,
