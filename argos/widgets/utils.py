@@ -77,7 +77,7 @@ def set_list_box_header_with_album_separator(
     track_no = track_box.props.track_no
 
     if num_discs > 1 and track_no == 1:
-        pretty_disc_no = _(f"Disc {disc_no}")
+        pretty_disc_no = _("Disc {0}").format(disc_no)
         markup = f"""<span style="italic">{pretty_disc_no}</span>"""
         label = Gtk.Label()
         label.set_use_markup(True)

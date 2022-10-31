@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-20 19:09+0200\n"
+"POT-Creation-Date: 2022-10-31 12:32+0100\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: André Dokis <em21nummer1@icloud.com>\n"
 "Language-Team: German <em21nummer1@icloud.com>\n"
@@ -52,12 +52,12 @@ msgstr "Neue Playlist"
 msgid "Started to play {}"
 msgstr "Es läuft {}"
 
-#: argos/controllers/playlists.py:41 argos/controllers/playlists.py:345
+#: argos/controllers/playlists.py:41 argos/controllers/playlists.py:377
 #: argos/ui/preferences.ui:327
 msgid "Recent additions"
 msgstr "Zuletzt hinzugefügt"
 
-#: argos/controllers/playlists.py:54 argos/controllers/playlists.py:353
+#: argos/controllers/playlists.py:54 argos/controllers/playlists.py:385
 #: argos/ui/preferences.ui:387
 msgid "History"
 msgstr "Zuletzt gespielt"
@@ -287,9 +287,8 @@ msgid "Sort by:"
 msgstr "Sortierung:"
 
 #: argos/ui/preferences.ui:519
-#, fuzzy
 msgid "Image size:"
-msgstr "Albenansicht"
+msgstr "Bildgröße:"
 
 #: argos/ui/preferences.ui:560
 msgid "Display"
@@ -389,19 +388,84 @@ msgstr "Erscheinungsdatum"
 msgid "Unknown name"
 msgstr "Unbekannter Name"
 
+#: argos/widgets/utils.py:80
+#, python-brace-format
+msgid "Disc {0}"
+msgstr "Disk {0}"
+
 #: argos/window.py:49
 msgid "Playing"
 msgstr "Jetzt läuft"
 
-#: data/io.github.orontee.Argos.desktop.in:3
 #: data/io.github.orontee.Argos.appdata.xml.in:6
+#: data/io.github.orontee.Argos.desktop.in:3
 msgid "Argos"
 msgstr "Argos"
 
-#: data/io.github.orontee.Argos.desktop.in:4
 #: data/io.github.orontee.Argos.appdata.xml.in:7
+#: data/io.github.orontee.Argos.desktop.in:4
 msgid "Light weight front-end for Mopidy music server"
 msgstr "Schlankes Frontend für den Mopidy Musikserver"
+
+#: data/io.github.orontee.Argos.appdata.xml.in:9
+msgid ""
+"Argos is designed (and used!) with Gnome desktop and small single-board "
+"devices with small touchscreen in mind."
+msgstr ""
+"Argos wird für den Gnome-Desktop, kleine Einplatinenrechner und zur Nutzung "
+"auf kleinen Touchscreens entwickelt (und verwendet!)."
+
+#: data/io.github.orontee.Argos.appdata.xml.in:15
+msgid "Tracklist view"
+msgstr "Titellistenansicht"
+
+#: data/io.github.orontee.Argos.appdata.xml.in:19
+msgid "Albums view"
+msgstr "Albenansicht"
+
+#: data/io.github.orontee.Argos.appdata.xml.in:23
+msgid "Playlists view"
+msgstr "Wiedergabelistenansicht"
+
+#: data/io.github.orontee.Argos.appdata.xml.in:27
+msgid "Album details view"
+msgstr ""
+
+#: data/io.github.orontee.Argos.appdata.xml.in:33
+msgid "Improving user experience."
+msgstr ""
+
+#: data/io.github.orontee.Argos.appdata.xml.in:40
+msgid "Autumnal delivery."
+msgstr "Herbstliche Lieferung"
+
+#: data/io.github.orontee.Argos.appdata.xml.in:47
+msgid ""
+"Improve performance while browsing albums and add support for Mopidy-"
+"Jellyfin."
+msgstr ""
+"Verbesserung der Leistung beim Durchsuchen von Alben und Unterstützung von "
+"Mopidy-Jellyfin."
+
+#: data/io.github.orontee.Argos.appdata.xml.in:54
+msgid "Bug fixes release."
+msgstr "Fehlerbehebungen"
+
+#: data/io.github.orontee.Argos.appdata.xml.in:61
+msgid "Attempt to comply to Flathub expectations."
+msgstr "Versuch die Erwartungen von Flathub zu erfüllen."
+
+#: data/io.github.orontee.Argos.appdata.xml.in:68
+msgid "Delivered during holidays, use at your own risks!"
+msgstr "Auslieferung während der Ferien, Nutzung auf eigene Gefahr!"
+
+#: data/io.github.orontee.Argos.appdata.xml.in:75
+msgid "Delivered during a toothache, use at your own risks!"
+msgstr "Auslieferung mit Zahnschmerzen, Nutzung auf eigene Gefahr!"
+
+#: data/io.github.orontee.Argos.appdata.xml.in:81
+msgid "Matthias Meulien"
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:6
 msgid "Connection retry delay"
@@ -499,20 +563,19 @@ msgstr "Bei zufälliger Wiedergabe, folgende Mopidy Backends ausschließen"
 
 #: data/io.github.orontee.Argos.gschema.xml:125
 msgid ""
-"Albums handled by the selected Mopidy bakends will be filtered out when "
+"Albums handled by the selected Mopidy backends will be filtered out when "
 "randomly choosing an album to play."
 msgstr ""
 "Alben, der ausgewählten Mopidy Backends werden bei zufälliger Wiedergabe "
 "ausgeschlossen."
 
 #: data/io.github.orontee.Argos.gschema.xml:134
-#, fuzzy
 msgid "Albums image size"
-msgstr "Albenansicht"
+msgstr "Bildgröße des Albums"
 
 #: data/io.github.orontee.Argos.gschema.xml:137
 msgid "The size of images in the library."
-msgstr ""
+msgstr "Die Größe der Bilder in der Sammlung."
 
 #: data/io.github.orontee.Argos.gschema.xml:144
 msgid "Window size"
@@ -537,66 +600,6 @@ msgstr "Vollbild"
 #: data/io.github.orontee.Argos.gschema.xml:157
 msgid "Window maximized state."
 msgstr "Vollbildmodus."
-
-#: data/io.github.orontee.Argos.appdata.xml.in:9
-msgid ""
-"Argos is designed (and used!) with Gnome desktop and small single-board "
-"devices with small touchscreen in mind."
-msgstr ""
-"Argos wird für den Gnome-Desktop, kleine Einplatinenrechner und zur Nutzung "
-"auf kleinen Touchscreens entwickelt (und verwendet!)."
-
-#: data/io.github.orontee.Argos.appdata.xml.in:15
-msgid "Tracklist view"
-msgstr "Titellistenansicht"
-
-#: data/io.github.orontee.Argos.appdata.xml.in:19
-msgid "Albums view"
-msgstr "Albenansicht"
-
-#: data/io.github.orontee.Argos.appdata.xml.in:23
-msgid "Playlists view"
-msgstr "Wiedergabelistenansicht"
-
-#: data/io.github.orontee.Argos.appdata.xml.in:27
-msgid "Album details view"
-msgstr ""
-
-#: data/io.github.orontee.Argos.appdata.xml.in:33
-msgid "Improving user experience."
-msgstr ""
-
-#: data/io.github.orontee.Argos.appdata.xml.in:40
-msgid "Autumnal delivery."
-msgstr "Herbstliche Lieferung"
-
-#: data/io.github.orontee.Argos.appdata.xml.in:47
-msgid ""
-"Improve performance while browsing albums and add support for Mopidy-"
-"Jellyfin."
-msgstr ""
-"Verbesserung der Leistung beim Durchsuchen von Alben und Unterstützung von "
-"Mopidy-Jellyfin."
-
-#: data/io.github.orontee.Argos.appdata.xml.in:54
-msgid "Bug fixes release."
-msgstr "Fehlerbehebungen"
-
-#: data/io.github.orontee.Argos.appdata.xml.in:61
-msgid "Attempt to comply to Flathub expectations."
-msgstr "Versuch die Erwartungen von Flathub zu erfüllen."
-
-#: data/io.github.orontee.Argos.appdata.xml.in:68
-msgid "Delivered during holidays, use at your own risks!"
-msgstr "Auslieferung während der Ferien, Nutzung auf eigene Gefahr!"
-
-#: data/io.github.orontee.Argos.appdata.xml.in:75
-msgid "Delivered during a toothache, use at your own risks!"
-msgstr "Auslieferung mit Zahnschmerzen, Nutzung auf eigene Gefahr!"
-
-#: data/io.github.orontee.Argos.appdata.xml.in:81
-msgid "Matthias Meulien"
-msgstr ""
 
 #~ msgid "Presentation"
 #~ msgstr "Ansicht"
