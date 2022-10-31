@@ -7,8 +7,8 @@
     <property name="type-hint">dialog</property>
     <property name="program-name">Argos</property>
     <property name="version">@package_version@</property>
-    <property name="copyright" translatable="no">© Matthias Meulien 2022</property>
-    <property name="comments" translatable="yes">Merry Christmas!</property>
+    <property name="copyright" translatable="no">© Matthias Meulien 2022-2023</property>
+    <property name="comments" translatable="yes">Happy listening!</property>
     <property name="website">https://github.com/orontee/argos</property>
     <property name="website-label" translatable="yes">Web Site</property>
     <property name="authors">canddoki
