@@ -1,4 +1,5 @@
 import datetime
+import gettext
 import logging
 from functools import lru_cache
 from pathlib import Path
@@ -10,6 +11,8 @@ from gi.repository.GdkPixbuf import Pixbuf
 from argos.utils import compute_target_size
 
 LOGGER = logging.getLogger(__name__)
+
+_ = gettext.gettext
 
 
 def default_image_pixbuf(icon_name: str, target_width: int) -> Pixbuf:
@@ -53,6 +56,34 @@ def set_list_box_header_with_separator(
 ) -> None:
     current_header = row.get_header()
     if current_header:
+        return
+
+    separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
+    separator.show()
+    row.set_header(separator)
+
+
+def set_list_box_header_with_album_separator(
+    row: Gtk.ListBoxRow,
+    before: Gtk.ListBoxRow,
+) -> None:
+    current_header = row.get_header()
+    if current_header:
+        return
+
+    track_box = row.get_child()
+    disc_no = track_box.props.disc_no
+    num_discs = track_box.props.num_discs
+    track_no = track_box.props.track_no
+
+    if num_discs > 1 and track_no == 1:
+        pretty_disc_no = _(f"Disc {disc_no}")
+        markup = f"""<span style="italic">{pretty_disc_no}</span>"""
+        label = Gtk.Label()
+        label.set_use_markup(True)
+        label.set_markup(markup)
+        label.show()
+        row.set_header(label)
         return
 
     separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)

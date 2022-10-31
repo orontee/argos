@@ -13,6 +13,8 @@ The format is based on `Keep a Changelog
 
 Added
 -----
+- Display date in history playlist `#82
+  <https://github.com/orontee/argos/issues/82>`_
 - Display date in history playlist `#81
   <https://github.com/orontee/argos/issues/81>`_
 - Setting to change size of images in albums window `#77

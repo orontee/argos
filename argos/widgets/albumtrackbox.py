@@ -2,7 +2,7 @@ import logging
 
 from gi.repository import GLib, GObject, Gtk
 
-from argos.model import TrackModel
+from argos.model import AlbumModel, TrackModel
 from argos.utils import ms_to_text
 
 LOGGER = logging.getLogger(__name__)
@@ -15,6 +15,9 @@ class AlbumTrackBox(Gtk.Box):
     __gtype_name__ = "AlbumTrackBox"
 
     uri = GObject.Property(type=str)
+    num_discs = GObject.Property(type=int)
+    track_no = GObject.Property(type=int)
+    disc_no = GObject.Property(type=int)
 
     track_name_label: Gtk.Label = Gtk.Template.Child()
     track_details_label: Gtk.Label = Gtk.Template.Child()
@@ -25,11 +28,15 @@ class AlbumTrackBox(Gtk.Box):
         self,
         application: Gtk.Application,
         *,
+        album: AlbumModel,
         track: TrackModel,
     ):
         super().__init__()
 
         self.props.uri = track.uri
+        self.props.num_discs = album.num_discs
+        self.props.track_no = track.track_no
+        self.props.disc_no = track.disc_no
 
         track_name = track.name if track.name else track.uri
         artist_name = track.artist_name

@@ -7,14 +7,14 @@ from typing import List, Optional
 from gi.repository import Gio, GLib, GObject, Gtk
 
 from argos.message import MessageType
-from argos.model import Model, TrackModel
+from argos.model import AlbumModel, Model, TrackModel
 from argos.utils import elide_maybe, ms_to_text
 from argos.widgets.albumtrackbox import AlbumTrackBox
 from argos.widgets.playlistselectiondialog import PlaylistSelectionDialog
 from argos.widgets.utils import (
     default_image_pixbuf,
     scale_album_image,
-    set_list_box_header_with_separator,
+    set_list_box_header_with_album_separator,
 )
 
 _ = gettext.gettext
@@ -62,7 +62,7 @@ class AlbumDetailsBox(Gtk.Box):
         self._model = application.props.model
         self._disable_tooltips = application.props.disable_tooltips
 
-        self.tracks_box.set_header_func(set_list_box_header_with_separator)
+        self.tracks_box.set_header_func(set_list_box_header_with_album_separator)
         self._clear_tracks_box_selection = False
         # Gtk automatically add first row to selection when a
         # non-empty model is bound to track_box; This flag is used to
@@ -120,7 +120,7 @@ class AlbumDetailsBox(Gtk.Box):
         self._update_publication_label(album.date)
         self._update_length_label(album.length)
         self._update_album_image(Path(album.image_path) if album.image_path else None)
-        self._update_track_view(album.tracks)
+        self._update_track_view(album)
 
     def _on_album_completed(self, model: Model, uri: str) -> None:
         if self.uri != uri:
@@ -136,7 +136,7 @@ class AlbumDetailsBox(Gtk.Box):
         self._update_publication_label(album.date)
         self._update_length_label(album.length)
         self._update_album_image(Path(album.image_path) if album.image_path else None)
-        self._update_track_view(album.tracks)
+        self._update_track_view(album)
 
     def _update_album_name_label(self, album_name: Optional[str]) -> None:
         if album_name:
@@ -202,18 +202,24 @@ class AlbumDetailsBox(Gtk.Box):
 
         self.album_image.show_now()
 
-    def _update_track_view(self, tracks: Gio.ListStore) -> None:
-        self.tracks_box.bind_model(
-            tracks,
-            self._create_track_box,
-        )
+    def _update_track_view(self, album: Optional[AlbumModel]) -> None:
+        if album is None:
+            self.tracks_box.bind_model(
+                None,
+                None,
+            )
+        else:
+            tracks = album.tracks
+            self.tracks_box.bind_model(
+                tracks,
+                self._create_track_box,
+                album,
+            )
+
         self._clear_tracks_box_selection = True
 
-    def _create_track_box(
-        self,
-        track: TrackModel,
-    ) -> Gtk.Widget:
-        widget = AlbumTrackBox(self._app, track=track)
+    def _create_track_box(self, track: TrackModel, album: AlbumModel) -> Gtk.Widget:
+        widget = AlbumTrackBox(self._app, album=album, track=track)
         return widget
 
     def _track_selection_to_uris(self) -> List[str]:
