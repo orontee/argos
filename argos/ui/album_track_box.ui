@@ -10,38 +10,10 @@
     <property name="margin-top">5</property>
     <property name="margin-bottom">5</property>
     <child>
-      <object class="GtkBox" id="playing_label_box">
-        <property name="width-request">10</property>
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="orientation">vertical</property>
-        <child>
-          <object class="GtkImage" id="playing_image">
-            <property name="can-focus">False</property>
-            <property name="vexpand">True</property>
-            <property name="pixel-size">10</property>
-            <property name="icon-name">media-playback-start-symbolic</property>
-            <property name="icon_size">1</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing>
-    </child>
-    <child>
       <!-- n-columns=2 n-rows=2 -->
-      <object class="GtkGrid">
+      <object class="GtkGrid" id="central_grid">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
-        <property name="hexpand">True</property>
         <property name="column-spacing">5</property>
         <property name="row-homogeneous">True</property>
         <child>
@@ -93,7 +65,7 @@
         </child>
       </object>
       <packing>
-        <property name="expand">False</property>
+        <property name="expand">True</property>
         <property name="fill">True</property>
         <property name="position">1</property>
       </packing>
