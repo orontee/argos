@@ -1,3 +1,4 @@
+import datetime
 import logging
 from functools import lru_cache
 from pathlib import Path
@@ -53,6 +54,66 @@ def set_list_box_header_with_separator(
     current_header = row.get_header()
     if current_header:
         return
+
+    separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
+    separator.show()
+    row.set_header(separator)
+
+
+def set_list_box_header_with_date_separator(
+    row: Gtk.ListBoxRow,
+    before: Gtk.ListBoxRow,
+) -> None:
+    current_header = row.get_header()
+    if current_header:
+        return
+
+    track_box = row.get_child()
+    last_played = (
+        track_box.props.last_played if track_box.props.last_played != -1 else None
+    )
+    last_played_date = (
+        datetime.datetime.fromtimestamp(last_played / 1000)
+        if last_played is not None
+        else None
+    )
+
+    if before is not None:
+        previous_track_box = before.get_child()
+        if previous_track_box is not None:
+            previous_last_played = (
+                previous_track_box.props.last_played
+                if previous_track_box.props.last_played != -1
+                else None
+            )
+        previous_last_played_date = (
+            datetime.datetime.fromtimestamp(previous_last_played / 1000)
+            if previous_last_played is not None
+            else None
+        )
+    else:
+        previous_last_played_date = None
+
+    if last_played_date is not None:
+        if previous_last_played_date is None:
+            day_changed = True
+        else:
+            day_changed = (
+                (last_played_date.year != previous_last_played_date.year)
+                or (last_played_date.month != previous_last_played_date.month)
+                or (last_played_date.day != previous_last_played_date.day)
+            )
+
+        if day_changed:
+            pretty_last_played_date = last_played_date.date().strftime("%x")
+            markup = f"""<span style="italic">{pretty_last_played_date}</span>"""
+
+            label = Gtk.Label()
+            label.set_use_markup(True)
+            label.set_markup(markup)
+            label.show()
+            row.set_header(label)
+            return
 
     separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
     separator.show()

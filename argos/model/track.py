@@ -4,7 +4,7 @@ from gi.repository import GObject
 class TrackModel(GObject.Object):
     """Model for a track.
 
-    All properties are read-only.
+    Most properties are read-only.
 
     """
 
@@ -16,3 +16,5 @@ class TrackModel(GObject.Object):
     album_name = GObject.Property(type=str)
     artist_name = GObject.Property(type=str)
     last_modified = GObject.Property(type=GObject.TYPE_DOUBLE, default=-1)
+
+    last_played = GObject.Property(type=GObject.TYPE_DOUBLE, default=-1)

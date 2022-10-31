@@ -2,7 +2,7 @@ import asyncio
 import gettext
 import logging
 import time
-from operator import attrgetter
+from operator import attrgetter, itemgetter
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, cast
 
 from gi.repository import Gio
@@ -302,6 +302,9 @@ class PlaylistsController(ControllerBase):
         if history is None:
             return
 
+        history.sort(key=itemgetter(0), reverse=True)
+        # most recent item first
+
         history_max_length = self._settings.get_int("history-max-length")
 
         history_refs = [
@@ -326,9 +329,30 @@ class PlaylistsController(ControllerBase):
         parsed_history_tracks: Dict[str, List[TrackModel]] = parse_tracks(
             history_tracks
         )
-        for uri in history_refs_uris:
+        for history_item in history:
+            if len(history_item) != 2:
+                continue
+
+            timestamp = history_item[0]
+            ref = history_item[1]
+
+            uri = ref.get("uri")
             tracks = parsed_history_tracks.get(uri, [])
-            parsed_history_tracks_with_duplicates += tracks
+            for track in tracks:
+                extended_track = TrackModel(
+                    uri=track.uri,
+                    name=track.name,
+                    track_no=track.track_no,
+                    disc_no=track.disc_no,
+                    length=track.length,
+                    album_name=track.album_name,
+                    artist_name=track.artist_name,
+                    last_modified=track.last_modified,
+                    last_played=timestamp,
+                )
+                # mandatory copy since tracks may be duplicated with
+                # different last_played value
+                parsed_history_tracks_with_duplicates.append(extended_track)
 
         if not self._history_playlist:
             return

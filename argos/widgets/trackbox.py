@@ -13,6 +13,7 @@ class TrackBox(Gtk.Box):
     __gtype_name__ = "TrackBox"
 
     uri = GObject.Property(type=str)
+    last_played = GObject.Property(type=GObject.TYPE_DOUBLE)
 
     track_name_label: Gtk.Label = Gtk.Template.Child()
     track_details_label: Gtk.Label = Gtk.Template.Child()
@@ -29,6 +30,8 @@ class TrackBox(Gtk.Box):
         super().__init__()
 
         self.props.uri = track.uri
+        self.props.last_played = track.last_played
+        # can be used by list box header functions
 
         track_name = track.name if track.name else track.uri
         artist_name = track.artist_name

@@ -9,7 +9,7 @@ from argos.model import TrackModel
 from argos.widgets.playlistemptytracksbox import PlaylistEmptyTracksBox
 from argos.widgets.streamuridialog import StreamUriDialog
 from argos.widgets.trackbox import TrackBox
-from argos.widgets.utils import set_list_box_header_with_separator
+from argos.widgets.utils import set_list_box_header_with_date_separator
 
 _ = gettext.gettext
 
@@ -43,7 +43,7 @@ class PlaylistTracksBox(Gtk.Box):
         self._disable_tooltips = application.props.disable_tooltips
         self._empty_tracks_placeholder = PlaylistEmptyTracksBox(application)
 
-        self.tracks_box.set_header_func(set_list_box_header_with_separator)
+        self.tracks_box.set_header_func(set_list_box_header_with_date_separator)
         self.tracks_box.set_placeholder(self._empty_tracks_placeholder)
 
         edition_menu = Gio.Menu()
