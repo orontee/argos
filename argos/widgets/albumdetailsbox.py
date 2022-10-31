@@ -9,8 +9,8 @@ from gi.repository import Gio, GLib, GObject, Gtk
 from argos.message import MessageType
 from argos.model import Model, TrackModel
 from argos.utils import elide_maybe, ms_to_text
+from argos.widgets.albumtrackbox import AlbumTrackBox
 from argos.widgets.playlistselectiondialog import PlaylistSelectionDialog
-from argos.widgets.trackbox import TrackBox
 from argos.widgets.utils import (
     default_image_pixbuf,
     scale_album_image,
@@ -213,7 +213,7 @@ class AlbumDetailsBox(Gtk.Box):
         self,
         track: TrackModel,
     ) -> Gtk.Widget:
-        widget = TrackBox(self._app, track=track)
+        widget = AlbumTrackBox(self._app, track=track)
         return widget
 
     def _track_selection_to_uris(self) -> List[str]:

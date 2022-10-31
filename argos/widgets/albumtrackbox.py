@@ -8,12 +8,13 @@ from argos.utils import ms_to_text
 LOGGER = logging.getLogger(__name__)
 
 
-@Gtk.Template(resource_path="/io/github/orontee/Argos/ui/track_box.ui")
-class TrackBox(Gtk.Box):
-    __gtype_name__ = "TrackBox"
+@Gtk.Template(resource_path="/io/github/orontee/Argos/ui/album_track_box.ui")
+class AlbumTrackBox(Gtk.Box):
+    """Box displaying an album track."""
+
+    __gtype_name__ = "AlbumTrackBox"
 
     uri = GObject.Property(type=str)
-    last_played = GObject.Property(type=GObject.TYPE_DOUBLE)
 
     track_name_label: Gtk.Label = Gtk.Template.Child()
     track_details_label: Gtk.Label = Gtk.Template.Child()
@@ -25,13 +26,10 @@ class TrackBox(Gtk.Box):
         application: Gtk.Application,
         *,
         track: TrackModel,
-        hide_track_no: bool = False,
     ):
         super().__init__()
 
         self.props.uri = track.uri
-        self.props.last_played = track.last_played
-        # can be used by list box header functions
 
         track_name = track.name if track.name else track.uri
         artist_name = track.artist_name
@@ -47,11 +45,8 @@ class TrackBox(Gtk.Box):
         )
         self.track_length_label.set_text(track_length)
 
-        if hide_track_no:
-            self.track_no_label.hide()
-        else:
-            track_no = str(track.track_no) if track.track_no != -1 else ""
-            self.track_no_label.set_text(track_no)
+        track_no = str(track.track_no) if track.track_no != -1 else ""
+        self.track_no_label.set_text(track_no)
 
         if application.props.disable_tooltips:
             for widget in (

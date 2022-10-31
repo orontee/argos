@@ -7,8 +7,8 @@ from gi.repository import Gio, GObject, Gtk
 from argos.message import MessageType
 from argos.model import TrackModel
 from argos.widgets.playlistemptytracksbox import PlaylistEmptyTracksBox
+from argos.widgets.playlisttrackbox import PlaylistTrackBox
 from argos.widgets.streamuridialog import StreamUriDialog
-from argos.widgets.trackbox import TrackBox
 from argos.widgets.utils import set_list_box_header_with_date_separator
 
 _ = gettext.gettext
@@ -86,7 +86,7 @@ class PlaylistTracksBox(Gtk.Box):
         self,
         track: TrackModel,
     ) -> Gtk.Widget:
-        widget = TrackBox(self._app, track=track, hide_track_no=True)
+        widget = PlaylistTrackBox(self._app, track=track)
         return widget
 
     def bind_model_to_playlist_tracks(self, uri: str) -> None:
