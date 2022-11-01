@@ -22,6 +22,8 @@ Added
 
 Changed
 -------
+- Fix duplicated tracks for albums handled by ``MopidyPodcastBackend``
+  `#83 <https://github.com/orontee/argos/issues/83>`_
 - Reorganize preferences dialog `#77
   <https://github.com/orontee/argos/issues/77>`_
 - History playlist can contain duplicated tracks `#80

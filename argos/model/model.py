@@ -198,6 +198,8 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         album.date = date or ""
         album.length = length or -1
 
+        album.tracks.remove_all()
+
         for track in tracks:
             album.tracks.append(track)
 
@@ -307,7 +309,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
                 )
             )
 
-        LOGGER.debug(f"Tracklist with {version} loaded")
+        LOGGER.debug(f"Tracklist with version {version} loaded")
         self.props.tracklist_loaded = True
 
     def update_playlists(self, playlists: List[PlaylistModel]) -> None:
