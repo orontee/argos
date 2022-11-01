@@ -207,6 +207,7 @@ class MopidyWSConnection(GObject.GObject):
                     aiohttp.client_exceptions.ClientConnectorError,
                     aiohttp.client_exceptions.ServerDisconnectedError,
                     aiohttp.client_exceptions.InvalidURL,
+                    asyncio.exceptions.TimeoutError,
                 ) as error:
                     self._model.set_property_in_gtk_thread("connected", False)
 
