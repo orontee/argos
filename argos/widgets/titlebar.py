@@ -45,6 +45,10 @@ class TitleBar(Gtk.HeaderBar):
         self.volume_button = VolumeButton(application)
         self.pack_end(self.volume_button)
 
+        self.search_button.set_visible(False)
+        self.sort_button.set_visible(False)
+        # See on_search_activated_changed()
+
         if application.props.hide_search_button:
             self.remove(self.search_button)
             self.search_button = None
@@ -97,6 +101,9 @@ class TitleBar(Gtk.HeaderBar):
         self.back_button.set_visible(not self.props.main_page_state)
         self.title_stack.set_visible(self.props.main_page_state)
 
+        self.sort_button.set_visible(self.props.search_activated)
+        self.search_button.set_visible(self.props.search_activated)
+
     def on_search_activated_changed(
         self,
         _1: GObject.GObject,
@@ -104,11 +111,11 @@ class TitleBar(Gtk.HeaderBar):
     ) -> None:
         self.title_stack.set_visible_child_name("switcher_page")
 
-        self.sort_button.set_sensitive(self.props.search_activated)
+        self.sort_button.set_visible(self.props.search_activated)
 
         if not self.search_button:
             return
 
         self.search_button.set_active(False)
-        self.search_button.set_sensitive(self.props.search_activated)
+        self.search_button.set_visible(self.props.search_activated)
         self.search_entry.props.text = ""

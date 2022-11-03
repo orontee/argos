@@ -26,6 +26,8 @@ Added
 
 Changed
 -------
+- Toggle visibility of title bar search and sort buttons on main page change `#85
+  <https://github.com/orontee/argos/issues/85>`_
 - Fix duplicated tracks for albums handled by ``MopidyPodcastBackend``
   `#83 <https://github.com/orontee/argos/issues/83>`_
 - Reorganize preferences dialog `#77
