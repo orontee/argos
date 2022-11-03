@@ -149,3 +149,11 @@ def set_list_box_header_with_date_separator(
     separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
     separator.show()
     row.set_header(separator)
+
+
+ALBUM_SORT_CHOICES = {
+    "by_album_name": _("Album name"),
+    "by_artist_name": _("Artist name"),
+    "by_publication_date": _("Publication date"),
+    "by_last_modified_date": _("Last modified"),
+}

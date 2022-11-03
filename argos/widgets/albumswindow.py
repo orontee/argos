@@ -242,3 +242,12 @@ class AlbumsWindow(Gtk.Overlay):
         )
         self._update_store_pixbufs(force=True)
         self.albums_view.set_item_width(self.albums_image_size)
+
+    def on_sort_albums_activated(
+        self,
+        action: Gio.SimpleAction,
+        target: GLib.Variant,
+    ) -> None:
+        sort_id = target.get_string()
+        self._model.sort_albums(sort_id)
+        action.set_state(target)

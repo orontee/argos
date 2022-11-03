@@ -1,7 +1,8 @@
 import logging
 
-from gi.repository import GObject, Gtk
+from gi.repository import Gio, GObject, Gtk
 
+from argos.widgets.utils import ALBUM_SORT_CHOICES
 from argos.widgets.volumebutton import VolumeButton
 
 LOGGER = logging.getLogger(__name__)
@@ -15,6 +16,7 @@ class TitleBar(Gtk.HeaderBar):
     app_menu_button: Gtk.MenuButton = Gtk.Template.Child()
     central_view_switcher: Gtk.StackSwitcher = Gtk.Template.Child()
     search_button: Gtk.ToggleButton = Gtk.Template.Child()
+    sort_button: Gtk.MenuButton = Gtk.Template.Child()
     search_entry: Gtk.SearchEntry = Gtk.Template.Child()
     title_stack: Gtk.Stack = Gtk.Template.Child()
 
@@ -27,6 +29,12 @@ class TitleBar(Gtk.HeaderBar):
         if application.props.disable_tooltips:
             self.back_button.props.has_tooltip = False
             self.search_button.props.has_tooltip = False
+            self.sort_button.props.has_tooltip = False
+
+        sort_menu = Gio.Menu()
+        for id, name in ALBUM_SORT_CHOICES.items():
+            sort_menu.append(name, f"win.sort-albums::{id}")
+        self.sort_button.set_menu_model(sort_menu)
 
         builder = Gtk.Builder.new_from_resource(
             "/io/github/orontee/Argos/ui/app_menu.ui"
@@ -95,6 +103,9 @@ class TitleBar(Gtk.HeaderBar):
         _2: GObject.GParamSpec,
     ) -> None:
         self.title_stack.set_visible_child_name("switcher_page")
+
+        self.sort_button.set_sensitive(self.props.search_activated)
+
         if not self.search_button:
             return
 

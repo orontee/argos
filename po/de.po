@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-03 16:01+0100\n"
+"POT-Creation-Date: 2022-11-03 21:40+0100\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: André Dokis <em21nummer1@icloud.com>\n"
 "Language-Team: German <em21nummer1@icloud.com>\n"
@@ -246,7 +246,7 @@ msgstr ""
 msgid "General"
 msgstr "Allgemein"
 
-#: argos/ui/preferences.ui:169 argos/ui/preferences.ui:466 argos/window.py:54
+#: argos/ui/preferences.ui:169 argos/ui/preferences.ui:466 argos/window.py:55
 msgid "Library"
 msgstr "Sammlung"
 
@@ -266,7 +266,7 @@ msgstr "Local:"
 msgid "Jellyfin:"
 msgstr "Jellyfin:"
 
-#: argos/ui/preferences.ui:299 argos/window.py:58
+#: argos/ui/preferences.ui:299 argos/window.py:59
 msgid "Playlists"
 msgstr "Playlists"
 
@@ -318,7 +318,11 @@ msgstr "Stream direkt starten"
 msgid "Back to albums page"
 msgstr "Zurück zur Sammlung"
 
-#: argos/ui/title_bar.ui:84
+#: argos/ui/title_bar.ui:83
+msgid "Sort albums"
+msgstr "Alben sortieren"
+
+#: argos/ui/title_bar.ui:102
 msgid "Search albums"
 msgstr "Alben durchsuchen"
 
@@ -372,22 +376,6 @@ msgstr "Markierte Titel entfernen"
 msgid "Delete playlist…"
 msgstr "Playlist löschen…"
 
-#: argos/widgets/preferences.py:91
-msgid "Album name"
-msgstr "Album"
-
-#: argos/widgets/preferences.py:92
-msgid "Artist name"
-msgstr "Künstler"
-
-#: argos/widgets/preferences.py:93
-msgid "Publication date"
-msgstr "Erscheinungsdatum"
-
-#: argos/widgets/preferences.py:94
-msgid "Last modified"
-msgstr "Zuletzt geändertes Datum"
-
 #: argos/widgets/tracklisttrackbox.py:44
 msgid "Unknown name"
 msgstr "Unbekannter Name"
@@ -397,7 +385,23 @@ msgstr "Unbekannter Name"
 msgid "Disc {0}"
 msgstr "Disk {0}"
 
-#: argos/window.py:49
+#: argos/widgets/utils.py:155
+msgid "Album name"
+msgstr "Album"
+
+#: argos/widgets/utils.py:156
+msgid "Artist name"
+msgstr "Künstler"
+
+#: argos/widgets/utils.py:157
+msgid "Publication date"
+msgstr "Erscheinungsdatum"
+
+#: argos/widgets/utils.py:158
+msgid "Last modified"
+msgstr "Zuletzt geändertes Datum"
+
+#: argos/window.py:50
 msgid "Playing"
 msgstr "Jetzt läuft"
 

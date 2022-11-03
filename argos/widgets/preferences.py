@@ -8,6 +8,8 @@ from gi.repository import Gio, GLib, GObject, Gtk
 if TYPE_CHECKING:
     from argos.app import Application
 
+from argos.widgets.utils import ALBUM_SORT_CHOICES
+
 LOGGER = logging.getLogger(__name__)
 
 _ = gettext.gettext
@@ -87,12 +89,7 @@ class PreferencesWindow(Gtk.Window):
 
         album_sort_id = self._settings.get_string("album-sort")
         to_select: Optional[Gtk.TreeIter] = None
-        for name, id in (
-            (_("Album name"), "by_album_name"),
-            (_("Artist name"), "by_artist_name"),
-            (_("Publication date"), "by_publication_date"),
-            (_("Last modified"), "by_last_modified_date"),
-        ):
+        for id, name in ALBUM_SORT_CHOICES.items():
             store_iter = store.append([name, id])
             if id == album_sort_id:
                 to_select = store_iter

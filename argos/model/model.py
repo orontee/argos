@@ -150,7 +150,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         compare_func = self._get_album_compare_func(album_sort_id)
         self.albums.sort(compare_func, None)
 
-        LOGGER.info("Albums sorted")
+        LOGGER.info(f"Albums sorted with sort identifier {album_sort_id}")
         self.props.albums_loaded = True
 
     def complete_album_description(

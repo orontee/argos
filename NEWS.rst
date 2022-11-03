@@ -13,6 +13,8 @@ The format is based on `Keep a Changelog
 
 Added
 -----
+- Add button to title bar to change album sort order `#85
+  <https://github.com/orontee/argos/issues/85>`_
 - New "by last modified date" entry in album sort choices `#84
   <https://github.com/orontee/argos/issues/84>`_
 - Display date in history playlist `#82

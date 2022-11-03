@@ -1,7 +1,7 @@
 import gettext
 import logging
 
-from gi.repository import Gdk, Gio, GObject, Gtk
+from gi.repository import Gdk, Gio, GLib, GObject, Gtk
 
 from argos.message import MessageType
 from argos.model import PlaybackState
@@ -34,6 +34,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
 
         self.set_wmclass("Argos", "Argos")
         self._model = application.props.model
+        self._settings: Gio.Settings = application.props.settings
 
         self.props.titlebar = TitleBar(application)
         self.props.titlebar.central_view_switcher.set_stack(self.central_view)
@@ -97,6 +98,17 @@ class ArgosWindow(Gtk.ApplicationWindow):
         self.add_action(remove_playlist_action)
         remove_playlist_action.connect(
             "activate", self.props.playlists_box.on_remove_playlist_activated
+        )
+
+        album_sort_id = self._settings.get_string("album-sort")
+        sort_albums_action = Gio.SimpleAction.new_stateful(
+            "sort-albums",
+            GLib.VariantType.new("s"),
+            GLib.Variant("s", album_sort_id),
+        )
+        self.add_action(sort_albums_action)
+        sort_albums_action.connect(
+            "activate", self.props.albums_window.on_sort_albums_activated
         )
 
         self.main_stack.connect(
