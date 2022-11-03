@@ -73,6 +73,7 @@
         <choice value='by_artist_name'/>
         <choice value='by_album_name'/>
         <choice value='by_publication_date'/>
+	<choice value='by_last_modified_date'/>
       </choices>
     </key>
 

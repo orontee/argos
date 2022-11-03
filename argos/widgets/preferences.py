@@ -91,6 +91,7 @@ class PreferencesWindow(Gtk.Window):
             (_("Album name"), "by_album_name"),
             (_("Artist name"), "by_artist_name"),
             (_("Publication date"), "by_publication_date"),
+            (_("Last modified"), "by_last_modified_date"),
         ):
             store_iter = store.append([name, id])
             if id == album_sort_id:

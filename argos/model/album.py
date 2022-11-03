@@ -58,6 +58,29 @@ def compare_by_artist_name_func(
     return 0
 
 
+def compare_by_last_modified_date_reversed_func(
+    a: "AlbumModel",
+    b: "AlbumModel",
+    user_data: None,
+) -> int:
+    if a.last_modified > b.last_modified:
+        return -1
+    elif a.last_modified < b.last_modified:
+        return 1
+    # a.last_modified == b.last_modified
+    if a.name < b.name:
+        return -1
+    elif a.name > b.name:
+        return 1
+    # a.name == b.name
+    if a.uri < b.uri:
+        return -1
+    elif a.uri > b.uri:
+        return 1
+    # a.uri == b.uri
+    return 0
+
+
 def compare_by_publication_date_func(
     a: "AlbumModel",
     b: "AlbumModel",
@@ -97,6 +120,7 @@ class AlbumModel(WithThreadSafePropertySetter, GObject.Object):
     num_tracks = GObject.Property(type=int)
     num_discs = GObject.Property(type=int)
     date = GObject.Property(type=str)
+    last_modified = GObject.Property(type=GObject.TYPE_DOUBLE, default=-1)
     length = GObject.Property(type=int)
 
     tracks: Gio.ListStore
@@ -113,6 +137,7 @@ class AlbumModel(WithThreadSafePropertySetter, GObject.Object):
         num_tracks: Optional[int] = None,
         num_discs: Optional[int] = None,
         date: Optional[str] = None,
+        last_modified: Optional[float] = None,
         length: Optional[int] = None,
         tracks: Optional[List[TrackModel]] = None,
     ):
@@ -128,6 +153,7 @@ class AlbumModel(WithThreadSafePropertySetter, GObject.Object):
         self.num_tracks = num_tracks or -1
         self.num_discs = num_discs or -1
         self.date = date or ""
+        self.last_modified = last_modified or -1
         self.length = length or -1
 
         if tracks is not None:

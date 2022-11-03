@@ -213,6 +213,7 @@ class AlbumsController(ControllerBase):
                 num_tracks = metadata_collector.num_tracks(album_uri)
                 num_discs = metadata_collector.num_discs(album_uri)
                 date = metadata_collector.date(album_uri)
+                last_modified = metadata_collector.last_modified(album_uri)
 
                 if album_uri in images and len(images[album_uri]) > 0:
                     image_uri = images[album_uri][0].get("uri", "")
@@ -234,6 +235,7 @@ class AlbumsController(ControllerBase):
                     num_tracks=num_tracks,
                     num_discs=num_discs,
                     date=date,
+                    last_modified=last_modified,
                     length=length,
                     tracks=album_parsed_tracks,
                 )

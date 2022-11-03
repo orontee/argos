@@ -2,6 +2,8 @@ import logging
 from collections import Counter, defaultdict
 from typing import Any, Dict, List, Optional, cast
 
+from gi.repository import GObject
+
 LOGGER = logging.getLogger(__name__)
 
 
@@ -41,6 +43,7 @@ class AlbumMetadataCollector:
         self._num_tracks: Dict[str, int] = {}
         self._num_discs: Dict[str, int] = {}
         self._date: Dict[str, str] = {}
+        self._last_modified: Dict[str, float] = {}
 
     def __call__(self, uri: str, track: Dict[str, Any]) -> None:
         album: Optional[Dict[str, Dict[str, Any]]] = track.get("album")
@@ -72,6 +75,14 @@ class AlbumMetadataCollector:
             if date is not None:
                 self._date[uri] = date
 
+        last_modified = cast(float, track.get("last_modified"))
+        if last_modified is not None:
+            current_last_modified = self._last_modified.get(uri, None)
+            if current_last_modified is None:
+                self._last_modified[uri] = last_modified
+            else:
+                self._last_modified[uri] = max(last_modified, current_last_modified)
+
     def artist_name(self, album_uri: str) -> str:
         if album_uri in self._name:
             return self._name.get(album_uri, "")
@@ -88,3 +99,6 @@ class AlbumMetadataCollector:
 
     def date(self, album_uri: str) -> Optional[str]:
         return self._date.get(album_uri)
+
+    def last_modified(self, album_uri: str) -> Optional[float]:
+        return self._last_modified.get(album_uri)

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-31 12:32+0100\n"
+"POT-Creation-Date: 2022-11-03 16:01+0100\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: André Dokis <em21nummer1@icloud.com>\n"
 "Language-Team: German <em21nummer1@icloud.com>\n"
@@ -384,6 +384,10 @@ msgstr "Künstler"
 msgid "Publication date"
 msgstr "Erscheinungsdatum"
 
+#: argos/widgets/preferences.py:94
+msgid "Last modified"
+msgstr "Zuletzt geändertes Datum"
+
 #: argos/widgets/tracklisttrackbox.py:44
 msgid "Unknown name"
 msgstr "Unbekannter Name"
@@ -523,45 +527,45 @@ msgstr "Sortierreihenfolge der Alben"
 msgid "Order applied when sorting albums."
 msgstr "Sortierung der Alben angewendet."
 
-#: data/io.github.orontee.Argos.gschema.xml:81
+#: data/io.github.orontee.Argos.gschema.xml:82
 msgid "History playlist"
 msgstr "Zuletzt gespielt"
 
-#: data/io.github.orontee.Argos.gschema.xml:84
+#: data/io.github.orontee.Argos.gschema.xml:85
 msgid "A dynamic playlist of last played tracks can be maintained."
 msgstr "Dynamische Wiedergabeliste der zuletzt gespielten Titel bearbeiten."
 
-#: data/io.github.orontee.Argos.gschema.xml:91
+#: data/io.github.orontee.Argos.gschema.xml:92
 msgid "History max length"
 msgstr "Zuletzt gespielt innerhalb der letzten x-Tage"
 
-#: data/io.github.orontee.Argos.gschema.xml:94
+#: data/io.github.orontee.Argos.gschema.xml:95
 msgid "The maximal length of the history playlist."
 msgstr "Max. Anzahl Titel der Zuletzt gespielt Playlist."
 
-#: data/io.github.orontee.Argos.gschema.xml:101
+#: data/io.github.orontee.Argos.gschema.xml:102
 msgid "Recent additions playlist"
 msgstr "Zuletzt hinzugefügt Playlist"
 
-#: data/io.github.orontee.Argos.gschema.xml:104
+#: data/io.github.orontee.Argos.gschema.xml:105
 msgid "A dynamic playlist of recently added tracks can be maintained."
 msgstr "Dynamische Wiedergabeliste der zuletzt hinzugefügten Titel bearbeiten."
 
-#: data/io.github.orontee.Argos.gschema.xml:111
+#: data/io.github.orontee.Argos.gschema.xml:112
 msgid "Recent additions max age"
 msgstr "Zuletzt hinzugefügt innerhalb der letzten x-Tage."
 
-#: data/io.github.orontee.Argos.gschema.xml:114
+#: data/io.github.orontee.Argos.gschema.xml:115
 msgid ""
 "The maximal age in seconds of tracks considered for insertion in the recent "
 "additions playlist."
 msgstr "Max. Alter in s von Titeln, der Zuletzt hinzugefügt Playlist."
 
-#: data/io.github.orontee.Argos.gschema.xml:122
+#: data/io.github.orontee.Argos.gschema.xml:123
 msgid "Album backends excluded from random play"
 msgstr "Bei zufälliger Wiedergabe, folgende Mopidy Backends ausschließen"
 
-#: data/io.github.orontee.Argos.gschema.xml:125
+#: data/io.github.orontee.Argos.gschema.xml:126
 msgid ""
 "Albums handled by the selected Mopidy backends will be filtered out when "
 "randomly choosing an album to play."
@@ -569,35 +573,35 @@ msgstr ""
 "Alben, der ausgewählten Mopidy Backends werden bei zufälliger Wiedergabe "
 "ausgeschlossen."
 
-#: data/io.github.orontee.Argos.gschema.xml:134
+#: data/io.github.orontee.Argos.gschema.xml:135
 msgid "Albums image size"
 msgstr "Bildgröße des Albums"
 
-#: data/io.github.orontee.Argos.gschema.xml:137
+#: data/io.github.orontee.Argos.gschema.xml:138
 msgid "The size of images in the library."
 msgstr "Die Größe der Bilder in der Sammlung."
 
-#: data/io.github.orontee.Argos.gschema.xml:144
+#: data/io.github.orontee.Argos.gschema.xml:145
 msgid "Window size"
 msgstr "Fenstergröße"
 
-#: data/io.github.orontee.Argos.gschema.xml:145
+#: data/io.github.orontee.Argos.gschema.xml:146
 msgid "Window size (width and height)."
 msgstr "Fenstergröße (Breite und Höhe)."
 
-#: data/io.github.orontee.Argos.gschema.xml:150
+#: data/io.github.orontee.Argos.gschema.xml:151
 msgid "Window position"
 msgstr "Fensterposition"
 
-#: data/io.github.orontee.Argos.gschema.xml:151
+#: data/io.github.orontee.Argos.gschema.xml:152
 msgid "Window position (x and y)."
 msgstr "Fensterposition (x und y)."
 
-#: data/io.github.orontee.Argos.gschema.xml:156
+#: data/io.github.orontee.Argos.gschema.xml:157
 msgid "Window maximized"
 msgstr "Vollbild"
 
-#: data/io.github.orontee.Argos.gschema.xml:157
+#: data/io.github.orontee.Argos.gschema.xml:158
 msgid "Window maximized state."
 msgstr "Vollbildmodus."
 

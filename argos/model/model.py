@@ -10,6 +10,7 @@ from argos.model.album import (
     AlbumModel,
     compare_by_album_name_func,
     compare_by_artist_name_func,
+    compare_by_last_modified_date_reversed_func,
     compare_by_publication_date_func,
 )
 from argos.model.backends import (
@@ -112,6 +113,8 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
     ) -> Callable[[AlbumModel, AlbumModel, None], int]:
         if album_sort_id == "by_album_name":
             return compare_by_album_name_func
+        elif album_sort_id == "by_last_modified_date":
+            return compare_by_last_modified_date_reversed_func
         elif album_sort_id == "by_publication_date":
             return compare_by_publication_date_func
 
@@ -332,7 +335,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         *,
         name: str,
         tracks: List[TrackModel],
-        last_modified: GObject.TYPE_DOUBLE,
+        last_modified: float,
     ) -> None:
         GLib.idle_add(
             self._complete_playlist_description,
@@ -347,7 +350,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         playlist_uri: str,
         name: str,
         tracks: List[TrackModel],
-        last_modified: GObject.TYPE_DOUBLE,
+        last_modified: float,
     ) -> None:
         LOGGER.debug(f"Completing playlist with URI {playlist_uri!r}")
 

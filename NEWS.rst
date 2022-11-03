@@ -13,6 +13,8 @@ The format is based on `Keep a Changelog
 
 Added
 -----
+- New "by last modified date" entry in album sort choices `#84
+  <https://github.com/orontee/argos/issues/84>`_
 - Display date in history playlist `#82
   <https://github.com/orontee/argos/issues/82>`_
 - Display date in history playlist `#81
