@@ -31,6 +31,7 @@
         </child>
         <child>
           <object class="GtkSearchEntry" id="search_entry">
+            <property name="name">search-entry</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="primary-icon-name">edit-find-symbolic</property>
@@ -49,6 +50,7 @@
     </child>
     <child>
       <object class="GtkButton" id="back_button">
+        <property name="name">back-button</property>
         <property name="can-focus">True</property>
         <property name="receives-default">True</property>
         <property name="tooltip-text" translatable="yes">Back to albums page</property>
@@ -58,6 +60,7 @@
     </child>
     <child>
       <object class="GtkMenuButton" id="app_menu_button">
+        <property name="name">app-menu-button</property>
         <property name="visible">True</property>
         <property name="can-focus">True</property>
         <property name="focus-on-click">False</property>
@@ -77,6 +80,7 @@
     </child>
     <child>
       <object class="GtkMenuButton" id="sort_button">
+        <property name="name">sort-button</property>
         <property name="can-focus">True</property>
         <property name="focus-on-click">False</property>
         <property name="receives-default">True</property>
@@ -97,6 +101,7 @@
     </child>
     <child>
       <object class="GtkToggleButton" id="search_button">
+        <property name="name">search-button</property>
         <property name="can-focus">True</property>
         <property name="receives-default">True</property>
         <property name="tooltip-text" translatable="yes">Search albums</property>
