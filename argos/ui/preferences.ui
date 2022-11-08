@@ -475,7 +475,7 @@
                   </packing>
                 </child>
                 <child>
-                  <!-- n-columns=3 n-rows=3 -->
+                  <!-- n-columns=3 n-rows=1 -->
                   <object class="GtkGrid" id="library_display_grid">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
@@ -486,32 +486,6 @@
                     <property name="row-spacing">10</property>
                     <property name="column-spacing">5</property>
                     <child>
-                      <object class="GtkLabel" id="album_sort_label">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="halign">end</property>
-                        <property name="label" translatable="yes">Sort by:</property>
-                      </object>
-                      <packing>
-                        <property name="left-attach">0</property>
-                        <property name="top-attach">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkTreeView" id="album_sort_view">
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <child internal-child="selection">
-                          <object class="GtkTreeSelection"/>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="left-attach">1</property>
-                        <property name="top-attach">0</property>
-                        <property name="height">2</property>
-                      </packing>
-                    </child>
-                    <child>
                       <object class="GtkLabel" id="albums_image_size_label">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
@@ -520,7 +494,7 @@
                       </object>
                       <packing>
                         <property name="left-attach">0</property>
-                        <property name="top-attach">2</property>
+                        <property name="top-attach">0</property>
                       </packing>
                     </child>
                     <child>
@@ -534,18 +508,9 @@
                       </object>
                       <packing>
                         <property name="left-attach">1</property>
-                        <property name="top-attach">2</property>
+                        <property name="top-attach">0</property>
                         <property name="width">2</property>
                       </packing>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
                     </child>
                   </object>
                   <packing>

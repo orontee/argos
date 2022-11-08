@@ -43,10 +43,10 @@ class AlbumsWindow(Gtk.Overlay):
 
         self._app = application
         self._model = application.model
+        self._settings: Gio.Settings = application.props.settings
 
-        settings: Gio.Settings = application.props.settings
-        self.albums_image_size = settings.get_int("albums-image-size")
-        settings.connect(
+        self.albums_image_size = self._settings.get_int("albums-image-size")
+        self._settings.connect(
             "changed::albums-image-size", self._on_albums_image_size_changed
         )
 
@@ -249,5 +249,5 @@ class AlbumsWindow(Gtk.Overlay):
         target: GLib.Variant,
     ) -> None:
         sort_id = target.get_string()
-        self._model.sort_albums(sort_id)
+        self._settings.set_string("album-sort", sort_id)
         action.set_state(target)
