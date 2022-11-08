@@ -1,0 +1,48 @@
+name: build-deb-package
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to build'
+        required: true
+        type: string
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -
+          sudo apt-get install --no-install-recommends -y \
+                       build-essential \
+                       cmake \
+                       debhelper \
+                       devscripts \
+                       fakeroot \
+                       git \
+                       lintian \
+                       meson \
+                       pkg-config \
+                       libglib2.0-dev \
+                       libgirepository1.0-dev
+
+      - name: Build DEB package
+        run: |
+          mkdir builddir
+          git archive --prefix=builddir/argos-${VERSION}/ --format=tar.gz v${VERSION} | tar xzf -
+          cd builddir/argos-${VERSION} && debuild -b -tc -us -uc
+        env:
+          VERSION: ${{ inputs.version }}
+
+      - name: Upload package
+        uses: actions/upload-artifact@v3
+        with:
+          path: builddir/argos-${VERSION}-1_all.deb
+        env:
+          VERSION: ${{ inputs.version }}
