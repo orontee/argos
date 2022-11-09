@@ -26,6 +26,8 @@ Added
 
 Changed
 -------
+- Center vertically playing track image and album image `#87
+  <https://github.com/orontee/argos/issues/87>`_
 - Remove album sort choice from preferences dialog `#86
   <https://github.com/orontee/argos/issues/86>`_
 - Toggle visibility of title bar search and sort buttons on main page change `#85
