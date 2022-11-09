@@ -98,11 +98,16 @@ class TitleBar(Gtk.HeaderBar):
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
-        self.back_button.set_visible(not self.props.main_page_state)
-        self.title_stack.set_visible(self.props.main_page_state)
-
-        self.sort_button.set_visible(self.props.search_activated)
-        self.search_button.set_visible(self.props.search_activated)
+        if self.props.main_page_state:
+            self.back_button.set_visible(False)
+            self.title_stack.set_visible(True)
+            self.sort_button.set_visible(self.props.search_activated)
+            self.search_button.set_visible(self.props.search_activated)
+        else:
+            self.back_button.set_visible(True)
+            self.title_stack.set_visible(False)
+            self.sort_button.set_visible(False)
+            self.search_button.set_visible(False)
 
     def on_search_activated_changed(
         self,
@@ -118,4 +123,3 @@ class TitleBar(Gtk.HeaderBar):
 
         self.search_button.set_active(False)
         self.search_button.set_visible(self.props.search_activated)
-        self.search_entry.props.text = ""
