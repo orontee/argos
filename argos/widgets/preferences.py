@@ -193,6 +193,11 @@ class PreferencesWindow(Gtk.Window):
             "notify::active", self.on_start_maximized_switch_activated
         )
 
+        title_bar = Gtk.HeaderBar(title=_("Preferences"), show_close_button=True)
+        self.set_titlebar(title_bar)
+
+        self.show_all()
+
     def on_connection_changed(
         self,
         _1: GObject.GObject,
