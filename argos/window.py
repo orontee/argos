@@ -111,6 +111,13 @@ class ArgosWindow(Gtk.ApplicationWindow):
             "activate", self.props.albums_window.on_sort_albums_activated
         )
 
+        prefer_dark_theme = self._settings.get_boolean("prefer-dark-theme")
+        screen_settings = Gtk.Settings.get_default()
+        screen_settings.props.gtk_application_prefer_dark_theme = prefer_dark_theme
+        self._settings.connect(
+            "changed::prefer-dark-theme", self._on_prefer_dark_theme_changed
+        )
+
         self.main_stack.connect(
             "notify::visible-child-name", self._on_main_stack_page_changed
         )
@@ -215,6 +222,15 @@ class ArgosWindow(Gtk.ApplicationWindow):
         if child:
             LOGGER.debug("Requesting attention for playing page")
             self.central_view.child_set_property(child, "needs-attention", True)
+
+    def _on_prefer_dark_theme_changed(
+        self,
+        settings: Gio.Settings,
+        key: str,
+    ) -> None:
+        prefer_dark_theme = self._settings.get_boolean("prefer-dark-theme")
+        screen_settings = Gtk.Settings.get_default()
+        screen_settings.props.gtk_application_prefer_dark_theme = prefer_dark_theme
 
     def set_central_view_visible_child(self, name: str) -> None:
         child = self.central_view.get_child_by_name(name)

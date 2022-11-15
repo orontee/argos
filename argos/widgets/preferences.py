@@ -37,6 +37,7 @@ class PreferencesWindow(Gtk.Window):
     recent_additions_playlist_max_age_button: Gtk.SpinButton = Gtk.Template.Child()
     albums_image_size_scale: Gtk.Scale = Gtk.Template.Child()
     albums_image_size_adjustment: Gtk.Adjustment = Gtk.Template.Child()
+    prefer_dark_theme_switch: Gtk.Switch = Gtk.Template.Child()
 
     def __init__(
         self,
@@ -109,6 +110,9 @@ class PreferencesWindow(Gtk.Window):
             "change-value", self.on_albums_image_size_scale_change_value
         )
 
+        prefer_dark_theme = self._settings.get_boolean("prefer-dark-theme")
+        self.prefer_dark_theme_switch.set_active(prefer_dark_theme)
+
         sensitive = self._model.network_available and self._model.connected
         for widget in (
             self.mopidy_local_switch,
@@ -175,6 +179,10 @@ class PreferencesWindow(Gtk.Window):
         self.recent_additions_playlist_max_age_button.connect(
             "value-changed",
             self.on_recent_additions_playlist_max_age_button_value_changed,
+        )
+
+        self.prefer_dark_theme_switch.connect(
+            "notify::active", self.on_dark_theme_switch_activated
         )
 
     def on_connection_changed(
@@ -325,3 +333,11 @@ class PreferencesWindow(Gtk.Window):
 
         LOGGER.warning(f"Unhandled scroll type {scroll_type!r}")
         return False
+
+    def on_dark_theme_switch_activated(
+        self,
+        switch: Gtk.Switch,
+        _1: GObject.ParamSpec,
+    ) -> None:
+        prefer_dark_theme = switch.get_active()
+        self._settings.set_boolean("prefer-dark-theme", prefer_dark_theme)

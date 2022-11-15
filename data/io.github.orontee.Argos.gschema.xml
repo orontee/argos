@@ -157,5 +157,13 @@
       <summary>Window maximized</summary>
       <description>Window maximized state.</description>
     </key>
+
+    <key type="b" name="prefer-dark-theme">
+      <default>false</default>
+      <summary>Prefer dark theme</summary>
+      <description>
+	If a Gtk+ theme includes a dark variant, it will be used.
+      </description>
+    </key>
   </schema>
 </schemalist>
