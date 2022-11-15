@@ -17,6 +17,7 @@ argos/ui/preferences.ui
 argos/ui/stream_uri_dialog.ui
 argos/ui/title_bar.ui
 argos/ui/tracklist_box.ui
+argos/ui/tracklist_random_dialog.ui
 argos/ui/tracklist_track_box.ui
 argos/ui/window.ui
 argos/widgets/albumdetailsbox.py

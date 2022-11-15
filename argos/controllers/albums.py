@@ -248,16 +248,6 @@ class AlbumsController(ControllerBase):
         album_sort_id = self._settings.get_string("album-sort")
         self._model.sort_albums(album_sort_id)
 
-    @consume(MessageType.PLAY_RANDOM_ALBUM)
-    async def play_random_album(self, message: Message) -> None:
-        album_uri = self._model.choose_random_album()
-        if album_uri is None:
-            LOGGER.warning("Won't play random album since albums list is empty")
-            return
-
-        LOGGER.debug(f"Album with URI {album_uri!r} chosen")
-        await self._http.play_tracks([album_uri])
-
     @consume(MessageType.FETCH_ALBUM_IMAGES)
     async def fetch_album_images(self, message: Message) -> None:
         LOGGER.debug("Starting album images download...")

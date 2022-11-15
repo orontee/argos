@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-03 21:40+0100\n"
+"POT-Creation-Date: 2022-11-15 11:33+0100\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: André Dokis <em21nummer1@icloud.com>\n"
 "Language-Team: German <em21nummer1@icloud.com>\n"
@@ -16,27 +16,27 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: argos/app.py:84
+#: argos/app.py:89
 msgid "Enable debug logs"
 msgstr "Aktiviere Debug Logging"
 
-#: argos/app.py:92
+#: argos/app.py:97
 msgid "Start with maximized window"
 msgstr "Im Vollbildmodus starten"
 
-#: argos/app.py:100
+#: argos/app.py:105
 msgid "Disable tooltips"
 msgstr "Tooltips deaktivieren"
 
-#: argos/app.py:108
+#: argos/app.py:113
 msgid "Hide search button"
 msgstr "Suche ausblenden"
 
-#: argos/app.py:216
+#: argos/app.py:221
 msgid "Welcome!"
 msgstr "Willkommen!"
 
-#: argos/app.py:218
+#: argos/app.py:223
 msgid ""
 "Start by configuring the URL of the music server. The default value expects "
 "a server running on the local host and listening to the 6680 port."
@@ -44,7 +44,7 @@ msgstr ""
 "Die URL des Mopidy-Servers ist auf 127.0.0.1:6680 voreingestellt. Änderungen "
 "können in den Einstellungen vorgenpmmen werden."
 
-#: argos/app.py:343 argos/ui/app_menu.ui:14
+#: argos/app.py:348 argos/ui/app_menu.ui:14
 msgid "New playlist"
 msgstr "Neue Playlist"
 
@@ -66,15 +66,16 @@ msgstr "Zuletzt gespielt"
 msgid "Tracklist updated"
 msgstr "Titelliste aktualisiert"
 
-#: argos/ui/album_details_box.ui:53
+#: argos/ui/album_details_box.ui:56
 msgid "Published"
 msgstr "Erschienen:"
 
-#: argos/ui/album_details_box.ui:81 argos/ui/playlists_box.ui:63
+#: argos/ui/album_details_box.ui:84 argos/ui/playlists_box.ui:62
+#: argos/ui/tracklist_random_dialog.ui:119
 msgid "Length"
 msgstr "Länge:"
 
-#: argos/ui/album_details_box.ui:223
+#: argos/ui/album_details_box.ui:226
 msgid "Play album"
 msgstr "Album abspielen"
 
@@ -83,8 +84,8 @@ msgid "Keep calm, albums indexation in progress…"
 msgstr "Moment bitte, die Indexierung der Alben läuft…"
 
 #: argos/ui/app_menu.ui:6
-msgid "Play _random album"
-msgstr "Zufälliges Album abspielen"
+msgid "Play _random album…"
+msgstr "Zufälliges Album abspielen…"
 
 #: argos/ui/app_menu.ui:10
 msgid "Add stream to tracklist…"
@@ -166,35 +167,35 @@ msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Playlists"
 
-#: argos/ui/playing_box.ui:102
+#: argos/ui/playing_box.ui:85
 msgid "Previous"
 msgstr "Zurück"
 
-#: argos/ui/playing_box.ui:123
+#: argos/ui/playing_box.ui:106
 msgid "Play"
 msgstr "Play"
 
-#: argos/ui/playing_box.ui:144
+#: argos/ui/playing_box.ui:127
 msgid "Next"
 msgstr "Vor"
 
-#: argos/ui/playing_box.ui:324
+#: argos/ui/playing_box.ui:340
 msgid "Clear tracklist"
 msgstr "Titelliste leeren"
 
-#: argos/ui/playing_box.ui:348
+#: argos/ui/playing_box.ui:364
 msgid "Consume tracks"
 msgstr "Titel nach Wiedergabe entfernen"
 
-#: argos/ui/playing_box.ui:368
+#: argos/ui/playing_box.ui:384
 msgid "Shuffle tracklist"
 msgstr "Zufällige Wiedergabe"
 
-#: argos/ui/playing_box.ui:388
+#: argos/ui/playing_box.ui:404
 msgid "Play single track"
 msgstr "Einzelnen Titel abspielen"
 
-#: argos/ui/playing_box.ui:408
+#: argos/ui/playing_box.ui:424
 msgid "Repeat"
 msgstr "Wiederholen"
 
@@ -210,7 +211,7 @@ msgstr "Playlist oder markierte Titel abspielen"
 msgid "Edit playlist"
 msgstr "Playlist bearbeiten"
 
-#: argos/ui/playlists_box.ui:95
+#: argos/ui/playlists_box.ui:94 argos/ui/tracklist_random_dialog.ui:135
 msgid "Tracks"
 msgstr "Titel"
 
@@ -283,14 +284,10 @@ msgid "Sources"
 msgstr "Quellen"
 
 #: argos/ui/preferences.ui:493
-msgid "Sort by:"
-msgstr "Sortierung:"
-
-#: argos/ui/preferences.ui:519
 msgid "Image size:"
 msgstr "Bildgröße:"
 
-#: argos/ui/preferences.ui:560
+#: argos/ui/preferences.ui:525
 msgid "Display"
 msgstr ""
 
@@ -310,21 +307,29 @@ msgstr ""
 "Unterstützte Protokolle können variieren und sind\n"
 "abhängig von der Mopidy-Stream Konfiguration."
 
-#: argos/ui/stream_uri_dialog.ui:76
-msgid "Play stream immediately"
-msgstr "Stream direkt starten"
+#: argos/ui/stream_uri_dialog.ui:76 argos/ui/tracklist_random_dialog.ui:190
+msgid "Play immediately"
+msgstr "Direkt starten"
 
-#: argos/ui/title_bar.ui:54
+#: argos/ui/title_bar.ui:56
 msgid "Back to albums page"
 msgstr "Zurück zur Sammlung"
 
-#: argos/ui/title_bar.ui:83
+#: argos/ui/title_bar.ui:87
 msgid "Sort albums"
 msgstr "Alben sortieren"
 
-#: argos/ui/title_bar.ui:102
+#: argos/ui/title_bar.ui:107
 msgid "Search albums"
 msgstr "Alben durchsuchen"
+
+#: argos/ui/tracklist_random_dialog.ui:7
+msgid "Random tracklist"
+msgstr "Zufällige Wiedergabe"
+
+#: argos/ui/tracklist_random_dialog.ui:29
+msgid "Skip"
+msgstr "Überspringen"
 
 #: argos/widgets/albumdetailsbox.py:72
 msgid "Add to tracklist"
@@ -437,11 +442,11 @@ msgstr "Wiedergabelistenansicht"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:27
 msgid "Album details view"
-msgstr ""
+msgstr "Ansicht der Albumdetails"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:33
 msgid "Improving user experience."
-msgstr ""
+msgstr "Verbesserung der Benutzererfahrung."
 
 #: data/io.github.orontee.Argos.appdata.xml.in:40
 msgid "Autumnal delivery."
@@ -608,6 +613,20 @@ msgstr "Vollbild"
 #: data/io.github.orontee.Argos.gschema.xml:158
 msgid "Window maximized state."
 msgstr "Vollbildmodus."
+
+#~ msgid "Play stream immediately"
+#~ msgstr "Stream direkt starten"
+
+#, fuzzy
+#~ msgid "Length:"
+#~ msgstr "Länge:"
+
+#, fuzzy
+#~ msgid "Tracks:"
+#~ msgstr "Titel"
+
+#~ msgid "Sort by:"
+#~ msgstr "Sortierung:"
 
 #~ msgid "Presentation"
 #~ msgstr "Ansicht"

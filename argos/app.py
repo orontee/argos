@@ -28,7 +28,12 @@ from argos.notify import Notifier
 from argos.placement import WindowPlacement
 from argos.time import TimePositionTracker
 from argos.utils import configure_logger
-from argos.widgets import AboutDialog, PreferencesWindow, StreamUriDialog
+from argos.widgets import (
+    AboutDialog,
+    PreferencesWindow,
+    StreamUriDialog,
+    TracklistRandomDialog,
+)
 from argos.window import ArgosWindow
 from argos.ws import MopidyWSConnection
 
@@ -352,7 +357,22 @@ class Application(Gtk.Application):
         self, action: Gio.SimpleAction, parameter: None
     ) -> None:
         LOGGER.debug("Random album play requested by end-user")
-        self.send_message(MessageType.PLAY_RANDOM_ALBUM)
+
+        play_immediately = len(self.props.model.tracklist.tracks) == 0
+
+        dialog = TracklistRandomDialog(self, play=play_immediately)
+        response = dialog.run()
+        album_uri = dialog.props.album_uri if response == Gtk.ResponseType.OK else ""
+        play = dialog.props.play
+        dialog.destroy()
+
+        if not album_uri:
+            LOGGER.debug("Abort adding random album")
+            return
+
+        self.send_message(
+            MessageType.ADD_TO_TRACKLIST, {"uris": [album_uri], "play": play}
+        )
 
     def add_stream_activate_cb(self, action: Gio.SimpleAction, parameter: None) -> None:
         LOGGER.debug("Add stream to tracklist requested by end-user")

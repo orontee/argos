@@ -6,6 +6,7 @@ from argos.widgets.playlistsbox import PlaylistsBox
 from argos.widgets.preferences import PreferencesWindow
 from argos.widgets.streamuridialog import StreamUriDialog
 from argos.widgets.titlebar import TitleBar
+from argos.widgets.tracklistrandomdialog import TracklistRandomDialog
 from argos.widgets.volumebutton import VolumeButton
 
 __all__ = (
@@ -17,5 +18,6 @@ __all__ = (
     "PreferencesWindow",
     "StreamUriDialog",
     "TitleBar",
+    "TracklistRandomDialog",
     "VolumeButton",
 )

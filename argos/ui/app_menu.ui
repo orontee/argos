@@ -3,7 +3,7 @@
   <menu id="app-menu">
     <section>
       <item>
-        <attribute name="label" translatable="yes">Play _random album</attribute>
+        <attribute name="label" translatable="yes">Play _random album…</attribute>
         <attribute name="action">app.play-random-album</attribute>
       </item>
       <item>

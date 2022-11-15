@@ -26,6 +26,8 @@ Added
 
 Changed
 -------
+- Use dialog to display random chosen album before enqueuing `#88
+  <https://github.com/orontee/argos/issues/88>`_
 - Don't clear albums search filter when entering album details page
   (reopened) `#46 <https://github.com/orontee/argos/issues/46>`_
 - Center vertically playing track image and album image `#87

@@ -218,27 +218,21 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         excluded = self._settings.get_strv("album-backends-excluded-from-random-play")
         LOGGER.debug(f"Album backends excluded from random play: {excluded}")
 
-        def _choose_random_album_uri(event: threading.Event, uris: List[str]) -> None:
-            candidates = [
-                a for a in self.albums if a.props.backend.settings_key not in excluded
-            ]
-            if len(candidates) == 0:
-                LOGGER.warning("Empty album list for random selection!")
+        candidates = [
+            a for a in self.albums if a.props.backend.settings_key not in excluded
+        ]
+        if len(candidates) == 0:
+            LOGGER.warning("Empty album list for random selection!")
+        else:
+            try:
+                album = random.choice(candidates)
+            except IndexError:
+                pass
             else:
-                try:
-                    album = random.choice(candidates)
-                except IndexError:
-                    pass
-                else:
-                    uris.append(album.uri)
+                return album.uri
 
-            event.set()
-
-        event = threading.Event()
-        uris: List[str] = []
-
-        GLib.idle_add(_choose_random_album_uri, event, uris)
-        return uris[0] if event.wait(timeout=1.0) and len(uris) > 0 else None
+        LOGGER.warning("Failed to randomly choose an album!")
+        return None
 
     def get_complete_albums(self) -> Optional[Dict[str, AlbumModel]]:
         """Return hash table of complete albums.

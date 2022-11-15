@@ -73,10 +73,11 @@ may apply depending on Mopidy-Stream configuration.</property>
         </child>
         <child>
           <object class="GtkCheckButton" id="play_button">
-            <property name="label" translatable="yes">Play stream immediately</property>
+            <property name="label" translatable="yes">Play immediately</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="receives-default">False</property>
+            <property name="halign">start</property>
             <property name="draw-indicator">True</property>
           </object>
           <packing>
