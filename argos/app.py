@@ -94,7 +94,7 @@ class Application(Gtk.Application):
             0,
             GLib.OptionFlags.NONE,
             GLib.OptionArg.NONE,
-            _("Start with maximized window"),
+            "DEPRECATED",
             None,
         )
         self.add_main_option(
@@ -113,6 +113,8 @@ class Application(Gtk.Application):
             _("Hide search button"),
             None,
         )
+
+        self.props.start_maximized = self._settings.get_boolean("start-maximized")
 
         self._apply_style()
 
@@ -169,7 +171,6 @@ class Application(Gtk.Application):
 
         configure_logger(level)
 
-        self.props.start_maximized = "maximized" in options
         self.props.disable_tooltips = "no-tooltips" in options
         self.props.hide_search_button = "hide-search-button" in options
 
@@ -197,8 +198,8 @@ class Application(Gtk.Application):
 
             self._model.props.network_available = self._nm.get_network_available()
 
-        if self.props.start_maximized:
-            self.window.maximize()
+            if self.props.start_maximized:
+                self.window.maximize()
 
         self.window.present()
         self.show_welcome_dialog_maybe()

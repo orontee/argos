@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-15 14:18+0100\n"
+"POT-Creation-Date: 2022-11-15 17:10+0100\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: André Dokis <em21nummer1@icloud.com>\n"
 "Language-Team: German <em21nummer1@icloud.com>\n"
@@ -20,10 +20,6 @@ msgstr ""
 msgid "Enable debug logs"
 msgstr "Aktiviere Debug Logging"
 
-#: argos/app.py:97
-msgid "Start with maximized window"
-msgstr "Im Vollbildmodus starten"
-
 #: argos/app.py:105
 msgid "Disable tooltips"
 msgstr "Tooltips deaktivieren"
@@ -32,11 +28,11 @@ msgstr "Tooltips deaktivieren"
 msgid "Hide search button"
 msgstr "Suche ausblenden"
 
-#: argos/app.py:221
+#: argos/app.py:222
 msgid "Welcome!"
 msgstr "Willkommen!"
 
-#: argos/app.py:223
+#: argos/app.py:224
 msgid ""
 "Start by configuring the URL of the music server. The default value expects "
 "a server running on the local host and listening to the 6680 port."
@@ -44,7 +40,7 @@ msgstr ""
 "Die URL des Mopidy-Servers ist auf 127.0.0.1:6680 voreingestellt. Änderungen "
 "können in den Einstellungen vorgenpmmen werden."
 
-#: argos/app.py:348 argos/ui/app_menu.ui:14
+#: argos/app.py:349 argos/ui/app_menu.ui:14
 msgid "New playlist"
 msgstr "Neue Playlist"
 
@@ -247,7 +243,7 @@ msgstr ""
 msgid "General"
 msgstr "Allgemein"
 
-#: argos/ui/preferences.ui:169 argos/ui/preferences.ui:466 argos/window.py:55
+#: argos/ui/preferences.ui:169 argos/ui/preferences.ui:548 argos/window.py:55
 msgid "Library"
 msgstr "Sammlung"
 
@@ -283,11 +279,23 @@ msgstr "Max. Länge:"
 msgid "Sources"
 msgstr "Quellen"
 
-#: argos/ui/preferences.ui:493
+#: argos/ui/preferences.ui:466
+msgid "Main window"
+msgstr "Hauptfenster"
+
+#: argos/ui/preferences.ui:495
+msgid "Dark theme:"
+msgstr "Dunkles Thema:"
+
+#: argos/ui/preferences.ui:518
+msgid "Start maximized:"
+msgstr "Im Vollbildmodus starten:"
+
+#: argos/ui/preferences.ui:575
 msgid "Image size:"
 msgstr "Bildgröße:"
 
-#: argos/ui/preferences.ui:525
+#: argos/ui/preferences.ui:607
 msgid "Display"
 msgstr ""
 
@@ -617,6 +625,23 @@ msgstr "Vollbild"
 #: data/io.github.orontee.Argos.gschema.xml:158
 msgid "Window maximized state."
 msgstr "Vollbildmodus."
+
+#: data/io.github.orontee.Argos.gschema.xml:163
+msgid "Start maximized"
+msgstr "Im Vollbildmodus starten"
+
+#: data/io.github.orontee.Argos.gschema.xml:164
+msgid "Start with maximized window."
+msgstr "Im Vollbildmodus starten"
+
+#: data/io.github.orontee.Argos.gschema.xml:169
+msgid "Prefer dark theme"
+msgstr "Bevorzugen Sie ein dunkles Thema"
+
+#: data/io.github.orontee.Argos.gschema.xml:170
+msgid "If a Gtk+ theme includes a dark variant, it will be used."
+msgstr ""
+"Wenn ein Gtk+-Theme eine dunkle Variante enthält, wird diese verwendet."
 
 #~ msgid "Play stream immediately"
 #~ msgstr "Stream direkt starten"

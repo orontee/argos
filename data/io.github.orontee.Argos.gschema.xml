@@ -158,6 +158,12 @@
       <description>Window maximized state.</description>
     </key>
 
+    <key type="b" name="start-maximized">
+      <default>false</default>
+      <summary>Start maximized</summary>
+      <description>Start with maximized window.</description>
+    </key>
+
     <key type="b" name="prefer-dark-theme">
       <default>false</default>
       <summary>Prefer dark theme</summary>

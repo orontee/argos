@@ -475,10 +475,11 @@
                   </packing>
                 </child>
                 <child>
-                  <!-- n-columns=4 n-rows=1 -->
+                  <!-- n-columns=2 n-rows=2 -->
                   <object class="GtkGrid" id="main_window_grid">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="halign">start</property>
                     <property name="margin-start">5</property>
                     <property name="margin-end">5</property>
                     <property name="margin-top">5</property>
@@ -491,7 +492,7 @@
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="halign">end</property>
-                        <property name="label" translatable="yes">Prefer dark theme:</property>
+                        <property name="label" translatable="yes">Dark theme:</property>
                       </object>
                       <packing>
                         <property name="left-attach">0</property>
@@ -510,10 +511,27 @@
                       </packing>
                     </child>
                     <child>
-                      <placeholder/>
+                      <object class="GtkLabel" id="start_maximized_label">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="halign">end</property>
+                        <property name="label" translatable="yes">Start maximized:</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">1</property>
+                      </packing>
                     </child>
                     <child>
-                      <placeholder/>
+                      <object class="GtkSwitch" id="start_maximized_switch">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="halign">start</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">1</property>
+                        <property name="top-attach">1</property>
+                      </packing>
                     </child>
                   </object>
                   <packing>

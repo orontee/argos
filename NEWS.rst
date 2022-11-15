@@ -28,6 +28,8 @@ Added
 
 Changed
 -------
+- Preference dialog switch to start maximized, replace command line option `#90
+  <https://github.com/orontee/argos/issues/90>`_
 - Use dialog to display random chosen album before enqueuing `#88
   <https://github.com/orontee/argos/issues/88>`_
 - Don't clear albums search filter when entering album details page

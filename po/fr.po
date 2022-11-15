@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-15 14:18+0100\n"
+"POT-Creation-Date: 2022-11-15 17:10+0100\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -20,10 +20,6 @@ msgstr ""
 msgid "Enable debug logs"
 msgstr "Activer le journal de débogage"
 
-#: argos/app.py:97
-msgid "Start with maximized window"
-msgstr "Démarrer avec une fenêtre de taille maximale"
-
 #: argos/app.py:105
 msgid "Disable tooltips"
 msgstr "Désactiver les info-bulles"
@@ -32,11 +28,11 @@ msgstr "Désactiver les info-bulles"
 msgid "Hide search button"
 msgstr "Masquer le button de recherche"
 
-#: argos/app.py:221
+#: argos/app.py:222
 msgid "Welcome!"
 msgstr "Bienvenue !"
 
-#: argos/app.py:223
+#: argos/app.py:224
 msgid ""
 "Start by configuring the URL of the music server. The default value expects "
 "a server running on the local host and listening to the 6680 port."
@@ -44,7 +40,7 @@ msgstr ""
 "Commencez par configurer l'URL du serveur de musique. La valeur par défaut "
 "fait l'hypothèse qu'il tourne sur cet hôte et écoute sur le port 6680."
 
-#: argos/app.py:348 argos/ui/app_menu.ui:14
+#: argos/app.py:349 argos/ui/app_menu.ui:14
 msgid "New playlist"
 msgstr "Nouvelle liste de lecture"
 
@@ -248,7 +244,7 @@ msgstr ""
 msgid "General"
 msgstr "Général"
 
-#: argos/ui/preferences.ui:169 argos/ui/preferences.ui:466 argos/window.py:55
+#: argos/ui/preferences.ui:169 argos/ui/preferences.ui:548 argos/window.py:55
 msgid "Library"
 msgstr "Bibliothèque"
 
@@ -284,11 +280,23 @@ msgstr "Taille maximale:"
 msgid "Sources"
 msgstr "Sources"
 
-#: argos/ui/preferences.ui:493
+#: argos/ui/preferences.ui:466
+msgid "Main window"
+msgstr "Fenêtre principal"
+
+#: argos/ui/preferences.ui:495
+msgid "Dark theme:"
+msgstr "Thème sombre:"
+
+#: argos/ui/preferences.ui:518
+msgid "Start maximized:"
+msgstr "Maximiser au démarrage:"
+
+#: argos/ui/preferences.ui:575
 msgid "Image size:"
 msgstr "Taille des images:"
 
-#: argos/ui/preferences.ui:525
+#: argos/ui/preferences.ui:607
 msgid "Display"
 msgstr "Affichage"
 
@@ -624,6 +632,22 @@ msgstr "Fenêtre de taille maximale"
 #: data/io.github.orontee.Argos.gschema.xml:158
 msgid "Window maximized state."
 msgstr "État de maximisation de la fenêtre."
+
+#: data/io.github.orontee.Argos.gschema.xml:163
+msgid "Start maximized"
+msgstr "Fenêtre maximisée"
+
+#: data/io.github.orontee.Argos.gschema.xml:164
+msgid "Start with maximized window."
+msgstr "Démarrer avec une fenêtre de taille maximale"
+
+#: data/io.github.orontee.Argos.gschema.xml:169
+msgid "Prefer dark theme"
+msgstr "Préférer un thème sombre"
+
+#: data/io.github.orontee.Argos.gschema.xml:170
+msgid "If a Gtk+ theme includes a dark variant, it will be used."
+msgstr "Utiliser la variante sombre si un thème Gtk+ en inclut une."
 
 #~ msgid "Play stream immediately"
 #~ msgstr "Lire le flux immédiatement"
