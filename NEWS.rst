@@ -19,7 +19,7 @@ Added
   <https://github.com/orontee/argos/issues/85>`_
 - New "by last modified date" entry in album sort choices `#84
   <https://github.com/orontee/argos/issues/84>`_
-- Display date in history playlist `#82
+- Display disc numbers in album track list `#82
   <https://github.com/orontee/argos/issues/82>`_
 - Display date in history playlist `#81
   <https://github.com/orontee/argos/issues/81>`_
