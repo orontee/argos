@@ -28,6 +28,7 @@ argos/widgets/playlistselectiondialog.py
 argos/widgets/playlisttracksbox.py
 argos/widgets/preferences.py
 argos/widgets/streamuridialog.py
+argos/widgets/tracklistrandomdialog.py
 argos/widgets/tracklisttrackbox.py
 argos/widgets/utils.py
 argos/window.py

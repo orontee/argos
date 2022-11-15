@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-15 11:33+0100\n"
+"POT-Creation-Date: 2022-11-15 14:18+0100\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -292,15 +292,15 @@ msgstr "Taille des images:"
 msgid "Display"
 msgstr "Affichage"
 
-#: argos/ui/stream_uri_dialog.ui:8 argos/ui/stream_uri_dialog.ui:48
-msgid "Stream URI"
-msgstr "URI du flux"
-
-#: argos/ui/stream_uri_dialog.ui:47
+#: argos/ui/stream_uri_dialog.ui:46
 msgid "The URI of the stream"
 msgstr "Entrer l'URI du flux"
 
-#: argos/ui/stream_uri_dialog.ui:61
+#: argos/ui/stream_uri_dialog.ui:47 argos/widgets/streamuridialog.py:38
+msgid "Stream URI"
+msgstr "URI du flux"
+
+#: argos/ui/stream_uri_dialog.ui:60
 msgid ""
 "Supported protocols may vary and URI blacklisting\n"
 "may apply depending on Mopidy-Stream configuration."
@@ -309,7 +309,7 @@ msgstr ""
 "d'URI s'appliquer en fonction de la configuration\n"
 "de Mopidy-Stream."
 
-#: argos/ui/stream_uri_dialog.ui:76 argos/ui/tracklist_random_dialog.ui:190
+#: argos/ui/stream_uri_dialog.ui:75 argos/ui/tracklist_random_dialog.ui:190
 msgid "Play immediately"
 msgstr "Lire immédiatement"
 
@@ -325,11 +325,7 @@ msgstr "Trier les albums"
 msgid "Search albums"
 msgstr "Rechercher des albums"
 
-#: argos/ui/tracklist_random_dialog.ui:7
-msgid "Random tracklist"
-msgstr "File d'attente aléatoire"
-
-#: argos/ui/tracklist_random_dialog.ui:29
+#: argos/ui/tracklist_random_dialog.ui:30
 msgid "Skip"
 msgstr "Passer"
 
@@ -371,6 +367,10 @@ msgstr "Confirmer la suppression de la liste de lecture {!r}"
 msgid "The deletion can't be reverted."
 msgstr "La suppression est définitive."
 
+#: argos/widgets/playlistselectiondialog.py:50
+msgid "Select playlist by name"
+msgstr "Nom de la liste de lecture"
+
 #: argos/widgets/playlisttracksbox.py:50
 msgid "Add stream to playlist…"
 msgstr "Ajouter un flux à la liste de lecture…"
@@ -382,6 +382,10 @@ msgstr "Retirer les morceaux sélectionnés"
 #: argos/widgets/playlisttracksbox.py:52
 msgid "Delete playlist…"
 msgstr "Suppprimer la liste de lecture…"
+
+#: argos/widgets/tracklistrandomdialog.py:63
+msgid "Random tracklist"
+msgstr "File d'attente aléatoire"
 
 #: argos/widgets/tracklisttrackbox.py:44
 msgid "Unknown name"

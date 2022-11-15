@@ -60,6 +60,9 @@ class TracklistRandomDialog(Gtk.Dialog):
 
         self.play_button.set_active(play)
 
+        title_bar = Gtk.HeaderBar(title=_("Random tracklist"), show_close_button=True)
+        self.set_titlebar(title_bar)
+
         self.show_all()
 
         self._choose_random_album()

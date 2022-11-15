@@ -46,6 +46,13 @@ class PlaylistSelectionDialog(Gtk.Dialog):
         self.playlist_name_tree_view.set_enable_search(True)
         self.playlist_name_tree_view.set_search_column(PlaylistNameStoreColumn.NAME)
 
+        title_bar = Gtk.HeaderBar(
+            title=_("Select playlist by name"), show_close_button=True
+        )
+        self.set_titlebar(title_bar)
+
+        self.show_all()
+
     @Gtk.Template.Callback()
     def on_playlist_name_tree_view_row_activated(
         self, _1: Gtk.TreeView, _2: Gtk.TreePath, _3: Gtk.TreeViewColumn

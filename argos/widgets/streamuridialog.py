@@ -35,6 +35,11 @@ class StreamUriDialog(Gtk.Dialog):
         validate_button.set_can_default(True)
         validate_button.grab_default()
 
+        title_bar = Gtk.HeaderBar(title=_("Stream URI"), show_close_button=True)
+        self.set_titlebar(title_bar)
+
+        self.show_all()
+
     @Gtk.Template.Callback()
     def on_StreamUriDialog_response(
         self,
