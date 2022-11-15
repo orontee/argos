@@ -49,10 +49,6 @@ class PreferencesWindow(Gtk.Window):
         self._model = application.model
         self._albums_image_size_scale_jumped_id: Optional[int] = None
 
-        self.connection_warning_label.set_visible(
-            self._model.network_available and not self._model.connected
-        )
-
         self._settings: Gio.Settings = application.props.settings
         base_url = self._settings.get_string("mopidy-base-url")
         if base_url:
@@ -197,6 +193,9 @@ class PreferencesWindow(Gtk.Window):
         self.set_titlebar(title_bar)
 
         self.show_all()
+        self.connection_warning_label.set_visible(
+            self._model.network_available and not self._model.connected
+        )
 
     def on_connection_changed(
         self,
