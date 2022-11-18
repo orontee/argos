@@ -1,4 +1,5 @@
 import logging
+from typing import Optional
 
 from gi.repository import Gio, GObject, Gtk
 
@@ -15,7 +16,7 @@ class TitleBar(Gtk.HeaderBar):
     back_button: Gtk.Button = Gtk.Template.Child()
     app_menu_button: Gtk.MenuButton = Gtk.Template.Child()
     central_view_switcher: Gtk.StackSwitcher = Gtk.Template.Child()
-    search_button: Gtk.ToggleButton = Gtk.Template.Child()
+    search_button: Optional[Gtk.ToggleButton] = Gtk.Template.Child()
     sort_button: Gtk.MenuButton = Gtk.Template.Child()
     search_entry: Gtk.SearchEntry = Gtk.Template.Child()
     title_stack: Gtk.Stack = Gtk.Template.Child()
@@ -28,8 +29,9 @@ class TitleBar(Gtk.HeaderBar):
 
         if application.props.disable_tooltips:
             self.back_button.props.has_tooltip = False
-            self.search_button.props.has_tooltip = False
             self.sort_button.props.has_tooltip = False
+            if self.search_button is not None:
+                self.search_button.props.has_tooltip = False
 
         sort_menu = Gio.Menu()
         for id, name in ALBUM_SORT_CHOICES.items():
@@ -45,7 +47,9 @@ class TitleBar(Gtk.HeaderBar):
         self.volume_button = VolumeButton(application)
         self.pack_end(self.volume_button)
 
-        self.search_button.set_visible(False)
+        if self.search_button is not None:
+            self.search_button.set_visible(False)
+
         self.sort_button.set_visible(False)
         # See on_search_activated_changed()
 
@@ -102,12 +106,14 @@ class TitleBar(Gtk.HeaderBar):
             self.back_button.set_visible(False)
             self.title_stack.set_visible(True)
             self.sort_button.set_visible(self.props.search_activated)
-            self.search_button.set_visible(self.props.search_activated)
+            if self.search_button is not None:
+                self.search_button.set_visible(self.props.search_activated)
         else:
             self.back_button.set_visible(True)
             self.title_stack.set_visible(False)
             self.sort_button.set_visible(False)
-            self.search_button.set_visible(False)
+            if self.search_button is not None:
+                self.search_button.set_visible(False)
 
     def on_search_activated_changed(
         self,
