@@ -231,8 +231,8 @@ class Application(Gtk.Application):
         Gtk.Application.do_startup(self)
 
         action_descriptions = [
-            ("show-about-dialog", self.show_about_dialog_cb, None),
-            ("show-preferences", self.show_prefs_activate_cb, None),
+            ("show-about-dialog", self.show_about_dialog_activate_cb, None),
+            ("show-preferences", self.show_preferences_activate_cb, None),
             ("new-playlist", self.new_playlist_activate_cb, None),
             ("play-random-album", self.play_random_album_activate_cb, None),
             ("add-stream", self.add_stream_activate_cb, None),
@@ -313,7 +313,9 @@ class Application(Gtk.Application):
         message = Message(message_type, data or {})
         self._loop.call_soon_threadsafe(self._message_queue.put_nowait, message)
 
-    def show_about_dialog_cb(self, action: Gio.SimpleAction, parameter: None) -> None:
+    def show_about_dialog_activate_cb(
+        self, action: Gio.SimpleAction, parameter: None
+    ) -> None:
         if self.window is None:
             return
 
@@ -322,7 +324,9 @@ class Application(Gtk.Application):
         about_dialog.run()
         about_dialog.destroy()
 
-    def show_prefs_activate_cb(self, action: Gio.SimpleAction, parameter: None) -> None:
+    def show_preferences_activate_cb(
+        self, action: Gio.SimpleAction, parameter: None
+    ) -> None:
         if self.window is None:
             return
 
