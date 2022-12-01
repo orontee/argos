@@ -104,9 +104,7 @@ class CondensedPlayingBox(Gtk.Box):
         )
         scaled_pixbuf = None
         if image_path:
-            rectangle = self.playing_track_image.get_allocation()
-            target_width = min(rectangle.width, rectangle.height)
-            scaled_pixbuf = scale_album_image(image_path, target_width=target_width)
+            scaled_pixbuf = scale_album_image(image_path, target_width=TRACK_IMAGE_SIZE)
 
         if scaled_pixbuf:
             self.playing_track_image.set_from_pixbuf(scaled_pixbuf)
