@@ -141,7 +141,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
         )
 
         self.show_all()
-        self.titlebar.volume_button.hide()
+        condensed_playing_box.volume_button.hide()
 
         self.titlebar.props.main_page_state = True
 

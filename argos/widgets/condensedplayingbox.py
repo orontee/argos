@@ -9,6 +9,7 @@ from argos.message import MessageType
 from argos.model import PlaybackState
 from argos.utils import elide_maybe
 from argos.widgets.utils import default_image_pixbuf, scale_album_image
+from argos.widgets.volumebutton import VolumeButton
 
 _ = gettext.gettext
 
@@ -43,6 +44,9 @@ class CondensedPlayingBox(Gtk.Box):
         self._app = application
         self._model = application.model
         self._disable_tooltips = application.props.disable_tooltips
+
+        self.volume_button = VolumeButton(application)
+        self.pack_end(self.volume_button, False, False, 0)
 
         self.set_sensitive(self._model.network_available and self._model.connected)
 
