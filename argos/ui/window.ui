@@ -4,8 +4,6 @@
   <requires lib="gtk+" version="3.24"/>
   <!-- interface-local-resource-path ../ -->
   <template class="ArgosWindow" parent="GtkApplicationWindow">
-    <property name="width-request">780</property>
-    <property name="height-request">460</property>
     <property name="can-focus">False</property>
     <property name="events">GDK_KEY_PRESS_MASK | GDK_STRUCTURE_MASK</property>
     <property name="hexpand">True</property>
