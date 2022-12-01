@@ -9,6 +9,7 @@
     <property name="icon_size">3</property>
   </object>
   <object class="GtkImage" id="pause_image">
+    <property name="name">condensed-playing-box</property>
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="icon-name">media-playback-pause-symbolic</property>
@@ -49,7 +50,7 @@
     </child>
     <child>
       <object class="GtkBox" id="playback_controls_box">
-        <property name="name">playing-box-playback-controls-box</property>
+        <property name="name">condensed-playing-box-playback-controls-box</property>
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="halign">center</property>
@@ -130,7 +131,7 @@
     </child>
     <child>
       <object class="GtkBox" id="labels_box">
-        <property name="name">playing-box-labels-box</property>
+        <property name="name">condensed-playing-box-labels-box</property>
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="valign">center</property>

@@ -10,6 +10,7 @@
   <template class="AlbumDetailsBox" parent="GtkBox">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
+    <property name="spacing">5</property>
     <property name="homogeneous">True</property>
     <child>
       <object class="GtkBox" id="left_pane">
@@ -292,7 +293,7 @@
       <packing>
         <property name="expand">False</property>
         <property name="fill">True</property>
-        <property name="position">2</property>
+        <property name="position">1</property>
       </packing>
     </child>
   </template>

@@ -10,6 +10,7 @@ from gi.repository.GdkPixbuf import Pixbuf
 
 from argos.message import MessageType
 from argos.utils import elide_maybe
+from argos.widgets.albumdetailsbox import AlbumDetailsBox
 from argos.widgets.albumsbrowsingprogressbox import AlbumsBrowsingProgressBox
 from argos.widgets.condensedplayingbox import CondensedPlayingBox
 from argos.widgets.utils import default_image_pixbuf, scale_album_image
@@ -31,11 +32,11 @@ class AlbumStoreColumns(IntEnum):
 class AlbumsWindow(Gtk.Box):
     __gtype_name__ = "AlbumsWindow"
 
-    __gsignals__ = {"album-selected": (GObject.SIGNAL_RUN_FIRST, None, (str,))}
-
     albums_overlay: Gtk.Overlay = Gtk.Template.Child()
+    albums_stack: Gtk.Stack = Gtk.Template.Child()
     albums_view: Gtk.IconView = Gtk.Template.Child()
 
+    album_details_box = GObject.Property(type=AlbumDetailsBox)
     filtered_albums_store = GObject.Property(type=Gtk.TreeModelFilter)
     filtering_text = GObject.Property(type=str)
 
@@ -55,6 +56,9 @@ class AlbumsWindow(Gtk.Box):
             "media-optical-cd-audio-symbolic",
             target_width=self.albums_image_size,
         )
+
+        self.props.album_details_box = AlbumDetailsBox(application)
+        self.albums_stack.add_named(self.props.album_details_box, "album_details_page")
 
         albums_store = Gtk.ListStore(str, str, str, str, Pixbuf, str, str)
         self.props.filtered_albums_store = albums_store.filter_new()
@@ -215,6 +219,12 @@ class AlbumsWindow(Gtk.Box):
                     LOGGER.debug(f"No image path for {uri}")
                 store_iter = store.iter_next(store_iter)
 
+    def is_albums_page_visible(self) -> bool:
+        return self.albums_stack.get_visible_child_name() == "albums_page"
+
+    def select_albums_page(self) -> None:
+        self.albums_stack.set_visible_child_name("albums_page")
+
     @Gtk.Template.Callback()
     def albums_view_item_activated_cb(
         self, icon_view: Gtk.IconView, path: Gtk.TreePath
@@ -226,7 +236,15 @@ class AlbumsWindow(Gtk.Box):
         filtered_store = icon_view.get_model()
         store_iter = filtered_store.get_iter(path)
         uri = filtered_store.get_value(store_iter, AlbumStoreColumns.URI)
-        self.emit("album-selected", uri)
+
+        LOGGER.debug(f"Album {uri!r} selected")
+        self._app.send_message(
+            MessageType.COMPLETE_ALBUM_DESCRIPTION, {"album_uri": uri}
+        )
+
+        self.props.album_details_box.set_property("uri", uri)
+        self.props.album_details_box.show_now()
+        self.albums_stack.set_visible_child_name("album_details_page")
 
     def _on_albums_image_size_changed(
         self,
