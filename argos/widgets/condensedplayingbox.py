@@ -67,12 +67,6 @@ class CondensedPlayingBox(Gtk.Box):
         self._model.playback.connect(
             "notify::image-path", self._update_playing_track_image
         )
-
-        self._update_playing_track_labels()
-        self._update_playing_track_image()
-        self._update_play_button()
-        # This widget may be instantiated after we received the first
-        # current-tl-track-tlid notification
         self.show_all()
 
     def handle_connection_changed(
@@ -80,6 +74,7 @@ class CondensedPlayingBox(Gtk.Box):
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
+        self.volume_button.update_value()
         sensitive = self._model.network_available and self._model.connected
         self.set_sensitive(sensitive)
 
