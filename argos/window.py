@@ -194,7 +194,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
 
         enabled = self._model.network_available and self._model.connected
         playlist_tracks_box = self.props.playlists_box.tracks_box
-        selected_rows = playlist_tracks_box.tracks_box.get_selected_rows()
+        selected_rows = playlist_tracks_box.get_selected_rows()
         remove_from_playlist_action.set_enabled(enabled and len(selected_rows) > 0)
 
     @Gtk.Template.Callback()

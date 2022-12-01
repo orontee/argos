@@ -23,9 +23,6 @@ class StreamUriDialog(Gtk.Dialog):
     def __init__(self, application: Gtk.Application, with_play_button: bool = False):
         super().__init__(application=application, transient_for=application.window)
 
-        if not with_play_button:
-            self.play_button.hide()
-
         self.add_buttons(
             Gtk.STOCK_OK,
             Gtk.ResponseType.OK,
@@ -39,6 +36,9 @@ class StreamUriDialog(Gtk.Dialog):
         self.set_titlebar(title_bar)
 
         self.show_all()
+
+        if not with_play_button:
+            self.play_button.hide()
 
     @Gtk.Template.Callback()
     def on_StreamUriDialog_response(
