@@ -8,6 +8,7 @@ from argos.model import PlaybackState
 from argos.widgets import (
     AlbumDetailsBox,
     AlbumsWindow,
+    CondensedPlayingBox,
     PlayingBox,
     PlaylistsBox,
     TitleBar,
@@ -22,6 +23,7 @@ LOGGER = logging.getLogger(__name__)
 class ArgosWindow(Gtk.ApplicationWindow):
     __gtype_name__ = "ArgosWindow"
 
+    main_box: Gtk.Box = Gtk.Template.Child()
     main_stack: Gtk.Stack = Gtk.Template.Child()
     central_view: Gtk.Stack = Gtk.Template.Child()
 
@@ -65,6 +67,9 @@ class ArgosWindow(Gtk.ApplicationWindow):
 
         self._album_details_box = AlbumDetailsBox(application)
         self.main_stack.add_named(self._album_details_box, "album_page")
+
+        condensed_playing_box = CondensedPlayingBox(application)
+        self.main_box.add(condensed_playing_box)
 
         add_to_tracklist_action = Gio.SimpleAction.new("add-to-tracklist", None)
         self.add_action(add_to_tracklist_action)

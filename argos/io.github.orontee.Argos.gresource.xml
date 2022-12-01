@@ -8,6 +8,7 @@
     <file preprocess="xml-stripblanks">ui/album_track_box.ui</file>
     <file preprocess="xml-stripblanks">ui/albums_window.ui</file>
     <file preprocess="xml-stripblanks">ui/app_menu.ui</file>
+    <file preprocess="xml-stripblanks">ui/condensed_playing_box.ui</file>
     <file preprocess="xml-stripblanks">ui/playing_box.ui</file>
     <file preprocess="xml-stripblanks">ui/playing_box_empty_tracklist_box.ui</file>
     <file preprocess="xml-stripblanks">ui/playlist_empty_tracks_box.ui</file>
