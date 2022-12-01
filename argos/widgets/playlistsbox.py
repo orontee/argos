@@ -7,6 +7,7 @@ from gi.repository import Gio, GObject, Gtk
 from argos.message import MessageType
 from argos.model import PlaylistModel, TrackModel
 from argos.utils import ms_to_text
+from argos.widgets.condensedplayingbox import CondensedPlayingBox
 from argos.widgets.playlistemptytracksbox import PlaylistEmptyTracksBox
 from argos.widgets.playlistlabel import PlaylistLabel
 from argos.widgets.playlisttrackbox import PlaylistTrackBox
@@ -70,6 +71,8 @@ class PlaylistsBox(Gtk.Box):
         self._model = application.model
         self._disable_tooltips = application.props.disable_tooltips
         self._empty_tracks_placeholder = PlaylistEmptyTracksBox(application)
+
+        self.add(CondensedPlayingBox(application))
 
         self.set_sensitive(self._model.network_available and self._model.connected)
 

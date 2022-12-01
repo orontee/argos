@@ -4,11 +4,9 @@ import logging
 from gi.repository import Gdk, Gio, GLib, GObject, Gtk
 
 from argos.message import MessageType
-from argos.model import PlaybackState
 from argos.widgets import (
     AlbumDetailsBox,
     AlbumsWindow,
-    CondensedPlayingBox,
     PlayingBox,
     PlaylistsBox,
     TitleBar,
@@ -30,7 +28,6 @@ class ArgosWindow(Gtk.ApplicationWindow):
     albums_window = GObject.Property(type=AlbumsWindow)
     playlists_box = GObject.Property(type=PlaylistsBox)
     titlebar = GObject.Property(type=TitleBar)
-    condensed_playing_box = GObject.Property(type=CondensedPlayingBox)
 
     def __init__(self, application: Gtk.Application):
         super().__init__(application=application)
@@ -124,10 +121,6 @@ class ArgosWindow(Gtk.ApplicationWindow):
             "notify::visible-child-name", self._on_main_stack_page_changed
         )
 
-        self.central_view.connect(
-            "notify::visible-child-name", self._on_central_view_page_changed
-        )
-
         self.connect("notify::is-maximized", self._handle_maximized_state_changed)
 
         self.props.playlists_box.tracks_box.connect(
@@ -179,30 +172,6 @@ class ArgosWindow(Gtk.ApplicationWindow):
     ) -> None:
         main_page_visible = self.main_stack.get_visible_child_name() == "main_page"
         self.titlebar.props.main_page_state = main_page_visible
-
-    def _on_central_view_page_changed(
-        self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
-    ) -> None:
-        playing_page_visible = (
-            self.central_view.get_visible_child_name() == "playing_page"
-        )
-
-        if not playing_page_visible:
-            if self.props.condensed_playing_box is None:
-                self.props.condensed_playing_box = CondensedPlayingBox(
-                    self.props.application
-                )
-                self.main_box.add(self.props.condensed_playing_box)
-
-                self.props.condensed_playing_box.volume_button.hide()
-                # Hack to hide volume button which must be shown iff
-                # Mopidy mixer extension is enabled, information known
-                # after a connection has been established
-
-        if self.props.condensed_playing_box is not None:
-            self.props.condensed_playing_box.set_visible(not playing_page_visible)
 
     def _on_title_back_button_clicked(self, _1: Gtk.Button) -> None:
         self.main_stack.set_visible_child_name("main_page")

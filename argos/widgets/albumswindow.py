@@ -1,7 +1,6 @@
 import logging
 import re
 import threading
-import time
 from enum import IntEnum
 from pathlib import Path
 from typing import List, Optional
@@ -12,6 +11,7 @@ from gi.repository.GdkPixbuf import Pixbuf
 from argos.message import MessageType
 from argos.utils import elide_maybe
 from argos.widgets.albumsbrowsingprogressbox import AlbumsBrowsingProgressBox
+from argos.widgets.condensedplayingbox import CondensedPlayingBox
 from argos.widgets.utils import default_image_pixbuf, scale_album_image
 
 LOGGER = logging.getLogger(__name__)
@@ -28,11 +28,12 @@ class AlbumStoreColumns(IntEnum):
 
 
 @Gtk.Template(resource_path="/io/github/orontee/Argos/ui/albums_window.ui")
-class AlbumsWindow(Gtk.Overlay):
+class AlbumsWindow(Gtk.Box):
     __gtype_name__ = "AlbumsWindow"
 
     __gsignals__ = {"album-selected": (GObject.SIGNAL_RUN_FIRST, None, (str,))}
 
+    albums_overlay: Gtk.Overlay = Gtk.Template.Child()
     albums_view: Gtk.IconView = Gtk.Template.Child()
 
     filtered_albums_store = GObject.Property(type=Gtk.TreeModelFilter)
@@ -65,11 +66,13 @@ class AlbumsWindow(Gtk.Overlay):
         self.albums_view.set_pixbuf_column(AlbumStoreColumns.PIXBUF)
         self.albums_view.set_item_width(self.albums_image_size)
 
+        self.add(CondensedPlayingBox(application))
+
         if application.props.disable_tooltips:
             self.albums_view.props.has_tooltip = False
 
         self._progress_box = AlbumsBrowsingProgressBox()
-        self.add_overlay(self._progress_box)
+        self.albums_overlay.add_overlay(self._progress_box)
         self._progress_box.show_all()
         self.show_all()
 

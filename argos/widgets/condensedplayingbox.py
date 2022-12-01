@@ -123,9 +123,7 @@ class CondensedPlayingBox(Gtk.Box):
     def _update_track_name_label(self, track_name: Optional[str] = None) -> None:
         if track_name:
             short_track_name = GLib.markup_escape_text(elide_maybe(track_name))
-            track_name_text = (
-                f"""<span size="xx-large"><b>{short_track_name}</b></span>"""
-            )
+            track_name_text = f"""<b>{short_track_name}</b>"""
             self.track_name_label.set_markup(track_name_text)
             if not self._disable_tooltips:
                 self.track_name_label.set_has_tooltip(True)
@@ -139,7 +137,7 @@ class CondensedPlayingBox(Gtk.Box):
     def _update_artist_name_label(self, artist_name: Optional[str] = None) -> None:
         if artist_name:
             short_artist_name = GLib.markup_escape_text(elide_maybe(artist_name))
-            artist_name_text = f"""<span size="x-large">{short_artist_name}</span>"""
+            artist_name_text = f"""{short_artist_name}"""
             self.artist_name_label.set_markup(artist_name_text)
             if not self._disable_tooltips:
                 self.artist_name_label.set_has_tooltip(True)
