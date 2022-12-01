@@ -141,12 +141,15 @@
           <object class="GtkLabel" id="track_name_label">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
+            <property name="halign">start</property>
+            <property name="valign">center</property>
             <property name="margin-left">10</property>
             <property name="margin-right">10</property>
             <property name="margin-start">10</property>
             <property name="margin-end">10</property>
             <property name="margin-top">5</property>
             <property name="margin-bottom">5</property>
+            <property name="hexpand">True</property>
             <property name="justify">center</property>
             <property name="wrap">True</property>
           </object>
@@ -160,11 +163,14 @@
           <object class="GtkLabel" id="artist_name_label">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
+            <property name="halign">start</property>
+            <property name="valign">center</property>
             <property name="margin-left">10</property>
             <property name="margin-right">10</property>
             <property name="margin-start">10</property>
             <property name="margin-end">10</property>
             <property name="margin-bottom">5</property>
+            <property name="hexpand">True</property>
             <property name="justify">center</property>
             <property name="wrap">True</property>
           </object>

@@ -326,12 +326,12 @@
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
+        <property name="spacing">5</property>
         <child>
           <object class="GtkBox" id="tracklist_buttons_box">
             <property name="name">tracklist-button-box</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="margin-top">5</property>
             <child>
               <object class="GtkButton" id="clear_button">
                 <property name="visible">True</property>
@@ -452,7 +452,6 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="pack-type">end</property>
             <property name="position">0</property>
           </packing>
         </child>
