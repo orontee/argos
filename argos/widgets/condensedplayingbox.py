@@ -68,6 +68,9 @@ class CondensedPlayingBox(Gtk.Box):
             "notify::image-path", self._update_playing_track_image
         )
 
+        self._update_playing_track_labels()
+        # This widget may be instantiated after we received the first
+        # current-tl-track-tlid notification
         self.show_all()
 
     def handle_connection_changed(
@@ -80,8 +83,8 @@ class CondensedPlayingBox(Gtk.Box):
 
     def _update_playing_track_labels(
         self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
+        _1: GObject.GObject = None,
+        _2: GObject.GParamSpec = None,
     ) -> None:
         tlid = self._model.playback.props.current_tl_track_tlid
         tl_track = self._model.tracklist.get_tl_track(tlid) if tlid != -1 else None

@@ -30,6 +30,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
     albums_window = GObject.Property(type=AlbumsWindow)
     playlists_box = GObject.Property(type=PlaylistsBox)
     titlebar = GObject.Property(type=TitleBar)
+    condensed_playing_box = GObject.Property(type=CondensedPlayingBox)
 
     def __init__(self, application: Gtk.Application):
         super().__init__(application=application)
@@ -67,9 +68,6 @@ class ArgosWindow(Gtk.ApplicationWindow):
 
         self._album_details_box = AlbumDetailsBox(application)
         self.main_stack.add_named(self._album_details_box, "album_page")
-
-        condensed_playing_box = CondensedPlayingBox(application)
-        self.main_box.add(condensed_playing_box)
 
         add_to_tracklist_action = Gio.SimpleAction.new("add-to-tracklist", None)
         self.add_action(add_to_tracklist_action)
@@ -140,7 +138,6 @@ class ArgosWindow(Gtk.ApplicationWindow):
         )
 
         self.show_all()
-        condensed_playing_box.volume_button.hide()
 
         self.titlebar.props.main_page_state = True
 
@@ -194,7 +191,23 @@ class ArgosWindow(Gtk.ApplicationWindow):
         playing_page_visible = (
             self.central_view.get_visible_child_name() == "playing_page"
         )
+
         if not playing_page_visible:
+            if self.props.condensed_playing_box is None:
+                self.props.condensed_playing_box = CondensedPlayingBox(
+                    self.props.application
+                )
+                self.main_box.add(self.props.condensed_playing_box)
+
+                self.props.condensed_playing_box.volume_button.hide()
+                # Hack to hide volume button which must be shown iff
+                # Mopidy mixer extension is enabled, information known
+                # after a connection has been established
+
+        if self.props.condensed_playing_box is not None:
+            self.props.condensed_playing_box.set_visible(not playing_page_visible)
+
+        if playing_page_visible:
             return
 
         child = self.central_view.get_child_by_name("playing_page")
