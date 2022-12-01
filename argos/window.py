@@ -128,9 +128,6 @@ class ArgosWindow(Gtk.ApplicationWindow):
             "notify::visible-child-name", self._on_central_view_page_changed
         )
 
-        self._model.playback.connect(
-            "notify::current-tl-track-tlid", self._on_attention_requested
-        )
         self.connect("notify::is-maximized", self._handle_maximized_state_changed)
 
         self.props.playlists_box.tracks_box.connect(
@@ -207,38 +204,12 @@ class ArgosWindow(Gtk.ApplicationWindow):
         if self.props.condensed_playing_box is not None:
             self.props.condensed_playing_box.set_visible(not playing_page_visible)
 
-        if playing_page_visible:
-            return
-
-        child = self.central_view.get_child_by_name("playing_page")
-        if child:
-            self.central_view.child_set_property(child, "needs-attention", False)
-
     def _on_title_back_button_clicked(self, _1: Gtk.Button) -> None:
         self.main_stack.set_visible_child_name("main_page")
 
     def _on_search_entry_changed(self, search_entry: Gtk.SearchEntry) -> None:
         filtering_text = search_entry.props.text
         self.props.albums_window.set_filtering_text(filtering_text)
-
-    def _on_attention_requested(
-        self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
-    ) -> None:
-        playing_page_visible = (
-            self.central_view.get_visible_child_name() == "playing_page"
-        )
-        if playing_page_visible:
-            return
-
-        if self._model.playback.state != PlaybackState.PLAYING:
-            return
-
-        child = self.central_view.get_child_by_name("playing_page")
-        if child:
-            LOGGER.debug("Requesting attention for playing page")
-            self.central_view.child_set_property(child, "needs-attention", True)
 
     def _on_prefer_dark_theme_changed(
         self,
