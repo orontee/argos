@@ -53,8 +53,6 @@
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="halign">center</property>
-        <property name="margin-top">5</property>
-        <property name="margin-bottom">5</property>
         <child>
           <object class="GtkButton" id="prev_button">
             <property name="width-request">50</property>
@@ -63,6 +61,8 @@
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
             <property name="tooltip-text" translatable="yes">Previous</property>
+            <property name="halign">end</property>
+            <property name="valign">center</property>
             <property name="image">previous_image</property>
             <property name="always-show-image">True</property>
             <signal name="clicked" handler="on_prev_button_clicked" swapped="no"/>
@@ -84,6 +84,8 @@
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
             <property name="tooltip-text" translatable="yes">Play</property>
+            <property name="halign">center</property>
+            <property name="valign">center</property>
             <property name="image">play_image</property>
             <property name="always-show-image">True</property>
             <signal name="clicked" handler="on_play_button_clicked" swapped="no"/>
@@ -105,6 +107,8 @@
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
             <property name="tooltip-text" translatable="yes">Next</property>
+            <property name="halign">start</property>
+            <property name="valign">center</property>
             <property name="image">next_image</property>
             <property name="image-position">right</property>
             <property name="always-show-image">True</property>
@@ -136,19 +140,16 @@
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="valign">center</property>
+        <property name="margin-start">10</property>
+        <property name="margin-end">10</property>
         <property name="orientation">vertical</property>
+        <property name="spacing">5</property>
         <child>
           <object class="GtkLabel" id="track_name_label">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="halign">start</property>
             <property name="valign">center</property>
-            <property name="margin-left">10</property>
-            <property name="margin-right">10</property>
-            <property name="margin-start">10</property>
-            <property name="margin-end">10</property>
-            <property name="margin-top">5</property>
-            <property name="margin-bottom">5</property>
             <property name="hexpand">True</property>
             <property name="justify">center</property>
             <property name="wrap">True</property>
@@ -165,11 +166,6 @@
             <property name="can-focus">False</property>
             <property name="halign">start</property>
             <property name="valign">center</property>
-            <property name="margin-left">10</property>
-            <property name="margin-right">10</property>
-            <property name="margin-start">10</property>
-            <property name="margin-end">10</property>
-            <property name="margin-bottom">5</property>
             <property name="hexpand">True</property>
             <property name="justify">center</property>
             <property name="wrap">True</property>

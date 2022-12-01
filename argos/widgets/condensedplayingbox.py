@@ -15,7 +15,7 @@ _ = gettext.gettext
 
 LOGGER = logging.getLogger(__name__)
 
-TRACK_IMAGE_SIZE = 50
+TRACK_IMAGE_SIZE = 40
 
 
 @Gtk.Template(resource_path="/io/github/orontee/Argos/ui/condensed_playing_box.ui")
@@ -69,6 +69,8 @@ class CondensedPlayingBox(Gtk.Box):
         )
 
         self._update_playing_track_labels()
+        self._update_playing_track_image()
+        self._update_play_button()
         # This widget may be instantiated after we received the first
         # current-tl-track-tlid notification
         self.show_all()
@@ -97,8 +99,8 @@ class CondensedPlayingBox(Gtk.Box):
 
     def _update_playing_track_image(
         self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
+        _1: GObject.GObject = None,
+        _2: GObject.GParamSpec = None,
     ) -> None:
         image_path = (
             Path(self._model.playback.image_path)
@@ -150,10 +152,10 @@ class CondensedPlayingBox(Gtk.Box):
 
     def _update_play_button(
         self,
-        model: GObject.GObject,
-        _1: GObject.GParamSpec,
+        _2: GObject.GObject = None,
+        _1: GObject.GParamSpec = None,
     ) -> None:
-        state = model.props.state
+        state = self._model.playback.props.state
         if state in (
             PlaybackState.UNKNOWN,
             PlaybackState.PAUSED,
