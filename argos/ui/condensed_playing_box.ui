@@ -24,6 +24,7 @@
     <property name="icon-name">media-skip-backward-symbolic</property>
   </object>
   <template class="CondensedPlayingBox" parent="GtkBox">
+    <property name="name">condensed-playing-box</property>
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="margin-start">5</property>
