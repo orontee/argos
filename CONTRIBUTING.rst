@@ -116,3 +116,23 @@ to export to SVG format (with Graphviz installed)::
   docker pull structurizr/cli:latest
   docker run -it --rm -v $PWD:/usr/local/structurizr structurizr/cli export -workspace workspace.dsl -format adot
   for DOT_FILE in *.dot; do dot -Tsvg ${DOT_FILE} -o $(basename ${DOT_FILE} .dot | cut -d'-' -f2-).svg; done
+
+Screenshots
+===========
+
+Since Argos is distributed through Flathub some restrictions apply to
+screenshots (size, ratio, padding, etc.). The build will check those
+restrictions for the URLs in the screenshots section of the `AppStream
+metadata file <../data/io.github.orontee.Argos.appdata.xml.in>`_.
+
+Thus one must push new image to a dedicated branch, update the URLs,
+and build for new images to be checked.
+
+To remove horizontal padding and resize to 900px width with
+`ImageMagick <https://imagemagick.org/index.php>`_ installed::
+
+  mkdir cleaned_image
+  pushd cleaned_image
+  for IMG_FILE in ../*.png; do
+    convert ${IMG_FILE} -fuzz 1% -trim +repage -resize 900\> $(basename ${IMG_FILE});
+  done

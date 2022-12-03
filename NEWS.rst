@@ -49,8 +49,8 @@ Changed
 
 Removed
 -------
-- Needs attention support `#93
-  <https://github.com/orontee/argos/issues/93>`_
+- Remove "needs attention" support since playback state is now always
+  visible `#93 <https://github.com/orontee/argos/issues/93>`_
 - Remove album sort choice from preferences dialog `#86
   <https://github.com/orontee/argos/issues/86>`_
 
