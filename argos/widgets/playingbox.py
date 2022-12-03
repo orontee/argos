@@ -8,8 +8,9 @@ from gi.repository import GLib, GObject, Gtk
 
 from argos.message import MessageType
 from argos.model import PlaybackState
-from argos.utils import elide_maybe, ms_to_text
+from argos.utils import elide_maybe
 from argos.widgets.playingboxemptytracklistbox import PlayingBoxEmptyTracklistBox
+from argos.widgets.tracklengthbox import TrackLengthBox
 from argos.widgets.tracklistbox import TracklistBox
 from argos.widgets.utils import default_image_pixbuf, scale_album_image
 
@@ -42,17 +43,13 @@ class PlayingBox(Gtk.Box):
     play_image: Gtk.Image = Gtk.Template.Child()
     pause_image: Gtk.Image = Gtk.Template.Child()
 
+    left_pane_box: Gtk.Box = Gtk.Template.Child()
     track_name_label: Gtk.Label = Gtk.Template.Child()
     artist_name_label: Gtk.Label = Gtk.Template.Child()
-    track_length_label: Gtk.Label = Gtk.Template.Child()
 
     prev_button: Gtk.Button = Gtk.Template.Child()
     play_button: Gtk.Button = Gtk.Template.Child()
     next_button: Gtk.Button = Gtk.Template.Child()
-
-    time_position_scale: Gtk.Scale = Gtk.Template.Child()
-    time_position_adjustment: Gtk.Adjustment = Gtk.Template.Child()
-    time_position_label: Gtk.Label = Gtk.Template.Child()
 
     tracklist_view_scrolled_window: Gtk.ScrolledWindow = Gtk.Template.Child()
     tracklist_view_viewport: Gtk.Viewport = Gtk.Template.Child()
@@ -74,7 +71,8 @@ class PlayingBox(Gtk.Box):
         self._model = application.model
         self._disable_tooltips = application.props.disable_tooltips
 
-        self._time_position_scale_jumped_source_id: Optional[int] = None
+        track_length_box = TrackLengthBox(application)
+        self.left_pane_box.pack_end(track_length_box, False, False, 0)
 
         self.tracklist_view = TracklistBox(application)
         self.tracklist_view.set_placeholder(PlayingBoxEmptyTracklistBox(application))
@@ -106,9 +104,6 @@ class PlayingBox(Gtk.Box):
             "notify::current-tl-track-tlid", self._update_playing_track_labels
         )
         self._model.playback.connect("notify::state", self._update_play_button)
-        self._model.playback.connect(
-            "notify::time-position", self._update_time_position_scale_and_label
-        )
         self._model.playback.connect(
             "notify::image-path", self._update_playing_track_image
         )
@@ -164,11 +159,9 @@ class PlayingBox(Gtk.Box):
         tl_track = self._model.tracklist.get_tl_track(tlid) if tlid != -1 else None
         if tl_track is not None:
             self._update_track_name_label(tl_track.track.name)
-            self._update_track_length_label(tl_track.track.length)
             self._update_artist_name_label(tl_track.track.artist_name)
         else:
             self._update_track_name_label()
-            self._update_track_length_label()
             self._update_artist_name_label()
 
     def _update_playing_track_image(
@@ -224,37 +217,6 @@ class PlayingBox(Gtk.Box):
 
         self.artist_name_label.show_now()
 
-    def _update_track_length_label(self, track_length: Optional[int] = None) -> None:
-        pretty_length = ms_to_text(track_length if track_length is not None else -1)
-        self.track_length_label.set_text(pretty_length)
-
-        if track_length and track_length != -1:
-            self.time_position_adjustment.set_upper(track_length)
-            self.time_position_scale.set_sensitive(True)
-        else:
-            self.time_position_adjustment.set_upper(0)
-            self.time_position_scale.set_sensitive(False)
-
-        self.track_length_label.show_now()
-
-    def _update_time_position_scale_and_label(
-        self,
-        model: GObject.GObject,
-        _1: GObject.GParamSpec,
-    ) -> None:
-        time_position = model.props.time_position
-        pretty_time_position = ms_to_text(time_position)
-        self.time_position_label.set_text(pretty_time_position)
-        if self._time_position_scale_jumped_source_id is None:
-            # User is not adjusting time position, update is ok
-
-            self.time_position_adjustment.set_value(
-                time_position if time_position != -1 else 0
-            )
-
-        self.time_position_label.show_now()
-        self.time_position_scale.show_now()
-
     def _update_play_button(
         self,
         model: GObject.GObject,
@@ -308,43 +270,6 @@ class PlayingBox(Gtk.Box):
     @Gtk.Template.Callback()
     def on_next_button_clicked(self, *args) -> None:
         self._app.send_message(MessageType.PLAY_NEXT_TRACK)
-
-    def _on_time_position_scale_jumped(self) -> bool:
-        if self._time_position_scale_jumped_source_id is not None:
-            time_position = round(self.time_position_adjustment.props.value)
-            self._app.send_message(MessageType.SEEK, {"time_position": time_position})
-            self._time_position_scale_jumped_source_id = None
-        return False  # means stop calling this callback
-
-    @Gtk.Template.Callback()
-    def on_time_position_scale_change_value(
-        self, widget: Gtk.Widget, scroll_type: Gtk.ScrollType, value: float
-    ) -> bool:
-        if scroll_type in (
-            Gtk.ScrollType.JUMP,
-            Gtk.ScrollType.STEP_BACKWARD,
-            Gtk.ScrollType.STEP_FORWARD,
-            Gtk.ScrollType.PAGE_BACKWARD,
-            Gtk.ScrollType.PAGE_FORWARD,
-        ):
-            if self._time_position_scale_jumped_source_id is not None:
-                GLib.source_remove(self._time_position_scale_jumped_source_id)
-
-            self._time_position_scale_jumped_source_id = GLib.timeout_add(
-                100,  # ms
-                self._on_time_position_scale_jumped,
-            )
-            return False
-        elif scroll_type in (
-            Gtk.ScrollType.START,
-            Gtk.ScrollType.END,
-        ):
-            time_position = round(value)
-            self._app.send_message(MessageType.SEEK, {"time_position": time_position})
-            return True
-
-        LOGGER.warning(f"Unhandled scroll type {scroll_type!r}")
-        return False
 
     @Gtk.Template.Callback()
     def on_consume_button_toggled(

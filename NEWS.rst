@@ -13,6 +13,8 @@ The format is based on `Keep a Changelog
 
 Added
 -----
+- Display time position in bottom widget `#94
+  <https://github.com/orontee/argos/issues/94>`_
 
 Changed
 -------

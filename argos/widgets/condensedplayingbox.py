@@ -8,6 +8,7 @@ from gi.repository import Gdk, GLib, GObject, Gtk
 from argos.message import MessageType
 from argos.model import PlaybackState
 from argos.utils import elide_maybe
+from argos.widgets.tracklengthbox import TrackLengthBox
 from argos.widgets.utils import default_image_pixbuf, scale_album_image
 from argos.widgets.volumebutton import VolumeButton
 
@@ -48,6 +49,9 @@ class CondensedPlayingBox(Gtk.Box):
 
         self.volume_button = VolumeButton(application)
         self.pack_end(self.volume_button, False, False, 0)
+
+        track_length_box = TrackLengthBox(application, with_scale=False)
+        self.pack_end(track_length_box, False, False, 0)
 
         self.set_sensitive(self._model.network_available and self._model.connected)
 
