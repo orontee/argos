@@ -2,6 +2,16 @@
 <!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
+  <object class="GtkImage" id="add_image">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">list-add-symbolic</property>
+  </object>
+  <object class="GtkImage" id="play_image">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">media-playback-start-symbolic</property>
+  </object>
   <template class="PlaylistsBox" parent="GtkBox">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -133,86 +143,102 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButtonBox" id="right_playlist_buttons_box">
+                  <object class="GtkBox" id="playlist_button_box">
+                    <property name="name">playlist-button-box</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="halign">end</property>
-                    <property name="valign">center</property>
-                    <property name="homogeneous">True</property>
-                    <property name="layout-style">expand</property>
+                    <property name="spacing">5</property>
                     <child>
-                      <object class="GtkButton" id="add_button">
+                      <object class="GtkMenuButton" id="edit_button">
+                        <property name="name">playlist-edit-button</property>
                         <property name="visible">True</property>
-                        <property name="sensitive">False</property>
                         <property name="can-focus">True</property>
+                        <property name="focus-on-click">False</property>
                         <property name="receives-default">True</property>
-                        <property name="tooltip-text" translatable="yes">Add playlist or selected tracks to tracklist</property>
-                        <property name="image">add_image</property>
-                        <signal name="clicked" handler="on_add_button_clicked" swapped="no"/>
-                        <style>
-                          <class name="pill"/>
-                        </style>
+                        <property name="tooltip-text" translatable="yes">Edit playlist</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <child>
+                          <object class="GtkImage" id="edit_image">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="icon-name">document-edit-symbolic</property>
+                          </object>
+                        </child>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkButton" id="play_button">
+                      <object class="GtkButtonBox" id="right_playlist_buttons_box">
+                        <property name="name">right-playlist-button-box</property>
                         <property name="visible">True</property>
-                        <property name="sensitive">False</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">True</property>
-                        <property name="tooltip-text" translatable="yes">Play playlist or selected tracks</property>
-                        <property name="image">play_image</property>
-                        <property name="always-show-image">True</property>
-                        <signal name="clicked" handler="on_play_button_clicked" swapped="no"/>
+                        <property name="can-focus">False</property>
+                        <property name="halign">end</property>
+                        <property name="valign">center</property>
+                        <property name="homogeneous">True</property>
+                        <property name="layout-style">expand</property>
+                        <child>
+                          <object class="GtkButton" id="add_button">
+                            <property name="name">playlist-add-button</property>
+                            <property name="visible">True</property>
+                            <property name="sensitive">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
+                            <property name="tooltip-text" translatable="yes">Add playlist or selected tracks to tracklist</property>
+                            <property name="image">add_image</property>
+                            <signal name="clicked" handler="on_add_button_clicked" swapped="no"/>
+                            <style>
+                              <class name="pill"/>
+                            </style>
+                          </object>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="play_button">
+                            <property name="name">playlist-play-button</property>
+                            <property name="visible">True</property>
+                            <property name="sensitive">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
+                            <property name="tooltip-text" translatable="yes">Play playlist or selected tracks</property>
+                            <property name="image">play_image</property>
+                            <property name="always-show-image">True</property>
+                            <signal name="clicked" handler="on_play_button_clicked" swapped="no"/>
+                            <style>
+                              <class name="pill"/>
+                            </style>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="pack-type">end</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
                         <style>
-                          <class name="pill"/>
+                          <class name="linked"/>
                         </style>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
-                        <property name="pack-type">end</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
-                    <style>
-                      <class name="linked"/>
-                    </style>
                   </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="pack-type">end</property>
                     <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkMenuButton" id="edit_button">
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="focus-on-click">False</property>
-                    <property name="receives-default">True</property>
-                    <property name="tooltip-text" translatable="yes">Edit playlist</property>
-                    <property name="halign">center</property>
-                    <property name="valign">center</property>
-                    <child>
-                      <object class="GtkImage" id="edit_image">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="icon-name">document-edit-symbolic</property>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="pack-type">end</property>
-                    <property name="position">2</property>
                   </packing>
                 </child>
               </object>
@@ -266,14 +292,4 @@
       </packing>
     </child>
   </template>
-  <object class="GtkImage" id="add_image">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
-    <property name="icon-name">list-add-symbolic</property>
-  </object>
-  <object class="GtkImage" id="play_image">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
-    <property name="icon-name">media-playback-start-symbolic</property>
-  </object>
 </interface>

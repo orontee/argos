@@ -201,6 +201,7 @@
                 <property name="layout-style">expand</property>
                 <child>
                   <object class="GtkMenuButton" id="track_selection_button">
+                    <property name="name">album-details-track-selection-button</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="focus-on-click">False</property>
@@ -226,6 +227,7 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="play_button">
+                    <property name="name">album-details-play-button</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
