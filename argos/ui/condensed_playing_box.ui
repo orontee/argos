@@ -151,7 +151,8 @@
             <property name="valign">center</property>
             <property name="hexpand">True</property>
             <property name="justify">center</property>
-            <property name="wrap">True</property>
+            <property name="ellipsize">end</property>
+            <property name="single-line-mode">True</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -167,7 +168,8 @@
             <property name="valign">center</property>
             <property name="hexpand">True</property>
             <property name="justify">center</property>
-            <property name="wrap">True</property>
+            <property name="ellipsize">end</property>
+            <property name="single-line-mode">True</property>
           </object>
           <packing>
             <property name="expand">False</property>
