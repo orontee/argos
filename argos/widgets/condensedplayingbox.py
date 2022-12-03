@@ -3,7 +3,7 @@ import logging
 from pathlib import Path
 from typing import Optional
 
-from gi.repository import GLib, GObject, Gtk
+from gi.repository import Gdk, GLib, GObject, Gtk
 
 from argos.message import MessageType
 from argos.model import PlaybackState
@@ -28,6 +28,7 @@ class CondensedPlayingBox(Gtk.Box):
     )
 
     playing_track_image: Gtk.Image = Gtk.Template.Child()
+    playing_track_image_event_box: Gtk.EventBox = Gtk.Template.Child()
     play_image: Gtk.Image = Gtk.Template.Child()
     pause_image: Gtk.Image = Gtk.Template.Child()
 
@@ -57,6 +58,10 @@ class CondensedPlayingBox(Gtk.Box):
         ):
             if self._disable_tooltips:
                 widget.props.has_tooltip = False
+
+        self.playing_track_image_event_box.connect(
+            "button-press-event", self.on_playing_track_image_pressed
+        )
 
         self._model.connect("notify::network-available", self.handle_connection_changed)
         self._model.connect("notify::connected", self.handle_connection_changed)
@@ -157,6 +162,14 @@ class CondensedPlayingBox(Gtk.Box):
             self.play_button.set_image(self.pause_image)
 
         self.play_button.show_now()
+
+    def on_playing_track_image_pressed(
+        self,
+        _1: Gtk.Widget,
+        _2: Gdk.Event,
+    ) -> bool:
+        self._app.window.activate_action("goto-playing-page")
+        return True
 
     @Gtk.Template.Callback()
     def on_prev_button_clicked(self, *args) -> None:

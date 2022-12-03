@@ -4,13 +4,7 @@ import logging
 from gi.repository import Gdk, Gio, GLib, GObject, Gtk
 
 from argos.message import MessageType
-from argos.widgets import (
-    AlbumDetailsBox,
-    AlbumsWindow,
-    PlayingBox,
-    PlaylistsBox,
-    TitleBar,
-)
+from argos.widgets import AlbumsWindow, PlayingBox, PlaylistsBox, TitleBar
 
 _ = gettext.gettext
 
@@ -59,6 +53,12 @@ class ArgosWindow(Gtk.ApplicationWindow):
 
         self.central_view.connect(
             "notify::visible-child-name", self._on_central_view_changed
+        )
+
+        goto_playing_page_action = Gio.SimpleAction.new("goto-playing-page", None)
+        self.add_action(goto_playing_page_action)
+        goto_playing_page_action.connect(
+            "activate", self.on_goto_playing_page_activated
         )
 
         album_details_box = self.props.albums_window.props.album_details_box
@@ -186,6 +186,13 @@ class ArgosWindow(Gtk.ApplicationWindow):
             return
 
         self.central_view.set_visible_child(child)
+
+    def on_goto_playing_page_activated(
+        self,
+        _1: Gio.SimpleAction,
+        _2: GLib.Variant,
+    ) -> None:
+        self.set_central_view_visible_child("playing_page")
 
     def on_playlist_tracks_box_selected_rows_changed(self, *args) -> None:
         remove_from_playlist_action = self.lookup_action("remove-from-playlist")

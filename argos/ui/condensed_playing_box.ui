@@ -29,13 +29,22 @@
     <property name="can-focus">False</property>
     <property name="spacing">5</property>
     <child>
-      <object class="GtkImage" id="playing_track_image">
+      <object class="GtkEventBox" id="playing_track_image_event_box">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
-        <property name="halign">center</property>
-        <property name="valign">center</property>
-        <property name="icon-name">image-x-generic-symbolic</property>
-        <property name="icon_size">6</property>
+        <property name="events">GDK_BUTTON_PRESS_MASK | GDK_STRUCTURE_MASK</property>
+        <property name="visible-window">False</property>
+        <property name="above-child">True</property>
+        <child>
+          <object class="GtkImage" id="playing_track_image">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">center</property>
+            <property name="valign">center</property>
+            <property name="icon-name">image-x-generic-symbolic</property>
+            <property name="icon_size">6</property>
+          </object>
+        </child>
       </object>
       <packing>
         <property name="expand">False</property>
