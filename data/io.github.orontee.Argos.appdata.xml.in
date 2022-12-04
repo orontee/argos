@@ -28,6 +28,13 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="1.5.0" date="2022-12-05">
+      <description>
+        <p>
+          Improving user experience. Once again.
+        </p>
+      </description>
+    </release>
     <release version="1.4.0" date="2022-10-19">
       <description>
         <p>
