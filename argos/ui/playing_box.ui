@@ -273,7 +273,8 @@
                     <property name="margin-top">5</property>
                     <property name="margin-bottom">5</property>
                     <property name="justify">center</property>
-                    <property name="wrap">True</property>
+                    <property name="ellipsize">end</property>
+                    <property name="single-line-mode">True</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -291,7 +292,8 @@
                     <property name="margin-end">10</property>
                     <property name="margin-bottom">5</property>
                     <property name="justify">center</property>
-                    <property name="wrap">True</property>
+                    <property name="ellipsize">end</property>
+                    <property name="single-line-mode">True</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -326,12 +328,12 @@
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
+        <property name="spacing">5</property>
         <child>
           <object class="GtkBox" id="tracklist_buttons_box">
             <property name="name">tracklist-button-box</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="margin-top">5</property>
             <child>
               <object class="GtkButton" id="clear_button">
                 <property name="visible">True</property>
@@ -339,6 +341,7 @@
                 <property name="receives-default">True</property>
                 <property name="tooltip-text" translatable="yes">Clear tracklist</property>
                 <property name="halign">start</property>
+                <property name="valign">center</property>
                 <property name="image">clear_image</property>
                 <property name="always-show-image">True</property>
                 <signal name="clicked" handler="on_clear_button_clicked" swapped="no"/>
@@ -363,6 +366,7 @@
                     <property name="receives-default">True</property>
                     <property name="tooltip-text" translatable="yes">Consume tracks</property>
                     <property name="halign">end</property>
+                    <property name="valign">center</property>
                     <property name="image">consume_image</property>
                     <property name="always-show-image">True</property>
                     <signal name="toggled" handler="on_consume_button_toggled" swapped="no"/>
@@ -383,6 +387,7 @@
                     <property name="receives-default">True</property>
                     <property name="tooltip-text" translatable="yes">Shuffle tracklist</property>
                     <property name="halign">center</property>
+                    <property name="valign">center</property>
                     <property name="image">random_image</property>
                     <property name="always-show-image">True</property>
                     <signal name="toggled" handler="on_random_button_toggled" swapped="no"/>
@@ -403,6 +408,7 @@
                     <property name="receives-default">True</property>
                     <property name="tooltip-text" translatable="yes">Play single track</property>
                     <property name="halign">center</property>
+                    <property name="valign">center</property>
                     <property name="image">single_image</property>
                     <property name="always-show-image">True</property>
                     <signal name="toggled" handler="on_single_button_toggled" swapped="no"/>
@@ -423,7 +429,7 @@
                     <property name="receives-default">True</property>
                     <property name="tooltip-text" translatable="yes">Repeat</property>
                     <property name="halign">start</property>
-                    <property name="hexpand">False</property>
+                    <property name="valign">center</property>
                     <property name="image">repeat_image</property>
                     <property name="always-show-image">True</property>
                     <signal name="toggled" handler="on_repeat_button_toggled" swapped="no"/>
@@ -452,7 +458,6 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="pack-type">end</property>
             <property name="position">0</property>
           </packing>
         </child>

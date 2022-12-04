@@ -5,8 +5,8 @@
   <template class="AlbumsBrowsingProgressBox" parent="GtkBox">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
-    <property name="hexpand">True</property>
-    <property name="vexpand">True</property>
+    <property name="hexpand">False</property>
+    <property name="vexpand">False</property>
     <property name="orientation">vertical</property>
     <property name="spacing">5</property>
     <child type="center">

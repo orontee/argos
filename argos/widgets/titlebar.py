@@ -4,7 +4,6 @@ from typing import Optional
 from gi.repository import Gio, GObject, Gtk
 
 from argos.widgets.utils import ALBUM_SORT_CHOICES
-from argos.widgets.volumebutton import VolumeButton
 
 LOGGER = logging.getLogger(__name__)
 
@@ -43,9 +42,6 @@ class TitleBar(Gtk.HeaderBar):
         )
         menu_model = builder.get_object("app-menu")
         self.app_menu_button.set_menu_model(menu_model)
-
-        self.volume_button = VolumeButton(application)
-        self.pack_end(self.volume_button)
 
         if self.search_button is not None:
             self.search_button.set_visible(False)

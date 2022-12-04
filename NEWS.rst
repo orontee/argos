@@ -13,6 +13,8 @@ The format is based on `Keep a Changelog
 
 Added
 -----
+- Bottom widget showing playing state `#93
+  <https://github.com/orontee/argos/issues/93>`_
 - Preference dialog switch to activate dark theme `#89
   <https://github.com/orontee/argos/issues/89>`_
 - Add button to title bar to change album sort order `#85
@@ -47,6 +49,8 @@ Changed
 
 Removed
 -------
+- Remove "needs attention" support since playback state is now always
+  visible `#93 <https://github.com/orontee/argos/issues/93>`_
 - Remove album sort choice from preferences dialog `#86
   <https://github.com/orontee/argos/issues/86>`_
 

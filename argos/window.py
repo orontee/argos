@@ -4,14 +4,7 @@ import logging
 from gi.repository import Gdk, Gio, GLib, GObject, Gtk
 
 from argos.message import MessageType
-from argos.model import PlaybackState
-from argos.widgets import (
-    AlbumDetailsBox,
-    AlbumsWindow,
-    PlayingBox,
-    PlaylistsBox,
-    TitleBar,
-)
+from argos.widgets import AlbumsWindow, PlayingBox, PlaylistsBox, TitleBar
 
 _ = gettext.gettext
 
@@ -22,7 +15,7 @@ LOGGER = logging.getLogger(__name__)
 class ArgosWindow(Gtk.ApplicationWindow):
     __gtype_name__ = "ArgosWindow"
 
-    main_stack: Gtk.Stack = Gtk.Template.Child()
+    main_box: Gtk.Box = Gtk.Template.Child()
     central_view: Gtk.Stack = Gtk.Template.Child()
 
     albums_window = GObject.Property(type=AlbumsWindow)
@@ -50,7 +43,6 @@ class ArgosWindow(Gtk.ApplicationWindow):
         self.central_view.add_titled(playing_box, "playing_page", _("Playing"))
 
         self.props.albums_window = AlbumsWindow(application)
-        self.props.albums_window.connect("album-selected", self._on_album_selected)
         self.central_view.add_titled(
             self.props.albums_window, "albums_page", _("Library")
         )
@@ -63,35 +55,39 @@ class ArgosWindow(Gtk.ApplicationWindow):
             "notify::visible-child-name", self._on_central_view_changed
         )
 
-        self._album_details_box = AlbumDetailsBox(application)
-        self.main_stack.add_named(self._album_details_box, "album_page")
+        goto_playing_page_action = Gio.SimpleAction.new("goto-playing-page", None)
+        self.add_action(goto_playing_page_action)
+        goto_playing_page_action.connect(
+            "activate", self.on_goto_playing_page_activated
+        )
+
+        album_details_box = self.props.albums_window.props.album_details_box
 
         add_to_tracklist_action = Gio.SimpleAction.new("add-to-tracklist", None)
         self.add_action(add_to_tracklist_action)
         add_to_tracklist_action.connect(
-            "activate", self._album_details_box.on_add_to_tracklist_activated
+            "activate", album_details_box.on_add_to_tracklist_activated
         )
 
         add_to_playlist_action = Gio.SimpleAction.new("add-to-playlist", None)
         self.add_action(add_to_playlist_action)
         add_to_playlist_action.connect(
-            "activate", self._album_details_box.on_add_to_playlist_activated
+            "activate", album_details_box.on_add_to_playlist_activated
         )
 
-        playlist_tracks_box = self.props.playlists_box.props.playlist_tracks_box
         add_stream_to_playlist_action = Gio.SimpleAction.new(
             "add-stream-to-playlist", None
         )
         self.add_action(add_stream_to_playlist_action)
         add_stream_to_playlist_action.connect(
-            "activate", playlist_tracks_box.on_add_stream_to_playlist_activated
+            "activate", self.props.playlists_box.on_add_stream_to_playlist_activated
         )
 
         remove_from_playlist_action = Gio.SimpleAction.new("remove-from-playlist", None)
         remove_from_playlist_action.set_enabled(False)
         self.add_action(remove_from_playlist_action)
         remove_from_playlist_action.connect(
-            "activate", playlist_tracks_box.on_remove_from_playlist_activated
+            "activate", self.props.playlists_box.on_remove_from_playlist_activated
         )
 
         remove_playlist_action = Gio.SimpleAction.new("remove-playlist", None)
@@ -118,25 +114,16 @@ class ArgosWindow(Gtk.ApplicationWindow):
             "changed::prefer-dark-theme", self._on_prefer_dark_theme_changed
         )
 
-        self.main_stack.connect(
-            "notify::visible-child-name", self._on_main_stack_page_changed
-        )
-
-        self.central_view.connect(
-            "notify::visible-child-name", self._on_central_view_page_changed
-        )
-
-        self._model.playback.connect(
-            "notify::current-tl-track-tlid", self._on_attention_requested
+        self.props.albums_window.albums_stack.connect(
+            "notify::visible-child-name", self._on_albums_stack_page_changed
         )
         self.connect("notify::is-maximized", self._handle_maximized_state_changed)
 
-        playlist_tracks_box.tracks_box.connect(
+        self.props.playlists_box.tracks_box.connect(
             "selected-rows-changed", self.on_playlist_tracks_box_selected_rows_changed
         )
 
         self.show_all()
-        self.titlebar.volume_button.hide()
 
         self.titlebar.props.main_page_state = True
 
@@ -145,16 +132,6 @@ class ArgosWindow(Gtk.ApplicationWindow):
             self.central_view.get_visible_child_name() == "playing_page"
         )
         return playing_page_visible
-
-    def _on_album_selected(self, albums_window: AlbumsWindow, uri: str) -> None:
-        LOGGER.debug(f"Album {uri!r} selected")
-        self.props.application.send_message(
-            MessageType.COMPLETE_ALBUM_DESCRIPTION, {"album_uri": uri}
-        )
-
-        self._album_details_box.set_property("uri", uri)
-        self._album_details_box.show_now()
-        self.main_stack.set_visible_child_name("album_page")
 
     def _handle_maximized_state_changed(
         self,
@@ -173,55 +150,25 @@ class ArgosWindow(Gtk.ApplicationWindow):
         )
         self.titlebar.search_entry.props.text = ""
         self.titlebar.props.search_activated = albums_page_visible
-
-    def _on_main_stack_page_changed(
-        self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
-    ) -> None:
-        main_page_visible = self.main_stack.get_visible_child_name() == "main_page"
-        self.titlebar.props.main_page_state = main_page_visible
-
-    def _on_central_view_page_changed(
-        self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
-    ) -> None:
-        playing_page_visible = (
-            self.central_view.get_visible_child_name() == "playing_page"
+        self.titlebar.props.main_page_state = (
+            not albums_page_visible or self.props.albums_window.is_albums_page_visible()
         )
-        if not playing_page_visible:
-            return
 
-        child = self.central_view.get_child_by_name("playing_page")
-        if child:
-            self.central_view.child_set_property(child, "needs-attention", False)
+    def _on_albums_stack_page_changed(
+        self,
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
+    ) -> None:
+        self.titlebar.props.main_page_state = (
+            self.props.albums_window.is_albums_page_visible()
+        )
 
     def _on_title_back_button_clicked(self, _1: Gtk.Button) -> None:
-        self.main_stack.set_visible_child_name("main_page")
+        self.props.albums_window.select_albums_page()
 
     def _on_search_entry_changed(self, search_entry: Gtk.SearchEntry) -> None:
         filtering_text = search_entry.props.text
         self.props.albums_window.set_filtering_text(filtering_text)
-
-    def _on_attention_requested(
-        self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
-    ) -> None:
-        playing_page_visible = (
-            self.central_view.get_visible_child_name() == "playing_page"
-        )
-        if playing_page_visible:
-            return
-
-        if self._model.playback.state != PlaybackState.PLAYING:
-            return
-
-        child = self.central_view.get_child_by_name("playing_page")
-        if child:
-            LOGGER.debug("Requesting attention for playing page")
-            self.central_view.child_set_property(child, "needs-attention", True)
 
     def _on_prefer_dark_theme_changed(
         self,
@@ -240,8 +187,12 @@ class ArgosWindow(Gtk.ApplicationWindow):
 
         self.central_view.set_visible_child(child)
 
-        if self.main_stack.get_visible_child_name() != "main_page":
-            self.main_stack.set_visible_child_name("main_page")
+    def on_goto_playing_page_activated(
+        self,
+        _1: Gio.SimpleAction,
+        _2: GLib.Variant,
+    ) -> None:
+        self.set_central_view_visible_child("playing_page")
 
     def on_playlist_tracks_box_selected_rows_changed(self, *args) -> None:
         remove_from_playlist_action = self.lookup_action("remove-from-playlist")
@@ -249,8 +200,8 @@ class ArgosWindow(Gtk.ApplicationWindow):
             return
 
         enabled = self._model.network_available and self._model.connected
-        playlist_tracks_box = self.props.playlists_box.props.playlist_tracks_box
-        selected_rows = playlist_tracks_box.tracks_box.get_selected_rows()
+        playlist_tracks_box = self.props.playlists_box.tracks_box
+        selected_rows = playlist_tracks_box.get_selected_rows()
         remove_from_playlist_action.set_enabled(enabled and len(selected_rows) > 0)
 
     @Gtk.Template.Callback()
