@@ -7,7 +7,7 @@ project('argos',
 
 i18n = import('i18n')
 
-dependency('glib-2.0', version: '>= 2.66.0')
+dependency('glib-2.0', version: '>= 2.64.0')
 dependency('gobject-introspection-1.0', version: '>= 1.35.0')
 
 subdir('data')
