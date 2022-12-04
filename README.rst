@@ -8,6 +8,9 @@ Argos
 .. image:: http://www.mypy-lang.org/static/mypy_badge.svg
    :target: http://mypy-lang.org/
 
+.. image:: https://github.com/orontee/argos/actions/workflows/build.yaml/badge.svg
+   :target: https://github.com/orontee/argos/actions/workflows/build.yaml
+
 Light weight front-end for `Mopidy <https://mopidy.com/>`_ music server.
 
 Argos is designed (and used!) with `Gnome <https://gnome.org>`_ desktop
