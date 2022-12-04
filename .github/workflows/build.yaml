@@ -36,13 +36,14 @@ jobs:
         run: |
           mkdir builddir
           git archive --prefix=builddir/argos-${VERSION}/ --format=tar.gz v${VERSION} | tar xzf -
-          cd builddir/argos-${VERSION} && debuild -b -tc -us -uc
+          pushd builddir/argos-${VERSION} && debuild -b -tc -us -uc && popd
         env:
           VERSION: ${{ inputs.version }}
 
       - name: Upload package
         uses: actions/upload-artifact@v3
         with:
-          path: builddir/argos-${VERSION}-1_all.deb
+          path: builddir/argos_${{ env.VERSION }}-1_all.deb
+          if-no-files-found: error
         env:
           VERSION: ${{ inputs.version }}
