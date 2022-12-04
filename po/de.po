@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-03 22:43+0100\n"
+"POT-Creation-Date: 2022-12-04 10:33+0100\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: André Dokis <em21nummer1@icloud.com>\n"
 "Language-Team: German <em21nummer1@icloud.com>\n"
@@ -62,6 +62,18 @@ msgstr "Zuletzt gespielt"
 msgid "Tracklist updated"
 msgstr "Titelliste aktualisiert"
 
+#: argos/ui/about.ui.in:10
+msgid "© Matthias Meulien 2022"
+msgstr ""
+
+#: argos/ui/about.ui.in:11
+msgid "Ce sont les fûts vides qui font le plus de bruit !"
+msgstr ""
+
+#: argos/ui/about.ui.in:13
+msgid "Web Site"
+msgstr "Webseite"
+
 #: argos/ui/album_details_box.ui:137 argos/ui/playlists_box.ui:82
 #: argos/ui/tracklist_random_dialog.ui:119
 msgid "Length"
@@ -103,15 +115,15 @@ msgstr "Tastenkürzel"
 msgid "_About"
 msgstr "Über Argos"
 
-#: argos/ui/condensed_playing_box.ui:57 argos/ui/playing_box.ui:85
+#: argos/ui/condensed_playing_box.ui:66 argos/ui/playing_box.ui:85
 msgid "Previous"
 msgstr "Zurück"
 
-#: argos/ui/condensed_playing_box.ui:78 argos/ui/playing_box.ui:106
+#: argos/ui/condensed_playing_box.ui:87 argos/ui/playing_box.ui:106
 msgid "Play"
 msgstr "Play"
 
-#: argos/ui/condensed_playing_box.ui:99 argos/ui/playing_box.ui:127
+#: argos/ui/condensed_playing_box.ui:108 argos/ui/playing_box.ui:127
 msgid "Next"
 msgstr "Vor"
 
@@ -175,23 +187,23 @@ msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Playlists"
 
-#: argos/ui/playing_box.ui:340
+#: argos/ui/playing_box.ui:342
 msgid "Clear tracklist"
 msgstr "Titelliste leeren"
 
-#: argos/ui/playing_box.ui:365
+#: argos/ui/playing_box.ui:367
 msgid "Consume tracks"
 msgstr "Titel nach Wiedergabe entfernen"
 
-#: argos/ui/playing_box.ui:386
+#: argos/ui/playing_box.ui:388
 msgid "Shuffle tracklist"
 msgstr "Zufällige Wiedergabe"
 
-#: argos/ui/playing_box.ui:407
+#: argos/ui/playing_box.ui:409
 msgid "Play single track"
 msgstr "Einzelnen Titel abspielen"
 
-#: argos/ui/playing_box.ui:428
+#: argos/ui/playing_box.ui:430
 msgid "Repeat"
 msgstr "Wiederholen"
 
@@ -239,7 +251,7 @@ msgstr ""
 msgid "General"
 msgstr "Allgemein"
 
-#: argos/ui/preferences.ui:168 argos/ui/preferences.ui:547 argos/window.py:53
+#: argos/ui/preferences.ui:168 argos/ui/preferences.ui:547 argos/window.py:47
 msgid "Library"
 msgstr "Sammlung"
 
@@ -259,7 +271,7 @@ msgstr "Local:"
 msgid "Jellyfin:"
 msgstr "Jellyfin:"
 
-#: argos/ui/preferences.ui:298 argos/window.py:57
+#: argos/ui/preferences.ui:298 argos/window.py:51
 msgid "Playlists"
 msgstr "Playlists"
 
@@ -418,7 +430,7 @@ msgstr "Erscheinungsdatum"
 msgid "Last modified"
 msgstr "Zuletzt geändertes Datum"
 
-#: argos/window.py:49
+#: argos/window.py:43
 msgid "Playing"
 msgstr "Jetzt läuft"
 

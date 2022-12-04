@@ -2,6 +2,7 @@ argos/app.py
 argos/controllers/playback.py
 argos/controllers/playlists.py
 argos/controllers/tracklist.py
+argos/ui/about.ui.in
 argos/ui/album_details_box.ui
 argos/ui/album_track_box.ui
 argos/ui/albums_browsing_progress_box.ui
