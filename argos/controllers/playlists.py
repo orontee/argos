@@ -333,6 +333,9 @@ class PlaylistsController(ControllerBase):
             if len(history_item) != 2:
                 continue
 
+            if len(parsed_history_tracks_with_duplicates) >= history_max_length:
+                break
+
             timestamp = history_item[0]
             ref = history_item[1]
 

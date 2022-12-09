@@ -16,6 +16,8 @@ Added
 
 Changed
 -------
+- Fix history playlist displaying more than "history max length" tracks `#97
+  <https://github.com/orontee/argos/issues/97>`_
 
 Removed
 -------
