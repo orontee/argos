@@ -1,7 +1,8 @@
 import asyncio
+import collections.abc
 import json
 import logging
-from typing import TYPE_CHECKING, Any, Dict, Optional, Union
+from typing import TYPE_CHECKING, Any, Callable, Dict, Optional
 from urllib.parse import urljoin
 
 import aiohttp
@@ -10,7 +11,6 @@ from gi.repository import Gio, GObject
 if TYPE_CHECKING:
     from argos.app import Application
 
-from argos.message import Message, MessageType
 from argos.model import Model
 from argos.session import get_session
 
@@ -19,22 +19,6 @@ LOGGER = logging.getLogger(__name__)
 COMMAND_TIMEOUT: int = 10  # s
 CLOSE_TIMEOUT: int = 10  # s
 CONSECUTIVE_SEND_FAILURE_THRESHOLD = 5
-
-EVENT_TO_MESSAGE_TYPE: Dict[str, MessageType] = {
-    "track_playback_started": MessageType.TRACK_PLAYBACK_STARTED,
-    "track_playback_paused": MessageType.TRACK_PLAYBACK_PAUSED,
-    "track_playback_resumed": MessageType.TRACK_PLAYBACK_RESUMED,
-    "track_playback_ended": MessageType.TRACK_PLAYBACK_ENDED,
-    "playback_state_changed": MessageType.PLAYBACK_STATE_CHANGED,
-    "mute_changed": MessageType.MUTE_CHANGED,
-    "volume_changed": MessageType.VOLUME_CHANGED,
-    "tracklist_changed": MessageType.TRACKLIST_CHANGED,
-    "seeked": MessageType.SEEKED,
-    "options_changed": MessageType.OPTIONS_CHANGED,
-    "playlist_changed": MessageType.PLAYLIST_CHANGED,
-    "playlist_deleted": MessageType.PLAYLIST_DELETED,
-    "playlist_loaded": MessageType.PLAYLIST_LOADED,
-}
 
 _COMMAND_ID: int = 0
 
@@ -64,7 +48,9 @@ class MopidyWSConnection(GObject.GObject):
 
         self._loop: asyncio.AbstractEventLoop = application.loop
         self._model: Model = application.props.model
-        self._message_queue: asyncio.Queue = application.message_queue
+        self._event_handler: Callable[
+            [Dict[str, Any]], collections.abc.Awaitable[None]
+        ] = application.props.ws_event_handler
 
         settings: Gio.Settings = application.props.settings
 
@@ -170,10 +156,6 @@ class MopidyWSConnection(GObject.GObject):
             future = self._commands.pop(jsonrpc_id)
             future.cancel()
 
-    async def _enqueue(self, message: Message) -> None:
-        LOGGER.debug(f"Enqueuing message with type {message.type}")
-        await self._message_queue.put(message)
-
     async def listen(self) -> None:
         async with get_session() as session:
             while True:
@@ -191,9 +173,7 @@ class MopidyWSConnection(GObject.GObject):
                     async for msg in self._ws:
                         # Note that iteration stops when a CLOSE
                         # message is received
-                        message = self._handle(msg)
-                        if isinstance(message, Message):
-                            await self._enqueue(message)
+                        await self._handle(msg)
 
                     if self._ws.closed:
                         LOGGER.debug("Mopidy websocket connection closed")
@@ -228,29 +208,22 @@ class MopidyWSConnection(GObject.GObject):
 
                     await asyncio.sleep(self._connection_retry_delay)
 
-    def _handle(self, msg: aiohttp.WSMessage) -> Optional[Union[Message, bool]]:
+    async def _handle(self, msg: aiohttp.WSMessage) -> None:
         """Handle websocket message.
 
-        The websocket message is parsed.
+        When ``msg`` is a text message, then it is parsed. If the
+        parsed message has an ``"event"`` key, then it is passed to
+        the event handler; Otherwise, it tries to identify a JSON-RPC
+        command the message is the response from.
 
-        Then attempt is made to:
-
-        - Convert the message to an ``Message`` instance in case it's
-          a Mopidy event,
-
-        - Find the JSON-RPC command it's the response from.
-
-        A websocket message for a Mopidy event has an ``event``
-        property which is used to do the conversion using
-        ``EVENT_TO_MESSAGE_TYPE``.
+        When ``msg`` isn't a text message, it simply logs.
 
         """
         if msg.type == aiohttp.WSMsgType.TEXT:
             parsed = parse_msg(msg)
-            event = parsed.get("event")
-            message_type = EVENT_TO_MESSAGE_TYPE.get(event) if event else None
-            if message_type:
-                return Message(message_type, parsed)
+            if "event" in parsed:
+                await self._event_handler(parsed)
+                return
 
             jsonrpc_id = parsed.get("id") if "jsonrpc" in parsed else None
             if jsonrpc_id:
@@ -262,19 +235,17 @@ class MopidyWSConnection(GObject.GObject):
                 if future:
                     LOGGER.debug(f"Received result of JSON-RPC command {jsonrpc_id}")
                     future.set_result(parsed.get("result"))
-                    return True
+                    return
                 else:
                     LOGGER.debug(f"Unknown JSON-RPC command {jsonrpc_id}")
             else:
-                LOGGER.debug(f"Unhandled event {parsed!r}")
+                LOGGER.debug(f"Message without id nor event {parsed!r}")
 
         elif msg.type in (aiohttp.WSMsgType.ERROR, aiohttp.WSMsgType.CLOSED):
             LOGGER.warning(f"Unexpected message {msg!r}")
 
         elif msg.type == aiohttp.WSMsgType.CLOSE:
             LOGGER.info(f"Close received with code {msg.data!r}, " f"{msg.extra!r}")
-
-        return None
 
     def _on_mopidy_base_url_changed(
         self,

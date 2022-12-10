@@ -36,6 +36,7 @@ from argos.widgets import (
 )
 from argos.window import ArgosWindow
 from argos.ws import MopidyWSConnection
+from argos.wseventhandler import MopidyWSEventHandler
 
 LOGGER = logging.getLogger(__name__)
 
@@ -64,6 +65,7 @@ class Application(Gtk.Application):
 
         # services
         self._model = Model(self)
+        self._ws_event_handler = MopidyWSEventHandler(self)
         self._ws = MopidyWSConnection(self)
         self._http = MopidyHTTPClient(self)
         self._download = ImageDownloader(self)
@@ -121,6 +123,10 @@ class Application(Gtk.Application):
     @GObject.Property(type=Gio.Settings, flags=GObject.ParamFlags.READABLE)
     def settings(self):
         return self._settings
+
+    @GObject.Property(type=MopidyWSEventHandler, flags=GObject.ParamFlags.READABLE)
+    def ws_event_handler(self):
+        return self._ws_event_handler
 
     @GObject.Property(type=MopidyWSConnection, flags=GObject.ParamFlags.READABLE)
     def ws(self):

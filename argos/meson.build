@@ -42,7 +42,8 @@ argos_sources = [
   'time.py',
   'utils.py',
   'window.py',
-  'ws.py'
+  'ws.py',
+  'wseventhandler.py'
 ]
 
 install_data(argos_sources, install_dir: moduledir)
