@@ -112,10 +112,27 @@ user that will run Argos. Changes can be made using `Dconf Editor
 
   $ gsettings set io.github.orontee.Argos mopidy-base-url http://192.168.1.45
 
-Some CLI options are provided to adapt to devices with small touch
-screen (complete list can be obtained with ``argos --help``)::
+Some CLI options are provided (complete list can be obtained with
+``argos --help``)::
 
   $ argos --maximized --no-tooltips --hide-search-button
+
+Style
+-----
+
+The application is based on `GTK <https://www.gtk.org/>`_ library
+which uses CSS for styling and layout.
+
+To adapt to devices with small touch screen one may have to tweak
+buttons appearance. Here is an example used to widen some buttons
+(to be placed in ``~/.config/gtk-3.0/gtk.css``)::
+
+  #playlist-button-box buttonbox button,
+  #album-details-button-box button,
+  #condensed-playing-box-playback-controls-box button {
+      min-width: 60px;
+      min-height: 30px;
+  }
 
 Contributing
 ============
