@@ -37,6 +37,13 @@ and small single-board devices with small touchscreen in mind.
 
    Playlists view
 
+.. figure:: docs/screenshot-small-screen.png
+   :alt: Albums view on small screen
+   :align: center
+   :width: 400
+
+   Albums view on small screen (800x480) with dark theme
+
 Features 🥳
 ===========
 
