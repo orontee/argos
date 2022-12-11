@@ -180,6 +180,9 @@ class Application(Gtk.Application):
         self.props.disable_tooltips = "no-tooltips" in options
         self.props.hide_search_button = "hide-search-button" in options
 
+        if "maximized" in options:
+            LOGGER.warning("The maximized command line option is deprecated!")
+
         self.activate()
         return 0
 
