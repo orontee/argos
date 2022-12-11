@@ -292,7 +292,7 @@ msgid "Dark theme:"
 msgstr "Dunkles Thema:"
 
 #: argos/ui/preferences.ui:517
-msgid "Start maximized:"
+msgid "Start fullscreen:"
 msgstr "Im Vollbildmodus starten:"
 
 #: argos/ui/preferences.ui:574
@@ -639,11 +639,11 @@ msgid "Window maximized state."
 msgstr "Vollbildmodus."
 
 #: data/io.github.orontee.Argos.gschema.xml:163
-msgid "Start maximized"
+msgid "Start fullscreen"
 msgstr "Im Vollbildmodus starten"
 
 #: data/io.github.orontee.Argos.gschema.xml:164
-msgid "Start with maximized window."
+msgid "Start with fullscreen window."
 msgstr "Im Vollbildmodus starten"
 
 #: data/io.github.orontee.Argos.gschema.xml:169

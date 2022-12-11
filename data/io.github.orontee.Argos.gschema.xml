@@ -164,10 +164,10 @@
       <description>Window fullscreen state.</description>
     </key>
 
-    <key type="b" name="start-maximized">
+    <key type="b" name="start-fullscreen">
       <default>false</default>
-      <summary>Start maximized</summary>
-      <description>Start with maximized window.</description>
+      <summary>Start fullscreen</summary>
+      <description>Start with fullscreen window.</description>
     </key>
 
     <key type="b" name="prefer-dark-theme">

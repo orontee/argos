@@ -30,7 +30,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
         self._model = application.props.model
         self._settings: Gio.Settings = application.props.settings
 
-        self.props.titlebar = TitleBar(application)
+        self.props.titlebar = TitleBar(application, window=self)
         self._setup_titlebar(self.props.titlebar)
         self.set_titlebar(self.props.titlebar)
 

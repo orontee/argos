@@ -45,7 +45,7 @@ _ = gettext.gettext
 
 class Application(Gtk.Application):
 
-    start_maximized = GObject.Property(type=bool, default=False)
+    start_fullscreen = GObject.Property(type=bool, default=False)
     disable_tooltips = GObject.Property(type=bool, default=False)
     hide_search_button = GObject.Property(type=bool, default=False)
 
@@ -116,7 +116,7 @@ class Application(Gtk.Application):
             None,
         )
 
-        self.props.start_maximized = self._settings.get_boolean("start-maximized")
+        self.props.start_fullscreen = self._settings.get_boolean("start-fullscreen")
 
         self._apply_style()
 
@@ -207,8 +207,8 @@ class Application(Gtk.Application):
 
             self._model.props.network_available = self._nm.get_network_available()
 
-            if self.props.start_maximized:
-                self.window.maximize()
+            if self.props.start_fullscreen:
+                self.window.fullscreen()
 
         self.window.present()
         self.show_welcome_dialog_maybe()

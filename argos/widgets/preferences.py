@@ -38,7 +38,7 @@ class PreferencesWindow(Gtk.Window):
     albums_image_size_scale: Gtk.Scale = Gtk.Template.Child()
     albums_image_size_adjustment: Gtk.Adjustment = Gtk.Template.Child()
     prefer_dark_theme_switch: Gtk.Switch = Gtk.Template.Child()
-    start_maximized_switch: Gtk.Switch = Gtk.Template.Child()
+    start_fullscreen_switch: Gtk.Switch = Gtk.Template.Child()
 
     def __init__(
         self,
@@ -110,8 +110,8 @@ class PreferencesWindow(Gtk.Window):
         prefer_dark_theme = self._settings.get_boolean("prefer-dark-theme")
         self.prefer_dark_theme_switch.set_active(prefer_dark_theme)
 
-        start_maximized = self._settings.get_boolean("start-maximized")
-        self.start_maximized_switch.set_active(start_maximized)
+        start_fullscreen = self._settings.get_boolean("start-fullscreen")
+        self.start_fullscreen_switch.set_active(start_fullscreen)
 
         sensitive = self._model.network_available and self._model.connected
         for widget in (
@@ -185,8 +185,8 @@ class PreferencesWindow(Gtk.Window):
             "notify::active", self.on_dark_theme_switch_activated
         )
 
-        self.start_maximized_switch.connect(
-            "notify::active", self.on_start_maximized_switch_activated
+        self.start_fullscreen_switch.connect(
+            "notify::active", self.on_start_fullscreen_switch_activated
         )
 
         title_bar = Gtk.HeaderBar(title=_("Preferences"), show_close_button=True)
@@ -354,10 +354,10 @@ class PreferencesWindow(Gtk.Window):
         prefer_dark_theme = switch.get_active()
         self._settings.set_boolean("prefer-dark-theme", prefer_dark_theme)
 
-    def on_start_maximized_switch_activated(
+    def on_start_fullscreen_switch_activated(
         self,
         switch: Gtk.Switch,
         _1: GObject.ParamSpec,
     ) -> None:
-        start_maximized = switch.get_active()
-        self._settings.set_boolean("start-maximized", start_maximized)
+        start_fullscreen = switch.get_active()
+        self._settings.set_boolean("start-fullscreen", start_fullscreen)

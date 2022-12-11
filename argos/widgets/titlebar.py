@@ -23,10 +23,10 @@ class TitleBar(Gtk.HeaderBar):
     main_page_state = GObject.Property(type=bool, default=True)
     search_activated = GObject.Property(type=bool, default=False)
 
-    def __init__(self, application: Gtk.Application):
+    def __init__(self, application: Gtk.Application, *, window: Gtk.ApplicationWindow):
         super().__init__()
 
-        self._window = application.window
+        self._window = window
 
         if application.props.disable_tooltips:
             self.back_button.props.has_tooltip = False
@@ -55,7 +55,7 @@ class TitleBar(Gtk.HeaderBar):
             self.remove(self.search_button)
             self.search_button = None
 
-        self.titlebar.set_decoration_layout(":close")
+        self.set_decoration_layout(":close")
         # On LXDE with Openbox window manager, showing close
         # button also decorate title bar with minimize, maximize
         # buttons whatever the Openbox configuration for the

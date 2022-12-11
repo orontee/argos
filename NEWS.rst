@@ -29,6 +29,10 @@ Changed
 
 Removed
 -------
+- Removed ``start-maximized`` setting (use window's menu to toggle
+  window state which is automatically restored at startup or use the
+  new setting ``start-fullscreen``) `#102
+  <https://github.com/orontee/argos/issues/102>`_
 
 [1.5.0] - 2022-12-05
 ====================
