@@ -48,7 +48,6 @@
               <object class="GtkTreeView" id="playlist_name_tree_view">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
-                <signal name="row-activated" handler="on_playlist_name_tree_view_row_activated" swapped="no"/>
                 <child internal-child="selection">
                   <object class="GtkTreeSelection"/>
                 </child>
@@ -62,9 +61,6 @@
           </packing>
         </child>
       </object>
-    </child>
-    <child type="titlebar">
-      <placeholder/>
     </child>
   </template>
 </interface>

@@ -54,12 +54,6 @@ class PlaylistSelectionDialog(Gtk.Dialog):
         self.show_all()
 
     @Gtk.Template.Callback()
-    def on_playlist_name_tree_view_row_activated(
-        self, _1: Gtk.TreeView, _2: Gtk.TreePath, _3: Gtk.TreeViewColumn
-    ) -> None:
-        self.response(Gtk.ResponseType.OK)
-
-    @Gtk.Template.Callback()
     def on_PlaylistSelectionDialog_response(
         self,
         _1: Gtk.Dialog,
