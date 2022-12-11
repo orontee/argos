@@ -18,6 +18,8 @@ Added
 
 Changed
 -------
+- Labels automatically elide text `#99
+  <https://github.com/orontee/argos/issues/99>`_
 - Fix history playlist displaying more than "history max length" tracks `#97
   <https://github.com/orontee/argos/issues/97>`_
 

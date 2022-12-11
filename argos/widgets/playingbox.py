@@ -8,7 +8,6 @@ from gi.repository import GLib, GObject, Gtk
 
 from argos.message import MessageType
 from argos.model import PlaybackState
-from argos.utils import elide_maybe
 from argos.widgets.playingboxemptytracklistbox import PlayingBoxEmptyTracklistBox
 from argos.widgets.tracklengthbox import TrackLengthBox
 from argos.widgets.tracklistbox import TracklistBox
@@ -189,9 +188,9 @@ class PlayingBox(Gtk.Box):
 
     def _update_track_name_label(self, track_name: Optional[str] = None) -> None:
         if track_name:
-            short_track_name = GLib.markup_escape_text(elide_maybe(track_name))
+            safe_track_name = GLib.markup_escape_text(track_name)
             track_name_text = (
-                f"""<span size="xx-large"><b>{short_track_name}</b></span>"""
+                f"""<span size="xx-large"><b>{safe_track_name}</b></span>"""
             )
             self.track_name_label.set_markup(track_name_text)
             if not self._disable_tooltips:
@@ -205,8 +204,8 @@ class PlayingBox(Gtk.Box):
 
     def _update_artist_name_label(self, artist_name: Optional[str] = None) -> None:
         if artist_name:
-            short_artist_name = GLib.markup_escape_text(elide_maybe(artist_name))
-            artist_name_text = f"""<span size="x-large">{short_artist_name}</span>"""
+            safe_artist_name = GLib.markup_escape_text(artist_name)
+            artist_name_text = f"""<span size="x-large">{safe_artist_name}</span>"""
             self.artist_name_label.set_markup(artist_name_text)
             if not self._disable_tooltips:
                 self.artist_name_label.set_has_tooltip(True)

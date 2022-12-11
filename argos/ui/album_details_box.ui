@@ -52,10 +52,8 @@
               <object class="GtkLabel" id="album_name_label">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="halign">center</property>
                 <property name="margin-top">5</property>
                 <property name="margin-bottom">5</property>
-                <property name="hexpand">True</property>
                 <property name="ellipsize">end</property>
                 <property name="single-line-mode">True</property>
               </object>
@@ -69,9 +67,7 @@
               <object class="GtkLabel" id="artist_name_label">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="halign">center</property>
                 <property name="margin-bottom">5</property>
-                <property name="hexpand">True</property>
                 <property name="ellipsize">end</property>
                 <property name="single-line-mode">True</property>
               </object>

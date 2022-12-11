@@ -7,7 +7,6 @@ from gi.repository import Gdk, GLib, GObject, Gtk
 
 from argos.message import MessageType
 from argos.model import PlaybackState
-from argos.utils import elide_maybe
 from argos.widgets.tracklengthbox import TrackLengthBox
 from argos.widgets.utils import default_image_pixbuf, scale_album_image
 from argos.widgets.volumebutton import VolumeButton
@@ -124,8 +123,8 @@ class CondensedPlayingBox(Gtk.Box):
 
     def _update_track_name_label(self, track_name: Optional[str] = None) -> None:
         if track_name:
-            short_track_name = GLib.markup_escape_text(elide_maybe(track_name))
-            track_name_text = f"""<b>{short_track_name}</b>"""
+            safe_track_name = GLib.markup_escape_text(track_name)
+            track_name_text = f"""<b>{safe_track_name}</b>"""
             self.track_name_label.set_markup(track_name_text)
             if not self._disable_tooltips:
                 self.track_name_label.set_has_tooltip(True)
@@ -138,8 +137,8 @@ class CondensedPlayingBox(Gtk.Box):
 
     def _update_artist_name_label(self, artist_name: Optional[str] = None) -> None:
         if artist_name:
-            short_artist_name = GLib.markup_escape_text(elide_maybe(artist_name))
-            artist_name_text = f"""{short_artist_name}"""
+            safe_artist_name = GLib.markup_escape_text(artist_name)
+            artist_name_text = f"""{safe_artist_name}"""
             self.artist_name_label.set_markup(artist_name_text)
             if not self._disable_tooltips:
                 self.artist_name_label.set_has_tooltip(True)

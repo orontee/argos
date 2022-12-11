@@ -6,7 +6,7 @@ from typing import Optional
 from gi.repository import GLib, GObject, Gtk
 
 from argos.model import Model
-from argos.utils import elide_maybe, ms_to_text
+from argos.utils import ms_to_text
 from argos.widgets.utils import default_image_pixbuf, scale_album_image
 
 _ = gettext.gettext
@@ -94,9 +94,9 @@ class TracklistRandomDialog(Gtk.Dialog):
 
     def _update_album_name_label(self, album_name: Optional[str]) -> None:
         if album_name:
-            short_album_name = GLib.markup_escape_text(elide_maybe(album_name))
+            safe_album_name = GLib.markup_escape_text(album_name)
             album_name_text = (
-                f"""<span size="xx-large"><b>{short_album_name}</b></span>"""
+                f"""<span size="xx-large"><b>{safe_album_name}</b></span>"""
             )
             self.album_name_label.set_markup(album_name_text)
 
@@ -111,8 +111,8 @@ class TracklistRandomDialog(Gtk.Dialog):
 
     def _update_album_artist_name_label(self, artist_name: Optional[str]) -> None:
         if artist_name:
-            short_artist_name = GLib.markup_escape_text(elide_maybe(artist_name))
-            artist_name_text = f"""<span size="x-large">{short_artist_name}</span>"""
+            safe_artist_name = GLib.markup_escape_text(artist_name)
+            artist_name_text = f"""<span size="x-large">{safe_artist_name}</span>"""
             self.album_artist_name_label.set_markup(artist_name_text)
             if not self._disable_tooltips:
                 self.album_artist_name_label.set_has_tooltip(True)
