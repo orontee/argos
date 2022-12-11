@@ -13,6 +13,8 @@ The format is based on `Keep a Changelog
 
 Added
 -----
+- Display album name in bottom widget  `#101
+  <https://github.com/orontee/argos/issues/101>`_
 - Display time position in bottom widget `#94
   <https://github.com/orontee/argos/issues/94>`_
 

@@ -33,7 +33,7 @@ class CondensedPlayingBox(Gtk.Box):
     pause_image: Gtk.Image = Gtk.Template.Child()
 
     track_name_label: Gtk.Label = Gtk.Template.Child()
-    artist_name_label: Gtk.Label = Gtk.Template.Child()
+    track_details_label: Gtk.Label = Gtk.Template.Child()
 
     prev_button: Gtk.Button = Gtk.Template.Child()
     play_button: Gtk.Button = Gtk.Template.Child()
@@ -95,10 +95,12 @@ class CondensedPlayingBox(Gtk.Box):
         tl_track = self._model.tracklist.get_tl_track(tlid) if tlid != -1 else None
         if tl_track is not None:
             self._update_track_name_label(tl_track.track.name)
-            self._update_artist_name_label(tl_track.track.artist_name)
+            self._update_track_details_label(
+                tl_track.track.artist_name, tl_track.track.album_name
+            )
         else:
             self._update_track_name_label()
-            self._update_artist_name_label()
+            self._update_track_details_label()
 
     def _update_playing_track_image(
         self,
@@ -135,19 +137,23 @@ class CondensedPlayingBox(Gtk.Box):
 
         self.track_name_label.show_now()
 
-    def _update_artist_name_label(self, artist_name: Optional[str] = None) -> None:
+    def _update_track_details_label(
+        self, artist_name: Optional[str] = None, album_name: Optional[str] = None
+    ) -> None:
         if artist_name:
-            safe_artist_name = GLib.markup_escape_text(artist_name)
-            artist_name_text = f"""{safe_artist_name}"""
-            self.artist_name_label.set_markup(artist_name_text)
+            track_details = (
+                f"{artist_name}, {album_name}" if album_name else artist_name
+            )
+            safe_track_details = GLib.markup_escape_text(track_details)
+            self.track_details_label.set_markup(safe_track_details)
             if not self._disable_tooltips:
-                self.artist_name_label.set_has_tooltip(True)
-                self.artist_name_label.set_tooltip_text(artist_name)
+                self.track_details_label.set_has_tooltip(True)
+                self.track_details_label.set_tooltip_text(safe_track_details)
         else:
-            self.artist_name_label.set_markup("")
-            self.artist_name_label.set_has_tooltip(False)
+            self.track_details_label.set_markup("")
+            self.track_details_label.set_has_tooltip(False)
 
-        self.artist_name_label.show_now()
+        self.track_details_label.show_now()
 
     def _update_play_button(
         self,

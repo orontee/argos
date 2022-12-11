@@ -131,8 +131,8 @@ and build for new images to be checked.
 To remove horizontal padding and resize to 900px width with
 `ImageMagick <https://imagemagick.org/index.php>`_ installed::
 
-  mkdir cleaned_image
-  pushd cleaned_image
+  mkdir docs/cleaned_image
+  pushd docs/cleaned_image
   for IMG_FILE in ../*.png; do
     convert ${IMG_FILE} -fuzz 1% -trim +repage -resize 900\> $(basename ${IMG_FILE});
   done
