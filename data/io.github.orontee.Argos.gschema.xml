@@ -158,6 +158,12 @@
       <description>Window maximized state.</description>
     </key>
 
+    <key type="b" name="window-fullscreen">
+      <default>false</default>
+      <summary>Fullscreen window</summary>
+      <description>Window fullscreen state.</description>
+    </key>
+
     <key type="b" name="start-maximized">
       <default>false</default>
       <summary>Start maximized</summary>

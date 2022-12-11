@@ -21,6 +21,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
     albums_window = GObject.Property(type=AlbumsWindow)
     playlists_box = GObject.Property(type=PlaylistsBox)
     titlebar = GObject.Property(type=TitleBar)
+    is_fullscreen = GObject.Property(type=bool, default=False)
 
     def __init__(self, application: Gtk.Application):
         super().__init__(application=application)
@@ -30,13 +31,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
         self._settings: Gio.Settings = application.props.settings
 
         self.props.titlebar = TitleBar(application)
-        self.props.titlebar.central_view_switcher.set_stack(self.central_view)
-        self.props.titlebar.back_button.connect(
-            "clicked", self._on_title_back_button_clicked
-        )
-        self.props.titlebar.search_entry.connect(
-            "search-changed", self._on_search_entry_changed
-        )
+        self._setup_titlebar(self.props.titlebar)
         self.set_titlebar(self.props.titlebar)
 
         playing_box = PlayingBox(application)
@@ -117,7 +112,6 @@ class ArgosWindow(Gtk.ApplicationWindow):
         self.props.albums_window.albums_stack.connect(
             "notify::visible-child-name", self._on_albums_stack_page_changed
         )
-        self.connect("notify::is-maximized", self._handle_maximized_state_changed)
 
         self.props.playlists_box.tracks_box.connect(
             "selected-rows-changed", self.on_playlist_tracks_box_selected_rows_changed
@@ -127,18 +121,16 @@ class ArgosWindow(Gtk.ApplicationWindow):
 
         self.titlebar.props.main_page_state = True
 
+    def _setup_titlebar(self, titlebar: TitleBar) -> None:
+        titlebar.central_view_switcher.set_stack(self.central_view)
+        titlebar.back_button.connect("clicked", self._on_title_back_button_clicked)
+        titlebar.search_entry.connect("search-changed", self._on_search_entry_changed)
+
     def is_playing_page_visible(self) -> None:
         playing_page_visible = (
             self.central_view.get_visible_child_name() == "playing_page"
         )
         return playing_page_visible
-
-    def _handle_maximized_state_changed(
-        self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
-    ) -> None:
-        self.titlebar.set_show_close_button(not self.props.is_maximized)
 
     def _on_central_view_changed(
         self,
@@ -205,6 +197,27 @@ class ArgosWindow(Gtk.ApplicationWindow):
         remove_from_playlist_action.set_enabled(enabled and len(selected_rows) > 0)
 
     @Gtk.Template.Callback()
+    def on_window_state_event(
+        self,
+        widget: Gtk.Widget,
+        event: Gdk.EventWindowState,
+    ) -> bool:
+        if event.changed_mask != Gdk.WindowState.FULLSCREEN:
+            return False
+
+        is_fullscreen = event.new_window_state & Gdk.WindowState.FULLSCREEN
+
+        if is_fullscreen:
+            if not self.props.titlebar.is_visible():
+                LOGGER.error("Titlebar is not visible anymore!!")
+                self.unfullscreen()
+                return True
+
+        self.props.is_fullscreen = is_fullscreen
+
+        return True
+
+    @Gtk.Template.Callback()
     def key_press_event_cb(self, widget: Gtk.Widget, event: Gdk.EventKey) -> bool:
         # See /usr/include/gtk-3.0/gdk/gdkkeysyms.h for key definitions
         mod1_mask = Gdk.ModifierType.MOD1_MASK
@@ -244,4 +257,10 @@ class ArgosWindow(Gtk.ApplicationWindow):
                 if self.props.titlebar.search_entry.has_focus():
                     self.props.titlebar.toggle_search_entry_focus_maybe()
                     return True
+            elif keyval == Gdk.KEY_F11:
+                if self.props.is_fullscreen:
+                    self.unfullscreen()
+                else:
+                    self.fullscreen()
+                return True
         return False

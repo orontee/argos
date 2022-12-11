@@ -11,6 +11,7 @@
     <property name="icon-name">media-optical</property>
     <property name="show-menubar">False</property>
     <signal name="key-press-event" handler="key_press_event_cb" swapped="no"/>
+    <signal name="window-state-event" handler="on_window_state_event" swapped="no"/>
     <child>
       <object class="GtkBox" id="main_box">
         <property name="visible">True</property>

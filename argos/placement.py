@@ -25,6 +25,7 @@ class WindowPlacement(GObject.Object):
         self._restore_window_state()
 
         self._window.connect("notify::is-maximized", self._on_maximized)
+        self._window.connect("notify::is-fullscreen", self._on_is_fullscreen_changed)
         self._window.connect("configure-event", self._on_configure_event)
 
     def _restore_window_state(self) -> None:
@@ -46,6 +47,10 @@ class WindowPlacement(GObject.Object):
         if self._settings.get_boolean("window-maximized"):
             LOGGER.debug("Restoring application window maximize state")
             self._window.maximize()
+
+        if self._settings.get_boolean("window-fullscreen"):
+            LOGGER.debug("Restoring application window fullscreen state")
+            self._window.fullscreen()
 
     def _on_configure_event(
         self, window: Gtk.Window, event: Gdk.EventConfigure
@@ -73,3 +78,9 @@ class WindowPlacement(GObject.Object):
     def _on_maximized(self, klass, value, data=None):
         LOGGER.debug("Storing application window maximize state")
         self._settings.set_boolean("window-maximized", self._window.is_maximized())
+
+    def _on_is_fullscreen_changed(self, klass, value, data=None):
+        LOGGER.debug("Storing application window fullscreen state")
+        self._settings.set_boolean(
+            "window-fullscreen", self._window.props.is_fullscreen
+        )

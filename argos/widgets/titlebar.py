@@ -26,6 +26,8 @@ class TitleBar(Gtk.HeaderBar):
     def __init__(self, application: Gtk.Application):
         super().__init__()
 
+        self._window = application.window
+
         if application.props.disable_tooltips:
             self.back_button.props.has_tooltip = False
             self.sort_button.props.has_tooltip = False
@@ -53,13 +55,11 @@ class TitleBar(Gtk.HeaderBar):
             self.remove(self.search_button)
             self.search_button = None
 
-        if not application.props.start_maximized:
-            self.set_show_close_button(True)
-
-            # On LXDE with Openbox window manager, showing close
-            # button also decorate title bar with minimize, maximize
-            # buttons whatever the Openbox configuration for the
-            # application is...
+        self.titlebar.set_decoration_layout(":close")
+        # On LXDE with Openbox window manager, showing close
+        # button also decorate title bar with minimize, maximize
+        # buttons whatever the Openbox configuration for the
+        # application is...
 
         self.connect("notify::main-page-state", self.on_main_page_state_changed)
         self.connect("notify::search-activated", self.on_search_activated_changed)
@@ -68,6 +68,7 @@ class TitleBar(Gtk.HeaderBar):
             if self.search_button
             else None
         )
+        self._window.connect("notify::is-fullscreen", self.on_is_fullscreen_changed)
 
     def toggle_search_entry_focus_maybe(self) -> None:
         if not self.search_button or not self.search_activated:
@@ -95,8 +96,8 @@ class TitleBar(Gtk.HeaderBar):
 
     def on_main_page_state_changed(
         self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
+        _1: GObject.Object,
+        _2: GObject.ParamSpec,
     ) -> None:
         if self.props.main_page_state:
             self.back_button.set_visible(False)
@@ -113,8 +114,8 @@ class TitleBar(Gtk.HeaderBar):
 
     def on_search_activated_changed(
         self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
+        _1: GObject.Object,
+        _2: GObject.ParamSpec,
     ) -> None:
         self.title_stack.set_visible_child_name("switcher_page")
 
@@ -125,3 +126,7 @@ class TitleBar(Gtk.HeaderBar):
 
         self.search_button.set_active(False)
         self.search_button.set_visible(self.props.search_activated)
+
+    def on_is_fullscreen_changed(self, window: GObject.Object, _1: GObject.ParamSpec):
+        is_fullscreen = window.props.is_fullscreen
+        self.set_decoration_layout(":close" if not is_fullscreen else "")
