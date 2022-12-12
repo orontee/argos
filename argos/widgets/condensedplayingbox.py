@@ -148,7 +148,7 @@ class CondensedPlayingBox(Gtk.Box):
             self.track_details_label.set_markup(safe_track_details)
             if not self._disable_tooltips:
                 self.track_details_label.set_has_tooltip(True)
-                self.track_details_label.set_tooltip_text(safe_track_details)
+                self.track_details_label.set_tooltip_markup(safe_track_details)
         else:
             self.track_details_label.set_markup("")
             self.track_details_label.set_has_tooltip(False)
