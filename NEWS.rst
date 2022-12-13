@@ -8,6 +8,20 @@ The format is based on `Keep a Changelog
 <https://keepachangelog.com/en/1.0.0/>`_, and this project adheres to
 `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
+[Unreleased]
+============
+
+Added
+-----
+
+Changed
+-------
+- Display close button in titlebar when window isn't fullscreen `#104
+  <https://github.com/orontee/argos/issues/104>`_
+
+Removed
+-------
+
 [1.6.0] - 2022-12-12
 ====================
 

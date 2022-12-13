@@ -56,6 +56,7 @@ class TitleBar(Gtk.HeaderBar):
             self.search_button = None
 
         self.set_decoration_layout(":close")
+        self.set_show_close_button(True)
         # On LXDE with Openbox window manager, showing close
         # button also decorate title bar with minimize, maximize
         # buttons whatever the Openbox configuration for the
