@@ -1,6 +1,5 @@
 import gettext
 import logging
-from enum import IntEnum
 from typing import TYPE_CHECKING, Optional
 
 from gi.repository import Gio, GLib, GObject, Gtk
@@ -21,6 +20,7 @@ class PreferencesWindow(Gtk.Window):
 
     connection_warning_label: Gtk.Label = Gtk.Template.Child()
     mopidy_base_url_entry: Gtk.Entry = Gtk.Template.Child()
+    information_service_switch: Gtk.Switch = Gtk.Template.Child()
     mopidy_local_switch: Gtk.Switch = Gtk.Template.Child()
     mopidy_local_label: Gtk.Label = Gtk.Template.Child()
     mopidy_bandcamp_switch: Gtk.Switch = Gtk.Template.Child()
@@ -53,6 +53,9 @@ class PreferencesWindow(Gtk.Window):
         base_url = self._settings.get_string("mopidy-base-url")
         if base_url:
             self.mopidy_base_url_entry.set_text(base_url)
+
+        information_service = self._settings.get_boolean("information-service")
+        self.information_service_switch.set_active(information_service)
 
         mopidy_local = self._settings.get_boolean("mopidy-local")
         self.mopidy_local_switch.set_active(mopidy_local)
@@ -155,6 +158,9 @@ class PreferencesWindow(Gtk.Window):
         self.mopidy_base_url_entry.connect(
             "changed", self.on_mopidy_base_url_entry_changed
         )
+        self.information_service_switch.connect(
+            "notify::active", self.on_information_service_switch_activated
+        )
         self.mopidy_local_switch.connect(
             "notify::active", self.on_mopidy_local_switch_activated
         )
@@ -243,6 +249,14 @@ class PreferencesWindow(Gtk.Window):
     def on_mopidy_base_url_entry_changed(self, entry: Gtk.Entry) -> None:
         base_url = entry.get_text()
         self._settings.set_string("mopidy-base-url", base_url)
+
+    def on_information_service_switch_activated(
+        self,
+        switch: Gtk.Switch,
+        _1: GObject.ParamSpec,
+    ) -> None:
+        information_service = switch.get_active()
+        self._settings.set_boolean("information-service", information_service)
 
     def on_mopidy_local_switch_activated(
         self,

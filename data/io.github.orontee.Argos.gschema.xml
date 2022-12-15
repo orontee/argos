@@ -21,6 +21,16 @@
       </description>
     </key>
 
+    <key type="b" name="information-service">
+      <default>false</default>
+      <summary>
+	Information service
+      </summary>
+      <description>
+	Whether to collect and display information on albums from Wikipedia.
+      </description>
+    </key>
+
     <key type="b" name="mopidy-local">
       <default>true</default>
       <summary>

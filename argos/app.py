@@ -22,6 +22,7 @@ from argos.controllers import (
 )
 from argos.download import ImageDownloader
 from argos.http import MopidyHTTPClient
+from argos.info import InformationService
 from argos.message import Message, MessageType
 from argos.model import Model
 from argos.notify import Notifier
@@ -84,6 +85,7 @@ class Application(Gtk.Application):
         self._ws = MopidyWSConnection(self)
         self._http = MopidyHTTPClient(self)
         self._download = ImageDownloader(self)
+        self._information = InformationService(self)
         self._time_position_tracker = TimePositionTracker(self)
         self._notifier = Notifier(self)
 
@@ -158,6 +160,10 @@ class Application(Gtk.Application):
     @GObject.Property(type=ImageDownloader, flags=GObject.ParamFlags.READABLE)
     def download(self):
         return self._download
+
+    @GObject.Property(type=InformationService, flags=GObject.ParamFlags.READABLE)
+    def information(self):
+        return self._information
 
     @GObject.Property(type=Model, flags=GObject.ParamFlags.READABLE)
     def model(self):

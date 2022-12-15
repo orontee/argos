@@ -241,7 +241,6 @@ class AlbumsWindow(Gtk.Box):
         self._app.send_message(
             MessageType.COMPLETE_ALBUM_DESCRIPTION, {"album_uri": uri}
         )
-
         self.props.album_details_box.set_property("uri", uri)
         self.props.album_details_box.show_now()
         self.albums_stack.set_visible_child_name("album_details_page")

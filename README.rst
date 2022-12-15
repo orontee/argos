@@ -56,6 +56,9 @@ Features 🥳
 
 * Play streams supported by Mopidy-Stream
 
+* Abstracts of album and artist pages on Wikipedia (based on
+  Musicbrainz identifiers)
+
 Consult the `NEWS file </NEWS.rst>`_ for notable changes between
 versions.
 

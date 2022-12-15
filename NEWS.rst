@@ -13,6 +13,8 @@ The format is based on `Keep a Changelog
 
 Added
 -----
+- Information service collecting album and artist abstract from
+  Wikipedia `#78 <https://github.com/orontee/argos/issues/78>`_
 
 Changed
 -------

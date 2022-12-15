@@ -2,6 +2,104 @@
 <!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
+  <object class="GtkPopover" id="information_popover">
+    <property name="can-focus">False</property>
+    <property name="vexpand">False</property>
+    <property name="position">right</property>
+    <child>
+      <object class="GtkBox" id="information_box">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="margin-start">5</property>
+        <property name="margin-end">5</property>
+        <property name="margin-top">5</property>
+        <property name="margin-bottom">5</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">5</property>
+        <child>
+          <object class="GtkStackSwitcher" id="information_stack_switcher">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">center</property>
+            <property name="hexpand">False</property>
+            <property name="homogeneous">True</property>
+            <property name="stack">information_stack</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkStack" id="information_stack">
+            <property name="width-request">200</property>
+            <property name="height-request">250</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="vhomogeneous">False</property>
+            <property name="transition-type">crossfade</property>
+            <child>
+              <object class="GtkScrolledWindow" id="album_information_scrolled_window">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <child>
+                  <object class="GtkViewport" id="album_information_viewport">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="shadow-type">none</property>
+                    <child>
+                      <object class="GtkLabel" id="album_information_label">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="valign">start</property>
+                        <property name="wrap">True</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="name">album_information_page</property>
+                <property name="title" translatable="yes">Album</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkScrolledWindow" id="artist_information_scrolled_window">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <child>
+                  <object class="GtkViewport" id="artist_information_viewport">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="shadow-type">none</property>
+                    <child>
+                      <object class="GtkLabel" id="artist_information_label">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="valign">start</property>
+                        <property name="wrap">True</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="name">artist_information_page</property>
+                <property name="title" translatable="yes">Artist</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
   <object class="GtkImage" id="play_image">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -18,9 +116,11 @@
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="valign">center</property>
-        <property name="margin-end">5</property>
-        <property name="vexpand">True</property>
         <property name="orientation">vertical</property>
+        <property name="spacing">5</property>
+        <child>
+          <placeholder/>
+        </child>
         <child>
           <object class="GtkImage" id="album_image">
             <property name="width-request">200</property>
@@ -29,13 +129,14 @@
             <property name="can-focus">False</property>
             <property name="halign">center</property>
             <property name="valign">center</property>
+            <property name="vexpand">True</property>
             <property name="stock">gtk-missing-image</property>
             <property name="icon_size">6</property>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
-            <property name="position">0</property>
+            <property name="position">1</property>
           </packing>
         </child>
         <child>
@@ -93,7 +194,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
-            <property name="position">1</property>
+            <property name="position">2</property>
           </packing>
         </child>
       </object>
@@ -252,6 +353,36 @@
                 <property name="fill">True</property>
                 <property name="pack-type">end</property>
                 <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkMenuButton" id="information_button">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="focus-on-click">False</property>
+                <property name="receives-default">True</property>
+                <property name="tooltip-text" translatable="yes">Information on album</property>
+                <property name="halign">end</property>
+                <property name="valign">end</property>
+                <property name="popover">information_popover</property>
+                <child>
+                  <object class="GtkImage" id="information_image">
+                    <property name="width-request">20</property>
+                    <property name="height-request">20</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="icon-name">dialog-information-symbolic</property>
+                  </object>
+                </child>
+                <style>
+                  <class name="circular"/>
+                </style>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="pack-type">end</property>
+                <property name="position">2</property>
               </packing>
             </child>
           </object>

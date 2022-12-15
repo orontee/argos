@@ -21,7 +21,10 @@ _ = gettext.gettext
 
 LOGGER = logging.getLogger(__name__)
 
-ALBUM_IMAGE_SIZE = 200
+_ALBUM_IMAGE_SIZE = 200
+
+_MISSING_INFO_MSG = _("Information not available")
+_MISSING_INFO_MSG_WITH_MARKUP = f"""<span style="italic">{_MISSING_INFO_MSG}</span>"""
 
 
 @Gtk.Template(resource_path="/io/github/orontee/Argos/ui/album_details_box.ui")
@@ -38,7 +41,7 @@ class AlbumDetailsBox(Gtk.Box):
     __gtype_name__ = "AlbumDetailsBox"
 
     default_album_image = default_image_pixbuf(
-        "media-optical-cd-audio-symbolic", target_width=ALBUM_IMAGE_SIZE
+        "media-optical-cd-audio-symbolic", target_width=_ALBUM_IMAGE_SIZE
     )
 
     play_button: Gtk.Button = Gtk.Template.Child()
@@ -52,6 +55,10 @@ class AlbumDetailsBox(Gtk.Box):
     length_label: Gtk.Label = Gtk.Template.Child()
 
     tracks_box: Gtk.ListBox = Gtk.Template.Child()
+
+    information_button: Gtk.MenuButton = Gtk.Template.Child()
+    album_information_label: Gtk.Popover = Gtk.Template.Child()
+    artist_information_label: Gtk.Popover = Gtk.Template.Child()
 
     uri = GObject.Property(type=str, default="")
 
@@ -73,6 +80,10 @@ class AlbumDetailsBox(Gtk.Box):
         track_selection_menu.append(_("Add to playlist…"), "win.add-to-playlist")
         self.track_selection_button.set_menu_model(track_selection_menu)
 
+        settings: Gio.Settings = application.props.settings
+        information_service = settings.get_boolean("information-service")
+        self.information_button.set_visible(information_service)
+
         self.set_sensitive(self._model.network_available and self._model.connected)
 
         for widget in (
@@ -88,7 +99,15 @@ class AlbumDetailsBox(Gtk.Box):
         )
         self._model.connect("notify::connected", self._handle_connection_changed)
         self._model.connect("album-completed", self._on_album_completed)
+        self._model.connect(
+            "album-information-collected", self._on_album_information_collected
+        )
+
         self.connect("notify::uri", self._on_uri_changed)
+
+        settings.connect(
+            "changed::information-service", self.on_information_service_changed
+        )
 
     def _handle_connection_changed(
         self,
@@ -103,40 +122,53 @@ class AlbumDetailsBox(Gtk.Box):
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
-        found = [album for album in self._model.albums if album.uri == self.uri]
-        if len(found) == 0:
-            LOGGER.warning(f"No album found with URI {self.uri}")
+        album = self._model.get_album(self.props.uri)
+        if album is None:
             self._update_album_name_label(None)
             self._update_artist_name_label(None)
             self._update_publication_label(None)
             self._update_length_label(None)
             self._update_album_image(None)
             self._update_track_view(None)
-            return
+            self._update_information_popup(None)
+        else:
+            self._update_album_name_label(album.name)
+            self._update_artist_name_label(album.artist_name)
+            self._update_publication_label(album.date)
+            self._update_length_label(album.length)
+            self._update_album_image(
+                Path(album.image_path) if album.image_path else None
+            )
+            self._update_track_view(album)
+            self._update_information_popup(album)
 
-        album = found[0]
-        self._update_album_name_label(album.name)
-        self._update_artist_name_label(album.artist_name)
-        self._update_publication_label(album.date)
-        self._update_length_label(album.length)
-        self._update_album_image(Path(album.image_path) if album.image_path else None)
-        self._update_track_view(album)
+        self._app.send_message(
+            MessageType.COLLECT_ALBUM_INFORMATION, {"album_uri": self.props.uri}
+        )
 
     def _on_album_completed(self, model: Model, uri: str) -> None:
         if self.uri != uri:
             return
 
-        found = [album for album in model.albums if album.uri == uri]
-        if len(found) == 0:
-            LOGGER.warning(f"No album found with URI {uri}")
+        album = self._model.get_album(self.props.uri)
+        if album is None:
             return
 
-        album = found[0]
         self._update_artist_name_label(album.artist_name)
         self._update_publication_label(album.date)
         self._update_length_label(album.length)
         self._update_album_image(Path(album.image_path) if album.image_path else None)
         self._update_track_view(album)
+
+    def _on_album_information_collected(self, model: Model, uri: str) -> None:
+        if self.uri != uri:
+            return
+
+        album = self._model.get_album(self.props.uri)
+        if album is None:
+            return
+
+        self._update_information_popup(album)
 
     def _update_album_name_label(self, album_name: Optional[str]) -> None:
         if album_name:
@@ -193,7 +225,9 @@ class AlbumDetailsBox(Gtk.Box):
     def _update_album_image(self, image_path: Optional[Path]) -> None:
         scaled_pixbuf = None
         if image_path:
-            scaled_pixbuf = scale_album_image(image_path, target_width=ALBUM_IMAGE_SIZE)
+            scaled_pixbuf = scale_album_image(
+                image_path, target_width=_ALBUM_IMAGE_SIZE
+            )
 
         if scaled_pixbuf:
             self.album_image.set_from_pixbuf(scaled_pixbuf)
@@ -218,6 +252,18 @@ class AlbumDetailsBox(Gtk.Box):
 
         self._clear_tracks_box_selection = True
 
+    def _update_information_popup(self, album: Optional[AlbumModel]) -> None:
+        self.album_information_label.set_markup(
+            album.album_information
+            if album and album.album_information
+            else _MISSING_INFO_MSG_WITH_MARKUP
+        )
+        self.artist_information_label.set_markup(
+            album.artist_information
+            if album and album.artist_information
+            else _MISSING_INFO_MSG_WITH_MARKUP
+        )
+
     def _create_track_box(self, track: TrackModel, album: AlbumModel) -> Gtk.Widget:
         widget = AlbumTrackBox(self._app, album=album, track=track)
         return widget
@@ -241,6 +287,19 @@ class AlbumDetailsBox(Gtk.Box):
             uris.append(self.uri)
 
         return uris
+
+    def on_information_service_changed(
+        self,
+        settings: Gio.Settings,
+        key: str,
+    ) -> None:
+        information_service = settings.get_boolean("information-service")
+        self.information_button.set_visible(information_service)
+
+        if information_service:
+            self._app.send_message(
+                MessageType.COLLECT_ALBUM_INFORMATION, {"album_uri": self.props.uri}
+            )
 
     @Gtk.Template.Callback()
     def on_play_button_clicked(self, _1: Gtk.Button) -> None:

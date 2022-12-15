@@ -44,6 +44,7 @@ class AlbumMetadataCollector:
         self._num_discs: Dict[str, int] = {}
         self._date: Dict[str, str] = {}
         self._last_modified: Dict[str, float] = {}
+        self._release_mbid: Dict[str, str] = {}
 
     def __call__(self, uri: str, track: Dict[str, Any]) -> None:
         album: Optional[Dict[str, Dict[str, Any]]] = track.get("album")
@@ -75,6 +76,11 @@ class AlbumMetadataCollector:
             if date is not None:
                 self._date[uri] = date
 
+        if uri not in self._release_mbid:
+            release_mbid = cast(str, album.get("musicbrainz_id"))
+            if release_mbid is not None:
+                self._release_mbid[uri] = release_mbid
+
         last_modified = cast(float, track.get("last_modified"))
         if last_modified is not None:
             current_last_modified = self._last_modified.get(uri, None)
@@ -99,6 +105,9 @@ class AlbumMetadataCollector:
 
     def date(self, album_uri: str) -> Optional[str]:
         return self._date.get(album_uri)
+
+    def release_mbid(self, album_uri: str) -> Optional[str]:
+        return self._release_mbid.get(album_uri)
 
     def last_modified(self, album_uri: str) -> Optional[float]:
         return self._last_modified.get(album_uri)

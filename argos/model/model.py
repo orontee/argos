@@ -36,6 +36,7 @@ LOGGER = logging.getLogger(__name__)
 class Model(WithThreadSafePropertySetter, GObject.Object):
     __gsignals__: Dict[str, Tuple[int, Any, Tuple]] = {
         "album-completed": (GObject.SIGNAL_RUN_FIRST, None, (str,)),
+        "album-information-collected": (GObject.SIGNAL_RUN_FIRST, None, (str,)),
     }
 
     network_available = GObject.Property(type=bool, default=False)
@@ -155,7 +156,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
 
     def complete_album_description(
         self,
-        album_uri: str,
+        uri: str,
         *,
         artist_name: Optional[str],
         num_tracks: Optional[int],
@@ -167,7 +168,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         GLib.idle_add(
             partial(
                 self._complete_album_description,
-                album_uri,
+                uri,
                 artist_name,
                 num_tracks,
                 num_discs,
@@ -179,7 +180,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
 
     def _complete_album_description(
         self,
-        album_uri: str,
+        uri: str,
         artist_name: Optional[str],
         num_tracks: Optional[int],
         num_discs: Optional[int],
@@ -187,14 +188,11 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         length: Optional[int],
         tracks: List[TrackModel],
     ) -> None:
-        found = [album for album in self.albums if album.uri == album_uri]
-        if len(found) == 0:
-            LOGGER.warning(f"No album found with URI {album_uri!r}")
+        album = self.get_album(uri)
+        if album is None:
             return
 
-        LOGGER.debug(f"Updating description of album with URI {album_uri!r}")
-        album = found[0]
-
+        LOGGER.debug(f"Updating description of album with URI {uri!r}")
         album.artist_name = artist_name or ""
         album.num_tracks = num_tracks or -1
         album.num_discs = num_discs or -1
@@ -210,8 +208,33 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
             partial(
                 self.emit,
                 "album-completed",
-                album_uri,
+                uri,
             )
+        )
+
+    def set_album_information(
+        self,
+        uri: str,
+        album_information: Optional[str],
+        artist_information: Optional[str],
+    ) -> None:
+        album = self.get_album(uri)
+        if album is None:
+            return
+
+        def _set_album_information(
+            model: "Model",
+            album: AlbumModel,
+            album_information: str,
+            artist_information: str,
+        ):
+            album.props.album_information = album_information
+            album.props.artist_information = artist_information
+            model.emit("album-information-collected", uri)
+
+        LOGGER.debug(f"Setting album information of album with URI {uri!r}")
+        GLib.idle_add(
+            _set_album_information, self, album, album_information, artist_information
         )
 
     def choose_random_album(self) -> Optional[str]:

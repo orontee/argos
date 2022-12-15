@@ -117,6 +117,9 @@ class AlbumModel(WithThreadSafePropertySetter, GObject.Object):
     date = GObject.Property(type=str)
     last_modified = GObject.Property(type=GObject.TYPE_DOUBLE, default=-1)
     length = GObject.Property(type=int)
+    release_mbid = GObject.Property(type=str)
+    album_information = GObject.Property(type=str)
+    artist_information = GObject.Property(type=str)
 
     tracks: Gio.ListStore
 
@@ -134,7 +137,10 @@ class AlbumModel(WithThreadSafePropertySetter, GObject.Object):
         date: Optional[str] = None,
         last_modified: Optional[float] = None,
         length: Optional[int] = None,
+        release_mbid: Optional[str] = None,
         tracks: Optional[List[TrackModel]] = None,
+        album_information: Optional[str] = None,
+        artist_information: Optional[str] = None,
     ):
         super().__init__(
             uri=uri,
@@ -150,6 +156,9 @@ class AlbumModel(WithThreadSafePropertySetter, GObject.Object):
         self.date = date or ""
         self.last_modified = last_modified or -1
         self.length = length or -1
+        self.release_mbid = release_mbid or ""
+        self.album_information = album_information or ""
+        self.artist_information = artist_information or ""
 
         if tracks is not None:
             for t in tracks:
@@ -169,6 +178,9 @@ class AlbumModel(WithThreadSafePropertySetter, GObject.Object):
 
     def set_length(self, value: int) -> None:
         self.set_property_in_gtk_thread("length", value)
+
+    def set_release_mbid(self, value: str) -> None:
+        self.set_property_in_gtk_thread("release_mbid", value)
 
     def is_complete(self) -> bool:
         return self.backend.static_albums and len(self.tracks) > 0

@@ -11,6 +11,7 @@ from argos.controllers.base import ControllerBase
 from argos.controllers.utils import call_by_slice, parse_tracks
 from argos.controllers.visitors import AlbumMetadataCollector, LengthAcc
 from argos.download import ImageDownloader
+from argos.info import InformationService
 from argos.message import Message, MessageType, consume
 from argos.model import AlbumModel, MopidyBackend
 
@@ -30,6 +31,7 @@ class AlbumsController(ControllerBase):
         super().__init__(application)
 
         self._download: ImageDownloader = application.props.download
+        self._information: InformationService = application.props.information
 
         for backend in self._model.backends:
             backend.connect("notify::activated", self._on_backend_activated_changed)
@@ -107,6 +109,35 @@ class AlbumsController(ControllerBase):
                 length=length,
                 tracks=parsed_tracks,
             )
+
+    @consume(MessageType.COLLECT_ALBUM_INFORMATION)
+    async def collect_album_information(self, message: Message) -> None:
+        information_service = self._settings.get_boolean("information-service")
+        if not information_service:
+            return
+
+        album_uri = message.data.get("album_uri", "")
+        if not album_uri:
+            return
+
+        album = self._model.get_album(album_uri)
+        if album is None:
+            LOGGER.warning(
+                f"Attempt to collect info on unknown album with URI {album_uri!r}"
+            )
+            return
+
+        if album.album_information:
+            LOGGER.debug(
+                f"Information already collected for album with URI {album_uri!r}"
+            )
+            return
+
+        LOGGER.debug(f"Collecting info of album with uri {album_uri!r}")
+        album_abstract, artist_abstract = await self._information.get_album_information(
+            album.release_mbid
+        )
+        self._model.set_album_information(album_uri, album_abstract, artist_abstract)
 
     @consume(MessageType.BROWSE_ALBUMS)
     async def browse_albums(self, message: Message) -> None:
@@ -213,6 +244,7 @@ class AlbumsController(ControllerBase):
                 num_tracks = metadata_collector.num_tracks(album_uri)
                 num_discs = metadata_collector.num_discs(album_uri)
                 date = metadata_collector.date(album_uri)
+                release_mbid = metadata_collector.release_mbid(album_uri)
                 last_modified = metadata_collector.last_modified(album_uri)
 
                 if album_uri in images and len(images[album_uri]) > 0:
@@ -237,6 +269,7 @@ class AlbumsController(ControllerBase):
                     date=date,
                     last_modified=last_modified,
                     length=length,
+                    release_mbid=release_mbid,
                     tracks=album_parsed_tracks,
                 )
                 parsed_albums.append(album)
