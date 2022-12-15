@@ -28,6 +28,6 @@ if __name__ == "__main__":
 
     from argos.app import Application
 
-    app = Application(application_id=application_id)
+    app = Application(application_id=application_id, version=VERSION)
     exit_status = app.run(sys.argv)
     sys.exit(exit_status)

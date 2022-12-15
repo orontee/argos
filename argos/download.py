@@ -12,7 +12,7 @@ from gi.repository import Gio, GLib, GObject
 if TYPE_CHECKING:
     from argos.app import Application
 
-from argos.session import get_session
+from argos.session import HTTPSessionManager
 
 LOGGER = logging.getLogger(__name__)
 
@@ -37,6 +37,9 @@ class ImageDownloader(GObject.GObject):
     ):
         super().__init__()
 
+        self._http_session_manager: HTTPSessionManager = (
+            application.http_session_manager
+        )
         self._model = application.model
 
         settings: Gio.Settings = application.props.settings
@@ -72,7 +75,7 @@ class ImageDownloader(GObject.GObject):
 
         if not filepath.exists():
             url = urllib.parse.urljoin(self._mopidy_base_url, image_uri)
-            async with get_session() as session:
+            async with self._http_session_manager.get_session() as session:
                 try:
                     LOGGER.debug(f"Sending GET {url}")
                     async with session.get(url) as resp:

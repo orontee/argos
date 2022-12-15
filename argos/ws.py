@@ -12,7 +12,7 @@ if TYPE_CHECKING:
     from argos.app import Application
 
 from argos.model import Model
-from argos.session import get_session
+from argos.session import HTTPSessionManager
 
 LOGGER = logging.getLogger(__name__)
 
@@ -46,6 +46,9 @@ class MopidyWSConnection(GObject.GObject):
     ):
         super().__init__()
 
+        self._http_session_manager: HTTPSessionManager = (
+            application.http_session_manager
+        )
         self._loop: asyncio.AbstractEventLoop = application.loop
         self._model: Model = application.props.model
         self._event_handler: Callable[
@@ -157,7 +160,7 @@ class MopidyWSConnection(GObject.GObject):
             future.cancel()
 
     async def listen(self) -> None:
-        async with get_session() as session:
+        async with self._http_session_manager.get_session() as session:
             while True:
                 try:
                     if not self._url:

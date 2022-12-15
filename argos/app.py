@@ -26,6 +26,7 @@ from argos.message import Message, MessageType
 from argos.model import Model
 from argos.notify import Notifier
 from argos.placement import WindowPlacement
+from argos.session import HTTPSessionManager
 from argos.time import TimePositionTracker
 from argos.utils import configure_logger
 from argos.widgets import (
@@ -48,17 +49,19 @@ class Application(Gtk.Application):
     start_fullscreen = GObject.Property(type=bool, default=False)
     disable_tooltips = GObject.Property(type=bool, default=False)
     hide_search_button = GObject.Property(type=bool, default=False)
+    version = GObject.Property(type=str)
 
-    def __init__(self, application_id: str):
+    def __init__(self, *args, **kwargs):
         super().__init__(
-            application_id=application_id,
             flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
+            *args,
+            **kwargs,
         )
         self._loop = asyncio.get_event_loop()
         self._message_queue: asyncio.Queue = asyncio.Queue()
         self._nm = Gio.NetworkMonitor.get_default()
 
-        self._settings = Gio.Settings(application_id)
+        self._settings = Gio.Settings(self.props.application_id)
 
         self.window = None
         self.prefs_window = None
@@ -76,6 +79,7 @@ class Application(Gtk.Application):
 
         # services
         self._model = Model(self)
+        self._http_session_manager = HTTPSessionManager(self)
         self._ws_event_handler = MopidyWSEventHandler(self)
         self._ws = MopidyWSConnection(self)
         self._http = MopidyHTTPClient(self)
@@ -134,6 +138,10 @@ class Application(Gtk.Application):
     @GObject.Property(type=Gio.Settings, flags=GObject.ParamFlags.READABLE)
     def settings(self):
         return self._settings
+
+    @GObject.Property(type=HTTPSessionManager, flags=GObject.ParamFlags.READABLE)
+    def http_session_manager(self):
+        return self._http_session_manager
 
     @GObject.Property(type=MopidyWSEventHandler, flags=GObject.ParamFlags.READABLE)
     def ws_event_handler(self):
