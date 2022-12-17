@@ -127,7 +127,7 @@ class AlbumsController(ControllerBase):
             )
             return
 
-        if album.album_information:
+        if album.information.last_modified != -1:
             LOGGER.debug(
                 f"Information already collected for album with URI {album_uri!r}"
             )

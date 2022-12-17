@@ -253,14 +253,15 @@ class AlbumDetailsBox(Gtk.Box):
         self._clear_tracks_box_selection = True
 
     def _update_information_popup(self, album: Optional[AlbumModel]) -> None:
+        information = album.information if album is not None else None
         self.album_information_label.set_markup(
-            album.album_information
-            if album and album.album_information
+            information.album_abstract
+            if information and information.album_abstract
             else _MISSING_INFO_MSG_WITH_MARKUP
         )
         self.artist_information_label.set_markup(
-            album.artist_information
-            if album and album.artist_information
+            information.artist_abstract
+            if information and information.artist_abstract
             else _MISSING_INFO_MSG_WITH_MARKUP
         )
 

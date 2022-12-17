@@ -1,12 +1,14 @@
 import logging
 import random
 import threading
+from datetime import datetime
 from functools import partial
 from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Tuple, cast
 
 from gi.repository import Gio, GLib, GObject
 
 from argos.model.album import (
+    AlbumInformationModel,
     AlbumModel,
     compare_by_album_name_func,
     compare_by_artist_name_func,
@@ -215,8 +217,8 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
     def set_album_information(
         self,
         uri: str,
-        album_information: Optional[str],
-        artist_information: Optional[str],
+        album_abstract: Optional[str],
+        artist_abstract: Optional[str],
     ) -> None:
         album = self.get_album(uri)
         if album is None:
@@ -224,17 +226,22 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
 
         def _set_album_information(
             model: "Model",
-            album: AlbumModel,
-            album_information: str,
-            artist_information: str,
+            information: AlbumInformationModel,
+            album_abstract: str,
+            artist_abstract: str,
         ):
-            album.props.album_information = album_information
-            album.props.artist_information = artist_information
+            information.props.album_abstract = album_abstract
+            information.props.artist_abstract = artist_abstract
+            information.props.last_modified = datetime.now().timestamp()
             model.emit("album-information-collected", uri)
 
         LOGGER.debug(f"Setting album information of album with URI {uri!r}")
         GLib.idle_add(
-            _set_album_information, self, album, album_information, artist_information
+            _set_album_information,
+            self,
+            album.information,
+            album_abstract,
+            artist_abstract,
         )
 
     def choose_random_album(self) -> Optional[str]:

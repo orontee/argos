@@ -99,6 +99,14 @@ def compare_by_publication_date_func(
     return 0
 
 
+class AlbumInformationModel(GObject.Object):
+    """Model for album information."""
+
+    album_abstract = GObject.Property(type=str)
+    artist_abstract = GObject.Property(type=str)
+    last_modified = GObject.Property(type=GObject.TYPE_DOUBLE, default=-1)
+
+
 class AlbumModel(WithThreadSafePropertySetter, GObject.Object):
     """Model for an album.
 
@@ -118,8 +126,7 @@ class AlbumModel(WithThreadSafePropertySetter, GObject.Object):
     last_modified = GObject.Property(type=GObject.TYPE_DOUBLE, default=-1)
     length = GObject.Property(type=int, default=-1)
     release_mbid = GObject.Property(type=str)
-    album_information = GObject.Property(type=str)
-    artist_information = GObject.Property(type=str)
+    information = GObject.Property(type=AlbumInformationModel)
 
     tracks: Gio.ListStore
 
