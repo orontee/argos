@@ -20,14 +20,16 @@ class MopidyBackend(GObject.Object):
         static_albums: bool = True,
         activated: bool = False,
     ):
-        super().__init__()
+        super().__init__(settings_key=settings_key, static_albums=static_albums)
 
-        self.props.settings_key = settings_key
-        self.props.static_albums = static_albums
-        self.activated = activated
-
-        activated = settings.get_boolean(self.props.settings_key)
-        self.props.activated = activated
+        user_configured_backend_activation = (
+            settings.get_user_value(self.props.settings_key) is not None
+        )
+        self.props.activated = (
+            settings.get_value(self.props.settings_key)
+            if user_configured_backend_activation
+            else activated
+        )
         settings.connect(
             f"changed::{self.props.settings_key}", self._on_settings_changed
         )
