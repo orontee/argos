@@ -112,11 +112,11 @@ class AlbumModel(WithThreadSafePropertySetter, GObject.Object):
     image_uri = GObject.Property(type=str)
     backend = GObject.Property(type=MopidyBackend)
     artist_name = GObject.Property(type=str)
-    num_tracks = GObject.Property(type=int)
-    num_discs = GObject.Property(type=int)
+    num_tracks = GObject.Property(type=int, default=-1)
+    num_discs = GObject.Property(type=int, default=-1)
     date = GObject.Property(type=str)
     last_modified = GObject.Property(type=GObject.TYPE_DOUBLE, default=-1)
-    length = GObject.Property(type=int)
+    length = GObject.Property(type=int, default=-1)
     release_mbid = GObject.Property(type=str)
     album_information = GObject.Property(type=str)
     artist_information = GObject.Property(type=str)
@@ -125,40 +125,36 @@ class AlbumModel(WithThreadSafePropertySetter, GObject.Object):
 
     def __init__(
         self,
-        *,
-        uri: str,
-        name: str,
-        image_path: str,
-        image_uri: str,
-        backend: MopidyBackend,
+        *args,
         artist_name: Optional[str] = None,
         num_tracks: Optional[int] = None,
         num_discs: Optional[int] = None,
         date: Optional[str] = None,
         last_modified: Optional[float] = None,
         length: Optional[int] = None,
-        release_mbid: Optional[str] = None,
         tracks: Optional[List[TrackModel]] = None,
-        album_information: Optional[str] = None,
-        artist_information: Optional[str] = None,
+        **kwargs
     ):
-        super().__init__(
-            uri=uri,
-            name=name,
-            image_path=image_path,
-            image_uri=image_uri,
-            backend=backend,
-        )
+        super().__init__(*args, **kwargs)
+        if artist_name is not None:
+            self.artist_name = artist_name
+
+        if num_tracks is not None:
+            self.num_tracks = num_tracks
+
+        if num_discs is not None:
+            self.num_discs = num_discs
+
+        if date is not None:
+            self.date = date
+
+        if last_modified is not None:
+            self.last_modified = last_modified
+
+        if length is not None:
+            self.length = length
+
         self.tracks = Gio.ListStore.new(TrackModel)
-        self.artist_name = artist_name or ""
-        self.num_tracks = num_tracks or -1
-        self.num_discs = num_discs or -1
-        self.date = date or ""
-        self.last_modified = last_modified or -1
-        self.length = length or -1
-        self.release_mbid = release_mbid or ""
-        self.album_information = album_information or ""
-        self.artist_information = artist_information or ""
 
         if tracks is not None:
             for t in tracks:

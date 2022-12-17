@@ -43,17 +43,8 @@ class PlaylistModel(WithThreadSafePropertySetter, GObject.Object):
 
     tracks: Gio.ListStore
 
-    def __init__(
-        self,
-        *,
-        uri: str,
-        name: str,
-    ):
-        super().__init__(
-            uri=uri,
-            name=name,
-        )
-
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.tracks = Gio.ListStore.new(TrackModel)
 
     @property

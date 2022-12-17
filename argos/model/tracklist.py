@@ -12,29 +12,10 @@ class TracklistTrackModel(GObject.Object):
     tlid = GObject.Property(type=int)
     track: TrackModel
 
-    def __init__(
-        self,
-        *,
-        tlid: int,
-        uri: str,
-        name: str,
-        track_no: int,
-        disc_no: int,
-        length: int,
-        artist_name: str,
-        album_name: str,
-    ):
+    def __init__(self, *args, tlid: int, **kwargs):
         super().__init__(tlid=tlid)
 
-        self.track = TrackModel(
-            uri=uri,
-            name=name,
-            track_no=track_no,
-            disc_no=disc_no,
-            length=length,
-            album_name=album_name,
-            artist_name=artist_name,
-        )
+        self.track = TrackModel(**kwargs)
 
 
 class TracklistModel(WithThreadSafePropertySetter, GObject.Object):
@@ -51,28 +32,12 @@ class TracklistModel(WithThreadSafePropertySetter, GObject.Object):
     random = GObject.Property(type=bool, default=False)
     repeat = GObject.Property(type=bool, default=False)
     single = GObject.Property(type=bool, default=False)
-
     version = GObject.Property(type=int, default=-1)
 
     tracks: Gio.ListStore
 
-    def __init__(
-        self,
-        *,
-        consume: bool = False,
-        random: bool = False,
-        repeat: bool = False,
-        single: bool = False,
-        version: int = -1,
-    ):
-        super().__init__(
-            consume=consume,
-            random=random,
-            repeat=repeat,
-            single=single,
-            version=version,
-        )
-
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.tracks = Gio.ListStore.new(TracklistTrackModel)
 
     def set_consume(self, value: bool) -> None:
