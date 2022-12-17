@@ -161,6 +161,7 @@ class AlbumModel(WithThreadSafePropertySetter, GObject.Object):
         if length is not None:
             self.length = length
 
+        self.information = AlbumInformationModel()
         self.tracks = Gio.ListStore.new(TrackModel)
 
         if tracks is not None:

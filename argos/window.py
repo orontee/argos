@@ -120,6 +120,10 @@ class ArgosWindow(Gtk.ApplicationWindow):
         self.show_all()
 
         self.titlebar.props.main_page_state = True
+        information_service_activated = self._settings.get_boolean(
+            "information-service"
+        )
+        album_details_box.information_button.set_visible(information_service_activated)
 
     def _setup_titlebar(self, titlebar: TitleBar) -> None:
         titlebar.central_view_switcher.set_stack(self.central_view)

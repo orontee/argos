@@ -80,9 +80,8 @@ class AlbumDetailsBox(Gtk.Box):
         track_selection_menu.append(_("Add to playlist…"), "win.add-to-playlist")
         self.track_selection_button.set_menu_model(track_selection_menu)
 
-        settings: Gio.Settings = application.props.settings
-        information_service = settings.get_boolean("information-service")
-        self.information_button.set_visible(information_service)
+        self.album_information_label.set_selectable(True)
+        self.artist_information_label.set_selectable(True)
 
         self.set_sensitive(self._model.network_available and self._model.connected)
 
@@ -105,6 +104,7 @@ class AlbumDetailsBox(Gtk.Box):
 
         self.connect("notify::uri", self._on_uri_changed)
 
+        settings: Gio.Settings = application.props.settings
         settings.connect(
             "changed::information-service", self.on_information_service_changed
         )
@@ -259,6 +259,7 @@ class AlbumDetailsBox(Gtk.Box):
             if information and information.album_abstract
             else _MISSING_INFO_MSG_WITH_MARKUP
         )
+
         self.artist_information_label.set_markup(
             information.artist_abstract
             if information and information.artist_abstract

@@ -33,16 +33,20 @@
         </child>
         <child>
           <object class="GtkStack" id="information_stack">
-            <property name="width-request">200</property>
-            <property name="height-request">250</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
+            <property name="vexpand">True</property>
             <property name="vhomogeneous">False</property>
             <property name="transition-type">crossfade</property>
             <child>
               <object class="GtkScrolledWindow" id="album_information_scrolled_window">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
+                <property name="min-content-width">150</property>
+                <property name="min-content-height">150</property>
+                <property name="max-content-width">200</property>
+                <property name="max-content-height">250</property>
+                <property name="propagate-natural-height">True</property>
                 <child>
                   <object class="GtkViewport" id="album_information_viewport">
                     <property name="visible">True</property>
@@ -68,6 +72,9 @@
               <object class="GtkScrolledWindow" id="artist_information_scrolled_window">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
+                <property name="max-content-width">200</property>
+                <property name="max-content-height">250</property>
+                <property name="propagate-natural-height">True</property>
                 <child>
                   <object class="GtkViewport" id="artist_information_viewport">
                     <property name="visible">True</property>
@@ -295,6 +302,7 @@
                 <property name="can-focus">False</property>
                 <property name="halign">end</property>
                 <property name="valign">center</property>
+                <property name="homogeneous">True</property>
                 <property name="layout-style">expand</property>
                 <child>
                   <object class="GtkMenuButton" id="track_selection_button">
@@ -319,7 +327,7 @@
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
-                    <property name="position">0</property>
+                    <property name="position">1</property>
                   </packing>
                 </child>
                 <child>
@@ -357,13 +365,14 @@
             </child>
             <child>
               <object class="GtkMenuButton" id="information_button">
+                <property name="name">album-details-information-button</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="focus-on-click">False</property>
                 <property name="receives-default">True</property>
                 <property name="tooltip-text" translatable="yes">Information on album</property>
                 <property name="halign">end</property>
-                <property name="valign">end</property>
+                <property name="valign">center</property>
                 <property name="popover">information_popover</property>
                 <child>
                   <object class="GtkImage" id="information_image">
@@ -374,9 +383,6 @@
                     <property name="icon-name">dialog-information-symbolic</property>
                   </object>
                 </child>
-                <style>
-                  <class name="circular"/>
-                </style>
               </object>
               <packing>
                 <property name="expand">False</property>

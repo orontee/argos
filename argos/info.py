@@ -25,6 +25,8 @@ _WIKIPEDIA_BASE_URLS: Dict[str, str] = {
 _MUSICBRAINZ_BASE_URL: str = "https://musicbrainz.org/ws/2/"
 _WIKIDATA_BASE_URL: str = "https://www.wikidata.org/"
 
+_SOURCE_MENTION_TEMPLATE = _("Data source: {}")
+
 
 def _get_wikipedia_base_urls(lang_key: str) -> List[str]:
     urls = []
@@ -44,8 +46,6 @@ class WikidataProperty(Enum):
 class InformationService(GObject.Object):
     """Collect information from Wikipedia and other websites."""
 
-    wikipedia_mention = _("Data source: Wikipedia CC BY-SA 3.0")
-
     def __init__(
         self,
         application: "Application",
@@ -56,13 +56,25 @@ class InformationService(GObject.Object):
             application.http_session_manager
         )
 
-        self._mbids_mapping: Dict[str, Tuple[Optional[str], Optional[str]]] = {}
+        source = _SOURCE_MENTION_TEMPLATE.format("Wikipedia CC BY-SA 3.0")
+        self._source_with_markup = f"""<span style="italic">{source}</span>"""
+
+        self._mbids_mapping: Dict[str, Tuple[Optional[str], List[str]]] = {}
         self._album_abstracts: Dict[str, Optional[str]] = {}  # by release group MBID
-        self._artist_abstracts: Dict[str, Optional[str]] = {}  # by artist MBID
+        self._artist_raw_abstracts: Dict[str, Optional[str]] = {}  # by artist MBID
+
+        # `raw' means without source mention since it's added after concatenation...
 
     async def _get_related_mbids(
         self, session: aiohttp.ClientSession, release_mbid: str
-    ) -> Tuple[Optional[str], Optional[str]]:
+    ) -> Tuple[Optional[str], List[str]]:
+        if not release_mbid:
+            return None, []
+
+        if release_mbid in self._mbids_mapping:
+            LOGGER.debug(f"Cache contains release MBID {release_mbid!r}")
+            return self._mbids_mapping[release_mbid]
+
         query_string = "inc=release-groups%20artists"
         url = urllib.parse.urljoin(
             _MUSICBRAINZ_BASE_URL, f"release/{release_mbid}?{query_string}"
@@ -73,10 +85,22 @@ class InformationService(GObject.Object):
 
         group = parsed_resp.get("release-group")
         release_group_mbid = group.get("id") if group is not None else None
+
         artist_credit = parsed_resp.get("artist-credit", [])
-        artist = artist_credit[0].get("artist") if len(artist_credit) != 0 else None
-        artist_mbid = artist.get("id") if artist is not None else None
-        return release_group_mbid, artist_mbid
+        artist_mbids = []
+        for credit in artist_credit:
+            artist = credit.get("artist")
+            if artist is None:
+                continue
+
+            mbid = artist.get("id")
+            if mbid is not None:
+                artist_mbids.append(mbid)
+
+        self._mbids_mapping[release_mbid] = (release_group_mbid, artist_mbids)
+        LOGGER.debug(f"Cache updated for MBID {release_mbid!r}")
+
+        return release_group_mbid, artist_mbids
 
     async def _get_sitelinks_from_wikidata(
         self,
@@ -85,6 +109,9 @@ class InformationService(GObject.Object):
         *,
         criteria: WikidataProperty,
     ) -> Optional[Dict[str, Dict[str, str]]]:
+        if not mbid:
+            return None
+
         query_string = "&".join(
             [
                 "action=query",
@@ -167,6 +194,9 @@ class InformationService(GObject.Object):
         session: aiohttp.ClientSession,
         url: str,
     ) -> Optional[str]:
+        if not url:
+            return None
+
         LOGGER.debug(f"Sending GET {url}")
         async with session.get(url) as resp:
             parsed_resp = await resp.json()
@@ -180,19 +210,25 @@ class InformationService(GObject.Object):
         except StopIteration:
             LOGGER.debug("Unexpected response without pages")
             return None
+
         LOGGER.debug(f"Extracting abstract from Wikipedia page {key!r}")
         raw_abstract = pages[key].get("extract")
         if raw_abstract is None:
             return None
 
-        polished_abstract = GLib.markup_escape_text(raw_abstract.replace("\n", "\n\n"))
-        return f"{polished_abstract}\n\n{self.wikipedia_mention}"
+        polished_abstract = GLib.markup_escape_text(
+            raw_abstract.strip().replace("\n", "\n\n")
+        )
+        return polished_abstract
 
     async def _get_album_abstract(
         self,
         session: aiohttp.ClientSession,
         release_group_mbid: str,
     ) -> Optional[str]:
+        if not release_group_mbid:
+            return None
+
         if release_group_mbid in self._album_abstracts:
             abstract = self._album_abstracts.get(release_group_mbid)
             LOGGER.debug("Release MBID found in cache")
@@ -206,7 +242,8 @@ class InformationService(GObject.Object):
             if sitelinks is not None:
                 url = self._build_preferred_abstract_url(sitelinks)
                 if url is not None:
-                    abstract = await self._get_abstract(session, url)
+                    raw_abstract = await self._get_abstract(session, url)
+                    abstract = f"{raw_abstract}\n\n{self._source_with_markup}"
                 else:
                     LOGGER.debug(
                         f"No sitelink related to release group MBID {release_group_mbid!r}"
@@ -224,31 +261,45 @@ class InformationService(GObject.Object):
     async def _get_artist_abstract(
         self,
         session: aiohttp.ClientSession,
-        artist_mbid: str,
+        artist_mbids: List[str],
     ) -> Optional[str]:
-        abstract = None
-        if artist_mbid in self._artist_abstracts:
-            abstract = self._artist_abstracts.get(artist_mbid)
-            LOGGER.debug("Artist MBID found in cache")
-        else:
-            sitelinks = await self._get_sitelinks_from_wikidata(
-                session,
-                artist_mbid,
-                criteria=WikidataProperty.MusicBrainzArtistID,
-            )
-            if sitelinks is not None:
-                url = self._build_preferred_abstract_url(sitelinks)
-                if url is not None:
-                    abstract = await self._get_abstract(session, url)
-                else:
-                    LOGGER.debug(f"No sitelink related to artist MBID {artist_mbid!r}")
+        raw_abstracts = []
+        for artist_mbid in artist_mbids:
+            if not artist_mbid:
+                continue
+
+            raw_abstract = None
+            if artist_mbid in self._artist_raw_abstracts:
+                raw_abstract = self._artist_raw_abstracts.get(artist_mbid)
+                LOGGER.debug("Artist MBID found in cache")
             else:
-                LOGGER.debug(f"Empty sitelinks for artist MBID {artist_mbid!r}")
+                sitelinks = await self._get_sitelinks_from_wikidata(
+                    session,
+                    artist_mbid,
+                    criteria=WikidataProperty.MusicBrainzArtistID,
+                )
+                if sitelinks is not None:
+                    url = self._build_preferred_abstract_url(sitelinks)
+                    if url is not None:
+                        raw_abstract = await self._get_abstract(session, url)
+                    else:
+                        LOGGER.debug(
+                            f"No sitelink related to artist MBID {artist_mbid!r}"
+                        )
+                else:
+                    LOGGER.debug(f"Empty sitelinks for artist MBID {artist_mbid!r}")
 
-        self._artist_abstracts[artist_mbid] = abstract
-        LOGGER.debug(f"Cache updated for MBID {artist_mbid!r}")
+            if raw_abstract is not None:
+                raw_abstracts.append(raw_abstract)
 
-        return abstract
+            self._artist_raw_abstracts[artist_mbid] = raw_abstract
+            LOGGER.debug(f"Cache updated for MBID {artist_mbid!r}")
+
+        if len(raw_abstracts) == 0:
+            return None
+
+        joined_abstracts = "\n\n".join(raw_abstracts)
+        return f"{joined_abstracts}\n\n{self._source_with_markup}"
 
     async def get_album_information(
         self, release_mbid: str
@@ -256,11 +307,11 @@ class InformationService(GObject.Object):
         """Return short texts for album with given release MBID.
 
         The first text is the abstract of the Wikipedia page dedicated
-        to the album. The second text is the abstract of the Wikipedia
-        page dedicated to the album first credited artist.
+        to the album. The second text concatenates the abstract of
+        Wikipedia pages dedicated to the album credited artists.
 
         Musicbrainz API is used to deduce a Musicbrainz identifier
-        (MBID) for the release group and the first credited artist.
+        (MBID) for the release group and the credited artists.
 
         Wikidata API is used to search for Wikipedia pages associated
         to MBIDs.
@@ -271,29 +322,16 @@ class InformationService(GObject.Object):
         English.
 
         """
-        if release_mbid is None:
+        if not release_mbid:
             return None, None
-
-        if release_mbid in self._mbids_mapping:
-            LOGGER.debug(f"Cache contains release MBID {release_mbid!r}")
-            release_group_mbid, artist_mbid = self._mbids_mapping.get(
-                release_mbid, (None, None)
-            )
-            return (
-                self._album_abstracts.get(release_mbid)
-                if release_mbid is not None
-                else None,
-                self._artist_abstracts.get(artist_mbid)
-                if artist_mbid is not None
-                else None,
-            )
 
         album_abstract, artist_abstract = None, None
         async with self._http_session_manager.get_session() as session:
             try:
-                release_group_mbid, artist_mbid = await self._get_related_mbids(
+                release_group_mbid, artist_mbids = await self._get_related_mbids(
                     session, release_mbid
                 )
+
                 if release_group_mbid is not None:
                     album_abstract = await self._get_album_abstract(
                         session, release_group_mbid
@@ -303,28 +341,17 @@ class InformationService(GObject.Object):
                         f"No release group identified for release MBID {release_mbid!r}"
                     )
 
-                if artist_mbid is not None:
+                if len(artist_mbids) > 0:
                     artist_abstract = await self._get_artist_abstract(
-                        session, artist_mbid
+                        session, artist_mbids
                     )
                 else:
                     LOGGER.debug(
                         f"No artist identified for release MBID {release_mbid!r}"
                     )
-
             except aiohttp.ClientError as err:
                 LOGGER.error(
                     f"Failed to request abstracts for release MBID {release_mbid!r}, {err}"
                 )
-                return None, None
-
-        # Since GObject properties aren't nullable, album controller
-        # can't trivially distinguish between this function not called
-        # or this function returned None. Thus a cache is
-        # introduced. But it duplicates all abstracts: They are in the
-        # model and in this cache...
-
-        self._mbids_mapping[release_mbid] = (release_group_mbid, artist_mbid)
-        LOGGER.debug(f"Cache updated for MBID {release_mbid!r}")
 
         return album_abstract, artist_abstract
