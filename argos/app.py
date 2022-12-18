@@ -63,6 +63,17 @@ class Application(Gtk.Application):
         self.window = None
         self.prefs_window = None
 
+        def _exception_handler(
+            loop: asyncio.AbstractEventLoop,
+            context: Dict[str, Any],
+        ) -> None:
+            LOGGER.error(
+                f"""Unhandled exception in event loop: {context.get("message")}""",
+                exc_info=context.get("exception"),
+            )
+
+        self._loop.set_exception_handler(_exception_handler)
+
         # services
         self._model = Model(self)
         self._ws_event_handler = MopidyWSEventHandler(self)
