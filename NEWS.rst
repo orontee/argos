@@ -16,6 +16,8 @@ Added
 
 Changed
 -------
+- Take user locale into account when comparing strings `#105
+  <https://github.com/orontee/argos/issues/105>`_
 - Display close button in titlebar when window isn't fullscreen `#104
   <https://github.com/orontee/argos/issues/104>`_
 

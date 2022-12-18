@@ -1,3 +1,5 @@
+import locale
+
 from gi.repository import Gio, GObject
 
 from argos.model.track import TrackModel
@@ -15,11 +17,11 @@ def playlist_compare_func(
         return 1
     elif not a.is_virtual and b.is_virtual:
         return -1
-    elif a.name < b.name:
-        return -1
-    elif a.name > b.name:
-        return 1
-    # a.name == b.name
+
+    names_comp = locale.strcoll(a.name, b.name)
+    if names_comp != 0:
+        return names_comp
+
     if a.uri < b.uri:
         return -1
     elif a.uri > b.uri:

@@ -1,3 +1,4 @@
+import locale
 from typing import List, Optional
 
 from gi.repository import Gio, GObject
@@ -12,21 +13,19 @@ def compare_by_album_name_func(
     b: "AlbumModel",
     user_data: None,
 ) -> int:
-    if a.name < b.name:
-        return -1
-    elif a.name > b.name:
-        return 1
-    # a.name == b.name
-    if a.artist_name < b.artist_name:
-        return -1
-    elif a.artist_name > b.artist_name:
-        return 1
-    # a.artist_name == b.artist_name
+    names_comp = locale.strcoll(a.name, b.name)
+    if names_comp != 0:
+        return names_comp
+
+    artist_names_comp = locale.strcoll(a.artist_name, b.artist_name)
+    if artist_names_comp != 0:
+        return artist_names_comp
+
     if a.uri < b.uri:
         return -1
     elif a.uri > b.uri:
         return 1
-    # a.uri == b.uri
+
     return 0
 
 
@@ -35,26 +34,24 @@ def compare_by_artist_name_func(
     b: "AlbumModel",
     user_data: None,
 ) -> int:
-    if a.artist_name < b.artist_name:
-        return -1
-    elif a.artist_name > b.artist_name:
-        return 1
-    # a.artist_name == b.artist_name
+    artist_names_comp = locale.strcoll(a.artist_name, b.artist_name)
+    if artist_names_comp != 0:
+        return artist_names_comp
+
     if a.date < b.date:
         return -1
     elif a.date > b.date:
         return 1
-    # a.date == b.date
-    if a.name < b.name:
-        return -1
-    elif a.name > b.name:
-        return 1
-    # a.name == b.name
+
+    names_comp = locale.strcoll(a.name, b.name)
+    if names_comp != 0:
+        return names_comp
+
     if a.uri < b.uri:
         return -1
     elif a.uri > b.uri:
         return 1
-    # a.uri == b.uri
+
     return 0
 
 
@@ -67,17 +64,16 @@ def compare_by_last_modified_date_reversed_func(
         return -1
     elif a.last_modified < b.last_modified:
         return 1
-    # a.last_modified == b.last_modified
-    if a.name < b.name:
-        return -1
-    elif a.name > b.name:
-        return 1
-    # a.name == b.name
+
+    names_comp = locale.strcoll(a.name, b.name)
+    if names_comp != 0:
+        return names_comp
+
     if a.uri < b.uri:
         return -1
     elif a.uri > b.uri:
         return 1
-    # a.uri == b.uri
+
     return 0
 
 
@@ -90,17 +86,16 @@ def compare_by_publication_date_func(
         return -1
     elif a.date > b.date:
         return 1
-    # a.date == b.date
-    if a.name < b.name:
-        return -1
-    elif a.name > b.name:
-        return 1
-    # a.name == b.name
+
+    names_comp = locale.strcoll(a.name, b.name)
+    if names_comp != 0:
+        return names_comp
+
     if a.uri < b.uri:
         return -1
     elif a.uri > b.uri:
         return 1
-    # a.uri == b.uri
+
     return 0
 
 
