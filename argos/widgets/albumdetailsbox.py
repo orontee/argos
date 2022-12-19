@@ -58,7 +58,9 @@ class AlbumDetailsBox(Gtk.Box):
 
     information_button: Gtk.MenuButton = Gtk.Template.Child()
     album_information_label: Gtk.Popover = Gtk.Template.Child()
+    album_information_viewport: Gtk.Viewport = Gtk.Template.Child()
     artist_information_label: Gtk.Popover = Gtk.Template.Child()
+    artist_information_viewport: Gtk.Viewport = Gtk.Template.Child()
 
     uri = GObject.Property(type=str, default="")
 
@@ -259,12 +261,22 @@ class AlbumDetailsBox(Gtk.Box):
             if information and information.album_abstract
             else _MISSING_INFO_MSG_WITH_MARKUP
         )
+        if self.album_information_viewport.props.hadjustment is not None:
+            self.album_information_viewport.props.hadjustment.set_value(0)
+
+        if self.album_information_viewport.props.vadjustment is not None:
+            self.album_information_viewport.props.vadjustment.set_value(0)
 
         self.artist_information_label.set_markup(
             information.artist_abstract
             if information and information.artist_abstract
             else _MISSING_INFO_MSG_WITH_MARKUP
         )
+        if self.artist_information_viewport.props.hadjustment is not None:
+            self.artist_information_viewport.props.hadjustment.set_value(0)
+
+        if self.artist_information_viewport.props.vadjustment is not None:
+            self.artist_information_viewport.props.vadjustment.set_value(0)
 
     def _create_track_box(self, track: TrackModel, album: AlbumModel) -> Gtk.Widget:
         widget = AlbumTrackBox(self._app, album=album, track=track)

@@ -36,7 +36,6 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="vexpand">True</property>
-            <property name="vhomogeneous">False</property>
             <property name="transition-type">crossfade</property>
             <child>
               <object class="GtkScrolledWindow" id="album_information_scrolled_window">
