@@ -351,7 +351,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         self.playlists.remove_all()
 
         for playlist in playlists:
-            self.playlists.append(playlist)
+            self.playlists.insert_sorted(playlist, playlist_compare_func, None)
 
     def complete_playlist_description(
         self,
