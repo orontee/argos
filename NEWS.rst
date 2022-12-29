@@ -13,6 +13,8 @@ The format is based on `Keep a Changelog
 
 Added
 -----
+- Click on a disc number separator selects the corresponding album
+  tracks `#108 <https://github.com/orontee/argos/issues/108>`_
 - Information service collecting abstracts of album and artist pages
   from Wikipedia `#78 <https://github.com/orontee/argos/issues/78>`_
 

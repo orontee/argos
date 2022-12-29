@@ -1,6 +1,7 @@
 import gettext
 import logging
 import re
+from functools import partial
 from pathlib import Path
 from typing import List, Optional
 
@@ -14,7 +15,7 @@ from argos.widgets.playlistselectiondialog import PlaylistSelectionDialog
 from argos.widgets.utils import (
     default_image_pixbuf,
     scale_album_image,
-    set_list_box_header_with_album_separator,
+    set_list_box_header_with_disc_separator,
 )
 
 _ = gettext.gettext
@@ -71,7 +72,12 @@ class AlbumDetailsBox(Gtk.Box):
         self._model = application.props.model
         self._disable_tooltips = application.props.disable_tooltips
 
-        self.tracks_box.set_header_func(set_list_box_header_with_album_separator)
+        self.tracks_box.set_header_func(
+            partial(
+                set_list_box_header_with_disc_separator,
+                on_disc_separator_clicked=self.on_disc_separator_clicked,
+            )
+        )
         self._clear_tracks_box_selection = False
         # Gtk automatically add first row to selection when a
         # non-empty model is bound to track_box; This flag is used to
@@ -357,6 +363,29 @@ class AlbumDetailsBox(Gtk.Box):
             MessageType.SAVE_PLAYLIST,
             {"uri": playlist_uri, "add_track_uris": track_uris},
         )
+
+    def on_disc_separator_clicked(
+        self,
+        label: Gtk.Button,
+        user_data: GLib.Variant,
+    ) -> None:
+        disc_no = user_data.get_int32()
+        LOGGER.debug(f"Selecting tracks for disc number {disc_no}")
+
+        for row in self.tracks_box.get_children():
+            track_box = row.get_child()
+            if track_box is None:
+                LOGGER.debug("Failed to find track box!")
+                continue
+
+            if track_box.props.disc_no == disc_no:
+                if self._clear_tracks_box_selection:
+                    self._clear_tracks_box_selection = False
+                    # Disable hack to fix unwanted automatic selection
+                    # otherwise first track of first disc is
+                    # automatically unselected!!
+
+                self.tracks_box.select_row(row)
 
     @Gtk.Template.Callback()
     def on_tracks_box_selected_rows_changed(

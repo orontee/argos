@@ -3,7 +3,7 @@ import gettext
 import logging
 from functools import lru_cache
 from pathlib import Path
-from typing import Optional
+from typing import Callable, Optional
 
 from gi.repository import GdkPixbuf, GLib, Gtk
 from gi.repository.GdkPixbuf import Pixbuf
@@ -63,9 +63,10 @@ def set_list_box_header_with_separator(
     row.set_header(separator)
 
 
-def set_list_box_header_with_album_separator(
+def set_list_box_header_with_disc_separator(
     row: Gtk.ListBoxRow,
     before: Gtk.ListBoxRow,
+    on_disc_separator_clicked: Callable[[Gtk.Button, GLib.Variant], None] = None,
 ) -> None:
     current_header = row.get_header()
     if current_header:
@@ -79,11 +80,20 @@ def set_list_box_header_with_album_separator(
     if num_discs > 1 and track_no == 1:
         pretty_disc_no = _("Disc {0}").format(disc_no)
         markup = f"""<span style="italic">{pretty_disc_no}</span>"""
-        label = Gtk.Label()
+
+        button = Gtk.Button.new_with_label("")
+        button.props.relief = Gtk.ReliefStyle.NONE
+        if on_disc_separator_clicked is not None:
+            button.connect(
+                "clicked", on_disc_separator_clicked, GLib.Variant("i", disc_no)
+            )
+
+        label = button.get_child()
         label.set_use_markup(True)
         label.set_markup(markup)
-        label.show()
-        row.set_header(label)
+
+        button.show()
+        row.set_header(button)
         return
 
     separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
