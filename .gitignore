@@ -1,7 +1,8 @@
 # Editors files
 *~
-.dir-locals.el
-TAGS
+/.dir-locals.el
+/TAGS
+/docs/cleaned_image/
 
 # Build files
 *.pyc
