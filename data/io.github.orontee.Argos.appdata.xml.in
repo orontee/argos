@@ -28,6 +28,13 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="1.7.0" date="2022-12-31">
+      <description>
+        <p>
+          Open its eyes to the outside world!
+        </p>
+      </description>
+    </release>
     <release version="1.6.0" date="2022-12-12">
       <description>
         <p>
