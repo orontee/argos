@@ -2,7 +2,7 @@
     "name": "poetry-deps",
     "buildsystem": "simple",
     "build-commands": [
-        "pip3 install --no-build-isolation --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} aiohttp aiosignal async-timeout attrs charset-normalizer frozenlist idna multidict pycairo pygobject pyxdg yarl"
+        "pip3 install --no-build-isolation --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} aiohttp url_normalize aiohttp-client-cache aiosignal aiosqlite async-timeout attrs charset-normalizer frozenlist idna multidict pycairo pygobject pyxdg yarl"
     ],
     "sources": [
         {
@@ -64,6 +64,31 @@
             "type": "file",
             "url": "https://files.pythonhosted.org/packages/6f/2e/2251b5ae2f003d865beef79c8fcd517e907ed6a69f58c32403cec3eba9b2/pyxdg-0.27.tar.gz",
             "sha256": "80bd93aae5ed82435f20462ea0208fb198d8eec262e831ee06ce9ddb6b91c5a5"
+        },
+        {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/a4/3b/ebe2a3f1ab914f8a68fdbf3c914f1089d0fde3e85b7c73d2060ac942fc50/aiohttp_client_cache-0.8.0-py3-none-any.whl",
+            "sha256": "eea36e98e2fa8753ecf1fdbe79f0ef9f0e1fc270a610dabcf339b34db1f4befc"
+        },
+        {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/65/1c/6c6f408be78692fc850006a2b6dea37c2b8592892534e09996e401efc74b/url_normalize-1.4.3-py2.py3-none-any.whl",
+            "sha256": "ec3c301f04e5bb676d333a7fa162fa977ad2ca04b7e652bfc9fac4e405728eed"
+        },
+        {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/41/d6/e9af8e22d153ebbf584833c1c96d590046f522ae2a86978d4efe496b4aac/python_forge-18.6.0-py35-none-any.whl",
+            "sha256": "bf91f9a42150d569c2e9a0d90ab60a8cbed378bdf185e5120532a3481067395c"
+        },
+        {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/68/5f/447e04e828f47465eeab35b5d408b7ebaaaee207f48b7136c5a7267a30ae/itsdangerous-2.1.2-py3-none-any.whl",
+            "sha256": "2c2349112351b88699d8d4b6b075022c0808887cb7ad10069318a8b0bc88db44"
+        },
+        {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/28/b0/2c2766e12cc7ec623294d12f1e544ea50f17403d723a03c671f6c5eadac9/aiosqlite-0.18.0-py3-none-any.whl",
+            "sha256": "c3511b841e3a2c5614900ba1d179f366826857586f78abd75e7cbeb88e75a557"
         }
     ]
 }

@@ -13,6 +13,9 @@ The format is based on `Keep a Changelog
 
 Added
 -----
+- HTTP session can use a SQLite cache when library
+  `aiohttp_client_cache` is installed `#111
+  <https://github.com/orontee/argos/issues/111>`_
 - Generic library browser supporting Mopidy-File `#110
   <https://github.com/orontee/argos/issues/110>`_
 - Support for Mopidy-SomaFM `#107

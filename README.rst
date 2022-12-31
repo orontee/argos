@@ -101,6 +101,11 @@ can be downloaded from the `Releases page
   $ wget https://github.com/orontee/argos/releases/download/v${VERSION}/argos_${VERSION}-1_all.deb
   $ sudo dpkg -i argos_${VERSION}-1_all.deb
 
+It is recommended to install the library `aiohttp-client-cache
+<https://aiohttp-client-cache.readthedocs.io/en/latest/index.html>`_
+to use a persistent HTTP cache (note that this library isn't available
+as DEB package at present time).
+
 Configuration
 =============
 
