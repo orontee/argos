@@ -62,6 +62,10 @@ Features 🥳
 Consult the `NEWS file </NEWS.rst>`_ for notable changes between
 versions.
 
+Note that, at present time, the library is not populated with
+resources exposed through Mopidy-File extension, the default extension
+installed with Mopidy to expose local resources.
+
 Install
 =======
 
