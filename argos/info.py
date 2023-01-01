@@ -59,21 +59,11 @@ class InformationService(GObject.Object):
         source = _SOURCE_MENTION_TEMPLATE.format("Wikipedia CC BY-SA 3.0")
         self._source_with_markup = f"""<span style="italic">{source}</span>"""
 
-        self._mbids_mapping: Dict[str, Tuple[Optional[str], List[str]]] = {}
-        self._album_abstracts: Dict[str, Optional[str]] = {}  # by release group MBID
-        self._artist_raw_abstracts: Dict[str, Optional[str]] = {}  # by artist MBID
-
-        # `raw' means without source mention since it's added after concatenation...
-
     async def _get_related_mbids(
         self, session: aiohttp.ClientSession, release_mbid: str
     ) -> Tuple[Optional[str], List[str]]:
         if not release_mbid:
             return None, []
-
-        if release_mbid in self._mbids_mapping:
-            LOGGER.debug(f"Cache contains release MBID {release_mbid!r}")
-            return self._mbids_mapping[release_mbid]
 
         query_string = "inc=release-groups%20artists"
         url = urllib.parse.urljoin(
@@ -96,9 +86,6 @@ class InformationService(GObject.Object):
             mbid = artist.get("id")
             if mbid is not None:
                 artist_mbids.append(mbid)
-
-        self._mbids_mapping[release_mbid] = (release_group_mbid, artist_mbids)
-        LOGGER.debug(f"Cache updated for MBID {release_mbid!r}")
 
         return release_group_mbid, artist_mbids
 
@@ -229,32 +216,25 @@ class InformationService(GObject.Object):
         if not release_group_mbid:
             return None
 
-        if release_group_mbid in self._album_abstracts:
-            abstract = self._album_abstracts.get(release_group_mbid)
-            LOGGER.debug("Release MBID found in cache")
-        else:
-            sitelinks = await self._get_sitelinks_from_wikidata(
-                session,
-                release_group_mbid,
-                criteria=WikidataProperty.MusicBrainzReleaseGroupID,
-            )
-            abstract = None
-            if sitelinks is not None:
-                url = self._build_preferred_abstract_url(sitelinks)
-                if url is not None:
-                    raw_abstract = await self._get_abstract(session, url)
-                    abstract = f"{raw_abstract}\n\n{self._source_with_markup}"
-                else:
-                    LOGGER.debug(
-                        f"No sitelink related to release group MBID {release_group_mbid!r}"
-                    )
+        sitelinks = await self._get_sitelinks_from_wikidata(
+            session,
+            release_group_mbid,
+            criteria=WikidataProperty.MusicBrainzReleaseGroupID,
+        )
+        abstract = None
+        if sitelinks is not None:
+            url = self._build_preferred_abstract_url(sitelinks)
+            if url is not None:
+                raw_abstract = await self._get_abstract(session, url)
+                abstract = f"{raw_abstract}\n\n{self._source_with_markup}"
             else:
                 LOGGER.debug(
-                    f"Empty sitelinks for release group MBID {release_group_mbid!r}"
+                    f"No sitelink related to release group MBID {release_group_mbid!r}"
                 )
-
-        self._album_abstracts[release_group_mbid] = abstract
-        LOGGER.debug(f"Cache updated for MBID {release_group_mbid!r}")
+        else:
+            LOGGER.debug(
+                f"Empty sitelinks for release group MBID {release_group_mbid!r}"
+            )
 
         return abstract
 
@@ -269,31 +249,22 @@ class InformationService(GObject.Object):
                 continue
 
             raw_abstract = None
-            if artist_mbid in self._artist_raw_abstracts:
-                raw_abstract = self._artist_raw_abstracts.get(artist_mbid)
-                LOGGER.debug("Artist MBID found in cache")
-            else:
-                sitelinks = await self._get_sitelinks_from_wikidata(
-                    session,
-                    artist_mbid,
-                    criteria=WikidataProperty.MusicBrainzArtistID,
-                )
-                if sitelinks is not None:
-                    url = self._build_preferred_abstract_url(sitelinks)
-                    if url is not None:
-                        raw_abstract = await self._get_abstract(session, url)
-                    else:
-                        LOGGER.debug(
-                            f"No sitelink related to artist MBID {artist_mbid!r}"
-                        )
+            sitelinks = await self._get_sitelinks_from_wikidata(
+                session,
+                artist_mbid,
+                criteria=WikidataProperty.MusicBrainzArtistID,
+            )
+            if sitelinks is not None:
+                url = self._build_preferred_abstract_url(sitelinks)
+                if url is not None:
+                    raw_abstract = await self._get_abstract(session, url)
                 else:
-                    LOGGER.debug(f"Empty sitelinks for artist MBID {artist_mbid!r}")
+                    LOGGER.debug(f"No sitelink related to artist MBID {artist_mbid!r}")
+            else:
+                LOGGER.debug(f"Empty sitelinks for artist MBID {artist_mbid!r}")
 
             if raw_abstract is not None:
                 raw_abstracts.append(raw_abstract)
-
-            self._artist_raw_abstracts[artist_mbid] = raw_abstract
-            LOGGER.debug(f"Cache updated for MBID {artist_mbid!r}")
 
         if len(raw_abstracts) == 0:
             return None
