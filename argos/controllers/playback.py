@@ -140,7 +140,7 @@ class PlaybackController(ControllerBase):
         if images:
             track_images = images.get(track_uri)
             if track_images and len(track_images) > 0:
-                image_uri = track_images[0]["uri"]
+                image_uri = track_images[0].uri
                 image_path = await self._download.fetch_image(image_uri)
 
         if self._model.get_current_tl_track_uri() != track_uri:

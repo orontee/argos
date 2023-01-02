@@ -12,6 +12,7 @@ if TYPE_CHECKING:
 
 from argos.controllers.base import ControllerBase
 from argos.controllers.utils import call_by_slice, parse_tracks
+from argos.dto import PlaylistDTO
 from argos.message import Message, MessageType, consume
 from argos.model import PlaylistModel, TrackModel
 
@@ -65,12 +66,12 @@ class PlaylistsController(ControllerBase):
 
     @consume(MessageType.PLAYLIST_CHANGED)
     async def update_model_playlist(self, message: Message) -> None:
-        playlist = message.data.get("playlist")
-        if playlist is None:
+        playlist_dto = PlaylistDTO.factory(message.data.get("playlist"))
+        if playlist_dto is None:
             return
 
         # in case it's the selected playlist
-        await self._complete_playlist_from_mopidy_model(playlist)
+        await self._complete_playlist_from(playlist_dto)
 
     @consume(MessageType.PLAYLIST_DELETED)
     async def remove_playlist_from_model(self, message: Message) -> None:
@@ -86,28 +87,25 @@ class PlaylistsController(ControllerBase):
     )
     async def list_playlists(self, message: Message) -> None:
         LOGGER.debug("Listing playlists")
-        playlists = await self._http.list_playlists()
+        refs = await self._http.list_playlists()
 
-        parsed_playlists = []
-        if playlists is not None:
-            for playlist in playlists:
-                assert "__model__" in playlist and playlist["__model__"] == "Ref"
-                assert "type" in playlist and playlist["type"] == "playlist"
+        if refs is None:
+            LOGGER.debug("No playlist found")
+        else:
+            LOGGER.debug(f"Number of playlist found: {len(refs)}")
 
-                name = playlist.get("name")
-                uri = playlist.get("uri")
-                if not name or not uri:
-                    continue
+        playlists: List[PlaylistModel] = (
+            [PlaylistModel(uri=ref.uri, name=ref.name) for ref in refs]
+            if refs is not None
+            else []
+        )
 
-                parsed_playlists.append(PlaylistModel(uri=uri, name=name))
-
-        extended_playlists = [playlist for playlist in parsed_playlists]
         if self._recent_additions_playlist:
-            extended_playlists.append(self._recent_additions_playlist)
+            playlists.append(self._recent_additions_playlist)
         if self._history_playlist:
-            extended_playlists.append(self._history_playlist)
+            playlists.append(self._history_playlist)
 
-        self._model.update_playlists(extended_playlists)
+        self._model.update_playlists(playlists)
 
     @consume(MessageType.CREATE_PLAYLIST)
     async def create_playlist(self, message: Message) -> None:
@@ -116,13 +114,11 @@ class PlaylistsController(ControllerBase):
 
         LOGGER.debug(f"Creation of a playlist with name {name!r}")
 
-        playlist = await self._http.create_playlist(name, uri_scheme=uri_scheme)
-        if playlist is None:
+        playlist_dto = await self._http.create_playlist(name, uri_scheme=uri_scheme)
+        if playlist_dto is None:
             return
 
-        assert "__model__" in playlist and playlist["__model__"] == "Playlist"
-        playlist_uri = playlist.get("uri", "")
-        LOGGER.debug(f"Playlist with URI {playlist_uri!r} created")
+        LOGGER.debug(f"Playlist with URI {playlist_dto.uri!r} created")
 
     @consume(MessageType.SAVE_PLAYLIST)
     async def save_playlist(self, message: Message) -> None:
@@ -130,13 +126,13 @@ class PlaylistsController(ControllerBase):
         playlist_uri = message.data.get("uri", "")
         add_track_uris = message.data.get("add_track_uris", [])
         remove_track_uris = message.data.get("remove_track_uris", [])
-        result = await self._save_playlist(
+        playlist_dto = await self._save_playlist(
             playlist_uri,
             name=name,
             add_track_uris=add_track_uris,
             remove_track_uris=remove_track_uris,
         )
-        if result and result.get("uri") != playlist_uri:
+        if playlist_dto is not None and playlist_dto.uri != playlist_uri:
             # happens when name is changed
             self._model.delete_playlist(playlist_uri)
 
@@ -152,7 +148,7 @@ class PlaylistsController(ControllerBase):
         name: Optional[str] = None,
         add_track_uris: Optional[List[str]] = None,
         remove_track_uris: Optional[List[str]] = None,
-    ) -> Optional[Dict[str, Any]]:
+    ) -> Optional[PlaylistDTO]:
         playlist = self._model.get_playlist(playlist_uri)
         if playlist is None:
             return None
@@ -177,8 +173,8 @@ class PlaylistsController(ControllerBase):
             "tracks": updated_tracks,
         }
         LOGGER.debug(f"Saving playlist with URI {playlist_uri!r}")
-        result = await self._http.save_playlist(updated_playlist)
-        return result
+        playlist_dto = await self._http.save_playlist(updated_playlist)
+        return playlist_dto
 
     @consume(MessageType.COMPLETE_PLAYLIST_DESCRIPTION)
     async def complete_playlist(self, message: Message) -> None:
@@ -200,42 +196,33 @@ class PlaylistsController(ControllerBase):
         else:
             playlist = self._model.get_playlist(playlist_uri)
             if playlist:
-                result = await self._http.lookup_playlist(playlist_uri)
-                if result is not None:
-                    await self._complete_playlist_from_mopidy_model(result)
+                playlist_dto = await self._http.lookup_playlist(playlist_uri)
+                if playlist_dto is not None:
+                    await self._complete_playlist_from(playlist_dto)
             else:
                 LOGGER.warning(
                     f"Won't complete unkwnown playlist with URI {playlist_uri!r}"
                 )
 
-    async def _complete_playlist_from_mopidy_model(
-        self,
-        model: Dict[str, Any],
-    ) -> None:
-        assert "__model__" in model and model["__model__"] == "Playlist"
-        playlist_uri = model.get("uri", "")
-        playlist_name = model.get("name", "")
-        playlist_tracks = model.get("tracks", [])
-        last_modified = model.get("last_modified", -1)
-
-        track_uris = [cast(str, t.get("uri")) for t in playlist_tracks if "uri" in t]
+    async def _complete_playlist_from(self, playlist_dto: PlaylistDTO) -> None:
+        track_uris = [t.uri for t in playlist_dto.tracks]
         if len(track_uris) > 0:
-            LOGGER.debug(f"Fetching tracks of playlist with URI {playlist_uri!r}")
-            found_tracks = await call_by_slice(
+            LOGGER.debug(f"Fetching tracks of playlist with URI {playlist_dto.uri!r}")
+            found_tracks_dto = await call_by_slice(
                 self._http.lookup_library,
                 params=track_uris,
             )
             parsed_tracks: List[TrackModel] = []
-            for tracks in parse_tracks(found_tracks).values():
+            for tracks in parse_tracks(found_tracks_dto).values():
                 parsed_tracks += tracks
         else:
             parsed_tracks = []
 
         self._model.complete_playlist_description(
-            playlist_uri,
-            name=playlist_name,
+            playlist_dto.uri,
+            name=playlist_dto.name,
             tracks=parsed_tracks,
-            last_modified=last_modified,
+            last_modified=playlist_dto.last_modified,
         )
 
     async def _complete_recent_additions_playlist(self) -> None:
@@ -249,23 +236,21 @@ class PlaylistsController(ControllerBase):
         if recent_refs is None:
             return
 
-        recent_refs_uris = [ref.get("uri") for ref in recent_refs if "uri" in ref]
+        recent_refs_uris = [ref.uri for ref in recent_refs]
         recent_track_refs_uris = []
         for uri in recent_refs_uris:
             track_refs = await self._http.browse_library(uri)
             if track_refs is None:
                 continue
-            recent_track_refs_uris += [
-                cast(str, ref.get("uri")) for ref in track_refs if "uri" in ref
-            ]
+            recent_track_refs_uris += [ref.uri for ref in track_refs]
 
-        recent_tracks = await call_by_slice(
+        recent_tracks_dto = await call_by_slice(
             self._http.lookup_library,
             params=recent_track_refs_uris,
         )
 
         parsed_recent_tracks: List[TrackModel] = []
-        for tracks in parse_tracks(recent_tracks).values():
+        for tracks in parse_tracks(recent_tracks_dto).values():
             parsed_recent_tracks += tracks
 
         parsed_recent_tracks.sort(
@@ -312,7 +297,7 @@ class PlaylistsController(ControllerBase):
             for history_item in history[:history_max_length]
             if len(history_item) == 2
         ]
-        history_refs_uris = [ref.get("uri") for ref in history_refs if "uri" in ref]
+        history_refs_uris = [ref.uri for ref in history_refs]
         unique_history_refs_uris = list(set(history_refs_uris))
         LOGGER.debug(
             f"{len(history_refs_uris)} URIs extracted from {len(history)} tracks "
@@ -320,27 +305,22 @@ class PlaylistsController(ControllerBase):
             f"{len(history_refs_uris) - len(unique_history_refs_uris)} duplicates)"
         )
 
-        history_tracks = await call_by_slice(
+        history_tracks_dto = await call_by_slice(
             self._http.lookup_library,
             params=unique_history_refs_uris,
         )
 
         parsed_history_tracks_with_duplicates: List[TrackModel] = []
         parsed_history_tracks: Dict[str, List[TrackModel]] = parse_tracks(
-            history_tracks
+            history_tracks_dto
         )
         for history_item in history:
-            if len(history_item) != 2:
-                continue
-
             if len(parsed_history_tracks_with_duplicates) >= history_max_length:
                 break
 
             timestamp = history_item[0]
             ref = history_item[1]
-
-            uri = ref.get("uri")
-            tracks = parsed_history_tracks.get(uri, [])
+            tracks = parsed_history_tracks.get(ref.uri, [])
             for track in tracks:
                 extended_track = TrackModel(
                     uri=track.uri,

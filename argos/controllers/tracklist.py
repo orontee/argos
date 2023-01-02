@@ -7,6 +7,7 @@ if TYPE_CHECKING:
 
 from argos.controllers.base import ControllerBase
 from argos.message import Message, MessageType, consume
+from argos.model import TracklistTrackModel
 
 LOGGER = logging.getLogger(__name__)
 
@@ -49,17 +50,16 @@ class TracklistController(ControllerBase):
     @consume(MessageType.ADD_TO_TRACKLIST)
     async def add_to_tracklist(self, message: Message) -> None:
         uris = cast(List[str], message.data.get("uris"))
-        tl_tracks = await self._http.add_to_tracklist(uris=uris)
+        tl_tracks_dto = await self._http.add_to_tracklist(uris=uris)
 
-        if tl_tracks is None:
+        if tl_tracks_dto is None:
             return
 
         self._notifier.send_notification(_("Tracklist updated"))
 
         play = message.data.get("play", False)
-        if play and len(tl_tracks) > 0:
-            tlid = tl_tracks[0].get("tlid")
-            await self._http.play(tlid)
+        if play and len(tl_tracks_dto) > 0:
+            await self._http.play(tl_tracks_dto[0].tlid)
 
     @consume(MessageType.REMOVE_FROM_TRACKLIST)
     async def remove_from_tracklist(self, message: Message) -> None:
@@ -77,13 +77,23 @@ class TracklistController(ControllerBase):
     async def get_tracklist(self, message: Message) -> None:
         version = await self._http.get_tracklist_version()
         LOGGER.debug(f"Current tracklist version is {version}")
-        tracks = await self._http.get_tracklist_tracks()
-        self._model.update_tracklist(version, tracks)
+        tl_tracks_dto = await self._http.get_tracklist_tracks()
+
+        tl_tracks = (
+            [
+                TracklistTrackModel.factory(tl_track_dto)
+                for tl_track_dto in tl_tracks_dto
+            ]
+            if tl_tracks_dto is not None
+            else []
+        )
+
+        self._model.update_tracklist(version, tl_tracks)
 
     @consume(MessageType.GET_CURRENT_TRACKLIST_TRACK)
     async def get_current_tracklist_track(self, message: Message) -> None:
         tl_track = await self._http.get_current_tl_track()
-        tlid = tl_track.get("tlid") if tl_track else None
+        tlid = tl_track.tlid if tl_track else None
         self._model.playback.set_current_tl_track_tlid(tlid)
 
     @consume(MessageType.SET_CONSUME)

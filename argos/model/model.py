@@ -3,7 +3,17 @@ import random
 import threading
 from datetime import datetime
 from functools import partial
-from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Tuple, cast
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Callable,
+    Dict,
+    List,
+    Optional,
+    Sequence,
+    Tuple,
+    cast,
+)
 
 from gi.repository import Gio, GLib, GObject
 
@@ -287,16 +297,20 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         GLib.idle_add(_collect_albums, event, table)
         return table if event.wait(timeout=1.0) else None
 
-    def update_tracklist(self, version: Optional[int], tracks: Any) -> None:
+    def update_tracklist(
+        self, version: Optional[int], tl_tracks: Sequence[TracklistTrackModel]
+    ) -> None:
         GLib.idle_add(
             partial(
                 self._update_tracklist,
                 version,
-                tracks,
+                tl_tracks,
             )
         )
 
-    def _update_tracklist(self, version: Optional[int], tracks: Any) -> None:
+    def _update_tracklist(
+        self, version: Optional[int], tl_tracks: Sequence[TracklistTrackModel]
+    ) -> None:
         if version is None:
             version = -1
 
@@ -309,32 +323,8 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
 
         self.tracklist.tracks.remove_all()
 
-        for tl_track in tracks:
-            tlid = cast(int, tl_track.get("tlid"))
-            track = cast(Dict[str, Any], tl_track.get("track", {}))
-            uri = cast(str, track.get("uri"))
-            if not all([tlid, track, uri]):
-                continue
-
-            album = cast(Dict[str, Any], track.get("album", {}))
-            artists = cast(
-                List[Dict[str, Any]],
-                track.get("artists", []) or album.get("artists", []),
-            )
-            artist = artists[0] if len(artists) > 0 else {}
-
-            self.tracklist.tracks.append(
-                TracklistTrackModel(
-                    tlid=tlid,
-                    uri=uri,
-                    name=cast(str, track.get("name")),
-                    track_no=cast(int, track.get("track_no", -1)),
-                    disc_no=cast(int, track.get("disc_no", 1)),
-                    length=cast(int, track.get("length", -1)),
-                    artist_name=artist.get("name", ""),
-                    album_name=album.get("name", ""),
-                )
-            )
+        for tl_track in tl_tracks:
+            self.tracklist.tracks.append(tl_track)
 
         LOGGER.debug(f"Tracklist with version {version} loaded")
         self.props.tracklist_loaded = True

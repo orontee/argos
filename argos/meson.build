@@ -33,6 +33,7 @@ configure_file(
 argos_sources = [
   'app.py',
   'download.py',
+  'dto.py',
   'http.py',
   '__init__.py',
   'info.py',

@@ -5,13 +5,24 @@ Fully implemented using Mopidy websocket.
 """
 
 import logging
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, cast
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Dict,
+    List,
+    Mapping,
+    Optional,
+    Sequence,
+    Tuple,
+    cast,
+)
 
 from gi.repository import GObject
 
 if TYPE_CHECKING:
     from argos.app import Application
 
+from argos.dto import ImageDTO, PlaylistDTO, RefDTO, TlTrackDTO, TrackDTO, cast_seq_of
 from argos.model import PlaybackState
 from argos.ws import MopidyWSConnection
 
@@ -60,35 +71,48 @@ class MopidyHTTPClient(GObject.GObject):
         position = await self._ws.send_command("core.playback.get_time_position")
         return int(position) if position is not None else None
 
-    async def get_current_tl_track(self) -> Optional[Dict[str, Any]]:
-        track = await self._ws.send_command("core.playback.get_current_tl_track")
-        return track
+    async def get_current_tl_track(self) -> Optional[TlTrackDTO]:
+        data = await self._ws.send_command("core.playback.get_current_tl_track")
+        return TlTrackDTO.factory(data)
 
     # Mopidy's API of core.library controller
 
-    async def browse_library(self, uri: str = None) -> Optional[List[Dict[str, Any]]]:
-        directories_and_tracks = cast(
-            Optional[List[Dict[str, Any]]],
-            await self._ws.send_command(
-                "core.library.browse", params={"uri": uri}, timeout=60
-            ),
+    async def browse_library(self, uri: str = None) -> Optional[List[RefDTO]]:
+        data = await self._ws.send_command(
+            "core.library.browse", params={"uri": uri}, timeout=60
         )
-        return directories_and_tracks
+        if data is None:
+            return None
+
+        refs = cast_seq_of(RefDTO, data)
+        return refs
 
     async def lookup_library(
-        self, uris: List[str]
-    ) -> Optional[Dict[str, List[Dict[str, Any]]]]:
-        tracks = cast(
-            Optional[Dict[str, List[Dict[str, Any]]]],
-            await self._ws.send_command(
-                "core.library.lookup", params={"uris": uris}, timeout=60
-            ),
+        self, uris: Sequence[str]
+    ) -> Optional[Dict[str, List[TrackDTO]]]:
+        params = {"uris": uris}
+        data = await self._ws.send_command(
+            "core.library.lookup", params=params, timeout=60
         )
+        if data is None:
+            return None
+
+        tracks: Dict[str, List[TrackDTO]] = {}
+        for uri in data:
+            tracks[uri] = cast_seq_of(TrackDTO, data.get(uri, []))
         return tracks
 
-    async def get_images(self, uris: List[str]) -> Optional[Dict[str, List[Any]]]:
+    async def get_images(
+        self, uris: Sequence[str]
+    ) -> Optional[Dict[str, List[ImageDTO]]]:
         params = {"uris": uris}
-        images = await self._ws.send_command("core.library.get_images", params=params)
+        data = await self._ws.send_command("core.library.get_images", params=params)
+        if data is None:
+            return None
+
+        images: Dict[str, List[ImageDTO]] = {}
+        for uri in data:
+            images[uri] = cast_seq_of(ImageDTO, data.get(uri, []))
         return images
 
     # Mopidy's API of core.tracklist controller
@@ -97,7 +121,7 @@ class MopidyHTTPClient(GObject.GObject):
         eot_tlid = await self._ws.send_command("core.tracklist.get_eot_tlid")
         return int(eot_tlid) if eot_tlid is not None else None
 
-    async def add_to_tracklist(self, uris: List[str]) -> Optional[List[Dict[str, Any]]]:
+    async def add_to_tracklist(self, uris: Sequence[str]) -> Optional[List[TlTrackDTO]]:
         """Add tracks to the tracklist.
 
         Args:
@@ -107,10 +131,14 @@ class MopidyHTTPClient(GObject.GObject):
             Optional list of tracklist tracks.
 
         """
-        resp = await self._ws.send_command("core.tracklist.add", params={"uris": uris})
-        return resp
+        data = await self._ws.send_command("core.tracklist.add", params={"uris": uris})
+        if data is None:
+            return None
 
-    async def remove_from_tracklist(self, tlids: List[int]) -> None:
+        tl_tracks = cast_seq_of(TlTrackDTO, data)
+        return tl_tracks
+
+    async def remove_from_tracklist(self, tlids: Sequence[int]) -> None:
         """Remove tracks from the tracklist.
 
         Args:
@@ -125,9 +153,14 @@ class MopidyHTTPClient(GObject.GObject):
         """Clear the tracklist."""
         await self._ws.send_command("core.tracklist.clear")
 
-    async def get_tracklist_tracks(self) -> Optional[Any]:
+    async def get_tracklist_tracks(self) -> Optional[List[TlTrackDTO]]:
         """Get the tracklist tracks."""
-        return await self._ws.send_command("core.tracklist.get_tl_tracks")
+        data = await self._ws.send_command("core.tracklist.get_tl_tracks")
+        if data is None:
+            return None
+
+        tl_tracks = cast_seq_of(TlTrackDTO, data)
+        return tl_tracks
 
     async def get_tracklist_version(self) -> Optional[int]:
         """Get the version of the tracklist."""
@@ -165,7 +198,7 @@ class MopidyHTTPClient(GObject.GObject):
         params = {"value": single}
         await self._ws.send_command("core.tracklist.set_single", params=params)
 
-    async def play_tracks(self, uris: Optional[List[str]] = None) -> None:
+    async def play_tracks(self, uris: Optional[Sequence[str]] = None) -> None:
         """Play tracks with given URIs.
 
         Args:
@@ -204,41 +237,53 @@ class MopidyHTTPClient(GObject.GObject):
     async def get_playlists_uri_schemes(self) -> Optional[List[str]]:
         return await self._ws.send_command("core.playlists.get_uri_schemes")
 
-    async def list_playlists(self) -> Optional[List[Dict[str, Any]]]:
-        list = await self._ws.send_command("core.playlists.as_list")
-        return list
+    async def list_playlists(self) -> Optional[List[RefDTO]]:
+        data = await self._ws.send_command("core.playlists.as_list")
+        if data is None:
+            return None
 
-    async def lookup_playlist(self, uri: str) -> Optional[Dict[str, Any]]:
-        playlist = cast(
-            Optional[Dict[str, Any]],
-            await self._ws.send_command("core.playlists.lookup", params={"uri": uri}),
-        )
-        return playlist
+        refs = cast_seq_of(RefDTO, data)
+        return refs
+
+    async def lookup_playlist(self, uri: str) -> Optional[PlaylistDTO]:
+        data = await self._ws.send_command("core.playlists.lookup", params={"uri": uri})
+        return PlaylistDTO.factory(data)
 
     async def create_playlist(
         self, name: str, *, uri_scheme: Optional[str] = None
-    ) -> Optional[Dict[str, Any]]:
+    ) -> Optional[PlaylistDTO]:
         params = {"name": name}
         if uri_scheme is not None:
             params["uri_scheme"] = uri_scheme
 
-        playlist = await self._ws.send_command("core.playlists.create", params=params)
-        return playlist
+        data = await self._ws.send_command("core.playlists.create", params=params)
+        return PlaylistDTO.factory(data)
 
-    async def save_playlist(self, playlist: Dict[str, Any]) -> Optional[Dict[str, Any]]:
-        result = cast(
-            Optional[Dict[str, Any]],
-            await self._ws.send_command(
-                "core.playlists.save", params={"playlist": playlist}
-            ),
+    async def save_playlist(self, playlist: Mapping[str, Any]) -> Optional[PlaylistDTO]:
+        data = await self._ws.send_command(
+            "core.playlists.save", params={"playlist": playlist}
         )
-        return result
+        return PlaylistDTO.factory(data)
 
     async def delete_playlist(self, uri: str) -> Optional[bool]:
         return await self._ws.send_command("core.playlists.delete", params={"uri": uri})
 
     # Mopidy's API of core.history controller
 
-    async def get_history(self) -> Optional[List[Any]]:
-        history = await self._ws.send_command("core.history.get_history", timeout=60)
+    async def get_history(self) -> Optional[List[Tuple[int, RefDTO]]]:
+        data = await self._ws.send_command("core.history.get_history", timeout=60)
+        if data is None:
+            return None
+
+        history: List[Tuple[int, RefDTO]] = []
+        try:
+            for d in data:
+                ref = RefDTO.factory(d[1])
+                if ref is None:
+                    return None
+
+                history.append((int(d[0]), ref))
+        except IndexError:
+            return None
+
         return history

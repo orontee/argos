@@ -4,6 +4,8 @@ from typing import Any, Dict, List, Optional, cast
 
 from gi.repository import GObject
 
+from argos.dto import TrackDTO
+
 LOGGER = logging.getLogger(__name__)
 
 
@@ -17,9 +19,9 @@ class LengthAcc:
     def __init__(self):
         self.length: Dict[str, int] = defaultdict(int)
 
-    def __call__(self, uri: str, track: Dict[str, Any]) -> None:
-        if self.length[uri] != -1 and "length" in track:
-            self.length[uri] += int(track["length"])
+    def __call__(self, uri: str, track_dto: TrackDTO) -> None:
+        if self.length[uri] != -1 and track_dto.length is not None:
+            self.length[uri] += track_dto.length
         else:
             self.length[uri] = -1
 
@@ -46,48 +48,41 @@ class AlbumMetadataCollector:
         self._last_modified: Dict[str, float] = {}
         self._release_mbid: Dict[str, str] = {}
 
-    def __call__(self, uri: str, track: Dict[str, Any]) -> None:
-        album: Optional[Dict[str, Dict[str, Any]]] = track.get("album")
-        if album is None:
+    def __call__(self, uri: str, track_dto: TrackDTO) -> None:
+        album_dto = track_dto.album
+        if album_dto is None:
             return
 
         if uri not in self._name:
-            album_artists = cast(List[Dict[str, str]], album.get("artists", []))
-            if len(album_artists) > 0:
-                self._name[uri] = album_artists[0].get("name", "")
+            if len(album_dto.artists) > 0:
+                self._name[uri] = album_dto.artists[0].name
             else:
-                artists = cast(List[Dict[str, str]], track.get("artists", []))
-                self._track_names[uri] += [
-                    a.get("name", "") for a in artists if "name" in a
-                ]
+                self._track_names[uri] += [a.name for a in track_dto.artists]
 
         if uri not in self._num_tracks:
-            num_tracks = cast(int, album.get("num_tracks"))
-            if num_tracks is not None:
-                self._num_tracks[uri] = num_tracks
+            if album_dto.num_tracks is not None:
+                self._num_tracks[uri] = album_dto.num_tracks
 
         if uri not in self._num_discs:
-            num_discs = cast(int, album.get("num_discs"))
-            if num_discs is not None:
-                self._num_discs[uri] = num_discs
+            if album_dto.num_discs is not None:
+                self._num_discs[uri] = album_dto.num_discs
 
         if uri not in self._date:
-            date = cast(str, album.get("date"))
-            if date is not None:
-                self._date[uri] = date
+            if album_dto.date is not None:
+                self._date[uri] = album_dto.date
 
         if uri not in self._release_mbid:
-            release_mbid = cast(str, album.get("musicbrainz_id"))
-            if release_mbid is not None:
-                self._release_mbid[uri] = release_mbid
+            if album_dto.musicbrainz_id is not None:
+                self._release_mbid[uri] = album_dto.musicbrainz_id
 
-        last_modified = cast(float, track.get("last_modified"))
-        if last_modified is not None:
+        if track_dto.last_modified is not None:
             current_last_modified = self._last_modified.get(uri, None)
             if current_last_modified is None:
-                self._last_modified[uri] = last_modified
+                self._last_modified[uri] = track_dto.last_modified
             else:
-                self._last_modified[uri] = max(last_modified, current_last_modified)
+                self._last_modified[uri] = max(
+                    track_dto.last_modified, current_last_modified
+                )
 
     def artist_name(self, album_uri: str) -> str:
         if album_uri in self._name:

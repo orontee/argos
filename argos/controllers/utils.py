@@ -1,7 +1,18 @@
 import logging
 from collections import defaultdict
-from typing import Any, Callable, Coroutine, Dict, List, Optional, cast
+from typing import (
+    Any,
+    Callable,
+    Coroutine,
+    Dict,
+    List,
+    Mapping,
+    Optional,
+    Sequence,
+    cast,
+)
 
+from argos.dto import TrackDTO
 from argos.model import TrackModel
 
 LOGGER = logging.getLogger(__name__)
@@ -43,16 +54,14 @@ async def call_by_slice(
 
 
 def parse_tracks(
-    tracks: Dict[str, List[Dict[str, Any]]],
+    tracks_dto: Mapping[str, Sequence[TrackDTO]],
     *,
-    visitors: Optional[List[Callable[[str, Dict[str, Any]], None]]] = None,
+    visitors: Optional[Sequence[Callable[[str, TrackDTO], None]]] = None,
 ) -> Dict[str, List[TrackModel]]:
     """Parse a track list.
 
     Args:
-        tracks: Track descriptions to parse. It's expected to be the
-            result of a call to Mopidy's ``core.library.lookup``
-            action.
+        tracks_dto: Track data transfer objects to parse.
 
         visitors: An optional list of callable to be called on each
             visited track.
@@ -62,39 +71,12 @@ def parse_tracks(
 
     """
     parsed_tracks: Dict[str, List[TrackModel]] = defaultdict(list)
-    for uri in tracks:
-        uri_tracks = tracks[uri]
-        for t in uri_tracks:
-            assert "__model__" in t and t["__model__"] == "Track"
-
-            album: Optional[Dict[str, Dict[str, str]]] = t.get("album")
-            if album is not None:
-                assert "__model__" in album and album["__model__"] == "Album"
-                album_name = album.get("name", "")
-            else:
-                album_name = ""
-
-            artists: Optional[List[Dict[str, str]]] = t.get("artists")
-            if artists and len(artists) > 0:
-                assert "__model__" in artists[0] and artists[0]["__model__"] == "Artist"
-                artist_name = artists[0].get("name", "")
-            else:
-                artist_name = ""
-
+    for uri in tracks_dto:
+        for track_dto in tracks_dto[uri]:
             if visitors is not None:
                 for visitor in visitors:
-                    visitor(uri, t)
+                    visitor(uri, track_dto)
 
-            parsed_tracks[uri].append(
-                TrackModel(
-                    uri=cast(str, t.get("uri", "")),
-                    name=cast(str, t.get("name", "")),
-                    track_no=cast(int, t.get("track_no", -1)),
-                    disc_no=cast(int, t.get("disc_no", 1)),
-                    length=t.get("length", -1),
-                    album_name=album_name,
-                    artist_name=artist_name,
-                    last_modified=t.get("last_modified", -1),
-                )
-            )
+            parsed_tracks[uri].append(TrackModel.factory(track_dto))
+
     return parsed_tracks
