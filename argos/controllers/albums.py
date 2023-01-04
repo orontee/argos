@@ -101,6 +101,7 @@ class AlbumsController(ControllerBase):
         num_tracks = metadata_collector.num_tracks(album_uri)
         num_discs = metadata_collector.num_discs(album_uri)
         date = metadata_collector.date(album_uri)
+        last_modified = metadata_collector.last_modified(album_uri)
 
         self._model.complete_album_description(
             album_uri,
@@ -108,6 +109,7 @@ class AlbumsController(ControllerBase):
             num_tracks=num_tracks,
             num_discs=num_discs,
             date=date,
+            last_modified=last_modified,
             length=length,
             tracks=parsed_tracks,
         )

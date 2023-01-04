@@ -1,11 +1,10 @@
 import locale
-from typing import List, Optional
+from typing import Optional, Sequence
 
 from gi.repository import Gio, GObject
 
 from argos.model.backends import MopidyBackend
 from argos.model.track import TrackModel
-from argos.model.utils import WithThreadSafePropertySetter
 
 
 def compare_by_album_name_func(
@@ -107,12 +106,8 @@ class AlbumInformationModel(GObject.Object):
     last_modified = GObject.Property(type=GObject.TYPE_DOUBLE, default=-1)
 
 
-class AlbumModel(WithThreadSafePropertySetter, GObject.Object):
-    """Model for an album.
-
-    Setters are provided to change properties from any thread.
-
-    """
+class AlbumModel(GObject.Object):
+    """Model for an album."""
 
     uri = GObject.Property(type=str)
     name = GObject.Property(type=str)
@@ -139,7 +134,7 @@ class AlbumModel(WithThreadSafePropertySetter, GObject.Object):
         date: Optional[str] = None,
         last_modified: Optional[float] = None,
         length: Optional[int] = None,
-        tracks: Optional[List[TrackModel]] = None,
+        tracks: Optional[Sequence[TrackModel]] = None,
         **kwargs
     ):
         super().__init__(*args, **kwargs)
@@ -167,24 +162,6 @@ class AlbumModel(WithThreadSafePropertySetter, GObject.Object):
         if tracks is not None:
             for t in tracks:
                 self.tracks.append(t)
-
-    def set_name(self, value: str) -> None:
-        self.set_property_in_gtk_thread("name", value)
-
-    def set_artist_name(self, value: str) -> None:
-        self.set_property_in_gtk_thread("artist_name", value)
-
-    def set_num_tracks(self, value: int) -> None:
-        self.set_property_in_gtk_thread("num_tracks", value)
-
-    def set_num_discs(self, value: int) -> None:
-        self.set_property_in_gtk_thread("num_discs", value)
-
-    def set_length(self, value: int) -> None:
-        self.set_property_in_gtk_thread("length", value)
-
-    def set_release_mbid(self, value: str) -> None:
-        self.set_property_in_gtk_thread("release_mbid", value)
 
     def is_complete(self) -> bool:
         return self.backend.static_albums and len(self.tracks) > 0

@@ -3,7 +3,6 @@ import locale
 from gi.repository import Gio, GObject
 
 from argos.model.track import TrackModel
-from argos.model.utils import WithThreadSafePropertySetter
 
 
 def playlist_compare_func(
@@ -30,12 +29,8 @@ def playlist_compare_func(
     return 0
 
 
-class PlaylistModel(WithThreadSafePropertySetter, GObject.Object):
-    """Model for a playlist.
-
-    Setters are provided to change properties from any thread.
-
-    """
+class PlaylistModel(GObject.Object):
+    """Model for a playlist."""
 
     uri = GObject.Property(type=str)
     name = GObject.Property(type=str)

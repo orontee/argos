@@ -112,7 +112,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         tl_track = self.tracklist.get_tl_track(tlid)
         return tl_track.track.props.uri if tl_track else ""
 
-    def update_albums(self, albums: List[AlbumModel], album_sort_id: str) -> None:
+    def update_albums(self, albums: Sequence[AlbumModel], album_sort_id: str) -> None:
         GLib.idle_add(
             partial(
                 self._update_albums,
@@ -136,7 +136,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
 
         return compare_by_artist_name_func
 
-    def _update_albums(self, albums: List[AlbumModel], album_sort_id: str) -> None:
+    def _update_albums(self, albums: Sequence[AlbumModel], album_sort_id: str) -> None:
         if self.props.albums_loaded:
             self.props.albums_loaded = False
             self.albums.remove_all()
@@ -174,6 +174,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         num_tracks: Optional[int],
         num_discs: Optional[int],
         date: Optional[str],
+        last_modified: Optional[float],
         length: Optional[int],
         tracks: List[TrackModel],
     ) -> None:
@@ -185,6 +186,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
                 num_tracks,
                 num_discs,
                 date,
+                last_modified,
                 length,
                 tracks,
             )
@@ -197,8 +199,9 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         num_tracks: Optional[int],
         num_discs: Optional[int],
         date: Optional[str],
+        last_modified: Optional[float],
         length: Optional[int],
-        tracks: List[TrackModel],
+        tracks: Sequence[TrackModel],
     ) -> None:
         album = self.get_album(uri)
         if album is None:
@@ -209,6 +212,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         album.num_tracks = num_tracks or -1
         album.num_discs = num_discs or -1
         album.date = date or ""
+        album.last_modified = last_modified or -1
         album.length = length or -1
 
         album.tracks.remove_all()
@@ -329,7 +333,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         LOGGER.debug(f"Tracklist with version {version} loaded")
         self.props.tracklist_loaded = True
 
-    def update_playlists(self, playlists: List[PlaylistModel]) -> None:
+    def update_playlists(self, playlists: Sequence[PlaylistModel]) -> None:
         GLib.idle_add(
             partial(
                 self._update_playlists,
@@ -337,7 +341,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
             )
         )
 
-    def _update_playlists(self, playlists: List[PlaylistModel]) -> None:
+    def _update_playlists(self, playlists: Sequence[PlaylistModel]) -> None:
         self.playlists.remove_all()
 
         for playlist in playlists:
@@ -348,7 +352,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         playlist_uri: str,
         *,
         name: str,
-        tracks: List[TrackModel],
+        tracks: Sequence[TrackModel],
         last_modified: float,
     ) -> None:
         GLib.idle_add(
@@ -363,7 +367,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         self,
         playlist_uri: str,
         name: str,
-        tracks: List[TrackModel],
+        tracks: Sequence[TrackModel],
         last_modified: float,
     ) -> None:
         LOGGER.debug(f"Completing playlist with URI {playlist_uri!r}")
