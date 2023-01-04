@@ -133,7 +133,7 @@ class AlbumsWindow(Gtk.Box):
             store = self.props.filtered_albums_store.get_model()
             store.clear()
 
-            for album in self._model.albums:
+            for album in self._model.library.albums:
                 escaped_album_name = GLib.markup_escape_text(album.name)
                 elided_escaped_album_name = GLib.markup_escape_text(
                     elide_maybe(album.name)

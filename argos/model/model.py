@@ -32,6 +32,7 @@ from argos.model.backends import (
     MopidyLocalBackend,
     MopidyPodcastBackend,
 )
+from argos.model.directory import DirectoryModel
 from argos.model.mixer import MixerModel
 from argos.model.playback import PlaybackModel
 from argos.model.playlist import PlaylistModel, playlist_compare_func
@@ -54,13 +55,13 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
     network_available = GObject.Property(type=bool, default=False)
     connected = GObject.Property(type=bool, default=False)
 
+    library = GObject.Property(type=DirectoryModel)
+
     albums_loaded = GObject.Property(type=bool, default=False)
     tracklist_loaded = GObject.Property(type=bool, default=False)
 
     playback: PlaybackModel
     mixer: MixerModel
-    albums: Gio.ListStore
-    playlists: Gio.ListStore
     tracklist: TracklistModel
     backends: Gio.ListStore
 
@@ -71,8 +72,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
 
         self.playback = PlaybackModel()
         self.mixer = MixerModel()
-        self.albums = Gio.ListStore.new(AlbumModel)
-        self.playlists = Gio.ListStore.new(PlaylistModel)
+        self.library = DirectoryModel()
         self.tracklist = TracklistModel()
         self.backends = Gio.ListStore.new(MopidyBackend)
 
@@ -139,11 +139,11 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
     def _update_albums(self, albums: Sequence[AlbumModel], album_sort_id: str) -> None:
         if self.props.albums_loaded:
             self.props.albums_loaded = False
-            self.albums.remove_all()
+            self.library.albums.remove_all()
 
         compare_func = self._get_album_compare_func(album_sort_id)
         for album in albums:
-            self.albums.insert_sorted(album, compare_func, None)
+            self.library.albums.insert_sorted(album, compare_func, None)
 
         LOGGER.info("Albums loaded")
         self.props.albums_loaded = True
@@ -161,7 +161,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
             self.props.albums_loaded = False
 
         compare_func = self._get_album_compare_func(album_sort_id)
-        self.albums.sort(compare_func, None)
+        self.library.albums.sort(compare_func, None)
 
         LOGGER.info(f"Albums sorted with sort identifier {album_sort_id}")
         self.props.albums_loaded = True
@@ -263,7 +263,9 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         LOGGER.debug(f"Album backends excluded from random play: {excluded}")
 
         candidates = [
-            a for a in self.albums if a.props.backend.settings_key not in excluded
+            a
+            for a in self.library.albums
+            if a.props.backend.settings_key not in excluded
         ]
         if len(candidates) == 0:
             LOGGER.warning("Empty album list for random selection!")
@@ -290,7 +292,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         def _collect_albums(
             event: threading.Event, table: Dict[str, AlbumModel]
         ) -> None:
-            for album in self.albums:
+            for album in self.library.albums:
                 if album.is_complete():
                     table[album.uri] = album
             event.set()
@@ -342,10 +344,10 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         )
 
     def _update_playlists(self, playlists: Sequence[PlaylistModel]) -> None:
-        self.playlists.remove_all()
+        self.library.playlists.remove_all()
 
         for playlist in playlists:
-            self.playlists.insert_sorted(playlist, playlist_compare_func, None)
+            self.library.playlists.insert_sorted(playlist, playlist_compare_func, None)
 
     def complete_playlist_description(
         self,
@@ -391,7 +393,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
             playlist.tracks.append(track)
 
     def get_album(self, uri: str) -> Optional[AlbumModel]:
-        found_album = [a for a in self.albums if a.uri == uri]
+        found_album = [a for a in self.library.albums if a.uri == uri]
         if len(found_album) == 0:
             LOGGER.debug(f"No album found with URI {uri!r}")
             return None
@@ -401,7 +403,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         return found_album[0]
 
     def get_playlist(self, uri: str) -> Optional[PlaylistModel]:
-        found_playlist = [p for p in self.playlists if p.uri == uri]
+        found_playlist = [p for p in self.library.playlists if p.uri == uri]
         if len(found_playlist) == 0:
             LOGGER.debug(f"No playlist found with URI {uri!r}")
             return None
@@ -412,7 +414,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
 
     def delete_playlist(self, uri: str) -> None:
         found_playlist = [
-            (i, p) for (i, p) in enumerate(self.playlists) if p.uri == uri
+            (i, p) for (i, p) in enumerate(self.library.playlists) if p.uri == uri
         ]
         if len(found_playlist) == 0:
             LOGGER.debug(f"No playlist found with URI {uri!r}")
