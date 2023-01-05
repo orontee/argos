@@ -28,7 +28,7 @@ class ImageDownloader(GObject.GObject):
     """
 
     __gsignals__: Dict[str, Tuple[int, Any, Tuple]] = {
-        "albums-images-downloaded": (GObject.SIGNAL_RUN_FIRST, None, ())
+        "images-downloaded": (GObject.SIGNAL_RUN_FIRST, None, ())
     }
 
     def __init__(
@@ -113,7 +113,7 @@ class ImageDownloader(GObject.GObject):
             GLib.idle_add(
                 partial(
                     self.emit,
-                    "albums-images-downloaded",
+                    "images-downloaded",
                 )
             )
 

@@ -31,13 +31,23 @@
       </description>
     </key>
 
+    <key type="b" name="mopidy-file">
+      <default>true</default>
+      <summary>
+	Mopidy-File
+      </summary>
+      <description>
+	Whether to display directories from Mopidy-File in library.
+      </description>
+    </key>
+
     <key type="b" name="mopidy-local">
       <default>true</default>
       <summary>
 	Mopidy-Local
       </summary>
       <description>
-	Whether to display albums from Mopidy-Local directory in library.
+	Whether to display directories from Mopidy-Local in library.
       </description>
     </key>
 
@@ -47,7 +57,7 @@
 	Mopidy-Bandcamp
       </summary>
       <description>
-	Whether to display albums from Mopidy-Bandcamp directory in library.
+	Whether to display directories from Mopidy-Bandcamp in library.
       </description>
     </key>
 
@@ -57,7 +67,7 @@
 	Mopidy-Jellyfin
       </summary>
       <description>
-	Whether to display albums from Mopidy-Jellyfin directory in library.
+	Whether to display directories from Mopidy-Jellyfin in library.
       </description>
     </key>
 
@@ -67,7 +77,27 @@
 	Mopidy-Podcast
       </summary>
       <description>
-	Whether to display albums from Mopidy-Podcast directory in library.
+	Whether to display directories from Mopidy-Podcast in library.
+      </description>
+    </key>
+
+    <key type="b" name="mopidy-somafm">
+      <default>true</default>
+      <summary>
+	Mopidy-SomaFM
+      </summary>
+      <description>
+	Whether to display directories from Mopidy-SomaFM in library.
+      </description>
+    </key>
+
+    <key type="b" name="open-mopidy-local-albums">
+      <default>false</default>
+      <summary>
+	Open Mopidy-Local albums
+      </summary>
+      <description>
+	Whether to start browsing library from Mopidy-Local albums directory.
       </description>
     </key>
 
@@ -129,7 +159,7 @@
     </key>
 
      <key type="as" name="album-backends-excluded-from-random-play">
-      <default>["mopidy-bandcamp", "mopidy-jellyfin", "mopidy-podcast"]</default>
+      <default>["mopidy-bandcamp", "mopidy-jellyfin", "mopidy-podcast", "mopidy-somafm", "mopidy-file"]</default>
       <summary>
 	Album backends excluded from random play
       </summary>

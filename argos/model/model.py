@@ -28,11 +28,14 @@ from argos.model.album import (
 from argos.model.backends import (
     MopidyBackend,
     MopidyBandcampBackend,
+    MopidyFileBackend,
     MopidyJellyfinBackend,
     MopidyLocalBackend,
     MopidyPodcastBackend,
+    MopidySomaFMBackend,
 )
 from argos.model.directory import DirectoryModel
+from argos.model.library import LibraryModel
 from argos.model.mixer import MixerModel
 from argos.model.playback import PlaybackModel
 from argos.model.playlist import PlaylistModel, playlist_compare_func
@@ -47,22 +50,25 @@ LOGGER = logging.getLogger(__name__)
 
 
 class Model(WithThreadSafePropertySetter, GObject.Object):
-    __gsignals__: Dict[str, Tuple[int, Any, Tuple]] = {
+    __gsignals__: Dict[str, Tuple[int, Any, Sequence]] = {
         "album-completed": (GObject.SIGNAL_RUN_FIRST, None, (str,)),
         "album-information-collected": (GObject.SIGNAL_RUN_FIRST, None, (str,)),
+        "albums-sorted": (GObject.SIGNAL_RUN_FIRST, None, []),
+        "directory-completed": (GObject.SIGNAL_RUN_FIRST, None, (str,)),
     }
 
     network_available = GObject.Property(type=bool, default=False)
     connected = GObject.Property(type=bool, default=False)
 
-    library = GObject.Property(type=DirectoryModel)
-
-    albums_loaded = GObject.Property(type=bool, default=False)
     tracklist_loaded = GObject.Property(type=bool, default=False)
 
+    mopidy_local_backend: MopidyBackend
+
+    library: LibraryModel
     playback: PlaybackModel
     mixer: MixerModel
     tracklist: TracklistModel
+    playlists: Gio.ListStore
     backends: Gio.ListStore
 
     def __init__(self, application: "Application", *args, **kwargs):
@@ -70,16 +76,20 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
 
         self._settings: Gio.Settings = application.props.settings
 
+        self.library = LibraryModel()
         self.playback = PlaybackModel()
         self.mixer = MixerModel()
-        self.library = DirectoryModel()
         self.tracklist = TracklistModel()
+        self.playlists = Gio.ListStore.new(PlaylistModel)
         self.backends = Gio.ListStore.new(MopidyBackend)
 
-        self.backends.append(MopidyLocalBackend(self._settings))
+        self.mopidy_local_backend = MopidyLocalBackend(self._settings)
+        self.backends.append(self.mopidy_local_backend)
+        self.backends.append(MopidyFileBackend(self._settings))
         self.backends.append(MopidyPodcastBackend(self._settings))
         self.backends.append(MopidyBandcampBackend(self._settings))
         self.backends.append(MopidyJellyfinBackend(self._settings))
+        self.backends.append(MopidySomaFMBackend(self._settings))
 
         application._nm.connect("network-changed", self._on_nm_network_changed)
 
@@ -112,15 +122,6 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         tl_track = self.tracklist.get_tl_track(tlid)
         return tl_track.track.props.uri if tl_track else ""
 
-    def update_albums(self, albums: Sequence[AlbumModel], album_sort_id: str) -> None:
-        GLib.idle_add(
-            partial(
-                self._update_albums,
-                albums,
-                album_sort_id,
-            )
-        )
-
     def _get_album_compare_func(
         self, album_sort_id: str
     ) -> Callable[[AlbumModel, AlbumModel, None], int]:
@@ -136,35 +137,54 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
 
         return compare_by_artist_name_func
 
-    def _update_albums(self, albums: Sequence[AlbumModel], album_sort_id: str) -> None:
-        if self.props.albums_loaded:
-            self.props.albums_loaded = False
-            self.library.albums.remove_all()
-
-        compare_func = self._get_album_compare_func(album_sort_id)
-        for album in albums:
-            self.library.albums.insert_sorted(album, compare_func, None)
-
-        LOGGER.info("Albums loaded")
-        self.props.albums_loaded = True
-
     def sort_albums(self, album_sort_id: str) -> None:
-        GLib.idle_add(
-            partial(
-                self._sort_albums,
-                album_sort_id,
-            )
-        )
+        def _sort_albums() -> None:
+            compare_func = self._get_album_compare_func(album_sort_id)
+            self.library.sort_albums(compare_func)
 
-    def _sort_albums(self, album_sort_id: str) -> None:
-        if self.props.albums_loaded:
-            self.props.albums_loaded = False
+            LOGGER.info(f"Albums sorted with sort identifier {album_sort_id}")
+            self.emit("albums-sorted")
 
-        compare_func = self._get_album_compare_func(album_sort_id)
-        self.library.albums.sort(compare_func, None)
+        GLib.idle_add(_sort_albums)
 
-        LOGGER.info(f"Albums sorted with sort identifier {album_sort_id}")
-        self.props.albums_loaded = True
+    def complete_directory(
+        self,
+        uri: str,
+        *,
+        albums: List[AlbumModel],
+        directories: List[DirectoryModel],
+        playlists: List[PlaylistModel],
+        tracks: List[TrackModel],
+    ) -> None:
+        def _complete_directory():
+            directory = self.get_directory(uri)
+            if directory is not None:
+                directory.albums.remove_all()
+                directory.directories.remove_all()
+                directory.playlists.remove_all()
+                directory.tracks.remove_all()
+
+                album_sort_id = self._settings.get_string("album-sort")
+                compare_func = self._get_album_compare_func(album_sort_id)
+                for album in albums:
+                    directory.albums.insert_sorted(album, compare_func, None)
+
+                for subdir in directories:
+                    directory.directories.append(subdir)
+
+                for playlist in playlists:
+                    directory.playlists.append(playlist)
+
+                for track in tracks:
+                    directory.tracks.append(track)
+
+                # TODO add compare functions
+            else:
+                LOGGER.debug(f"Won't complete unknown directory with URI {uri}")
+
+            self.emit("directory-completed", uri)
+
+        GLib.idle_add(_complete_directory)
 
     def complete_album_description(
         self,
@@ -262,46 +282,44 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         excluded = self._settings.get_strv("album-backends-excluded-from-random-play")
         LOGGER.debug(f"Album backends excluded from random play: {excluded}")
 
-        candidates = [
-            a
-            for a in self.library.albums
-            if a.props.backend.settings_key not in excluded
-        ]
+        candidates = self.library.get_album_uris(excluded_backends=excluded)
+
         if len(candidates) == 0:
-            LOGGER.warning("Empty album list for random selection!")
+            LOGGER.warning("No album candidates for random selection!")
         else:
+            LOGGER.debug(f"Found {len(candidates)} album candidates")
             try:
-                album = random.choice(candidates)
+                album_uri = random.choice(candidates)
             except IndexError:
                 pass
             else:
-                return album.uri
+                return album_uri
 
         LOGGER.warning("Failed to randomly choose an album!")
         return None
 
-    def get_complete_albums(self) -> Optional[Dict[str, AlbumModel]]:
-        """Return hash table of complete albums.
+    # def get_complete_albums(self) -> Optional[Dict[str, AlbumModel]]:
+    #     """Return hash table of completed albums.
 
-        This function iterates on albums; It is guaranteed that the
-        iteration is performed in the Gtk thread, so the album list is
-        unchanged during the iteration.
+    #     This function iterates on albums; It is guaranteed that the
+    #     iteration is performed in the Gtk thread, so the album list is
+    #     unchanged during the iteration.
 
-        """
+    #     """
 
-        def _collect_albums(
-            event: threading.Event, table: Dict[str, AlbumModel]
-        ) -> None:
-            for album in self.library.albums:
-                if album.is_complete():
-                    table[album.uri] = album
-            event.set()
+    #     def _collect_albums(
+    #         event: threading.Event, table: Dict[str, AlbumModel]
+    #     ) -> None:
+    #         for album in self.props.library.albums:
+    #             if album.is_complete():
+    #                 table[album.uri] = album
+    #         event.set()
 
-        event = threading.Event()
-        table: Dict[str, AlbumModel] = {}
+    #     event = threading.Event()
+    #     table: Dict[str, AlbumModel] = {}
 
-        GLib.idle_add(_collect_albums, event, table)
-        return table if event.wait(timeout=1.0) else None
+    #     GLib.idle_add(_collect_albums, event, table)
+    #     return table if event.wait(timeout=1.0) else None
 
     def update_tracklist(
         self, version: Optional[int], tl_tracks: Sequence[TracklistTrackModel]
@@ -344,10 +362,10 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         )
 
     def _update_playlists(self, playlists: Sequence[PlaylistModel]) -> None:
-        self.library.playlists.remove_all()
+        self.playlists.remove_all()
 
         for playlist in playlists:
-            self.library.playlists.insert_sorted(playlist, playlist_compare_func, None)
+            self.playlists.insert_sorted(playlist, playlist_compare_func, None)
 
     def complete_playlist_description(
         self,
@@ -393,28 +411,29 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
             playlist.tracks.append(track)
 
     def get_album(self, uri: str) -> Optional[AlbumModel]:
-        found_album = [a for a in self.library.albums if a.uri == uri]
-        if len(found_album) == 0:
-            LOGGER.debug(f"No album found with URI {uri!r}")
-            return None
-        elif len(found_album) > 1:
-            LOGGER.warning(f"Ambiguous album URI {uri!r}")
+        return self.library.get_album(uri)
 
-        return found_album[0]
+    def get_directory(self, uri: Optional[str]) -> Optional[DirectoryModel]:
+        return self.library.get_directory(uri)
+
+    def get_track(self, uri: Optional[str]) -> Optional[TrackModel]:
+        return self.library.get_track(uri)
 
     def get_playlist(self, uri: str) -> Optional[PlaylistModel]:
-        found_playlist = [p for p in self.library.playlists if p.uri == uri]
+        found_playlist = [p for p in self.playlists if p.uri == uri]
         if len(found_playlist) == 0:
             LOGGER.debug(f"No playlist found with URI {uri!r}")
             return None
         elif len(found_playlist) > 1:
             LOGGER.warning(f"Ambiguous playlist URI {uri!r}")
 
+        # TODO search among library directories
+
         return found_playlist[0]
 
     def delete_playlist(self, uri: str) -> None:
         found_playlist = [
-            (i, p) for (i, p) in enumerate(self.library.playlists) if p.uri == uri
+            (i, p) for (i, p) in enumerate(self.playlists) if p.uri == uri
         ]
         if len(found_playlist) == 0:
             LOGGER.debug(f"No playlist found with URI {uri!r}")

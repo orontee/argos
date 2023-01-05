@@ -1,6 +1,6 @@
 import gettext
 import logging
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Callable, Optional
 
 from gi.repository import Gio, GLib, GObject, Gtk
 
@@ -21,14 +21,8 @@ class PreferencesWindow(Gtk.Window):
     connection_warning_label: Gtk.Label = Gtk.Template.Child()
     mopidy_base_url_entry: Gtk.Entry = Gtk.Template.Child()
     information_service_switch: Gtk.Switch = Gtk.Template.Child()
-    mopidy_local_switch: Gtk.Switch = Gtk.Template.Child()
-    mopidy_local_label: Gtk.Label = Gtk.Template.Child()
-    mopidy_bandcamp_switch: Gtk.Switch = Gtk.Template.Child()
-    mopidy_bandcamp_label: Gtk.Label = Gtk.Template.Child()
-    mopidy_jellyfin_switch: Gtk.Switch = Gtk.Template.Child()
-    mopidy_jellyfin_label: Gtk.Label = Gtk.Template.Child()
-    mopidy_podcast_switch: Gtk.Switch = Gtk.Template.Child()
-    mopidy_podcast_label: Gtk.Label = Gtk.Template.Child()
+    mopidy_backend_grid: Gtk.Grid = Gtk.Template.Child()
+    open_mopidy_local_albums_button: Gtk.CheckButton = Gtk.Template.Child()
     history_playlist_check_button: Gtk.CheckButton = Gtk.Template.Child()
     history_playlist_max_length_label: Gtk.Label = Gtk.Template.Child()
     history_playlist_max_length_button: Gtk.SpinButton = Gtk.Template.Child()
@@ -57,17 +51,40 @@ class PreferencesWindow(Gtk.Window):
         information_service = self._settings.get_boolean("information-service")
         self.information_service_switch.set_active(information_service)
 
-        mopidy_local = self._settings.get_boolean("mopidy-local")
-        self.mopidy_local_switch.set_active(mopidy_local)
+        for backend_index, backend in enumerate(self._model.backends):
+            backend_enabled = self._settings.get_boolean(backend.props.settings_key)
+            backend_label = Gtk.Label(
+                halign=Gtk.Align.END,
+                label=f"{backend.props.name}:",
+            )
+            self.mopidy_backend_grid.attach(
+                backend_label,
+                0,
+                backend_index,
+                1,
+                1,
+            )
 
-        mopidy_bandcamp = self._settings.get_boolean("mopidy-bandcamp")
-        self.mopidy_bandcamp_switch.set_active(mopidy_bandcamp)
+            backend_switch = Gtk.Switch(active=backend_enabled)
+            self.mopidy_backend_grid.attach(
+                backend_switch,
+                1,
+                backend_index,
+                1,
+                1,
+            )
 
-        mopidy_jellyfin = self._settings.get_boolean("mopidy-jellyfin")
-        self.mopidy_jellyfin_switch.set_active(mopidy_jellyfin)
+            backend_switch.connect(
+                "notify::active",
+                self._build_backend_switch_activated_handler(
+                    backend.props.settings_key
+                ),
+            )
 
-        mopidy_podcast = self._settings.get_boolean("mopidy-podcast")
-        self.mopidy_podcast_switch.set_active(mopidy_podcast)
+        open_mopidy_local_albums = self._settings.get_boolean(
+            "open-mopidy-local-albums"
+        )
+        self.open_mopidy_local_albums_button.set_active(open_mopidy_local_albums)
 
         history_playlist = self._settings.get_boolean("history-playlist")
         self.history_playlist_check_button.set_active(history_playlist)
@@ -118,14 +135,7 @@ class PreferencesWindow(Gtk.Window):
 
         sensitive = self._model.network_available and self._model.connected
         for widget in (
-            self.mopidy_local_switch,
-            self.mopidy_local_label,
-            self.mopidy_bandcamp_switch,
-            self.mopidy_bandcamp_label,
-            self.mopidy_jellyfin_switch,
-            self.mopidy_jellyfin_label,
-            self.mopidy_podcast_switch,
-            self.mopidy_podcast_label,
+            self.mopidy_backend_grid,
             self.history_playlist_check_button,
             self.history_playlist_max_length_label,
             self.history_playlist_max_length_button,
@@ -161,17 +171,8 @@ class PreferencesWindow(Gtk.Window):
         self.information_service_switch.connect(
             "notify::active", self.on_information_service_switch_activated
         )
-        self.mopidy_local_switch.connect(
-            "notify::active", self.on_mopidy_local_switch_activated
-        )
-        self.mopidy_bandcamp_switch.connect(
-            "notify::active", self.on_mopidy_bandcamp_switch_activated
-        )
-        self.mopidy_jellyfin_switch.connect(
-            "notify::active", self.on_mopidy_jellyfin_switch_activated
-        )
-        self.mopidy_podcast_switch.connect(
-            "notify::active", self.on_mopidy_podcast_switch_activated
+        self.open_mopidy_local_albums_button.connect(
+            "toggled", self.on_open_mopidy_local_albums_button_toggled
         )
         self.history_playlist_check_button.connect(
             "toggled", self.on_history_playlist_check_button_toggled
@@ -214,14 +215,7 @@ class PreferencesWindow(Gtk.Window):
 
         sensitive = self._model.network_available and self._model.connected
         widgets = (
-            self.mopidy_local_switch,
-            self.mopidy_local_label,
-            self.mopidy_bandcamp_switch,
-            self.mopidy_bandcamp_label,
-            self.mopidy_jellyfin_switch,
-            self.mopidy_jellyfin_label,
-            self.mopidy_podcast_switch,
-            self.mopidy_podcast_label,
+            self.mopidy_backend_grid,
             self.history_playlist_check_button,
             self.recent_additions_playlist_check_button,
         )
@@ -258,37 +252,27 @@ class PreferencesWindow(Gtk.Window):
         information_service = switch.get_active()
         self._settings.set_boolean("information-service", information_service)
 
-    def on_mopidy_local_switch_activated(
-        self,
-        switch: Gtk.Switch,
-        _1: GObject.ParamSpec,
+    def on_open_mopidy_local_albums_button_toggled(
+        self, button: Gtk.CheckButton
     ) -> None:
-        mopidy_local = switch.get_active()
-        self._settings.set_boolean("mopidy-local", mopidy_local)
+        open_mopidy_local_albums = button.get_active()
+        self._settings.set_boolean("open-mopidy-local-albums", open_mopidy_local_albums)
 
-    def on_mopidy_bandcamp_switch_activated(
+    def _build_backend_switch_activated_handler(
         self,
-        switch: Gtk.Switch,
-        _1: GObject.ParamSpec,
-    ) -> None:
-        mopidy_bandcamp = switch.get_active()
-        self._settings.set_boolean("mopidy-bandcamp", mopidy_bandcamp)
+        settings_key: str,
+    ) -> Callable[[GObject.Object, GObject.ParamSpec], None]:
+        def _on_backend_switch_activated(
+            switch: Gtk.Switch,
+            _1: GObject.ParamSpec,
+        ) -> None:
+            backend_enabled = switch.get_active()
+            self._settings.set_boolean(settings_key, backend_enabled)
 
-    def on_mopidy_jellyfin_switch_activated(
-        self,
-        switch: Gtk.Switch,
-        _1: GObject.ParamSpec,
-    ) -> None:
-        mopidy_jellyfin = switch.get_active()
-        self._settings.set_boolean("mopidy-jellyfin", mopidy_jellyfin)
+            if settings_key == "mopidy-local":
+                self.open_mopidy_local_albums_button.set_sensitive(backend_enabled)
 
-    def on_mopidy_podcast_switch_activated(
-        self,
-        switch: Gtk.Switch,
-        _1: GObject.ParamSpec,
-    ) -> None:
-        mopidy_podcast = switch.get_active()
-        self._settings.set_boolean("mopidy-podcast", mopidy_podcast)
+        return _on_backend_switch_activated
 
     def on_history_playlist_check_button_toggled(self, button: Gtk.CheckButton) -> None:
         history_playlist = button.get_active()

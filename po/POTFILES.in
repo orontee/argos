@@ -6,11 +6,11 @@ argos/info.py
 argos/ui/about.ui.in
 argos/ui/album_details_box.ui
 argos/ui/album_track_box.ui
-argos/ui/albums_browsing_progress_box.ui
-argos/ui/albums_window.ui
 argos/ui/app_menu.ui
 argos/ui/condensed_playing_box.ui
 argos/ui/help_overlay.ui
+argos/ui/library_browsing_progress_box.ui
+argos/ui/library_window.ui
 argos/ui/playing_box.ui
 argos/ui/playing_box_empty_tracklist_box.ui
 argos/ui/playlist_track_box.ui

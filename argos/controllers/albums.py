@@ -19,11 +19,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 class AlbumsController(ControllerBase):
-    """Albums controller.
-
-    This controller maintains the ``Model.albums`` store.
-
-    """
+    """Albums controller."""
 
     logger = LOGGER  # used by consume decorator
 
@@ -32,36 +28,6 @@ class AlbumsController(ControllerBase):
 
         self._download: ImageDownloader = application.props.download
         self._information: InformationService = application.props.information
-
-        for backend in self._model.backends:
-            backend.connect("notify::activated", self._on_backend_activated_changed)
-
-        self._settings.connect("changed::album-sort", self._on_album_sort_changed)
-
-    def _get_directory_backend(
-        self, directory_uri: Optional[str]
-    ) -> Tuple[Optional[MopidyBackend], Optional[str]]:
-        for backend in self._model.backends:
-            albums_uri = backend.get_albums_uri(directory_uri)
-            if albums_uri:
-                if not backend.props.activated:
-                    LOGGER.info(
-                        f"Backend {backend} supports URI {albums_uri!r} but is deactivated"
-                    )
-                    return backend, None
-                else:
-                    LOGGER.info(f"Backend {backend} supports URI {albums_uri!r}")
-                return backend, albums_uri
-
-        LOGGER.warning(f"No known backend supports URI {directory_uri!r}")
-        return None, None
-
-    def _on_backend_activated_changed(
-        self,
-        _1: Gio.Settings,
-        _2: str,
-    ) -> None:
-        self.send_message(MessageType.BROWSE_ALBUMS)
 
     @consume(MessageType.COMPLETE_ALBUM_DESCRIPTION)
     async def complete_album_description(self, message: Message) -> None:
@@ -142,139 +108,6 @@ class AlbumsController(ControllerBase):
             album.release_mbid
         )
         self._model.set_album_information(album_uri, album_abstract, artist_abstract)
-
-    @consume(MessageType.BROWSE_ALBUMS)
-    async def browse_albums(self, message: Message) -> None:
-        LOGGER.info("Starting to browse albums...")
-        directories = await self._http.browse_library()
-        if not directories:
-            LOGGER.warning("No library found on Mopidy server!")
-            return None
-
-        complete_album_by_uri = self._model.get_complete_albums()
-        if complete_album_by_uri is None:
-            LOGGER.warning("Failed to list complete albums")
-            complete_album_by_uri = {}
-
-        keep_albums: List[AlbumModel] = []
-        parsed_albums: List[AlbumModel] = []
-        for directory in directories:
-            backend, albums_uri = self._get_directory_backend(directory.uri)
-            if backend is None or albums_uri is None:
-                LOGGER.warning(
-                    f"Skipping unsupported directory with URI {directory.uri!r}"
-                )
-                continue
-
-            directory_albums = await self._http.browse_library(albums_uri)
-            if directory_albums is None:
-                continue
-
-            if len(directory_albums) == 0:
-                LOGGER.warning(
-                    f"No album found for directory with URI {directory.uri!r}"
-                )
-                continue
-
-            LOGGER.info(
-                f"Found {len(directory_albums)} albums in directory "
-                f"with URI {directory.uri!r}"
-            )
-
-            directory_albums_to_complete = []
-            for a in directory_albums:
-                album = complete_album_by_uri.get(a.uri)
-                if album:
-                    keep_albums.append(album)
-                else:
-                    directory_albums_to_complete.append(a)
-
-            album_uris = [a.uri for a in directory_albums_to_complete]
-            if len(album_uris):
-                LOGGER.info(
-                    f"Must collect {len(album_uris)} album descriptions for directory with URI {directory.uri!r}"
-                )
-            else:
-                LOGGER.info(
-                    f"All album descriptions for directory with URI {directory.uri!r} already collected"
-                )
-                continue
-
-            images = await call_by_slice(
-                self._http.get_images,
-                params=album_uris,
-                call_size=50,
-            )
-            if images is None:
-                LOGGER.warning(
-                    f"Failed to fetch URIs of images of albums for directory with URI {directory.uri!r}"
-                )
-
-            LOGGER.info(
-                f"Collecting album descriptions for directory with URI {directory.uri!r}"
-            )
-            directory_tracks_dto = await call_by_slice(
-                self._http.lookup_library,
-                params=album_uris,
-                call_size=50,
-            )
-
-            LOGGER.info(f"Parsing tracks for directory with URI {directory.uri!r}")
-            length_acc = LengthAcc()
-            metadata_collector = AlbumMetadataCollector()
-            parsed_tracks = parse_tracks(
-                directory_tracks_dto, visitors=[length_acc, metadata_collector]
-            )
-            for a in directory_albums_to_complete:
-                # TODO Handle other types of refs
-                # assert "__model__" in a and a["__model__"] == "Ref"
-                # assert "type" in a and a["type"] == "album"
-
-                album_tracks_dto = directory_tracks_dto.get(a.uri)
-                if album_tracks_dto is None or len(album_tracks_dto) == 0:
-                    continue
-
-                length = length_acc.length[a.uri]
-                artist_name = metadata_collector.artist_name(a.uri)
-                num_tracks = metadata_collector.num_tracks(a.uri)
-                num_discs = metadata_collector.num_discs(a.uri)
-                date = metadata_collector.date(a.uri)
-                release_mbid = metadata_collector.release_mbid(a.uri)
-                last_modified = metadata_collector.last_modified(a.uri)
-
-                if a.uri in images and len(images[a.uri]) > 0:
-                    image_uri = images[a.uri][0].uri
-                    filepath = self._download.get_image_filepath(image_uri)
-                else:
-                    image_uri = ""
-                    filepath = None
-
-                album_parsed_tracks = parsed_tracks.get(a.uri, [])
-                album_parsed_tracks.sort(key=attrgetter("disc_no", "track_no"))
-
-                album = AlbumModel(
-                    backend=backend,
-                    uri=a.uri,
-                    name=a.name,
-                    image_path=str(filepath) if filepath is not None else "",
-                    image_uri=image_uri,
-                    artist_name=artist_name,
-                    num_tracks=num_tracks,
-                    num_discs=num_discs,
-                    date=date,
-                    last_modified=last_modified,
-                    length=length,
-                    release_mbid=release_mbid,
-                    tracks=album_parsed_tracks,
-                )
-                parsed_albums.append(album)
-
-        album_sort_id = self._settings.get_string("album-sort")
-        self._model.update_albums(parsed_albums + keep_albums, album_sort_id)
-
-    def _on_album_sort_changed(self, settings: Gio.Settings, key: str) -> None:
-        album_sort_id = self._settings.get_string("album-sort")
-        self._model.sort_albums(album_sort_id)
 
     @consume(MessageType.FETCH_ALBUM_IMAGES)
     async def fetch_album_images(self, message: Message) -> None:

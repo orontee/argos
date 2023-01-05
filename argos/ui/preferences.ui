@@ -65,7 +65,7 @@
                 <property name="margin-top">5</property>
                 <property name="margin-bottom">5</property>
                 <property name="orientation">vertical</property>
-                <property name="spacing">10</property>
+                <property name="spacing">5</property>
                 <child>
                   <object class="GtkLabel" id="server_label">
                     <property name="visible">True</property>
@@ -86,8 +86,8 @@
                   <object class="GtkBox" id="mopidy_base_url_box">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="margin-start">10</property>
-                    <property name="margin-end">10</property>
+                    <property name="margin-start">5</property>
+                    <property name="margin-end">5</property>
                     <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="mopidy_base_url_label">
@@ -131,8 +131,6 @@
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="halign">start</property>
-                    <property name="margin-start">10</property>
-                    <property name="margin-end">10</property>
                     <property name="label" translatable="yes">A connection failure indicates that the music server is currently not accessible at the given URL. Please adapt the URL.</property>
                     <property name="wrap">True</property>
                     <property name="max-width-chars">50</property>
@@ -148,7 +146,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="server_label1">
+                  <object class="GtkLabel" id="services_label">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="halign">start</property>
@@ -168,13 +166,9 @@
                   <object class="GtkGrid" id="information_service_grid">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="margin-left">5</property>
-                    <property name="margin-right">5</property>
                     <property name="margin-start">5</property>
                     <property name="margin-end">5</property>
-                    <property name="margin-top">5</property>
-                    <property name="margin-bottom">5</property>
-                    <property name="row-spacing">10</property>
+                    <property name="row-spacing">5</property>
                     <property name="column-spacing">5</property>
                     <property name="column-homogeneous">True</property>
                     <child>
@@ -205,10 +199,6 @@
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="halign">start</property>
-                        <property name="margin-left">10</property>
-                        <property name="margin-right">10</property>
-                        <property name="margin-start">10</property>
-                        <property name="margin-end">10</property>
                         <property name="label" translatable="yes">The information is collected using Musicbrainz API and Wikipedia API.</property>
                         <property name="wrap">True</property>
                         <property name="max-width-chars">50</property>
@@ -248,9 +238,12 @@
               <object class="GtkBox" id="sources_box">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="margin-start">5</property>
+                <property name="margin-end">5</property>
                 <property name="margin-top">5</property>
                 <property name="margin-bottom">5</property>
                 <property name="orientation">vertical</property>
+                <property name="spacing">5</property>
                 <child>
                   <object class="GtkLabel" id="library_source_label">
                     <property name="visible">True</property>
@@ -268,117 +261,89 @@
                   </packing>
                 </child>
                 <child>
-                  <!-- n-columns=4 n-rows=2 -->
-                  <object class="GtkGrid" id="mopidy_backend_grid">
+                  <object class="GtkScrolledWindow" id="mopidy_backend_scrolled_window">
+                    <property name="height-request">100</property>
                     <property name="visible">True</property>
-                    <property name="can-focus">False</property>
+                    <property name="can-focus">True</property>
                     <property name="margin-start">5</property>
                     <property name="margin-end">5</property>
-                    <property name="margin-top">5</property>
-                    <property name="margin-bottom">5</property>
-                    <property name="row-spacing">10</property>
-                    <property name="column-spacing">5</property>
-                    <property name="column-homogeneous">True</property>
+                    <property name="shadow-type">in</property>
                     <child>
-                      <object class="GtkSwitch" id="mopidy_podcast_switch">
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="halign">start</property>
-                        <signal name="notify::active" handler="on_mopidy_podcast_switch_active_notify" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="left-attach">3</property>
-                        <property name="top-attach">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="mopidy_podcast_label">
+                      <object class="GtkViewport" id="mopidy_backend_viewport">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="halign">end</property>
-                        <property name="label" translatable="yes">Podcasts:</property>
+                        <child>
+                          <!-- n-columns=2 n-rows=4 -->
+                          <object class="GtkGrid" id="mopidy_backend_grid">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="margin-top">5</property>
+                            <property name="margin-bottom">5</property>
+                            <property name="row-spacing">5</property>
+                            <property name="column-spacing">5</property>
+                            <property name="row-homogeneous">True</property>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                          </object>
+                        </child>
                       </object>
-                      <packing>
-                        <property name="left-attach">2</property>
-                        <property name="top-attach">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkSwitch" id="mopidy_local_switch">
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="halign">start</property>
-                        <signal name="notify::active" handler="on_mopidy_local_switch_active_notify" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="left-attach">1</property>
-                        <property name="top-attach">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="mopidy_bandcamp_label">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="halign">end</property>
-                        <property name="label" translatable="yes">Bandcamp:</property>
-                      </object>
-                      <packing>
-                        <property name="left-attach">0</property>
-                        <property name="top-attach">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkSwitch" id="mopidy_bandcamp_switch">
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="halign">start</property>
-                        <signal name="notify::active" handler="on_mopidy_bandcamp_switch_active_notify" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="left-attach">1</property>
-                        <property name="top-attach">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="mopidy_local_label">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="halign">end</property>
-                        <property name="label" translatable="yes">Local:</property>
-                      </object>
-                      <packing>
-                        <property name="left-attach">0</property>
-                        <property name="top-attach">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkSwitch" id="mopidy_jellyfin_switch">
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="halign">start</property>
-                      </object>
-                      <packing>
-                        <property name="left-attach">3</property>
-                        <property name="top-attach">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="mopidy_jellyfin_label">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="halign">end</property>
-                        <property name="label" translatable="yes">Jellyfin:</property>
-                      </object>
-                      <packing>
-                        <property name="left-attach">2</property>
-                        <property name="top-attach">1</property>
-                      </packing>
                     </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="library_start_uri_box">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="margin-start">5</property>
+                    <property name="margin-end">5</property>
+                    <property name="spacing">5</property>
+                    <child>
+                      <object class="GtkCheckButton" id="open_mopidy_local_albums_button">
+                        <property name="label" translatable="yes">Index Mopidy-Local albums at startup</property>
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="draw-indicator">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
                 <child>
@@ -394,7 +359,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">2</property>
+                    <property name="position">3</property>
                   </packing>
                 </child>
                 <child>
@@ -403,10 +368,8 @@
                     <property name="can-focus">False</property>
                     <property name="margin-start">5</property>
                     <property name="margin-end">5</property>
-                    <property name="margin-top">5</property>
-                    <property name="margin-bottom">5</property>
                     <property name="orientation">vertical</property>
-                    <property name="spacing">10</property>
+                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkBox" id="recent_additions_playlist_box">
                         <property name="visible">True</property>
@@ -478,8 +441,6 @@
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="receives-default">False</property>
-                            <property name="margin-left">10</property>
-                            <property name="margin-start">10</property>
                             <property name="draw-indicator">True</property>
                             <signal name="toggled" handler="on_history_playlist_check_button_toggled" swapped="no"/>
                           </object>
@@ -531,7 +492,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">3</property>
+                    <property name="position">4</property>
                   </packing>
                 </child>
               </object>
@@ -545,9 +506,12 @@
               <object class="GtkBox" id="display_box">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="margin-start">5</property>
+                <property name="margin-end">5</property>
                 <property name="margin-top">5</property>
                 <property name="margin-bottom">5</property>
                 <property name="orientation">vertical</property>
+                <property name="spacing">5</property>
                 <child>
                   <object class="GtkLabel" id="main_window_label">
                     <property name="visible">True</property>
@@ -572,8 +536,6 @@
                     <property name="halign">start</property>
                     <property name="margin-start">5</property>
                     <property name="margin-end">5</property>
-                    <property name="margin-top">5</property>
-                    <property name="margin-bottom">5</property>
                     <property name="row-spacing">10</property>
                     <property name="column-spacing">5</property>
                     <property name="column-homogeneous">True</property>
@@ -653,8 +615,6 @@
                     <property name="can-focus">False</property>
                     <property name="margin-start">5</property>
                     <property name="margin-end">5</property>
-                    <property name="margin-top">5</property>
-                    <property name="margin-bottom">5</property>
                     <property name="row-spacing">10</property>
                     <property name="column-spacing">5</property>
                     <child>
@@ -662,6 +622,8 @@
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="halign">end</property>
+                        <property name="margin-start">5</property>
+                        <property name="margin-end">5</property>
                         <property name="label" translatable="yes">Image size:</property>
                       </object>
                       <packing>

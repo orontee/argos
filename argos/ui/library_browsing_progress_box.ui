@@ -2,7 +2,7 @@
 <!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
-  <template class="AlbumsBrowsingProgressBox" parent="GtkBox">
+  <template class="LibraryBrowsingProgressBox" parent="GtkBox">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="hexpand">False</property>
@@ -29,7 +29,7 @@
         <property name="valign">start</property>
         <property name="margin-start">5</property>
         <property name="vexpand">True</property>
-        <property name="label" translatable="yes">Keep calm, albums indexation in progress…</property>
+        <property name="label" translatable="yes">Keep calm, library indexation in progress…</property>
         <property name="justify">center</property>
       </object>
       <packing>

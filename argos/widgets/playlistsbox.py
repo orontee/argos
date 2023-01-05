@@ -79,7 +79,7 @@ class PlaylistsBox(Gtk.Box):
         PlaylistLabel.set_css_name("playlistlabel")
 
         self.playlists_view.bind_model(
-            self._model.library.playlists,
+            self._model.playlists,
             self._create_playlist_box,
         )
         self.playlists_view.set_header_func(

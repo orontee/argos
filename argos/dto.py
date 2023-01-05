@@ -32,8 +32,8 @@ def cast_seq_of(klass: Type[T], data: Any) -> List[T]:
         for d in data:
             obj = klass.factory(d)  # noqa
             if obj is None:
-                LOGGER.debug(f"Failed to build {klass!r} from {d!r}")
-                return []
+                LOGGER.warning(f"Failed to build {klass!r} from {d!r}")
+                continue
 
             objects.append(obj)
     except TypeError:
@@ -91,7 +91,8 @@ class ArtistDTO:
 
         uri = data.get("uri", "")
         # it was observed that some podcasts don't have a URI for their artists
-        name = data.get("name")
+        name = data.get("name", "")
+        # it was observed that somafm tracks may not have a name for their artists
         if uri is None or name is None:
             return None
 
@@ -122,7 +123,8 @@ class AlbumDTO:
         if data is None:
             return None
 
-        uri = data.get("uri")
+        uri = data.get("uri", "")
+        # it was observed that some somafm tracks don't have a URI for their album
         name = data.get("name")
         if uri is None or name is None:
             return None

@@ -3,24 +3,24 @@
 <interface>
   <requires lib="gtk+" version="3.24"/>
   <!-- interface-local-resource-path ../ -->
-  <template class="AlbumsWindow" parent="GtkBox">
+  <template class="LibraryWindow" parent="GtkBox">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="orientation">vertical</property>
     <property name="spacing">5</property>
     <child>
-      <object class="GtkOverlay" id="albums_overlay">
+      <object class="GtkOverlay" id="library_overlay">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="hexpand">True</property>
         <property name="vexpand">True</property>
         <child>
-          <object class="GtkStack" id="albums_stack">
+          <object class="GtkStack" id="library_stack">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="transition-type">slide-left</property>
             <child>
-              <object class="GtkScrolledWindow" id="albums_window">
+              <object class="GtkScrolledWindow" id="library_window">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="hexpand">True</property>
@@ -29,17 +29,17 @@
                 <property name="propagate-natural-width">True</property>
                 <property name="propagate-natural-height">True</property>
                 <child>
-                  <object class="GtkIconView" id="albums_view">
+                  <object class="GtkIconView" id="directory_view">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="margin">0</property>
                     <property name="activate-on-single-click">True</property>
-                    <signal name="item-activated" handler="albums_view_item_activated_cb" swapped="no"/>
+                    <signal name="item-activated" handler="directory_view_item_activated_cb" swapped="no"/>
                   </object>
                 </child>
               </object>
               <packing>
-                <property name="name">albums_page</property>
+                <property name="name">directory_page</property>
                 <property name="title">page0</property>
               </packing>
             </child>

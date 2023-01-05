@@ -4,7 +4,8 @@ import logging
 from gi.repository import Gdk, Gio, GLib, GObject, Gtk
 
 from argos.message import MessageType
-from argos.widgets import AlbumsWindow, PlayingBox, PlaylistsBox, TitleBar
+from argos.widgets import LibraryWindow, PlayingBox, PlaylistsBox, TitleBar
+from argos.widgets.titlebar import TitleBarState
 
 _ = gettext.gettext
 
@@ -18,7 +19,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
     main_box: Gtk.Box = Gtk.Template.Child()
     central_view: Gtk.Stack = Gtk.Template.Child()
 
-    albums_window = GObject.Property(type=AlbumsWindow)
+    library_window = GObject.Property(type=LibraryWindow)
     playlists_box = GObject.Property(type=PlaylistsBox)
     titlebar = GObject.Property(type=TitleBar)
     is_fullscreen = GObject.Property(type=bool, default=False)
@@ -37,9 +38,9 @@ class ArgosWindow(Gtk.ApplicationWindow):
         playing_box = PlayingBox(application)
         self.central_view.add_titled(playing_box, "playing_page", _("Playing"))
 
-        self.props.albums_window = AlbumsWindow(application)
+        self.props.library_window = LibraryWindow(application)
         self.central_view.add_titled(
-            self.props.albums_window, "albums_page", _("Library")
+            self.props.library_window, "library_page", _("Library")
         )
         self.props.playlists_box = PlaylistsBox(application)
         self.central_view.add_titled(
@@ -47,7 +48,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
         )
 
         self.central_view.connect(
-            "notify::visible-child-name", self._on_central_view_changed
+            "notify::visible-child-name", self._on_central_view_or_library_page_changed
         )
 
         goto_playing_page_action = Gio.SimpleAction.new("goto-playing-page", None)
@@ -56,7 +57,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
             "activate", self.on_goto_playing_page_activated
         )
 
-        album_details_box = self.props.albums_window.props.album_details_box
+        album_details_box = self.props.library_window.props.album_details_box
 
         add_to_tracklist_action = Gio.SimpleAction.new("add-to-tracklist", None)
         self.add_action(add_to_tracklist_action)
@@ -99,7 +100,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
         )
         self.add_action(sort_albums_action)
         sort_albums_action.connect(
-            "activate", self.props.albums_window.on_sort_albums_activated
+            "activate", self.props.library_window.on_sort_albums_activated
         )
 
         prefer_dark_theme = self._settings.get_boolean("prefer-dark-theme")
@@ -109,8 +110,11 @@ class ArgosWindow(Gtk.ApplicationWindow):
             "changed::prefer-dark-theme", self._on_prefer_dark_theme_changed
         )
 
-        self.props.albums_window.albums_stack.connect(
-            "notify::visible-child-name", self._on_albums_stack_page_changed
+        self.props.library_window.library_stack.connect(
+            "notify::visible-child-name", self._on_central_view_or_library_page_changed
+        )
+        self.props.library_window.connect(
+            "notify::directory-uri", self._on_central_view_or_library_page_changed
         )
 
         self.props.playlists_box.tracks_box.connect(
@@ -119,7 +123,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
 
         self.show_all()
 
-        self.titlebar.props.main_page_state = True
+        self.titlebar.set_state(TitleBarState.FOR_PLAYING_PAGE, force=True)
         information_service_activated = self._settings.get_boolean(
             "information-service"
         )
@@ -136,35 +140,37 @@ class ArgosWindow(Gtk.ApplicationWindow):
         )
         return playing_page_visible
 
-    def _on_central_view_changed(
+    def _on_central_view_or_library_page_changed(
         self,
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
-        albums_page_visible = (
-            self.central_view.get_visible_child_name() == "albums_page"
-        )
-        self.titlebar.search_entry.props.text = ""
-        self.titlebar.props.search_activated = albums_page_visible
-        self.titlebar.props.main_page_state = (
-            not albums_page_visible or self.props.albums_window.is_albums_page_visible()
-        )
+        self._update_titlebar_state()
 
-    def _on_albums_stack_page_changed(
-        self,
-        _1: GObject.GObject,
-        _2: GObject.GParamSpec,
-    ) -> None:
-        self.titlebar.props.main_page_state = (
-            self.props.albums_window.is_albums_page_visible()
-        )
+    def _update_titlebar_state(self) -> None:
+        central_child_name = self.central_view.get_visible_child_name()
+
+        if central_child_name == "playing_page":
+            self.titlebar.set_state(TitleBarState.FOR_PLAYING_PAGE)
+        elif central_child_name == "library_page":
+            if self.props.library_window.is_directory_page_visible():
+                if self.props.library_window.props.directory_uri == "":
+                    self.titlebar.set_state(
+                        TitleBarState.FOR_LIBRARY_PAGE_ON_ROOT_DIRECTORY
+                    )
+                else:
+                    self.titlebar.set_state(TitleBarState.FOR_LIBRARY_PAGE_ON_DIRECTORY)
+            else:
+                self.titlebar.set_state(TitleBarState.FOR_LIBRARY_PAGE_ON_ALBUM)
+        elif central_child_name == "playlists_page":
+            self.titlebar.set_state(TitleBarState.FOR_PLAYLISTS_PAGE)
 
     def _on_title_back_button_clicked(self, _1: Gtk.Button) -> None:
-        self.props.albums_window.select_albums_page()
+        self.props.library_window.goto_parent_state()
 
     def _on_search_entry_changed(self, search_entry: Gtk.SearchEntry) -> None:
         filtering_text = search_entry.props.text
-        self.props.albums_window.set_filtering_text(filtering_text)
+        self.props.library_window.set_filtering_text(filtering_text)
 
     def _on_prefer_dark_theme_changed(
         self,
@@ -235,7 +241,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
                 self.set_central_view_visible_child("playing_page")
                 return True
             elif keyval in [Gdk.KEY_2, Gdk.KEY_KP_2]:
-                self.set_central_view_visible_child("albums_page")
+                self.set_central_view_visible_child("library_page")
                 return True
             elif keyval in [Gdk.KEY_3, Gdk.KEY_KP_3]:
                 self.set_central_view_visible_child("playlists_page")

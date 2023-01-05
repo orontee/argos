@@ -8,6 +8,7 @@ LOGGER = logging.getLogger(__name__)
 
 class MopidyBackend(GObject.Object):
 
+    name = GObject.Property(type=str)
     settings_key = GObject.Property(type=str)
     static_albums = GObject.Property(type=bool, default=True)
     activated = GObject.Property(type=bool, default=False)
@@ -17,25 +18,26 @@ class MopidyBackend(GObject.Object):
         settings: Gio.Settings,
         *,
         settings_key: str,
-        static_albums: bool = True,
-        activated: bool = False,
+        **kwargs,
     ):
-        super().__init__(settings_key=settings_key, static_albums=static_albums)
+        super().__init__(settings_key=settings_key, **kwargs)
 
         user_configured_backend_activation = (
             settings.get_user_value(self.props.settings_key) is not None
         )
-        self.props.activated = (
-            settings.get_value(self.props.settings_key)
-            if user_configured_backend_activation
-            else activated
-        )
+        if user_configured_backend_activation:
+            # may overwrite value passed through kwargs
+            self.props.activated = settings.get_value(self.props.settings_key)
+
         settings.connect(
             f"changed::{self.props.settings_key}", self._on_settings_changed
         )
 
-    def get_albums_uri(self, directory_uri: Optional[str]) -> Optional[str]:
+    def is_responsible_for(self, directory_uri: str) -> bool:
         raise NotImplementedError
+
+    def hides(self, ref_uri: str) -> bool:
+        return False
 
     def _on_settings_changed(self, settings: Gio.Settings, key: str) -> None:
         assert self.props.settings_key == key
@@ -52,12 +54,20 @@ class MopidyBackend(GObject.Object):
 
 class MopidyLocalBackend(MopidyBackend):
     def __init__(self, settings: Gio.Settings):
-        super().__init__(settings, settings_key="mopidy-local", activated=True)
+        super().__init__(
+            settings, name="Mopidy-Local", settings_key="mopidy-local", activated=True
+        )
 
-    def get_albums_uri(self, directory_uri: Optional[str]) -> Optional[str]:
-        if directory_uri == "local:directory":
-            return "local:directory?type=album"
-        return None
+    def is_responsible_for(self, directory_uri: str) -> bool:
+        return directory_uri.startswith("local:")
+
+    def hides(self, ref_uri: str) -> bool:
+        if ref_uri == "local:directory?type=track":
+            return True
+        else:
+            return False
+
+    # TODO translate directory names
 
 
 class MopidyBandcampBackend(MopidyBackend):
@@ -65,33 +75,48 @@ class MopidyBandcampBackend(MopidyBackend):
         self,
         settings: Gio.Settings,
     ):
-        super().__init__(settings, settings_key="mopidy-bandcamp")
+        super().__init__(
+            settings, name="Mopidy-Bandcamp", settings_key="mopidy-bandcamp"
+        )
 
-    def get_albums_uri(self, directory_uri: Optional[str]) -> Optional[str]:
-        if directory_uri == "bandcamp:browse":
-            return "bandcamp:collection"
-        return None
+    def is_responsible_for(self, directory_uri: str) -> bool:
+        return directory_uri.startswith("bandcamp:")
 
 
 class MopidyJellyfinBackend(MopidyBackend):
     def __init__(self, settings: Gio.Settings):
-        super().__init__(settings, settings_key="mopidy-jellyfin")
+        super().__init__(
+            settings, name="Mopidy-Jellyfin", settings_key="mopidy-jellyfin"
+        )
 
-    def get_albums_uri(self, directory_uri: Optional[str]) -> Optional[str]:
-        if directory_uri == "jellyfin:":
-            return "jellyfin:albums"
-        return None
+    def is_responsible_for(self, directory_uri: str) -> bool:
+        return directory_uri.startswith("jellyfin:")
 
 
 class MopidyPodcastBackend(MopidyBackend):
     def __init__(self, settings: Gio.Settings):
         super().__init__(
             settings,
+            name="Mopidy-Podcast",
             settings_key="mopidy-podcast",
             static_albums=False,
         )
 
-    def get_albums_uri(self, directory_uri: Optional[str]) -> Optional[str]:
-        if directory_uri and directory_uri.startswith("podcast+file://"):
-            return directory_uri
-        return None
+    def is_responsible_for(self, directory_uri: str) -> bool:
+        return directory_uri.startswith("podcast+")
+
+
+class MopidyFileBackend(MopidyBackend):
+    def __init__(self, settings: Gio.Settings):
+        super().__init__(settings, name="Mopidy-File", settings_key="mopidy-file")
+
+    def is_responsible_for(self, directory_uri: str) -> bool:
+        return directory_uri.startswith("file:")
+
+
+class MopidySomaFMBackend(MopidyBackend):
+    def __init__(self, settings: Gio.Settings):
+        super().__init__(settings, name="Mopidy-SomaFM", settings_key="mopidy-somafm")
+
+    def is_responsible_for(self, directory_uri: str) -> bool:
+        return directory_uri.startswith("somafm:")

@@ -15,6 +15,7 @@ from gi.repository import Gdk, Gio, GLib, GObject, Gtk
 
 from argos.controllers import (
     AlbumsController,
+    LibraryController,
     MixerController,
     PlaybackController,
     PlaylistsController,
@@ -93,6 +94,7 @@ class Application(Gtk.Application):
             PlaybackController(self),
             TracklistController(self),
             AlbumsController(self),
+            LibraryController(self),
             MixerController(self),
             PlaylistsController(self),
         )
@@ -435,7 +437,7 @@ class Application(Gtk.Application):
         self, action: Gio.SimpleAction, parameter: None
     ) -> None:
         LOGGER.debug("Library update requested by end-user")
-        self.send_message(MessageType.BROWSE_ALBUMS)
+        self.send_message(MessageType.BROWSE_DIRECTORY, data={"force": True})
 
     def _identify_message_consumers_from_controllers(self) -> None:
         LOGGER.debug("Identifying message consumers")
