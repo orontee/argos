@@ -26,9 +26,6 @@ class PreferencesWindow(Gtk.Window):
     history_playlist_check_button: Gtk.CheckButton = Gtk.Template.Child()
     history_playlist_max_length_label: Gtk.Label = Gtk.Template.Child()
     history_playlist_max_length_button: Gtk.SpinButton = Gtk.Template.Child()
-    recent_additions_playlist_check_button: Gtk.CheckButton = Gtk.Template.Child()
-    recent_additions_playlist_max_age_label: Gtk.Label = Gtk.Template.Child()
-    recent_additions_playlist_max_age_button: Gtk.SpinButton = Gtk.Template.Child()
     albums_image_size_scale: Gtk.Scale = Gtk.Template.Child()
     albums_image_size_adjustment: Gtk.Adjustment = Gtk.Template.Child()
     prefer_dark_theme_switch: Gtk.Switch = Gtk.Template.Child()
@@ -92,18 +89,6 @@ class PreferencesWindow(Gtk.Window):
         history_max_length = self._settings.get_int("history-max-length")
         self.history_playlist_max_length_button.set_value(history_max_length)
 
-        recent_additions_playlist = self._settings.get_boolean(
-            "recent-additions-playlist"
-        )
-        self.recent_additions_playlist_check_button.set_active(
-            recent_additions_playlist
-        )
-
-        recent_additions_max_age = self._settings.get_int("recent-additions-max-age")
-        self.recent_additions_playlist_max_age_button.set_value(
-            recent_additions_max_age // SECONDS_PER_DAY
-        )
-
         albums_image_size = self._settings.get_int("albums-image-size")
         self.albums_image_size_adjustment.set_value(albums_image_size)
 
@@ -139,9 +124,6 @@ class PreferencesWindow(Gtk.Window):
             self.history_playlist_check_button,
             self.history_playlist_max_length_label,
             self.history_playlist_max_length_button,
-            self.recent_additions_playlist_check_button,
-            self.recent_additions_playlist_max_age_label,
-            self.recent_additions_playlist_max_age_button,
         ):
             widget.set_sensitive(sensitive)
 
@@ -150,12 +132,6 @@ class PreferencesWindow(Gtk.Window):
         )
         self.history_playlist_max_length_button.set_sensitive(
             sensitive and history_playlist
-        )
-        self.recent_additions_playlist_max_age_label.set_sensitive(
-            sensitive and recent_additions_playlist
-        )
-        self.recent_additions_playlist_max_age_button.set_sensitive(
-            sensitive and recent_additions_playlist
         )
 
         self._model.connect("notify::network-available", self.on_connection_changed)
@@ -179,13 +155,6 @@ class PreferencesWindow(Gtk.Window):
         )
         self.history_playlist_max_length_button.connect(
             "value-changed", self.on_history_playlist_max_length_button_value_changed
-        )
-        self.recent_additions_playlist_check_button.connect(
-            "toggled", self.on_recent_additions_playlist_check_button_toggled
-        )
-        self.recent_additions_playlist_max_age_button.connect(
-            "value-changed",
-            self.on_recent_additions_playlist_max_age_button_value_changed,
         )
 
         self.prefer_dark_theme_switch.connect(
@@ -217,7 +186,6 @@ class PreferencesWindow(Gtk.Window):
         widgets = (
             self.mopidy_backend_grid,
             self.history_playlist_check_button,
-            self.recent_additions_playlist_check_button,
         )
         for widget in widgets:
             widget.set_sensitive(sensitive)
@@ -228,16 +196,6 @@ class PreferencesWindow(Gtk.Window):
         )
         self.history_playlist_max_length_button.set_sensitive(
             sensitive and history_playlist
-        )
-
-        recent_additions_playlist = self._settings.get_boolean(
-            "recent-additions-playlist"
-        )
-        self.recent_additions_playlist_max_age_label.set_sensitive(
-            sensitive and recent_additions_playlist
-        )
-        self.recent_additions_playlist_max_age_button.set_sensitive(
-            sensitive and recent_additions_playlist
         )
 
     def on_mopidy_base_url_entry_changed(self, entry: Gtk.Entry) -> None:
@@ -285,26 +243,6 @@ class PreferencesWindow(Gtk.Window):
     ) -> None:
         history_max_length = button.get_value()
         self._settings.set_int("history-max-length", history_max_length)
-
-    def on_recent_additions_playlist_check_button_toggled(
-        self, button: Gtk.CheckButton
-    ) -> None:
-        recent_additions_playlist = button.get_active()
-        self._settings.set_boolean(
-            "recent-additions-playlist", recent_additions_playlist
-        )
-        self.recent_additions_playlist_max_age_label.set_sensitive(
-            recent_additions_playlist
-        )
-        self.recent_additions_playlist_max_age_button.set_sensitive(
-            recent_additions_playlist
-        )
-
-    def on_recent_additions_playlist_max_age_button_value_changed(
-        self, button: Gtk.CheckButton
-    ) -> None:
-        recent_additions_max_age = button.get_value() * SECONDS_PER_DAY
-        self._settings.set_int("recent-additions-max-age", recent_additions_max_age)
 
     def _on_albums_image_size_scale_jumped(self) -> bool:
         if self._albums_image_size_scale_jumped_id is not None:

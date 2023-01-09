@@ -29,24 +29,10 @@ class PlaylistsController(ControllerBase):
 
     logger = LOGGER  # used by consume decorator
 
-    RECENT_PLAYLIST_URI = "argos:recent"
     HISTORY_PLAYLIST_URI = "argos:history"
 
     def __init__(self, application: "Application"):
         super().__init__(application)
-
-        self._recent_additions_playlist: Optional[PlaylistModel] = None
-        if self._settings.get_boolean("recent-additions-playlist"):
-            self._recent_additions_playlist = PlaylistModel(
-                uri=PlaylistsController.RECENT_PLAYLIST_URI,
-                name=_("Recent additions"),
-            )
-        self._settings.connect(
-            "changed::recent-additions-playlist", self._on_playlist_settings_changed
-        )
-        self._settings.connect(
-            "changed::recent-additions-max-age", self._on_playlist_settings_changed
-        )
 
         self._history_playlist: Optional[PlaylistModel] = None
         if self._settings.get_boolean("history-playlist"):
@@ -100,8 +86,6 @@ class PlaylistsController(ControllerBase):
             else []
         )
 
-        if self._recent_additions_playlist:
-            playlists.append(self._recent_additions_playlist)
         if self._history_playlist:
             playlists.append(self._history_playlist)
 
@@ -184,14 +168,7 @@ class PlaylistsController(ControllerBase):
 
         LOGGER.debug(f"Completing description of playlist with URI {playlist_uri!r}")
 
-        if (
-            self._recent_additions_playlist
-            and playlist_uri == self._recent_additions_playlist.props.uri
-        ):
-            await self._complete_recent_additions_playlist()
-        elif (
-            self._history_playlist and playlist_uri == self._history_playlist.props.uri
-        ):
+        if self._history_playlist and playlist_uri == self._history_playlist.props.uri:
             await self._complete_history_playlist()
         else:
             playlist = self._model.get_playlist(playlist_uri)
@@ -223,44 +200,6 @@ class PlaylistsController(ControllerBase):
             name=playlist_dto.name,
             tracks=parsed_tracks,
             last_modified=playlist_dto.last_modified,
-        )
-
-    async def _complete_recent_additions_playlist(self) -> None:
-        if not self._recent_additions_playlist:
-            return
-
-        recent_additions_max_age = self._settings.get_int("recent-additions-max-age")
-        recent_refs = await self._http.browse_library(
-            f"local:directory?max-age={recent_additions_max_age}"
-        )
-        if recent_refs is None:
-            return
-
-        recent_refs_uris = [ref.uri for ref in recent_refs]
-        recent_track_refs_uris = []
-        for uri in recent_refs_uris:
-            track_refs = await self._http.browse_library(uri)
-            if track_refs is None:
-                continue
-            recent_track_refs_uris += [ref.uri for ref in track_refs]
-
-        recent_tracks_dto = await call_by_slice(
-            self._http.lookup_library,
-            params=recent_track_refs_uris,
-        )
-
-        parsed_recent_tracks: List[TrackModel] = []
-        for tracks in parse_tracks(recent_tracks_dto).values():
-            parsed_recent_tracks += tracks
-
-        parsed_recent_tracks.sort(
-            key=attrgetter("last_modified", "disc_no", "track_no")
-        )
-        self._model.complete_playlist_description(
-            self._recent_additions_playlist.uri,
-            name=self._recent_additions_playlist.name,
-            tracks=parsed_recent_tracks,
-            last_modified=time.time(),
         )
 
     async def _complete_history_playlist(self) -> None:
@@ -353,15 +292,7 @@ class PlaylistsController(ControllerBase):
         settings: Gio.Settings,
         key: str,
     ) -> None:
-        if key == "recent-additions-playlist":
-            if self._settings.get_boolean("recent-additions-playlist"):
-                self._recent_additions_playlist = PlaylistModel(
-                    uri=PlaylistsController.RECENT_PLAYLIST_URI,
-                    name=_("Recent additions"),
-                )
-            else:
-                self._recent_additions_playlist = None
-        elif key == "history-playlist":
+        if key == "history-playlist":
             if self._settings.get_boolean("history-playlist"):
                 self._history_playlist = PlaylistModel(
                     uri=PlaylistsController.HISTORY_PLAYLIST_URI,
@@ -370,16 +301,8 @@ class PlaylistsController(ControllerBase):
             else:
                 self._history_playlist = None
 
-        if key in (
-            "recent-additions-playlist",
-            "history-playlist",
-        ):
+        if key == "history-playlist":
             self.send_message(MessageType.LIST_PLAYLISTS)
-        elif key in ("recent-additions-max-age",):
-            self.send_message(
-                MessageType.COMPLETE_PLAYLIST_DESCRIPTION,
-                data={"uri": PlaylistsController.RECENT_PLAYLIST_URI},
-            )
         elif key in ("history-max-length",):
             self.send_message(
                 MessageType.COMPLETE_PLAYLIST_DESCRIPTION,
