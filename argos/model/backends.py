@@ -76,7 +76,10 @@ class MopidyBandcampBackend(MopidyBackend):
         settings: Gio.Settings,
     ):
         super().__init__(
-            settings, name="Mopidy-Bandcamp", settings_key="mopidy-bandcamp"
+            settings,
+            name="Mopidy-Bandcamp",
+            settings_key="mopidy-bandcamp",
+            static_albums=False,
         )
 
     def is_responsible_for(self, directory_uri: str) -> bool:
@@ -86,7 +89,10 @@ class MopidyBandcampBackend(MopidyBackend):
 class MopidyJellyfinBackend(MopidyBackend):
     def __init__(self, settings: Gio.Settings):
         super().__init__(
-            settings, name="Mopidy-Jellyfin", settings_key="mopidy-jellyfin"
+            settings,
+            name="Mopidy-Jellyfin",
+            settings_key="mopidy-jellyfin",
+            static_albums=False,
         )
 
     def is_responsible_for(self, directory_uri: str) -> bool:

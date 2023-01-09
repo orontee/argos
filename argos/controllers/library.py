@@ -1,7 +1,7 @@
 import asyncio
 import logging
 from operator import attrgetter
-from typing import TYPE_CHECKING, List, Optional, Sequence, Tuple
+from typing import TYPE_CHECKING, Dict, List, Optional, Sequence, Tuple
 
 from gi.repository import Gio, GObject
 
@@ -12,7 +12,7 @@ from argos.controllers.base import ControllerBase
 from argos.controllers.utils import call_by_slice, parse_tracks
 from argos.controllers.visitors import AlbumMetadataCollector, LengthAcc
 from argos.download import ImageDownloader
-from argos.dto import RefDTO, RefType
+from argos.dto import RefDTO, RefType, TrackDTO
 from argos.info import InformationService
 from argos.message import Message, MessageType, consume
 from argos.model import (
@@ -241,28 +241,31 @@ class LibraryController(ControllerBase):
         if images is None:
             LOGGER.warning("Failed to fetch URIs of images")
 
-        LOGGER.debug(f"Fetching albums tracks")
-        directory_tracks_dto = await call_by_slice(
-            self._http.lookup_library,
-            params=album_uris,
-            call_size=50,
-        )
-
-        LOGGER.debug(f"Parsing albums tracks")
         length_acc = LengthAcc()
         metadata_collector = AlbumMetadataCollector()
-        parsed_tracks = parse_tracks(
-            directory_tracks_dto, visitors=[length_acc, metadata_collector]
-        )
+        parsed_tracks: Dict[str, List[TrackModel]] = {}
+        if backend.props.static_albums:
+            LOGGER.debug(f"Fetching albums tracks")
+            directory_tracks_dto = await call_by_slice(
+                self._http.lookup_library,
+                params=album_uris,
+                call_size=50,
+            )
+
+            LOGGER.debug(f"Parsing albums tracks")
+            parsed_tracks = parse_tracks(
+                directory_tracks_dto, visitors=[length_acc, metadata_collector]
+            )
 
         parsed_albums: List[AlbumModel] = []
         for album_dto in album_dtos:
             album_uri = album_dto.uri
-            album_tracks_dto = directory_tracks_dto.get(album_uri)
-            if album_tracks_dto is None or len(album_tracks_dto) == 0:
-                continue
 
-            if album_uri in images and len(images[album_uri]) > 0:
+            if (
+                images is not None
+                and album_uri in images
+                and len(images[album_uri]) > 0
+            ):
                 image_uri = images[album_uri][0].uri
                 filepath = self._download.get_image_filepath(image_uri)
             else:
