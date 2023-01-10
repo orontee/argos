@@ -345,6 +345,27 @@ class LibraryController(ControllerBase):
             call_size=50,
         )
 
+        track_uris = [dto.uri for dto in track_dtos]
+        images = await call_by_slice(
+            self._http.get_images,
+            params=track_uris,
+            call_size=50,
+        )
+        if images is None:
+            LOGGER.warning("Failed to fetch URIs of images")
+
         LOGGER.debug(f"Parsing tracks")
-        parsed_tracks = parse_tracks(directory_tracks_dto)
-        return [track for tracks in parsed_tracks.values() for track in tracks]
+        parsed_tracks: List[TrackModel] = []
+        for tracks in parse_tracks(directory_tracks_dto).values():
+            for track in tracks:
+                track_uri = track.uri
+                if images is not None and len(images.get(track_uri, [])) > 0:
+                    image_uri = images[track_uri][0].uri
+                    track.props.image_uri = image_uri
+                    track.props.image_path = self._download.get_image_filepath(
+                        image_uri
+                    )
+
+                parsed_tracks.append(track)
+
+        return parsed_tracks

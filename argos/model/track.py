@@ -19,6 +19,8 @@ class TrackModel(GObject.Object):
     artist_name = GObject.Property(type=str)
     last_modified = GObject.Property(type=GObject.TYPE_DOUBLE, default=-1)
     last_played = GObject.Property(type=GObject.TYPE_DOUBLE, default=-1)
+    image_path = GObject.Property(type=str)
+    image_uri = GObject.Property(type=str)
 
     @staticmethod
     def factory(dto: TrackDTO) -> "TrackModel":

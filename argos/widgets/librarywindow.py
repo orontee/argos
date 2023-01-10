@@ -136,6 +136,14 @@ class LibraryWindow(Gtk.Box):
             if model.find_property("artist_name")
             else None
         )
+
+        image_path = (
+            str(model.get_property("image_path"))
+            if model.find_property("image_path")
+            else ""
+        )
+        pixbuf = self._default_images[type]
+
         if artist_name is not None:
             elided_escaped_name = GLib.markup_escape_text(elide_maybe(model.name))
             elided_escaped_artist_name = GLib.markup_escape_text(
@@ -157,8 +165,8 @@ class LibraryWindow(Gtk.Box):
             markup_text,
             tooltip_text,
             model.uri,
-            "",
-            self._default_images[type],
+            image_path,
+            pixbuf,
             artist_name or "",
             model.name,
             type.value,
@@ -215,41 +223,20 @@ class LibraryWindow(Gtk.Box):
             store = self.props.filtered_directory_store.get_model()
             store.clear()
 
-            for album in directory.albums:
-                escaped_album_name = GLib.markup_escape_text(album.name)
-                elided_escaped_album_name = GLib.markup_escape_text(
-                    elide_maybe(album.name)
-                )
-                escaped_artist_name = GLib.markup_escape_text(album.artist_name)
-                elided_escaped_artist_name = GLib.markup_escape_text(
-                    elide_maybe(album.artist_name)
-                )
-                store.append(
-                    [
-                        f"<b>{elided_escaped_album_name}</b>\n{elided_escaped_artist_name}",
-                        f"<b>{escaped_album_name}</b>\n{escaped_artist_name}",
-                        album.uri,
-                        str(album.image_path) if album.image_path else "",
-                        self._default_images[DirectoryItemType.ALBUM],
-                        album.artist_name,
-                        album.name,
-                        DirectoryItemType.ALBUM.value,
-                    ]
-                )
-                if album.image_uri:
-                    image_uris.append(album.image_uri)
-
-            other_sources = [
+            for source, item_type in [
+                (directory.albums, DirectoryItemType.ALBUM),
                 (directory.directories, DirectoryItemType.DIRECTORY),
                 (directory.playlists, DirectoryItemType.PLAYLIST),
                 (directory.tracks, DirectoryItemType.TRACK),
-            ]
-            for source, item_type in other_sources:
+            ]:
                 for model in source:
                     store.append(self._build_store_item(model, item_type))
 
+                    if model.find_property("image_uri"):
+                        image_uris.append(model.get_property("image_uri"))
+
         if len(image_uris) > 0:
-            LOGGER.debug("Will fetch album images since albums were just loaded")
+            LOGGER.debug("Will fetch images since directory store was just updated")
             self._app.send_message(
                 MessageType.FETCH_ALBUM_IMAGES, data={"image_uris": image_uris}
             )
@@ -300,7 +287,10 @@ class LibraryWindow(Gtk.Box):
                 library_item_type = DirectoryItemType(raw_library_item_type)
                 default_image = self._default_images[library_item_type]
                 path = store.get_path(store_iter)
-                if library_item_type == DirectoryItemType.ALBUM:
+                if library_item_type in (
+                    DirectoryItemType.ALBUM,
+                    DirectoryItemType.TRACK,
+                ):
                     if image_path:
                         if force or current_pixbuf == default_image:
                             scaled_pixbuf = scale_album_image(
