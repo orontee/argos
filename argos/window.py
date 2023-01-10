@@ -246,6 +246,10 @@ class ArgosWindow(Gtk.ApplicationWindow):
             elif keyval in [Gdk.KEY_3, Gdk.KEY_KP_3]:
                 self.set_central_view_visible_child("playlists_page")
                 return True
+            elif keyval in [Gdk.KEY_Up, Gdk.KEY_KP_Up]:
+                if self.central_view.get_visible_child_name() == "library_page":
+                    self.props.library_window.goto_parent_state()
+                return True
         elif modifiers == control_mask:
             if keyval in [Gdk.KEY_space, Gdk.KEY_KP_Space]:
                 self.props.application.send_message(MessageType.TOGGLE_PLAYBACK_STATE)

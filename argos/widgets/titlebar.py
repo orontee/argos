@@ -126,19 +126,22 @@ class TitleBar(Gtk.HeaderBar):
             if self.search_button is not None:
                 self.search_button.set_visible(False)
         elif state == TitleBarState.FOR_LIBRARY_PAGE_ON_ROOT_DIRECTORY:
-            self.back_button.set_visible(False)
+            self.back_button.set_visible(True)
+            self.back_button.set_sensitive(False)
             self.title_stack.set_visible(True)
             self.sort_button.set_visible(True)
             if self.search_button is not None:
                 self.search_button.set_visible(True)
         elif state == TitleBarState.FOR_LIBRARY_PAGE_ON_DIRECTORY:
             self.back_button.set_visible(True)
+            self.back_button.set_sensitive(True)
             self.title_stack.set_visible(True)
             self.sort_button.set_visible(True)
             if self.search_button is not None:
                 self.search_button.set_visible(True)
         elif state == TitleBarState.FOR_LIBRARY_PAGE_ON_ALBUM:
             self.back_button.set_visible(True)
+            self.back_button.set_sensitive(True)
             self.title_stack.set_visible(True)
             self.sort_button.set_visible(False)
             if self.search_button is not None:

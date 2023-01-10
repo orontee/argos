@@ -93,6 +93,13 @@
                 <property name="accelerator">&lt;Alt&gt;3</property>
               </object>
             </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">True</property>
+                <property name="title" translatable="yes" context="shortcut window">Go up</property>
+                <property name="accelerator">&lt;alt&gt;Up</property>
+              </object>
+            </child>
           </object>
         </child>
       </object>
