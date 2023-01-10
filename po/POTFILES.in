@@ -1,4 +1,5 @@
 argos/app.py
+argos/controllers/library.py
 argos/controllers/playback.py
 argos/controllers/playlists.py
 argos/controllers/tracklist.py

@@ -53,7 +53,7 @@
         <property name="name">back-button</property>
         <property name="can-focus">True</property>
         <property name="receives-default">True</property>
-        <property name="tooltip-text" translatable="yes">Back to albums page</property>
+        <property name="tooltip-text" translatable="yes">Go up</property>
         <property name="image">back_image</property>
         <signal name="clicked" handler="on_back_button_clicked" swapped="no"/>
       </object>
@@ -84,7 +84,7 @@
         <property name="can-focus">True</property>
         <property name="focus-on-click">False</property>
         <property name="receives-default">True</property>
-        <property name="tooltip-text" translatable="yes">Sort albums</property>
+        <property name="tooltip-text" translatable="yes">Sort library</property>
         <property name="draw-indicator">True</property>
         <child>
           <object class="GtkImage" id="sort_image">

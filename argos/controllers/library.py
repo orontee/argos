@@ -1,4 +1,5 @@
 import asyncio
+import gettext
 import logging
 from operator import attrgetter
 from typing import TYPE_CHECKING, Dict, List, Optional, Sequence, Tuple
@@ -25,6 +26,28 @@ from argos.model import (
 from argos.model.library import MOPIDY_LOCAL_ALBUMS_URI
 
 LOGGER = logging.getLogger(__name__)
+
+_ = gettext.gettext
+
+
+_DIRECTORY_NAMES = {
+    "Files": _("Files"),
+    "Local media": _("Local media"),
+    "Podcasts": _("Podcasts"),
+    "Albums": _("Albums"),
+    "Artists": _("Artists"),
+    "Composers": _("Composers"),
+    "Genres": _("Genres"),
+    "Performers": _("Performers"),
+    "Release Years": _("Release Years"),
+    "Last Week's Updates": _("Last Week's Updates"),
+    "Last Month's Updates": _("Last Month's Updates"),
+    "Discover by genre": _("Discover by genre"),
+    "Discover by Tag": _("Discover by Tag"),
+    "Collection": _("Collection"),
+    "Wishlist": _("Wishlist"),
+    "All": _("All"),
+}
 
 
 class LibraryController(ControllerBase):
@@ -192,7 +215,10 @@ class LibraryController(ControllerBase):
                 RefType.DIRECTORY,
                 RefType.ARTIST,
             ):
-                subdir = DirectoryModel(uri=ref_dto.uri, name=ref_dto.name)
+                subdir = DirectoryModel(
+                    uri=ref_dto.uri,
+                    name=_DIRECTORY_NAMES.get(ref_dto.name, ref_dto.name),
+                )
                 directories.append(subdir)
             elif ref_dto.type == RefType.PLAYLIST:
                 pass
