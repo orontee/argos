@@ -91,13 +91,13 @@
       </description>
     </key>
 
-    <key type="b" name="open-mopidy-local-albums">
+    <key type="b" name="index-mopidy-local-albums">
       <default>false</default>
       <summary>
-	Open Mopidy-Local albums
+	Index Mopidy-Local albums at startup
       </summary>
       <description>
-	Whether to start browsing library from Mopidy-Local albums directory.
+	Whether to index Mopidy-Local albums directory at startup.
       </description>
     </key>
 

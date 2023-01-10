@@ -64,8 +64,8 @@ class LibraryController(ControllerBase):
 
         self._download: ImageDownloader = application.props.download
 
-        self._on_open_mopidy_local_albums_changed(
-            self._settings, "open-mopidy-local-albums"
+        self._on_index_mopidy_local_albums_changed(
+            self._settings, "index-mopidy-local-albums"
         )
         # Hack to set default_uri to its the value derived from user
         # settings
@@ -74,8 +74,8 @@ class LibraryController(ControllerBase):
             backend.connect("notify::activated", self._on_backend_activated_changed)
 
         self._settings.connect(
-            "changed::open-mopidy-local-albums",
-            self._on_open_mopidy_local_albums_changed,
+            "changed::index-mopidy-local-albums",
+            self._on_index_mopidy_local_albums_changed,
         )
         self._model.library.connect(
             "notify::default-uri",
@@ -90,15 +90,15 @@ class LibraryController(ControllerBase):
     ) -> None:
         self.send_message(MessageType.BROWSE_DIRECTORY, data={"force": True})
 
-    def _on_open_mopidy_local_albums_changed(
+    def _on_index_mopidy_local_albums_changed(
         self,
         settings: Gio.Settings,
         key: str,
     ) -> None:
-        open_mopidy_local_albums = settings.get_boolean(key)
+        index_mopidy_local_albums = settings.get_boolean(key)
         if self._model.mopidy_local_backend.props.activated:
             self._model.library.props.default_uri = (
-                MOPIDY_LOCAL_ALBUMS_URI if open_mopidy_local_albums else ""
+                MOPIDY_LOCAL_ALBUMS_URI if index_mopidy_local_albums else ""
             )
         else:
             self._model.library.props.default_uri = ""

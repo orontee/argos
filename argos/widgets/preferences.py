@@ -21,7 +21,7 @@ class PreferencesWindow(Gtk.Window):
     connection_warning_label: Gtk.Label = Gtk.Template.Child()
     mopidy_base_url_entry: Gtk.Entry = Gtk.Template.Child()
     information_service_switch: Gtk.Switch = Gtk.Template.Child()
-    open_mopidy_local_albums_button: Gtk.CheckButton = Gtk.Template.Child()
+    index_mopidy_local_albums_button: Gtk.CheckButton = Gtk.Template.Child()
     history_playlist_check_button: Gtk.CheckButton = Gtk.Template.Child()
     history_playlist_max_length_label: Gtk.Label = Gtk.Template.Child()
     history_playlist_max_length_button: Gtk.SpinButton = Gtk.Template.Child()
@@ -48,11 +48,11 @@ class PreferencesWindow(Gtk.Window):
         self.information_service_switch.set_active(information_service)
 
         mopidy_local_enabled = self._settings.get_boolean("mopidy-local")
-        open_mopidy_local_albums = self._settings.get_boolean(
-            "open-mopidy-local-albums"
+        index_mopidy_local_albums = self._settings.get_boolean(
+            "index-mopidy-local-albums"
         )
-        self.open_mopidy_local_albums_button.set_sensitive(mopidy_local_enabled)
-        self.open_mopidy_local_albums_button.set_active(open_mopidy_local_albums)
+        self.index_mopidy_local_albums_button.set_sensitive(mopidy_local_enabled)
+        self.index_mopidy_local_albums_button.set_active(index_mopidy_local_albums)
 
         history_playlist = self._settings.get_boolean("history-playlist")
         self.history_playlist_check_button.set_active(history_playlist)
@@ -117,8 +117,8 @@ class PreferencesWindow(Gtk.Window):
         self.information_service_switch.connect(
             "notify::active", self.on_information_service_switch_activated
         )
-        self.open_mopidy_local_albums_button.connect(
-            "toggled", self.on_open_mopidy_local_albums_button_toggled
+        self.index_mopidy_local_albums_button.connect(
+            "toggled", self.on_index_mopidy_local_albums_button_toggled
         )
         self.history_playlist_check_button.connect(
             "toggled", self.on_history_playlist_check_button_toggled
@@ -177,11 +177,13 @@ class PreferencesWindow(Gtk.Window):
         information_service = switch.get_active()
         self._settings.set_boolean("information-service", information_service)
 
-    def on_open_mopidy_local_albums_button_toggled(
+    def on_index_mopidy_local_albums_button_toggled(
         self, button: Gtk.CheckButton
     ) -> None:
-        open_mopidy_local_albums = button.get_active()
-        self._settings.set_boolean("open-mopidy-local-albums", open_mopidy_local_albums)
+        index_mopidy_local_albums = button.get_active()
+        self._settings.set_boolean(
+            "index-mopidy-local-albums", index_mopidy_local_albums
+        )
 
     def on_history_playlist_check_button_toggled(self, button: Gtk.CheckButton) -> None:
         history_playlist = button.get_active()
