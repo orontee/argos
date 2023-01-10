@@ -270,7 +270,7 @@ class LibraryController(ControllerBase):
         length_acc = LengthAcc()
         metadata_collector = AlbumMetadataCollector()
         parsed_tracks: Dict[str, List[TrackModel]] = {}
-        if backend.props.static_albums:
+        if backend.props.preload_album_tracks:
             LOGGER.debug(f"Fetching albums tracks")
             directory_tracks_dto = await call_by_slice(
                 self._http.lookup_library,
@@ -301,13 +301,21 @@ class LibraryController(ControllerBase):
             album_parsed_tracks = parsed_tracks.get(album_uri, [])
             album_parsed_tracks.sort(key=attrgetter("disc_no", "track_no"))
 
+            album_name = album_dto.name
+            artist_name = metadata_collector.artist_name(album_uri)
+            if not artist_name:
+                if hasattr(backend, "extract_artist_name"):
+                    artist_name, album_name = backend.extract_artist_name(
+                        album_dto.name
+                    )
+
             album = AlbumModel(
                 backend=backend,
                 uri=album_uri,
-                name=album_dto.name,
+                name=album_name,
                 image_path=str(filepath) if filepath is not None else "",
                 image_uri=image_uri,
-                artist_name=metadata_collector.artist_name(album_uri),
+                artist_name=artist_name,
                 num_tracks=metadata_collector.num_tracks(album_uri),
                 num_discs=metadata_collector.num_discs(album_uri),
                 date=metadata_collector.date(album_uri),

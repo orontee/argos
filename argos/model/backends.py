@@ -1,5 +1,5 @@
 import logging
-from typing import Optional
+from typing import Optional, Tuple
 
 from gi.repository import Gio, GObject
 
@@ -11,6 +11,7 @@ class MopidyBackend(GObject.Object):
     name = GObject.Property(type=str)
     settings_key = GObject.Property(type=str)
     static_albums = GObject.Property(type=bool, default=True)
+    preload_album_tracks = GObject.Property(type=bool, default=True)
     activated = GObject.Property(type=bool, default=False)
 
     def __init__(
@@ -67,8 +68,6 @@ class MopidyLocalBackend(MopidyBackend):
         else:
             return False
 
-    # TODO translate directory names
-
 
 class MopidyBandcampBackend(MopidyBackend):
     def __init__(
@@ -79,11 +78,17 @@ class MopidyBandcampBackend(MopidyBackend):
             settings,
             name="Mopidy-Bandcamp",
             settings_key="mopidy-bandcamp",
-            static_albums=False,
+            preload_album_tracks=False,
         )
 
     def is_responsible_for(self, directory_uri: str) -> bool:
         return directory_uri.startswith("bandcamp:")
+
+    def extract_artist_name(self, album_name: str) -> Tuple[str, str]:
+        tokens = album_name.split(" - ", maxsplit=1)
+        if len(tokens) == 2:
+            return tokens[0], tokens[1]
+        return "", album_name
 
 
 class MopidyJellyfinBackend(MopidyBackend):
@@ -92,7 +97,7 @@ class MopidyJellyfinBackend(MopidyBackend):
             settings,
             name="Mopidy-Jellyfin",
             settings_key="mopidy-jellyfin",
-            static_albums=False,
+            preload_album_tracks=False,
         )
 
     def is_responsible_for(self, directory_uri: str) -> bool:
