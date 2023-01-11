@@ -4,7 +4,7 @@ import logging
 from operator import attrgetter
 from typing import TYPE_CHECKING, Dict, List, Optional, Sequence, Tuple
 
-from gi.repository import Gio, GObject
+from gi.repository import Gio, GLib, GObject
 
 if TYPE_CHECKING:
     from argos.app import Application
@@ -147,6 +147,7 @@ class LibraryController(ControllerBase):
         directory_uri = message.data.get("uri", default_uri)
         force = message.data.get("force", False)
         await self._browse_directory(directory_uri, force=force)
+        GLib.idle_add(self._model.emit, "directory-completed", directory_uri)
 
     async def _browse_directory(
         self, directory_uri: str, *, force: bool = False

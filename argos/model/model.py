@@ -182,8 +182,6 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
             else:
                 LOGGER.debug(f"Won't complete unknown directory with URI {uri}")
 
-            self.emit("directory-completed", uri)
-
         GLib.idle_add(_complete_directory)
 
     def complete_album_description(

@@ -89,8 +89,8 @@ class LibraryWindow(Gtk.Box):
             self.directory_view.props.has_tooltip = False
 
         self._progress_box = LibraryBrowsingProgressBox()
-        self.library_overlay.add_overlay(self._progress_box)
-        self._progress_box.show_all()
+        self._show_progress_box()
+        # Show progress box at startup
         self.show_all()
 
         self.connect(
@@ -125,6 +125,15 @@ class LibraryWindow(Gtk.Box):
                 target_width=self.image_size,
             ),
         }
+
+    def _show_progress_box(self) -> None:
+        self.library_overlay.add_overlay(self._progress_box)
+        self._progress_box.show_all()
+        self.directory_view.hide()
+
+    def _hide_progress_box(self) -> None:
+        self.library_overlay.remove(self._progress_box)
+        self.directory_view.show()
 
     def _build_store_item(
         self,
@@ -211,8 +220,6 @@ class LibraryWindow(Gtk.Box):
 
         LOGGER.debug(f"Updating directory store for directory {directory.name!r}")
 
-        self._progress_box.show()
-
         if self._ongoing_store_update.locked():
             self._abort_pixbufs_update = True
             LOGGER.info("Pixbufs update thread has been requested to abort...")
@@ -241,7 +248,7 @@ class LibraryWindow(Gtk.Box):
                 MessageType.FETCH_ALBUM_IMAGES, data={"image_uris": image_uris}
             )
 
-        self._progress_box.hide()
+        self._hide_progress_box()
 
     def _update_store_pixbufs(
         self, _1: Optional[GObject.GObject] = None, *, force: bool = False
@@ -329,6 +336,7 @@ class LibraryWindow(Gtk.Box):
         self.props.directory_uri = uri
         self._app.send_message(MessageType.BROWSE_DIRECTORY, {"uri": uri})
         self.select_directory_page()
+        self._show_progress_box()
 
     def goto_parent_state(self) -> None:
         if self.is_directory_page_visible():
@@ -373,8 +381,6 @@ class LibraryWindow(Gtk.Box):
         elif library_item_type == DirectoryItemType.TRACK:
             self._app.send_message(MessageType.PLAY_TRACKS, {"uris": [uri]})
         elif library_item_type == DirectoryItemType.PLAYLIST:
-            # TODO send message to complete playlist description, then
-            # switch page to a playlist_details_page...
             pass
 
     def _on_image_size_changed(
