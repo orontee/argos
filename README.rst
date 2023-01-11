@@ -23,12 +23,12 @@ and small single-board devices with small touchscreen in mind.
 
    Application window
 
-.. figure:: docs/screenshot-albums-view.png
-   :alt: Albums view screenshot
+.. figure:: docs/screenshot-library-view.png
+   :alt: Library view screenshot
    :align: center
    :width: 400
 
-   Albums view
+   Library view
 
 .. figure:: docs/screenshot-playlists-view.png
    :alt: Playlists view screenshot
@@ -38,23 +38,23 @@ and small single-board devices with small touchscreen in mind.
    Playlists view
 
 .. figure:: docs/screenshot-small-screen.png
-   :alt: Albums view on small screen
+   :alt: Library view on small screen
    :align: center
    :width: 400
 
-   Albums view on small screen (800x480) with dark theme
+   Library view on small screen (800x480) with dark theme
 
 Features 🥳
 ===========
 
 * Playback state & tracklist view
 
-* Library browser populated with albums from Mopidy-Local,
-  Mopidy-Bandcamp, Mopidy-Jellyfin and Mopidy-Podcast
+* Library browser populated with resources exposed by various Mopidy
+  extensions
 
-* View and edition of Mopidy-M3U playlists
+* View and edition of playlists exposed by Mopidy-M3U
 
-* Play streams supported by Mopidy-Stream
+* Play any stream supported by Mopidy-Stream
 
 * Abstracts of album and artist pages on Wikipedia (based on
   Musicbrainz identifiers)
@@ -62,9 +62,9 @@ Features 🥳
 Consult the `NEWS file </NEWS.rst>`_ for notable changes between
 versions.
 
-Note that, at present time, the library is not populated with
-resources exposed through Mopidy-File extension, the default extension
-installed with Mopidy to expose local resources.
+Note that at present time the library is populated with resources
+exposed by Mopidy-File, Mopidy-Local, Mopidy-Bandcamp,
+Mopidy-Jellyfin, Mopidy-Podcast and Mopidy-SomaFM.
 
 Install
 =======
