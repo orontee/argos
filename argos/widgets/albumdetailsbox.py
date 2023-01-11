@@ -42,7 +42,7 @@ class AlbumDetailsBox(Gtk.Box):
     __gtype_name__ = "AlbumDetailsBox"
 
     default_album_image = default_image_pixbuf(
-        "media-optical-cd-audio-symbolic", target_width=_ALBUM_IMAGE_SIZE
+        "media-optical", target_width=_ALBUM_IMAGE_SIZE
     )
 
     play_button: Gtk.Button = Gtk.Template.Child()

@@ -25,7 +25,7 @@ class TracklistRandomDialog(Gtk.Dialog):
     __gtype_name__ = "TracklistRandomDialog"
 
     default_album_image = default_image_pixbuf(
-        "media-optical-cd-audio-symbolic",
+        "media-optical",
         target_width=ALBUM_IMAGE_SIZE,
     )
 

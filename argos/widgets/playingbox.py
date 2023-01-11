@@ -34,7 +34,7 @@ class PlayingBox(Gtk.Box):
     __gtype_name__ = "PlayingBox"
 
     default_track_image = default_image_pixbuf(
-        "image-x-generic-symbolic",
+        "audio-x-generic",
         target_width=TRACK_IMAGE_SIZE,
     )
 
