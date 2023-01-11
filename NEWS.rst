@@ -13,12 +13,23 @@ The format is based on `Keep a Changelog
 
 Added
 -----
+- Generic library browser supporting Mopidy-File `#110
+  <https://github.com/orontee/argos/issues/110>`_
+- Support for Mopidy-SomaFM `#107
+  <https://github.com/orontee/argos/issues/107>`_
 
 Changed
 -------
+- Default is now to enable all backends `#110
+  <https://github.com/orontee/argos/issues/110>`_
+- Artist name is extracted from album name for Mopidy-Bandcamp albums
+  `#110 <https://github.com/orontee/argos/issues/110>`_
 
 Removed
 -------
+- Recent playlist has been removed since Mopidy-Local exposes
+  directories for last month and last week additions `#110
+  <https://github.com/orontee/argos/issues/110>`_
 
 [1.7.0] - 2022-12-31
 ====================
