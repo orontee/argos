@@ -135,11 +135,8 @@ class LibraryController(ControllerBase):
             LOGGER.warning(f"Unexpected default URI {default_uri!r}")
             return
 
-        await self._browse_directory("")
-        await asyncio.sleep(2)
-        await self._browse_directory("local:directory")
-        await asyncio.sleep(2)
-        # TODO hack, must be replaced by wait_for_model_update in _browse_directory()
+        await self._browse_directory("", wait_for_model_update=True)
+        await self._browse_directory("local:directory", wait_for_model_update=True)
 
     @consume(MessageType.BROWSE_DIRECTORY)
     async def browse_directory(self, message: Message) -> None:
@@ -150,7 +147,11 @@ class LibraryController(ControllerBase):
         GLib.idle_add(self._model.emit, "directory-completed", directory_uri)
 
     async def _browse_directory(
-        self, directory_uri: str, *, force: bool = False
+        self,
+        directory_uri: str,
+        *,
+        force: bool = False,
+        wait_for_model_update: bool = False,
     ) -> None:
         default_uri = self._model.library.props.default_uri
         directory = self._model.get_directory(directory_uri)
@@ -248,6 +249,7 @@ class LibraryController(ControllerBase):
             directories=directories,
             playlists=playlists,
             tracks=tracks,
+            wait_for_model_update=wait_for_model_update,
         )
 
     async def _complete_albums(

@@ -155,7 +155,20 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         directories: List[DirectoryModel],
         playlists: List[PlaylistModel],
         tracks: List[TrackModel],
+        wait_for_model_update: bool = False,
     ) -> None:
+        event: Optional[threading.Event]
+        if (
+            wait_for_model_update
+            and threading.current_thread() != threading.main_thread()
+        ):
+            # Main thread is dedicated to Gtk processing loop and
+            # waiting for an event set from that thread would result
+            # in a deadlock
+            event = threading.Event()
+        else:
+            event = None
+
         def _complete_directory():
             directory = self.get_directory(uri)
             if directory is not None:
@@ -183,11 +196,16 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
                     directory.tracks.insert_sorted(
                         track, compare_tracks_by_name_func, None
                     )
-
             else:
                 LOGGER.debug(f"Won't complete unknown directory with URI {uri}")
 
+            if event is not None:
+                event.set()
+
         GLib.idle_add(_complete_directory)
+
+        if event is not None:
+            event.wait(timeout=2.0)
 
     def complete_album_description(
         self,
