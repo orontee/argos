@@ -42,7 +42,7 @@ _DIRECTORY_NAMES = {
     "Release Years": _("Release Years"),
     "Last Week's Updates": _("Last Week's Updates"),
     "Last Month's Updates": _("Last Month's Updates"),
-    "Discover by genre": _("Discover by genre"),
+    "Discover by Genre": _("Discover by Genre"),
     "Discover by Tag": _("Discover by Tag"),
     "Collection": _("Collection"),
     "Wishlist": _("Wishlist"),

@@ -89,7 +89,7 @@ msgid "Last Month's Updates"
 msgstr "Ajouts du mois dernier"
 
 #: argos/controllers/library.py:45
-msgid "Discover by genre"
+msgid "Discover by Genre"
 msgstr "Parcourir par genre"
 
 #: argos/controllers/library.py:46
