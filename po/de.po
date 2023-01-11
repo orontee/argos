@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-10 08:09+0100\n"
+"POT-Creation-Date: 2023-01-11 21:33+0100\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: André Dokis <em21nummer1@icloud.com>\n"
 "Language-Team: German <em21nummer1@icloud.com>\n"
@@ -116,7 +116,7 @@ msgid "Started to play {}"
 msgstr "Es läuft {}"
 
 #: argos/controllers/playlists.py:41 argos/controllers/playlists.py:299
-#: argos/ui/preferences.ui:316
+#: argos/ui/preferences.ui:334
 msgid "History"
 msgstr "Zuletzt gespielt"
 
@@ -348,43 +348,49 @@ msgstr ""
 msgid "General"
 msgstr "Allgemein"
 
-#: argos/ui/preferences.ui:246 argos/ui/preferences.ui:476 argos/window.py:43
+#: argos/ui/preferences.ui:246 argos/ui/preferences.ui:494 argos/window.py:43
 msgid "Library"
 msgstr "Sammlung"
 
-#: argos/ui/preferences.ui:266
+#: argos/ui/preferences.ui:266 data/io.github.orontee.Argos.gschema.xml:96
 msgid "Index Mopidy-Local albums at startup"
 msgstr ""
 
-#: argos/ui/preferences.ui:290 argos/window.py:47
+#: argos/ui/preferences.ui:290
+msgid ""
+"Note that, when unchecked, random selection of album is impossible until a "
+"directory containing albums is browsed."
+msgstr ""
+
+#: argos/ui/preferences.ui:308 argos/window.py:47
 msgid "Playlists"
 msgstr "Playlists"
 
-#: argos/ui/preferences.ui:351
+#: argos/ui/preferences.ui:369
 msgid "Max length:"
 msgstr "Max. Länge:"
 
-#: argos/ui/preferences.ui:377
+#: argos/ui/preferences.ui:395
 msgid "Sources"
 msgstr "Quellen"
 
-#: argos/ui/preferences.ui:396
+#: argos/ui/preferences.ui:414
 msgid "Main window"
 msgstr "Hauptfenster"
 
-#: argos/ui/preferences.ui:423
+#: argos/ui/preferences.ui:441
 msgid "Dark theme:"
 msgstr "Dunkles Thema:"
 
-#: argos/ui/preferences.ui:446
+#: argos/ui/preferences.ui:464
 msgid "Start fullscreen:"
 msgstr "Im Vollbildmodus starten:"
 
-#: argos/ui/preferences.ui:503
+#: argos/ui/preferences.ui:521
 msgid "Image size:"
 msgstr "Bildgröße:"
 
-#: argos/ui/preferences.ui:535
+#: argos/ui/preferences.ui:553
 msgid "Display"
 msgstr ""
 
@@ -413,9 +419,8 @@ msgid "Go up"
 msgstr ""
 
 #: argos/ui/title_bar.ui:87
-#, fuzzy
-msgid "Sort library"
-msgstr "Sammlung"
+msgid "Sort albums"
+msgstr "Alben sortieren"
 
 #: argos/ui/title_bar.ui:107
 msgid "Search albums"
@@ -682,14 +687,9 @@ msgstr "Mopidy-Local"
 msgid "Whether to display directories from Mopidy-SomaFM in library."
 msgstr "Alben aus dem Mopidy-Local-Verzeichnis in der Sammlung anzeigen."
 
-#: data/io.github.orontee.Argos.gschema.xml:96
-#, fuzzy
-msgid "Open Mopidy-Local albums"
-msgstr "Mopidy-Local"
-
 #: data/io.github.orontee.Argos.gschema.xml:99
 #, fuzzy
-msgid "Whether to start browsing library from Mopidy-Local albums directory."
+msgid "Whether to index Mopidy-Local albums directory at startup."
 msgstr "Alben aus dem Mopidy-Local-Verzeichnis in der Sammlung anzeigen."
 
 #: data/io.github.orontee.Argos.gschema.xml:106
@@ -785,11 +785,16 @@ msgid "If a Gtk+ theme includes a dark variant, it will be used."
 msgstr ""
 "Wenn ein Gtk+-Theme eine dunkle Variante enthält, wird diese verwendet."
 
+#, fuzzy
+#~ msgid "Sort library"
+#~ msgstr "Sammlung"
+
+#, fuzzy
+#~ msgid "Open Mopidy-Local albums"
+#~ msgstr "Mopidy-Local"
+
 #~ msgid "Back to albums page"
 #~ msgstr "Zurück zur Sammlung"
-
-#~ msgid "Sort albums"
-#~ msgstr "Alben sortieren"
 
 #~ msgid "Recent additions"
 #~ msgstr "Zuletzt hinzugefügt"

@@ -7,7 +7,7 @@ from argos.model.backends import MopidyBackend
 from argos.model.track import TrackModel
 
 
-def compare_by_album_name_func(
+def compare_albums_by_name_func(
     a: "AlbumModel",
     b: "AlbumModel",
     user_data: None,
@@ -28,7 +28,7 @@ def compare_by_album_name_func(
     return 0
 
 
-def compare_by_artist_name_func(
+def compare_albums_by_artist_name_func(
     a: "AlbumModel",
     b: "AlbumModel",
     user_data: None,
@@ -54,7 +54,7 @@ def compare_by_artist_name_func(
     return 0
 
 
-def compare_by_last_modified_date_reversed_func(
+def compare_albums_by_last_modified_date_reversed_func(
     a: "AlbumModel",
     b: "AlbumModel",
     user_data: None,
@@ -76,7 +76,7 @@ def compare_by_last_modified_date_reversed_func(
     return 0
 
 
-def compare_by_publication_date_func(
+def compare_albums_by_publication_date_func(
     a: "AlbumModel",
     b: "AlbumModel",
     user_data: None,

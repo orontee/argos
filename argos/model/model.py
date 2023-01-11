@@ -20,10 +20,10 @@ from gi.repository import Gio, GLib, GObject
 from argos.model.album import (
     AlbumInformationModel,
     AlbumModel,
-    compare_by_album_name_func,
-    compare_by_artist_name_func,
-    compare_by_last_modified_date_reversed_func,
-    compare_by_publication_date_func,
+    compare_albums_by_artist_name_func,
+    compare_albums_by_last_modified_date_reversed_func,
+    compare_albums_by_name_func,
+    compare_albums_by_publication_date_func,
 )
 from argos.model.backends import (
     MopidyBackend,
@@ -34,12 +34,12 @@ from argos.model.backends import (
     MopidyPodcastBackend,
     MopidySomaFMBackend,
 )
-from argos.model.directory import DirectoryModel
+from argos.model.directory import DirectoryModel, compare_directories_func
 from argos.model.library import LibraryModel
 from argos.model.mixer import MixerModel
 from argos.model.playback import PlaybackModel
-from argos.model.playlist import PlaylistModel, playlist_compare_func
-from argos.model.track import TrackModel
+from argos.model.playlist import PlaylistModel, compare_playlists_func
+from argos.model.track import TrackModel, compare_tracks_by_name_func
 from argos.model.tracklist import TracklistModel, TracklistTrackModel
 from argos.model.utils import WithThreadSafePropertySetter
 
@@ -126,16 +126,16 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         self, album_sort_id: str
     ) -> Callable[[AlbumModel, AlbumModel, None], int]:
         if album_sort_id == "by_album_name":
-            return compare_by_album_name_func
+            return compare_albums_by_name_func
         elif album_sort_id == "by_last_modified_date":
-            return compare_by_last_modified_date_reversed_func
+            return compare_albums_by_last_modified_date_reversed_func
         elif album_sort_id == "by_publication_date":
-            return compare_by_publication_date_func
+            return compare_albums_by_publication_date_func
 
         if album_sort_id != "by_artist_name":
             LOGGER.warning(f"Unexpecting album sort identifier {album_sort_id!r}")
 
-        return compare_by_artist_name_func
+        return compare_albums_by_artist_name_func
 
     def sort_albums(self, album_sort_id: str) -> None:
         def _sort_albums() -> None:
@@ -165,20 +165,25 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
                 directory.tracks.remove_all()
 
                 album_sort_id = self._settings.get_string("album-sort")
-                compare_func = self._get_album_compare_func(album_sort_id)
+                album_compare_func = self._get_album_compare_func(album_sort_id)
                 for album in albums:
-                    directory.albums.insert_sorted(album, compare_func, None)
+                    directory.albums.insert_sorted(album, album_compare_func, None)
 
                 for subdir in directories:
-                    directory.directories.append(subdir)
+                    directory.directories.insert_sorted(
+                        subdir, compare_directories_func, None
+                    )
 
                 for playlist in playlists:
-                    directory.playlists.append(playlist)
+                    directory.playlists.insert_sorted(
+                        playlist, compare_playlists_func, None
+                    )
 
                 for track in tracks:
-                    directory.tracks.append(track)
+                    directory.tracks.insert_sorted(
+                        track, compare_tracks_by_name_func, None
+                    )
 
-                # TODO add compare functions
             else:
                 LOGGER.debug(f"Won't complete unknown directory with URI {uri}")
 
@@ -363,7 +368,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         self.playlists.remove_all()
 
         for playlist in playlists:
-            self.playlists.insert_sorted(playlist, playlist_compare_func, None)
+            self.playlists.insert_sorted(playlist, compare_playlists_func, None)
 
     def complete_playlist_description(
         self,
@@ -395,7 +400,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
             LOGGER.debug(f"Creation of playlist with URI {playlist_uri!r}")
             playlist = PlaylistModel(uri=playlist_uri, name=name)
             LOGGER.debug(f"Insertion of playlist with URI {playlist.uri!r}")
-            self.playlists.insert_sorted(playlist, playlist_compare_func, None)
+            self.playlists.insert_sorted(playlist, compare_playlists_func, None)
         else:
             if playlist.last_modified == last_modified:
                 LOGGER.debug(f"Playlist with URI {playlist_uri!r} is up-to-date")
@@ -424,8 +429,6 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
             return None
         elif len(found_playlist) > 1:
             LOGGER.warning(f"Ambiguous playlist URI {uri!r}")
-
-        # TODO search among library directories
 
         return found_playlist[0]
 

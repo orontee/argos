@@ -5,7 +5,7 @@ from gi.repository import Gio, GObject
 from argos.model.track import TrackModel
 
 
-def playlist_compare_func(
+def compare_playlists_func(
     a: "PlaylistModel",
     b: "PlaylistModel",
     user_data: None,

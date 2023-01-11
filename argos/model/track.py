@@ -1,6 +1,29 @@
+import locale
+
 from gi.repository import GObject
 
 from argos.dto import TrackDTO
+
+
+def compare_tracks_by_name_func(
+    a: "TrackModel",
+    b: "TrackModel",
+    user_data: None,
+) -> int:
+    names_comp = locale.strcoll(a.name, b.name)
+    if names_comp != 0:
+        return names_comp
+
+    artist_names_comp = locale.strcoll(a.artist_name, b.artist_name)
+    if artist_names_comp != 0:
+        return artist_names_comp
+
+    if a.uri < b.uri:
+        return -1
+    elif a.uri > b.uri:
+        return 1
+
+    return 0
 
 
 class TrackModel(GObject.Object):

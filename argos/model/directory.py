@@ -1,3 +1,4 @@
+import locale
 import logging
 from typing import Callable, List, Optional, Set
 
@@ -8,6 +9,23 @@ from argos.model.playlist import PlaylistModel
 from argos.model.track import TrackModel
 
 LOGGER = logging.getLogger(__name__)
+
+
+def compare_directories_func(
+    a: "DirectoryModel",
+    b: "DirectoryModel",
+    user_data: None,
+) -> int:
+    names_comp = locale.strcoll(a.name, b.name)
+    if names_comp != 0:
+        return names_comp
+
+    if a.uri < b.uri:
+        return -1
+    elif a.uri > b.uri:
+        return 1
+    # a.uri == b.uri
+    return 0
 
 
 class DirectoryModel(GObject.Object):
@@ -25,8 +43,6 @@ class DirectoryModel(GObject.Object):
     directories: Gio.ListStore
     tracks: Gio.ListStore
     playlists: Gio.ListStore
-
-    # TODO artists
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
