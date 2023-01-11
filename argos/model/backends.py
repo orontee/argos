@@ -12,7 +12,10 @@ class MopidyBackend(GObject.Object):
     settings_key = GObject.Property(type=str)
     static_albums = GObject.Property(type=bool, default=True)
     preload_album_tracks = GObject.Property(type=bool, default=True)
+
     activated = GObject.Property(type=bool, default=False)
+    # Default value is per inheriting class and defined in the
+    # schema for application settings
 
     def __init__(
         self,
@@ -23,12 +26,7 @@ class MopidyBackend(GObject.Object):
     ):
         super().__init__(settings_key=settings_key, **kwargs)
 
-        user_configured_backend_activation = (
-            settings.get_user_value(self.props.settings_key) is not None
-        )
-        if user_configured_backend_activation:
-            # may overwrite value passed through kwargs
-            self.props.activated = settings.get_value(self.props.settings_key)
+        self.props.activated = settings.get_value(self.props.settings_key)
 
         settings.connect(
             f"changed::{self.props.settings_key}", self._on_settings_changed
@@ -55,9 +53,7 @@ class MopidyBackend(GObject.Object):
 
 class MopidyLocalBackend(MopidyBackend):
     def __init__(self, settings: Gio.Settings):
-        super().__init__(
-            settings, name="Mopidy-Local", settings_key="mopidy-local", activated=True
-        )
+        super().__init__(settings, name="Mopidy-Local", settings_key="mopidy-local")
 
     def is_responsible_for(self, directory_uri: str) -> bool:
         return directory_uri.startswith("local:")
