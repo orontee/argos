@@ -213,7 +213,6 @@ class PlaybackController(ControllerBase):
             ]
         ):
             LOGGER.debug("Will browse sources")
-            # self.send_message(MessageType.BROWSE_ALBUMS)
             self.send_message(MessageType.BROWSE_DIRECTORY)
             self.send_message(MessageType.LIST_PLAYLISTS)
             self._must_browse_sources = False
