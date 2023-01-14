@@ -83,7 +83,7 @@ Part of the architecture is documented using `Structurizr DSL
 <https://github.com/structurizr/dsl/>`_ and adopt `C4 model
 <https://c4model.com/>`_ for visualizing software architecture.
 
-More details here: `Architecture </architecture.rst>`_.
+More details here: `Architecture </docs/architecture.rst>`_.
 
 Updating architecture diagrams
 ------------------------------
