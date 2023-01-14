@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     from argos.app import Application
 
 from argos.controllers.base import ControllerBase
-from argos.controllers.utils import call_by_slice, parse_tracks
+from argos.controllers.utils import parse_tracks
 from argos.controllers.visitors import AlbumMetadataCollector, LengthAcc
 from argos.download import ImageDownloader
 from argos.info import InformationService

@@ -143,8 +143,7 @@ class LibraryController(ControllerBase):
         default_uri = self._model.library.props.default_uri
         directory_uri = message.data.get("uri", default_uri)
         force = message.data.get("force", False)
-        await self._browse_directory(directory_uri, force=force)
-        GLib.idle_add(self._model.emit, "directory-completed", directory_uri)
+        asyncio.create_task(self._browse_directory(directory_uri, force=force))
 
     async def _browse_directory(
         self,
@@ -251,6 +250,9 @@ class LibraryController(ControllerBase):
             tracks=tracks,
             wait_for_model_update=wait_for_model_update,
         )
+        GLib.idle_add(self._model.emit, "directory-completed", directory_uri)
+        # note that GLib event loop will update model THEN emit the
+        # directory-completed signal
 
     async def _complete_albums(
         self,
@@ -265,7 +267,6 @@ class LibraryController(ControllerBase):
         images = await call_by_slice(
             self._http.get_images,
             params=album_uris,
-            call_size=50,
         )
         if images is None:
             LOGGER.warning("Failed to fetch URIs of images")
@@ -278,7 +279,6 @@ class LibraryController(ControllerBase):
             directory_tracks_dto = await call_by_slice(
                 self._http.lookup_library,
                 params=album_uris,
-                call_size=50,
             )
 
             LOGGER.debug(f"Parsing albums tracks")
@@ -345,14 +345,12 @@ class LibraryController(ControllerBase):
         directory_tracks_dto = await call_by_slice(
             self._http.lookup_library,
             params=track_uris,
-            call_size=50,
         )
 
         track_uris = [dto.uri for dto in track_dtos]
         images = await call_by_slice(
             self._http.get_images,
             params=track_uris,
-            call_size=50,
         )
         if images is None:
             LOGGER.warning("Failed to fetch URIs of images")

@@ -23,6 +23,8 @@ Added
 
 Changed
 -------
+- Library browsing execute in a task to allow other tasks to run `#57
+  <https://github.com/orontee/argos/issues/57>`_
 - Default is now to enable all backends `#110
   <https://github.com/orontee/argos/issues/110>`_
 - Artist name is extracted from album name for Mopidy-Bandcamp albums
