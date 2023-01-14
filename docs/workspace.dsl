@@ -19,7 +19,11 @@ workspace {
                 httpComponent = component "Mopidy HTTP Client" {
                     description "Converts commands to JSON-RPC requests matching Mopidy APIs."
                     technology "GObject"
-                }
+                    }
+                informationComponent = component "Information Service" {
+                    description "Fetch data from Musicbrainz, Wikidata and Wikipedia."
+                    technology "GObject"
+                    }
                 downloadComponent = component "Image Downloader" {
                     description "Downloads images through Mopidy-Local HTTP API."
                     technology "GObject"
@@ -39,13 +43,17 @@ workspace {
                 }
 
                 models = group "Model" {
+                    libraryModel = component "Library Model" "" "GObject"
                     playbackModel = component "Playback Model" "" "GObject"
                     mixerModel = component "Mixer Model" "" "GObject"
                     trackListModel = component "Track List Model" "" "GObject"
-                    albumModel = component "Album Model" "" "GObject"
                     playlistModel = component "Playlist Model" "" "GObject"
 
                     mopidyBackend = component "Mopidy Backend" "" "GObject"
+                    fileBackend = component "Mopidy File Backend" "" "GObject" {
+                        -> mopidyBackend "Inherits"
+                        tags "MopidyBackend"
+                    }
                     localBackend = component "Mopidy Local Backend" "" "GObject" {
                         -> mopidyBackend "Inherits"
                         tags "MopidyBackend"
@@ -62,21 +70,43 @@ workspace {
                         -> mopidyBackend "Inherits"
                         tags "MopidyBackend"
                     }
+                    somafmBackend = component "Mopidy SomaFM Backend" "" "GObject" {
+                        -> mopidyBackend "Inherits"
+                        tags "MopidyBackend"
+                    }
 
                     modelComponent = component "Model" "" "GObject" {
                         -> networkMonitor "Listen to"
                         -> playbackModel "Contains a"
                         -> mixerModel "Contains a"
                         -> trackListModel "Contains a"
-                        -> albumModel "Contains list of"
+                        -> libraryModel "Contains a"
                         -> playlistModel "Contains list of"
                         -> mopidyBackend "Contains list of"
                     }
 
                     trackModel = component "Track Model" "" "GObject"
+                    directoryModel = component "Directory Model" "" "GObject"
+                    albumModel = component "Album Model" "" "GObject"
+                    tracksModel = component "Tracks Model" "" "GObject"
+                    libraryModel -> directoryModel "Contains a" "Root directory"
+                    directoryModel -> albumModel "Contains list of"
+                    directoryModel -> directoryModel "Contains list of"
+                    directoryModel -> tracksModel "Contains list of"
+                    directoryModel -> playlistModel "Contains list of"
                     trackListModel -> trackModel "Contains list of"
                     albumModel -> trackModel "Contains list of"
                     playlistModel -> trackModel "Contains list of"
+                    }
+
+                dtos = group "Data Transfer Objects" {
+                    refDTO = component "Ref DTO" "" "dataclass"
+                    artistDTO = component "Artist DTO" "" "dataclass"
+                    albumDTO = component "Album DTO" "" "dataclass"
+                    trackDTO = component "Track DTO" "" "dataclass"
+                    imageDTO = component "Image DTO" "" "dataclass"
+                    playlistDTO = component "Playlist DTO" "" "dataclass"
+                    tlTrackDTO = component "TlTrack DTO" "" "dataclass"
                 }
 
                 appComponent -> asyncioQueue "Get message from / Put message in"
@@ -85,8 +115,16 @@ workspace {
                 timePositionTrackerComponent -> modelComponent "Update"
 
                 httpComponent -> wsComponent "Uses"
+                httpComponent -> refDTO "Generates"
+                httpComponent -> artistDTO "Generates"
+                httpComponent -> albumDTO "Generates"
+                httpComponent -> trackDTO "Generates"
+                httpComponent -> imageDTO "Generates"
+                httpComponent -> playlistDTO "Generates"
+                httpComponent -> tlTrackDTO "Generates"
 
                 downloadComponent -> aiohttpClientSession "Uses"
+                informationComponent -> aiohttpClientSession "Uses"
                 wsComponent -> aiohttpClientSession "Uses"
                 wsComponent -> asyncioQueue "Put message in"
 
@@ -107,12 +145,21 @@ workspace {
                         -> baseController "Inherits"
                         -> downloadComponent "Uses"
                     }
+                    libraryController = component "Library Controller" {
+                        description  "Maintains the library."
+                        technology "GObject"
+
+                        -> baseController "Inherits"
+                        -> downloadComponent "Uses"
+                        -> mopidyBackend "Browse library"
+                    }
                     albumsController = component "Albums Controller" {
                         description  "Maintains the album library."
                         technology "GObject"
 
                         -> baseController "Inherits"
                         -> downloadComponent "Uses"
+                        -> informationComponent "Uses"
                         -> mopidyBackend "Get albums URI"
                     }
                     playlistsController = component "Playlists Controller" {
@@ -135,17 +182,20 @@ workspace {
                     }
 
                     appComponent -> playbackController "Dispatch messages to"
+                    appComponent -> libraryController "Dispatch messages to"
                     appComponent -> albumsController "Dispatch messages to"
                     appComponent -> playlistsController "Dispatch messages to"
                     appComponent -> tracklistController "Dispatch messages to"
                     appComponent -> volumeController "Dispatch messages to"
                 }
-            }
-            cacheContainer = container "Cache" "Local file system" "File system" "External"
+                }
+            httpCacheContainer = container "HTTP Cache" "Local file system" "SQLite database" "External"
+            fileCacheContainer = container "File Cache" "Local file system" "File system" "External"
             dconfContainer = container "Config" "Service provided by local host" "dconf" "External"
             notificationContainer = container "Notification Service" "Service provided by local host" "" "External"
 
-            argosApp -> cacheContainer "Stores images"
+            argosApp -> httpCacheContainer "Stores responses" "aiohttp-client-session"
+            argosApp -> fileCacheContainer "Stores images"
             argosApp -> dconfContainer "Stores configuration" "GSettings"
             argosApp -> notificationContainer "Notify" "D-BUS"
         }
@@ -157,9 +207,11 @@ workspace {
         externalMusicProviders = group "External music providers" {
             musicProviderA = softwareSystem "Bandcamp" "Music store." "External"
             musicProviderB = softwareSystem "Jellyfin" "Free software media system." "External"
+            musicProviderC = softwareSystem "SomaFM" " Listener-supported and independent radio." "External"
 
             mopidySystem -> musicProviderA "Uses (optional)"
             mopidySystem -> musicProviderB "Uses (optional)"
+            mopidySystem -> musicProviderC "Uses (optional)"
         }
     }
 
