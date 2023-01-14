@@ -104,7 +104,11 @@ can be downloaded from the `Releases page
 It is recommended to install the library `aiohttp-client-cache
 <https://aiohttp-client-cache.readthedocs.io/en/latest/index.html>`_
 to use a persistent HTTP cache (note that this library isn't available
-as DEB package at present time).
+as DEB package at present time)::
+
+  $ sudo apt install sqlite3
+  $ python3 -m pip install aiosqlite aiohttp-client-cache
+
 
 Configuration
 =============
