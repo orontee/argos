@@ -43,11 +43,11 @@ image and export the DEB file from that image::
 
   $ VERSION=$(poetry version | cut -d' ' -f 2)
   $ git checkout v${VERSION}
-  $ docker build -t argos-build:$VERSION --build-arg VERSION=${VERSION} .
-  $ docker run --rm -v ${PWD}:/opt/argos argos-build:$VERSION bash -c "cp builddir/*.deb /opt/argos"
+  $ buildah bud -t argos-build:$VERSION --build-arg VERSION=${VERSION} .
+  $ podman run --rm -v ${PWD}:/opt/argos argos-build:$VERSION bash -c "cp builddir/*.deb /opt/argos"
 
 To manually build the DEB package *for current HEAD*, first install
-the dependencies listed in the `Dockerfile </Dockerfile>`_, then run
+the dependencies listed in the `Containerfile </Containerfile>`_, then run
 the following commands::
 
   $ VERSION=$(poetry version | cut -d' ' -f 2)
@@ -74,7 +74,7 @@ Runtime dependencies are listed in the file
 is generated from ``poetry``'s lock file using `flatpak-builder-tools
 <https://github.com/flatpak/flatpak-builder-tools>`_.
 
-Build dependencies are listed in the `Dockerfile </Dockerfile>`_.
+Build dependencies are listed in the `Containerfile </Containerfile>`_.
 
 Architecture
 ============
@@ -83,26 +83,7 @@ Part of the architecture is documented using `Structurizr DSL
 <https://github.com/structurizr/dsl/>`_ and adopt `C4 model
 <https://c4model.com/>`_ for visualizing software architecture.
 
-Here is the big picture with Argos surrounded by its users and the
-others systems that it interacts with:
-
-.. figure:: docs/system-landscape.svg
-   :alt: System landscape
-   :align: center
-   :width: 400
-
-Now a high-level technology focused diagram:
-
-.. figure:: docs/containers.svg
-   :alt: Containers
-   :align: center
-
-And for developers a components diagram showing their responsibilities
-and some technology/implementation details:
-
-.. figure:: docs/components.svg
-   :alt: Components
-   :align: center
+More details here: `Architecture </architecture.rst>`_.
 
 Updating architecture diagrams
 ------------------------------
@@ -113,8 +94,8 @@ To validate, export, etc. files using `Structurizr DSL
 to export to SVG format (with Graphviz installed)::
 
   pushd docs
-  docker pull structurizr/cli:latest
-  docker run -it --rm -v $PWD:/usr/local/structurizr structurizr/cli export -workspace workspace.dsl -format adot
+  podman pull --quiet structurizr/cli:latest
+  podman run -it --rm -v $PWD:/usr/local/structurizr structurizr/cli export -workspace workspace.dsl -format dot
   for DOT_FILE in *.dot; do dot -Tsvg ${DOT_FILE} -o $(basename ${DOT_FILE} .dot | cut -d'-' -f2-).svg; done
 
 Screenshots
