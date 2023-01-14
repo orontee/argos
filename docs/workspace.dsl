@@ -154,13 +154,12 @@ workspace {
                         -> mopidyBackend "Browse library"
                     }
                     albumsController = component "Albums Controller" {
-                        description  "Maintains the album library."
+                        description  "Complete albums."
                         technology "GObject"
 
                         -> baseController "Inherits"
                         -> downloadComponent "Uses"
                         -> informationComponent "Uses"
-                        -> mopidyBackend "Get albums URI"
                     }
                     playlistsController = component "Playlists Controller" {
                         description  "Maintains part of the model dedicated to playlists."

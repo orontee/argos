@@ -13,7 +13,7 @@ from argos.controllers.visitors import AlbumMetadataCollector, LengthAcc
 from argos.download import ImageDownloader
 from argos.info import InformationService
 from argos.message import Message, MessageType, consume
-from argos.model import AlbumModel, MopidyBackend
+from argos.model import AlbumModel
 
 LOGGER = logging.getLogger(__name__)
 
