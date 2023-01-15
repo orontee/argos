@@ -143,7 +143,15 @@ class LibraryController(ControllerBase):
         default_uri = self._model.library.props.default_uri
         directory_uri = message.data.get("uri", default_uri)
         force = message.data.get("force", False)
-        asyncio.create_task(self._browse_directory(directory_uri, force=force))
+
+        async def browse_and_notify() -> None:
+            await self._browse_directory(directory_uri, force=force)
+            GLib.idle_add(self._model.emit, "directory-completed", directory_uri)
+
+            # note that GLib event loop will update model THEN emit the
+            # directory-completed signal
+
+        asyncio.create_task(browse_and_notify())
 
     async def _browse_directory(
         self,
@@ -250,9 +258,6 @@ class LibraryController(ControllerBase):
             tracks=tracks,
             wait_for_model_update=wait_for_model_update,
         )
-        GLib.idle_add(self._model.emit, "directory-completed", directory_uri)
-        # note that GLib event loop will update model THEN emit the
-        # directory-completed signal
 
     async def _complete_albums(
         self,
