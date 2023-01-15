@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-11 21:33+0100\n"
+"POT-Creation-Date: 2023-01-15 21:47+0100\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -16,15 +16,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: argos/app.py:110
+#: argos/app.py:111
 msgid "Enable debug logs"
 msgstr "Activer le journal de débogage"
 
-#: argos/app.py:126
+#: argos/app.py:127
 msgid "Disable tooltips"
 msgstr "Désactiver les info-bulles"
 
-#: argos/app.py:134
+#: argos/app.py:135
 msgid "Hide search button"
 msgstr "Masquer le button de recherche"
 
@@ -40,7 +40,7 @@ msgstr ""
 "Commencez par configurer l'URL du serveur de musique. La valeur par défaut "
 "fait l'hypothèse qu'il tourne sur cet hôte et écoute sur le port 6680."
 
-#: argos/app.py:389 argos/ui/app_menu.ui:14
+#: argos/app.py:402 argos/ui/app_menu.ui:14
 msgid "New playlist"
 msgstr "Nouvelle liste de lecture"
 
@@ -546,41 +546,45 @@ msgstr ""
 
 #: data/io.github.orontee.Argos.appdata.xml.in:15
 msgid "Tracklist view"
-msgstr "Affichage de la file d'attente"
+msgstr "File d'attente"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:19
-msgid "Albums view"
-msgstr "Vue albums"
+msgid "Library view"
+msgstr "Bibliothèque"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:23
 msgid "Playlists view"
-msgstr "Vue listes de lecture"
+msgstr "Listes de lecture"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:27
 msgid "Album details view"
-msgstr "Vue détails d'un album"
+msgstr "Détails d'un album"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:33
-msgid "Open its eyes to the outside world!"
-msgstr ""
+msgid "Implement a library browser and improve performance."
+msgstr "Implémente un navigateur de bibliothèque et améliore les performances."
 
 #: data/io.github.orontee.Argos.appdata.xml.in:40
+msgid "Open its eyes to the outside world!"
+msgstr "Ouvre les yeux sur le monde extérieur !"
+
+#: data/io.github.orontee.Argos.appdata.xml.in:47
 msgid "Bug fixes and small enhancement."
 msgstr "Livraison de correctifs de bugs et petites améliorations."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:47
+#: data/io.github.orontee.Argos.appdata.xml.in:54
 msgid "Improving user experience. Once again."
 msgstr "Amélioration de l'expérience utilisateur. Une fois de plus."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:54
+#: data/io.github.orontee.Argos.appdata.xml.in:61
 msgid "Improving user experience."
 msgstr "Amélioration de l'expérience utilisateur."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:61
+#: data/io.github.orontee.Argos.appdata.xml.in:68
 msgid "Autumnal delivery."
 msgstr "Livraison automnale."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:68
+#: data/io.github.orontee.Argos.appdata.xml.in:75
 msgid ""
 "Improve performance while browsing albums and add support for Mopidy-"
 "Jellyfin."
@@ -588,23 +592,23 @@ msgstr ""
 "Améliore les performances de la récupération des albums et ajoute le support "
 "de Mopidy-Jellyfin."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:75
+#: data/io.github.orontee.Argos.appdata.xml.in:82
 msgid "Bug fixes release."
 msgstr "Livraison de correctifs de bugs."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:82
+#: data/io.github.orontee.Argos.appdata.xml.in:89
 msgid "Attempt to comply to Flathub expectations."
 msgstr "Tentative de remplir les attentes de Flathub."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:89
+#: data/io.github.orontee.Argos.appdata.xml.in:96
 msgid "Delivered during holidays, use at your own risks!"
 msgstr "Livraison préparée pendant des congés, à utiliser avec prudence !"
 
-#: data/io.github.orontee.Argos.appdata.xml.in:96
+#: data/io.github.orontee.Argos.appdata.xml.in:103
 msgid "Delivered during a toothache, use at your own risks!"
 msgstr "Livraison préparée pendant une rage de dents, prudence !"
 
-#: data/io.github.orontee.Argos.appdata.xml.in:102
+#: data/io.github.orontee.Argos.appdata.xml.in:109
 msgid "Matthias Meulien"
 msgstr ""
 
@@ -778,6 +782,9 @@ msgstr "Préférer un thème sombre"
 #: data/io.github.orontee.Argos.gschema.xml:195
 msgid "If a Gtk+ theme includes a dark variant, it will be used."
 msgstr "Utiliser la variante sombre si un thème Gtk+ en inclut une."
+
+#~ msgid "Albums view"
+#~ msgstr "Vue albums"
 
 #~ msgid "Sort library"
 #~ msgstr "Trier la bibliothèque"

@@ -28,6 +28,13 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="1.8.0" date="2023-01-16">
+      <description>
+        <p>
+          Implement a library browser and improve performance.
+        </p>
+      </description>
+    </release>
     <release version="1.7.0" date="2022-12-31">
       <description>
         <p>
