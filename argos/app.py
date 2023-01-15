@@ -1,10 +1,10 @@
 import asyncio
 import gettext
-import inspect
 import logging
-from collections import defaultdict
+from functools import partial
 from threading import Thread
-from typing import Any, Dict, Optional
+from time import sleep
+from typing import Any, Dict, Optional, Sequence
 
 import gi
 
@@ -24,7 +24,7 @@ from argos.controllers import (
 from argos.download import ImageDownloader
 from argos.http import MopidyHTTPClient
 from argos.info import InformationService
-from argos.message import Message, MessageType
+from argos.message import Message, MessageDispatchTask, MessageType
 from argos.model import Model
 from argos.notify import Notifier
 from argos.placement import WindowPlacement
@@ -61,6 +61,8 @@ class Application(Gtk.Application):
         )
         self._loop = asyncio.get_event_loop()
         self._message_queue: asyncio.Queue = asyncio.Queue()
+        self._tasks: List[asyncio.Task] = []
+
         self._nm = Gio.NetworkMonitor.get_default()
 
         self._settings = Gio.Settings(self.props.application_id)
@@ -87,7 +89,6 @@ class Application(Gtk.Application):
         self._http = MopidyHTTPClient(self)
         self._download = ImageDownloader(self)
         self._information = InformationService(self)
-        self._time_position_tracker = TimePositionTracker(self)
         self._notifier = Notifier(self)
 
         self._controllers = (
@@ -214,12 +215,11 @@ class Application(Gtk.Application):
         return 0
 
     def do_activate(self):
-        self._identify_message_consumers_from_controllers()
-
         if not self.window:
             LOGGER.debug("Instantiating application window")
             self.window = ArgosWindow(self)
             self.window.set_default_icon_name("media-optical")
+            self.window.connect("delete-event", self._on_window_delete_event)
 
             WindowPlacement(self)
 
@@ -294,34 +294,34 @@ class Application(Gtk.Application):
 
             action.set_enabled(self._model.network_available and self._model.connected)
 
-    def _start_event_loop(self):
+    def _start_event_loop(self) -> None:
         LOGGER.debug("Attaching event loop to calling thread")
         asyncio.set_event_loop(self._loop)
 
+        for coroutine in (
+            self._ws.listen(),
+            MessageDispatchTask(self)(),
+            TimePositionTracker(self)(),
+        ):
+            task = self._loop.create_task(coroutine)
+            self._tasks.append(task)
+
         LOGGER.debug("Starting event loop")
-        self._loop.run_until_complete(
-            asyncio.gather(
-                self._ws.listen(),
-                self._dispatch_messages(),
-                self._time_position_tracker.track(),
-            )
-        )
-        LOGGER.debug("Event loop stopped")
+        self._loop.run_forever()
 
-    async def _dispatch_messages(self) -> None:
-        LOGGER.debug("Waiting for new messages...")
-        while True:
-            message = await self._message_queue.get()
-            message_type = message.type
-            LOGGER.debug(f"Dispatching message of type {message_type}")
+    def _stop_event_loop(self) -> None:
+        LOGGER.debug("Stopping event loop")
 
-            consumers = self._consumers.get(message_type)
-            if consumers is None:
-                LOGGER.warning(f"No consumer for message of type {message_type}")
-                return
+        def cancel_tasks(tasks: Sequence[asyncio.Task]) -> None:
+            for task in tasks:
+                task.cancel()
 
-            for consumer in consumers:
-                await consumer(message)
+        self._loop.call_soon_threadsafe(partial(cancel_tasks, self._tasks))
+        self._loop.call_soon_threadsafe(self._loop.stop)
+        sleep(0.5)
+
+        # Don't try to join loop thread since it's a daemon thread, it'll result
+        # in a deadlock... Yes, not that clean...
 
     def _update_network_actions_state(self) -> None:
         for action_name in [
@@ -342,6 +342,16 @@ class Application(Gtk.Application):
         _2: GObject.GParamSpec,
     ) -> None:
         self._update_network_actions_state()
+
+    def _on_window_delete_event(
+        self,
+        _1: Gtk.Widget,
+        _2: Gdk.Event,
+    ) -> bool:
+        self._stop_event_loop()
+
+        # Default handler will destroy window
+        return False
 
     def send_message(
         self, message_type: MessageType, data: Optional[Dict[str, Any]] = None
@@ -380,6 +390,9 @@ class Application(Gtk.Application):
 
     def quit_activate_cb(self, action: Gio.SimpleAction, parameter: None) -> None:
         LOGGER.debug("Quit requested by end-user")
+
+        self._stop_event_loop()
+
         if self.window is not None:
             self.window.destroy()
 
@@ -438,16 +451,3 @@ class Application(Gtk.Application):
     ) -> None:
         LOGGER.debug("Library update requested by end-user")
         self.send_message(MessageType.BROWSE_DIRECTORY, data={"force": True})
-
-    def _identify_message_consumers_from_controllers(self) -> None:
-        LOGGER.debug("Identifying message consumers")
-        self._consumers = defaultdict(list)
-        for ctrl in self._controllers:
-            for name in dir(ctrl):
-                subject = getattr(ctrl, name)
-                if callable(subject) and hasattr(subject, "consume_messages"):
-                    for message_type in subject.consume_messages:
-                        self._consumers[message_type].append(subject)
-                        LOGGER.debug(
-                            f"New consumer of {message_type}: {inspect.unwrap(subject)}"
-                        )

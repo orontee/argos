@@ -1,8 +1,19 @@
+import asyncio
 import collections.abc
 import functools
+import inspect
+import logging
+from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Dict, TypeVar
+from typing import TYPE_CHECKING, Any, Callable, Dict, Sequence, TypeVar
+
+from gi.repository import GObject
+
+if TYPE_CHECKING:
+    from argos.app import Application
+
+LOGGER = logging.getLogger(__name__)
 
 T = TypeVar("T")
 
@@ -103,3 +114,47 @@ def consume(
         return inner
 
     return decorator
+
+
+class MessageDispatchTask(GObject.Object):
+    """Dispatch messages to consumers."""
+
+    def __init__(self, application: "Application"):
+        super().__init__()
+        self._message_queue: asyncio.Queue = application.message_queue
+
+        self._identify_message_consumers_from_objects(application._controllers)
+
+    def _identify_message_consumers_from_objects(
+        self,
+        controllers: Sequence[Any],
+    ) -> None:
+        LOGGER.debug("Identifying message consumers")
+        self._consumers = defaultdict(list)
+        for ctrl in controllers:
+            for name in dir(ctrl):
+                subject = getattr(ctrl, name)
+                if callable(subject) and hasattr(subject, "consume_messages"):
+                    for message_type in subject.consume_messages:
+                        self._consumers[message_type].append(subject)
+                        LOGGER.debug(
+                            f"New consumer of {message_type}: {inspect.unwrap(subject)}"
+                        )
+
+    async def __call__(self) -> None:
+        LOGGER.debug("Waiting for new messages...")
+        try:
+            while True:
+                message = await self._message_queue.get()
+                message_type = message.type
+                LOGGER.debug(f"Dispatching message of type {message_type}")
+
+                consumers = self._consumers.get(message_type)
+                if consumers is None:
+                    LOGGER.warning(f"No consumer for message of type {message_type}")
+                    return
+
+                for consumer in consumers:
+                    await consumer(message)
+        except asyncio.exceptions.CancelledError:
+            LOGGER.debug("Won't dispatch messages anymore")

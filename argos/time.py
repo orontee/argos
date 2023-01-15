@@ -17,7 +17,7 @@ DELAY = 10  # s
 SYNCHRONIZATION_TIMEOUT = 4  # s
 
 
-class TimePositionTracker(GObject.GObject):
+class TimePositionTracker(GObject.Object):
     """Track time position.
 
     Periodic synchronization with Mopidy server happens every
@@ -58,44 +58,47 @@ class TimePositionTracker(GObject.GObject):
             ]
         )
 
-    async def track(self) -> None:
+    async def __call__(self) -> None:
         LOGGER.debug("Tracking time position...")
-        while True:
-            await asyncio.sleep(1)
-            if not self._is_server_playing():
-                if self._last_sync:
-                    self._last_sync = None
-                continue
+        try:
+            while True:
+                await asyncio.sleep(1)
+                if not self._is_server_playing():
+                    if self._last_sync:
+                        self._last_sync = None
+                    continue
 
-            time_position: Optional[int] = -1
-            if self._model.playback.time_position != -1 and self._last_sync:
-                time_position = self._model.playback.time_position + 1000
-                delta = (datetime.now() - self._last_sync).total_seconds()
-                needs_sync = delta >= DELAY
-            else:
-                needs_sync = True
+                time_position: Optional[int] = -1
+                if self._model.playback.time_position != -1 and self._last_sync:
+                    time_position = self._model.playback.time_position + 1000
+                    delta = (datetime.now() - self._last_sync).total_seconds()
+                    needs_sync = delta >= DELAY
+                else:
+                    needs_sync = True
 
-            synced = False
-            if needs_sync:
-                LOGGER.debug("Trying to synchronize time position")
-                try:
-                    time_position = await asyncio.wait_for(
-                        self._http.get_time_position(),
-                        SYNCHRONIZATION_TIMEOUT,
-                    )
-                    synced = True
-                except asyncio.exceptions.TimeoutError:
-                    time_position = None
-            else:
-                LOGGER.debug("No need to synchronize time position")
+                synced = False
+                if needs_sync:
+                    LOGGER.debug("Trying to synchronize time position")
+                    try:
+                        time_position = await asyncio.wait_for(
+                            self._http.get_time_position(),
+                            SYNCHRONIZATION_TIMEOUT,
+                        )
+                        synced = True
+                    except asyncio.exceptions.TimeoutError:
+                        time_position = None
+                else:
+                    LOGGER.debug("No need to synchronize time position")
 
-            if time_position is None:
-                time_position = -1
+                if time_position is None:
+                    time_position = -1
 
-            if not synced:
-                LOGGER.debug("Won't signal time position change to sync handler")
-                args = {"block_handler": self._time_position_changed_handler_id}
-            else:
-                args = {}
+                if not synced:
+                    LOGGER.debug("Won't signal time position change to sync handler")
+                    args = {"block_handler": self._time_position_changed_handler_id}
+                else:
+                    args = {}
 
-            self._model.playback.set_time_position(time_position, **args)
+                self._model.playback.set_time_position(time_position, **args)
+        except asyncio.exceptions.CancelledError:
+            LOGGER.debug("Won't track time position anymore")

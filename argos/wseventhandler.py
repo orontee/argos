@@ -28,11 +28,14 @@ _WS_EVENT_TO_MESSAGE: Dict[str, MessageType] = {
 }
 
 
-class MopidyWSEventHandler(GObject.GObject):
+class MopidyWSEventHandler(GObject.Object):
     """Handle Mopidy events received through websocket.
 
-    When an event is processed, a ``Message`` is instantiated and put
-    in the application message queue for supported event.
+    When a Mopidy event is processed, a ``Message`` is instantiated and put in
+    the application message queue.
+
+    The dispatch of message to their consumers is done by a dedicated task
+    implemented in ``MessageDispatchTask``.
 
     """
 

@@ -160,56 +160,62 @@ class MopidyWSConnection(GObject.GObject):
             future.cancel()
 
     async def listen(self) -> None:
-        async with self._http_session_manager.get_session() as session:
-            while True:
-                try:
-                    if not self._url:
-                        raise _URLUndefined()
+        try:
+            async with self._http_session_manager.get_session() as session:
+                LOGGER.debug("Listening to Mopidy websocket...")
+                while True:
+                    try:
+                        if not self._url:
+                            raise _URLUndefined()
 
-                    url = self._url
-                    self._ws = await session.ws_connect(url, ssl=False, timeout=None)
-                    assert self._ws
-                    LOGGER.debug(f"Connected to mopidy websocket at {self._url}")
-
-                    self._model.set_property_in_gtk_thread("connected", True)
-
-                    async for msg in self._ws:
-                        # Note that iteration stops when a CLOSE
-                        # message is received
-                        await self._handle(msg)
-
-                    if self._ws.closed:
-                        LOGGER.debug("Mopidy websocket connection closed")
-                        raise _WSClosed()
-
-                except (
-                    _URLUndefined,
-                    _WSClosed,
-                    ConnectionError,
-                    aiohttp.ClientResponseError,
-                    aiohttp.client_exceptions.ClientConnectorError,
-                    aiohttp.client_exceptions.ServerDisconnectedError,
-                    aiohttp.client_exceptions.InvalidURL,
-                    asyncio.exceptions.TimeoutError,
-                ) as error:
-                    self._model.set_property_in_gtk_thread("connected", False)
-
-                    self.cancel_commands()
-
-                    if isinstance(error, _WSClosed):
-                        LOGGER.warning(
-                            "New connection to be established after connection closed"
+                        url = self._url
+                        self._ws = await session.ws_connect(
+                            url, ssl=False, timeout=None
                         )
-                    elif isinstance(error, _URLUndefined):
-                        LOGGER.warning(
-                            "Connection to be established later since URL not set"
-                        )
-                    else:
-                        LOGGER.error(
-                            f"Connection error (retry in {self._connection_retry_delay}s): {error}"
-                        )
+                        assert self._ws
+                        LOGGER.debug(f"Connected to mopidy websocket at {self._url}")
 
-                    await asyncio.sleep(self._connection_retry_delay)
+                        self._model.set_property_in_gtk_thread("connected", True)
+
+                        async for msg in self._ws:
+                            # Note that iteration stops when a CLOSE
+                            # message is received
+                            await self._handle(msg)
+
+                        if self._ws.closed:
+                            LOGGER.debug("Mopidy websocket connection closed")
+                            raise _WSClosed()
+
+                    except (
+                        _URLUndefined,
+                        _WSClosed,
+                        ConnectionError,
+                        aiohttp.ClientResponseError,
+                        aiohttp.client_exceptions.ClientConnectorError,
+                        aiohttp.client_exceptions.ServerDisconnectedError,
+                        aiohttp.client_exceptions.InvalidURL,
+                        asyncio.exceptions.TimeoutError,
+                    ) as error:
+                        self._model.set_property_in_gtk_thread("connected", False)
+
+                        self.cancel_commands()
+
+                        if isinstance(error, _WSClosed):
+                            LOGGER.warning(
+                                "New connection to be established after connection closed"
+                            )
+                        elif isinstance(error, _URLUndefined):
+                            LOGGER.warning(
+                                "Connection to be established later since URL not set"
+                            )
+                        else:
+                            LOGGER.error(
+                                f"Connection error (retry in {self._connection_retry_delay}s): {error}"
+                            )
+
+                        await asyncio.sleep(self._connection_retry_delay)
+        except asyncio.exceptions.CancelledError:
+            LOGGER.debug("Won't listen to Mopidy websocket anymore")
 
     async def _handle(self, msg: aiohttp.WSMessage) -> None:
         """Handle websocket message.
