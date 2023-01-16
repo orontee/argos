@@ -30,6 +30,9 @@ class MixerController(ControllerBase):
             self._model.mixer.set_mute(mute)
 
         volume = await self._http.get_volume()
+        # When Mopidy-Mixer is disabled on Mopidy server, volume is equal to
+        # None; Showing/hiding volume button is based on this...
+
         self._model.mixer.set_volume(volume if volume is not None else -1)
 
     @consume(MessageType.VOLUME_CHANGED)
