@@ -1,7 +1,7 @@
 import logging
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Iterable, List, Optional, Protocol, Sequence, Type, TypeVar
+from typing import Any, List, Optional, Type, TypeVar
 
 LOGGER = logging.getLogger(__name__)
 

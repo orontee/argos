@@ -2,7 +2,7 @@ import contextlib
 import logging
 from functools import partial
 from pathlib import Path
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, AsyncIterator, Optional, Type, cast
 
 import aiohttp
 import xdg.BaseDirectory  # type: ignore
@@ -10,8 +10,8 @@ import xdg.BaseDirectory  # type: ignore
 try:
     from aiohttp_client_cache import CachedSession, SQLiteBackend
 except ImportError:
-    CachedSession = None
-    SQLiteBackend = None
+    CachedSession = None  # type: ignore
+    SQLiteBackend = None  # type: ignore
 from gi.repository import GObject
 
 if TYPE_CHECKING:
@@ -33,21 +33,25 @@ class HTTPSessionManager(GObject.Object):
             Path(xdg.BaseDirectory.save_cache_path("argos")) / "aiohttp-requests.db"
         )
 
+        self._session_klass: Type[aiohttp.ClientSession]
         if SQLiteBackend is not None and CachedSession is not None:
             delay = 7 * 24 * 60 * 60
             cache = SQLiteBackend(
-                cache_name=cache_path,
+                cache_name=str(cache_path),
                 expire_after=delay,
             )
-            self._session_klass = partial(
-                CachedSession,
-                cache=cache,
+            self._session_klass = cast(
+                Type[aiohttp.ClientSession],
+                partial(
+                    CachedSession,
+                    cache=cache,
+                ),
             )
         else:
             self._session_klass = aiohttp.ClientSession
 
     @contextlib.asynccontextmanager
-    async def get_session(self) -> aiohttp.ClientSession:
+    async def get_session(self) -> AsyncIterator[aiohttp.ClientSession]:
         try:
             if self._session is None or self._session.closed:
                 LOGGER.debug(f"Starting a new HTTP session using {self._session_klass}")

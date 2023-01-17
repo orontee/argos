@@ -1,8 +1,6 @@
 import logging
 from collections import Counter, defaultdict
-from typing import Any, Dict, List, Optional, cast
-
-from gi.repository import GObject
+from typing import Dict, List, Optional
 
 from argos.dto import TrackDTO
 

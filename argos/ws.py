@@ -169,9 +169,7 @@ class MopidyWSConnection(GObject.GObject):
                             raise _URLUndefined()
 
                         url = self._url
-                        self._ws = await session.ws_connect(
-                            url, ssl=False, timeout=None
-                        )
+                        self._ws = await session.ws_connect(url, ssl=False)
                         assert self._ws
                         LOGGER.debug(f"Connected to mopidy websocket at {self._url}")
 

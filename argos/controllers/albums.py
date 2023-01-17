@@ -1,8 +1,6 @@
 import logging
 from operator import attrgetter
-from typing import TYPE_CHECKING, List, Optional, Tuple
-
-from gi.repository import Gio
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from argos.app import Application
@@ -13,7 +11,6 @@ from argos.controllers.visitors import AlbumMetadataCollector, LengthAcc
 from argos.download import ImageDownloader
 from argos.info import InformationService
 from argos.message import Message, MessageType, consume
-from argos.model import AlbumModel
 
 LOGGER = logging.getLogger(__name__)
 

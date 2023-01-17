@@ -1,8 +1,7 @@
 import logging
 import re
 import threading
-from enum import Enum, IntEnum
-from functools import partial
+from enum import IntEnum
 from pathlib import Path
 from typing import List, Optional, Tuple, Union
 
@@ -214,7 +213,7 @@ class LibraryWindow(Gtk.Box):
 
         directory = self._model.get_directory(self.props.directory_uri)
         if directory is None:
-            LOGGER.warning(f"Library browser redirected to root directory")
+            LOGGER.warning("Library browser redirected to root directory")
             self.show_directory("", history=False)
             return
 

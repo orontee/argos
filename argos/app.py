@@ -4,7 +4,7 @@ import logging
 from functools import partial
 from threading import Thread
 from time import sleep
-from typing import Any, Dict, Optional, Sequence
+from typing import Any, Dict, List, Optional, Sequence
 
 import gi
 

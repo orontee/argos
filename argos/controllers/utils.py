@@ -1,16 +1,6 @@
 import logging
 from collections import defaultdict
-from typing import (
-    Any,
-    Callable,
-    Coroutine,
-    Dict,
-    List,
-    Mapping,
-    Optional,
-    Sequence,
-    cast,
-)
+from typing import Any, Callable, Coroutine, Dict, List, Mapping, Optional, Sequence
 
 from argos.dto import TrackDTO
 from argos.model import TrackModel

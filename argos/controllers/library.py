@@ -2,7 +2,7 @@ import asyncio
 import gettext
 import logging
 from operator import attrgetter
-from typing import TYPE_CHECKING, Dict, List, Optional, Sequence, Tuple
+from typing import TYPE_CHECKING, Dict, List, Optional, Sequence
 
 from gi.repository import Gio, GLib, GObject
 
@@ -13,8 +13,7 @@ from argos.controllers.base import ControllerBase
 from argos.controllers.utils import call_by_slice, parse_tracks
 from argos.controllers.visitors import AlbumMetadataCollector, LengthAcc
 from argos.download import ImageDownloader
-from argos.dto import RefDTO, RefType, TrackDTO
-from argos.info import InformationService
+from argos.dto import RefDTO, RefType
 from argos.message import Message, MessageType, consume
 from argos.model import (
     AlbumModel,
@@ -280,13 +279,13 @@ class LibraryController(ControllerBase):
         metadata_collector = AlbumMetadataCollector()
         parsed_tracks: Dict[str, List[TrackModel]] = {}
         if backend.props.preload_album_tracks:
-            LOGGER.debug(f"Fetching albums tracks")
+            LOGGER.debug("Fetching albums tracks")
             directory_tracks_dto = await call_by_slice(
                 self._http.lookup_library,
                 params=album_uris,
             )
 
-            LOGGER.debug(f"Parsing albums tracks")
+            LOGGER.debug("Parsing albums tracks")
             parsed_tracks = parse_tracks(
                 directory_tracks_dto, visitors=[length_acc, metadata_collector]
             )
@@ -346,7 +345,7 @@ class LibraryController(ControllerBase):
 
         track_uris = [dto.uri for dto in track_dtos]
 
-        LOGGER.debug(f"Fetching tracks")
+        LOGGER.debug("Fetching tracks")
         directory_tracks_dto = await call_by_slice(
             self._http.lookup_library,
             params=track_uris,
@@ -360,7 +359,7 @@ class LibraryController(ControllerBase):
         if images is None:
             LOGGER.warning("Failed to fetch URIs of images")
 
-        LOGGER.debug(f"Parsing tracks")
+        LOGGER.debug("Parsing tracks")
         parsed_tracks: List[TrackModel] = []
         for tracks in parse_tracks(directory_tracks_dto).values():
             for track in tracks:

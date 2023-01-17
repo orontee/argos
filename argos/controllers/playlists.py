@@ -2,8 +2,8 @@ import asyncio
 import gettext
 import logging
 import time
-from operator import attrgetter, itemgetter
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, cast
+from operator import itemgetter
+from typing import TYPE_CHECKING, Dict, List, Optional
 
 from gi.repository import Gio
 
