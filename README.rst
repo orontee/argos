@@ -109,6 +109,17 @@ as DEB package at present time)::
   $ sudo apt install sqlite3
   $ python3 -m pip install aiosqlite aiohttp-client-cache
 
+Getting help
+============
+
+A `Discourse forum <https://discourse.mopidy.com>`_ is dedicated to Mopidy and
+its related projects. It's the right place to ask for help.
+
+To report a bug or make a feature request, one must use the `issue tracker
+<https://github.com/orontee/argos/issues>`_.
+
+In both places, *courtoisie* reigns; And keep in mind that Mopidy and its
+related projects are run by volunteers!
 
 Configuration
 =============
