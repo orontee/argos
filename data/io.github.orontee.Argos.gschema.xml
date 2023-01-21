@@ -31,16 +31,6 @@
       </description>
     </key>
 
-    <key type="b" name="mopidy-file">
-      <default>true</default>
-      <summary>
-	Mopidy-File
-      </summary>
-      <description>
-	Whether to display directories from Mopidy-File in library.
-      </description>
-    </key>
-
     <key type="b" name="mopidy-local">
       <default>true</default>
       <summary>
@@ -61,16 +51,6 @@
       </description>
     </key>
 
-    <key type="b" name="mopidy-jellyfin">
-      <default>true</default>
-      <summary>
-	Mopidy-Jellyfin
-      </summary>
-      <description>
-	Whether to display directories from Mopidy-Jellyfin in library.
-      </description>
-    </key>
-
     <key type="b" name="mopidy-podcast">
       <default>true</default>
       <summary>
@@ -81,25 +61,14 @@
       </description>
     </key>
 
-    <key type="b" name="mopidy-somafm">
-      <default>true</default>
-      <summary>
-	Mopidy-SomaFM
-      </summary>
-      <description>
-	Whether to display directories from Mopidy-SomaFM in library.
-      </description>
-    </key>
-
     <key type="b" name="other-directories">
       <default>true</default>
       <summary>
         Other directories
       </summary>
       <description>
-        Whether to display directories not provided by Mopidy-File,
-        Mopidy-Local, Mopidy-Podcast, Mopidy-Bandcamp, Mopidy-Jellyfin,
-        Mopidy-SomaFM.
+        Whether to display directories not provided by Mopidy-Local,
+        Mopidy-Podcast, and Mopidy-Bandcamp.
       </description>
     </key>
 

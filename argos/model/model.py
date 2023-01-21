@@ -19,11 +19,8 @@ from argos.model.backends import (
     GenericBackend,
     MopidyBackend,
     MopidyBandcampBackend,
-    MopidyFileBackend,
-    MopidyJellyfinBackend,
     MopidyLocalBackend,
     MopidyPodcastBackend,
-    MopidySomaFMBackend,
 )
 from argos.model.directory import DirectoryModel, compare_directories_func
 from argos.model.library import LibraryModel
@@ -76,12 +73,11 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
 
         self.mopidy_local_backend = MopidyLocalBackend(self._settings)
         self.backends.append(self.mopidy_local_backend)
-        self.backends.append(MopidyFileBackend(self._settings))
         self.backends.append(MopidyPodcastBackend(self._settings))
         self.backends.append(MopidyBandcampBackend(self._settings))
-        self.backends.append(MopidyJellyfinBackend(self._settings))
-        self.backends.append(MopidySomaFMBackend(self._settings))
+
         self.backends.append(GenericBackend(self._settings))
+        # Must be the last one!
 
         application._nm.connect("network-changed", self._on_nm_network_changed)
 

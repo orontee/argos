@@ -11,7 +11,7 @@ class MopidyBackend(GObject.Object):
     name = GObject.Property(type=str)
     settings_key = GObject.Property(type=str)
     static_albums = GObject.Property(type=bool, default=True)
-    preload_album_tracks = GObject.Property(type=bool, default=True)
+    preload_album_tracks = GObject.Property(type=bool, default=False)
 
     activated = GObject.Property(type=bool, default=False)
     # Default value is per inheriting class and defined in the
@@ -53,7 +53,12 @@ class MopidyBackend(GObject.Object):
 
 class MopidyLocalBackend(MopidyBackend):
     def __init__(self, settings: Gio.Settings):
-        super().__init__(settings, name="Mopidy-Local", settings_key="mopidy-local")
+        super().__init__(
+            settings,
+            name="Mopidy-Local",
+            settings_key="mopidy-local",
+            preload_album_tracks=True,
+        )
 
     def is_responsible_for(self, directory_uri: str) -> bool:
         return directory_uri.startswith("local:")
@@ -74,7 +79,6 @@ class MopidyBandcampBackend(MopidyBackend):
             settings,
             name="Mopidy-Bandcamp",
             settings_key="mopidy-bandcamp",
-            preload_album_tracks=False,
         )
 
     def is_responsible_for(self, directory_uri: str) -> bool:
@@ -87,46 +91,18 @@ class MopidyBandcampBackend(MopidyBackend):
         return "", album_name
 
 
-class MopidyJellyfinBackend(MopidyBackend):
-    def __init__(self, settings: Gio.Settings):
-        super().__init__(
-            settings,
-            name="Mopidy-Jellyfin",
-            settings_key="mopidy-jellyfin",
-            preload_album_tracks=False,
-        )
-
-    def is_responsible_for(self, directory_uri: str) -> bool:
-        return directory_uri.startswith("jellyfin:")
-
-
 class MopidyPodcastBackend(MopidyBackend):
     def __init__(self, settings: Gio.Settings):
         super().__init__(
             settings,
             name="Mopidy-Podcast",
             settings_key="mopidy-podcast",
+            preload_album_tracks=True,
             static_albums=False,
         )
 
     def is_responsible_for(self, directory_uri: str) -> bool:
         return directory_uri.startswith("podcast+")
-
-
-class MopidyFileBackend(MopidyBackend):
-    def __init__(self, settings: Gio.Settings):
-        super().__init__(settings, name="Mopidy-File", settings_key="mopidy-file")
-
-    def is_responsible_for(self, directory_uri: str) -> bool:
-        return directory_uri.startswith("file:")
-
-
-class MopidySomaFMBackend(MopidyBackend):
-    def __init__(self, settings: Gio.Settings):
-        super().__init__(settings, name="Mopidy-SomaFM", settings_key="mopidy-somafm")
-
-    def is_responsible_for(self, directory_uri: str) -> bool:
-        return directory_uri.startswith("somafm:")
 
 
 class GenericBackend(MopidyBackend):
@@ -135,9 +111,7 @@ class GenericBackend(MopidyBackend):
             settings,
             name="Generic",
             settings_key="other-directories",
-            preload_album_tracks=False,
-            static_albums=False,
         )
 
     def is_responsible_for(self, directory_uri: str) -> bool:
-        return True
+        return True if directory_uri != "" else False
