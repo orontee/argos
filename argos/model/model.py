@@ -16,6 +16,7 @@ from argos.model.album import (
     compare_albums_by_publication_date_func,
 )
 from argos.model.backends import (
+    GenericBackend,
     MopidyBackend,
     MopidyBandcampBackend,
     MopidyFileBackend,
@@ -80,6 +81,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         self.backends.append(MopidyBandcampBackend(self._settings))
         self.backends.append(MopidyJellyfinBackend(self._settings))
         self.backends.append(MopidySomaFMBackend(self._settings))
+        self.backends.append(GenericBackend(self._settings))
 
         application._nm.connect("network-changed", self._on_nm_network_changed)
 

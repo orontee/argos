@@ -13,6 +13,8 @@ The format is based on `Keep a Changelog
 
 Added
 -----
+- A generic backend is added to display any directory `#123
+  <https://github.com/orontee/argos/issues/123>`_
 
 Changed
 -------

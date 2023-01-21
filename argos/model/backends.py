@@ -127,3 +127,17 @@ class MopidySomaFMBackend(MopidyBackend):
 
     def is_responsible_for(self, directory_uri: str) -> bool:
         return directory_uri.startswith("somafm:")
+
+
+class GenericBackend(MopidyBackend):
+    def __init__(self, settings: Gio.Settings):
+        super().__init__(
+            settings,
+            name="Generic",
+            settings_key="other-directories",
+            preload_album_tracks=False,
+            static_albums=False,
+        )
+
+    def is_responsible_for(self, directory_uri: str) -> bool:
+        return True

@@ -49,8 +49,7 @@ Features 🥳
 
 * Playback state & tracklist view
 
-* Library browser populated with resources exposed by various Mopidy
-  extensions
+* Library browser
 
 * View and edition of playlists exposed by Mopidy-M3U
 
@@ -62,9 +61,10 @@ Features 🥳
 Consult the `NEWS file </NEWS.rst>`_ for notable changes between
 versions.
 
-Note that at present time the library is populated with resources
-exposed by Mopidy-File, Mopidy-Local, Mopidy-Bandcamp,
-Mopidy-Jellyfin, Mopidy-Podcast and Mopidy-SomaFM.
+Note that the library is almost agnostic of Mopidy extensions (it has been
+reported to successfully give access to resources exposed by Mopidy-File,
+Mopidy-Local, Mopidy-Bandcamp, Mopidy-Jellyfin, Mopidy-Podcast and
+Mopidy-SomaFM).
 
 Install
 =======

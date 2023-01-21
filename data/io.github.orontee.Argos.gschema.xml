@@ -91,6 +91,18 @@
       </description>
     </key>
 
+    <key type="b" name="other-directories">
+      <default>true</default>
+      <summary>
+        Other directories
+      </summary>
+      <description>
+        Whether to display directories not provided by Mopidy-File,
+        Mopidy-Local, Mopidy-Podcast, Mopidy-Bandcamp, Mopidy-Jellyfin,
+        Mopidy-SomaFM.
+      </description>
+    </key>
+
     <key type="b" name="index-mopidy-local-albums">
       <default>false</default>
       <summary>
