@@ -3,7 +3,7 @@ import pathlib
 import unittest
 from copy import copy
 
-from argos.controllers.utils import parse_tracks
+from argos.controllers.helper import ModelHelper
 from argos.controllers.visitors import (
     AlbumMetadataCollector,
     LengthAcc,
@@ -24,14 +24,14 @@ class TestLengthAcc(unittest.TestCase):
         track_dto = TrackDTO.factory(load_json_data("track.json"))
         tracks_dto = {"uri": [track_dto] * 3}
         visitor = LengthAcc()
-        parse_tracks(tracks_dto, visitors=[visitor])
+        ModelHelper().parse_tracks(tracks_dto, visitors=[visitor])
         self.assertEqual(visitor.length["uri"], 3 * 270000)
 
     def test_call_wrong_uri(self):
         track_dto = TrackDTO.factory(load_json_data("track.json"))
         tracks_dto = {"uri": [track_dto] * 3}
         visitor = LengthAcc()
-        parse_tracks(tracks_dto, visitors=[visitor])
+        ModelHelper().parse_tracks(tracks_dto, visitors=[visitor])
         self.assertEqual(visitor.length["otheruri"], 0)
 
     def test_call_with_unkown_length(self):
@@ -40,7 +40,7 @@ class TestLengthAcc(unittest.TestCase):
         other_track_dto.length = None
         tracks_dto = {"uri": [track_dto, other_track_dto, track_dto]}
         visitor = LengthAcc()
-        parse_tracks(tracks_dto, visitors=[visitor])
+        ModelHelper().parse_tracks(tracks_dto, visitors=[visitor])
         self.assertEqual(visitor.length["uri"], -1)
 
 
@@ -49,7 +49,7 @@ class TestAlbumMetadataCollector(unittest.TestCase):
         album_tracks_dto = cast_seq_of(TrackDTO, load_json_data("album_tracks.json"))
         album_uri = "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea"
         visitor = AlbumMetadataCollector()
-        parse_tracks({album_uri: album_tracks_dto}, visitors=[visitor])
+        ModelHelper().parse_tracks({album_uri: album_tracks_dto}, visitors=[visitor])
         self.assertEqual(visitor.artist_name(album_uri), "Claude Nougaro")
         self.assertEqual(visitor.num_tracks(album_uri), 10)
         # Not the right track number but the one extracted by Mopidy-Local!
@@ -85,7 +85,7 @@ class TestPlaylistTrackNameFix(unittest.TestCase):
             ],
         }
         visitor = PlaylistTrackNameFix(playlist_dto)
-        parsed_tracks = parse_tracks(tracks_dto, visitors=[visitor])
+        parsed_tracks = ModelHelper().parse_tracks(tracks_dto, visitors=[visitor])
         self.assertEqual(
             parsed_tracks["http://direct.franceinter.fr/live/franceinter-midfi.mp3"][
                 0

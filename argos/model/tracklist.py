@@ -2,7 +2,6 @@ from typing import Optional
 
 from gi.repository import Gio, GObject
 
-from argos.dto import TlTrackDTO
 from argos.model.track import TrackModel
 from argos.model.utils import WithThreadSafePropertySetter
 
@@ -12,12 +11,6 @@ class TracklistTrackModel(GObject.Object):
 
     tlid = GObject.Property(type=int)
     track = GObject.Property(type=TrackModel)
-
-    @staticmethod
-    def factory(dto: TlTrackDTO) -> "TracklistTrackModel":
-        track = TrackModel.factory(dto.track)
-        tl_track = TracklistTrackModel(tlid=dto.tlid, track=track)
-        return tl_track
 
 
 class TracklistModel(WithThreadSafePropertySetter, GObject.Object):

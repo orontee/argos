@@ -1,10 +1,7 @@
 import logging
-from collections import defaultdict
-from typing import Any, Callable, Coroutine, Dict, List, Mapping, Optional, Sequence
+from typing import Any, Callable, Coroutine, Dict, List, Mapping, Optional
 
 from argos.controllers.progress import ProgressNotifierProtocol
-from argos.dto import TrackDTO
-from argos.model import TrackModel
 
 LOGGER = logging.getLogger(__name__)
 
@@ -50,35 +47,3 @@ async def call_by_slice(
             break
         result.update(ith_result)
     return result
-
-
-def parse_tracks(
-    tracks_dto: Mapping[str, Sequence[TrackDTO]],
-    *,
-    visitors: Optional[Sequence[Callable[[str, TrackDTO], None]]] = None,
-) -> Dict[str, List[TrackModel]]:
-    """Parse a track list.
-
-    Keys in ``track_dto`` can be album URIs or track URIs (when fetching
-    details of playlist tracks).
-
-    Args:
-        tracks_dto: Track data transfer objects to parse.
-
-        visitors: An optional list of callable to be called on each
-            visited track.
-
-    Returns:
-        Dict of list of ``TrackModel``.
-
-    """
-    parsed_tracks: Dict[str, List[TrackModel]] = defaultdict(list)
-    for uri in tracks_dto:
-        for track_dto in tracks_dto[uri]:
-            if visitors is not None:
-                for visitor in visitors:
-                    visitor(uri, track_dto)
-
-            parsed_tracks[uri].append(TrackModel.factory(track_dto))
-
-    return parsed_tracks
