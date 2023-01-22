@@ -14,7 +14,7 @@ from argos.controllers.progress import (
     DirectoryCompletionProgressNotifier,
     ProgressNotifierProtocol,
 )
-from argos.controllers.utils import call_by_slice, parse_tracks
+from argos.controllers.utils import call_by_slice
 from argos.controllers.visitors import AlbumMetadataCollector, LengthAcc
 from argos.download import ImageDownloader
 from argos.dto import RefDTO, RefType
@@ -315,7 +315,7 @@ class LibraryController(ControllerBase):
             )
 
             LOGGER.debug("Parsing albums tracks")
-            parsed_tracks = parse_tracks(
+            parsed_tracks = self.helper.parse_tracks(
                 directory_tracks_dto, visitors=[length_acc, metadata_collector]
             )
 
@@ -438,7 +438,7 @@ class LibraryController(ControllerBase):
 
         LOGGER.debug("Parsing tracks")
         parsed_tracks: List[TrackModel] = []
-        for tracks in parse_tracks(directory_tracks_dto).values():
+        for tracks in self.helper.parse_tracks(directory_tracks_dto).values():
             for track in tracks:
                 track_uri = track.uri
                 if images is not None and len(images.get(track_uri, [])) > 0:

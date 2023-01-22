@@ -6,7 +6,6 @@ if TYPE_CHECKING:
     from argos.app import Application
 
 from argos.controllers.base import ControllerBase
-from argos.controllers.utils import parse_tracks
 from argos.controllers.visitors import AlbumMetadataCollector, LengthAcc
 from argos.info import InformationService
 from argos.message import Message, MessageType, consume
@@ -51,7 +50,7 @@ class AlbumsController(ControllerBase):
 
         length_acc = LengthAcc()
         metadata_collector = AlbumMetadataCollector()
-        parsed_tracks = parse_tracks(
+        parsed_tracks = self.helper.parse_tracks(
             tracks_dto, visitors=[length_acc, metadata_collector]
         ).get(album_uri, [])
 

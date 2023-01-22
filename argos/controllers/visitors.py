@@ -1,3 +1,8 @@
+"""Visitors for tracks DTOs.
+
+See ``argos.controllers.helper.ModelHelper.parse_tracks()``.
+
+"""
 import logging
 from collections import Counter, defaultdict
 from typing import Dict, List, Optional
@@ -8,11 +13,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 class LengthAcc:
-    """Visitor accumulating track length by uri.
-
-    See ``argos.utils.parse_tracks()``.
-
-    """
+    """Visitor accumulating track length by uri."""
 
     def __init__(self):
         self.length: Dict[str, int] = defaultdict(int)
@@ -35,7 +36,7 @@ class AlbumMetadataCollector:
     the names of the artists of the album tracks are collected and the
     most common name is returned.
 
-    See ``argos.utils.parse_tracks()``."""
+    """
 
     def __init__(self):
         self._name: Dict[str, str] = {}

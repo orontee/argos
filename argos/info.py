@@ -2,7 +2,7 @@ import gettext
 import logging
 import urllib.parse
 from enum import Enum
-from typing import TYPE_CHECKING, Dict, List, Optional, Tuple
+from typing import TYPE_CHECKING, Dict, List, Mapping, Optional, Sequence, Tuple
 
 import aiohttp
 from gi.repository import GLib, GObject
@@ -132,7 +132,7 @@ class InformationService(GObject.Object):
         return sitelinks
 
     def _build_preferred_abstract_url(
-        self, sitelinks: Dict[str, Dict[str, str]]
+        self, sitelinks: Mapping[str, Mapping[str, str]]
     ) -> Optional[str]:
         language_names = [
             lang
@@ -241,7 +241,7 @@ class InformationService(GObject.Object):
     async def _get_artist_abstract(
         self,
         session: aiohttp.ClientSession,
-        artist_mbids: List[str],
+        artist_mbids: Sequence[str],
     ) -> Optional[str]:
         raw_abstracts = []
         for artist_mbid in artist_mbids:
@@ -326,3 +326,32 @@ class InformationService(GObject.Object):
                 )
 
         return album_abstract, artist_abstract
+
+    async def get_artist_information(self, artist_mbid: str) -> Optional[str]:
+        """Return short text for artist with given artist MBID.
+
+        The text is the abstract of the Wikipedia page dedicated to the artist.
+
+        Wikidata API is used to search for Wikipedia pages associated to MBIDs.
+
+        Finally, Wikipedia API is used to retrieve pages abstracts.
+
+        Page selection is expected to match current locale language or
+        English.
+
+        """
+        if not artist_mbid:
+            return None
+
+        artist_abstract = None
+        async with self._http_session_manager.get_session() as session:
+            try:
+                artist_abstract = await self._get_artist_abstract(
+                    session, [artist_mbid]
+                )
+            except aiohttp.ClientError as err:
+                LOGGER.error(
+                    f"Failed to request abstract for artist MBID {artist_mbid!r}, {err}"
+                )
+
+        return artist_abstract
