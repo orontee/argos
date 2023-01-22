@@ -450,4 +450,10 @@ class Application(Gtk.Application):
         self, action: Gio.SimpleAction, parameter: None
     ) -> None:
         LOGGER.debug("Library update requested by end-user")
-        self.send_message(MessageType.BROWSE_DIRECTORY, data={"force": True})
+
+        data: Dict[str, Any] = {"force": True}
+        if self.window is not None:
+            directory_uri = self.window.library_window.props.directory_uri
+            data["uri"] = directory_uri
+
+        self.send_message(MessageType.BROWSE_DIRECTORY, data=data)

@@ -18,6 +18,8 @@ Added
 
 Changed
 -------
+- Refresh library updates visited directory `#115
+  <https://github.com/orontee/argos/issues/115>`_
 
 Removed
 -------
