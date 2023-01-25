@@ -68,10 +68,10 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         self.playlists = Gio.ListStore.new(PlaylistModel)
         self.backends = Gio.ListStore.new(MopidyBackend)
 
-        self.backends.append(MopidyPodcastBackend(self._settings))
-        self.backends.append(MopidyBandcampBackend(self._settings))
+        self.backends.append(MopidyPodcastBackend())
+        self.backends.append(MopidyBandcampBackend())
 
-        self.backends.append(GenericBackend(self._settings))
+        self.backends.append(GenericBackend())
         # Must be the last one!
 
         application._nm.connect("network-changed", self._on_nm_network_changed)
@@ -283,10 +283,12 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         )
 
     def choose_random_album(self) -> Optional[str]:
-        excluded = self._settings.get_strv("album-backends-excluded-from-random-play")
-        LOGGER.debug(f"Album backends excluded from random play: {excluded}")
+        def exclusion_predicate(a: AlbumModel) -> bool:
+            return a.props.backend.props.exclude_albums_from_random_choice
 
-        candidates = self.library.get_album_uris(excluded_backends=excluded)
+        candidates = self.library.get_album_uris(
+            exclusion_predicate=exclusion_predicate
+        )
 
         if len(candidates) == 0:
             LOGGER.warning("No album candidates for random selection!")

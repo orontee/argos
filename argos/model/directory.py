@@ -72,23 +72,22 @@ class DirectoryModel(GObject.Object):
     def collect_album_uris(
         self,
         *,
-        excluded_backends: List[str] = None,
+        exclusion_predicate: Callable[[AlbumModel], bool] = None,
     ) -> Set[str]:
         LOGGER.debug(f"Collecting album URIs in directory {self.props.name}")
-        if excluded_backends is None:
-            excluded_backends = []
 
         uris: Set[str] = set(
             [
                 album.uri
                 for album in self.albums
-                if album.backend.props.settings_key not in excluded_backends
+                if exclusion_predicate is None or not exclusion_predicate(album)
             ]
         )
-        # backend should be stored on directory, no?
 
         for directory in self.directories:
-            uris |= directory.collect_album_uris(excluded_backends=excluded_backends)
+            uris |= directory.collect_album_uris(
+                exclusion_predicate=exclusion_predicate
+            )
 
         return uris
 

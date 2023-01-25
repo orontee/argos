@@ -9,43 +9,15 @@ LOGGER = logging.getLogger(__name__)
 class MopidyBackend(GObject.Object):
 
     name = GObject.Property(type=str)
-    settings_key = GObject.Property(type=str)
     static_albums = GObject.Property(type=bool, default=True)
     preload_album_tracks = GObject.Property(type=bool, default=True)
-
-    activated = GObject.Property(type=bool, default=False)
-    # Default value is per inheriting class and defined in the
-    # schema for application settings
-
-    def __init__(
-        self,
-        settings: Gio.Settings,
-        *,
-        settings_key: str,
-        **kwargs,
-    ):
-        super().__init__(settings_key=settings_key, **kwargs)
-
-        self.props.activated = settings.get_value(self.props.settings_key)
-
-        settings.connect(
-            f"changed::{self.props.settings_key}", self._on_settings_changed
-        )
+    exclude_albums_from_random_choice = GObject.Property(type=bool, default=False)
 
     def is_responsible_for(self, directory_uri: str) -> bool:
         raise NotImplementedError
 
     def hides(self, ref_uri: str) -> bool:
         return False
-
-    def _on_settings_changed(self, settings: Gio.Settings, key: str) -> None:
-        assert self.props.settings_key == key
-        activated = settings.get_boolean(key)
-        self.props.activated = activated
-        if activated:
-            LOGGER.debug(f"Backend {self} activated")
-        else:
-            LOGGER.debug(f"Backend {self} deactivated")
 
     def __str__(self) -> str:
         return self.__class__.__name__
@@ -54,12 +26,9 @@ class MopidyBackend(GObject.Object):
 class MopidyBandcampBackend(MopidyBackend):
     def __init__(
         self,
-        settings: Gio.Settings,
     ):
         super().__init__(
-            settings,
             name="Mopidy-Bandcamp",
-            settings_key="mopidy-bandcamp",
             preload_album_tracks=False,
         )
 
@@ -74,12 +43,11 @@ class MopidyBandcampBackend(MopidyBackend):
 
 
 class MopidyPodcastBackend(MopidyBackend):
-    def __init__(self, settings: Gio.Settings):
+    def __init__(self):
         super().__init__(
-            settings,
             name="Mopidy-Podcast",
-            settings_key="mopidy-podcast",
             static_albums=False,
+            exclude_albums_from_random_choice=True,
         )
 
     def is_responsible_for(self, directory_uri: str) -> bool:
@@ -87,12 +55,8 @@ class MopidyPodcastBackend(MopidyBackend):
 
 
 class GenericBackend(MopidyBackend):
-    def __init__(self, settings: Gio.Settings):
-        super().__init__(
-            settings,
-            name="Generic",
-            settings_key="other-directories",
-        )
+    def __init__(self):
+        super().__init__(name="Generic")
 
     def is_responsible_for(self, directory_uri: str) -> bool:
         return True if directory_uri != "" else False

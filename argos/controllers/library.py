@@ -68,9 +68,6 @@ class LibraryController(ControllerBase):
         )
         # Hack to set default_uri to the value derived from user settings
 
-        for backend in self._model.backends:
-            backend.connect("notify::activated", self._on_backend_activated_changed)
-
         self._settings.connect(
             "changed::index-mopidy-local-albums",
             self._on_index_mopidy_local_albums_changed,
@@ -80,13 +77,6 @@ class LibraryController(ControllerBase):
             self._on_library_default_uri_changed,
         )
         self._settings.connect("changed::album-sort", self._on_album_sort_changed)
-
-    def _on_backend_activated_changed(
-        self,
-        _1: Gio.Settings,
-        _2: str,
-    ) -> None:
-        self.send_message(MessageType.BROWSE_DIRECTORY, data={"force": True})
 
     def _on_index_mopidy_local_albums_changed(
         self,
@@ -114,11 +104,6 @@ class LibraryController(ControllerBase):
     def _get_backend(self, uri: Optional[str]) -> Optional[MopidyBackend]:
         for backend in self._model.backends:
             if backend.is_responsible_for(uri):
-                if not backend.props.activated:
-                    LOGGER.info(
-                        f"Backend {backend} supports URI {uri!r} but is deactivated"
-                    )
-                    return None
                 return backend
 
         LOGGER.warning(f"No backend found that supports URI {uri!r}")
