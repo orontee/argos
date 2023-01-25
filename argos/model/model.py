@@ -19,7 +19,6 @@ from argos.model.backends import (
     GenericBackend,
     MopidyBackend,
     MopidyBandcampBackend,
-    MopidyLocalBackend,
     MopidyPodcastBackend,
 )
 from argos.model.directory import DirectoryModel, compare_directories_func
@@ -50,8 +49,6 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
 
     tracklist_loaded = GObject.Property(type=bool, default=False)
 
-    mopidy_local_backend: MopidyBackend
-
     library: LibraryModel
     playback: PlaybackModel
     mixer: MixerModel
@@ -71,8 +68,6 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         self.playlists = Gio.ListStore.new(PlaylistModel)
         self.backends = Gio.ListStore.new(MopidyBackend)
 
-        self.mopidy_local_backend = MopidyLocalBackend(self._settings)
-        self.backends.append(self.mopidy_local_backend)
         self.backends.append(MopidyPodcastBackend(self._settings))
         self.backends.append(MopidyBandcampBackend(self._settings))
 

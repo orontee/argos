@@ -66,8 +66,7 @@ class LibraryController(ControllerBase):
         self._on_index_mopidy_local_albums_changed(
             self._settings, "index-mopidy-local-albums"
         )
-        # Hack to set default_uri to its the value derived from user
-        # settings
+        # Hack to set default_uri to the value derived from user settings
 
         for backend in self._model.backends:
             backend.connect("notify::activated", self._on_backend_activated_changed)
@@ -95,12 +94,9 @@ class LibraryController(ControllerBase):
         key: str,
     ) -> None:
         index_mopidy_local_albums = settings.get_boolean(key)
-        if self._model.mopidy_local_backend.props.activated:
-            self._model.library.props.default_uri = (
-                MOPIDY_LOCAL_ALBUMS_URI if index_mopidy_local_albums else ""
-            )
-        else:
-            self._model.library.props.default_uri = ""
+        self._model.library.props.default_uri = (
+            MOPIDY_LOCAL_ALBUMS_URI if index_mopidy_local_albums else ""
+        )
 
     def _on_library_default_uri_changed(
         self,

@@ -18,6 +18,11 @@ Added
 
 Changed
 -------
+- Only albums handled by Mopidy-Podcast are filtered out from random choice
+  candidates `#123 <https://github.com/orontee/argos/issues/123>`_
+- The Tracks directory exposed by Mopidy-Local isn't hidden anymore (better
+  configure Mopidy-Local, see configuration key named `directories`) `#123
+  <https://github.com/orontee/argos/issues/123>`_
 - Refresh library updates visited directory `#115
   <https://github.com/orontee/argos/issues/115>`_
 

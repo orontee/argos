@@ -31,16 +31,6 @@
       </description>
     </key>
 
-    <key type="b" name="mopidy-local">
-      <default>true</default>
-      <summary>
-	Mopidy-Local
-      </summary>
-      <description>
-	Whether to display directories from Mopidy-Local in library.
-      </description>
-    </key>
-
     <key type="b" name="mopidy-bandcamp">
       <default>true</default>
       <summary>
@@ -119,7 +109,7 @@
     </key>
 
      <key type="as" name="album-backends-excluded-from-random-play">
-      <default>["mopidy-bandcamp", "mopidy-jellyfin", "mopidy-podcast", "mopidy-somafm", "mopidy-file"]</default>
+      <default>["mopidy-podcast"]</default>
       <summary>
 	Album backends excluded from random play
       </summary>

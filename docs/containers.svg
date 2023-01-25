@@ -16,33 +16,33 @@
 <text text-anchor="start" x="770" y="-92.8" font-family="Arial" font-size="24.00" fill="#444444">Argos</text>
 <text text-anchor="start" x="725" y="-72.8" font-family="Arial" font-size="19.00" fill="#444444">[Software System]</text>
 </g>
-<!-- 106 -->
-<g id="106" class="node">
-<title>106</title>
+<!-- 100 -->
+<g id="100" class="node">
+<title>100</title>
 <polygon fill="#cccccc" stroke="#8e8e8e" points="336.5,-299 33.5,-299 33.5,-164 336.5,-164 336.5,-299"/>
 <text text-anchor="start" x="86.5" y="-250.8" font-family="Arial" font-size="34.00" fill="#ffffff">HTTP Cache</text>
 <text text-anchor="start" x="62.5" y="-228.8" font-family="Arial" font-size="19.00" fill="#ffffff">[Container: SQLite database]</text>
 <text text-anchor="start" x="95.5" y="-191.8" font-family="Arial" font-size="24.00" fill="#ffffff">Local file system</text>
 </g>
-<!-- 107 -->
-<g id="107" class="node">
-<title>107</title>
+<!-- 101 -->
+<g id="101" class="node">
+<title>101</title>
 <polygon fill="#cccccc" stroke="#8e8e8e" points="667,-299 409,-299 409,-164 667,-164 667,-299"/>
 <text text-anchor="start" x="456.5" y="-250.8" font-family="Arial" font-size="34.00" fill="#ffffff">File Cache</text>
 <text text-anchor="start" x="438" y="-228.8" font-family="Arial" font-size="19.00" fill="#ffffff">[Container: File system]</text>
 <text text-anchor="start" x="448.5" y="-191.8" font-family="Arial" font-size="24.00" fill="#ffffff">Local file system</text>
 </g>
-<!-- 108 -->
-<g id="108" class="node">
-<title>108</title>
+<!-- 102 -->
+<g id="102" class="node">
+<title>102</title>
 <polygon fill="#cccccc" stroke="#8e8e8e" points="1119,-299 739,-299 739,-164 1119,-164 1119,-299"/>
 <text text-anchor="start" x="879.5" y="-250.8" font-family="Arial" font-size="34.00" fill="#ffffff">Config</text>
 <text text-anchor="start" x="854" y="-228.8" font-family="Arial" font-size="19.00" fill="#ffffff">[Container: dconf]</text>
 <text text-anchor="start" x="768" y="-191.8" font-family="Arial" font-size="24.00" fill="#ffffff">Service provided by local host</text>
 </g>
-<!-- 109 -->
-<g id="109" class="node">
-<title>109</title>
+<!-- 103 -->
+<g id="103" class="node">
+<title>103</title>
 <polygon fill="#cccccc" stroke="#8e8e8e" points="1571,-299 1191,-299 1191,-164 1571,-164 1571,-299"/>
 <text text-anchor="start" x="1235" y="-250.8" font-family="Arial" font-size="34.00" fill="#ffffff">Notification Service</text>
 <text text-anchor="start" x="1334.5" y="-228.8" font-family="Arial" font-size="19.00" fill="#ffffff">[Container]</text>
@@ -57,32 +57,32 @@
 <text text-anchor="start" x="630" y="-465.8" font-family="Arial" font-size="24.00" fill="#ffffff">Client&#45;side desktop</text>
 <text text-anchor="start" x="675" y="-441.8" font-family="Arial" font-size="24.00" fill="#ffffff">application</text>
 </g>
-<!-- 3&#45;&gt;106 -->
-<g id="110" class="edge">
-<title>3&#45;&gt;106</title>
+<!-- 3&#45;&gt;100 -->
+<g id="104" class="edge">
+<title>3&#45;&gt;100</title>
 <path fill="none" stroke="#707070" stroke-dasharray="5,2" d="M573.86,-445.51C519.44,-427.17 458.97,-404.21 406,-378 364.18,-357.31 320.76,-330.13 283.59,-304.87"/>
 <polygon fill="#707070" stroke="#707070" points="285.49,-301.94 275.26,-299.18 281.54,-307.71 285.49,-301.94"/>
 <text text-anchor="start" x="406.5" y="-359.8" font-family="Arial" font-size="24.00" fill="#707070">Stores responses</text>
 <text text-anchor="start" x="406" y="-339.8" font-family="Arial" font-size="19.00" fill="#707070">[aiohttp&#45;client&#45;session]</text>
 </g>
-<!-- 3&#45;&gt;107 -->
-<g id="111" class="edge">
-<title>3&#45;&gt;107</title>
+<!-- 3&#45;&gt;101 -->
+<g id="105" class="edge">
+<title>3&#45;&gt;101</title>
 <path fill="none" stroke="#707070" stroke-dasharray="5,2" d="M671.39,-413.91C662.15,-401.93 652.78,-389.67 644,-378 626.84,-355.2 608.44,-330.16 591.87,-307.38"/>
 <polygon fill="#707070" stroke="#707070" points="594.56,-305.13 585.85,-299.1 588.9,-309.24 594.56,-305.13"/>
 <text text-anchor="start" x="644" y="-350.3" font-family="Arial" font-size="24.00" fill="#707070">Stores images</text>
 </g>
-<!-- 3&#45;&gt;108 -->
-<g id="112" class="edge">
-<title>3&#45;&gt;108</title>
+<!-- 3&#45;&gt;102 -->
+<g id="106" class="edge">
+<title>3&#45;&gt;102</title>
 <path fill="none" stroke="#707070" stroke-dasharray="5,2" d="M792.34,-413.79C817.79,-380.03 847.38,-340.78 872.5,-307.45"/>
 <polygon fill="#707070" stroke="#707070" points="875.56,-309.2 878.79,-299.11 869.97,-304.99 875.56,-309.2"/>
 <text text-anchor="start" x="848" y="-359.8" font-family="Arial" font-size="24.00" fill="#707070">Stores configuration</text>
 <text text-anchor="start" x="908.5" y="-339.8" font-family="Arial" font-size="19.00" fill="#707070">[GSettings]</text>
 </g>
-<!-- 3&#45;&gt;109 -->
-<g id="113" class="edge">
-<title>3&#45;&gt;109</title>
+<!-- 3&#45;&gt;103 -->
+<g id="107" class="edge">
+<title>3&#45;&gt;103</title>
 <path fill="none" stroke="#707070" stroke-dasharray="5,2" d="M892.3,-445.26C952.41,-426.13 1020.98,-402.72 1082,-378 1136.26,-356.02 1194.45,-328.62 1244.95,-303.54"/>
 <polygon fill="#707070" stroke="#707070" points="1246.57,-306.65 1253.95,-299.05 1243.44,-300.38 1246.57,-306.65"/>
 <text text-anchor="start" x="1178" y="-359.8" font-family="Arial" font-size="24.00" fill="#707070">Notify</text>

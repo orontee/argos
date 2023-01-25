@@ -47,11 +47,9 @@ class PreferencesWindow(Gtk.Window):
         information_service = self._settings.get_boolean("information-service")
         self.information_service_switch.set_active(information_service)
 
-        mopidy_local_enabled = self._settings.get_boolean("mopidy-local")
         index_mopidy_local_albums = self._settings.get_boolean(
             "index-mopidy-local-albums"
         )
-        self.index_mopidy_local_albums_button.set_sensitive(mopidy_local_enabled)
         self.index_mopidy_local_albums_button.set_active(index_mopidy_local_albums)
 
         history_playlist = self._settings.get_boolean("history-playlist")

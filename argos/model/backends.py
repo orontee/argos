@@ -11,7 +11,7 @@ class MopidyBackend(GObject.Object):
     name = GObject.Property(type=str)
     settings_key = GObject.Property(type=str)
     static_albums = GObject.Property(type=bool, default=True)
-    preload_album_tracks = GObject.Property(type=bool, default=False)
+    preload_album_tracks = GObject.Property(type=bool, default=True)
 
     activated = GObject.Property(type=bool, default=False)
     # Default value is per inheriting class and defined in the
@@ -51,25 +51,6 @@ class MopidyBackend(GObject.Object):
         return self.__class__.__name__
 
 
-class MopidyLocalBackend(MopidyBackend):
-    def __init__(self, settings: Gio.Settings):
-        super().__init__(
-            settings,
-            name="Mopidy-Local",
-            settings_key="mopidy-local",
-            preload_album_tracks=True,
-        )
-
-    def is_responsible_for(self, directory_uri: str) -> bool:
-        return directory_uri.startswith("local:")
-
-    def hides(self, ref_uri: str) -> bool:
-        if ref_uri == "local:directory?type=track":
-            return True
-        else:
-            return False
-
-
 class MopidyBandcampBackend(MopidyBackend):
     def __init__(
         self,
@@ -79,6 +60,7 @@ class MopidyBandcampBackend(MopidyBackend):
             settings,
             name="Mopidy-Bandcamp",
             settings_key="mopidy-bandcamp",
+            preload_album_tracks=False,
         )
 
     def is_responsible_for(self, directory_uri: str) -> bool:
@@ -97,7 +79,6 @@ class MopidyPodcastBackend(MopidyBackend):
             settings,
             name="Mopidy-Podcast",
             settings_key="mopidy-podcast",
-            preload_album_tracks=True,
             static_albums=False,
         )
 

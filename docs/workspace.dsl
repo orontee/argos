@@ -50,19 +50,7 @@ workspace {
                     playlistModel = component "Playlist Model" "" "GObject"
 
                     mopidyBackend = component "Mopidy Backend" "" "GObject"
-                    fileBackend = component "Mopidy File Backend" "" "GObject" {
-                        -> mopidyBackend "Inherits"
-                        tags "MopidyBackend"
-                    }
-                    localBackend = component "Mopidy Local Backend" "" "GObject" {
-                        -> mopidyBackend "Inherits"
-                        tags "MopidyBackend"
-                    }
                     bandcampBackend = component "Mopidy Bandcamp Backend" "" "GObject" {
-                        -> mopidyBackend "Inherits"
-                        tags "MopidyBackend"
-                    }
-                    jellyfinBackend = component "Mopidy Jellyfin Backend" "" "GObject" {
                         -> mopidyBackend "Inherits"
                         tags "MopidyBackend"
                     }
@@ -70,7 +58,7 @@ workspace {
                         -> mopidyBackend "Inherits"
                         tags "MopidyBackend"
                     }
-                    somafmBackend = component "Mopidy SomaFM Backend" "" "GObject" {
+                    genericBackend = component "Generic Backend" "" "GObject" {
                         -> mopidyBackend "Inherits"
                         tags "MopidyBackend"
                     }
