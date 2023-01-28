@@ -14,6 +14,7 @@ from argos.utils import elide_maybe
 from argos.widgets.albumdetailsbox import AlbumDetailsBox
 from argos.widgets.condensedplayingbox import CondensedPlayingBox
 from argos.widgets.librarybrowsingprogressbox import LibraryBrowsingProgressBox
+from argos.widgets.tracksview import TracksView
 from argos.widgets.utils import default_image_pixbuf, scale_album_image
 
 LOGGER = logging.getLogger(__name__)
@@ -48,6 +49,7 @@ class LibraryWindow(Gtk.Box):
     album_details_box = GObject.Property(type=AlbumDetailsBox)
     filtered_directory_store = GObject.Property(type=Gtk.TreeModelFilter)
     filtering_text = GObject.Property(type=str)
+    tracks_view = GObject.Property(type=TracksView)
 
     directory_uri = GObject.Property(type=str)
 
@@ -71,6 +73,9 @@ class LibraryWindow(Gtk.Box):
 
         self.props.album_details_box = AlbumDetailsBox(application)
         self.library_stack.add_named(self.props.album_details_box, "album_details_page")
+
+        self.props.tracks_view = TracksView(application)
+        self.library_stack.add_named(self.props.tracks_view, "tracks_view_page")
 
         directory_store = Gtk.ListStore(str, str, str, str, Pixbuf, str, str, int)
         self.props.filtered_directory_store = directory_store.filter_new()
@@ -207,6 +212,24 @@ class LibraryWindow(Gtk.Box):
         )
         return re.search(pattern, secondary_text, re.IGNORECASE) is not None
 
+    def _must_enter_tracks_view(self, directory: DirectoryModel) -> bool:
+        applicable = (
+            len(directory.albums) == 0
+            and len(directory.directories) == 0
+            and len(directory.playlists) == 0
+            and len(directory.tracks) > 0
+        )
+        if not applicable:
+            return False
+
+        pattern = self._settings.get_string("disable-tracks-view-pattern")
+        if pattern:
+            try:
+                return re.search(pattern, directory.uri) is None
+            except re.error:
+                LOGGER.warning(f"Invalid regular expression {pattern!r}")
+        return True
+
     def _update_store(self, _1: Model, uri: Optional[str] = None) -> None:
         if uri is not None and uri != self.props.directory_uri:
             return
@@ -223,29 +246,35 @@ class LibraryWindow(Gtk.Box):
             self._abort_pixbufs_update = True
             LOGGER.info("Pixbufs update thread has been requested to abort...")
 
-        image_uris: List[Path] = []
-        with self._ongoing_store_update:
-            self._abort_pixbufs_update = False
-            store = self.props.filtered_directory_store.get_model()
-            store.clear()
+        if self._must_enter_tracks_view(directory):
+            self.props.tracks_view.props.uri = directory.uri
+            self.props.tracks_view.show_now()
+            self.library_stack.set_visible_child_name("tracks_view_page")
+        else:
+            self.select_directory_page()
+            image_uris: List[Path] = []
+            with self._ongoing_store_update:
+                self._abort_pixbufs_update = False
+                store = self.props.filtered_directory_store.get_model()
+                store.clear()
 
-            for source, item_type in [
-                (directory.albums, DirectoryItemType.ALBUM),
-                (directory.directories, DirectoryItemType.DIRECTORY),
-                (directory.playlists, DirectoryItemType.PLAYLIST),
-                (directory.tracks, DirectoryItemType.TRACK),
-            ]:
-                for model in source:
-                    store.append(self._build_store_item(model, item_type))
+                for source, item_type in [
+                    (directory.albums, DirectoryItemType.ALBUM),
+                    (directory.directories, DirectoryItemType.DIRECTORY),
+                    (directory.playlists, DirectoryItemType.PLAYLIST),
+                    (directory.tracks, DirectoryItemType.TRACK),
+                ]:
+                    for model in source:
+                        store.append(self._build_store_item(model, item_type))
 
-                    if model.find_property("image_uri"):
-                        image_uris.append(model.get_property("image_uri"))
+                        if model.find_property("image_uri"):
+                            image_uris.append(model.get_property("image_uri"))
 
-        if len(image_uris) > 0:
-            LOGGER.debug("Will fetch images since directory store was just updated")
-            self._app.send_message(
-                MessageType.FETCH_ALBUM_IMAGES, data={"image_uris": image_uris}
-            )
+            if len(image_uris) > 0:
+                LOGGER.debug("Will fetch images since directory store was just updated")
+                self._app.send_message(
+                    MessageType.FETCH_ALBUM_IMAGES, data={"image_uris": image_uris}
+                )
 
         self._hide_progress_box()
 
@@ -319,6 +348,9 @@ class LibraryWindow(Gtk.Box):
     def select_directory_page(self) -> None:
         self.library_stack.set_visible_child_name("directory_page")
 
+    def is_tracks_view_page_visible(self) -> bool:
+        return self.library_stack.get_visible_child_name() == "tracks_view_page"
+
     def show_directory(self, uri: str, *, history: bool = False) -> None:
         if uri == self.props.directory_uri:
             return
@@ -338,7 +370,7 @@ class LibraryWindow(Gtk.Box):
         self._show_progress_box()
 
     def goto_parent_state(self) -> None:
-        if self.is_directory_page_visible():
+        if self.is_directory_page_visible() or self.is_tracks_view_page_visible():
             if self.props.directory_uri == "":
                 return
 

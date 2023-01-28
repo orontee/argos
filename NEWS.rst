@@ -13,6 +13,8 @@ The format is based on `Keep a Changelog
 
 Added
 -----
+- Browsing a directory with tracks only now displays a view with usual
+  actions on tracks `#123 <https://github.com/orontee/argos/issues/123>`_
 - A generic backend is added to display any directory `#123
   <https://github.com/orontee/argos/issues/123>`_
 

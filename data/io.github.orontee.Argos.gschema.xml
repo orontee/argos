@@ -53,8 +53,19 @@
         <choice value='by_artist_name'/>
         <choice value='by_album_name'/>
         <choice value='by_publication_date'/>
-	<choice value='by_last_modified_date'/>
+	      <choice value='by_last_modified_date'/>
       </choices>
+    </key>
+
+    <key type="s" name="disable-tracks-view-pattern">
+      <default>""</default>
+      <summary>
+        Pattern to disable tracks view by URIs
+      </summary>
+      <description>
+        Browsing a directory whose URIs match the given pattern, never enters
+        the tracks view.
+      </description>
     </key>
 
     <key type="b" name="history-playlist">

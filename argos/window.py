@@ -11,6 +11,7 @@ from argos.widgets import (
     PlayingBox,
     PlaylistsBox,
     TitleBar,
+    TracksView,
 )
 from argos.widgets.playlistselectiondialog import PlaylistSelectionDialog
 from argos.widgets.titlebar import TitleBarState
@@ -221,11 +222,13 @@ class ArgosWindow(Gtk.ApplicationWindow):
 
     def _identify_emitter(
         self, target: str
-    ) -> Optional[Union[AlbumDetailsBox, PlaylistsBox]]:
+    ) -> Optional[Union[AlbumDetailsBox, PlaylistsBox, TracksView]]:
         if target == "album-details-box":
             return self.props.library_window.props.album_details_box
         elif target == "playlists-box":
             return self.props.playlists_box
+        elif target == "tracks-view":
+            return self.props.library_window.props.tracks_view
         return None
 
     def on_add_to_playlist_activated(

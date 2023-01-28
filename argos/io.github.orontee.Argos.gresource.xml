@@ -22,6 +22,7 @@
     <file preprocess="xml-stripblanks">ui/tracklist_box.ui</file>
     <file preprocess="xml-stripblanks">ui/tracklist_random_dialog.ui</file>
     <file preprocess="xml-stripblanks">ui/tracklist_track_box.ui</file>
+    <file preprocess="xml-stripblanks">ui/tracks_view.ui</file>
     <file preprocess="xml-stripblanks">ui/window.ui</file>
     <file>ui/stylesheet.css</file>
   </gresource>

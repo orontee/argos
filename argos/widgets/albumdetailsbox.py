@@ -10,7 +10,6 @@ from gi.repository import Gio, GLib, GObject, Gtk
 from argos.message import MessageType
 from argos.model import AlbumModel, Model, TrackModel
 from argos.utils import ms_to_text
-from argos.widgets.playlistselectiondialog import PlaylistSelectionDialog
 from argos.widgets.trackbox import TrackBox
 from argos.widgets.utils import (
     default_image_pixbuf,
@@ -54,6 +53,7 @@ class AlbumDetailsBox(Gtk.Box):
     artist_name_label: Gtk.Label = Gtk.Template.Child()
     publication_label: Gtk.Label = Gtk.Template.Child()
     length_label: Gtk.Label = Gtk.Template.Child()
+    track_count_label: Gtk.Label = Gtk.Template.Child()
 
     tracks_box: Gtk.ListBox = Gtk.Template.Child()
 
@@ -140,6 +140,7 @@ class AlbumDetailsBox(Gtk.Box):
             self._update_artist_name_label(None)
             self._update_publication_label(None)
             self._update_length_label(None)
+            self._update_track_count_label(None)
             self._update_album_image(None)
             self._update_track_view(None)
             self._update_information_popup(None)
@@ -147,6 +148,7 @@ class AlbumDetailsBox(Gtk.Box):
             self._update_album_name_label(album.name)
             self._update_artist_name_label(album.artist_name)
             self._update_publication_label(album.date)
+            self._update_track_count_label(album.tracks)
             self._update_length_label(album.length)
             self._update_album_image(
                 Path(album.image_path) if album.image_path else None
@@ -168,6 +170,7 @@ class AlbumDetailsBox(Gtk.Box):
 
         self._update_artist_name_label(album.artist_name)
         self._update_publication_label(album.date)
+        self._update_track_count_label(album.tracks)
         self._update_length_label(album.length)
         self._update_album_image(Path(album.image_path) if album.image_path else None)
         self._update_track_view(album)
@@ -224,6 +227,14 @@ class AlbumDetailsBox(Gtk.Box):
             self.publication_label.set_text("")
 
         self.publication_label.show_now()
+
+    def _update_track_count_label(self, tracks: Optional[Gio.ListStore] = None) -> None:
+        if tracks is None:
+            self.track_count_label.set_text("")
+        else:
+            self.track_count_label.set_text(str(len(tracks)))
+
+        self.track_count_label.show_now()
 
     def _update_length_label(self, length: Optional[int]) -> None:
         if length:

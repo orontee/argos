@@ -33,7 +33,7 @@
         <property name="justify">center</property>
       </object>
       <packing>
-        <property name="expand">False</property>
+        <property name="expand">True</property>
         <property name="fill">True</property>
         <property name="pack-type">end</property>
         <property name="position">1</property>
