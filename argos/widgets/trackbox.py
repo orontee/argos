@@ -1,4 +1,5 @@
 import logging
+from typing import Optional
 
 from gi.repository import GLib, GObject, Gtk
 
@@ -8,11 +9,11 @@ from argos.utils import ms_to_text
 LOGGER = logging.getLogger(__name__)
 
 
-@Gtk.Template(resource_path="/io/github/orontee/Argos/ui/album_track_box.ui")
-class AlbumTrackBox(Gtk.Box):
-    """Box displaying an album track."""
+@Gtk.Template(resource_path="/io/github/orontee/Argos/ui/track_box.ui")
+class TrackBox(Gtk.Box):
+    """Box displaying a track."""
 
-    __gtype_name__ = "AlbumTrackBox"
+    __gtype_name__ = "TrackBox"
 
     uri = GObject.Property(type=str)
     num_discs = GObject.Property(type=int)
@@ -28,13 +29,13 @@ class AlbumTrackBox(Gtk.Box):
         self,
         application: Gtk.Application,
         *,
-        album: AlbumModel,
         track: TrackModel,
+        album: Optional[AlbumModel] = None,
     ):
         super().__init__()
 
         self.props.uri = track.uri
-        self.props.num_discs = album.num_discs
+        self.props.num_discs = album.num_discs if album is not None else -1
         self.props.track_no = track.track_no
         self.props.disc_no = track.disc_no
 

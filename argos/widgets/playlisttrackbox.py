@@ -12,9 +12,6 @@ LOGGER = logging.getLogger(__name__)
 class PlaylistTrackBox(Gtk.Box):
     """Box displaying a playlist track.
 
-    The label dedicated to display the track number,
-    ``track_no_label``, is hidden.
-
     The ``last_played`` property is meant for use by list box header
     functions."""
 
