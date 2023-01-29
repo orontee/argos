@@ -85,12 +85,11 @@ detailed instructions.
 Install using DEB package
 -------------------------
 
-``Argos`` was developed to be deployed on a Raspberry Pi Model 2B
-(hosting a Mopidy server) running Raspian OS with `LXDE desktop
-environment <http://www.lxde.org/>`_. It's a 32-bits beast based on
-armv7 and unfortunately there's no chance to have Flatpak support this
-architecture according to this ``freedesktop-sdk`` issue:
-`Decommissioning armv7
+Argos was developed to be deployed on a Raspberry Pi Model 2B (hosting a Mopidy
+server) running Raspian OS with `LXDE desktop environment
+<http://www.lxde.org/>`_. It's a 32-bits beast based on armv7 and unfortunately
+there's no chance to have Flatpak support this architecture according to this
+``freedesktop-sdk`` issue: `Decommissioning armv7
 <https://gitlab.com/freedesktop-sdk/freedesktop-sdk/-/issues/1105>`_.
 
 Installation on such platform is handled through a DEB package that
@@ -108,6 +107,15 @@ as DEB package at present time)::
 
   $ sudo apt install sqlite3
   $ python3 -m pip install aiosqlite aiohttp-client-cache
+
+Running on Windows
+------------------
+
+Running Argos on Windows is supported through the `Windows Subsystem for Linux
+(WSL) <https://learn.microsoft.com/windows/wsl/>`_.
+
+Make sure WSL 2 is installed with a Debian based distribution. Then simply
+follow instructions to `Install using DEB package`_.
 
 Getting help
 ============
