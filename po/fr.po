@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-29 18:12+0100\n"
+"POT-Creation-Date: 2023-01-29 21:57+0100\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -348,7 +348,7 @@ msgstr ""
 msgid "General"
 msgstr "Général"
 
-#: argos/ui/preferences.ui:246 argos/ui/preferences.ui:494 argos/window.py:52
+#: argos/ui/preferences.ui:246 argos/ui/preferences.ui:494 argos/window.py:55
 msgid "Library"
 msgstr "Bibliothèque"
 
@@ -364,7 +364,7 @@ msgstr ""
 "La sélection aléatoire d'album est impossible tant qu'un répertoire "
 "contenant des albums n'a pas été indexé."
 
-#: argos/ui/preferences.ui:308 argos/window.py:56
+#: argos/ui/preferences.ui:308 argos/window.py:59
 msgid "Playlists"
 msgstr "Listes de lecture"
 
@@ -536,7 +536,7 @@ msgstr "Date de publication"
 msgid "Last modified"
 msgstr "Date de dernière modification"
 
-#: argos/window.py:48
+#: argos/window.py:50
 msgid "Playing"
 msgstr "En cours"
 
@@ -575,30 +575,34 @@ msgid "Album details view"
 msgstr "Détails d'un album"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:33
+msgid "Birthday release: Argos is 1-year old!"
+msgstr "Livraison anniversaire : Argos a un an !"
+
+#: data/io.github.orontee.Argos.appdata.xml.in:40
 msgid "Implement a library browser and improve performance."
 msgstr "Implémente un navigateur de bibliothèque et améliore les performances."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:40
+#: data/io.github.orontee.Argos.appdata.xml.in:47
 msgid "Open its eyes to the outside world!"
 msgstr "Ouvre les yeux sur le monde extérieur !"
 
-#: data/io.github.orontee.Argos.appdata.xml.in:47
+#: data/io.github.orontee.Argos.appdata.xml.in:54
 msgid "Bug fixes and small enhancement."
 msgstr "Livraison de correctifs de bugs et petites améliorations."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:54
+#: data/io.github.orontee.Argos.appdata.xml.in:61
 msgid "Improving user experience. Once again."
 msgstr "Amélioration de l'expérience utilisateur. Une fois de plus."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:61
+#: data/io.github.orontee.Argos.appdata.xml.in:68
 msgid "Improving user experience."
 msgstr "Amélioration de l'expérience utilisateur."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:68
+#: data/io.github.orontee.Argos.appdata.xml.in:75
 msgid "Autumnal delivery."
 msgstr "Livraison automnale."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:75
+#: data/io.github.orontee.Argos.appdata.xml.in:82
 msgid ""
 "Improve performance while browsing albums and add support for Mopidy-"
 "Jellyfin."
@@ -606,23 +610,23 @@ msgstr ""
 "Améliore les performances de la récupération des albums et ajoute le support "
 "de Mopidy-Jellyfin."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:82
+#: data/io.github.orontee.Argos.appdata.xml.in:89
 msgid "Bug fixes release."
 msgstr "Livraison de correctifs de bugs."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:89
+#: data/io.github.orontee.Argos.appdata.xml.in:96
 msgid "Attempt to comply to Flathub expectations."
 msgstr "Tentative de remplir les attentes de Flathub."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:96
+#: data/io.github.orontee.Argos.appdata.xml.in:103
 msgid "Delivered during holidays, use at your own risks!"
 msgstr "Livraison préparée pendant des congés, à utiliser avec prudence !"
 
-#: data/io.github.orontee.Argos.appdata.xml.in:103
+#: data/io.github.orontee.Argos.appdata.xml.in:110
 msgid "Delivered during a toothache, use at your own risks!"
 msgstr "Livraison préparée pendant une rage de dents, prudence !"
 
-#: data/io.github.orontee.Argos.appdata.xml.in:109
+#: data/io.github.orontee.Argos.appdata.xml.in:116
 msgid "Matthias Meulien"
 msgstr ""
 
