@@ -1,7 +1,7 @@
 import logging
 from typing import Tuple
 
-from gi.repository import Gio, GObject
+from gi.repository import GObject
 
 LOGGER = logging.getLogger(__name__)
 

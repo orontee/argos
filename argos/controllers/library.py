@@ -34,6 +34,7 @@ _DIRECTORY_NAMES = {
     "Local media": _("Local media"),
     "Podcasts": _("Podcasts"),
     "Albums": _("Albums"),
+    "Tracks": _("Tracks"),
     "Artists": _("Artists"),
     "Composers": _("Composers"),
     "Genres": _("Genres"),

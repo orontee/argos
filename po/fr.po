@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-29 17:40+0100\n"
+"POT-Creation-Date: 2023-01-29 18:12+0100\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -60,51 +60,57 @@ msgstr "Podcasts"
 msgid "Albums"
 msgstr "Albums"
 
-#: argos/controllers/library.py:37
+#: argos/controllers/library.py:37 argos/ui/album_details_box.ui:282
+#: argos/ui/playlists_box.ui:111 argos/ui/tracklist_random_dialog.ui:146
+#: argos/ui/tracks_view.ui:140
+msgid "Tracks"
+msgstr "Morceaux"
+
+#: argos/controllers/library.py:38
 msgid "Artists"
 msgstr "Artistes"
 
-#: argos/controllers/library.py:38
+#: argos/controllers/library.py:39
 msgid "Composers"
 msgstr "Compositeurs"
 
-#: argos/controllers/library.py:39
+#: argos/controllers/library.py:40
 msgid "Genres"
 msgstr "Genres"
 
-#: argos/controllers/library.py:40
+#: argos/controllers/library.py:41
 msgid "Performers"
 msgstr "Interprètes"
 
-#: argos/controllers/library.py:41
+#: argos/controllers/library.py:42
 msgid "Release Years"
 msgstr "Années de distribution"
 
-#: argos/controllers/library.py:42
+#: argos/controllers/library.py:43
 msgid "Last Week's Updates"
 msgstr "Ajouts de la semaine dernière"
 
-#: argos/controllers/library.py:43
+#: argos/controllers/library.py:44
 msgid "Last Month's Updates"
 msgstr "Ajouts du mois dernier"
 
-#: argos/controllers/library.py:44
+#: argos/controllers/library.py:45
 msgid "Discover by Genre"
 msgstr "Parcourir par genre"
 
-#: argos/controllers/library.py:45
+#: argos/controllers/library.py:46
 msgid "Discover by Tag"
 msgstr "Parcourir par tag"
 
-#: argos/controllers/library.py:46
+#: argos/controllers/library.py:47
 msgid "Collection"
 msgstr "Collection"
 
-#: argos/controllers/library.py:47
+#: argos/controllers/library.py:48
 msgid "Wishlist"
 msgstr "Liste de souhaits"
 
-#: argos/controllers/library.py:48
+#: argos/controllers/library.py:49
 msgid "All"
 msgstr "Tous"
 
@@ -149,11 +155,6 @@ msgstr "Publication"
 #: argos/ui/tracklist_random_dialog.ui:130 argos/ui/tracks_view.ui:108
 msgid "Length"
 msgstr "Durée"
-
-#: argos/ui/album_details_box.ui:282 argos/ui/playlists_box.ui:111
-#: argos/ui/tracklist_random_dialog.ui:146 argos/ui/tracks_view.ui:140
-msgid "Tracks"
-msgstr "Morceaux"
 
 #: argos/ui/album_details_box.ui:353
 msgid "Play album"
