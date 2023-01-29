@@ -58,9 +58,9 @@ class AlbumDetailsBox(Gtk.Box):
     tracks_box: Gtk.ListBox = Gtk.Template.Child()
 
     information_button: Gtk.MenuButton = Gtk.Template.Child()
-    album_information_label: Gtk.Popover = Gtk.Template.Child()
+    album_information_label: Gtk.Label = Gtk.Template.Child()
     album_information_viewport: Gtk.Viewport = Gtk.Template.Child()
-    artist_information_label: Gtk.Popover = Gtk.Template.Child()
+    artist_information_label: Gtk.Label = Gtk.Template.Child()
     artist_information_viewport: Gtk.Viewport = Gtk.Template.Child()
 
     uri = GObject.Property(type=str, default="")
