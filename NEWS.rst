@@ -13,6 +13,8 @@ The format is based on `Keep a Changelog
 
 Added
 -----
+- Delete keys remove tracks from tracklist or playlist `#118
+  <https://github.com/orontee/argos/issues/118>`_
 - Browsing a directory with tracks only now displays a view with usual
   actions on tracks `#123 <https://github.com/orontee/argos/issues/123>`_
 - A generic backend is added to display any directory `#123

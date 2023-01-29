@@ -29,6 +29,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
     central_view: Gtk.Stack = Gtk.Template.Child()
 
     library_window = GObject.Property(type=LibraryWindow)
+    playing_box = GObject.Property(type=PlayingBox)
     playlists_box = GObject.Property(type=PlaylistsBox)
     titlebar = GObject.Property(type=TitleBar)
     is_fullscreen = GObject.Property(type=bool, default=False)
@@ -44,8 +45,10 @@ class ArgosWindow(Gtk.ApplicationWindow):
         self._setup_titlebar(self.props.titlebar)
         self.set_titlebar(self.props.titlebar)
 
-        playing_box = PlayingBox(application)
-        self.central_view.add_titled(playing_box, "playing_page", _("Playing"))
+        self.props.playing_box = PlayingBox(application)
+        self.central_view.add_titled(
+            self.props.playing_box, "playing_page", _("Playing")
+        )
 
         self.props.library_window = LibraryWindow(application)
         self.central_view.add_titled(
@@ -364,4 +367,12 @@ class ArgosWindow(Gtk.ApplicationWindow):
                 else:
                     self.fullscreen()
                 return True
+            elif keyval in [Gdk.KEY_Delete, Gdk.KEY_KP_Delete]:
+                visible_page_name = self.central_view.get_visible_child_name()
+                if visible_page_name == "playing_page":
+                    self.props.playing_box.remove_selected_tracks_from_tracklist()
+                    return True
+                elif visible_page_name == "playlists_page":
+                    self.props.playlists_box.remove_selected_tracks_from_playlist()
+                    return True
         return False

@@ -245,8 +245,7 @@ class PlayingBox(Gtk.Box):
 
         return tlids
 
-    @Gtk.Template.Callback()
-    def on_clear_button_clicked(self, _1: Gtk.Button) -> None:
+    def remove_selected_tracks_from_tracklist(self) -> None:
         tlids = (
             self._track_selection_to_tlids()
             if not self.tracklist_view.get_activate_on_single_click()
@@ -257,6 +256,10 @@ class PlayingBox(Gtk.Box):
             self._app.send_message(MessageType.REMOVE_FROM_TRACKLIST, {"tlids": tlids})
         else:
             self._app.send_message(MessageType.CLEAR_TRACKLIST)
+
+    @Gtk.Template.Callback()
+    def on_clear_button_clicked(self, _1: Gtk.Button) -> None:
+        self.remove_selected_tracks_from_tracklist()
 
     @Gtk.Template.Callback()
     def on_prev_button_clicked(self, *args) -> None:

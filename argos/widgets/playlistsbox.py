@@ -360,11 +360,7 @@ class PlaylistsBox(Gtk.Box):
             },
         )
 
-    def on_remove_from_playlist_activated(
-        self,
-        _1: Gio.SimpleAction,
-        _2: None,
-    ) -> None:
+    def remove_selected_tracks_from_playlist(self) -> None:
         track_uris = self.track_selection_to_uris()
         if len(track_uris) > 0:
             self._app.send_message(
@@ -374,6 +370,13 @@ class PlaylistsBox(Gtk.Box):
                     "remove_track_uris": track_uris,
                 },
             )
+
+    def on_remove_from_playlist_activated(
+        self,
+        _1: Gio.SimpleAction,
+        _2: None,
+    ) -> None:
+        self.remove_selected_tracks_from_playlist()
 
     @Gtk.Template.Callback()
     def on_tracks_box_row_activated(
