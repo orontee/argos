@@ -1,10 +1,18 @@
 import gettext
 import logging
+from typing import Optional, Union
 
 from gi.repository import Gdk, Gio, GLib, GObject, Gtk
 
 from argos.message import MessageType
-from argos.widgets import LibraryWindow, PlayingBox, PlaylistsBox, TitleBar
+from argos.widgets import (
+    AlbumDetailsBox,
+    LibraryWindow,
+    PlayingBox,
+    PlaylistsBox,
+    TitleBar,
+)
+from argos.widgets.playlistselectiondialog import PlaylistSelectionDialog
 from argos.widgets.titlebar import TitleBarState
 
 _ = gettext.gettext
@@ -57,19 +65,23 @@ class ArgosWindow(Gtk.ApplicationWindow):
             "activate", self.on_goto_playing_page_activated
         )
 
-        album_details_box = self.props.library_window.props.album_details_box
-
-        add_to_tracklist_action = Gio.SimpleAction.new("add-to-tracklist", None)
+        add_to_tracklist_action = Gio.SimpleAction.new(
+            "add-to-tracklist", GLib.VariantType("s")
+        )
         self.add_action(add_to_tracklist_action)
-        add_to_tracklist_action.connect(
-            "activate", album_details_box.on_add_to_tracklist_activated
-        )
+        add_to_tracklist_action.connect("activate", self.on_add_to_tracklist_activated)
 
-        add_to_playlist_action = Gio.SimpleAction.new("add-to-playlist", None)
-        self.add_action(add_to_playlist_action)
-        add_to_playlist_action.connect(
-            "activate", album_details_box.on_add_to_playlist_activated
+        add_to_playlist_action = Gio.SimpleAction.new(
+            "add-to-playlist", GLib.VariantType("s")
         )
+        self.add_action(add_to_playlist_action)
+        add_to_playlist_action.connect("activate", self.on_add_to_playlist_activated)
+
+        play_selection_action = Gio.SimpleAction.new(
+            "play-selection", GLib.VariantType("s")
+        )
+        self.add_action(play_selection_action)
+        play_selection_action.connect("activate", self.on_play_selection_activated)
 
         add_stream_to_playlist_action = Gio.SimpleAction.new(
             "add-stream-to-playlist", None
@@ -127,6 +139,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
         information_service_activated = self._settings.get_boolean(
             "information-service"
         )
+        album_details_box = self.props.library_window.props.album_details_box
         album_details_box.information_button.set_visible(information_service_activated)
 
     def _setup_titlebar(self, titlebar: TitleBar) -> None:
@@ -205,6 +218,77 @@ class ArgosWindow(Gtk.ApplicationWindow):
         playlist_tracks_box = self.props.playlists_box.tracks_box
         selected_rows = playlist_tracks_box.get_selected_rows()
         remove_from_playlist_action.set_enabled(enabled and len(selected_rows) > 0)
+
+    def _identify_emitter(
+        self, target: str
+    ) -> Optional[Union[AlbumDetailsBox, PlaylistsBox]]:
+        if target == "album-details-box":
+            return self.props.library_window.props.album_details_box
+        elif target == "playlists-box":
+            return self.props.playlists_box
+        return None
+
+    def on_add_to_playlist_activated(
+        self,
+        action: Gio.SimpleAction,
+        target: GLib.Variant,
+    ) -> None:
+        emiter = self._identify_emitter(target.get_string())
+        if emiter is None:
+            return
+
+        track_uris = emiter.track_selection_to_uris()
+        if len(track_uris) == 0:
+            LOGGER.debug("Nothing to add to playlist")
+            return
+
+        playlist_selection_dialog = PlaylistSelectionDialog(self.props.application)
+        response = playlist_selection_dialog.run()
+        playlist_uri = (
+            playlist_selection_dialog.props.playlist_uri
+            if response == Gtk.ResponseType.OK
+            else ""
+        )
+        playlist_selection_dialog.destroy()
+
+        if not playlist_uri:
+            LOGGER.debug("Aborting adding tracks to playlist")
+            return
+
+        self.props.application.send_message(
+            MessageType.SAVE_PLAYLIST,
+            {"uri": playlist_uri, "add_track_uris": track_uris},
+        )
+
+    def on_add_to_tracklist_activated(
+        self,
+        action: Gio.SimpleAction,
+        target: GLib.Variant,
+    ) -> None:
+        emiter = self._identify_emitter(target.get_string())
+        if emiter is None:
+            return
+
+        track_uris = emiter.track_selection_to_uris()
+        if len(track_uris) > 0:
+            self.props.application.send_message(
+                MessageType.ADD_TO_TRACKLIST, {"uris": track_uris}
+            )
+
+    def on_play_selection_activated(
+        self,
+        action: Gio.SimpleAction,
+        target: GLib.Variant,
+    ) -> None:
+        emiter = self._identify_emitter(target.get_string())
+        if emiter is None:
+            return
+
+        track_uris = emiter.track_selection_to_uris()
+        if len(track_uris) > 0:
+            self.props.application.send_message(
+                MessageType.PLAY_TRACKS, {"uris": track_uris}
+            )
 
     @Gtk.Template.Callback()
     def on_window_state_event(

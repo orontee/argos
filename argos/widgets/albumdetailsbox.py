@@ -84,8 +84,12 @@ class AlbumDetailsBox(Gtk.Box):
         # remove that selection.
 
         track_selection_menu = Gio.Menu()
-        track_selection_menu.append(_("Add to tracklist"), "win.add-to-tracklist")
-        track_selection_menu.append(_("Add to playlist…"), "win.add-to-playlist")
+        track_selection_menu.append(
+            _("Add to tracklist"), "win.add-to-tracklist::album-details-box"
+        )
+        track_selection_menu.append(
+            _("Add to playlist…"), "win.add-to-playlist::album-details-box"
+        )
         self.track_selection_button.set_menu_model(track_selection_menu)
 
         self.album_information_label.set_selectable(True)
@@ -288,7 +292,7 @@ class AlbumDetailsBox(Gtk.Box):
         widget = TrackBox(self._app, album=album, track=track)
         return widget
 
-    def _track_selection_to_uris(self) -> List[str]:
+    def track_selection_to_uris(self) -> List[str]:
         """Returns the list of URIs for current track selection.
 
         The returned list contains the album URI if current track
@@ -322,47 +326,19 @@ class AlbumDetailsBox(Gtk.Box):
             )
 
     @Gtk.Template.Callback()
-    def on_play_button_clicked(self, _1: Gtk.Button) -> None:
-        uris = self._track_selection_to_uris()
-        if len(uris) > 0:
-            self._app.send_message(MessageType.PLAY_TRACKS, {"uris": uris})
-
-    def on_add_to_tracklist_activated(
-        self,
-        _1: Gio.SimpleAction,
-        _2: None,
-    ) -> None:
-        uris = self._track_selection_to_uris()
-        if len(uris) > 0:
-            self._app.send_message(MessageType.ADD_TO_TRACKLIST, {"uris": uris})
-
-    def on_add_to_playlist_activated(
-        self,
-        _1: Gio.SimpleAction,
-        _2: None,
-    ) -> None:
-        track_uris = self._track_selection_to_uris()
-        if len(track_uris) == 0:
-            LOGGER.debug("Nothing to add to playlist")
+    def on_button_clicked(self, button: Gtk.Button) -> None:
+        if self._app.window is None:
             return
 
-        playlist_selection_dialog = PlaylistSelectionDialog(self._app)
-        response = playlist_selection_dialog.run()
-        playlist_uri = (
-            playlist_selection_dialog.props.playlist_uri
-            if response == Gtk.ResponseType.OK
-            else ""
-        )
-        playlist_selection_dialog.destroy()
+        # Better set button action but never manage to get it working...
 
-        if not playlist_uri:
-            LOGGER.debug("Aborting adding tracks to playlist")
-            return
+        action_name: Optional[str] = None
+        if button == self.play_button:
+            action_name = "play-selection"
 
-        self._app.send_message(
-            MessageType.SAVE_PLAYLIST,
-            {"uri": playlist_uri, "add_track_uris": track_uris},
-        )
+        target = GLib.Variant("s", "album-details-box")
+        if action_name is not None:
+            self._app.window.activate_action(action_name, target)
 
     def on_disc_separator_clicked(
         self,

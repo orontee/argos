@@ -2,7 +2,7 @@ import gettext
 import logging
 from typing import List, Optional
 
-from gi.repository import Gio, GObject, Gtk
+from gi.repository import Gio, GLib, GObject, Gtk
 
 from argos.message import MessageType
 from argos.model import PlaylistModel, TrackModel
@@ -154,7 +154,7 @@ class PlaylistsBox(Gtk.Box):
         self.add_button.set_sensitive(playlist is not None)
         self.edit_button.set_sensitive(self._is_playlist_removable())
 
-    def _track_selection_to_uris(self) -> List[str]:
+    def track_selection_to_uris(self) -> List[str]:
         """Returns the list of URIs for current track selection.
 
         The returned list contains the URIs of the tracks of current
@@ -322,16 +322,21 @@ class PlaylistsBox(Gtk.Box):
         dialog.destroy()
 
     @Gtk.Template.Callback()
-    def on_play_button_clicked(self, _1: Gtk.Button) -> None:
-        uris = self._track_selection_to_uris()
-        if len(uris) > 0:
-            self._app.send_message(MessageType.PLAY_TRACKS, {"uris": uris})
+    def on_button_clicked(self, button: Gtk.Button) -> None:
+        if self._app.window is None:
+            return
 
-    @Gtk.Template.Callback()
-    def on_add_button_clicked(self, _1: Gtk.Button) -> None:
-        uris = self._track_selection_to_uris()
-        if len(uris) > 0:
-            self._app.send_message(MessageType.ADD_TO_TRACKLIST, {"uris": uris})
+        # Better set button action but never manage to get it working...
+
+        action_name: Optional[str] = None
+        if button == self.add_button:
+            action_name = "add-to-tracklist"
+        elif button == self.play_button:
+            action_name = "play-selection"
+
+        target = GLib.Variant("s", "playlists-box")
+        if action_name is not None:
+            self._app.window.activate_action(action_name, target)
 
     def on_add_stream_to_playlist_activated(
         self,
@@ -360,7 +365,7 @@ class PlaylistsBox(Gtk.Box):
         _1: Gio.SimpleAction,
         _2: None,
     ) -> None:
-        track_uris = self._track_selection_to_uris()
+        track_uris = self.track_selection_to_uris()
         if len(track_uris) > 0:
             self._app.send_message(
                 MessageType.SAVE_PLAYLIST,
