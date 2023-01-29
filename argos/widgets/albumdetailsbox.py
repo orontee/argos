@@ -224,7 +224,7 @@ class AlbumDetailsBox(Gtk.Box):
         if year:
             self.publication_label.set_text(year)
         else:
-            self.publication_label.set_text("")
+            self.publication_label.set_text(_("Not available"))
 
         self.publication_label.show_now()
 

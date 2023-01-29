@@ -6,7 +6,6 @@ argos/controllers/tracklist.py
 argos/info.py
 argos/ui/about.ui.in
 argos/ui/album_details_box.ui
-argos/ui/album_track_box.ui
 argos/ui/app_menu.ui
 argos/ui/condensed_playing_box.ui
 argos/ui/help_overlay.ui
@@ -19,10 +18,13 @@ argos/ui/playlists_box.ui
 argos/ui/preferences.ui
 argos/ui/stream_uri_dialog.ui
 argos/ui/title_bar.ui
+argos/ui/track_box.ui
 argos/ui/tracklist_box.ui
 argos/ui/tracklist_random_dialog.ui
 argos/ui/tracklist_track_box.ui
+argos/ui/tracks_view.ui
 argos/ui/window.ui
+argos/utils.py
 argos/widgets/albumdetailsbox.py
 argos/widgets/playingboxemptytracklistbox.py
 argos/widgets/playlistemptytracksbox.py
@@ -32,6 +34,7 @@ argos/widgets/preferences.py
 argos/widgets/streamuridialog.py
 argos/widgets/tracklistrandomdialog.py
 argos/widgets/tracklisttrackbox.py
+argos/widgets/tracksview.py
 argos/widgets/utils.py
 argos/window.py
 data/io.github.orontee.Argos.appdata.xml.in
