@@ -16,6 +16,8 @@ Added
 
 Changed
 -------
+- Smarter dates in history playlist `#129
+  <https://github.com/orontee/argos/issues/129>`_
 
 Removed
 -------

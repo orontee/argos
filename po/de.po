@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-29 21:57+0100\n"
+"POT-Creation-Date: 2023-01-30 08:25+0100\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: André Dokis <em21nummer1@icloud.com>\n"
 "Language-Team: German <em21nummer1@icloud.com>\n"
@@ -432,9 +432,17 @@ msgstr "Überspringen"
 msgid "Play tracks"
 msgstr "Titel abspielen"
 
-#: argos/utils.py:76
+#: argos/utils.py:77
 msgid "More than one day"
 msgstr "Mehr als einen Tag"
+
+#: argos/utils.py:87
+msgid "Today"
+msgstr "Heute"
+
+#: argos/utils.py:89
+msgid "Yesterday"
+msgstr "Gestern"
 
 #: argos/widgets/albumdetailsbox.py:26
 msgid "Information not available"

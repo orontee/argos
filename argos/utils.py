@@ -1,3 +1,4 @@
+import datetime
 import gettext
 import logging
 from typing import Tuple, Union
@@ -77,3 +78,14 @@ def ms_to_text(value: int) -> str:
         else:
             text = f"{minutes:02d}:{seconds:02d}"
     return text
+
+
+def date_to_string(d: datetime.datetime) -> str:
+    """Convert a datetime to string."""
+    date = d.date()
+    if date == datetime.date.today():
+        return _("Today")
+    if (datetime.date.today() - date).days == 1:
+        return _("Yesterday")
+
+    return d.date().strftime("%x")

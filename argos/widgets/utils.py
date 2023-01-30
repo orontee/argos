@@ -8,7 +8,7 @@ from typing import Callable, Optional
 from gi.repository import GdkPixbuf, GLib, Gtk
 from gi.repository.GdkPixbuf import Pixbuf
 
-from argos.utils import compute_target_size
+from argos.utils import compute_target_size, date_to_string
 
 LOGGER = logging.getLogger(__name__)
 
@@ -146,7 +146,7 @@ def set_list_box_header_with_date_separator(
             )
 
         if day_changed:
-            pretty_last_played_date = last_played_date.date().strftime("%x")
+            pretty_last_played_date = date_to_string(last_played_date)
             markup = f"""<span style="italic">{pretty_last_played_date}</span>"""
 
             label = Gtk.Label()
