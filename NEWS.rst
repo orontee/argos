@@ -16,6 +16,8 @@ Added
 
 Changed
 -------
+- Removing selected tracks don't remove all tracks when empty selection
+  `#128 <https://github.com/orontee/argos/issues/128>`_
 - Fix parse error when saving playlists that haven't been loaded `#128
   <https://github.com/orontee/argos/issues/128>`_
 - Smarter dates in history playlist `#129

@@ -154,11 +154,11 @@ class PlaylistsBox(Gtk.Box):
         self.add_button.set_sensitive(playlist is not None)
         self.edit_button.set_sensitive(self._is_playlist_removable())
 
-    def track_selection_to_uris(self) -> List[str]:
+    def track_selection_to_uris(self, strict: bool = False) -> List[str]:
         """Returns the list of URIs for current track selection.
 
-        The returned list contains the URIs of the tracks of current
-        playlist if current track selection is empty.
+        If ``strict`` is False and the selection is empty then the returned list
+        contains the URIs of the tracks of current playlist.
 
         """
         uris: List[str] = []
@@ -169,7 +169,7 @@ class PlaylistsBox(Gtk.Box):
             if uri is not None:
                 uris.append(uri)
 
-        if len(uris) == 0:
+        if not strict and len(uris) == 0:
             return self._playlist_track_uris()
 
         return uris
@@ -365,7 +365,7 @@ class PlaylistsBox(Gtk.Box):
         )
 
     def remove_selected_tracks_from_playlist(self) -> None:
-        track_uris = self.track_selection_to_uris()
+        track_uris = self.track_selection_to_uris(strict=True)
         if len(track_uris) > 0:
             self._app.send_message(
                 MessageType.SAVE_PLAYLIST,
