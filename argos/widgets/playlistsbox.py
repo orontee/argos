@@ -306,9 +306,13 @@ class PlaylistsBox(Gtk.Box):
             flags=0,
             message_type=Gtk.MessageType.WARNING,
             buttons=Gtk.ButtonsType.OK_CANCEL,
-            text=_("Confirm the deletion of the {!r} playlist").format(playlist.name),
+            text=_("Confirm playlist deletion"),
         )
-        dialog.format_secondary_text(_("The deletion can't be reverted."))
+        dialog.format_secondary_text(
+            _(
+                "The playlist {!r} is about to be deleted. The deletion can't be reverted."
+            ).format(playlist.name)
+        )
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
             LOGGER.debug(f"Will delete playlist with URI {playlist.uri!r}")
