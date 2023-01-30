@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-30 08:25+0100\n"
+"POT-Creation-Date: 2023-01-30 13:48+0100\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -118,7 +118,7 @@ msgstr "Tous"
 msgid "Started to play {}"
 msgstr "Lecture de {}"
 
-#: argos/controllers/playlists.py:41 argos/controllers/playlists.py:299
+#: argos/controllers/playlists.py:41 argos/controllers/playlists.py:315
 #: argos/ui/preferences.ui:334
 msgid "History"
 msgstr "Historique"
@@ -500,12 +500,14 @@ msgid "Delete playlist…"
 msgstr "Suppprimer la liste de lecture…"
 
 #: argos/widgets/playlistsbox.py:309
-msgid "Confirm the deletion of the {!r} playlist"
-msgstr "Confirmer la suppression de la liste de lecture {!r}"
+msgid "Confirm playlist deletion"
+msgstr "Suppression de la liste de lecture"
 
-#: argos/widgets/playlistsbox.py:311
-msgid "The deletion can't be reverted."
-msgstr "La suppression est définitive."
+#: argos/widgets/playlistsbox.py:313
+msgid ""
+"The playlist {!r} is about to be deleted. The deletion can't be reverted."
+msgstr ""
+"La liste de lecture {!r} va être supprimée. La suppression est définitive."
 
 #: argos/widgets/playlistselectiondialog.py:50
 msgid "Select playlist by name"
@@ -757,6 +759,12 @@ msgstr "Préférer un thème sombre"
 #: data/io.github.orontee.Argos.gschema.xml:135
 msgid "If a Gtk+ theme includes a dark variant, it will be used."
 msgstr "Utiliser la variante sombre si un thème Gtk+ en inclut une."
+
+#~ msgid "Confirm the deletion of the {!r} playlist"
+#~ msgstr "Confirmer la suppression de la liste de lecture {!r}"
+
+#~ msgid "The deletion can't be reverted."
+#~ msgstr "La suppression est définitive."
 
 #~ msgid "Merry Christmas!"
 #~ msgstr "Joyeux Noël !"

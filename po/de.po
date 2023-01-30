@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-30 08:25+0100\n"
+"POT-Creation-Date: 2023-01-30 13:48+0100\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: André Dokis <em21nummer1@icloud.com>\n"
 "Language-Team: German <em21nummer1@icloud.com>\n"
@@ -118,7 +118,7 @@ msgstr "Alle"
 msgid "Started to play {}"
 msgstr "Es läuft {}"
 
-#: argos/controllers/playlists.py:41 argos/controllers/playlists.py:299
+#: argos/controllers/playlists.py:41 argos/controllers/playlists.py:315
 #: argos/ui/preferences.ui:334
 msgid "History"
 msgstr "Zuletzt gespielt"
@@ -495,12 +495,14 @@ msgid "Delete playlist…"
 msgstr "Playlist löschen…"
 
 #: argos/widgets/playlistsbox.py:309
-msgid "Confirm the deletion of the {!r} playlist"
-msgstr "Löschen der Playlist {!r} bestätigen."
+msgid "Confirm playlist deletion"
+msgstr "Wiedergabeliste löschen"
 
-#: argos/widgets/playlistsbox.py:311
-msgid "The deletion can't be reverted."
-msgstr "Das Löschen kann nicht rückgängig gemacht werden."
+#: argos/widgets/playlistsbox.py:313
+msgid ""
+"The playlist {!r} is about to be deleted. The deletion can't be reverted."
+msgstr ""
+"Die Playlist {!r} wird gerade gelöscht. Das Löschen kann nicht rückgängig gemacht werden."
 
 #: argos/widgets/playlistselectiondialog.py:50
 msgid "Select playlist by name"
@@ -751,6 +753,12 @@ msgstr "Bevorzugen Sie ein dunkles Thema"
 msgid "If a Gtk+ theme includes a dark variant, it will be used."
 msgstr ""
 "Wenn ein Gtk+-Theme eine dunkle Variante enthält, wird diese verwendet."
+
+#~ msgid "Confirm the deletion of the {!r} playlist"
+#~ msgstr "Löschen der Playlist {!r} bestätigen."
+
+#~ msgid "The deletion can't be reverted."
+#~ msgstr "Das Löschen kann nicht rückgängig gemacht werden."
 
 #~ msgid "Merry Christmas!"
 #~ msgstr "Fröhliche Weihnachten !"
