@@ -16,6 +16,8 @@ Added
 
 Changed
 -------
+- Fix parse error when saving playlists that haven't been loaded `#128
+  <https://github.com/orontee/argos/issues/128>`_
 - Smarter dates in history playlist `#129
   <https://github.com/orontee/argos/issues/129>`_
 

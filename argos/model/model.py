@@ -380,41 +380,45 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         name: str,
         tracks: Sequence[TrackModel],
         last_modified: float,
+        wait_for_model_update: bool = False,
     ) -> None:
-        GLib.idle_add(
-            self._complete_playlist_description,
-            playlist_uri,
-            name,
-            tracks,
-            last_modified,
-        )
-
-    def _complete_playlist_description(
-        self,
-        playlist_uri: str,
-        name: str,
-        tracks: Sequence[TrackModel],
-        last_modified: float,
-    ) -> None:
-        LOGGER.debug(f"Completing playlist with URI {playlist_uri!r}")
-
-        playlist = self.get_playlist(playlist_uri)
-        if playlist is None:
-            LOGGER.debug(f"Creation of playlist with URI {playlist_uri!r}")
-            playlist = PlaylistModel(uri=playlist_uri, name=name)
-            LOGGER.debug(f"Insertion of playlist with URI {playlist.uri!r}")
-            self.playlists.insert_sorted(playlist, compare_playlists_func, None)
+        event: Optional[threading.Event]
+        if (
+            wait_for_model_update
+            and threading.current_thread() != threading.main_thread()
+        ):
+            # Main thread is dedicated to Gtk processing loop and
+            # waiting for an event set from that thread would result
+            # in a deadlock
+            event = threading.Event()
         else:
-            if playlist.last_modified == last_modified:
-                LOGGER.debug(f"Playlist with URI {playlist_uri!r} is up-to-date")
-                return
+            event = None
 
-            playlist.name = name
-            playlist.tracks.remove_all()
+        def _complete_playlist_description() -> None:
+            LOGGER.debug(f"Completing playlist with URI {playlist_uri!r}")
 
-        playlist.last_modified = last_modified
-        for track in tracks:
-            playlist.tracks.append(track)
+            playlist = self.get_playlist(playlist_uri)
+            if playlist is None:
+                LOGGER.debug(f"Creation of playlist with URI {playlist_uri!r}")
+                playlist = PlaylistModel(uri=playlist_uri, name=name)
+                LOGGER.debug(f"Insertion of playlist with URI {playlist.uri!r}")
+                self.playlists.insert_sorted(playlist, compare_playlists_func, None)
+            else:
+                if playlist.last_modified == last_modified:
+                    LOGGER.debug(f"Playlist with URI {playlist_uri!r} is up-to-date")
+                    return
+
+                playlist.name = name
+                playlist.tracks.remove_all()
+
+            playlist.last_modified = last_modified
+            for track in tracks:
+                playlist.tracks.append(track)
+
+        GLib.idle_add(_complete_playlist_description)
+
+        if event is not None:
+            event.wait(timeout=2.0)
 
     def get_album(self, uri: str) -> Optional[AlbumModel]:
         return self.library.get_album(uri)

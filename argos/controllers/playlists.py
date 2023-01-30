@@ -137,6 +137,17 @@ class PlaylistsController(ControllerBase):
         if playlist is None:
             return None
 
+        if playlist.last_modified == -1:
+            # The playlist hasn't been loaded
+            playlist_dto = await self._http.lookup_playlist(playlist_uri)
+            if playlist_dto is not None:
+                await self._complete_playlist_from(
+                    playlist_dto, wait_for_model_update=True
+                )
+                playlist = self._model.get_playlist(playlist_uri)
+                if playlist is None:
+                    return None
+
         if add_track_uris is None:
             add_track_uris = []
 
@@ -181,7 +192,11 @@ class PlaylistsController(ControllerBase):
                     f"Won't complete unkwnown playlist with URI {playlist_uri!r}"
                 )
 
-    async def _complete_playlist_from(self, playlist_dto: PlaylistDTO) -> None:
+    async def _complete_playlist_from(
+        self,
+        playlist_dto: PlaylistDTO,
+        wait_for_model_update: bool = False,
+    ) -> None:
         track_uris = [t.uri for t in playlist_dto.tracks]
         if len(track_uris) > 0:
             LOGGER.debug(f"Fetching tracks of playlist with URI {playlist_dto.uri!r}")
@@ -200,6 +215,7 @@ class PlaylistsController(ControllerBase):
             name=playlist_dto.name,
             tracks=parsed_tracks,
             last_modified=playlist_dto.last_modified,
+            wait_for_model_update=wait_for_model_update,
         )
 
     async def _complete_history_playlist(self) -> None:
