@@ -3,16 +3,27 @@ import gettext
 import logging
 from functools import lru_cache
 from pathlib import Path
-from typing import Callable, Optional
+from typing import Callable, Optional, Sequence
 
 from gi.repository import GdkPixbuf, GLib, Gtk
 from gi.repository.GdkPixbuf import Pixbuf
 
+from argos.model import TrackModel
 from argos.utils import compute_target_size, date_to_string
 
 LOGGER = logging.getLogger(__name__)
 
 _ = gettext.gettext
+
+
+def tracks_length(tracks: Sequence[TrackModel]) -> int:
+    length = 0
+    for track in tracks:
+        if track.length == -1:
+            length = -1
+            break
+        length += track.length
+    return length
 
 
 def default_image_pixbuf(icon_name: str, target_width: int) -> Pixbuf:

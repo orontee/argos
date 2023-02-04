@@ -12,7 +12,7 @@ from argos.model import (
     RandomTracksChoiceState,
 )
 from argos.utils import ms_to_text
-from argos.widgets.utils import default_image_pixbuf, scale_album_image
+from argos.widgets.utils import default_image_pixbuf, scale_album_image, tracks_length
 
 _ = gettext.gettext
 
@@ -102,8 +102,8 @@ class TracklistRandomDialog(Gtk.Dialog):
         if album is not None:
             album_name = album.name
             artist_name = album.artist_name
-            choice_length = sum(
-                [t.length for t in album.tracks if t.uri in self.track_uris]
+            choice_length = tracks_length(
+                [t for t in album.tracks if t.uri in self.track_uris]
             )
             num_tracks = len(self.track_uris)
             disc_no = result.source_album_disc_no

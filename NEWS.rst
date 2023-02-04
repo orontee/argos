@@ -14,7 +14,7 @@ The format is based on `Keep a Changelog
 Added
 -----
 - Setting for the strategy used to select random tracks (default to random disc
-  tracks) `#130 <https://github.com/orontee/argos/issues/130>`
+  tracks) `#130 <https://github.com/orontee/argos/issues/130>`_
 
 Changed
 -------

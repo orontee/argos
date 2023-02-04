@@ -12,7 +12,7 @@ from argos.widgets.playlistemptytracksbox import PlaylistEmptyTracksBox
 from argos.widgets.playlistlabel import PlaylistLabel
 from argos.widgets.playlisttrackbox import PlaylistTrackBox
 from argos.widgets.streamuridialog import StreamUriDialog
-from argos.widgets.utils import set_list_box_header_with_date_separator
+from argos.widgets.utils import set_list_box_header_with_date_separator, tracks_length
 
 _ = gettext.gettext
 
@@ -240,13 +240,7 @@ class PlaylistsBox(Gtk.Box):
         if tracks is None:
             self.length_label.set_text("")
         else:
-            length = 0
-            for track in tracks:
-                if track.length == -1:
-                    length = -1
-                    break
-                length += track.length
-
+            length = tracks_length(tracks)
             pretty_length = ms_to_text(length)
             self.length_label.set_text(pretty_length)
 
