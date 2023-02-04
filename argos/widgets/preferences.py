@@ -18,7 +18,7 @@ SECONDS_PER_DAY = 3600 * 24
 class PreferencesWindow(Gtk.Window):
     __gtype_name__ = "PreferencesWindow"
 
-    connection_warning_label: Gtk.Label = Gtk.Template.Child()
+    mopidy_base_url_info_bar: Gtk.InfoBar = Gtk.Template.Child()
     mopidy_base_url_entry: Gtk.Entry = Gtk.Template.Child()
     information_service_switch: Gtk.Switch = Gtk.Template.Child()
     index_mopidy_local_albums_button: Gtk.CheckButton = Gtk.Template.Child()
@@ -137,7 +137,7 @@ class PreferencesWindow(Gtk.Window):
         self.set_titlebar(title_bar)
 
         self.show_all()
-        self.connection_warning_label.set_visible(
+        self.mopidy_base_url_info_bar.set_revealed(
             self._model.network_available and not self._model.connected
         )
 
@@ -146,7 +146,7 @@ class PreferencesWindow(Gtk.Window):
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
-        self.connection_warning_label.set_visible(
+        self.mopidy_base_url_info_bar.set_revealed(
             self._model.network_available and not self._model.connected
         )
 
