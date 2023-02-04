@@ -1,6 +1,7 @@
 import asyncio
 import gettext
 import logging
+import random
 from functools import partial
 from threading import Thread
 from time import sleep
@@ -59,6 +60,8 @@ class Application(Gtk.Application):
             *args,
             **kwargs,
         )
+        random.seed()
+
         self._loop = asyncio.get_event_loop()
         self._message_queue: asyncio.Queue = asyncio.Queue()
         self._tasks: List[asyncio.Task] = []

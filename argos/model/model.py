@@ -26,6 +26,7 @@ from argos.model.library import LibraryModel
 from argos.model.mixer import MixerModel
 from argos.model.playback import PlaybackModel
 from argos.model.playlist import PlaylistModel, compare_playlists_func
+from argos.model.random import RandomTracksChoice, choose_random_tracks
 from argos.model.track import TrackModel, compare_tracks_by_name_func
 from argos.model.tracklist import TracklistModel, TracklistTrackModel
 from argos.model.utils import WithThreadSafePropertySetter
@@ -282,50 +283,8 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
             artist_abstract,
         )
 
-    def choose_random_album(self) -> Optional[str]:
-        def exclusion_predicate(a: AlbumModel) -> bool:
-            return a.props.backend.props.exclude_albums_from_random_choice
-
-        candidates = self.library.get_album_uris(
-            exclusion_predicate=exclusion_predicate
-        )
-
-        if len(candidates) == 0:
-            LOGGER.warning("No album candidates for random selection!")
-        else:
-            LOGGER.debug(f"Found {len(candidates)} album candidates")
-            try:
-                album_uri = random.choice(candidates)
-            except IndexError:
-                pass
-            else:
-                return album_uri
-
-        LOGGER.warning("Failed to randomly choose an album!")
-        return None
-
-    # def get_complete_albums(self) -> Optional[Dict[str, AlbumModel]]:
-    #     """Return hash table of completed albums.
-
-    #     This function iterates on albums; It is guaranteed that the
-    #     iteration is performed in the Gtk thread, so the album list is
-    #     unchanged during the iteration.
-
-    #     """
-
-    #     def _collect_albums(
-    #         event: threading.Event, table: Dict[str, AlbumModel]
-    #     ) -> None:
-    #         for album in self.props.library.albums:
-    #             if album.is_complete():
-    #                 table[album.uri] = album
-    #         event.set()
-
-    #     event = threading.Event()
-    #     table: Dict[str, AlbumModel] = {}
-
-    #     GLib.idle_add(_collect_albums, event, table)
-    #     return table if event.wait(timeout=1.0) else None
+    def choose_random_album(self, strategy: str) -> RandomTracksChoice:
+        return choose_random_tracks(self.library, strategy)
 
     def update_tracklist(
         self, version: Optional[int], tl_tracks: Sequence[TracklistTrackModel]

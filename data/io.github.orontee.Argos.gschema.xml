@@ -57,6 +57,20 @@
       </choices>
     </key>
 
+    <key type="s" name="random-tracks-choice-strategy">
+      <default>"random_disc_tracks"</default>
+      <summary>
+	Random tracks choice strategy
+      </summary>
+      <description>
+	Strategy used to build random track selection.
+      </description>
+      <choices>
+        <choice value='random_disc_tracks'/>
+        <choice value='random_album_tracks'/>
+      </choices>
+    </key>
+
     <key type="s" name="disable-tracks-view-pattern">
       <default>""</default>
       <summary>
