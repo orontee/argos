@@ -69,27 +69,18 @@ class DirectoryModel(GObject.Object):
             or len(self.playlists) > 0
         )
 
-    def collect_album_uris(
+    def visit_albums(
         self,
         *,
-        exclusion_predicate: Callable[[AlbumModel], bool] = None,
-    ) -> Set[str]:
-        LOGGER.debug(f"Collecting album URIs in directory {self.props.name}")
+        visitor: Callable[[AlbumModel, "DirectoryModel"], None],
+    ) -> None:
+        LOGGER.debug(f"Visiting albums in directory {self.props.name}")
 
-        uris: Set[str] = set(
-            [
-                album.uri
-                for album in self.albums
-                if exclusion_predicate is None or not exclusion_predicate(album)
-            ]
-        )
+        for album in self.albums:
+            visitor(album, self)
 
         for directory in self.directories:
-            uris |= directory.collect_album_uris(
-                exclusion_predicate=exclusion_predicate
-            )
-
-        return uris
+            directory.visit_albums(visitor=visitor)
 
     def get_album(self, uri: str) -> Optional[AlbumModel]:
         """Recursively search for an album with given URI.

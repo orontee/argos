@@ -31,14 +31,10 @@ class LibraryModel(GObject.Object):
     def get_album(self, uri: str) -> Optional[AlbumModel]:
         return self.props.root_directory.get_album(uri)
 
-    def get_album_uris(
-        self, *, exclusion_predicate: Callable[[AlbumModel], bool] = None
-    ) -> List[str]:
-        return list(
-            self.props.root_directory.collect_album_uris(
-                exclusion_predicate=exclusion_predicate
-            )
-        )
+    def visit_albums(
+        self, *, visitor=Callable[[AlbumModel, DirectoryModel], None]
+    ) -> None:
+        self.props.root_directory.visit_albums(visitor=visitor)
 
     def get_directory(self, uri: Optional[str]) -> Optional[DirectoryModel]:
         return self.props.root_directory.get_directory(uri)

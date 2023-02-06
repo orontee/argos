@@ -6,6 +6,7 @@ from enum import Enum
 from typing import List, Optional
 
 from argos.model.album import AlbumModel
+from argos.model.directory import DirectoryModel
 from argos.model.library import LibraryModel
 from argos.model.track import TrackModel
 
@@ -41,47 +42,52 @@ def choose_random_tracks(
     strategy: str,
 ) -> RandomTracksChoice:
     result = RandomTracksChoice(strategy)
+    if strategy in ("random_album_tracks", "random_disc_tracks"):
+        _select_random_album_tracks(library, result)
+    else:
+        LOGGER.debug(f"Random choice strategy {strategy!r} not implemented")
+        result.state = RandomTracksChoiceState.FAILED
 
-    def exclusion_predicate(a: AlbumModel) -> bool:
-        return a.props.backend.props.exclude_albums_from_random_choice or (
-            result.strategy == "random_disc_tracks" and a.num_discs <= 0
-        )
+    return result
 
-    candidates = library.get_album_uris(exclusion_predicate=exclusion_predicate)
 
+def _select_random_album_tracks(library: LibraryModel, result: RandomTracksChoice):
+
+    candidates: List[str] = []
+
+    def visitor(a: AlbumModel, d: DirectoryModel) -> None:
+        if not a.props.backend.props.exclude_albums_from_random_choice and (
+            result.strategy != "random_disc_tracks" or a.num_discs > 0
+        ):
+            candidates.append(a.uri)
+
+    library.visit_albums(visitor=visitor)
     if len(candidates) == 0:
         result.state = RandomTracksChoiceState.EMPTY_LIBRARY
         LOGGER.warning("No album candidates for random selection!")
+        return
+
+    try:
+        result.source_album_uri = random.choice(candidates)
+    except IndexError:
+        result.state = RandomTracksChoiceState.FAILED
+        LOGGER.warning("Failed to randomly choose tracks!!")
     else:
-        LOGGER.debug(f"Found {len(candidates)} album candidates")
-        try:
-            result.source_album_uri = random.choice(candidates)
-        except IndexError:
+        album = library.get_album(result.source_album_uri)
+        if album is None:
             result.state = RandomTracksChoiceState.FAILED
-            LOGGER.warning("Failed to randomly choose tracks!!")
-        else:
-            album = library.get_album(result.source_album_uri)
-            if album is None:
-                result.state = RandomTracksChoiceState.FAILED
-            elif result.strategy == "random_album_tracks":
-                result.track_uris = [t.uri for t in album.tracks]
-                result.state = RandomTracksChoiceState.FOUND
-            elif result.strategy == "random_disc_tracks":
-                result.source_album_disc_no = random.randrange(1, album.num_discs + 1)
-                # guaranteed to be >0 through exclusion predicate
+        elif result.strategy == "random_album_tracks":
+            result.track_uris = [t.uri for t in album.tracks]
+            result.state = RandomTracksChoiceState.FOUND
+        elif result.strategy == "random_disc_tracks":
+            result.source_album_disc_no = random.randrange(1, album.num_discs + 1)
+            # guaranteed to be >0 through exclusion predicate
 
-                LOGGER.debug(
-                    f"Will select tracks from disc number {result.source_album_disc_no}"
-                )
+            LOGGER.debug(
+                f"Will select tracks from disc number {result.source_album_disc_no}"
+            )
 
-                result.track_uris = [
-                    t.uri
-                    for t in album.tracks
-                    if t.disc_no == result.source_album_disc_no
-                ]
-                result.state = RandomTracksChoiceState.FOUND
-            else:
-                LOGGER.debug(f"Random choice strategy {strategy!r} not implemented")
-                result.state = RandomTracksChoiceState.FAILED
-
-    return result
+            result.track_uris = [
+                t.uri for t in album.tracks if t.disc_no == result.source_album_disc_no
+            ]
+            result.state = RandomTracksChoiceState.FOUND
