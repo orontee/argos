@@ -95,6 +95,20 @@
           </packing>
         </child>
         <child>
+          <object class="GtkComboBoxText" id="strategy_combo_box">
+            <property name="width-request">200</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">center</property>
+            <signal name="changed" handler="on_strategy_combo_box_changed" swapped="no"/>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
           <object class="GtkBox" id="main_box">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
@@ -150,7 +164,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="album_artist_name_label">
+                      <object class="GtkLabel" id="artist_name_label">
                         <property name="width-request">250</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>

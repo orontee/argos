@@ -354,7 +354,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
                 self.props.titlebar.toggle_search_entry_focus_maybe()
                 return True
             elif keyval == Gdk.KEY_r:
-                self.props.application.activate_action("play-random-album")
+                self.props.application.activate_action("play-random-tracks")
                 return True
         elif not modifiers:
             if keyval == Gdk.KEY_Escape:

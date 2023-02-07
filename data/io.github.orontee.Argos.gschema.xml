@@ -68,6 +68,7 @@
       <choices>
         <choice value='random_disc_tracks'/>
         <choice value='random_album_tracks'/>
+	<choice value='random_tracks_half_hour'/>
       </choices>
     </key>
 

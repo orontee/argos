@@ -10,7 +10,7 @@ _ = gettext.gettext
 _LABEL_MARKUP = _(
     """To populate the tracklist:
 
-• <a href="argos:play-random-album">Play a random album</a>
+• <a href="argos:play-random-tracks">Play random tracks</a>
 
 • <a href="argos:add-stream">Add a music stream</a>
 
@@ -50,7 +50,7 @@ class PlayingBoxEmptyTracklistBox(Gtk.Box):
         if scheme != "argos":
             return False
 
-        if action_name in ("play-random-album", "add-stream"):
+        if action_name in ("play-random-tracks", "add-stream"):
             action = self._app.lookup_action(action_name)
             if not action:
                 return False

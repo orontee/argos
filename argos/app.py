@@ -273,7 +273,7 @@ class Application(Gtk.Application):
             ("show-about-dialog", self.show_about_dialog_activate_cb, None),
             ("show-preferences", self.show_preferences_activate_cb, None),
             ("new-playlist", self.new_playlist_activate_cb, None),
-            ("play-random-album", self.play_random_album_activate_cb, None),
+            ("play-random-tracks", self.play_random_tracks_activate_cb, None),
             ("add-stream", self.add_stream_activate_cb, None),
             ("update-library", self.update_library_activate_cb, None),
             ("quit", self.quit_activate_cb, ("app.quit", ["<Ctrl>Q"])),
@@ -287,7 +287,7 @@ class Application(Gtk.Application):
 
         for action_name in [
             "new-playlist",
-            "play-random-album",
+            "play-random-tracks",
             "add-stream",
             "update-library",
         ]:
@@ -329,7 +329,7 @@ class Application(Gtk.Application):
     def _update_network_actions_state(self) -> None:
         for action_name in [
             "new-playlist",
-            "play-random-album",
+            "play-random-tracks",
             "add-stream",
             "update-library",
         ]:
@@ -410,25 +410,25 @@ class Application(Gtk.Application):
 
         self.send_message(MessageType.CREATE_PLAYLIST, {"name": name})
 
-    def play_random_album_activate_cb(
+    def play_random_tracks_activate_cb(
         self, action: Gio.SimpleAction, parameter: None
     ) -> None:
-        LOGGER.debug("Random album play requested by end-user")
+        LOGGER.debug("Random tracks selection requested by end-user")
 
         play_immediately = len(self.props.model.tracklist.tracks) == 0
 
         dialog = TracklistRandomDialog(self, play=play_immediately)
         response = dialog.run()
-        album_uri = dialog.props.album_uri if response == Gtk.ResponseType.OK else ""
+        track_uris = dialog.track_uris if response == Gtk.ResponseType.OK else []
         play = dialog.props.play
         dialog.destroy()
 
-        if not album_uri:
-            LOGGER.debug("Abort adding random album")
+        if not track_uris:
+            LOGGER.debug("Abort selection of random tracks")
             return
 
         self.send_message(
-            MessageType.ADD_TO_TRACKLIST, {"uris": [album_uri], "play": play}
+            MessageType.ADD_TO_TRACKLIST, {"uris": track_uris, "play": play}
         )
 
     def add_stream_activate_cb(self, action: Gio.SimpleAction, parameter: None) -> None:

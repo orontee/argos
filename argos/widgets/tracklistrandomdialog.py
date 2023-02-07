@@ -10,6 +10,7 @@ from argos.model import (
     AlbumModel,
     Model,
     RandomTracksChoiceState,
+    TrackModel,
 )
 from argos.utils import ms_to_text
 from argos.widgets.utils import default_image_pixbuf, scale_album_image, tracks_length
@@ -34,9 +35,11 @@ class TracklistRandomDialog(Gtk.Dialog):
         target_width=CHOICE_IMAGE_SIZE,
     )
 
+    strategy_combo_box: Gtk.ComboBox = Gtk.Template.Child()
+
     choice_image: Gtk.Image = Gtk.Template.Child()
     album_name_label: Gtk.Label = Gtk.Template.Child()
-    album_artist_name_label: Gtk.Label = Gtk.Template.Child()
+    artist_name_label: Gtk.Label = Gtk.Template.Child()
     choice_length_label: Gtk.Label = Gtk.Template.Child()
     choice_num_tracks_label: Gtk.Label = Gtk.Template.Child()
     choice_disc_no_title_label: Gtk.Label = Gtk.Template.Child()
@@ -46,7 +49,6 @@ class TracklistRandomDialog(Gtk.Dialog):
 
     info_bar: Gtk.InfoBar = Gtk.Template.Child()
 
-    album_uri = GObject.Property(type=str, default="")
     play = GObject.Property(type=bool, default=False)
 
     def __init__(self, application: Gtk.Application, *, play: bool = False):
@@ -57,6 +59,14 @@ class TracklistRandomDialog(Gtk.Dialog):
         self._disable_tooltips = application.props.disable_tooltips
 
         self.track_uris: List[str] = []
+
+        for index, strategy in enumerate(RANDOM_TRACKS_CHOICE_STRATEGY):
+            strategy_label = RANDOM_TRACKS_CHOICE_STRATEGY[strategy]
+            self.strategy_combo_box.insert(index, strategy, strategy_label)
+
+        self.strategy_combo_box.set_active_id(
+            self._settings.get_string("random-tracks-choice-strategy")
+        )
 
         for widget in (self.play_button,):
             if self._disable_tooltips:
@@ -81,36 +91,45 @@ class TracklistRandomDialog(Gtk.Dialog):
         self._choose_random_album()
 
     def _choose_random_album(self) -> None:
-        strategy = self._settings.get_string("random-tracks-choice-strategy")
+        strategy = self.strategy_combo_box.get_active_id()
         result = self._model.choose_random_album(strategy=strategy)
 
         album: Optional[AlbumModel] = None
-        if result.state == RandomTracksChoiceState.FOUND:
-            self.props.album_uri = result.source_album_uri
-            album = self._model.get_album(self.props.album_uri)
-            self.track_uris = result.track_uris
-        else:
-            self.props.album_uri = ""
-            self.track_uris = []
-
         album_name: Optional[str] = None
         artist_name: Optional[str] = None
         choice_length: Optional[int] = None
         num_tracks: Optional[int] = None
         disc_no: Optional[int] = None
         image_path: Optional[str] = None
-        if album is not None:
-            album_name = album.name
-            artist_name = album.artist_name
-            choice_length = tracks_length(
-                [t for t in album.tracks if t.uri in self.track_uris]
-            )
-            num_tracks = len(self.track_uris)
-            disc_no = result.source_album_disc_no
-            image_path = album.image_path
+
+        if result.state == RandomTracksChoiceState.FOUND:
+            album = self._model.get_album(result.source_album_uri)
+            if album is not None:
+                album_name = album.name
+                artist_name = album.artist_name
+                self.track_uris = result.track_uris
+                choice_length = tracks_length(
+                    [t for t in album.tracks if t.uri in self.track_uris]
+                )
+                disc_no = result.source_album_disc_no
+                image_path = album.image_path
+                num_tracks = len(self.track_uris)
+            else:
+                artist_name = _("Various")
+                tracks: List[TrackModel] = []
+                for uri in result.track_uris:
+                    track = self._model.get_track(uri)
+                    if track is None:
+                        continue
+                    tracks.append(track)
+                self.track_uris = [t.uri for t in tracks]
+                choice_length = tracks_length(tracks)
+                num_tracks = len(tracks)
+        else:
+            self.track_uris = []
 
         self._update_album_name_label(album_name)
-        self._update_album_artist_name_label(artist_name)
+        self._update_artist_name_label(artist_name)
         self._update_choice_length_label(choice_length)
         self._update_choice_num_tracks_label(num_tracks)
         self._update_choice_disc_no_labels(
@@ -136,19 +155,19 @@ class TracklistRandomDialog(Gtk.Dialog):
 
         self.album_name_label.show_now()
 
-    def _update_album_artist_name_label(self, artist_name: Optional[str]) -> None:
+    def _update_artist_name_label(self, artist_name: Optional[str]) -> None:
         if artist_name:
             safe_artist_name = GLib.markup_escape_text(artist_name)
             artist_name_text = f"""<span size="x-large">{safe_artist_name}</span>"""
-            self.album_artist_name_label.set_markup(artist_name_text)
+            self.artist_name_label.set_markup(artist_name_text)
             if not self._disable_tooltips:
-                self.album_artist_name_label.set_has_tooltip(True)
-                self.album_artist_name_label.set_tooltip_text(artist_name)
+                self.artist_name_label.set_has_tooltip(True)
+                self.artist_name_label.set_tooltip_text(artist_name)
         else:
-            self.album_artist_name_label.set_markup("")
-            self.album_artist_name_label.set_has_tooltip(False)
+            self.artist_name_label.set_markup("")
+            self.artist_name_label.set_has_tooltip(False)
 
-        self.album_artist_name_label.show_now()
+        self.artist_name_label.show_now()
 
     def _update_choice_length_label(self, choice_length: Optional[int]) -> None:
         if choice_length is not None:
@@ -180,7 +199,7 @@ class TracklistRandomDialog(Gtk.Dialog):
             self.choice_disc_no_label.show_now()
         else:
             self.choice_disc_no_title_label.hide()
-            self.choice_num_tracks_label.set_text("")
+            self.choice_disc_no_label.set_text("")
             self.choice_disc_no_label.hide()
 
     def _update_choice_image(self, choice_image_path: Optional[str]) -> None:
@@ -217,6 +236,13 @@ class TracklistRandomDialog(Gtk.Dialog):
             self.info_bar.set_revealed(True)
 
         self.info_bar.show_all()
+
+    @Gtk.Template.Callback()
+    def on_strategy_combo_box_changed(
+        self,
+        _1: Gtk.ComboBox,
+    ) -> None:
+        self._choose_random_album()
 
     @Gtk.Template.Callback()
     def on_skip_button_clicked(

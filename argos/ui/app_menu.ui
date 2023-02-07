@@ -3,8 +3,8 @@
   <menu id="app-menu">
     <section>
       <item>
-        <attribute name="label" translatable="yes">Play _random album…</attribute>
-        <attribute name="action">app.play-random-album</attribute>
+        <attribute name="label" translatable="yes">Play _random tracks…</attribute>
+        <attribute name="action">app.play-random-tracks</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">Add stream to tracklist…</attribute>

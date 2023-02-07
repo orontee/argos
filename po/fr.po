@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-30 13:48+0100\n"
+"POT-Creation-Date: 2023-02-07 23:00+0100\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: Matthias Meulien <matthias.meulien@gmail.com>\n"
 "Language-Team: French <matthias.meulien@gmail.com>\n"
@@ -16,23 +16,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: argos/app.py:111
+#: argos/app.py:114
 msgid "Enable debug logs"
 msgstr "Activer le journal de débogage"
 
-#: argos/app.py:127
+#: argos/app.py:130
 msgid "Disable tooltips"
 msgstr "Désactiver les info-bulles"
 
-#: argos/app.py:135
+#: argos/app.py:138
 msgid "Hide search button"
 msgstr "Masquer le button de recherche"
 
-#: argos/app.py:258
+#: argos/app.py:261
 msgid "Welcome!"
 msgstr "Bienvenue !"
 
-#: argos/app.py:260
+#: argos/app.py:263
 msgid ""
 "Start by configuring the URL of the music server. The default value expects "
 "a server running on the local host and listening to the 6680 port."
@@ -40,7 +40,7 @@ msgstr ""
 "Commencez par configurer l'URL du serveur de musique. La valeur par défaut "
 "fait l'hypothèse qu'il tourne sur cet hôte et écoute sur le port 6680."
 
-#: argos/app.py:402 argos/ui/app_menu.ui:14
+#: argos/app.py:405 argos/ui/app_menu.ui:14
 msgid "New playlist"
 msgstr "Nouvelle liste de lecture"
 
@@ -61,7 +61,7 @@ msgid "Albums"
 msgstr "Albums"
 
 #: argos/controllers/library.py:37 argos/ui/album_details_box.ui:282
-#: argos/ui/playlists_box.ui:111 argos/ui/tracklist_random_dialog.ui:146
+#: argos/ui/playlists_box.ui:111 argos/ui/tracklist_random_dialog.ui:215
 #: argos/ui/tracks_view.ui:140
 msgid "Tracks"
 msgstr "Morceaux"
@@ -119,7 +119,7 @@ msgid "Started to play {}"
 msgstr "Lecture de {}"
 
 #: argos/controllers/playlists.py:41 argos/controllers/playlists.py:315
-#: argos/ui/preferences.ui:334
+#: argos/ui/preferences.ui:375
 msgid "History"
 msgstr "Historique"
 
@@ -131,9 +131,21 @@ msgstr "File d'attente mise à jour"
 msgid "Data source: {}"
 msgstr "Source : {}"
 
+#: argos/model/random.py:19
+msgid "Random album"
+msgstr "Album au hasard"
+
+#: argos/model/random.py:20
+msgid "Random disc"
+msgstr "Disque au hasard"
+
+#: argos/model/random.py:21
+msgid "Random tracks for half an hour"
+msgstr "Demi-heure de morceaux au hasard"
+
 #: argos/ui/about.ui.in:11
 msgid "Happy listening!"
-msgstr ""
+msgstr "Bonne écoute !"
 
 #: argos/ui/about.ui.in:13
 msgid "Web Site"
@@ -152,7 +164,7 @@ msgid "Published"
 msgstr "Publication"
 
 #: argos/ui/album_details_box.ui:253 argos/ui/playlists_box.ui:81
-#: argos/ui/tracklist_random_dialog.ui:130 argos/ui/tracks_view.ui:108
+#: argos/ui/tracklist_random_dialog.ui:199 argos/ui/tracks_view.ui:108
 msgid "Length"
 msgstr "Durée"
 
@@ -165,8 +177,8 @@ msgid "Information on album"
 msgstr "Information sur l'album"
 
 #: argos/ui/app_menu.ui:6
-msgid "Play _random album…"
-msgstr "Lire un album au _hasard…"
+msgid "Play _random tracks…"
+msgstr "Lire des morceaux au _hasard…"
 
 #: argos/ui/app_menu.ui:10
 msgid "Add stream to tracklist…"
@@ -323,7 +335,7 @@ msgstr "URL de base du serveur Mopidy"
 msgid "Enter the URL of the Mopidy server"
 msgstr "Entrer l'URL du serveur Mopidy"
 
-#: argos/ui/preferences.ui:128
+#: argos/ui/preferences.ui:152
 msgid ""
 "A connection failure indicates that the music server is currently not "
 "accessible at the given URL. Please adapt the URL."
@@ -331,32 +343,32 @@ msgstr ""
 "Une erreur de connexion indique que le serveur de musique n'est pas "
 "actuellement accessible à l'URL indiquée. Veuillez adapter l'URL."
 
-#: argos/ui/preferences.ui:147
+#: argos/ui/preferences.ui:188
 msgid "Other services"
 msgstr "Autres services"
 
-#: argos/ui/preferences.ui:184
+#: argos/ui/preferences.ui:225
 msgid "Information service:"
 msgstr "Service d'information:"
 
-#: argos/ui/preferences.ui:196
+#: argos/ui/preferences.ui:237
 msgid "The information is collected using Musicbrainz API and Wikipedia API."
 msgstr ""
 "Les informations sont collectées à partir des APIs Musicbrainz et Wikipedia."
 
-#: argos/ui/preferences.ui:228
+#: argos/ui/preferences.ui:269
 msgid "General"
 msgstr "Général"
 
-#: argos/ui/preferences.ui:246 argos/ui/preferences.ui:494 argos/window.py:55
+#: argos/ui/preferences.ui:287 argos/ui/preferences.ui:535 argos/window.py:55
 msgid "Library"
 msgstr "Bibliothèque"
 
-#: argos/ui/preferences.ui:266 data/io.github.orontee.Argos.gschema.xml:36
+#: argos/ui/preferences.ui:307 data/io.github.orontee.Argos.gschema.xml:36
 msgid "Index Mopidy-Local albums at startup"
 msgstr "Indexer le répertoire des albums de Mopidy-Local au démarrage"
 
-#: argos/ui/preferences.ui:290
+#: argos/ui/preferences.ui:331
 msgid ""
 "Note that, when unchecked, random selection of album is impossible until a "
 "directory containing albums is browsed."
@@ -364,35 +376,35 @@ msgstr ""
 "La sélection aléatoire d'album est impossible tant qu'un répertoire "
 "contenant des albums n'a pas été indexé."
 
-#: argos/ui/preferences.ui:308 argos/window.py:59
+#: argos/ui/preferences.ui:349 argos/window.py:59
 msgid "Playlists"
 msgstr "Listes de lecture"
 
-#: argos/ui/preferences.ui:369
+#: argos/ui/preferences.ui:410
 msgid "Max length:"
 msgstr "Taille maximale:"
 
-#: argos/ui/preferences.ui:395
+#: argos/ui/preferences.ui:436
 msgid "Sources"
 msgstr "Sources"
 
-#: argos/ui/preferences.ui:414
+#: argos/ui/preferences.ui:455
 msgid "Main window"
 msgstr "Fenêtre principal"
 
-#: argos/ui/preferences.ui:441
+#: argos/ui/preferences.ui:482
 msgid "Dark theme:"
 msgstr "Thème sombre:"
 
-#: argos/ui/preferences.ui:464
+#: argos/ui/preferences.ui:505
 msgid "Start fullscreen:"
 msgstr "Plein écran au démarrage:"
 
-#: argos/ui/preferences.ui:521
+#: argos/ui/preferences.ui:562
 msgid "Image size:"
 msgstr "Taille des images:"
 
-#: argos/ui/preferences.ui:553
+#: argos/ui/preferences.ui:594
 msgid "Display"
 msgstr "Affichage"
 
@@ -413,7 +425,7 @@ msgstr ""
 "d'URI s'appliquer en fonction de la configuration\n"
 "de Mopidy-Stream."
 
-#: argos/ui/stream_uri_dialog.ui:75 argos/ui/tracklist_random_dialog.ui:201
+#: argos/ui/stream_uri_dialog.ui:75 argos/ui/tracklist_random_dialog.ui:297
 msgid "Play immediately"
 msgstr "Lire immédiatement"
 
@@ -429,9 +441,13 @@ msgstr "Trier les albums"
 msgid "Search albums"
 msgstr "Rechercher des albums"
 
-#: argos/ui/tracklist_random_dialog.ui:28
+#: argos/ui/tracklist_random_dialog.ui:25
 msgid "Skip"
 msgstr "Passer"
+
+#: argos/ui/tracklist_random_dialog.ui:253
+msgid "Disc"
+msgstr "Disque"
 
 #: argos/ui/tracks_view.ui:212
 msgid "Play tracks"
@@ -469,7 +485,7 @@ msgstr "Non disponible"
 msgid ""
 "To populate the tracklist:\n"
 "\n"
-"• <a href=\"argos:play-random-album\">Play a random album</a>\n"
+"• <a href=\"argos:play-random-tracks\">Play random tracks</a>\n"
 "\n"
 "• <a href=\"argos:add-stream\">Add a music stream</a>\n"
 "\n"
@@ -477,7 +493,7 @@ msgid ""
 msgstr ""
 "Pour peupler la file d'attente :\n"
 "\n"
-"• <a href=\"argos:play-random-album\">Lire un album au hasard</a>\n"
+"• <a href=\"argos:play-random-tracks\">Lire un album au hasard</a>\n"
 "\n"
 "• <a href=\"argos:add-stream\">Ajouter un flux</a>\n"
 "\n"
@@ -499,11 +515,11 @@ msgstr "Retirer les morceaux sélectionnés"
 msgid "Delete playlist…"
 msgstr "Suppprimer la liste de lecture…"
 
-#: argos/widgets/playlistsbox.py:309
+#: argos/widgets/playlistsbox.py:303
 msgid "Confirm playlist deletion"
 msgstr "Suppression de la liste de lecture"
 
-#: argos/widgets/playlistsbox.py:313
+#: argos/widgets/playlistsbox.py:307
 msgid ""
 "The playlist {!r} is about to be deleted. The deletion can't be reverted."
 msgstr ""
@@ -517,32 +533,44 @@ msgstr "Nom de la liste de lecture"
 msgid "Preferences"
 msgstr "Préférences"
 
-#: argos/widgets/tracklistrandomdialog.py:63
+#: argos/widgets/tracklistrandomdialog.py:86
 msgid "Random tracklist"
 msgstr "File d'attente aléatoire"
+
+#: argos/widgets/tracklistrandomdialog.py:118
+msgid "Various"
+msgstr "Divers"
+
+#: argos/widgets/tracklistrandomdialog.py:229
+msgid "Browse the library first, it's currently empty!"
+msgstr "Parcourez la bibliothèque, elle est vide à ce stade !"
+
+#: argos/widgets/tracklistrandomdialog.py:234
+msgid "Oups, failed to select random tracks…"
+msgstr "Mince, échec de la sélection de morceaux aléatoires…"
 
 #: argos/widgets/tracklisttrackbox.py:44
 msgid "Unknown name"
 msgstr "Nom inconnu"
 
-#: argos/widgets/utils.py:81
+#: argos/widgets/utils.py:92
 #, python-brace-format
 msgid "Disc {0}"
 msgstr "Disque {0}"
 
-#: argos/widgets/utils.py:165
+#: argos/widgets/utils.py:176
 msgid "Album name"
 msgstr "Nom d'album"
 
-#: argos/widgets/utils.py:166
+#: argos/widgets/utils.py:177
 msgid "Artist name"
 msgstr "Nom d'artiste"
 
-#: argos/widgets/utils.py:167
+#: argos/widgets/utils.py:178
 msgid "Publication date"
 msgstr "Date de publication"
 
-#: argos/widgets/utils.py:168
+#: argos/widgets/utils.py:179
 msgid "Last modified"
 msgstr "Date de dernière modification"
 
@@ -677,10 +705,19 @@ msgid "Order applied when sorting albums."
 msgstr "Ordre utilisé pour trier les albums"
 
 #: data/io.github.orontee.Argos.gschema.xml:62
+msgid "Random tracks choice strategy"
+msgstr "Stratégie de sélection aléatoire de morceaux"
+
+#: data/io.github.orontee.Argos.gschema.xml:65
+msgid "Strategy used to build random track selection."
+msgstr ""
+"Stratégie utilisée pour construire des sélections aléatoires de morceaux."
+
+#: data/io.github.orontee.Argos.gschema.xml:77
 msgid "Pattern to disable tracks view by URIs"
 msgstr "Motif d'URIs pour désactiver la vue morceaux"
 
-#: data/io.github.orontee.Argos.gschema.xml:65
+#: data/io.github.orontee.Argos.gschema.xml:80
 msgid ""
 "Browsing a directory whose URIs match the given pattern, never enters the "
 "tracks view."
@@ -688,75 +725,75 @@ msgstr ""
 "Consulter un répertoire dont l'URI satisfait ce motif n'utilisera pas la vue "
 "morceaux."
 
-#: data/io.github.orontee.Argos.gschema.xml:73
+#: data/io.github.orontee.Argos.gschema.xml:88
 msgid "History playlist"
 msgstr "Historique"
 
-#: data/io.github.orontee.Argos.gschema.xml:76
+#: data/io.github.orontee.Argos.gschema.xml:91
 msgid "A dynamic playlist of last played tracks can be maintained."
 msgstr "Ajout d'une liste de lecture des derniers morceaux joués."
 
-#: data/io.github.orontee.Argos.gschema.xml:83
+#: data/io.github.orontee.Argos.gschema.xml:98
 msgid "History max length"
 msgstr "Taille maximale de l'historique"
 
-#: data/io.github.orontee.Argos.gschema.xml:86
+#: data/io.github.orontee.Argos.gschema.xml:101
 msgid "The maximal length of the history playlist."
 msgstr "Le nombre maximum de morceaux de l'historique des lectures."
 
-#: data/io.github.orontee.Argos.gschema.xml:94
+#: data/io.github.orontee.Argos.gschema.xml:109
 msgid "Albums image size"
 msgstr "Taille des images"
 
-#: data/io.github.orontee.Argos.gschema.xml:97
+#: data/io.github.orontee.Argos.gschema.xml:112
 msgid "The size of images in the library."
 msgstr "La taille des images dans la bibliothèque"
 
-#: data/io.github.orontee.Argos.gschema.xml:104
+#: data/io.github.orontee.Argos.gschema.xml:119
 msgid "Window size"
 msgstr "Taille de la fenêtre"
 
-#: data/io.github.orontee.Argos.gschema.xml:105
+#: data/io.github.orontee.Argos.gschema.xml:120
 msgid "Window size (width and height)."
 msgstr "Taille de la fenêtre (largeur puis hauteur)."
 
-#: data/io.github.orontee.Argos.gschema.xml:110
+#: data/io.github.orontee.Argos.gschema.xml:125
 msgid "Window position"
 msgstr "Position de la fenêtre"
 
-#: data/io.github.orontee.Argos.gschema.xml:111
+#: data/io.github.orontee.Argos.gschema.xml:126
 msgid "Window position (x and y)."
 msgstr "Position de la fenêtre (x puis y)."
 
-#: data/io.github.orontee.Argos.gschema.xml:116
+#: data/io.github.orontee.Argos.gschema.xml:131
 msgid "Window maximized"
 msgstr "Fenêtre de taille maximale"
 
-#: data/io.github.orontee.Argos.gschema.xml:117
+#: data/io.github.orontee.Argos.gschema.xml:132
 msgid "Window maximized state."
 msgstr "État de maximisation de la fenêtre."
 
-#: data/io.github.orontee.Argos.gschema.xml:122
+#: data/io.github.orontee.Argos.gschema.xml:137
 msgid "Fullscreen window"
 msgstr "Fenêtre en plein écran."
 
-#: data/io.github.orontee.Argos.gschema.xml:123
+#: data/io.github.orontee.Argos.gschema.xml:138
 msgid "Window fullscreen state."
 msgstr "État plein écran de la fenêtre."
 
-#: data/io.github.orontee.Argos.gschema.xml:128
+#: data/io.github.orontee.Argos.gschema.xml:143
 msgid "Start fullscreen"
 msgstr "Démarrer en plein écran"
 
-#: data/io.github.orontee.Argos.gschema.xml:129
+#: data/io.github.orontee.Argos.gschema.xml:144
 msgid "Start with fullscreen window."
 msgstr "Démarrer avec une fenêtre en plein écran."
 
-#: data/io.github.orontee.Argos.gschema.xml:134
+#: data/io.github.orontee.Argos.gschema.xml:149
 msgid "Prefer dark theme"
 msgstr "Préférer un thème sombre"
 
-#: data/io.github.orontee.Argos.gschema.xml:135
+#: data/io.github.orontee.Argos.gschema.xml:150
 msgid "If a Gtk+ theme includes a dark variant, it will be used."
 msgstr "Utiliser la variante sombre si un thème Gtk+ en inclut une."
 

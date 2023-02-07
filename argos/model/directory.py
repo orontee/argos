@@ -192,6 +192,16 @@ class DirectoryModel(GObject.Object):
             if track.props.uri == uri:
                 return track
 
+        for album in self.albums:
+            for track in album.tracks:
+                if track.props.uri == uri:
+                    return track
+
+        for playlist in self.playlists:
+            for track in playlist.tracks:
+                if track.props.uri == uri:
+                    return track
+
         for directory in self.directories:
             found = directory.get_track(uri)
             if found is not None:

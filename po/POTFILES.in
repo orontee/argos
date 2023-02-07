@@ -4,6 +4,7 @@ argos/controllers/playback.py
 argos/controllers/playlists.py
 argos/controllers/tracklist.py
 argos/info.py
+argos/model/random.py
 argos/ui/about.ui.in
 argos/ui/album_details_box.ui
 argos/ui/app_menu.ui
