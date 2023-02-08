@@ -22,6 +22,8 @@ Added
 
 Changed
 -------
+- Avoid running concurrent tasks browsing the same directory `#133
+  <https://github.com/orontee/argos/issues/133>`_
 - Removing selected tracks don't remove all tracks when empty selection
   `#128 <https://github.com/orontee/argos/issues/128>`_
 - Fix parse error when saving playlists that haven't been loaded `#128

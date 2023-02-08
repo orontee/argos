@@ -68,6 +68,8 @@ class LibraryController(ControllerBase):
 
         self._download: ImageDownloader = application.props.download
 
+        self._tasks: Dict[str, Optional[asyncio.Task]] = {}
+
         self._on_index_mopidy_local_albums_changed(
             self._settings, "index-mopidy-local-albums"
         )
@@ -123,20 +125,53 @@ class LibraryController(ControllerBase):
         await self._browse_directory("", wait_for_model_update=True)
         await self._browse_directory("local:directory", wait_for_model_update=True)
 
+        # no need to notify of directories completion since they're
+        # just parent of the default directory to load at startup, see
+        # _browse_directory()
+
     @consume(MessageType.BROWSE_DIRECTORY)
     async def browse_directory(self, message: Message) -> None:
         default_uri = self._model.library.props.default_uri
         directory_uri = message.data.get("uri", default_uri)
         force = message.data.get("force", False)
 
+        task = self._tasks.get(directory_uri)
+        if task is not None:
+            if not task.done():
+                if not force:
+                    LOGGER.debug(
+                        f"Found ongoing task browsing directory {directory_uri!r}"
+                    )
+                    return
+                else:
+                    LOGGER.debug(
+                        f"Will cancel ongoing task browsing directory {directory_uri!r}"
+                    )
+                    task.cancel()
+
+        task_name = f"browse_and_notify@{directory_uri}"
+
         async def browse_and_notify() -> None:
-            await self._browse_directory(directory_uri, force=force)
-            GLib.idle_add(self._model.emit, "directory-completed", directory_uri)
+            try:
+                await self._browse_directory(directory_uri, force=force)
+                GLib.idle_add(self._model.emit, "directory-completed", directory_uri)
+            except asyncio.CancelledError:
+                LOGGER.debug(f"Cancel of task {task_name!r}")
+                raise
 
             # note that GLib event loop will update model THEN emit the
             # directory-completed signal
 
-        asyncio.create_task(browse_and_notify())
+        task = asyncio.create_task(browse_and_notify(), name=task_name)
+        self._tasks[directory_uri] = task
+
+        self._forget_done_tasks()
+
+    def _forget_done_tasks(self) -> None:
+        for directory_uri in self._tasks:
+            task = self._tasks[directory_uri]
+            if task is not None and task.done():
+                self._tasks[directory_uri] = None
 
     async def _browse_directory(
         self,
