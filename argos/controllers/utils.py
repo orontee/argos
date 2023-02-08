@@ -2,6 +2,7 @@ import logging
 from collections import defaultdict
 from typing import Any, Callable, Coroutine, Dict, List, Mapping, Optional, Sequence
 
+from argos.controllers.progress import ProgressNotifierProtocol
 from argos.dto import TrackDTO
 from argos.model import TrackModel
 
@@ -15,6 +16,7 @@ async def call_by_slice(
     *,
     params: List[str],
     call_size: Optional[int] = None,
+    notifier: Optional[ProgressNotifierProtocol] = None,
 ) -> Dict[str, Any]:
     """Make multiple synchronous calls.
 
@@ -28,6 +30,8 @@ async def call_by_slice(
 
         call_size: Number of parameters to handle through each call.
 
+        notifier: Progress notifier to call on each iteration
+
     Returns:
         Dictionary merging all calls return values.
 
@@ -35,8 +39,13 @@ async def call_by_slice(
     call_size = call_size if call_size is not None and call_size > 0 else _CALL_SIZE
     call_count = len(params) // call_size + (0 if len(params) % call_size == 0 else 1)
     result: Dict[str, Any] = {}
+    step = 0
     for i in range(call_count):
-        ith_result = await func(params[i * call_size : (i + 1) * call_size])
+        params_slice = params[i * call_size : (i + 1) * call_size]
+        ith_result = await func(params_slice)
+        if notifier is not None:
+            step += len(params_slice)
+            notifier(step)
         if ith_result is None:
             break
         result.update(ith_result)

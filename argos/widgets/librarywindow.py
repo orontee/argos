@@ -92,7 +92,7 @@ class LibraryWindow(Gtk.Box):
         if application.props.disable_tooltips:
             self.directory_view.props.has_tooltip = False
 
-        self._progress_box = LibraryBrowsingProgressBox()
+        self._progress_box = LibraryBrowsingProgressBox(application)
         self._show_progress_box()
         # Show progress box at startup
         self.show_all()
@@ -365,6 +365,7 @@ class LibraryWindow(Gtk.Box):
         LOGGER.debug(f"Parent URIs {self._parent_uris!r}")
 
         self.props.directory_uri = uri
+        self._progress_box.track_directory_completion(uri)
         self._app.send_message(MessageType.BROWSE_DIRECTORY, {"uri": uri})
         self.select_directory_page()
         self._show_progress_box()

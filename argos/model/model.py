@@ -42,6 +42,11 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         "album-completed": (GObject.SIGNAL_RUN_FIRST, None, (str,)),
         "album-information-collected": (GObject.SIGNAL_RUN_FIRST, None, (str,)),
         "albums-sorted": (GObject.SIGNAL_RUN_FIRST, None, []),
+        "directory-completion-progress": (
+            GObject.SIGNAL_RUN_FIRST,
+            None,
+            (str, int, int),
+        ),
         "directory-completed": (GObject.SIGNAL_RUN_FIRST, None, (str,)),
     }
 

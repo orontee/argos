@@ -13,6 +13,8 @@ The format is based on `Keep a Changelog
 
 Added
 -----
+- Progress bar to track directory completion progress `#132
+  <https://github.com/orontee/argos/issues/132>`_
 - Choice to randomly generate a tracklist with length constraint `#131
   <https://github.com/orontee/argos/issues/131>`_
 - Setting for the strategy used to select random tracks (default to random disc

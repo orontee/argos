@@ -10,6 +10,10 @@ if TYPE_CHECKING:
     from argos.app import Application
 
 from argos.controllers.base import ControllerBase
+from argos.controllers.progress import (
+    DirectoryCompletionProgressNotifier,
+    ProgressNotifierProtocol,
+)
 from argos.controllers.utils import call_by_slice, parse_tracks
 from argos.controllers.visitors import AlbumMetadataCollector, LengthAcc
 from argos.download import ImageDownloader
@@ -225,11 +229,21 @@ class LibraryController(ControllerBase):
         }
         LOGGER.info(f"Found {stats}")
 
+        notifier = DirectoryCompletionProgressNotifier(
+            self._model,
+            directory_uri=directory_uri,
+            step_count=len(album_dtos) + len(track_dtos),
+        )
+
         albums: List[AlbumModel] = []
         tracks: List[TrackModel] = []
         if backend is not None:
-            albums = await self._complete_albums(album_dtos, directory_uri, backend)
-            tracks = await self._complete_tracks(track_dtos, directory_uri, backend)
+            albums = await self._complete_albums(
+                album_dtos, directory_uri, backend, notifier=notifier
+            )
+            tracks = await self._complete_tracks(
+                track_dtos, directory_uri, backend, notifier=notifier
+            )
 
         self._model.complete_directory(
             directory_uri,
@@ -245,6 +259,8 @@ class LibraryController(ControllerBase):
         album_dtos: Sequence[RefDTO],
         directory_uri: str,
         backend: MopidyBackend,
+        *,
+        notifier: Optional[ProgressNotifierProtocol],
     ) -> List[AlbumModel]:
         LOGGER.info(f"Completing albums for directory with URI {directory_uri!r}")
 
@@ -265,6 +281,7 @@ class LibraryController(ControllerBase):
             directory_tracks_dto = await call_by_slice(
                 self._http.lookup_library,
                 params=album_uris,
+                notifier=notifier,
             )
 
             LOGGER.debug("Parsing albums tracks")
@@ -322,6 +339,8 @@ class LibraryController(ControllerBase):
         track_dtos: Sequence[RefDTO],
         directory_uri: str,
         backend: MopidyBackend,
+        *,
+        notifier: Optional[ProgressNotifierProtocol],
     ) -> List[TrackModel]:
         LOGGER.info(f"Completing tracks for directory with URI {directory_uri!r}")
 
@@ -331,6 +350,7 @@ class LibraryController(ControllerBase):
         directory_tracks_dto = await call_by_slice(
             self._http.lookup_library,
             params=track_uris,
+            notifier=notifier,
         )
 
         track_uris = [dto.uri for dto in track_dtos]
