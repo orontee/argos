@@ -176,6 +176,25 @@ buttons appearance. Here is an example used to widen some buttons
       min-height: 30px;
   }
 
+Automation
+==========
+
+Many actions are exposed through `D-Bus
+<https://www.freedesktop.org/wiki/Software/dbus/>`_ and thus available
+to script the application. The complete list can be retrieved from a
+running instance using::
+
+  $ busctl --user call io.github.orontee.Argos \
+                       /io/github/orontee/Argos \
+                       org.gtk.Actions DescribeAll
+
+Eg, the following command enables dark theme::
+
+  $ busctl --user call io.github.orontee.Argos \
+                       /io/github/orontee/Argos \
+                       org.gtk.Actions Activate \
+                       "sava{sv}" "enable-dark-theme" 1 b true 0
+
 Contributing
 ============
 

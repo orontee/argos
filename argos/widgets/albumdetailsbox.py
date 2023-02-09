@@ -156,8 +156,8 @@ class AlbumDetailsBox(Gtk.Box):
             self._update_track_view(album)
             self._update_information_popup(album)
 
-        self._app.send_message(
-            MessageType.COLLECT_ALBUM_INFORMATION, {"album_uri": self.props.uri}
+        self._app.activate_action(
+            "collect-album-information", GLib.Variant("s", self.props.uri)
         )
 
     def _on_album_completed(self, model: Model, uri: str) -> None:
@@ -332,8 +332,8 @@ class AlbumDetailsBox(Gtk.Box):
         self.information_button.set_visible(information_service)
 
         if information_service:
-            self._app.send_message(
-                MessageType.COLLECT_ALBUM_INFORMATION, {"album_uri": self.props.uri}
+            self._app.activate_action(
+                "collect-album-information", GLib.Variant("s", self.props.uri)
             )
 
     @Gtk.Template.Callback()
@@ -347,8 +347,8 @@ class AlbumDetailsBox(Gtk.Box):
         if button == self.play_button:
             action_name = "play-selection"
 
-        target = GLib.Variant("s", "album-details-box")
         if action_name is not None:
+            target = GLib.Variant("s", "album-details-box")
             self._app.window.activate_action(action_name, target)
 
     def on_disc_separator_clicked(
@@ -402,4 +402,4 @@ class AlbumDetailsBox(Gtk.Box):
         track_box = row.get_child()
         uri = track_box.props.uri if track_box else None
         if uri is not None:
-            self._app.send_message(MessageType.PLAY_TRACKS, {"uris": [uri]})
+            self._app.activate_action("play-tracks", GLib.Variant("as", [uri]))

@@ -79,9 +79,9 @@
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
                 <property name="tooltip-text" translatable="yes">Previous</property>
+                <property name="action-name">app.play-prev-track</property>
                 <property name="image">previous_image</property>
                 <property name="always-show-image">True</property>
-                <signal name="clicked" handler="on_prev_button_clicked" swapped="no"/>
                 <style>
                   <class name="pill"/>
                 </style>
@@ -100,9 +100,9 @@
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
                 <property name="tooltip-text" translatable="yes">Play</property>
+                <property name="action-name">app.toggle-playback-state</property>
                 <property name="image">play_image</property>
                 <property name="always-show-image">True</property>
-                <signal name="clicked" handler="on_play_button_clicked" swapped="no"/>
                 <style>
                   <class name="pill"/>
                 </style>
@@ -121,10 +121,10 @@
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
                 <property name="tooltip-text" translatable="yes">Next</property>
+                <property name="action-name">app.play-next-track</property>
                 <property name="image">next_image</property>
                 <property name="image-position">right</property>
                 <property name="always-show-image">True</property>
-                <signal name="clicked" handler="on_next_button_clicked" swapped="no"/>
                 <style>
                   <class name="pill"/>
                 </style>

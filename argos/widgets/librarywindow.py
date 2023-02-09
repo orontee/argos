@@ -272,8 +272,8 @@ class LibraryWindow(Gtk.Box):
 
             if len(image_uris) > 0:
                 LOGGER.debug("Will fetch images since directory store was just updated")
-                self._app.send_message(
-                    MessageType.FETCH_ALBUM_IMAGES, data={"image_uris": image_uris}
+                self._app.activate_action(
+                    "fetch-album-images", GLib.Variant("as", image_uris)
                 )
 
         self._hide_progress_box()
@@ -366,7 +366,9 @@ class LibraryWindow(Gtk.Box):
 
         self.props.directory_uri = uri
         self._progress_box.track_directory_completion(uri)
-        self._app.send_message(MessageType.BROWSE_DIRECTORY, {"uri": uri})
+        self._app.activate_action(
+            "browse-directory", GLib.Variant("(sb)", (uri, False))
+        )
         self.select_directory_page()
         self._show_progress_box()
 
@@ -402,8 +404,8 @@ class LibraryWindow(Gtk.Box):
         LOGGER.debug(f"Selected {library_item_type.name!r} item with URI {uri!r}")
 
         if library_item_type == DirectoryItemType.ALBUM:
-            self._app.send_message(
-                MessageType.COMPLETE_ALBUM_DESCRIPTION, {"album_uri": uri}
+            self._app.activate_action(
+                "complete-album-description", GLib.Variant("s", uri)
             )
             self.props.album_details_box.props.uri = uri
             self.props.album_details_box.show_now()
@@ -411,7 +413,7 @@ class LibraryWindow(Gtk.Box):
         elif library_item_type == DirectoryItemType.DIRECTORY:
             self.show_directory(uri, history=True)
         elif library_item_type == DirectoryItemType.TRACK:
-            self._app.send_message(MessageType.PLAY_TRACKS, {"uris": [uri]})
+            self._app.activate_action("play-tracks", GLib.Variant("as", [uri]))
         elif library_item_type == DirectoryItemType.PLAYLIST:
             pass
 

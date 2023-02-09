@@ -5,7 +5,6 @@ from typing import Optional
 
 from gi.repository import Gdk, GLib, GObject, Gtk
 
-from argos.message import MessageType
 from argos.model import PlaybackState
 from argos.widgets.tracklengthbox import TrackLengthBox
 from argos.widgets.utils import default_image_pixbuf, scale_album_image
@@ -179,15 +178,3 @@ class CondensedPlayingBox(Gtk.Box):
     ) -> bool:
         self._app.window.activate_action("goto-playing-page")
         return True
-
-    @Gtk.Template.Callback()
-    def on_prev_button_clicked(self, *args) -> None:
-        self._app.send_message(MessageType.PLAY_PREV_TRACK)
-
-    @Gtk.Template.Callback()
-    def on_play_button_clicked(self, *args) -> None:
-        self._app.send_message(MessageType.TOGGLE_PLAYBACK_STATE)
-
-    @Gtk.Template.Callback()
-    def on_next_button_clicked(self, *args) -> None:
-        self._app.send_message(MessageType.PLAY_NEXT_TRACK)

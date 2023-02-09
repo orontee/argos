@@ -106,6 +106,13 @@ class Application(Gtk.Application):
         self._model.connect("notify::network-available", self._on_connection_changed)
         self._model.connect("notify::connected", self._on_connection_changed)
 
+        prefer_dark_theme = self._settings.get_boolean("prefer-dark-theme")
+        screen_settings = Gtk.Settings.get_default()
+        screen_settings.props.gtk_application_prefer_dark_theme = prefer_dark_theme
+        self._settings.connect(
+            "changed::prefer-dark-theme", self._on_prefer_dark_theme_changed
+        )
+
         self.add_main_option(
             "debug",
             ord("d"),
@@ -270,32 +277,98 @@ class Application(Gtk.Application):
         Gtk.Application.do_startup(self)
 
         action_descriptions = [
-            ("show-about-dialog", self.show_about_dialog_activate_cb, None),
-            ("show-preferences", self.show_preferences_activate_cb, None),
-            ("new-playlist", self.new_playlist_activate_cb, None),
-            ("play-random-tracks", self.play_random_tracks_activate_cb, None),
-            ("add-stream", self.add_stream_activate_cb, None),
-            ("update-library", self.update_library_activate_cb, None),
-            ("quit", self.quit_activate_cb, ("app.quit", ["<Ctrl>Q"])),
+            ("show-about-dialog", self.show_about_dialog_activate_cb, None, None),
+            ("enable-dark-theme", self.enable_dark_theme_activate_cb, "b", None),
+            ("show-preferences", self.show_preferences_activate_cb, None, None),
+            ("new-playlist", self.new_playlist_activate_cb, None, None),
+            (
+                "save-playlist",
+                self.save_playlist_activate_cb,
+                "(ssasas)",
+                None,
+            ),
+            (
+                "delete-playlist",
+                self.delete_playlist_activate_cb,
+                "s",
+                None,
+            ),
+            ("play", self.play_activate_cb, "i", None),
+            (
+                "add-to-tracklist",
+                self.add_to_tracklist_activate_cb,
+                "as",
+                None,
+            ),
+            (
+                "remove-from-tracklist",
+                self.remove_from_tracklist_activate_cb,
+                "ai",
+                None,
+            ),
+            (
+                "toggle-playback-state",
+                self.toggle_playback_state_activate_cb,
+                None,
+                None,
+            ),
+            ("play-tracks", self.play_tracks_activate_cb, "as", None),
+            ("play-random-tracks", self.play_random_tracks_activate_cb, None, None),
+            ("play-prev-track", self.play_prev_track_activate_cb, None, None),
+            ("play-next-track", self.play_next_track_activate_cb, None, None),
+            ("add-stream", self.add_stream_activate_cb, None, None),
+            ("update-library", self.update_library_activate_cb, None, None),
+            (
+                "browse-directory",
+                self.browse_directory_activate_cb,
+                "(sb)",
+                None,
+            ),
+            (
+                "collect-album-information",
+                self.collect_album_information_activate_cb,
+                "s",
+                None,
+            ),
+            ("seek", self.seek_activate_cb, "i", None),
+            ("set-volume", self.set_volume_activate_cb, "d", None),
+            ("set-consume", self.set_consume_activate_cb, "b", None),
+            ("set-random", self.set_random_activate_cb, "b", None),
+            ("set-repeat", self.set_repeat_activate_cb, "b", None),
+            ("set-single", self.set_single_activate_cb, "b", None),
+            (
+                "complete-album-description",
+                self.complete_album_description_activate_cb,
+                "s",
+                None,
+            ),
+            (
+                "complete-playlist-description",
+                self.complete_playlist_description_activate_cb,
+                "s",
+                None,
+            ),
+            (
+                "fetch-album-images",
+                self.fetch_album_images_activate_cb,
+                "as",
+                None,
+            ),
+            ("quit", self.quit_activate_cb, None, ("app.quit", ["<Ctrl>Q"])),
         ]
-        for action_name, callback, accel in action_descriptions:
-            action = Gio.SimpleAction.new(action_name, None)
+        for action_name, callback, params_type_desc, accel in action_descriptions:
+            params_type = (
+                GLib.VariantType(params_type_desc)
+                if params_type_desc is not None
+                else None
+            )
+            action = Gio.SimpleAction.new(action_name, params_type)
             action.connect("activate", callback)
             self.add_action(action)
             if accel is not None:
                 self.set_accels_for_action(*accel)
 
-        for action_name in [
-            "new-playlist",
-            "play-random-tracks",
-            "add-stream",
-            "update-library",
-        ]:
-            action = self.lookup_action(action_name)
-            if not action:
-                continue
-
-            action.set_enabled(self._model.network_available and self._model.connected)
+        self._update_network_actions_state()
 
     def _start_event_loop(self) -> None:
         LOGGER.debug("Attaching event loop to calling thread")
@@ -329,9 +402,24 @@ class Application(Gtk.Application):
     def _update_network_actions_state(self) -> None:
         for action_name in [
             "new-playlist",
+            "save-playlist",
+            "play",
+            "add-to-tracklist",
+            "remove-from-tracklist",
+            "toggle-playback-state",
+            "play-tracks",
             "play-random-tracks",
+            "play-prev-track",
+            "play-next-track",
             "add-stream",
             "update-library",
+            "collect-album-information",
+            "seek",
+            "set-volume",
+            "set-consume",
+            "set-random",
+            "set-repeat",
+            "set-single",
         ]:
             action = self.lookup_action(action_name)
             if not action:
@@ -356,7 +444,7 @@ class Application(Gtk.Application):
         # Default handler will destroy window
         return False
 
-    def send_message(
+    def _send_message(
         self, message_type: MessageType, data: Optional[Dict[str, Any]] = None
     ) -> None:
         message = Message(message_type, data or {})
@@ -372,6 +460,13 @@ class Application(Gtk.Application):
         about_dialog.set_transient_for(self.window)
         about_dialog.run()
         about_dialog.destroy()
+
+    def enable_dark_theme_activate_cb(
+        self, action: Gio.SimpleAction, parameter: GLib.Variant
+    ) -> None:
+        enable = parameter.unpack()
+        screen_settings = Gtk.Settings.get_default()
+        screen_settings.props.gtk_application_prefer_dark_theme = enable
 
     def show_preferences_activate_cb(
         self, action: Gio.SimpleAction, parameter: None
@@ -408,7 +503,61 @@ class Application(Gtk.Application):
         if self.window is not None:
             self.window.set_central_view_visible_child("playlists_page")
 
-        self.send_message(MessageType.CREATE_PLAYLIST, {"name": name})
+        self._send_message(MessageType.CREATE_PLAYLIST, {"name": name})
+
+    def save_playlist_activate_cb(
+        self, action: Gio.SimpleAction, parameter: GLib.Variant
+    ) -> None:
+        uri, name, add_track_uris, remove_track_uris = parameter.unpack()
+
+        self._send_message(
+            MessageType.SAVE_PLAYLIST,
+            {
+                "uri": uri,
+                "name": name,
+                "add_track_uris": add_track_uris,
+                "remove_track_uris": remove_track_uris,
+            },
+        )
+
+    def delete_playlist_activate_cb(
+        self, action: Gio.SimpleAction, parameter: GLib.Variant
+    ):
+        uri = parameter.unpack()
+        self._send_message(MessageType.DELETE_PLAYLIST, {"uri": uri})
+
+    def play_activate_cb(self, action: Gio.SimpleAction, parameter: GLib.Variant):
+        tlid = parameter.unpack()
+        self._send_message(MessageType.PLAY, {"tlid": tlid})
+
+    def add_to_tracklist_activate_cb(
+        self, action: Gio.SimpleAction, parameter: GLib.Variant
+    ):
+        uris = parameter.unpack()
+        if len(uris) > 0:
+            self._send_message(MessageType.ADD_TO_TRACKLIST, {"uris": uris})
+
+    def remove_from_tracklist_activate_cb(
+        self, action: Gio.SimpleAction, parameter: GLib.Variant
+    ):
+        tlids = parameter.unpack()
+        if len(tlids) > 0:
+            LOGGER.debug(f"Will remove tracks with identifier {tlids} from tracklist")
+            self._send_message(MessageType.REMOVE_FROM_TRACKLIST, {"tlids": tlids})
+        else:
+            self._send_message(MessageType.CLEAR_TRACKLIST)
+
+    def toggle_playback_state_activate_cb(
+        self, action: Gio.SimpleAction, parameter: None
+    ) -> None:
+        self._send_message(MessageType.TOGGLE_PLAYBACK_STATE)
+
+    def play_tracks_activate_cb(
+        self, action: Gio.SimpleAction, parameter: GLib.Variant
+    ) -> None:
+        uris = parameter.unpack()
+        if len(uris) > 0:
+            self._send_message(MessageType.PLAY_TRACKS, {"uris": uris})
 
     def play_random_tracks_activate_cb(
         self, action: Gio.SimpleAction, parameter: None
@@ -427,9 +576,19 @@ class Application(Gtk.Application):
             LOGGER.debug("Abort selection of random tracks")
             return
 
-        self.send_message(
+        self._send_message(
             MessageType.ADD_TO_TRACKLIST, {"uris": track_uris, "play": play}
         )
+
+    def play_prev_track_activate_cb(
+        self, action: Gio.SimpleAction, parameter: None
+    ) -> None:
+        self._send_message(MessageType.PLAY_PREV_TRACK)
+
+    def play_next_track_activate_cb(
+        self, action: Gio.SimpleAction, parameter: None
+    ) -> None:
+        self._send_message(MessageType.PLAY_NEXT_TRACK)
 
     def add_stream_activate_cb(self, action: Gio.SimpleAction, parameter: None) -> None:
         LOGGER.debug("Add stream to tracklist requested by end-user")
@@ -444,7 +603,7 @@ class Application(Gtk.Application):
             LOGGER.debug("Abort adding stream")
             return
 
-        self.send_message(
+        self._send_message(
             MessageType.ADD_TO_TRACKLIST,
             {"uris": [stream_uri], "play": play},
         )
@@ -459,4 +618,82 @@ class Application(Gtk.Application):
             directory_uri = self.window.library_window.props.directory_uri
             data["uri"] = directory_uri
 
-        self.send_message(MessageType.BROWSE_DIRECTORY, data=data)
+        self._send_message(MessageType.BROWSE_DIRECTORY, data=data)
+
+    def browse_directory_activate_cb(
+        self, action: Gio.SimpleAction, parameter: GLib.Variant
+    ) -> None:
+        uri, force = parameter.unpack()
+
+        data = {"uri": uri, "force": force}
+        self._send_message(MessageType.BROWSE_DIRECTORY, data=data)
+
+    def collect_album_information_activate_cb(
+        self, action: Gio.SimpleAction, parameter: GLib.Variant
+    ) -> None:
+        uri = parameter.unpack()
+        self._send_message(MessageType.COLLECT_ALBUM_INFORMATION, {"album_uri": uri})
+
+    def set_volume_activate_cb(
+        self, action: Gio.SimpleAction, parameter: GLib.Variant
+    ) -> None:
+        volume = parameter.unpack()
+        self._send_message(MessageType.SET_VOLUME, {"volume": volume})
+
+    def set_consume_activate_cb(
+        self, action: Gio.SimpleAction, parameter: GLib.Variant
+    ) -> None:
+        consume = parameter.unpack()
+        self._send_message(MessageType.SET_CONSUME, {"consume": consume})
+
+    def set_random_activate_cb(
+        self, action: Gio.SimpleAction, parameter: GLib.Variant
+    ) -> None:
+        random = parameter.unpack()
+        self._send_message(MessageType.SET_RANDOM, {"random": random})
+
+    def set_repeat_activate_cb(
+        self, action: Gio.SimpleAction, parameter: GLib.Variant
+    ) -> None:
+        repeat = parameter.unpack()
+        self._send_message(MessageType.SET_REPEAT, {"repeat": repeat})
+
+    def set_single_activate_cb(
+        self, action: Gio.SimpleAction, parameter: GLib.Variant
+    ) -> None:
+        single = parameter.unpack()
+        self._send_message(MessageType.SET_SINGLE, {"single": single})
+
+    def seek_activate_cb(
+        self, action: Gio.SimpleAction, parameter: GLib.Variant
+    ) -> None:
+        time_position = parameter.unpack()
+        self._send_message(MessageType.SEEK, {"time_position": time_position})
+
+    def complete_album_description_activate_cb(
+        self, action: Gio.SimpleAction, parameter: GLib.Variant
+    ) -> None:
+        uri = parameter.unpack()
+        self._send_message(MessageType.COMPLETE_ALBUM_DESCRIPTION, {"album_uri": uri})
+
+    def complete_playlist_description_activate_cb(
+        self, action: Gio.SimpleAction, parameter: GLib.Variant
+    ) -> None:
+        uri = parameter.unpack()
+        self._send_message(MessageType.COMPLETE_PLAYLIST_DESCRIPTION, {"uri": uri})
+
+    def fetch_album_images_activate_cb(
+        self, action: Gio.SimpleAction, parameter: GLib.Variant
+    ) -> None:
+        image_uris = parameter.unpack()
+        self._send_message(
+            MessageType.FETCH_ALBUM_IMAGES, data={"image_uris": image_uris}
+        )
+
+    def _on_prefer_dark_theme_changed(
+        self,
+        settings: Gio.Settings,
+        key: str,
+    ) -> None:
+        prefer_dark_theme = self._settings.get_boolean("prefer-dark-theme")
+        self.activate_action("enable-dark-theme", GLib.Variant("b", prefer_dark_theme))

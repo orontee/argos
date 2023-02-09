@@ -209,9 +209,9 @@ class PlaylistsBox(Gtk.Box):
         playlist = playlist_label.playlist if playlist_label else None
 
         if playlist is not None:
-            self._app.send_message(
-                MessageType.COMPLETE_PLAYLIST_DESCRIPTION,
-                {"uri": playlist.uri},
+            self._app.activate_action(
+                "complete-playlist-description",
+                GLib.Variant("s", playlist.uri),
             )
 
         tracks = playlist.tracks if playlist is not None else None
@@ -309,10 +309,8 @@ class PlaylistsBox(Gtk.Box):
         )
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
-            LOGGER.debug(f"Will delete playlist with URI {playlist.uri!r}")
-            self._app.send_message(
-                MessageType.DELETE_PLAYLIST,
-                {"uri": playlist.uri},
+            self._app.activate_action(
+                "delete-playlist", GLib.Variant("s", playlist.uri)
             )
         elif response == Gtk.ResponseType.CANCEL:
             LOGGER.debug(f"Aborting deletion of playlist with URI {playlist.uri!r}")
@@ -320,21 +318,14 @@ class PlaylistsBox(Gtk.Box):
         dialog.destroy()
 
     @Gtk.Template.Callback()
-    def on_button_clicked(self, button: Gtk.Button) -> None:
-        if self._app.window is None:
-            return
+    def on_play_button_clicked(self, _1: Gtk.Button) -> None:
+        uris = self.track_selection_to_uris()
+        self._app.activate_action("play-tracks", GLib.Variant("as", uris))
 
-        # Better set button action but never manage to get it working...
-
-        action_name: Optional[str] = None
-        if button == self.add_button:
-            action_name = "add-to-tracklist"
-        elif button == self.play_button:
-            action_name = "play-selection"
-
-        target = GLib.Variant("s", "playlists-box")
-        if action_name is not None:
-            self._app.window.activate_action(action_name, target)
+    @Gtk.Template.Callback()
+    def on_add_button_clicked(self, _1: Gtk.Button) -> None:
+        uris = self.track_selection_to_uris()
+        self._app.activate_action("add-to-tracklist", GLib.Variant("as", uris))
 
     def on_add_stream_to_playlist_activated(
         self,
@@ -346,27 +337,34 @@ class PlaylistsBox(Gtk.Box):
         stream_uri = dialog.props.stream_uri if response == Gtk.ResponseType.OK else ""
         dialog.destroy()
 
-        if not stream_uri:
-            LOGGER.debug("Aborting adding stream to playlist")
-            return
-
-        self._app.send_message(
-            MessageType.SAVE_PLAYLIST,
-            {
-                "uri": self.props.uri,
-                "add_track_uris": [stream_uri],
-            },
-        )
+        if stream_uri:
+            self._app.activate_action(
+                "save-playlist",
+                GLib.Variant(
+                    "(ssasas)",
+                    (
+                        self.props.uri,
+                        "",
+                        [stream_uri],
+                        [],
+                    ),
+                ),
+            )
 
     def remove_selected_tracks_from_playlist(self) -> None:
         track_uris = self.track_selection_to_uris(strict=True)
         if len(track_uris) > 0:
-            self._app.send_message(
-                MessageType.SAVE_PLAYLIST,
-                {
-                    "uri": self.props.uri,
-                    "remove_track_uris": track_uris,
-                },
+            self._app.activate_action(
+                "save-playlist",
+                GLib.Variant(
+                    "(ssasas)",
+                    (
+                        self.props.uri,
+                        "",
+                        [],
+                        track_uris,
+                    ),
+                ),
             )
 
     def on_remove_from_playlist_activated(
@@ -384,4 +382,4 @@ class PlaylistsBox(Gtk.Box):
     ) -> None:
         track_box = row.get_child()
         uri = track_box.props.uri
-        self._app.send_message(MessageType.PLAY_TRACKS, {"uris": [uri]})
+        self._app.activate_action("play-tracks", GLib.Variant("as", [uri]))

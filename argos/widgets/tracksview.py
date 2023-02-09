@@ -189,4 +189,4 @@ class TracksView(Gtk.Box):
         track_box = row.get_child()
         uri = track_box.props.uri if track_box else None
         if uri is not None:
-            self._app.send_message(MessageType.PLAY_TRACKS, {"uris": [uri]})
+            self._app.activate_action("play-tracks", GLib.Variant("as", [uri]))

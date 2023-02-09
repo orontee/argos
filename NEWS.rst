@@ -13,6 +13,8 @@ The format is based on `Keep a Changelog
 
 Added
 -----
+- Complete actions exposed through D-Bus `#134
+  <https://github.com/orontee/argos/issues/134>`_
 - Progress bar to track directory completion progress `#132
   <https://github.com/orontee/argos/issues/132>`_
 - Choice to randomly generate a tracklist with length constraint `#131

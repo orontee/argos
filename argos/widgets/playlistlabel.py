@@ -1,6 +1,6 @@
 import logging
 
-from gi.repository import Gdk, GObject, Gtk
+from gi.repository import Gdk, GLib, GObject, Gtk
 
 from ..message import MessageType
 from ..model import PlaylistModel
@@ -77,9 +77,17 @@ class PlaylistLabel(Gtk.Stack):
         keyval = event.keyval
         if keyval == Gdk.KEY_Return:
             LOGGER.debug("Saving playlist name")
-            self._app.send_message(
-                MessageType.SAVE_PLAYLIST,
-                {"uri": self.playlist.uri, "name": self.entry.props.text},
+            self._app.activate_action(
+                "save-playlist",
+                GLib.Variant(
+                    "(ssasas)",
+                    (
+                        self.playlist.uri,
+                        self.entry.props.text,
+                        [],
+                        [],
+                    ),
+                ),
             )
             self.set_visible_child_name("label")
         elif keyval == Gdk.KEY_Escape:

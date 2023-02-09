@@ -1,6 +1,6 @@
 import logging
 
-from gi.repository import GObject, Gtk
+from gi.repository import GLib, GObject, Gtk
 
 from argos.message import MessageType
 
@@ -61,4 +61,4 @@ class VolumeButton(Gtk.VolumeButton):
 
     def value_changed_cb(self, *args) -> None:
         volume = self.get_value() * 100
-        self._app.send_message(MessageType.SET_VOLUME, {"volume": volume})
+        self._app.activate_action("set-volume", GLib.Variant("d", volume))

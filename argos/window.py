@@ -111,19 +111,12 @@ class ArgosWindow(Gtk.ApplicationWindow):
         album_sort_id = self._settings.get_string("album-sort")
         sort_albums_action = Gio.SimpleAction.new_stateful(
             "sort-albums",
-            GLib.VariantType.new("s"),
+            GLib.VariantType("s"),
             GLib.Variant("s", album_sort_id),
         )
         self.add_action(sort_albums_action)
         sort_albums_action.connect(
             "activate", self.props.library_window.on_sort_albums_activated
-        )
-
-        prefer_dark_theme = self._settings.get_boolean("prefer-dark-theme")
-        screen_settings = Gtk.Settings.get_default()
-        screen_settings.props.gtk_application_prefer_dark_theme = prefer_dark_theme
-        self._settings.connect(
-            "changed::prefer-dark-theme", self._on_prefer_dark_theme_changed
         )
 
         self.props.library_window.library_stack.connect(
@@ -189,15 +182,6 @@ class ArgosWindow(Gtk.ApplicationWindow):
         filtering_text = search_entry.props.text
         self.props.library_window.set_filtering_text(filtering_text)
 
-    def _on_prefer_dark_theme_changed(
-        self,
-        settings: Gio.Settings,
-        key: str,
-    ) -> None:
-        prefer_dark_theme = self._settings.get_boolean("prefer-dark-theme")
-        screen_settings = Gtk.Settings.get_default()
-        screen_settings.props.gtk_application_prefer_dark_theme = prefer_dark_theme
-
     def set_central_view_visible_child(self, name: str) -> None:
         child = self.central_view.get_child_by_name(name)
         if not child:
@@ -261,9 +245,17 @@ class ArgosWindow(Gtk.ApplicationWindow):
             LOGGER.debug("Aborting adding tracks to playlist")
             return
 
-        self.props.application.send_message(
-            MessageType.SAVE_PLAYLIST,
-            {"uri": playlist_uri, "add_track_uris": track_uris},
+        self.props.application.activate_action(
+            "save-playlist",
+            GLib.Variant(
+                "(ssasas)",
+                (
+                    playlist_uri,
+                    "",
+                    track_uris,
+                    [],
+                ),
+            ),
         )
 
     def on_add_to_tracklist_activated(
@@ -277,8 +269,8 @@ class ArgosWindow(Gtk.ApplicationWindow):
 
         track_uris = emiter.track_selection_to_uris()
         if len(track_uris) > 0:
-            self.props.application.send_message(
-                MessageType.ADD_TO_TRACKLIST, {"uris": track_uris}
+            self.props.application.activate_action(
+                "add-to-tracklist", GLib.Variant("as", track_uris)
             )
 
     def on_play_selection_activated(
@@ -292,8 +284,8 @@ class ArgosWindow(Gtk.ApplicationWindow):
 
         track_uris = emiter.track_selection_to_uris()
         if len(track_uris) > 0:
-            self.props.application.send_message(
-                MessageType.PLAY_TRACKS, {"uris": track_uris}
+            self.props.application.activate_action(
+                "play-tracks", GLib.Variant("as", track_uris)
             )
 
     @Gtk.Template.Callback()
@@ -342,13 +334,13 @@ class ArgosWindow(Gtk.ApplicationWindow):
                 return True
         elif modifiers == control_mask:
             if keyval in [Gdk.KEY_space, Gdk.KEY_KP_Space]:
-                self.props.application.send_message(MessageType.TOGGLE_PLAYBACK_STATE)
+                self.props.application.activate_action("toggle-playback-state")
                 return True
             elif keyval == Gdk.KEY_n:
-                self.props.application.send_message(MessageType.PLAY_NEXT_TRACK)
+                self.props.application.activate_action("play-next-track")
                 return True
             elif keyval == Gdk.KEY_p:
-                self.props.application.send_message(MessageType.PLAY_PREV_TRACK)
+                self.props.application.activate_action("play-prev-track")
                 return True
             elif keyval == Gdk.KEY_f:
                 self.props.titlebar.toggle_search_entry_focus_maybe()

@@ -134,7 +134,7 @@ class TrackLengthBox(Gtk.Box):
         ):
             adjustment = self._time_position_scale.props.adjustment
             time_position = round(adjustment.props.value)
-            self._app.send_message(MessageType.SEEK, {"time_position": time_position})
+            self._app.activate_action("seek", GLib.Variant("i", time_position))
             self._time_position_scale_jumped_source_id = None
         return False  # means stop calling this callback
 
@@ -161,7 +161,7 @@ class TrackLengthBox(Gtk.Box):
             Gtk.ScrollType.END,
         ):
             time_position = round(value)
-            self._app.send_message(MessageType.SEEK, {"time_position": time_position})
+            self._app.activate_action("seek", GLib.Variant("i", time_position))
             return True
 
         LOGGER.warning(f"Unhandled scroll type {scroll_type!r}")

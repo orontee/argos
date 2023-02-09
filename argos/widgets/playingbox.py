@@ -251,27 +251,11 @@ class PlayingBox(Gtk.Box):
             if not self.tracklist_view.get_activate_on_single_click()
             else []
         )
-        if len(tlids) > 0:
-            LOGGER.debug(f"Will remove tracks with identifier {tlids} from tracklist")
-            self._app.send_message(MessageType.REMOVE_FROM_TRACKLIST, {"tlids": tlids})
-        else:
-            self._app.send_message(MessageType.CLEAR_TRACKLIST)
+        self._app.activate_action("remove-from-tracklist", GLib.Variant("ai", tlids))
 
     @Gtk.Template.Callback()
     def on_clear_button_clicked(self, _1: Gtk.Button) -> None:
         self.remove_selected_tracks_from_tracklist()
-
-    @Gtk.Template.Callback()
-    def on_prev_button_clicked(self, *args) -> None:
-        self._app.send_message(MessageType.PLAY_PREV_TRACK)
-
-    @Gtk.Template.Callback()
-    def on_play_button_clicked(self, *args) -> None:
-        self._app.send_message(MessageType.TOGGLE_PLAYBACK_STATE)
-
-    @Gtk.Template.Callback()
-    def on_next_button_clicked(self, *args) -> None:
-        self._app.send_message(MessageType.PLAY_NEXT_TRACK)
 
     @Gtk.Template.Callback()
     def on_consume_button_toggled(
@@ -281,9 +265,7 @@ class PlayingBox(Gtk.Box):
         consume = button.get_active()
         if self._model.tracklist.props.consume == consume:
             return
-        self._app.send_message(
-            MessageType.SET_CONSUME, {"consume": button.get_active()}
-        )
+        self._app.activate_action("set-consume", GLib.Variant("b", button.get_active()))
 
     @Gtk.Template.Callback()
     def on_random_button_toggled(
@@ -293,14 +275,14 @@ class PlayingBox(Gtk.Box):
         random = button.get_active()
         if self._model.tracklist.props.random == random:
             return
-        self._app.send_message(MessageType.SET_RANDOM, {"random": button.get_active()})
+        self._app.activate_action("set-random", GLib.Variant("b", button.get_active()))
 
     @Gtk.Template.Callback()
     def on_repeat_button_toggled(self, button: Gtk.ToggleButton) -> None:
         repeat = button.get_active()
         if self._model.tracklist.props.repeat == repeat:
             return
-        self._app.send_message(MessageType.SET_REPEAT, {"repeat": button.get_active()})
+        self._app.activate_action("set-repeat", GLib.Variant("b", button.get_active()))
 
     @Gtk.Template.Callback()
     def on_single_button_toggled(
@@ -310,4 +292,4 @@ class PlayingBox(Gtk.Box):
         single = button.get_active()
         if self._model.tracklist.props.single == single:
             return
-        self._app.send_message(MessageType.SET_SINGLE, {"single": button.get_active()})
+        self._app.activate_action("set-single", GLib.Variant("b", button.get_active()))

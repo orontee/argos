@@ -1,6 +1,6 @@
 import logging
 
-from gi.repository import GObject, Gtk
+from gi.repository import GLib, GObject, Gtk
 
 from argos.message import MessageType
 from argos.model import TracklistTrackModel
@@ -69,4 +69,4 @@ class TracklistBox(Gtk.ListBox):
         if consume and current_tl_track_tlid == tlid:
             return
 
-        self._app.send_message(MessageType.PLAY, {"tlid": tlid})
+        self._app.activate_action("play", GLib.Variant("i", tlid))
