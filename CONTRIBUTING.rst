@@ -12,8 +12,8 @@ dedicated virtual Python environment using ``poetry``::
 Pre-commit hooks run ``mypy`` check and make sure code is properly
 formatted (using ``black`` and ``isort``).
 
-Build and run from sources using Flatpak
-========================================
+Build and run from sources (using Flatpak)
+==========================================
 
 Clone the source repository, then build and install for current user
 (You may have to install the expected runtime, but Flatpak will warn
@@ -34,6 +34,9 @@ One can run a shell in sandbox and call the application through
 
   $ flatpak run --devel --command=sh io.github.orontee.Argos
   [📦 io.github.orontee.Argos ~]$ python3 -m pdb /app/bin/argos --debug
+
+It's also worth reading `GTK documentation on interactive debugging
+<https://docs.gtk.org/gtk3/running.html#interactive-debugging>`_.
 
 Build DEB package
 =================
