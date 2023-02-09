@@ -90,20 +90,19 @@ def set_list_box_header_with_disc_separator(
 
     if num_discs > 1 and track_no == 1:
         pretty_disc_no = _("Disc {0}").format(disc_no)
-        button = Gtk.Button.new_with_label(pretty_disc_no)
+        markup = f"""<span style="italic">{pretty_disc_no}</span>"""
+
+        button = Gtk.Button.new_with_label("")
         button.props.relief = Gtk.ReliefStyle.NONE
-        button.props.always_show_image = True
-        button.set_image(
-            Gtk.Image.new_from_pixbuf(
-                Gtk.IconTheme.get_default().load_icon(
-                    "media-optical-symbolic", Gtk.IconSize.BUTTON, 0
-                )
-            )
-        )
         if on_disc_separator_clicked is not None:
             button.connect(
                 "clicked", on_disc_separator_clicked, GLib.Variant("i", disc_no)
             )
+
+        label = button.get_child()
+        label.set_use_markup(True)
+        label.set_markup(markup)
+
         button.show()
         row.set_header(button)
         return
