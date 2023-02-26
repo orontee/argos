@@ -8,8 +8,8 @@ The format is based on `Keep a Changelog
 <https://keepachangelog.com/en/1.0.0/>`_, and this project adheres to
 `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
-[Unreleased]
-============
+[1.10.0] - 2023-02-26
+=====================
 
 Added
 -----
@@ -32,9 +32,6 @@ Changed
   <https://github.com/orontee/argos/issues/128>`_
 - Smarter dates in history playlist `#129
   <https://github.com/orontee/argos/issues/129>`_
-
-Removed
--------
 
 [1.9.0] - 2023-01-30
 ====================

@@ -96,7 +96,7 @@ Installation on such platform is handled through a DEB package that
 can be downloaded from the `Releases page
 <https://github.com/orontee/argos/releases>`_::
 
-  $ VERSION=1.9.0
+  $ VERSION=1.10.0
   $ wget https://github.com/orontee/argos/releases/download/v${VERSION}/argos_${VERSION}-1_all.deb
   $ sudo dpkg -i argos_${VERSION}-1_all.deb
 

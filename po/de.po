@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-07 23:00+0100\n"
+"POT-Creation-Date: 2023-02-26 12:10+0100\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: André Dokis <em21nummer1@icloud.com>\n"
 "Language-Team: German <em21nummer1@icloud.com>\n"
@@ -16,23 +16,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: argos/app.py:114
+#: argos/app.py:121
 msgid "Enable debug logs"
 msgstr "Aktiviere Debug Logging"
 
-#: argos/app.py:130
+#: argos/app.py:137
 msgid "Disable tooltips"
 msgstr "Tooltips deaktivieren"
 
-#: argos/app.py:138
+#: argos/app.py:145
 msgid "Hide search button"
 msgstr "Suche ausblenden"
 
-#: argos/app.py:261
+#: argos/app.py:268
 msgid "Welcome!"
 msgstr "Willkommen!"
 
-#: argos/app.py:263
+#: argos/app.py:270
 msgid ""
 "Start by configuring the URL of the music server. The default value expects "
 "a server running on the local host and listening to the 6680 port."
@@ -40,77 +40,77 @@ msgstr ""
 "Die URL des Mopidy-Servers ist auf 127.0.0.1:6680 voreingestellt. Änderungen "
 "können in den Einstellungen vorgenpmmen werden."
 
-#: argos/app.py:405 argos/ui/app_menu.ui:14
+#: argos/app.py:500 argos/ui/app_menu.ui:14
 msgid "New playlist"
 msgstr "Neue Playlist"
 
-#: argos/controllers/library.py:33
+#: argos/controllers/library.py:37
 msgid "Files"
 msgstr ""
 
-#: argos/controllers/library.py:34
+#: argos/controllers/library.py:38
 msgid "Local media"
 msgstr ""
 
-#: argos/controllers/library.py:35
+#: argos/controllers/library.py:39
 msgid "Podcasts"
 msgstr "Podcasts"
 
-#: argos/controllers/library.py:36
+#: argos/controllers/library.py:40
 msgid "Albums"
 msgstr "Albums"
 
-#: argos/controllers/library.py:37 argos/ui/album_details_box.ui:282
+#: argos/controllers/library.py:41 argos/ui/album_details_box.ui:282
 #: argos/ui/playlists_box.ui:111 argos/ui/tracklist_random_dialog.ui:215
 #: argos/ui/tracks_view.ui:140
 msgid "Tracks"
 msgstr "Titel"
 
-#: argos/controllers/library.py:38
+#: argos/controllers/library.py:42
 msgid "Artists"
 msgstr "Artisten"
 
-#: argos/controllers/library.py:39
+#: argos/controllers/library.py:43
 msgid "Composers"
 msgstr "Komponisten"
 
-#: argos/controllers/library.py:40
+#: argos/controllers/library.py:44
 msgid "Genres"
 msgstr "Musikgenres"
 
-#: argos/controllers/library.py:41
+#: argos/controllers/library.py:45
 msgid "Performers"
 msgstr "Dolmetscher"
 
-#: argos/controllers/library.py:42
+#: argos/controllers/library.py:46
 msgid "Release Years"
 msgstr "Veröffentlichungsdatum"
 
-#: argos/controllers/library.py:43
+#: argos/controllers/library.py:47
 msgid "Last Week's Updates"
 msgstr "Aktualisierungen der letzten Woche"
 
-#: argos/controllers/library.py:44
+#: argos/controllers/library.py:48
 msgid "Last Month's Updates"
 msgstr "Aktualisierungen des letzten Monats"
 
-#: argos/controllers/library.py:45
+#: argos/controllers/library.py:49
 msgid "Discover by Genre"
 msgstr "Nach Genre entdecken"
 
-#: argos/controllers/library.py:46
+#: argos/controllers/library.py:50
 msgid "Discover by Tag"
 msgstr "Nach Tag entdecken"
 
-#: argos/controllers/library.py:47
+#: argos/controllers/library.py:51
 msgid "Collection"
 msgstr "Sammlung"
 
-#: argos/controllers/library.py:48
+#: argos/controllers/library.py:52
 msgid "Wishlist"
 msgstr "Wunschzettel"
 
-#: argos/controllers/library.py:49
+#: argos/controllers/library.py:53
 msgid "All"
 msgstr "Alle"
 
@@ -282,7 +282,7 @@ msgctxt "shortcut window"
 msgid "Go up"
 msgstr ""
 
-#: argos/ui/library_browsing_progress_box.ui:32
+#: argos/ui/library_browsing_progress_box.ui:38
 msgid "Keep calm, library indexation in progress…"
 msgstr "Moment bitte, die Indexierung der Alben läuft…"
 
@@ -609,34 +609,38 @@ msgid "Album details view"
 msgstr "Ansicht der Albumdetails"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:33
+msgid "Library browser improvements and bug fixes."
+msgstr ""
+
+#: data/io.github.orontee.Argos.appdata.xml.in:40
 msgid "Birthday release: Argos is 1-year old!"
 msgstr "Geburtstags: Argos wird 1 Jahr alt!"
 
-#: data/io.github.orontee.Argos.appdata.xml.in:40
+#: data/io.github.orontee.Argos.appdata.xml.in:47
 msgid "Implement a library browser and improve performance."
 msgstr ""
 
-#: data/io.github.orontee.Argos.appdata.xml.in:47
+#: data/io.github.orontee.Argos.appdata.xml.in:54
 msgid "Open its eyes to the outside world!"
 msgstr ""
 
-#: data/io.github.orontee.Argos.appdata.xml.in:54
+#: data/io.github.orontee.Argos.appdata.xml.in:61
 msgid "Bug fixes and small enhancement."
 msgstr "Fehlerbehebungen und kleine Verbesserungen."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:61
+#: data/io.github.orontee.Argos.appdata.xml.in:68
 msgid "Improving user experience. Once again."
 msgstr "Verbesserung der Benutzererfahrung. Noch einmal."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:68
+#: data/io.github.orontee.Argos.appdata.xml.in:75
 msgid "Improving user experience."
 msgstr "Verbesserung der Benutzererfahrung."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:75
+#: data/io.github.orontee.Argos.appdata.xml.in:82
 msgid "Autumnal delivery."
 msgstr "Herbstliche Lieferung"
 
-#: data/io.github.orontee.Argos.appdata.xml.in:82
+#: data/io.github.orontee.Argos.appdata.xml.in:89
 msgid ""
 "Improve performance while browsing albums and add support for Mopidy-"
 "Jellyfin."
@@ -644,23 +648,23 @@ msgstr ""
 "Verbesserung der Leistung beim Durchsuchen von Alben und Unterstützung von "
 "Mopidy-Jellyfin."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:89
+#: data/io.github.orontee.Argos.appdata.xml.in:96
 msgid "Bug fixes release."
 msgstr "Fehlerbehebungen"
 
-#: data/io.github.orontee.Argos.appdata.xml.in:96
+#: data/io.github.orontee.Argos.appdata.xml.in:103
 msgid "Attempt to comply to Flathub expectations."
 msgstr "Versuch die Erwartungen von Flathub zu erfüllen."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:103
+#: data/io.github.orontee.Argos.appdata.xml.in:110
 msgid "Delivered during holidays, use at your own risks!"
 msgstr "Auslieferung während der Ferien, Nutzung auf eigene Gefahr!"
 
-#: data/io.github.orontee.Argos.appdata.xml.in:110
+#: data/io.github.orontee.Argos.appdata.xml.in:117
 msgid "Delivered during a toothache, use at your own risks!"
 msgstr "Auslieferung mit Zahnschmerzen, Nutzung auf eigene Gefahr!"
 
-#: data/io.github.orontee.Argos.appdata.xml.in:116
+#: data/io.github.orontee.Argos.appdata.xml.in:123
 msgid "Matthias Meulien"
 msgstr ""
 
