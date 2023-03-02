@@ -1,0 +1,19 @@
+#!/bin/bash
+
+NEWS_HEADER=[Unreleased]\n============\n\nAdded\n-----\n\nChanged\n-------\n\nRemoved\n-------\n
+
+cd "${MESON_SOURCE_ROOT}"
+
+if [[ -n "$(git status --porcelain)" ]]; then
+    echo "Unclean repository!"
+    exit 1
+fi
+
+if [[ $(git rev-parse --abbrev-ref HEAD) != "main" ]]; then
+    echo "Not on main branch!"
+    exit 1
+fi
+
+sed -i '11 i ${NEWS_HEADER}' NEWS.rst
+git add NEWS.rst
+git commit -m "Prepare for next release"

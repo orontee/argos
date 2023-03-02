@@ -15,3 +15,12 @@ subdir('argos')
 subdir('po')
 
 meson.add_install_script('build-aux/meson/postinstall.py')
+
+run_target('prepare-next-release',
+  command : 'scripts/prepare-next-release')
+
+run_target('create-pre-release',
+  command : 'scripts/create-pre-release')
+
+run_target('update-version',
+  command : 'scripts/update-version')

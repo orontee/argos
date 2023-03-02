@@ -21,6 +21,7 @@ aiohttp-client-cache = ">=0.8.0"
 mypy = "^0.982"
 black = "^22.10.0"
 pre-commit = "^v2.20.0"
+semver = "^2.13.0"
 
 [tool.mypy]
 ignore_missing_imports = false

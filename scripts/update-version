@@ -1,0 +1,90 @@
+#!/bin/bash
+
+cd "${MESON_SOURCE_ROOT}"
+
+CURRENT_VERSION=$(poetry version | cut -d' ' -f 2)
+
+NEW_VERSION=$(python -c "import semver; print(semver.VersionInfo.parse(\"${CURRENT_VERSION}\").bump_minor())")
+
+CHANGELOG_DATE=$(LANG=C date +"%a, %d %b %Y %H:%M:%S %z")
+CHANGELOG_AUTHOR="$(git config user.name) <$(git config user.email)>"
+CHANGELOG="argos (${NEW_VERSION}-1) UNRELEASED; urgency=medium
+
+  * ${NEW_VERSION} release.
+
+ -- ${CHANGELOG_AUTHOR}  ${CHANGELOG_DATE}
+"
+
+APPDATA_RELEASE="<releases>\n"
+APPDATA_RELEASE+="    <release version=\"${NEW_VERSION}\" date=\"$(date +"%Y-%m-%d")\">\n"
+APPDATA_RELEASE+="      <description>\n"
+APPDATA_RELEASE+="        <p>\n"
+APPDATA_RELEASE+="          WIP\n"
+APPDATA_RELEASE+="        <\/p>\n"
+APPDATA_RELEASE+="      <\/description>\n"
+APPDATA_RELEASE+="    <\/release>"
+
+update_news_file() {
+    local file_path="NEWS.rst"
+    local formatted_date=$(date +"%Y-%m-%d")
+    local title="[${NEW_VERSION}] - ${formatted_date}"
+    local markup=$(printf '%*c' ${#title} = | sed 's/ /=/g')
+
+    echo "Updating ${file_path}..."
+    sed -i "11 c $title" ${file_path}
+    sed -i "12 c $markup" ${file_path}
+}
+
+update_readme_file() {
+    local file_path="README.rst"
+
+    echo "Updating ${file_path}..."
+    sed -i "s/VERSION=${CURRENT_VERSION}/VERSION=${NEW_VERSION}/" ${file_path}
+}
+
+update_appdata_file() {
+    local file_path="data/io.github.orontee.Argos.appdata.xml.in"
+
+    echo "Updating ${file_path}..."
+    sed -i "s/<releases>/${APPDATA_RELEASE}/" ${file_path}
+}
+
+update_debian_changelog() {
+    local file_path="debian/changelog"
+
+    echo "Updating ${file_path}..."
+    echo "$(echo "${CHANGELOG}"; cat ${file_path})" > ${file_path}
+}
+
+update_meson_conf() {
+    local file_path="meson.build"
+
+    echo "Updating ${file_path}..."
+    sed -i "s/version: '${CURRENT_VERSION}'/version: '${NEW_VERSION}'/" ${file_path}
+}
+
+update_project_conf() {
+    local file_path="pyproject.toml"
+
+    echo "Updating ${file_path}..."
+    sed -i "s/version = .*/version = \"$NEW_VERSION\"/" ${file_path}
+}
+
+update_readme_file
+update_meson_conf
+update_project_conf
+update_news_file
+update_appdata_file
+update_debian_changelog
+
+echo
+echo "⚠️ $(tput bold)Remaining tasks:$(tput sgr0)"
+echo "- Carefully review the generated code!"
+echo "- Complete the file data/io.github.orontee.Argos.appdata.xml"
+echo "- Update screenshots if needed"
+echo "- Update translations if needed"
+echo
+echo "Then commit, tag, push and call:"
+echo
+echo "    meson compile create-pre-release"
+echo
