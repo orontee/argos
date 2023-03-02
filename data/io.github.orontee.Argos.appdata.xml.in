@@ -28,6 +28,13 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="1.11.0" date="2023-03-02">
+      <description>
+        <p>
+          Welcome to Dutch music lovers 🇳🇱
+        </p>
+      </description>
+    </release>
     <release version="1.10.0" date="2023-02-26">
       <description>
         <p>
