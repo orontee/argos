@@ -12,6 +12,7 @@ from argos.model.random import (
     RandomTracksChoice,
     RandomTracksChoiceState,
 )
+from argos.model.searchresult import SearchResultModel
 from argos.model.track import TrackModel
 from argos.model.tracklist import TracklistModel, TracklistTrackModel
 from argos.model.utils import PlaybackState
@@ -30,6 +31,7 @@ __all__ = (
     "RandomTracksChoice",
     "RandomTracksChoiceState",
     "RANDOM_TRACKS_CHOICE_STRATEGY",
+    "SearchResultModel",
     "TracklistModel",
     "TracklistTrackModel",
     "TrackModel",

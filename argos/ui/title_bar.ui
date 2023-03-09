@@ -35,8 +35,10 @@
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="primary-icon-name">edit-find-symbolic</property>
+            <property name="secondary-icon-name">network-server-symbolic</property>
             <property name="primary-icon-activatable">False</property>
             <property name="primary-icon-sensitive">False</property>
+            <property name="secondary-icon-tooltip-text" translatable="yes">Server-side search</property>
           </object>
           <packing>
             <property name="name">search_entry_page</property>

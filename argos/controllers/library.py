@@ -21,9 +21,11 @@ from argos.dto import RefDTO, RefType
 from argos.message import Message, MessageType, consume
 from argos.model import (
     AlbumModel,
+    ArtistModel,
     DirectoryModel,
     MopidyBackend,
     PlaylistModel,
+    SearchResultModel,
     TrackModel,
 )
 from argos.model.library import MOPIDY_LOCAL_ALBUMS_URI
@@ -451,3 +453,38 @@ class LibraryController(ControllerBase):
                 parsed_tracks.append(track)
 
         return parsed_tracks
+
+    @consume(MessageType.SEARCH_LIBRARY)
+    async def search_library(self, message: Message) -> None:
+        text = message.data.get("text")
+
+        if text is None:
+            LOGGER.warning("Aborting library search due to missing text to query...")
+            return
+
+        result_dtos = await self._http.search_library({"any": [text]})
+        if result_dtos is None:
+            LOGGER.warning("Failed to search library")
+            return
+
+        parsed_albums: List[AlbumModel] = []
+        parsed_artists: List[ArtistModel] = []
+        parsed_tracks: List[TrackModel] = []
+        for result_dto in result_dtos:
+            for album_dto in result_dto.albums:
+                album = self.helper.convert_album(album_dto)
+                parsed_albums.append(album)
+
+            for artist_dto in result_dto.artists:
+                artist = self.helper.convert_artist(artist_dto)
+                parsed_artists.append(artist)
+
+            for track_dto in result_dto.tracks:
+                track = self.helper.convert_track(track_dto)
+                parsed_tracks.append(track)
+
+        self._model.complete_search_result(
+            parsed_albums,
+            parsed_artists,
+            parsed_tracks,
+        )

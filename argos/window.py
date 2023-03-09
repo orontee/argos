@@ -141,7 +141,6 @@ class ArgosWindow(Gtk.ApplicationWindow):
     def _setup_titlebar(self, titlebar: TitleBar) -> None:
         titlebar.central_view_switcher.set_stack(self.central_view)
         titlebar.back_button.connect("clicked", self._on_title_back_button_clicked)
-        titlebar.search_entry.connect("search-changed", self._on_search_entry_changed)
 
     def is_playing_page_visible(self) -> None:
         playing_page_visible = (
@@ -176,10 +175,6 @@ class ArgosWindow(Gtk.ApplicationWindow):
 
     def _on_title_back_button_clicked(self, _1: Gtk.Button) -> None:
         self.props.library_window.goto_parent_state()
-
-    def _on_search_entry_changed(self, search_entry: Gtk.SearchEntry) -> None:
-        filtering_text = search_entry.props.text
-        self.props.library_window.set_filtering_text(filtering_text)
 
     def set_central_view_visible_child(self, name: str) -> None:
         child = self.central_view.get_child_by_name(name)

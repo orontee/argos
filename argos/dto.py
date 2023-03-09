@@ -16,13 +16,14 @@ class RefType(Enum):
 
 T = TypeVar(
     "T",
-    "RefDTO",
-    "ArtistDTO",
     "AlbumDTO",
-    "TrackDTO",
+    "ArtistDTO",
     "ImageDTO",
     "PlaylistDTO",
+    "RefDTO",
+    "SearchResultDTO",
     "TlTrackDTO",
+    "TrackDTO",
 )
 
 
@@ -320,3 +321,49 @@ class TlTrackDTO:
             return None
 
         return TlTrackDTO(tlid, track)
+
+
+@dataclass(frozen=True)
+class SearchResultDTO:
+    """Data transfer object to represent search result.
+
+    See https://docs.mopidy.com/en/latest/api/models/#mopidy.models.SearchResult
+    """
+
+    uri: str
+    tracks: List[TrackDTO] = field(default_factory=list)
+    artists: List[ArtistDTO] = field(default_factory=list)
+    albums: List[AlbumDTO] = field(default_factory=list)
+
+    @staticmethod
+    def factory(data: Any) -> Optional["SearchResultDTO"]:
+        if data is None:
+            return None
+
+        uri = data.get("uri")
+        if uri is None:
+            return None
+
+        dto = SearchResultDTO(uri)
+        for track_data in data.get("tracks", []):
+            track_dto = TrackDTO.factory(track_data)
+            if track_dto is None:
+                return None
+
+            dto.tracks.append(track_dto)
+
+        for artist_data in data.get("artists", []):
+            artist_dto = ArtistDTO.factory(artist_data)
+            if artist_dto is None:
+                return None
+
+            dto.artists.append(artist_dto)
+
+        for album_data in data.get("albums", []):
+            album_dto = AlbumDTO.factory(album_data)
+            if album_dto is None:
+                return None
+
+            dto.albums.append(album_dto)
+
+        return dto

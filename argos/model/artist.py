@@ -3,7 +3,7 @@ import locale
 from gi.repository import GObject
 
 
-def compare_artist_by_name_func(
+def compare_artists_by_name_func(
     a: "ArtistModel",
     b: "ArtistModel",
     user_data: None,

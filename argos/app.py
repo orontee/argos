@@ -319,12 +319,8 @@ class Application(Gtk.Application):
             ("play-next-track", self.play_next_track_activate_cb, None, None),
             ("add-stream", self.add_stream_activate_cb, None, None),
             ("update-library", self.update_library_activate_cb, None, None),
-            (
-                "browse-directory",
-                self.browse_directory_activate_cb,
-                "(sb)",
-                None,
-            ),
+            ("browse-directory", self.browse_directory_activate_cb, "(sb)", None),
+            ("search-library", self.search_library_activate_cb, "s", None),
             (
                 "collect-album-information",
                 self.collect_album_information_activate_cb,
@@ -414,6 +410,7 @@ class Application(Gtk.Application):
             "play-next-track",
             "add-stream",
             "update-library",
+            "search-library",
             "collect-album-information",
             "seek",
             "set-volume",
@@ -628,6 +625,13 @@ class Application(Gtk.Application):
 
         data = {"uri": uri, "force": force}
         self._send_message(MessageType.BROWSE_DIRECTORY, data=data)
+
+    def search_library_activate_cb(
+        self, action: Gio.SimpleAction, parameter: GLib.Variant
+    ) -> None:
+        text = parameter.unpack()
+        data = {"text": text}
+        self._send_message(MessageType.SEARCH_LIBRARY, data=data)
 
     def collect_album_information_activate_cb(
         self, action: Gio.SimpleAction, parameter: GLib.Variant

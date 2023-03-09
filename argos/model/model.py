@@ -1,5 +1,4 @@
 import logging
-import random
 import threading
 from datetime import datetime
 from functools import partial
@@ -15,6 +14,7 @@ from argos.model.album import (
     compare_albums_by_name_func,
     compare_albums_by_publication_date_func,
 )
+from argos.model.artist import ArtistModel, compare_artists_by_name_func
 from argos.model.backends import (
     GenericBackend,
     MopidyBackend,
@@ -27,6 +27,7 @@ from argos.model.mixer import MixerModel
 from argos.model.playback import PlaybackModel
 from argos.model.playlist import PlaylistModel, compare_playlists_func
 from argos.model.random import RandomTracksChoice, choose_random_tracks
+from argos.model.searchresult import SearchResultModel
 from argos.model.track import TrackModel, compare_tracks_by_name_func
 from argos.model.tracklist import TracklistModel, TracklistTrackModel
 from argos.model.utils import WithThreadSafePropertySetter
@@ -48,6 +49,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
             (str, int, int),
         ),
         "directory-completed": (GObject.SIGNAL_RUN_FIRST, None, (str,)),
+        "search-completed": (GObject.SIGNAL_RUN_FIRST, None, []),
     }
 
     network_available = GObject.Property(type=bool, default=False)
@@ -61,6 +63,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
     tracklist: TracklistModel
     playlists: Gio.ListStore
     backends: Gio.ListStore
+    search_result: SearchResultModel
 
     def __init__(self, application: "Application", *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -73,6 +76,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         self.tracklist = TracklistModel()
         self.playlists = Gio.ListStore.new(PlaylistModel)
         self.backends = Gio.ListStore.new(MopidyBackend)
+        self.search_result = SearchResultModel()
 
         self.backends.append(MopidyPodcastBackend())
         self.backends.append(MopidyBandcampBackend())
@@ -419,3 +423,32 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
             self.playlists.remove,
             found_playlist[0][0],
         )
+
+    def complete_search_result(
+        self,
+        albums: Sequence[AlbumModel],
+        artists: Sequence[ArtistModel],
+        tracks: Sequence[TrackModel],
+    ) -> None:
+        def _complete_search_result() -> None:
+            self.search_result.albums.remove_all()
+            album_sort_id = self._settings.get_string("album-sort")
+            album_compare_func = self._get_album_compare_func(album_sort_id)
+            for album in albums:
+                self.search_result.albums.insert_sorted(album, album_compare_func, None)
+
+            self.search_result.artists.remove_all()
+            for artist in artists:
+                self.search_result.artists.insert_sorted(
+                    artist, compare_artists_by_name_func, None
+                )
+
+            self.search_result.tracks.remove_all()
+            for track in tracks:
+                self.search_result.tracks.insert_sorted(
+                    track, compare_tracks_by_name_func, None
+                )
+
+            self.emit("search-completed")
+
+        GLib.idle_add(_complete_search_result)

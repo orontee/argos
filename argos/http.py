@@ -12,7 +12,15 @@ from gi.repository import GObject
 if TYPE_CHECKING:
     from argos.app import Application
 
-from argos.dto import ImageDTO, PlaylistDTO, RefDTO, TlTrackDTO, TrackDTO, cast_seq_of
+from argos.dto import (
+    ImageDTO,
+    PlaylistDTO,
+    RefDTO,
+    SearchResultDTO,
+    TlTrackDTO,
+    TrackDTO,
+    cast_seq_of,
+)
 from argos.model import PlaybackState
 from argos.ws import MopidyWSConnection
 
@@ -95,6 +103,19 @@ class MopidyHTTPClient(GObject.GObject):
         for uri in data:
             tracks[uri] = cast_seq_of(TrackDTO, data.get(uri, []))
         return tracks
+
+    async def search_library(
+        self, query: Dict[str, Any]
+    ) -> Optional[List[SearchResultDTO]]:
+        params = {"query": query}
+        data = await self._ws.send_command(
+            "core.library.search", params=params, timeout=60
+        )
+        if data is None:
+            return None
+
+        results = cast_seq_of(SearchResultDTO, data)
+        return results
 
     async def get_images(
         self, uris: Sequence[str]

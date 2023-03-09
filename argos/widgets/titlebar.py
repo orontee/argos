@@ -2,7 +2,7 @@ import logging
 from enum import IntEnum
 from typing import Optional
 
-from gi.repository import Gio, GObject, Gtk
+from gi.repository import Gio, GLib, GObject, Gtk
 
 from argos.widgets.utils import ALBUM_SORT_CHOICES
 
@@ -32,6 +32,7 @@ class TitleBar(Gtk.HeaderBar):
     def __init__(self, application: Gtk.Application, *, window: Gtk.ApplicationWindow):
         super().__init__()
 
+        self._app = application
         self._window = window
 
         self._state: TitleBarState = TitleBarState.FOR_PLAYING_PAGE
@@ -77,6 +78,8 @@ class TitleBar(Gtk.HeaderBar):
         )
         self._window.connect("notify::is-fullscreen", self.on_is_fullscreen_changed)
 
+        self.search_entry.connect("changed", self.on_search_entry_changed)
+
     def toggle_search_entry_focus_maybe(self) -> None:
         if not self.search_button:
             return
@@ -112,6 +115,10 @@ class TitleBar(Gtk.HeaderBar):
 
     def on_search_button_toggled(self, _1: Gtk.ToggleButton) -> None:
         self.toggle_search_entry_focus_maybe()
+
+    def on_search_entry_changed(self, search_entry: Gtk.SearchEntry) -> None:
+        search_text = search_entry.props.text
+        self._app.activate_action("search-library", GLib.Variant("s", search_text))
 
     def set_state(self, state: TitleBarState, *, force: bool = False) -> None:
         if not force and self._state == state:
