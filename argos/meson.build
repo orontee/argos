@@ -1,5 +1,6 @@
 pkgdatadir = join_paths(get_option('prefix'), get_option('datadir'), meson.project_name())
 moduledir = join_paths(pkgdatadir, 'argos')
+libdir = join_paths(get_option('prefix'), get_option('libdir'))
 gnome = import('gnome')
 
 subdir('ui')
@@ -21,6 +22,7 @@ conf.set('VERSION', meson.project_version())
 conf.set('application_id', 'io.github.orontee.Argos')
 conf.set('localedir', join_paths(get_option('prefix'), get_option('localedir')))
 conf.set('pkgdatadir', pkgdatadir)
+conf.set('libdir', libdir)
 
 configure_file(
   input: 'argos.in',

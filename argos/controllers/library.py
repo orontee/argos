@@ -221,7 +221,7 @@ class LibraryController(ControllerBase):
         LOGGER.debug(f"Directory {directory.name!r} has {len(refs_dto)} references")
 
         album_dtos: List[RefDTO] = []
-        directories: List[DirectoryModel] = []
+        subdir_dtos: List[RefDTO] = []
         playlists: List[PlaylistModel] = []
         track_dtos: List[RefDTO] = []
 
@@ -240,25 +240,18 @@ class LibraryController(ControllerBase):
 
             if ref_dto.type == RefType.ALBUM:
                 album_dtos.append(ref_dto)
-            elif ref_dto.type in (
-                RefType.DIRECTORY,
-                RefType.ARTIST,
-            ):
-                subdir = DirectoryModel(
-                    uri=ref_dto.uri,
-                    name=_DIRECTORY_NAMES.get(ref_dto.name, ref_dto.name),
-                )
-                directories.append(subdir)
+            elif ref_dto.type in (RefType.DIRECTORY, RefType.ARTIST):
+                subdir_dtos.append(ref_dto)
             elif ref_dto.type == RefType.PLAYLIST:
-                pass
+                LOGGER.warning("Library playlists aren't currently supported")
             elif ref_dto.type == RefType.TRACK:
                 track_dtos.append(ref_dto)
             else:
                 LOGGER.debug(f"Unsupported type {ref_dto.type.name!r}")
 
         stats = {
-            "album": len(album_dtos),
-            "directories": len(directories),
+            "albums": len(album_dtos),
+            "subdirs": len(subdir_dtos),
             "playlists": len(playlists),
             "tracks": len(track_dtos),
         }
@@ -271,6 +264,9 @@ class LibraryController(ControllerBase):
         )
 
         albums: List[AlbumModel] = []
+        subdirs: List[DirectoryModel] = await self._complete_subdirs(
+            subdir_dtos, directory_uri
+        )
         tracks: List[TrackModel] = []
         if backend is not None:
             albums = await self._complete_albums(
@@ -283,7 +279,7 @@ class LibraryController(ControllerBase):
         self._model.complete_directory(
             directory_uri,
             albums=albums,
-            directories=directories,
+            directories=subdirs,
             playlists=playlists,
             tracks=tracks,
             wait_for_model_update=wait_for_model_update,
@@ -368,6 +364,47 @@ class LibraryController(ControllerBase):
             parsed_albums.append(album)
 
         return parsed_albums
+
+    async def _complete_subdirs(
+        self, subdir_dtos: Sequence[RefDTO], directory_uri: str
+    ) -> List[DirectoryModel]:
+        LOGGER.info(
+            f"Completing sub-directories of directory with URI {directory_uri!r}"
+        )
+
+        subdir_uris = [dto.uri for dto in subdir_dtos]
+
+        images = await call_by_slice(
+            self._http.get_images,
+            params=subdir_uris,
+        )
+        if images is None:
+            LOGGER.warning("Failed to fetch URIs of images")
+
+        subdirs: List[DirectoryModel] = []
+        for subdir_dto in subdir_dtos:
+            subdir_uri = subdir_dto.uri
+
+            if (
+                images is not None
+                and subdir_uri in images
+                and len(images[subdir_uri]) > 0
+            ):
+                image_uri = images[subdir_uri][0].uri
+                filepath = self._download.get_image_filepath(image_uri)
+            else:
+                image_uri = ""
+                filepath = None
+
+            subdir = DirectoryModel(
+                uri=subdir_uri,
+                name=_DIRECTORY_NAMES.get(subdir_dto.name, subdir_dto.name),
+                image_path=str(filepath) if filepath is not None else "",
+                image_uri=image_uri,
+            )
+            subdirs.append(subdir)
+
+        return subdirs
 
     async def _complete_tracks(
         self,

@@ -43,6 +43,8 @@ class DirectoryModel(GObject.Object):
     directories: Gio.ListStore
     tracks: Gio.ListStore
     playlists: Gio.ListStore
+    image_path = GObject.Property(type=str)
+    image_uri = GObject.Property(type=str)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

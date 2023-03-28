@@ -8,7 +8,6 @@ if TYPE_CHECKING:
 from argos.controllers.base import ControllerBase
 from argos.controllers.utils import parse_tracks
 from argos.controllers.visitors import AlbumMetadataCollector, LengthAcc
-from argos.download import ImageDownloader
 from argos.info import InformationService
 from argos.message import Message, MessageType, consume
 
@@ -23,7 +22,6 @@ class AlbumsController(ControllerBase):
     def __init__(self, application: "Application"):
         super().__init__(application)
 
-        self._download: ImageDownloader = application.props.download
         self._information: InformationService = application.props.information
 
     @consume(MessageType.COMPLETE_ALBUM_DESCRIPTION)
@@ -105,9 +103,3 @@ class AlbumsController(ControllerBase):
             album.release_mbid
         )
         self._model.set_album_information(album_uri, album_abstract, artist_abstract)
-
-    @consume(MessageType.FETCH_ALBUM_IMAGES)
-    async def fetch_album_images(self, message: Message) -> None:
-        LOGGER.debug("Starting album images download...")
-        image_uris = message.data.get("image_uris", [])
-        await self._download.fetch_images(image_uris)

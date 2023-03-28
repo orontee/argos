@@ -5,26 +5,47 @@ import locale
 import os
 import signal
 import sys
+from pathlib import Path
 
-from gi.repository import Gio
+import gi
 
 VERSION = "@VERSION@"
 application_id = "@application_id@"
 pkgdatadir = "@pkgdatadir@"
 localedir = "@localedir@"
+libdir = "@libdir@"
 
-sys.path.insert(1, pkgdatadir)
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 
-locale.bindtextdomain(application_id, localedir)  # type: ignore
-locale.textdomain(application_id)  # type: ignore
 
-gettext.bindtextdomain(application_id, localedir)
-gettext.textdomain(application_id)
+def _init_libraries():
+    locale.bindtextdomain(application_id, localedir)  # type: ignore
+    locale.textdomain(application_id)  # type: ignore
 
-if __name__ == "__main__":
+    gettext.bindtextdomain(application_id, localedir)
+    gettext.textdomain(application_id)
+
+    gi.require_version("Gdk", "3.0")  # noqa
+    gi.require_version("GdkPixbuf", "2.0")  # noqa
+    gi.require_version("Gtk", "3.0")  # noqa
+
+    from gi.repository import GdkPixbuf, Gio
+
+    gdk_pixbuf_moduledir = Path(libdir) / "gdk-pixbuf" / "2.10.0"
+    if gdk_pixbuf_moduledir.exists():
+        GdkPixbuf.Pixbuf.init_modules(str(gdk_pixbuf_moduledir))
+        # When the application is packaged using Flatpak, initialize
+        # support for specific loaders from custom location. Needed for
+        # example for the WebP image format, sinc it isn't natively
+        # supported by gdk-pixbuf
+
+    sys.path.insert(1, pkgdatadir)
     resource = Gio.Resource.load(os.path.join(pkgdatadir, "argos.gresource"))
     resource._register()
+
+
+if __name__ == "__main__":
+    _init_libraries()
 
     from argos.app import Application
 

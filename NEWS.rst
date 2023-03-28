@@ -14,6 +14,9 @@ The format is based on `Keep a Changelog
 Added
 -----
 
+- Download images for directories `#136
+  <https://github.com/orontee/argos/pull/136>`_
+
 Changed
 -------
 

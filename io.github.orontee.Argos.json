@@ -1,7 +1,7 @@
 {
     "app-id" : "io.github.orontee.Argos",
     "runtime" : "org.gnome.Sdk",
-    "runtime-version" : "42",
+    "runtime-version" : "44",
     "sdk" : "org.gnome.Sdk",
     "command" : "argos",
     "finish-args" : [
@@ -25,6 +25,28 @@
     "modules" : [
         "generated-poetry-sources.json",
         {
+            "name": "webp-pixbuf-loader",
+            "buildsystem": "meson",
+            "build-options": {
+                "env": {
+                    "GDK_PIXBUF_MODULEDIR": "/app/lib/gdk-pixbuf/2.10.0/"
+                }
+            },
+            "config-opts": [
+                "-Dgdk_pixbuf_moduledir=/app/lib/gdk-pixbuf/2.10.0/"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/aruiz/webp-pixbuf-loader.git",
+                    "commit": "e11fb34385c94255f8aec3f9c731a1310be89df6",
+                    "tag": "0.2.3"
+                }
+            ],
+            "post-install": [
+                "gdk-pixbuf-query-loaders > $GDK_PIXBUF_MODULEDIR/loaders.cache"
+            ]
+        }, {
             "name" : "argos",
             "builddir" : true,
             "buildsystem" : "meson",

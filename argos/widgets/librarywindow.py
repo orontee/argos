@@ -273,7 +273,7 @@ class LibraryWindow(Gtk.Box):
             if len(image_uris) > 0:
                 LOGGER.debug("Will fetch images since directory store was just updated")
                 self._app.activate_action(
-                    "fetch-album-images", GLib.Variant("as", image_uris)
+                    "fetch-images", GLib.Variant("as", image_uris)
                 )
 
         self._hide_progress_box()
@@ -324,19 +324,19 @@ class LibraryWindow(Gtk.Box):
                 path = store.get_path(store_iter)
                 if library_item_type in (
                     DirectoryItemType.ALBUM,
+                    DirectoryItemType.DIRECTORY,
                     DirectoryItemType.TRACK,
                 ):
+                    scaled_pixbuf: Optional[Pixbuf] = None
                     if image_path:
                         if force or current_pixbuf == default_image:
                             scaled_pixbuf = scale_album_image(
                                 image_path,
                                 target_width=image_size,
                             )
-                            GLib.idle_add(update_pixbuf_at, path, scaled_pixbuf)
-                    else:
-                        uri = store.get_value(store_iter, DirectoryStoreColumn.URI)
-                        LOGGER.debug(f"No image path for {uri}")
-                        GLib.idle_add(update_pixbuf_at, path, default_image)
+                    if scaled_pixbuf is None:
+                        scaled_pixbuf = default_image
+                    GLib.idle_add(update_pixbuf_at, path, scaled_pixbuf)
                 else:
                     GLib.idle_add(update_pixbuf_at, path, default_image)
 

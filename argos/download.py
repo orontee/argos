@@ -21,11 +21,7 @@ MAX_SIMULTANEOUS_DOWNLOADS = 10
 
 
 class ImageDownloader(GObject.GObject):
-    """Download track images.
-
-    Currently only support tracks handled by Mopidy-Local.
-
-    """
+    """Download track, album, directory, etc images."""
 
     __gsignals__: Dict[str, Tuple[int, Any, Tuple]] = {
         "images-downloaded": (GObject.SIGNAL_RUN_FIRST, None, ())
@@ -52,7 +48,9 @@ class ImageDownloader(GObject.GObject):
         self._ongoing_task: Optional[asyncio.Task[None]] = None
 
     def get_image_filepath(self, image_uri: str) -> Optional[Path]:
-        if image_uri.startswith("/local/"):
+        if image_uri == "":
+            filename = None
+        elif image_uri.startswith("/local/"):
             filename = Path(image_uri).parts[-1]
         elif image_uri.startswith("https://") or image_uri.startswith("http://"):
             filename = urllib.parse.quote(image_uri[8:], safe="")

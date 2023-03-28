@@ -7,15 +7,11 @@ from threading import Thread
 from time import sleep
 from typing import Any, Dict, List, Optional, Sequence
 
-import gi
-
-gi.require_version("Gdk", "3.0")  # noqa
-gi.require_version("Gtk", "3.0")  # noqa
-
 from gi.repository import Gdk, Gio, GLib, GObject, Gtk
 
 from argos.controllers import (
     AlbumsController,
+    ImagesController,
     LibraryController,
     MixerController,
     PlaybackController,
@@ -98,6 +94,7 @@ class Application(Gtk.Application):
             PlaybackController(self),
             TracklistController(self),
             AlbumsController(self),
+            ImagesController(self),
             LibraryController(self),
             MixerController(self),
             PlaylistsController(self),
@@ -349,8 +346,8 @@ class Application(Gtk.Application):
                 None,
             ),
             (
-                "fetch-album-images",
-                self.fetch_album_images_activate_cb,
+                "fetch-images",
+                self.fetch_images_activate_cb,
                 "as",
                 None,
             ),
@@ -682,13 +679,11 @@ class Application(Gtk.Application):
         uri = parameter.unpack()
         self._send_message(MessageType.COMPLETE_PLAYLIST_DESCRIPTION, {"uri": uri})
 
-    def fetch_album_images_activate_cb(
+    def fetch_images_activate_cb(
         self, action: Gio.SimpleAction, parameter: GLib.Variant
     ) -> None:
         image_uris = parameter.unpack()
-        self._send_message(
-            MessageType.FETCH_ALBUM_IMAGES, data={"image_uris": image_uris}
-        )
+        self._send_message(MessageType.FETCH_IMAGES, data={"image_uris": image_uris})
 
     def _on_prefer_dark_theme_changed(
         self,
