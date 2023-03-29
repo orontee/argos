@@ -97,11 +97,18 @@ class LibraryWindow(Gtk.Box):
         # Show progress box at startup
         self.show_all()
 
-        self.connect(
-            "notify::directory-uri", lambda _1, _2: self._update_store(self._model)
+        self._model.connect(
+            "directory-completed",
+            lambda model, directory_uri: self._update_store(
+                model, directory_uri, context="directory-completed signal received"
+            ),
         )
-        self._model.connect("directory-completed", self._update_store)
-        self._model.connect("albums-sorted", self._update_store)
+        self._model.connect(
+            "albums-sorted",
+            lambda model, directory_uri: self._update_store(
+                model, directory_uri, context="album-sorted signal received"
+            ),
+        )
         application.props.download.connect(
             "images-downloaded", self._update_store_pixbufs
         )
@@ -230,7 +237,9 @@ class LibraryWindow(Gtk.Box):
                 LOGGER.warning(f"Invalid regular expression {pattern!r}")
         return True
 
-    def _update_store(self, _1: Model, uri: Optional[str] = None) -> None:
+    def _update_store(
+        self, _1: Model, uri: Optional[str] = None, *, context: str
+    ) -> None:
         if uri is not None and uri != self.props.directory_uri:
             return
 
@@ -240,11 +249,9 @@ class LibraryWindow(Gtk.Box):
             self.show_directory("", history=False)
             return
 
-        LOGGER.debug(f"Updating directory store for directory {directory.name!r}")
-
-        if self._ongoing_store_update.locked():
-            self._abort_pixbufs_update = True
-            LOGGER.info("Pixbufs update thread has been requested to abort...")
+        LOGGER.debug(
+            f"Context {context!r} triggered an update of directory store for directory {directory.name!r}"
+        )
 
         if self._must_enter_tracks_view(directory):
             self.props.tracks_view.props.uri = directory.uri
@@ -252,7 +259,13 @@ class LibraryWindow(Gtk.Box):
             self.library_stack.set_visible_child_name("tracks_view_page")
         else:
             self.select_directory_page()
+
             image_uris: List[Path] = []
+
+            if self._ongoing_store_update.locked():
+                self._abort_pixbufs_update = True
+                LOGGER.info("Pixbufs update thread has been requested to abort...")
+
             with self._ongoing_store_update:
                 self._abort_pixbufs_update = False
                 store = self.props.filtered_directory_store.get_model()
@@ -271,7 +284,9 @@ class LibraryWindow(Gtk.Box):
                             image_uris.append(model.get_property("image_uri"))
 
             if len(image_uris) > 0:
-                LOGGER.debug("Will fetch images since directory store was just updated")
+                LOGGER.debug(
+                    f"Found {len(image_uris)} images to fetch after directory store update"
+                )
                 self._app.activate_action(
                     "fetch-images", GLib.Variant("as", image_uris)
                 )

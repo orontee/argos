@@ -222,7 +222,6 @@ class LibraryController(ControllerBase):
 
         album_dtos: List[RefDTO] = []
         subdir_dtos: List[RefDTO] = []
-        playlists: List[PlaylistModel] = []
         track_dtos: List[RefDTO] = []
 
         for ref_dto in refs_dto:
@@ -249,14 +248,6 @@ class LibraryController(ControllerBase):
             else:
                 LOGGER.debug(f"Unsupported type {ref_dto.type.name!r}")
 
-        stats = {
-            "albums": len(album_dtos),
-            "subdirs": len(subdir_dtos),
-            "playlists": len(playlists),
-            "tracks": len(track_dtos),
-        }
-        LOGGER.info(f"Found {stats}")
-
         notifier = DirectoryCompletionProgressNotifier(
             self._model,
             directory_uri=directory_uri,
@@ -264,17 +255,22 @@ class LibraryController(ControllerBase):
         )
 
         albums: List[AlbumModel] = []
-        subdirs: List[DirectoryModel] = await self._complete_subdirs(
-            subdir_dtos, directory_uri
-        )
-        tracks: List[TrackModel] = []
-        if backend is not None:
+        if backend is not None and len(album_dtos) > 0:
             albums = await self._complete_albums(
                 album_dtos, directory_uri, backend, notifier=notifier
             )
+
+        subdirs: List[DirectoryModel] = []
+        if len(subdir_dtos) > 0:
+            subdirs = await self._complete_subdirs(subdir_dtos, directory_uri)
+
+        tracks: List[TrackModel] = []
+        if backend is not None and len(track_dtos) > 0:
             tracks = await self._complete_tracks(
                 track_dtos, directory_uri, backend, notifier=notifier
             )
+
+        playlists: List[PlaylistModel] = []
 
         self._model.complete_directory(
             directory_uri,
@@ -293,7 +289,10 @@ class LibraryController(ControllerBase):
         *,
         notifier: Optional[ProgressNotifierProtocol],
     ) -> List[AlbumModel]:
-        LOGGER.info(f"Completing albums for directory with URI {directory_uri!r}")
+        LOGGER.info(
+            f"Completing {len(album_dtos)} albums "
+            f"for directory with URI {directory_uri!r}"
+        )
 
         album_uris = [dto.uri for dto in album_dtos]
 
@@ -369,7 +368,8 @@ class LibraryController(ControllerBase):
         self, subdir_dtos: Sequence[RefDTO], directory_uri: str
     ) -> List[DirectoryModel]:
         LOGGER.info(
-            f"Completing sub-directories of directory with URI {directory_uri!r}"
+            f"Completing {len(subdir_dtos)} sub-directories of directory "
+            f"with URI {directory_uri!r}"
         )
 
         subdir_uris = [dto.uri for dto in subdir_dtos]
@@ -414,7 +414,10 @@ class LibraryController(ControllerBase):
         *,
         notifier: Optional[ProgressNotifierProtocol],
     ) -> List[TrackModel]:
-        LOGGER.info(f"Completing tracks for directory with URI {directory_uri!r}")
+        LOGGER.info(
+            f"Completing {len(track_dtos)} tracks "
+            f"for directory with URI {directory_uri!r}"
+        )
 
         track_uris = [dto.uri for dto in track_dtos]
 
