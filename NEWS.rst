@@ -14,6 +14,9 @@ The format is based on `Keep a Changelog
 Added
 -----
 
+- Playlist tracks use names set in playlists `#137
+  <https://github.com/orontee/argos/pull/137>`_
+
 - Download images for directories `#136
   <https://github.com/orontee/argos/pull/136>`_
 

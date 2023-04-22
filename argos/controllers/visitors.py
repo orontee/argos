@@ -2,7 +2,7 @@ import logging
 from collections import Counter, defaultdict
 from typing import Dict, List, Optional
 
-from argos.dto import TrackDTO
+from argos.dto import PlaylistDTO, TrackDTO
 
 LOGGER = logging.getLogger(__name__)
 
@@ -104,3 +104,30 @@ class AlbumMetadataCollector:
 
     def last_modified(self, album_uri: str) -> Optional[float]:
         return self._last_modified.get(album_uri)
+
+
+class PlaylistTrackNameFix:
+    """Visitor fixing name of playlist tracks.
+
+    Some playlist specify track names, this visitor ensures that names
+    specified in playlists are used.
+
+    """
+
+    def __init__(self, playlist: PlaylistDTO):
+        self._names: Dict[str, str] = dict()
+        self.__index_playlist_track_names(playlist)
+
+    def __index_playlist_track_names(self, playlist: PlaylistDTO) -> None:
+        for track_dto in playlist.tracks:
+            if not track_dto.name:
+                continue
+
+            self._names[track_dto.uri] = track_dto.name
+
+    def __call__(self, uri: str, track_dto: TrackDTO) -> None:
+        name = self._names.get(uri, None)
+        if name is None:
+            return
+
+        track_dto.name = name

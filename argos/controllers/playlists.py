@@ -12,6 +12,7 @@ if TYPE_CHECKING:
 
 from argos.controllers.base import ControllerBase
 from argos.controllers.utils import call_by_slice, parse_tracks
+from argos.controllers.visitors import PlaylistTrackNameFix
 from argos.dto import PlaylistDTO
 from argos.message import Message, MessageType, consume
 from argos.model import PlaylistModel, TrackModel
@@ -205,7 +206,9 @@ class PlaylistsController(ControllerBase):
                 params=track_uris,
             )
             parsed_tracks: List[TrackModel] = []
-            for tracks in parse_tracks(found_tracks_dto).values():
+            for tracks in parse_tracks(
+                found_tracks_dto, visitors=[PlaylistTrackNameFix(playlist_dto)]
+            ).values():
                 parsed_tracks += tracks
         else:
             parsed_tracks = []
