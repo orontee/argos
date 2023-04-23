@@ -11,6 +11,7 @@ from gi.repository import Gdk, Gio, GLib, GObject, Gtk
 
 from argos.controllers import (
     AlbumsController,
+    ControllerBase,
     ImagesController,
     LibraryController,
     MixerController,
@@ -90,15 +91,14 @@ class Application(Gtk.Application):
         self._information = InformationService(self)
         self._notifier = Notifier(self)
 
-        self._controllers = (
-            PlaybackController(self),
-            TracklistController(self),
-            AlbumsController(self),
-            ImagesController(self),
-            LibraryController(self),
-            MixerController(self),
-            PlaylistsController(self),
-        )
+        self._controllers = Gio.ListStore.new(ControllerBase)
+        self._controllers.append(PlaybackController(self))
+        self._controllers.append(TracklistController(self))
+        self._controllers.append(AlbumsController(self))
+        self._controllers.append(ImagesController(self))
+        self._controllers.append(LibraryController(self))
+        self._controllers.append(MixerController(self))
+        self._controllers.append(PlaylistsController(self))
 
         self._model.connect("notify::network-available", self._on_connection_changed)
         self._model.connect("notify::connected", self._on_connection_changed)
@@ -182,6 +182,10 @@ class Application(Gtk.Application):
     @GObject.Property(type=Notifier, flags=GObject.ParamFlags.READABLE)
     def notifier(self):
         return self._notifier
+
+    @GObject.Property(type=Gio.ListStore, flags=GObject.ParamFlags.READABLE)
+    def controllers(self):
+        return self._controllers
 
     @property
     def message_queue(self) -> asyncio.Queue:

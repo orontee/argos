@@ -1,0 +1,41 @@
+{
+    "tl_track": {
+        "__model__": "TlTrack",
+        "tlid": 7507,
+        "track": {
+            "__model__": "Track",
+            "uri": "local:track:Dhafer%20Youssef/Diwan%20of%20Beauty%20and%20Odd/11%20Diving%20in%20the%20Air.flac",
+            "name": "Diving in the Air",
+            "artists": [{
+                "__model__": "Artist",
+                "uri": "local:artist:md5:4310e1bb4a42f119fea5de9aae913f15",
+                "name": "Dhafer Youssef",
+                "musicbrainz_id": "e193397d-a888-4b4d-b11d-2a602c24b023"
+            }],
+            "album": {
+                "__model__": "Album",
+                "uri": "local:album:md5:bdc36b046e86cd8b7470d0feb5ab9be9",
+                "name": "Diwan of Beauty and Odd",
+                "artists": [{
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:4310e1bb4a42f119fea5de9aae913f15",
+                    "name": "Dhafer Youssef",
+                    "musicbrainz_id": "e193397d-a888-4b4d-b11d-2a602c24b023"
+                }],
+                "num_tracks": 11,
+                "num_discs": 1,
+                "date": "2016-09-16",
+                "musicbrainz_id": "5f2c7e20-fc50-44f4-a8a1-4acb35ddd486"
+            },
+            "genre": "Jazz; Contemporary Jazz",
+            "track_no": 11,
+            "disc_no": 1,
+            "date": "2016-09-16",
+            "length": 257320,
+            "musicbrainz_id": "7d4cd5c1-76a7-482a-8d66-9f7296a712b2",
+            "last_modified": 1615839558374
+        }
+    },
+    "time_position": 257320,
+    "event": "track_playback_ended"
+}

@@ -8,7 +8,6 @@ class TestHTTPSessionManager(unittest.IsolatedAsyncioTestCase):
     @classmethod
     def setUpClass(cls):
         app = Mock()
-        app.props = Mock()
         app.props.version = "1.0.0"
         cls.application = app
 

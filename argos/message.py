@@ -123,17 +123,17 @@ class MessageDispatchTask(GObject.Object):
         super().__init__()
         self._message_queue: asyncio.Queue = application.message_queue
 
-        self._identify_message_consumers_from_objects(application._controllers)
+        self._identify_message_consumers_from_objects(application.props.controllers)
 
     def _identify_message_consumers_from_objects(
         self,
-        controllers: Sequence[Any],
+        objects: Sequence[Any],
     ) -> None:
         LOGGER.debug("Identifying message consumers")
         self._consumers = defaultdict(list)
-        for ctrl in controllers:
-            for name in dir(ctrl):
-                subject = getattr(ctrl, name)
+        for obj in objects:
+            for name in dir(obj):
+                subject = getattr(obj, name)
                 if callable(subject) and hasattr(subject, "consume_messages"):
                     for message_type in subject.consume_messages:
                         self._consumers[message_type].append(subject)
@@ -152,9 +152,8 @@ class MessageDispatchTask(GObject.Object):
                 consumers = self._consumers.get(message_type)
                 if consumers is None:
                     LOGGER.warning(f"No consumer for message of type {message_type}")
-                    return
-
-                for consumer in consumers:
-                    await consumer(message)
+                else:
+                    for consumer in consumers:
+                        await consumer(message)
         except asyncio.exceptions.CancelledError:
             LOGGER.debug("Won't dispatch messages anymore")
