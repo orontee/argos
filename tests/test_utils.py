@@ -3,7 +3,7 @@ import locale
 
 import pytest
 
-from argos.utils import compute_target_size, date_to_string, elide_maybe
+from argos.utils import compute_target_size, date_to_string, elide_maybe, ms_to_text
 
 
 class LocaleManager:
@@ -73,3 +73,11 @@ def test_date_to_string_with_locale():
         assert (
             date_to_string(date) == "30/01/2023"
         ), "date string depends on application locale"
+
+
+def test_ms_to_text():
+    assert ms_to_text(-1) == "--:--"
+    assert ms_to_text(1000) == "00:01"
+    assert ms_to_text(61 * 1000) == "01:01"
+    assert ms_to_text(70 * 60 * 1000) == "1:10:00"
+    assert ms_to_text(24 * 60 * 60 * 1000) == "More than one day"

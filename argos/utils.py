@@ -69,7 +69,7 @@ def ms_to_text(value: int) -> str:
             hours = minutes // 60
             minutes = minutes % 60
             text = f"{hours}:{minutes:02d}:{seconds:02d}"
-            if hours > 24:
+            if hours >= 24:
                 text = _("More than one day")
         else:
             text = f"{minutes:02d}:{seconds:02d}"
