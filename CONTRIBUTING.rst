@@ -84,7 +84,7 @@ Tests
 
 To run tests::
 
-  $ poetry run python -m pytest
+  $ poetry run python -m unittest discover tests/
 
 Architecture
 ============

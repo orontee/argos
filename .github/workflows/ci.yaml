@@ -46,4 +46,4 @@ jobs:
 
       - name: Run automatic tests
         run: |
-          poetry run python -m pytest
+          poetry run python -m unittest discover tests/
