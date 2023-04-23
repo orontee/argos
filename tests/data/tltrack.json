@@ -1,0 +1,48 @@
+{
+    "__model__": "TlTrack",
+    "tlid": 7488,
+    "track": {
+        "__model__": "Track",
+        "uri": "local:track:Johnny%20Cash/American%20V_%20A%20Hundred%20Highways/04%20If%20You%20Could%20Read%20My%20Mind.flac",
+        "name": "If You Could Read My Mind",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:05f83e3daa5c79119e922ac114e64390",
+                "name": "Johnny Cash",
+                "musicbrainz_id": "d43d12a1-2dc9-4257-a2fd-0a3bb1081b86"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:ff5c5b8f60a44e4c7d6f1bb53474e17b",
+            "name": "American V: A Hundred Highways",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:05f83e3daa5c79119e922ac114e64390",
+                    "name": "Johnny Cash",
+                    "musicbrainz_id": "d43d12a1-2dc9-4257-a2fd-0a3bb1081b86"
+                }
+            ],
+            "num_tracks": 12,
+            "num_discs": 1,
+            "date": "2006",
+            "musicbrainz_id": "9393e707-e105-42b5-aaac-c2a524a7a589"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:9971fa7313ec2adb880caa5192c7ae23",
+                "name": "Gordon Lightfoot"
+            }
+        ],
+        "genre": "Country",
+        "track_no": 4,
+        "disc_no": 1,
+        "date": "2006",
+        "length": 270000,
+        "musicbrainz_id": "851877ad-561d-496e-8196-6a52c0ae7a64",
+        "last_modified": 1678741922000
+    }
+}

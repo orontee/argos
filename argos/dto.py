@@ -46,8 +46,7 @@ def cast_seq_of(klass: Type[T], data: Any) -> List[T]:
 class RefDTO:
     """Data transfer object to represent URI references.
 
-    See
-    https://docs.mopidy.com/en/latest/api/models/#mopidy.models.Ref.
+    See https://docs.mopidy.com/en/latest/api/models/#mopidy.models.Ref.
     """
 
     type: RefType
@@ -64,11 +63,11 @@ class RefDTO:
         except ValueError:
             type = None
         uri = data.get("uri")
-        name = data.get("name")
 
-        if type is None or uri is None or name is None:
+        if type is None or uri is None:
             return None
 
+        name = data.get("name")
         return RefDTO(type, uri, name)
 
 
@@ -76,7 +75,7 @@ class RefDTO:
 class ArtistDTO:
     """Data transfer object to represent an artist.
 
-    https://docs.mopidy.com/en/latest/api/models/#mopidy.models.Artist
+    See https://docs.mopidy.com/en/latest/api/models/#mopidy.models.Artist.
     """
 
     uri: str
@@ -106,7 +105,7 @@ class ArtistDTO:
 class AlbumDTO:
     """Data transfer object to represent an album.
 
-    See https://docs.mopidy.com/en/latest/api/models/#mopidy.models.Album
+    See https://docs.mopidy.com/en/latest/api/models/#mopidy.models.Album.
 
     """
 
@@ -157,7 +156,7 @@ class AlbumDTO:
 class TrackDTO:
     """Data transfer object to represent a track.
 
-    See https://docs.mopidy.com/en/latest/api/models/#mopidy.models.Track
+    See https://docs.mopidy.com/en/latest/api/models/#mopidy.models.Track.
 
     """
 
@@ -242,7 +241,7 @@ class TrackDTO:
 class PlaylistDTO:
     """Data transfer object to represent a playlist.
 
-    https://docs.mopidy.com/en/latest/api/models/#mopidy.models.Playlist
+    See https://docs.mopidy.com/en/latest/api/models/#mopidy.models.Playlist.
     """
 
     uri: str
@@ -277,7 +276,7 @@ class PlaylistDTO:
 class ImageDTO:
     """Data transfer object to represent an image.
 
-    See https://docs.mopidy.com/en/latest/api/models/#mopidy.models.Image
+    See https://docs.mopidy.com/en/latest/api/models/#mopidy.models.Image.
     """
 
     uri: str
@@ -303,7 +302,7 @@ class ImageDTO:
 class TlTrackDTO:
     """Data transfer object to represent a tracklist track.
 
-    See https://docs.mopidy.com/en/latest/api/models/#mopidy.models.TlTrack
+    See https://docs.mopidy.com/en/latest/api/models/#mopidy.models.TlTrack.
     """
 
     tlid: int

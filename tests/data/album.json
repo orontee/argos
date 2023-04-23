@@ -1,0 +1,17 @@
+{
+    "__model__": "Album",
+    "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+    "name": "L'Essentiel des albums studio 1962-1985",
+    "artists": [
+        {
+            "__model__": "Artist",
+            "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+            "name": "Claude Nougaro",
+            "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+        }
+    ],
+    "num_tracks": 10,
+    "num_discs": 12,
+    "date": "2011-11-07",
+    "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+}
