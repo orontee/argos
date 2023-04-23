@@ -79,6 +79,13 @@ is generated from ``poetry``'s lock file using `flatpak-builder-tools
 
 Build dependencies are listed in the `Containerfile </Containerfile>`_.
 
+Tests
+=====
+
+To run tests::
+
+  $ poetry run python -m pytest
+
 Architecture
 ============
 
