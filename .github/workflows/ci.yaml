@@ -38,8 +38,12 @@ jobs:
 
       - name: Optionally install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: poetry install --no-interaction --no-root
+        run: poetry install --no-interaction --no-root --with=dev
 
       - name: Run quality assurance checks
         run: |
           poetry run pre-commit run -a
+
+      - name: Run automatic tests
+        run: |
+          poetry run python -m pytest

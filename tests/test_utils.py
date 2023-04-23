@@ -25,6 +25,7 @@ def unknown_locale(to_check: str):
     except locale.Error:
         return True
 
+
 def test_compute_target_size():
     assert compute_target_size(200, 100, max_size=50) == (50, 25)
     assert compute_target_size(100, 200, max_size=50) == (25, 50)

@@ -6,7 +6,7 @@ One can install dependencies and configure pre-commit hooks in a
 dedicated virtual Python environment using ``poetry``::
 
   $ poetry shell
-  $ poetry install
+  $ poetry install --with=dev
   $ pre-commit install
 
 Pre-commit hooks run ``mypy`` check and make sure code is properly
