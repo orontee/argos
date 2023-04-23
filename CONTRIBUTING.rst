@@ -86,6 +86,11 @@ To run tests::
 
   $ poetry run python -m unittest discover tests/
 
+or with coverage reporting::
+
+  $ poetry run coverage run -m unittest discover tests/
+  $ poerty run coverage report
+
 Architecture
 ============
 

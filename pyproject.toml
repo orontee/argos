@@ -22,6 +22,7 @@ mypy = "^0.982"
 black = "^22.10.0"
 pre-commit = "^v2.20.0"
 semver = "^2.13.0"
+coverage = "^7.2.3"
 
 [tool.mypy]
 ignore_missing_imports = false
@@ -39,3 +40,7 @@ build-backend = "poetry.core.masonry.api"
 profile = "black"
 skip_gitignore = true
 line_length = 88
+
+[tool.coverage.run]
+source = ["argos/"]
+omit = ["argos/app.py", "argos/notify.py", "argos/placement.py",  "argos/widgets/*", "argos/window.py", ]
