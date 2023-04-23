@@ -41,7 +41,7 @@ class AlbumDetailsBox(Gtk.Box):
     __gtype_name__ = "AlbumDetailsBox"
 
     default_album_image = default_image_pixbuf(
-        "media-optical", target_width=_ALBUM_IMAGE_SIZE
+        "media-optical", max_size=_ALBUM_IMAGE_SIZE
     )
 
     play_button: Gtk.Button = Gtk.Template.Child()
@@ -248,9 +248,7 @@ class AlbumDetailsBox(Gtk.Box):
     def _update_album_image(self, image_path: Optional[Path]) -> None:
         scaled_pixbuf = None
         if image_path:
-            scaled_pixbuf = scale_album_image(
-                image_path, target_width=_ALBUM_IMAGE_SIZE
-            )
+            scaled_pixbuf = scale_album_image(image_path, max_size=_ALBUM_IMAGE_SIZE)
 
         if scaled_pixbuf:
             self.album_image.set_from_pixbuf(scaled_pixbuf)

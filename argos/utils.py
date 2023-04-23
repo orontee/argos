@@ -11,24 +11,20 @@ ELIDE_THRESHOLD = 29
 
 
 def compute_target_size(
-    width: int, height: int, *, target_width: int
+    width: int, height: int, *, max_size: int
 ) -> Union[Tuple[int, int], Tuple[None, None]]:
-    """Compute the image size according to given target width."""
+    """Compute the image size according to given max size."""
     transpose = False
     if height > width:
         width, height = height, width
         transpose = True
 
-    if width <= 0:
+    if max_size <= 0 or width <= 0 or height <= 0:
         return None, None
 
-    width_scale = target_width / width
+    width_scale = max_size / width
     target_height = round(height * width_scale)
-    size = (
-        (target_width, target_height)
-        if not transpose
-        else (target_height, target_width)
-    )
+    size = (max_size, target_height) if not transpose else (target_height, max_size)
     return size
 
 

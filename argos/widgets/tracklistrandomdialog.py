@@ -32,7 +32,7 @@ class TracklistRandomDialog(Gtk.Dialog):
 
     default_choice_image = default_image_pixbuf(
         "media-optical",
-        target_width=CHOICE_IMAGE_SIZE,
+        max_size=CHOICE_IMAGE_SIZE,
     )
 
     strategy_combo_box: Gtk.ComboBox = Gtk.Template.Child()
@@ -207,8 +207,8 @@ class TracklistRandomDialog(Gtk.Dialog):
         scaled_pixbuf = None
         if image_path:
             rectangle = self.choice_image.get_allocation()
-            target_width = min(rectangle.width, rectangle.height)
-            scaled_pixbuf = scale_album_image(image_path, target_width=target_width)
+            max_size = min(rectangle.width, rectangle.height)
+            scaled_pixbuf = scale_album_image(image_path, max_size=max_size)
 
         if scaled_pixbuf:
             self.choice_image.set_from_pixbuf(scaled_pixbuf)

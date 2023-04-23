@@ -121,19 +121,19 @@ class LibraryWindow(Gtk.Box):
         self._default_images = {
             DirectoryItemType.ALBUM: default_image_pixbuf(
                 "media-optical",
-                target_width=self.image_size,
+                max_size=self.image_size,
             ),
             DirectoryItemType.DIRECTORY: default_image_pixbuf(
                 "inode-directory",
-                target_width=self.image_size,
+                max_size=self.image_size,
             ),
             DirectoryItemType.PLAYLIST: default_image_pixbuf(
                 "audio-x-generic",
-                target_width=self.image_size,
+                max_size=self.image_size,
             ),
             DirectoryItemType.TRACK: default_image_pixbuf(
                 "audio-x-generic",
-                target_width=self.image_size,
+                max_size=self.image_size,
             ),
         }
 
@@ -347,7 +347,7 @@ class LibraryWindow(Gtk.Box):
                         if force or current_pixbuf == default_image:
                             scaled_pixbuf = scale_album_image(
                                 image_path,
-                                target_width=image_size,
+                                max_size=image_size,
                             )
                     if scaled_pixbuf is None:
                         scaled_pixbuf = default_image

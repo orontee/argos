@@ -23,7 +23,7 @@ class CondensedPlayingBox(Gtk.Box):
 
     default_track_image = default_image_pixbuf(
         "audio-x-generic",
-        target_width=TRACK_IMAGE_SIZE,
+        max_size=TRACK_IMAGE_SIZE,
     )
 
     playing_track_image: Gtk.Image = Gtk.Template.Child()
@@ -113,7 +113,7 @@ class CondensedPlayingBox(Gtk.Box):
         )
         scaled_pixbuf = None
         if image_path:
-            scaled_pixbuf = scale_album_image(image_path, target_width=TRACK_IMAGE_SIZE)
+            scaled_pixbuf = scale_album_image(image_path, max_size=TRACK_IMAGE_SIZE)
 
         if scaled_pixbuf:
             self.playing_track_image.set_from_pixbuf(scaled_pixbuf)

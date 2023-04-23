@@ -35,7 +35,7 @@ class PlayingBox(Gtk.Box):
 
     default_track_image = default_image_pixbuf(
         "audio-x-generic",
-        target_width=TRACK_IMAGE_SIZE,
+        max_size=TRACK_IMAGE_SIZE,
     )
 
     playing_track_image: Gtk.Image = Gtk.Template.Child()
@@ -176,8 +176,8 @@ class PlayingBox(Gtk.Box):
         scaled_pixbuf = None
         if image_path:
             rectangle = self.playing_track_image.get_allocation()
-            target_width = min(rectangle.width, rectangle.height)
-            scaled_pixbuf = scale_album_image(image_path, target_width=target_width)
+            max_size = min(rectangle.width, rectangle.height)
+            scaled_pixbuf = scale_album_image(image_path, max_size=max_size)
 
         if scaled_pixbuf:
             self.playing_track_image.set_from_pixbuf(scaled_pixbuf)

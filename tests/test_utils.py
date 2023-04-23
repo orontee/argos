@@ -3,7 +3,7 @@ import locale
 
 import pytest
 
-from argos.utils import date_to_string, elide_maybe
+from argos.utils import compute_target_size, date_to_string, elide_maybe
 
 
 class LocaleManager:
@@ -24,6 +24,15 @@ def unknown_locale(to_check: str):
             return False
     except locale.Error:
         return True
+
+def test_compute_target_size():
+    assert compute_target_size(200, 100, max_size=50) == (50, 25)
+    assert compute_target_size(100, 200, max_size=50) == (25, 50)
+    assert compute_target_size(-200, 100, max_size=50) == (None, None)
+    assert compute_target_size(200, -100, max_size=50) == (None, None)
+    assert compute_target_size(200, 100, max_size=0) == (None, None)
+    assert compute_target_size(0, 100, max_size=50) == (None, None)
+    assert compute_target_size(200, 100, max_size=-50) == (None, None)
 
 
 def test_elide_maybe():

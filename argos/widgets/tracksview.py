@@ -23,7 +23,7 @@ class TracksView(Gtk.Box):
     __gtype_name__ = "TracksView"
 
     default_directory_image = default_image_pixbuf(
-        "inode-directory", target_width=_DIRECTORY_IMAGE_SIZE
+        "inode-directory", max_size=_DIRECTORY_IMAGE_SIZE
     )
 
     play_button: Gtk.Button = Gtk.Template.Child()

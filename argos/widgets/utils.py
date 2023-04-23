@@ -26,13 +26,13 @@ def tracks_length(tracks: Sequence[TrackModel]) -> int:
     return length
 
 
-def default_image_pixbuf(icon_name: str, target_width: int) -> Pixbuf:
-    pixbuf = Gtk.IconTheme.get_default().load_icon(icon_name, target_width, 0)
+def default_image_pixbuf(icon_name: str, max_size: int) -> Pixbuf:
+    pixbuf = Gtk.IconTheme.get_default().load_icon(icon_name, max_size, 0)
     original_width, original_height = pixbuf.get_width(), pixbuf.get_height()
     width, height = compute_target_size(
         original_width,
         original_height,
-        target_width=target_width,
+        max_size=max_size,
     )
     if (original_width, original_height) == (width, height):
         return pixbuf
@@ -42,7 +42,7 @@ def default_image_pixbuf(icon_name: str, target_width: int) -> Pixbuf:
 
 
 @lru_cache
-def scale_album_image(image_path: Path, *, target_width: int) -> Optional[Pixbuf]:
+def scale_album_image(image_path: Path, *, max_size: int) -> Optional[Pixbuf]:
     pixbuf = None
     try:
         pixbuf = Pixbuf.new_from_file(str(image_path))
@@ -55,7 +55,7 @@ def scale_album_image(image_path: Path, *, target_width: int) -> Optional[Pixbuf
     width, height = compute_target_size(
         pixbuf.get_width(),
         pixbuf.get_height(),
-        target_width=target_width,
+        max_size=max_size,
     )
     scaled_pixbuf = pixbuf.scale_simple(width, height, GdkPixbuf.InterpType.BILINEAR)
     return scaled_pixbuf
