@@ -8,6 +8,7 @@ import aiohttp
 import xdg.BaseDirectory  # type: ignore
 
 try:
+    import aiosqlite  # noqa
     from aiohttp_client_cache import CachedSession, SQLiteBackend
 except ImportError:
     CachedSession = None  # type: ignore
