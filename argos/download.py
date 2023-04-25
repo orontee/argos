@@ -52,8 +52,10 @@ class ImageDownloader(GObject.GObject):
             filename = None
         elif image_uri.startswith("/local/"):
             filename = Path(image_uri).parts[-1]
-        elif image_uri.startswith("https://") or image_uri.startswith("http://"):
+        elif image_uri.startswith("https://"):
             filename = urllib.parse.quote(image_uri[8:], safe="")
+        elif image_uri.startswith("http://"):
+            filename = urllib.parse.quote(image_uri[7:], safe="")
         else:
             LOGGER.warning(f"Unsupported URI scheme {image_uri!r}")
             filename = None
