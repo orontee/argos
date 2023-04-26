@@ -1,0 +1,38 @@
+[
+    {
+      "__model__": "Ref",
+      "uri": "file:///home/matthias/Musique",
+      "name": "Files",
+      "type": "directory"
+    },
+    {
+      "__model__": "Ref",
+      "uri": "internetarchive:",
+      "name": "Internet Archive",
+      "type": "directory"
+    },
+    {
+      "__model__": "Ref",
+      "uri": "local:directory",
+      "name": "Local media",
+      "type": "directory"
+    },
+    {
+      "__model__": "Ref",
+      "uri": "podcast+file:///etc/mopidy/podcast/Podcasts.opml",
+      "name": "Podcasts",
+      "type": "directory"
+    },
+    {
+      "__model__": "Ref",
+      "uri": "somafm:root",
+      "name": "SomaFM",
+      "type": "directory"
+    },
+    {
+      "__model__": "Ref",
+      "uri": "bandcamp:browse",
+      "name": "bandcamp",
+      "type": "directory"
+    }
+  ]

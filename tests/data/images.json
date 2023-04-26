@@ -1,0 +1,18 @@
+{
+    "local:track:Agn%C3%A8s%20Capri/Succ%C3%A8s%20et%20raret%C3%A9s/02%20Adrien.flac": [
+      {
+        "__model__": "Image",
+        "uri": "/local/56602ea7ed2f6bd2a947c6c4d8a78003-500x500.jpeg",
+        "width": 500,
+        "height": 500
+      }
+    ],
+    "local:track:The%20Duke%20Ellington%20Orchestra%20%26%20The%20Count%20Basie%20Orchestra/Battle%20Royal%20-%20Duke%20Ellington%20meets%20Count%20Basie/04%20Corner%20Pocket%20%5Baka%20Until%20I%20Met%20You%5D.flac": [
+      {
+        "__model__": "Image",
+        "uri": "/local/762d7832b489e173aabde736136bb408-300x301.jpeg",
+        "width": 300,
+        "height": 301
+      }
+    ]
+  }

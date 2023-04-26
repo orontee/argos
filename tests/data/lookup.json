@@ -1,0 +1,538 @@
+{
+    "http://direct.franceinter.fr/live/franceinter-midfi.mp3": [
+        {
+            "__model__": "Track",
+            "uri": "http://direct.franceinter.fr/live/franceinter-midfi.mp3",
+            "name": "franceinter-midfi.mp3"
+        }
+    ],
+    "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d": [
+        {
+            "__model__": "Track",
+            "uri": "local:track:The%20Duke%20Ellington%20Orchestra%20%26%20The%20Count%20Basie%20Orchestra/Battle%20Royal%20-%20Duke%20Ellington%20meets%20Count%20Basie/01%20Battle%20Royal.flac",
+            "name": "Battle Royal",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                    "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                }
+            ],
+            "album": {
+                "__model__": "Album",
+                "uri": "local:album:md5:3cac30516d7890bdd181867fc84e260a",
+                "name": "Battle Royal - Duke Ellington meets Count Basie",
+                "artists": [
+                    {
+                        "__model__": "Artist",
+                        "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                        "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                    }
+                ],
+                "num_tracks": 17,
+                "date": "1961"
+            },
+            "genre": "Jazz",
+            "track_no": 1,
+            "date": "1961",
+            "length": 336506,
+            "last_modified": 1590874037829
+        },
+        {
+            "__model__": "Track",
+            "uri": "local:track:The%20Duke%20Ellington%20Orchestra%20%26%20The%20Count%20Basie%20Orchestra/Battle%20Royal%20-%20Duke%20Ellington%20meets%20Count%20Basie/02%20To%20You.flac",
+            "name": "To You",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                    "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                }
+            ],
+            "album": {
+                "__model__": "Album",
+                "uri": "local:album:md5:3cac30516d7890bdd181867fc84e260a",
+                "name": "Battle Royal - Duke Ellington meets Count Basie",
+                "artists": [
+                    {
+                        "__model__": "Artist",
+                        "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                        "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                    }
+                ],
+                "num_tracks": 17,
+                "date": "1961"
+            },
+            "genre": "Jazz",
+            "track_no": 2,
+            "date": "1961",
+            "length": 236000,
+            "last_modified": 1590874019399
+        },
+        {
+            "__model__": "Track",
+            "uri": "local:track:The%20Duke%20Ellington%20Orchestra%20%26%20The%20Count%20Basie%20Orchestra/Battle%20Royal%20-%20Duke%20Ellington%20meets%20Count%20Basie/03%20Take%20The%20_A_%20Train.flac",
+            "name": "Take The \"A\" Train",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                    "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                }
+            ],
+            "album": {
+                "__model__": "Album",
+                "uri": "local:album:md5:3cac30516d7890bdd181867fc84e260a",
+                "name": "Battle Royal - Duke Ellington meets Count Basie",
+                "artists": [
+                    {
+                        "__model__": "Artist",
+                        "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                        "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                    }
+                ],
+                "num_tracks": 17,
+                "date": "1961"
+            },
+            "genre": "Jazz",
+            "track_no": 3,
+            "date": "1961",
+            "length": 228760,
+            "last_modified": 1590874006049
+        },
+        {
+            "__model__": "Track",
+            "uri": "local:track:The%20Duke%20Ellington%20Orchestra%20%26%20The%20Count%20Basie%20Orchestra/Battle%20Royal%20-%20Duke%20Ellington%20meets%20Count%20Basie/04%20Corner%20Pocket%20%5Baka%20Until%20I%20Met%20You%5D.flac",
+            "name": "Corner Pocket [aka Until I Met You]",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                    "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                }
+            ],
+            "album": {
+                "__model__": "Album",
+                "uri": "local:album:md5:3cac30516d7890bdd181867fc84e260a",
+                "name": "Battle Royal - Duke Ellington meets Count Basie",
+                "artists": [
+                    {
+                        "__model__": "Artist",
+                        "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                        "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                    }
+                ],
+                "num_tracks": 17,
+                "date": "1961"
+            },
+            "genre": "Jazz",
+            "track_no": 4,
+            "date": "1961",
+            "length": 295760,
+            "last_modified": 1590874023759
+        },
+        {
+            "__model__": "Track",
+            "uri": "local:track:The%20Duke%20Ellington%20Orchestra%20%26%20The%20Count%20Basie%20Orchestra/Battle%20Royal%20-%20Duke%20Ellington%20meets%20Count%20Basie/05%20Wild%20Man%20%5Baka%20Wild%20Man%20Moore%5D.flac",
+            "name": "Wild Man [aka Wild Man Moore]",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                    "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                }
+            ],
+            "album": {
+                "__model__": "Album",
+                "uri": "local:album:md5:3cac30516d7890bdd181867fc84e260a",
+                "name": "Battle Royal - Duke Ellington meets Count Basie",
+                "artists": [
+                    {
+                        "__model__": "Artist",
+                        "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                        "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                    }
+                ],
+                "num_tracks": 17,
+                "date": "1961"
+            },
+            "genre": "Jazz",
+            "track_no": 5,
+            "date": "1961",
+            "length": 383760,
+            "last_modified": 1590874015399
+        },
+        {
+            "__model__": "Track",
+            "uri": "local:track:The%20Duke%20Ellington%20Orchestra%20%26%20The%20Count%20Basie%20Orchestra/Battle%20Royal%20-%20Duke%20Ellington%20meets%20Count%20Basie/06%20Segue%20In%20C.flac",
+            "name": "Segue In C",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                    "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                }
+            ],
+            "album": {
+                "__model__": "Album",
+                "uri": "local:album:md5:3cac30516d7890bdd181867fc84e260a",
+                "name": "Battle Royal - Duke Ellington meets Count Basie",
+                "artists": [
+                    {
+                        "__model__": "Artist",
+                        "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                        "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                    }
+                ],
+                "num_tracks": 17,
+                "date": "1961"
+            },
+            "genre": "Jazz",
+            "track_no": 6,
+            "date": "1961",
+            "length": 504626,
+            "last_modified": 1590874048119
+        },
+        {
+            "__model__": "Track",
+            "uri": "local:track:The%20Duke%20Ellington%20Orchestra%20%26%20The%20Count%20Basie%20Orchestra/Battle%20Royal%20-%20Duke%20Ellington%20meets%20Count%20Basie/07%20B%20D%20B.flac",
+            "name": "B D B",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                    "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                }
+            ],
+            "album": {
+                "__model__": "Album",
+                "uri": "local:album:md5:3cac30516d7890bdd181867fc84e260a",
+                "name": "Battle Royal - Duke Ellington meets Count Basie",
+                "artists": [
+                    {
+                        "__model__": "Artist",
+                        "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                        "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                    }
+                ],
+                "num_tracks": 17,
+                "date": "1961"
+            },
+            "genre": "Jazz",
+            "track_no": 7,
+            "date": "1961",
+            "length": 286253,
+            "last_modified": 1590874077209
+        },
+        {
+            "__model__": "Track",
+            "uri": "local:track:The%20Duke%20Ellington%20Orchestra%20%26%20The%20Count%20Basie%20Orchestra/Battle%20Royal%20-%20Duke%20Ellington%20meets%20Count%20Basie/08%20Jumpin%27%20At%20The%20Woodside.flac",
+            "name": "Jumpin' At The Woodside",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                    "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                }
+            ],
+            "album": {
+                "__model__": "Album",
+                "uri": "local:album:md5:3cac30516d7890bdd181867fc84e260a",
+                "name": "Battle Royal - Duke Ellington meets Count Basie",
+                "artists": [
+                    {
+                        "__model__": "Artist",
+                        "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                        "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                    }
+                ],
+                "num_tracks": 17,
+                "date": "1961"
+            },
+            "genre": "Jazz",
+            "track_no": 8,
+            "date": "1961",
+            "length": 191253,
+            "last_modified": 1590874008959
+        },
+        {
+            "__model__": "Track",
+            "uri": "local:track:The%20Duke%20Ellington%20Orchestra%20%26%20The%20Count%20Basie%20Orchestra/Battle%20Royal%20-%20Duke%20Ellington%20meets%20Count%20Basie/09%20One%20More%20Once.flac",
+            "name": "One More Once",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                    "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                }
+            ],
+            "album": {
+                "__model__": "Album",
+                "uri": "local:album:md5:3cac30516d7890bdd181867fc84e260a",
+                "name": "Battle Royal - Duke Ellington meets Count Basie",
+                "artists": [
+                    {
+                        "__model__": "Artist",
+                        "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                        "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                    }
+                ],
+                "num_tracks": 17,
+                "date": "1961"
+            },
+            "genre": "Jazz",
+            "track_no": 9,
+            "date": "1961",
+            "length": 208133,
+            "last_modified": 1590874061919
+        },
+        {
+            "__model__": "Track",
+            "uri": "local:track:The%20Duke%20Ellington%20Orchestra%20%26%20The%20Count%20Basie%20Orchestra/Battle%20Royal%20-%20Duke%20Ellington%20meets%20Count%20Basie/10%20Blues%20In%20Hoss%27%20Flat%20%5BBlues%20in%20Frankie%27s%20Flat%5D.flac",
+            "name": "Blues In Hoss' Flat [Blues in Frankie's Flat]",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                    "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                }
+            ],
+            "album": {
+                "__model__": "Album",
+                "uri": "local:album:md5:3cac30516d7890bdd181867fc84e260a",
+                "name": "Battle Royal - Duke Ellington meets Count Basie",
+                "artists": [
+                    {
+                        "__model__": "Artist",
+                        "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                        "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                    }
+                ],
+                "num_tracks": 17,
+                "date": "1961"
+            },
+            "genre": "Jazz",
+            "track_no": 10,
+            "date": "1961",
+            "length": 195866,
+            "last_modified": 1590874041529
+        },
+        {
+            "__model__": "Track",
+            "uri": "local:track:The%20Duke%20Ellington%20Orchestra%20%26%20The%20Count%20Basie%20Orchestra/Battle%20Royal%20-%20Duke%20Ellington%20meets%20Count%20Basie/11%20Perdido.flac",
+            "name": "Perdido",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                    "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                }
+            ],
+            "album": {
+                "__model__": "Album",
+                "uri": "local:album:md5:3cac30516d7890bdd181867fc84e260a",
+                "name": "Battle Royal - Duke Ellington meets Count Basie",
+                "artists": [
+                    {
+                        "__model__": "Artist",
+                        "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                        "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                    }
+                ],
+                "num_tracks": 17,
+                "date": "1961"
+            },
+            "genre": "Jazz",
+            "track_no": 11,
+            "date": "1961",
+            "length": 295506,
+            "last_modified": 1590874072219
+        },
+        {
+            "__model__": "Track",
+            "uri": "local:track:The%20Duke%20Ellington%20Orchestra%20%26%20The%20Count%20Basie%20Orchestra/Battle%20Royal%20-%20Duke%20Ellington%20meets%20Count%20Basie/12%20What%20Am%20I%20Here%20For_.flac",
+            "name": "What Am I Here For?",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                    "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                }
+            ],
+            "album": {
+                "__model__": "Album",
+                "uri": "local:album:md5:3cac30516d7890bdd181867fc84e260a",
+                "name": "Battle Royal - Duke Ellington meets Count Basie",
+                "artists": [
+                    {
+                        "__model__": "Artist",
+                        "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                        "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                    }
+                ],
+                "num_tracks": 17,
+                "date": "1961"
+            },
+            "genre": "Jazz",
+            "track_no": 12,
+            "date": "1961",
+            "length": 202253,
+            "last_modified": 1590874064139
+        },
+        {
+            "__model__": "Track",
+            "uri": "local:track:The%20Duke%20Ellington%20Orchestra%20%26%20The%20Count%20Basie%20Orchestra/Battle%20Royal%20-%20Duke%20Ellington%20meets%20Count%20Basie/13%20I%27m%20Beginning%20To%20See%20The%20Light.flac",
+            "name": "I'm Beginning To See The Light",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                    "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                }
+            ],
+            "album": {
+                "__model__": "Album",
+                "uri": "local:album:md5:3cac30516d7890bdd181867fc84e260a",
+                "name": "Battle Royal - Duke Ellington meets Count Basie",
+                "artists": [
+                    {
+                        "__model__": "Artist",
+                        "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                        "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                    }
+                ],
+                "num_tracks": 17,
+                "date": "1961"
+            },
+            "genre": "Jazz",
+            "track_no": 13,
+            "date": "1961",
+            "length": 189506,
+            "last_modified": 1590874052289
+        },
+        {
+            "__model__": "Track",
+            "uri": "local:track:The%20Duke%20Ellington%20Orchestra%20%26%20The%20Count%20Basie%20Orchestra/Battle%20Royal%20-%20Duke%20Ellington%20meets%20Count%20Basie/14%20In%20a%20Mellow%20Tone.flac",
+            "name": "In a Mellow Tone",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                    "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                }
+            ],
+            "album": {
+                "__model__": "Album",
+                "uri": "local:album:md5:3cac30516d7890bdd181867fc84e260a",
+                "name": "Battle Royal - Duke Ellington meets Count Basie",
+                "artists": [
+                    {
+                        "__model__": "Artist",
+                        "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                        "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                    }
+                ],
+                "num_tracks": 17,
+                "date": "1961"
+            },
+            "genre": "Jazz",
+            "track_no": 14,
+            "date": "1961",
+            "length": 418000,
+            "last_modified": 1590874030849
+        },
+        {
+            "__model__": "Track",
+            "uri": "local:track:The%20Duke%20Ellington%20Orchestra%20%26%20The%20Count%20Basie%20Orchestra/Battle%20Royal%20-%20Duke%20Ellington%20meets%20Count%20Basie/15%20One%20O%27Clock%20Jump.flac",
+            "name": "One O'Clock Jump",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                    "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                }
+            ],
+            "album": {
+                "__model__": "Album",
+                "uri": "local:album:md5:3cac30516d7890bdd181867fc84e260a",
+                "name": "Battle Royal - Duke Ellington meets Count Basie",
+                "artists": [
+                    {
+                        "__model__": "Artist",
+                        "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                        "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                    }
+                ],
+                "num_tracks": 17,
+                "date": "1961"
+            },
+            "genre": "Jazz",
+            "track_no": 15,
+            "date": "1961",
+            "length": 373400,
+            "last_modified": 1590874058429
+        },
+        {
+            "__model__": "Track",
+            "uri": "local:track:The%20Duke%20Ellington%20Orchestra%20%26%20The%20Count%20Basie%20Orchestra/Battle%20Royal%20-%20Duke%20Ellington%20meets%20Count%20Basie/16%20Wild%20Man%20Moore%20%5BParis%20Blues%20version%5D.flac",
+            "name": "Wild Man Moore [Paris Blues version]",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                    "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                }
+            ],
+            "album": {
+                "__model__": "Album",
+                "uri": "local:album:md5:3cac30516d7890bdd181867fc84e260a",
+                "name": "Battle Royal - Duke Ellington meets Count Basie",
+                "artists": [
+                    {
+                        "__model__": "Artist",
+                        "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                        "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                    }
+                ],
+                "num_tracks": 17,
+                "date": "1961"
+            },
+            "genre": "Jazz",
+            "track_no": 16,
+            "date": "1961",
+            "length": 109000,
+            "last_modified": 1590874049899
+        },
+        {
+            "__model__": "Track",
+            "uri": "local:track:The%20Duke%20Ellington%20Orchestra%20%26%20The%20Count%20Basie%20Orchestra/Battle%20Royal%20-%20Duke%20Ellington%20meets%20Count%20Basie/17%20Battle%20Royal%20%5BParis%20Blues%20version%5D.flac",
+            "name": "Battle Royal [Paris Blues version]",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                    "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                }
+            ],
+            "album": {
+                "__model__": "Album",
+                "uri": "local:album:md5:3cac30516d7890bdd181867fc84e260a",
+                "name": "Battle Royal - Duke Ellington meets Count Basie",
+                "artists": [
+                    {
+                        "__model__": "Artist",
+                        "uri": "local:artist:md5:e9c2ccea0d6d00a330cef5dce77f892d",
+                        "name": "The Duke Ellington Orchestra & The Count Basie Orchestra"
+                    }
+                ],
+                "num_tracks": 17,
+                "date": "1961"
+            },
+            "genre": "Jazz",
+            "track_no": 17,
+            "date": "1961",
+            "length": 268133,
+            "last_modified": 1590874068549
+        }
+    ]
+}
