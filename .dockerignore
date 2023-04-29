@@ -5,12 +5,17 @@ TAGS
 
 # Build files
 *.pyc
-/dist/
-data/gschemas.compiled
-/argos/io.github.orontee.Argos.gresource
-/README.html
-/builddir/
 /.flatpak-builder/
-po/io.github.orontee.Argos.pot
+/.git/
+/.mypy_cache/
+/README.html
+/argos/io.github.orontee.Argos.gresource
 /argos_*.orig.tar.gz
+/build-aux/
+/builddir/
+/dist/
+/htmlcov/
+data/gschemas.compiled
+po/io.github.orontee.Argos.pot
 repo/
+/.python-version

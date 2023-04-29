@@ -45,7 +45,7 @@ To build the DEB package *for a given version*, one can build a Docker
 image and export the DEB file from that image::
 
   $ VERSION=$(poetry version | cut -d' ' -f 2)
-  $ git checkout v${VERSION}
+  $ rm -rf builddir
   $ buildah bud -t argos-build:$VERSION --build-arg VERSION=${VERSION} .
   $ podman run --rm -v ${PWD}:/opt/argos argos-build:$VERSION bash -c "cp builddir/*.deb /opt/argos"
 
@@ -92,6 +92,12 @@ For coverage reporting::
 
   $ poetry run coverage run -m unittest discover tests/
   $ poerty run coverage report
+
+To run tests with a specific version of Python, say 3.10::
+
+  $ buildah bud -t argos-dev --target dev .
+  $ podman run --rm --env PYTHON_VERSION=3.10 -v ${PWD}:/opt/argos argos-dev \
+           bash -c 'pushd /opt/argos/ && eval "$(pyenv init -)" && pyenv install -v ${PYTHON_VERSION} && export PYENV_VERSION=${PYTHON_VERSION} && poetry env use ${PYENV_VERSION} && poetry install --no-interaction --with=dev && poetry run python3 -m unittest discover tests/'
 
 Architecture
 ============

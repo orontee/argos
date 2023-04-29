@@ -17,3 +17,4 @@ po/io.github.orontee.Argos.pot
 /argos_*.orig.tar.gz
 /argos_*.deb
 repo/
+/.python-version
