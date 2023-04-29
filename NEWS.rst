@@ -23,6 +23,9 @@ Added
 Changed
 -------
 
+- Various minor fixes applied while writing automatic tests `#138
+  <https://github.com/orontee/argos/pull/138>`_
+
 Removed
 -------
 
