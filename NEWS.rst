@@ -23,6 +23,9 @@ Added
 Changed
 -------
 
+- Fix type error while sorting library `#139
+  <https://github.com/orontee/argos/pull/139>`_
+
 - Various minor fixes applied while writing automatic tests `#138
   <https://github.com/orontee/argos/pull/138>`_
 

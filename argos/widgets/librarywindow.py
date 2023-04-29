@@ -105,8 +105,8 @@ class LibraryWindow(Gtk.Box):
         )
         self._model.connect(
             "albums-sorted",
-            lambda model, directory_uri: self._update_store(
-                model, directory_uri, context="album-sorted signal received"
+            lambda model: self._update_store(
+                model, self.props.directory_uri, context="album-sorted signal received"
             ),
         )
         application.props.download.connect(
