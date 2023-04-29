@@ -15,9 +15,6 @@ from argos.dto import (
     cast_seq_of,
 )
 
-logger = logging.getLogger("argos")
-logger.setLevel(logging.ERROR)
-
 
 def load_json_data(filename: str):
     path = pathlib.Path(__file__).parent / "data" / filename
@@ -230,11 +227,16 @@ class TestCastSeqOf(unittest.TestCase):
     def test_casting_with_incompatible_class(self):
         track_data = load_json_data("track.json")
         data = [track_data] * 3
-        tltracks = cast_seq_of(TlTrackDTO, data)
+        with self.assertLogs("argos", level=logging.WARNING) as logs:
+            tltracks = cast_seq_of(TlTrackDTO, data)
         self.assertEqual(len(tltracks), 0)
+        self.assertEqual(len(logs.output), 3)
 
     def test_casting_with_wrong_data(self):
         track_data = load_json_data("track.json")
         data = [track_data, {}]
-        tracks = cast_seq_of(TrackDTO, data)
+        with self.assertLogs("argos.dto", logging.WARNING) as logs:
+            tracks = cast_seq_of(TrackDTO, data)
+
         self.assertEqual(len(tracks), 1)
+        self.assertEqual(len(logs.output), 1)

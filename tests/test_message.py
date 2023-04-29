@@ -1,5 +1,6 @@
 import asyncio
 import json
+import logging
 import pathlib
 import unittest
 from unittest.mock import Mock
@@ -47,12 +48,14 @@ class TestMessageDispatchTask(unittest.IsolatedAsyncioTestCase):
         )
 
         parsed_ws_msg = load_json_data("track_playback_ended.json")
-        await app.message_queue.put(
-            Message(MessageType.TRACK_PLAYBACK_ENDED, parsed_ws_msg)
-        )
+        with self.assertLogs("argos", logging.WARNING) as logs:
+            await app.message_queue.put(
+                Message(MessageType.TRACK_PLAYBACK_ENDED, parsed_ws_msg)
+            )
 
-        await asyncio.sleep(0.1)
+            await asyncio.sleep(0)
 
+        self.assertTrue(len(logs.output), 1)
         self.assertTrue(app.message_queue.empty())
         self.assertEqual(consumer.counter, 1)
 
@@ -65,10 +68,13 @@ class TestMessageDispatchTask(unittest.IsolatedAsyncioTestCase):
         self.task = self.loop.create_task(dispatcher())
 
         parsed_ws_msg = load_json_data("track_playback_started.json")
-        msg = Message(MessageType.TRACK_PLAYBACK_STARTED, parsed_ws_msg)
-        await app.message_queue.put(msg)
-        await app.message_queue.put(msg)
+        with self.assertLogs("argos", logging.WARNING) as logs:
+            msg = Message(MessageType.TRACK_PLAYBACK_STARTED, parsed_ws_msg)
 
-        await asyncio.sleep(0.1)
+            await app.message_queue.put(msg)
+            await app.message_queue.put(msg)
 
+            await asyncio.sleep(0)
+
+        self.assertTrue(len(logs.output), 2)
         self.assertTrue(app.message_queue.empty())

@@ -1,3 +1,4 @@
+import logging
 import unittest
 from unittest.mock import Mock
 
@@ -34,4 +35,7 @@ class TestImageDownloader(unittest.TestCase):
         )
 
     def test_get_image_filepath_for_unsupported_scheme(self):
-        self.assertIsNone(self.downloader.get_image_filepath("ssh://host/file.jpg"))
+        with self.assertLogs("argos", logging.WARNING) as logs:
+            self.assertIsNone(self.downloader.get_image_filepath("ssh://host/file.jpg"))
+
+        self.assertEqual(len(logs.output), 1)
