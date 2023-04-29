@@ -1,11 +1,16 @@
 import logging
+import pathlib
 import unittest
-from unittest.mock import Mock
+from unittest.mock import Mock, mock_open, patch
 
+from aiohttp import web
+from aiohttp.test_utils import AioHTTPTestCase
+
+import argos.session
 from argos.download import ImageDownloader
 
 
-class TestImageDownloader(unittest.TestCase):
+class TestGetImageFilePath(unittest.TestCase):
     def setUp(self):
         app = Mock()
         self.downloader = ImageDownloader(app)
@@ -36,6 +41,101 @@ class TestImageDownloader(unittest.TestCase):
 
     def test_get_image_filepath_for_unsupported_scheme(self):
         with self.assertLogs("argos", logging.WARNING) as logs:
-            self.assertIsNone(self.downloader.get_image_filepath("ssh://host/file.jpg"))
+            self.assertIsNone(
+                self.downloader.get_image_filepath("sftp://host/file.jpg")
+            )
 
         self.assertEqual(len(logs.output), 1)
+
+
+class TestImageDownloader(unittest.IsolatedAsyncioTestCase):
+    async def test_fetch_image_without_base_url(self):
+        app = Mock()
+        app.props.settings.get_string.return_value = None
+        # get_string is the way to get mopidy-base-url setting
+
+        downloader = ImageDownloader(app)
+        image_path = await downloader.fetch_image(
+            "/local/b23fb74538aa914239bde443f7343632-220x220.jpeg"
+        )
+        self.assertIsNone(image_path)
+
+    async def test_fetch_image_with_unsupported_scheme(self):
+        app = Mock()
+        app.props.settings.get_string.return_value = "https://a.mopidy.server"
+        # get_string is the way to get mopidy-base-url setting
+
+        downloader = ImageDownloader(app)
+        with self.assertLogs("argos"):
+            image_path = await downloader.fetch_image("sftp://host/file.jpg")
+
+        self.assertIsNone(image_path)
+
+    async def test_fetch_image_with_existing_file(self):
+        app = Mock()
+        app.props.settings.get_string.return_value = "https://a.mopidy.server"
+        # get_string is the way to get mopidy-base-url setting
+
+        expected_image_path_end = (
+            "/argos/images/b23fb74538aa914239bde443f7343632-220x220.jpeg"
+        )
+
+        downloader = ImageDownloader(app)
+        with patch.object(
+            pathlib.Path, "exists", lambda p: str(p).endswith(expected_image_path_end)
+        ):
+            image_path = await downloader.fetch_image(
+                "/local/b23fb74538aa914239bde443f7343632-220x220.jpeg"
+            )
+
+        self.assertTrue(str(image_path).endswith(expected_image_path_end))
+
+
+class TestImageDownloaderWithTestServer(AioHTTPTestCase):
+    async def asyncSetUp(self):
+        await super().asyncSetUp()
+        self.patcher = patch.object(argos.session.HTTPSessionManager, "get_session")
+        self.addAsyncCleanup(self.patcher.stop)
+
+        base_url = str(self.server.make_url("/"))
+        app = Mock()
+        app.props.settings.get_string.return_value = base_url
+        # get_string is the way to get mopidy-base-url setting
+
+        app.http_session_manager = self.patcher.start()
+        app.http_session_manager.get_session.return_value.__aenter__.return_value = (
+            self.client.session
+        )
+        self.downloader = ImageDownloader(app)
+
+    async def get_application(self):
+        async def answer(request):
+            return web.Response(text="image content")
+
+        app = web.Application()
+        app.router.add_get(
+            "/local/b23fb74538aa914239bde443f7343632-220x220.jpeg", answer
+        )
+        return app
+
+    async def test_fetch_image(self):
+
+        expected_image_path_end = (
+            "/argos/images/b23fb74538aa914239bde443f7343632-220x220.jpeg"
+        )
+
+        with patch.object(
+            pathlib.Path,
+            "exists",
+            lambda p: not str(p).endswith(expected_image_path_end),
+        ):
+            open_mock = mock_open()
+            with patch("pathlib.Path.open", open_mock):
+                image_path = await self.downloader.fetch_image(
+                    "/local/b23fb74538aa914239bde443f7343632-220x220.jpeg"
+                )
+
+        self.assertTrue(str(image_path).endswith(expected_image_path_end))
+        open_mock.assert_called_once()
+        handle = open_mock()
+        handle.write.assert_called_once_with(b"image content")

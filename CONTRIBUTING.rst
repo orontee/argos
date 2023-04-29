@@ -82,11 +82,13 @@ Build dependencies are listed in the `Containerfile </Containerfile>`_.
 Tests
 =====
 
-To run tests::
+Tests are implemented using the ``unittest`` framework from the
+standard library. Thus to run all tests one can execute the following
+command::
 
   $ poetry run python -m unittest discover tests/
 
-or with coverage reporting::
+For coverage reporting::
 
   $ poetry run coverage run -m unittest discover tests/
   $ poerty run coverage report
