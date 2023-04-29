@@ -87,6 +87,7 @@ class ImageDownloader(GObject.GObject):
                                 fd.write(chunk)
                 except aiohttp.ClientError as err:
                     LOGGER.error(f"Failed to request image {image_uri}, {err}")
+                    return None
         return filepath
 
     async def fetch_images(self, image_uris: List[str]) -> None:

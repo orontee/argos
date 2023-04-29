@@ -1,7 +1,8 @@
+import asyncio
 import logging
 import pathlib
 import unittest
-from unittest.mock import Mock, mock_open, patch
+from unittest.mock import AsyncMock, Mock, call, mock_open, patch
 
 from aiohttp import web
 from aiohttp.test_utils import AioHTTPTestCase
@@ -94,32 +95,37 @@ class TestImageDownloader(unittest.IsolatedAsyncioTestCase):
 class TestImageDownloaderWithTestServer(AioHTTPTestCase):
     async def asyncSetUp(self):
         await super().asyncSetUp()
-        self.patcher = patch.object(argos.session.HTTPSessionManager, "get_session")
-        self.addAsyncCleanup(self.patcher.stop)
 
         base_url = str(self.server.make_url("/"))
         app = Mock()
+        app.props.version = "0.0.1-test"
         app.props.settings.get_string.return_value = base_url
         # get_string is the way to get mopidy-base-url setting
 
-        app.http_session_manager = self.patcher.start()
-        app.http_session_manager.get_session.return_value.__aenter__.return_value = (
-            self.client.session
-        )
+        app.http_session_manager = argos.session.HTTPSessionManager(app)
+        async with app.http_session_manager.get_session() as session:
+            self.addAsyncCleanup(session.close)
+
         self.downloader = ImageDownloader(app)
 
     async def get_application(self):
         async def answer(request):
             return web.Response(text="image content")
 
+        async def broken_answer(request):
+            resp = web.Response(status=500)
+            return resp
+
         app = web.Application()
         app.router.add_get(
             "/local/b23fb74538aa914239bde443f7343632-220x220.jpeg", answer
         )
+        app.router.add_get(
+            "/local/b23fb74538aa914239bde443f7343632-220x220-broken.jpeg", broken_answer
+        )
         return app
 
     async def test_fetch_image(self):
-
         expected_image_path_end = (
             "/argos/images/b23fb74538aa914239bde443f7343632-220x220.jpeg"
         )
@@ -139,3 +145,40 @@ class TestImageDownloaderWithTestServer(AioHTTPTestCase):
         open_mock.assert_called_once()
         handle = open_mock()
         handle.write.assert_called_once_with(b"image content")
+
+    async def test_fetch_image_with_broken_client(self):
+        expected_image_path_end = (
+            "/argos/images/b23fb74538aa914239bde443f7343632-220x220-broken.jpeg"
+        )
+
+        with patch.object(
+            pathlib.Path,
+            "exists",
+            lambda p: not str(p).endswith(expected_image_path_end),
+        ):
+            open_mock = mock_open()
+            with patch("pathlib.Path.open", open_mock):
+                with self.assertLogs("argos", logging.ERROR) as logs:
+                    image_path = await self.downloader.fetch_image(
+                        "/local/b23fb74538aa914239bde443f7343632-220x220-broken.jpeg"
+                    )
+
+        self.assertIsNone(image_path)
+        self.assertEqual(len(logs.output), 1)
+
+    async def test_fetch_images(self):
+        self.downloader.fetch_image = AsyncMock()
+        await self.downloader.fetch_images(
+            [
+                "/local/b23fb74538aa914239bde443f7343632-220x220.jpeg",
+                "/local/b23fb74538aa914239bde443f7343633-220x220.jpeg",
+            ]
+        )
+        await asyncio.sleep(0)
+
+        self.downloader.fetch_image.assert_has_calls(
+            [
+                call("/local/b23fb74538aa914239bde443f7343632-220x220.jpeg"),
+                call("/local/b23fb74538aa914239bde443f7343633-220x220.jpeg"),
+            ]
+        )
