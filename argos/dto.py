@@ -80,7 +80,7 @@ class ArtistDTO:
 
     uri: str
     name: str
-    shortname: str
+    sortname: str
     musicbrainz_id: str
 
     @staticmethod
@@ -95,10 +95,10 @@ class ArtistDTO:
         if uri is None or name is None:
             return None
 
-        shortname = data.get("shortname", "")
+        sortname = data.get("sortname", "")
         musicbrainz_id = data.get("musicbrainz_id", "")
 
-        return ArtistDTO(uri, name, shortname, musicbrainz_id)
+        return ArtistDTO(uri, name, sortname, musicbrainz_id)
 
 
 @dataclass(frozen=True)

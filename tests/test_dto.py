@@ -128,7 +128,7 @@ class TestArtistDTO(unittest.TestCase):
         self.assertEqual(dto.uri, "local:artist:md5:05f83e3daa5c79119e922ac114e64390")
         self.assertEqual(dto.name, "Johnny Cash")
         self.assertEqual(dto.musicbrainz_id, "d43d12a1-2dc9-4257-a2fd-0a3bb1081b86")
-        self.assertEqual(dto.shortname, "")
+        self.assertEqual(dto.sortname, "")
 
     def test_factory_with_unamed_artist_data(self):
         del self.data["name"]
