@@ -1,0 +1,4937 @@
+[
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/1-01%20Une%20petite%20fille.flac",
+        "name": "Une petite fille",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:d2e3ff75a012da48d6a364f4fd059a20",
+                "name": "Jacques Datin"
+            }
+        ],
+        "track_no": 1,
+        "disc_no": 1,
+        "date": "2011-11-07",
+        "length": 129093,
+        "musicbrainz_id": "6ad380de-f0a1-4cdf-98a0-827d216e7ea0",
+        "last_modified": 1615839522914
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/1-02%20Les%20Don%20Juan.flac",
+        "name": "Les Don Juan",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:753f418deb89510d3c014e4a1a110881",
+                "name": "Michel Legrand"
+            }
+        ],
+        "track_no": 2,
+        "disc_no": 1,
+        "date": "2011-11-07",
+        "length": 199640,
+        "musicbrainz_id": "decb9ecd-63e7-4145-8938-f904b9956c44",
+        "last_modified": 1615839522922
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/1-03%20C%C3%A9cile%2C%20ma%20fille.flac",
+        "name": "Cécile, ma fille",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:d2e3ff75a012da48d6a364f4fd059a20",
+                "name": "Jacques Datin"
+            }
+        ],
+        "track_no": 3,
+        "disc_no": 1,
+        "date": "2011-11-07",
+        "length": 208720,
+        "musicbrainz_id": "46e6a483-16d7-4001-93d1-3c3a7840120b",
+        "last_modified": 1615839522934
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/1-04%20L%27%C3%89glise.flac",
+        "name": "L'Église",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:753f418deb89510d3c014e4a1a110881",
+                "name": "Michel Legrand"
+            }
+        ],
+        "track_no": 4,
+        "disc_no": 1,
+        "date": "2011-11-07",
+        "length": 214426,
+        "musicbrainz_id": "a01c022b-b310-4e2d-86eb-942ded19cd80",
+        "last_modified": 1615839522942
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/1-05%20Ouh%20%21%20%28Allez-y%20les%20berg%C3%A8res%29.flac",
+        "name": "Ouh ! (Allez-y les bergères)",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:753f418deb89510d3c014e4a1a110881",
+                "name": "Michel Legrand"
+            }
+        ],
+        "track_no": 5,
+        "disc_no": 1,
+        "date": "2011-11-07",
+        "length": 163293,
+        "musicbrainz_id": "d7002a8f-b4f1-4d4e-9e5b-346f7c186889",
+        "last_modified": 1615839522950
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/1-06%20Mon%20assassin.flac",
+        "name": "Mon assassin",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:d2e3ff75a012da48d6a364f4fd059a20",
+                "name": "Jacques Datin"
+            }
+        ],
+        "track_no": 6,
+        "disc_no": 1,
+        "date": "2011-11-07",
+        "length": 190773,
+        "musicbrainz_id": "41e8f463-dd85-45c7-8d15-3bd4728d1b58",
+        "last_modified": 1615839522958
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/1-07%20Je%20suis%20sous%20....flac",
+        "name": "Je suis sous ...",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:d2e3ff75a012da48d6a364f4fd059a20",
+                "name": "Jacques Datin"
+            }
+        ],
+        "track_no": 7,
+        "disc_no": 1,
+        "date": "2011-11-07",
+        "length": 200146,
+        "musicbrainz_id": "8b211afe-30d1-4c07-b1bb-ba6beeb732cc",
+        "last_modified": 1615839523006
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/1-08%20Le%20Cin%C3%A9ma.flac",
+        "name": "Le Cinéma",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:753f418deb89510d3c014e4a1a110881",
+                "name": "Michel Legrand"
+            }
+        ],
+        "track_no": 8,
+        "disc_no": 1,
+        "date": "2011-11-07",
+        "length": 178666,
+        "musicbrainz_id": "cea483b4-1803-4202-9e59-787aa84b1948",
+        "last_modified": 1615839523018
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/1-09%20Le%20Jazz%20et%20la%20Java.flac",
+        "name": "Le Jazz et la Java",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:d2e3ff75a012da48d6a364f4fd059a20",
+                "name": "Jacques Datin"
+            }
+        ],
+        "track_no": 9,
+        "disc_no": 1,
+        "date": "2011-11-07",
+        "length": 145906,
+        "musicbrainz_id": "cd7e366d-0905-466f-9d30-738a06f6677e",
+        "last_modified": 1615839523026
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/1-10%20Chanson%20pour%20Marilyn.flac",
+        "name": "Chanson pour Marilyn",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:d2e3ff75a012da48d6a364f4fd059a20",
+                "name": "Jacques Datin"
+            }
+        ],
+        "track_no": 10,
+        "disc_no": 1,
+        "date": "2011-11-07",
+        "length": 157053,
+        "musicbrainz_id": "7b01c929-6215-4271-bab2-8e44d11f5fb8",
+        "last_modified": 1615839523034
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/1-11%20Les%20Mines%20de%20charbon.flac",
+        "name": "Les Mines de charbon",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:753f418deb89510d3c014e4a1a110881",
+                "name": "Michel Legrand"
+            }
+        ],
+        "track_no": 11,
+        "disc_no": 1,
+        "date": "2011-11-07",
+        "length": 154080,
+        "musicbrainz_id": "348fb05c-4fb1-43f0-aee1-b1f4c059bce6",
+        "last_modified": 1615839523046
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/1-12%20Ma%20fleur.flac",
+        "name": "Ma fleur",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:753f418deb89510d3c014e4a1a110881",
+                "name": "Michel Legrand"
+            }
+        ],
+        "track_no": 12,
+        "disc_no": 1,
+        "date": "2011-11-07",
+        "length": 201413,
+        "musicbrainz_id": "72af99ee-0367-45db-b3f4-321eea38965a",
+        "last_modified": 1615839523054
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/10-01%20Nous%20voici.flac",
+        "name": "Nous voici",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "track_no": 1,
+        "disc_no": 10,
+        "date": "2011-11-07",
+        "length": 161586,
+        "musicbrainz_id": "e65ada2c-43b8-4798-a49b-69c90de7f244",
+        "last_modified": 1615839524346
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/10-02%20%C3%87a%20fait%20mal.flac",
+        "name": "Ça fait mal",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "track_no": 2,
+        "disc_no": 10,
+        "date": "2011-11-07",
+        "length": 325946,
+        "musicbrainz_id": "3b4fdd63-8f26-414b-97cc-d0376dff4602",
+        "last_modified": 1615839524350
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/10-03%20L%27amour%20meurt%20jeune.flac",
+        "name": "L'amour meurt jeune",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "track_no": 3,
+        "disc_no": 10,
+        "date": "2011-11-07",
+        "length": 189866,
+        "musicbrainz_id": "3cd5733f-18f1-41cd-94de-08b2dde3a85a",
+        "last_modified": 1615839524370
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/10-04%20Rimes.flac",
+        "name": "Rimes",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:e8372ad050198c68eaab988a84a079e9",
+                "name": "Aldo Romano"
+            }
+        ],
+        "track_no": 4,
+        "disc_no": 10,
+        "date": "2011-11-07",
+        "length": 200533,
+        "musicbrainz_id": "e73337c5-af37-4279-8be1-b4955db36596",
+        "last_modified": 1615839524426
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/10-05%20Vieux%20Vienne.flac",
+        "name": "Vieux Vienne",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "track_no": 5,
+        "disc_no": 10,
+        "date": "2011-11-07",
+        "length": 203053,
+        "musicbrainz_id": "b2dd4f6e-53b4-4a49-9441-5369d1bf6384",
+        "last_modified": 1615839524438
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/10-06%20C%27est%20mon%20c%C5%93ur.flac",
+        "name": "C'est mon cœur",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "track_no": 6,
+        "disc_no": 10,
+        "date": "2011-11-07",
+        "length": 163560,
+        "musicbrainz_id": "54d323f0-c43b-4d18-8368-b4630a5a8ec2",
+        "last_modified": 1615839524442
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/10-07%20Le%20Chat%20%28The%20Cat%29.flac",
+        "name": "Le Chat (The Cat)",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:cbe15efa482e97b4f2eaa4b8d3f06a0a",
+                "name": "Lalo Schifrin"
+            }
+        ],
+        "track_no": 7,
+        "disc_no": 10,
+        "date": "2011-11-07",
+        "length": 140120,
+        "musicbrainz_id": "1fc3a954-27b6-4b5f-82b2-d464d1f866da",
+        "last_modified": 1615839524446
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/10-08%20Visiteur.flac",
+        "name": "Visiteur",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:e8372ad050198c68eaab988a84a079e9",
+                "name": "Aldo Romano"
+            }
+        ],
+        "track_no": 8,
+        "disc_no": 10,
+        "date": "2011-11-07",
+        "length": 200293,
+        "musicbrainz_id": "e6ba6cb8-a138-4ed3-9ae8-2ed1ac90dc0f",
+        "last_modified": 1615839524458
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/10-09%20Vermifuge%20lune.flac",
+        "name": "Vermifuge lune",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "track_no": 9,
+        "disc_no": 10,
+        "date": "2011-11-07",
+        "length": 201680,
+        "musicbrainz_id": "390c299a-e9d7-4e97-b730-2d43c4321d39",
+        "last_modified": 1615839524466
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/10-10%20Je%20suis%20sous%20....flac",
+        "name": "Je suis sous ...",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:d2e3ff75a012da48d6a364f4fd059a20",
+                "name": "Jacques Datin"
+            }
+        ],
+        "track_no": 10,
+        "disc_no": 10,
+        "date": "2011-11-07",
+        "length": 283720,
+        "musicbrainz_id": "74da3e9f-d51b-45ba-aded-85557a1c0843",
+        "last_modified": 1615839524470
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/11-01%20Ami%20chemin.flac",
+        "name": "Ami chemin",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:4b8ea95f65bfbb3e546eb03b39dc6964",
+                "name": "Anyzette Orhon"
+            }
+        ],
+        "track_no": 1,
+        "disc_no": 11,
+        "date": "2011-11-07",
+        "length": 219906,
+        "musicbrainz_id": "15a207c6-dbbd-46db-849c-9d83bdce9d4c",
+        "last_modified": 1615839524478
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/11-02%20Muses.flac",
+        "name": "Muses",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:e8372ad050198c68eaab988a84a079e9",
+                "name": "Aldo Romano"
+            }
+        ],
+        "track_no": 2,
+        "disc_no": 11,
+        "date": "2011-11-07",
+        "length": 218160,
+        "musicbrainz_id": "a18bf863-966c-48de-bbd4-265c0dd2135a",
+        "last_modified": 1615839524482
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/11-03%20Neigerie.flac",
+        "name": "Neigerie",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:b1674481e4354881d35ed0e42bdd0db5",
+                "name": "Richard Galliano"
+            }
+        ],
+        "track_no": 3,
+        "disc_no": 11,
+        "date": "2011-11-07",
+        "length": 242400,
+        "musicbrainz_id": "c7f3cd2c-c0c8-430a-a43b-7e2fa5830587",
+        "last_modified": 1615839524486
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/11-04%20Very%20Nice.flac",
+        "name": "Very Nice",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:5b64ccd1b273e3d03de3612db33731cc",
+                "name": "Bernard Arcadio"
+            }
+        ],
+        "track_no": 4,
+        "disc_no": 11,
+        "date": "2011-11-07",
+        "length": 227626,
+        "musicbrainz_id": "1db0a50e-1ffd-4c9c-b7a3-3b5990abba42",
+        "last_modified": 1615839524490
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/11-05%20Eug%C3%A9nie.flac",
+        "name": "Eugénie",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:e8372ad050198c68eaab988a84a079e9",
+                "name": "Aldo Romano"
+            }
+        ],
+        "track_no": 5,
+        "disc_no": 11,
+        "date": "2011-11-07",
+        "length": 265893,
+        "musicbrainz_id": "b0c64f38-d56a-49ed-b725-eb20907667f0",
+        "last_modified": 1615839524498
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/11-06%20All%C3%A9e%20des%20brouillards.flac",
+        "name": "Allée des brouillards",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:b1674481e4354881d35ed0e42bdd0db5",
+                "name": "Richard Galliano"
+            }
+        ],
+        "track_no": 6,
+        "disc_no": 11,
+        "date": "2011-11-07",
+        "length": 172000,
+        "musicbrainz_id": "45eb9d88-62c7-49e4-b00c-12daf160ea28",
+        "last_modified": 1615839524502
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/11-07%20Venise.flac",
+        "name": "Venise",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:e8372ad050198c68eaab988a84a079e9",
+                "name": "Aldo Romano"
+            }
+        ],
+        "track_no": 7,
+        "disc_no": 11,
+        "date": "2011-11-07",
+        "length": 294560,
+        "musicbrainz_id": "716c2afe-82c3-4bfb-b9ad-7170e98d1cd8",
+        "last_modified": 1615839524506
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/11-08%20Comme%20avant.flac",
+        "name": "Comme avant",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:45d9d678bd884bda2dd3b135ab51198d",
+                "name": "Jean-Pierre Mas"
+            }
+        ],
+        "track_no": 8,
+        "disc_no": 11,
+        "date": "2011-11-07",
+        "length": 239466,
+        "musicbrainz_id": "af2602bf-1008-4164-80b5-66094d4bef37",
+        "last_modified": 1615839524510
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/11-09%20Papillons%20de%20nuit.flac",
+        "name": "Papillons de nuit",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:e8372ad050198c68eaab988a84a079e9",
+                "name": "Aldo Romano"
+            }
+        ],
+        "track_no": 9,
+        "disc_no": 11,
+        "date": "2011-11-07",
+        "length": 181520,
+        "musicbrainz_id": "1bbdc358-9281-453c-8122-99ccdadafdbc",
+        "last_modified": 1615839524514
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/11-10%20La%20vie%20c%27est%20beau%20va.flac",
+        "name": "La vie c'est beau va",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:e8372ad050198c68eaab988a84a079e9",
+                "name": "Aldo Romano"
+            }
+        ],
+        "track_no": 10,
+        "disc_no": 11,
+        "date": "2011-11-07",
+        "length": 201506,
+        "musicbrainz_id": "90b99d2a-974a-44c4-936f-3b48992ea679",
+        "last_modified": 1615839524518
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/12-01%20Bleu%20blanc%20blues.flac",
+        "name": "Bleu blanc blues",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "track_no": 1,
+        "disc_no": 12,
+        "date": "2011-11-07",
+        "length": 127813,
+        "musicbrainz_id": "de8f6a0f-c709-4c9e-a905-7900c3232b97",
+        "last_modified": 1615839524526
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/12-02%20Sa%20majest%C3%A9%20le%20jazz.flac",
+        "name": "Sa majesté le jazz",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:27472dc2e5e53c4fd4e6dff7afab6e65",
+                "name": "Claude Nougaro"
+            }
+        ],
+        "track_no": 2,
+        "disc_no": 12,
+        "date": "2011-11-07",
+        "length": 245120,
+        "musicbrainz_id": "c9f988df-ddf6-47a1-b65c-ddd839df1bf3",
+        "last_modified": 1615839524530
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/12-03%20Femme%20orchestre.flac",
+        "name": "Femme orchestre",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "track_no": 3,
+        "disc_no": 12,
+        "date": "2011-11-07",
+        "length": 203786,
+        "musicbrainz_id": "908e6148-6f36-4cc7-bdf0-88d332d44128",
+        "last_modified": 1615839524578
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/12-04%20Le%20Piano%20de%20mauvaise%20vie%20%28Jeru%29.flac",
+        "name": "Le Piano de mauvaise vie (Jeru)",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:1b6c8efc9b18ba07fe22580289cf22b7",
+                "name": "Gerry Mulligan"
+            }
+        ],
+        "track_no": 4,
+        "disc_no": 12,
+        "date": "2011-11-07",
+        "length": 142760,
+        "musicbrainz_id": "e839e479-770a-4b43-8cfd-7c50e4d7abc1",
+        "last_modified": 1615839524582
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/12-05%20Go%20Man.flac",
+        "name": "Go Man",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "track_no": 5,
+        "disc_no": 12,
+        "date": "2011-11-07",
+        "length": 191373,
+        "musicbrainz_id": "1743c5ab-3369-4987-af5b-ccb05e93dafb",
+        "last_modified": 1615839524586
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/12-06%20Vieillesse.flac",
+        "name": "Vieillesse",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "track_no": 6,
+        "disc_no": 12,
+        "date": "2011-11-07",
+        "length": 186493,
+        "musicbrainz_id": "8a5ad25b-1c1d-4dd4-92ce-334a22820409",
+        "last_modified": 1615839524594
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/12-07%20R%C3%A9union.flac",
+        "name": "Réunion",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:b60f04f40cec904d23f12c643b1ed655",
+                "name": "Maurice Vander"
+            }
+        ],
+        "track_no": 7,
+        "disc_no": 12,
+        "date": "2011-11-07",
+        "length": 198493,
+        "musicbrainz_id": "89292580-fdaa-40cd-84da-6e37eb37645b",
+        "last_modified": 1615839524598
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/12-08%20Prof%20de%20lettres.flac",
+        "name": "Prof de lettres",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "track_no": 8,
+        "disc_no": 12,
+        "date": "2011-11-07",
+        "length": 249120,
+        "musicbrainz_id": "32357462-56e4-4bbb-9536-cbf7d6161b7b",
+        "last_modified": 1615839524602
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/12-09%20Le%20Rouge%20et%20le%20Noir.flac",
+        "name": "Le Rouge et le Noir",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "track_no": 9,
+        "disc_no": 12,
+        "date": "2011-11-07",
+        "length": 159533,
+        "musicbrainz_id": "74d2893f-0c59-4396-a0df-13d50786f324",
+        "last_modified": 1615839524606
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/2-01%20Bidonville.flac",
+        "name": "Bidonville",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:c53ad78a6aff8ef795b4bd526ed3ec38",
+                "name": "Baden Powell"
+            }
+        ],
+        "track_no": 1,
+        "disc_no": 2,
+        "date": "2011-11-07",
+        "length": 194906,
+        "musicbrainz_id": "292e6cfc-5094-4ea7-b084-3af7d820578f",
+        "last_modified": 1615839523106
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/2-02%20L%27Amour%20sorcier.flac",
+        "name": "L'Amour sorcier",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:27472dc2e5e53c4fd4e6dff7afab6e65",
+                "name": "Claude Nougaro"
+            }
+        ],
+        "track_no": 2,
+        "disc_no": 2,
+        "date": "2011-11-07",
+        "length": 210906,
+        "musicbrainz_id": "d7934ad5-5bfc-447a-b8a5-f32c38b6721b",
+        "last_modified": 1615839523114
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/2-03%20C%C3%B4te%20d%27Azur.flac",
+        "name": "Côte d'Azur",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:27472dc2e5e53c4fd4e6dff7afab6e65",
+                "name": "Claude Nougaro"
+            }
+        ],
+        "track_no": 3,
+        "disc_no": 2,
+        "date": "2011-11-07",
+        "length": 183706,
+        "musicbrainz_id": "1739788b-e4ed-4b7f-8c69-e31757e5513e",
+        "last_modified": 1615839523126
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/2-04%20Sing%20Sing%20Song.flac",
+        "name": "Sing Sing Song",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:e65158a9978a91ef34bb56d968021b97",
+                "name": "Nat Adderley, Oscar Brown Jr."
+            }
+        ],
+        "track_no": 4,
+        "disc_no": 2,
+        "date": "2011-11-07",
+        "length": 177960,
+        "musicbrainz_id": "08d40df7-a920-496c-b7f2-75aa6ad2e38a",
+        "last_modified": 1615839523138
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/2-05%20Tu%20dormiras%20longtemps.flac",
+        "name": "Tu dormiras longtemps",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:753f418deb89510d3c014e4a1a110881",
+                "name": "Michel Legrand"
+            }
+        ],
+        "track_no": 5,
+        "disc_no": 2,
+        "date": "2011-11-07",
+        "length": 158093,
+        "musicbrainz_id": "69673799-7872-43b2-a0c6-e7dc809309bb",
+        "last_modified": 1615839523142
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/2-06%20%C3%80%20bout%20de%20souffle.flac",
+        "name": "À bout de souffle",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:0ba2fa8e2f847521a520072bb0b1fb3d",
+                "name": "Dave Brubeck"
+            }
+        ],
+        "track_no": 6,
+        "disc_no": 2,
+        "date": "2011-11-07",
+        "length": 182026,
+        "musicbrainz_id": "528ee96d-0b7b-4d18-8f8d-137149975022",
+        "last_modified": 1615839523150
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/2-07%20Les%20Mains%20d%27une%20femme%20dans%20la%20farine.flac",
+        "name": "Les Mains d'une femme dans la farine",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:3af8153741e5f0d794d7e8d1ae7f94e4",
+                "name": "Steve Allen, Ray Brown arr. Claude Nougaro"
+            }
+        ],
+        "track_no": 7,
+        "disc_no": 2,
+        "date": "2011-11-07",
+        "length": 120600,
+        "musicbrainz_id": "73039f88-f438-4719-bf66-a8675c0b661d",
+        "last_modified": 1615839523162
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/2-08%20Chanson%20pour%20le%20ma%C3%A7on.flac",
+        "name": "Chanson pour le maçon",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:d2e3ff75a012da48d6a364f4fd059a20",
+                "name": "Jacques Datin"
+            }
+        ],
+        "track_no": 8,
+        "disc_no": 2,
+        "date": "2011-11-07",
+        "length": 169533,
+        "musicbrainz_id": "147d1aca-2612-4db5-aaa1-7b452d61ceab",
+        "last_modified": 1615839523214
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/2-09%20Schplaouch%20%21.flac",
+        "name": "Schplaouch !",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:753f418deb89510d3c014e4a1a110881",
+                "name": "Michel Legrand"
+            }
+        ],
+        "track_no": 9,
+        "disc_no": 2,
+        "date": "2011-11-07",
+        "length": 172666,
+        "musicbrainz_id": "1f8eb7ee-4ae3-4d67-8954-e6488a3e0603",
+        "last_modified": 1615839523218
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/2-10%20Gratte-moi%20la%20t%C3%AAte.flac",
+        "name": "Gratte-moi la tête",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:d23062212c5877b3f4c4fd4d2e0a67b4",
+                "name": "Claude Nougaro, Maurice Vander"
+            }
+        ],
+        "track_no": 10,
+        "disc_no": 2,
+        "date": "2011-11-07",
+        "length": 158733,
+        "musicbrainz_id": "62dca188-c85c-483c-8333-37e52fce52d2",
+        "last_modified": 1615839523230
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/2-11%20Armstrong.flac",
+        "name": "Armstrong",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "track_no": 11,
+        "disc_no": 2,
+        "date": "2011-11-07",
+        "length": 197920,
+        "musicbrainz_id": "35310dfa-d121-471e-ba71-651a7bb20210",
+        "last_modified": 1615839523234
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/2-12%20Toutes%20les%20filles%20m%27ont%20suivi.flac",
+        "name": "Toutes les filles m'ont suivi",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:e93c09fb74ff87800353abe148c86e24",
+                "name": "Michel Portal, Maurice Vander"
+            }
+        ],
+        "track_no": 12,
+        "disc_no": 2,
+        "date": "2011-11-07",
+        "length": 146573,
+        "musicbrainz_id": "5e8b2e46-c6c8-4e21-ab64-10a76e8445bc",
+        "last_modified": 1615839523250
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/3-01%20Paris%20mai.flac",
+        "name": "Paris mai",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:724243e66f9d45817618b68926a99a44",
+                "name": "Eddy Louiss"
+            }
+        ],
+        "track_no": 1,
+        "disc_no": 3,
+        "date": "2011-11-07",
+        "length": 359053,
+        "musicbrainz_id": "3600337d-0d9a-4a7a-a02c-9ff025cbc96d",
+        "last_modified": 1615839523258
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/3-02%20La%20pluie%20fait%20des%20claquettes.flac",
+        "name": "La pluie fait des claquettes",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:d23062212c5877b3f4c4fd4d2e0a67b4",
+                "name": "Claude Nougaro, Maurice Vander"
+            }
+        ],
+        "track_no": 2,
+        "disc_no": 3,
+        "date": "2011-11-07",
+        "length": 197533,
+        "musicbrainz_id": "d4e70040-bc33-4d6e-acf3-7ed245d3c247",
+        "last_modified": 1615839523270
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/3-03%20La%20Mutation.flac",
+        "name": "La Mutation",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "track_no": 3,
+        "disc_no": 3,
+        "date": "2011-11-07",
+        "length": 162013,
+        "musicbrainz_id": "ffce2c58-a4dd-437a-b2c5-c0fa3a4375ba",
+        "last_modified": 1615839523278
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/3-04%20Annie%20couche-toi%20l%C3%A0.flac",
+        "name": "Annie couche-toi là",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "track_no": 4,
+        "disc_no": 3,
+        "date": "2011-11-07",
+        "length": 179053,
+        "musicbrainz_id": "f6667030-e3c2-45f3-959c-a601dab5b452",
+        "last_modified": 1615839523326
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/3-05%20Quatre%20Boules%20de%20cuir.flac",
+        "name": "Quatre Boules de cuir",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:d23062212c5877b3f4c4fd4d2e0a67b4",
+                "name": "Claude Nougaro, Maurice Vander"
+            }
+        ],
+        "track_no": 5,
+        "disc_no": 3,
+        "date": "2011-11-07",
+        "length": 167973,
+        "musicbrainz_id": "4dccb757-c1aa-469d-ac2a-eedde6e868fd",
+        "last_modified": 1615839523338
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/3-06%20La%20Ma%C3%AEtresse.flac",
+        "name": "La Maîtresse",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "track_no": 6,
+        "disc_no": 3,
+        "date": "2011-11-07",
+        "length": 165000,
+        "musicbrainz_id": "8ceee897-bfa3-4a97-9175-d61eec3b1eda",
+        "last_modified": 1615839523350
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/3-07%20Toulouse.flac",
+        "name": "Toulouse",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:e06f77b539a0addac050c6f6348b9a5d",
+                "name": "Christian Chevallier, Claude Nougaro"
+            }
+        ],
+        "track_no": 7,
+        "disc_no": 3,
+        "date": "2011-11-07",
+        "length": 263706,
+        "musicbrainz_id": "fd7d62f8-3bcd-4bd9-a80d-fcba74026ffd",
+        "last_modified": 1615839523358
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/3-08%20Petit%20Taureau.flac",
+        "name": "Petit Taureau",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:d23062212c5877b3f4c4fd4d2e0a67b4",
+                "name": "Claude Nougaro, Maurice Vander"
+            }
+        ],
+        "track_no": 8,
+        "disc_no": 3,
+        "date": "2011-11-07",
+        "length": 158333,
+        "musicbrainz_id": "f8a96284-f90c-420c-8f87-4994c8c48e9d",
+        "last_modified": 1615839523370
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/3-09%20%C3%80%20tes%20seins%20%28Saint%20Thomas%29.flac",
+        "name": "À tes seins (Saint Thomas)",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:be2c5f22d9d44b8c00018510d0da7678",
+                "name": "Sonny Rollins"
+            }
+        ],
+        "track_no": 9,
+        "disc_no": 3,
+        "date": "2011-11-07",
+        "length": 123453,
+        "musicbrainz_id": "74f9b549-a652-41c9-93a6-0c85e9bc3030",
+        "last_modified": 1615839523426
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/3-10%20Berceuse%20%C3%A0%20P%C3%A9p%C3%A9.flac",
+        "name": "Berceuse à Pépé",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:d23062212c5877b3f4c4fd4d2e0a67b4",
+                "name": "Claude Nougaro, Maurice Vander"
+            }
+        ],
+        "track_no": 10,
+        "disc_no": 3,
+        "date": "2011-11-07",
+        "length": 210973,
+        "musicbrainz_id": "b293be5e-77a0-4a82-8861-54fc0ce2b2c8",
+        "last_modified": 1615839523430
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/3-11%20Les%20Craquantes.flac",
+        "name": "Les Craquantes",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "track_no": 11,
+        "disc_no": 3,
+        "date": "2011-11-07",
+        "length": 141240,
+        "musicbrainz_id": "c4834e6a-5f1c-4c3a-8307-e06a617ca3e8",
+        "last_modified": 1615839523446
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/3-12%20Chanson%20pour%20le%20ma%C3%A7on.flac",
+        "name": "Chanson pour le maçon",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:d2e3ff75a012da48d6a364f4fd059a20",
+                "name": "Jacques Datin"
+            }
+        ],
+        "track_no": 12,
+        "disc_no": 3,
+        "date": "2011-11-07",
+        "length": 163000,
+        "musicbrainz_id": "147d1aca-2612-4db5-aaa1-7b452d61ceab",
+        "last_modified": 1615839523454
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/4-01%20S%C5%93ur%20%C3%A2me.flac",
+        "name": "Sœur âme",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:df4cc9eba4726a2d14f1da7efe26dc99",
+                "name": "Slide Hampton"
+            }
+        ],
+        "track_no": 1,
+        "disc_no": 4,
+        "date": "2011-11-07",
+        "length": 169320,
+        "musicbrainz_id": "edbe149d-a805-4419-9e76-baece92dd015",
+        "last_modified": 1615839523466
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/4-02%20La%20Neige.flac",
+        "name": "La Neige",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:b60f04f40cec904d23f12c643b1ed655",
+                "name": "Maurice Vander"
+            }
+        ],
+        "track_no": 2,
+        "disc_no": 4,
+        "date": "2011-11-07",
+        "length": 282960,
+        "musicbrainz_id": "ef09d223-82da-4ec6-aefd-3a88457c0a20",
+        "last_modified": 1615839523474
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/4-03%20Un%20grain%20de%20folie.flac",
+        "name": "Un grain de folie",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:8276b818bffa6bbab33ae0a5ff2650d8",
+                "name": "Jean-Claude Vannier"
+            }
+        ],
+        "track_no": 3,
+        "disc_no": 4,
+        "date": "2011-11-07",
+        "length": 144506,
+        "musicbrainz_id": "aa8fd229-f070-4992-b00a-c50e988a1db0",
+        "last_modified": 1615839523482
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/4-04%20C%27est%20Eddy.flac",
+        "name": "C'est Eddy",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:724243e66f9d45817618b68926a99a44",
+                "name": "Eddy Louiss"
+            }
+        ],
+        "track_no": 4,
+        "disc_no": 4,
+        "date": "2011-11-07",
+        "length": 181120,
+        "musicbrainz_id": "3a1de581-11e4-4d28-aaf1-c75b4dad3397",
+        "last_modified": 1615839523490
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/4-05%20Le%20Cycle%20amen.flac",
+        "name": "Le Cycle amen",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:724243e66f9d45817618b68926a99a44",
+                "name": "Eddy Louiss"
+            }
+        ],
+        "track_no": 5,
+        "disc_no": 4,
+        "date": "2011-11-07",
+        "length": 218066,
+        "musicbrainz_id": "ec822e42-7391-48e7-a15e-f7249a4b5e3f",
+        "last_modified": 1615839523538
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/4-06%20C%27est%20la%20vie.flac",
+        "name": "C'est la vie",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:b60f04f40cec904d23f12c643b1ed655",
+                "name": "Maurice Vander"
+            }
+        ],
+        "track_no": 6,
+        "disc_no": 4,
+        "date": "2011-11-07",
+        "length": 136106,
+        "musicbrainz_id": "4dfade22-bf9e-469c-9fa9-db9d704447a7",
+        "last_modified": 1615839523550
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/4-07%20Arm%C3%A9%20d%27amour.flac",
+        "name": "Armé d'amour",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:e2be3dc20e98df0497e3f744b5122adf",
+                "name": "Claude Nougaro, Robert Schumann, Jean-Claude Vannier"
+            }
+        ],
+        "track_no": 7,
+        "disc_no": 4,
+        "date": "2011-11-07",
+        "length": 234906,
+        "musicbrainz_id": "7b936548-2e21-4419-b830-d0bfa72257e6",
+        "last_modified": 1615839523558
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/4-08%20Mater.flac",
+        "name": "Mater",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:b60f04f40cec904d23f12c643b1ed655",
+                "name": "Maurice Vander"
+            }
+        ],
+        "track_no": 8,
+        "disc_no": 4,
+        "date": "2011-11-07",
+        "length": 191133,
+        "musicbrainz_id": "c1213ac6-a818-4b77-b8ea-c470029b95eb",
+        "last_modified": 1615839523574
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/4-09%20Maudit.flac",
+        "name": "Maudit",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:b60f04f40cec904d23f12c643b1ed655",
+                "name": "Maurice Vander"
+            }
+        ],
+        "track_no": 9,
+        "disc_no": 4,
+        "date": "2011-11-07",
+        "length": 121173,
+        "musicbrainz_id": "8870f266-c489-4abd-bf96-38c804ae3f74",
+        "last_modified": 1615839523582
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/4-10%20%C3%80%20Musset.flac",
+        "name": "À Musset",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:b60f04f40cec904d23f12c643b1ed655",
+                "name": "Maurice Vander"
+            }
+        ],
+        "track_no": 10,
+        "disc_no": 4,
+        "date": "2011-11-07",
+        "length": 165826,
+        "musicbrainz_id": "214fad34-0218-4e0d-b63e-cb961dcbdc1c",
+        "last_modified": 1615839523638
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/4-11%20La%20D%C3%A9charge.flac",
+        "name": "La Décharge",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:753f418deb89510d3c014e4a1a110881",
+                "name": "Michel Legrand"
+            }
+        ],
+        "track_no": 11,
+        "disc_no": 4,
+        "date": "2011-11-07",
+        "length": 183573,
+        "musicbrainz_id": "4a73d3af-a6ea-4133-855b-b839a741f148",
+        "last_modified": 1615839523642
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/4-12%20Petit%20homme%20%2C%20c%27est%20l%27heur%27%20de%20fair%27%20dodo%20%28Little%20Man%20You%27ve%20Had%20a%20Busy%20Day%29.flac",
+        "name": "Petit homme , c'est l'heur' de fair' dodo (Little Man You've Had a Busy Day)",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "track_no": 12,
+        "disc_no": 4,
+        "date": "2011-11-07",
+        "length": 166853,
+        "musicbrainz_id": "c87e9629-fdd7-4f03-ab54-f4e7410a88fc",
+        "last_modified": 1615839523658
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/5-01%20Locomotive%20d%27Or.flac",
+        "name": "Locomotive d'Or",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "track_no": 1,
+        "disc_no": 5,
+        "date": "2011-11-07",
+        "length": 590706,
+        "musicbrainz_id": "c5f78fc1-6465-49cc-bf78-3002bd6356e3",
+        "last_modified": 1615839523670
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/5-02%20Dansez%20sur%20moi.flac",
+        "name": "Dansez sur moi",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:4008789b993eb0ef8846e7ec17b676f1",
+                "name": "Neal Hefti"
+            }
+        ],
+        "track_no": 2,
+        "disc_no": 5,
+        "date": "2011-11-07",
+        "length": 204453,
+        "musicbrainz_id": "9e4ea913-9c5a-41cc-a4ad-a05dae9acf62",
+        "last_modified": 1615839523678
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/5-03%20Rue%20Saint-Denis.flac",
+        "name": "Rue Saint-Denis",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "track_no": 3,
+        "disc_no": 5,
+        "date": "2011-11-07",
+        "length": 263853,
+        "musicbrainz_id": "6bf97848-a9b3-4c8a-b665-4db33afd02cd",
+        "last_modified": 1615839523690
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/5-04%20Montparis.flac",
+        "name": "Montparis",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:54df4e531bef81701aae5f97139bb921",
+                "name": "Eddy Louiss, Claude Nougaro"
+            }
+        ],
+        "track_no": 4,
+        "disc_no": 5,
+        "date": "2011-11-07",
+        "length": 412786,
+        "musicbrainz_id": "ceb4c3df-4bef-4d37-961b-cee6ae688409",
+        "last_modified": 1615839523702
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/5-05%20Pommier%20de%20paradis.flac",
+        "name": "Pommier de paradis",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "track_no": 5,
+        "disc_no": 5,
+        "date": "2011-11-07",
+        "length": 230173,
+        "musicbrainz_id": "227a393f-465f-4437-a229-7da7c516909e",
+        "last_modified": 1615839523750
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/5-06%20Arm%C3%A9%20d%27amour.flac",
+        "name": "Armé d'amour",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:e2be3dc20e98df0497e3f744b5122adf",
+                "name": "Claude Nougaro, Robert Schumann, Jean-Claude Vannier"
+            }
+        ],
+        "track_no": 6,
+        "disc_no": 5,
+        "date": "2011-11-07",
+        "length": 241066,
+        "musicbrainz_id": "7b936548-2e21-4419-b830-d0bfa72257e6",
+        "last_modified": 1615839523766
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/5-07%20Fale.flac",
+        "name": "Fale",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "track_no": 7,
+        "disc_no": 5,
+        "date": "2011-11-07",
+        "length": 326506,
+        "musicbrainz_id": "7b71be14-823c-4dba-b65e-d9da276f80cd",
+        "last_modified": 1615839523774
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/6-01%20%C3%8Ele%20de%20R%C3%A9.flac",
+        "name": "Île de Ré",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:fde3ae78cb8d7a8318dea8cd6fe3b68c",
+                "name": "Claude Nougaro, Gérard Pontieux"
+            }
+        ],
+        "track_no": 1,
+        "disc_no": 6,
+        "date": "2011-11-07",
+        "length": 295480,
+        "musicbrainz_id": "e972d37d-23b5-4c63-8833-cccb62448341",
+        "last_modified": 1615839523782
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/6-02%20Ma%20femme.flac",
+        "name": "Ma femme",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:d23062212c5877b3f4c4fd4d2e0a67b4",
+                "name": "Claude Nougaro, Maurice Vander"
+            }
+        ],
+        "track_no": 2,
+        "disc_no": 6,
+        "date": "2011-11-07",
+        "length": 181760,
+        "musicbrainz_id": "17416198-1f36-4aa7-9307-0a606dc693a8",
+        "last_modified": 1615839523794
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/6-03%20Mademoiselle%20je%20n%27en%20crois%20pas%20mes%20yeux.flac",
+        "name": "Mademoiselle je n'en crois pas mes yeux",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:326d688f25e9d4ceaa6ec66baafeeba4",
+                "name": "Tania Maria, Claude Nougaro"
+            }
+        ],
+        "track_no": 3,
+        "disc_no": 6,
+        "date": "2011-11-07",
+        "length": 168626,
+        "musicbrainz_id": "ad6a31e6-e6eb-4b91-81ef-637c92e0a9a0",
+        "last_modified": 1615839523806
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/6-04%20Odette.flac",
+        "name": "Odette",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:d23062212c5877b3f4c4fd4d2e0a67b4",
+                "name": "Claude Nougaro, Maurice Vander"
+            }
+        ],
+        "track_no": 4,
+        "disc_no": 6,
+        "date": "2011-11-07",
+        "length": 358920,
+        "musicbrainz_id": "e02e314c-6948-44c0-9758-c46ae056e658",
+        "last_modified": 1615839523854
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/6-05%20Lettre%20ouverte%20de%20Julos%20Beaucarne.flac",
+        "name": "Lettre ouverte de Julos Beaucarne",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "track_no": 5,
+        "disc_no": 6,
+        "date": "2011-11-07",
+        "length": 133440,
+        "musicbrainz_id": "9646482b-d03f-4d22-82c9-273af2431419",
+        "last_modified": 1615839523870
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/6-06%20Le%20Chant%20du%20d%C3%A9sert.flac",
+        "name": "Le Chant du désert",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:54df4e531bef81701aae5f97139bb921",
+                "name": "Eddy Louiss, Claude Nougaro"
+            }
+        ],
+        "track_no": 6,
+        "disc_no": 6,
+        "date": "2011-11-07",
+        "length": 235013,
+        "musicbrainz_id": "bae46e86-62a3-405b-96e8-95d7eb8aeaa3",
+        "last_modified": 1615839523882
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/6-07%20Br%C3%A9silien.flac",
+        "name": "Brésilien",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:9e55d9a9e893e12467fc17a934fb1b7c",
+                "name": "Gilberto Gil"
+            }
+        ],
+        "track_no": 7,
+        "disc_no": 6,
+        "date": "2011-11-07",
+        "length": 140026,
+        "musicbrainz_id": "82ea8e87-4e08-4c35-907d-d616bf0edf23",
+        "last_modified": 1615839523886
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/6-08%20Gloria.flac",
+        "name": "Gloria",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:e22fe0cc69ecd88701efddb74303f769",
+                "name": "Don Byas"
+            }
+        ],
+        "track_no": 8,
+        "disc_no": 6,
+        "date": "2011-11-07",
+        "length": 277386,
+        "musicbrainz_id": "0e0dd7aa-977f-4f79-9e8c-2e20a3c2fd8c",
+        "last_modified": 1615839523898
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/6-09%20Perle%20Brune.flac",
+        "name": "Perle Brune",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:d23062212c5877b3f4c4fd4d2e0a67b4",
+                "name": "Claude Nougaro, Maurice Vander"
+            }
+        ],
+        "track_no": 9,
+        "disc_no": 6,
+        "date": "2011-11-07",
+        "length": 145306,
+        "musicbrainz_id": "7d58af4a-5a55-4ecc-b153-586edd748777",
+        "last_modified": 1615839523902
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/6-10%20Yapad%20papa.flac",
+        "name": "Yapad papa",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:14a7c4ebadb9bc7e9c4961ba6a279aab",
+                "name": "Marc Hemmeler"
+            }
+        ],
+        "track_no": 10,
+        "disc_no": 6,
+        "date": "2011-11-07",
+        "length": 139200,
+        "musicbrainz_id": "bfd2bfba-9915-4cad-aed1-9d5cb164136e",
+        "last_modified": 1615839523910
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/7-01%20Plume%20d%27ange.flac",
+        "name": "Plume d'ange",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:8276b818bffa6bbab33ae0a5ff2650d8",
+                "name": "Jean-Claude Vannier"
+            }
+        ],
+        "track_no": 1,
+        "disc_no": 7,
+        "date": "2011-11-07",
+        "length": 909866,
+        "musicbrainz_id": "9b2ee866-17f8-484e-b184-87382ffa9eb9",
+        "last_modified": 1615839523966
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/7-02%20Le%20K%20du%20Q.flac",
+        "name": "Le K du Q",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:27472dc2e5e53c4fd4e6dff7afab6e65",
+                "name": "Claude Nougaro"
+            }
+        ],
+        "track_no": 2,
+        "disc_no": 7,
+        "date": "2011-11-07",
+        "length": 244413,
+        "musicbrainz_id": "f9bd1296-4da7-4902-901e-92d99c7f66a1",
+        "last_modified": 1615839523986
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/7-03%20Pablo.flac",
+        "name": "Pablo",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "track_no": 3,
+        "disc_no": 7,
+        "date": "2011-11-07",
+        "length": 255320,
+        "musicbrainz_id": "563d2cda-c9f1-4d69-b24c-d4d6aca2e572",
+        "last_modified": 1615839523998
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/7-04%20Jalousie.flac",
+        "name": "Jalousie",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:27472dc2e5e53c4fd4e6dff7afab6e65",
+                "name": "Claude Nougaro"
+            }
+        ],
+        "track_no": 4,
+        "disc_no": 7,
+        "date": "2011-11-07",
+        "length": 373306,
+        "musicbrainz_id": "86a5c49e-b5af-4e1e-8648-b8a8288269ba",
+        "last_modified": 1615839524010
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/7-05%20Quasimodo.flac",
+        "name": "Quasimodo",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "track_no": 5,
+        "disc_no": 7,
+        "date": "2011-11-07",
+        "length": 181773,
+        "musicbrainz_id": "c07d1537-2678-400d-ba48-e3ffa924e9b4",
+        "last_modified": 1615839524066
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/7-06%20Comme%20une%20Piaf%20%28Beauty%20and%20the%20Beast%29.flac",
+        "name": "Comme une Piaf (Beauty and the Beast)",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "track_no": 6,
+        "disc_no": 7,
+        "date": "2011-11-07",
+        "length": 229240,
+        "musicbrainz_id": "91e63569-3721-4219-a908-3000f5b03238",
+        "last_modified": 1615839524070
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/8-01%20Nobody%20Knows.flac",
+        "name": "Nobody Knows",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:8319069bde22688387d367c1effdf16d",
+                "name": "Traditionnel"
+            }
+        ],
+        "track_no": 1,
+        "disc_no": 8,
+        "date": "2011-11-07",
+        "length": 203360,
+        "musicbrainz_id": "3bb2b61a-f20d-46a9-bcbc-97d88dcce5ce",
+        "last_modified": 1615839524086
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/8-02%20La%20Danse.flac",
+        "name": "La Danse",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:d23062212c5877b3f4c4fd4d2e0a67b4",
+                "name": "Claude Nougaro, Maurice Vander"
+            }
+        ],
+        "track_no": 2,
+        "disc_no": 8,
+        "date": "2011-11-07",
+        "length": 253440,
+        "musicbrainz_id": "ae672d3d-25ff-41da-acb1-78346a4eddd6",
+        "last_modified": 1615839524098
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/8-03%20Autour%20de%20minuit.flac",
+        "name": "Autour de minuit",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:faf453f6828e6a7ff6e01060ab2c9766",
+                "name": "Bernie Hanighen, Thelonious Monk, Cootie Williams"
+            }
+        ],
+        "track_no": 3,
+        "disc_no": 8,
+        "date": "2011-11-07",
+        "length": 196120,
+        "musicbrainz_id": "0d3d03d6-8d0f-4a91-9570-6bbad81fdcc7",
+        "last_modified": 1615839524106
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/8-04%20Quand%20Freddy%20est%20parti.flac",
+        "name": "Quand Freddy est parti",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:b60f04f40cec904d23f12c643b1ed655",
+                "name": "Maurice Vander"
+            }
+        ],
+        "track_no": 4,
+        "disc_no": 8,
+        "date": "2011-11-07",
+        "length": 268960,
+        "musicbrainz_id": "16487074-cba6-4622-8fce-a65a6bd9b91f",
+        "last_modified": 1615839524114
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/8-05%20E%20pericoloso%20sporgersi.flac",
+        "name": "E pericoloso sporgersi",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:bc445eb996c4748d2ea5921deee3454a",
+                "name": "Éric Robrecht"
+            }
+        ],
+        "track_no": 5,
+        "disc_no": 8,
+        "date": "2011-11-07",
+        "length": 212053,
+        "musicbrainz_id": "345d5082-9307-4486-9aa8-8023afcb4084",
+        "last_modified": 1615839524122
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/8-06%20Tu%20verras.flac",
+        "name": "Tu verras",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:379cfad2e8943a26e20148ed777f9e26",
+                "name": "Chico Buarque"
+            }
+        ],
+        "track_no": 6,
+        "disc_no": 8,
+        "date": "2011-11-07",
+        "length": 195986,
+        "musicbrainz_id": "bd61d781-6549-4488-b451-f81a45712c38",
+        "last_modified": 1615839524126
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/8-07%20Insomnie.flac",
+        "name": "Insomnie",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:8276b818bffa6bbab33ae0a5ff2650d8",
+                "name": "Jean-Claude Vannier"
+            }
+        ],
+        "track_no": 7,
+        "disc_no": 8,
+        "date": "2011-11-07",
+        "length": 256160,
+        "musicbrainz_id": "5ee890ed-a7c5-4ee8-9e34-d52f8ffea941",
+        "last_modified": 1615839524138
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/8-08%20L%27Aspirateur.flac",
+        "name": "L'Aspirateur",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:8276b818bffa6bbab33ae0a5ff2650d8",
+                "name": "Jean-Claude Vannier"
+            }
+        ],
+        "track_no": 8,
+        "disc_no": 8,
+        "date": "2011-11-07",
+        "length": 345586,
+        "musicbrainz_id": "f55a5151-d1f1-4059-8a83-3acb8e3200c3",
+        "last_modified": 1615839524194
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/8-09%20Mon%20disque%20d%27et%C3%A9.flac",
+        "name": "Mon disque d'eté",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:394610c9194432cafb6e3816dd8dbe2e",
+                "name": "Quincy Jones"
+            }
+        ],
+        "track_no": 9,
+        "disc_no": 8,
+        "date": "2011-11-07",
+        "length": 260720,
+        "musicbrainz_id": "32c0d5ca-7cdd-4b64-b857-2a9ea9e4c2e3",
+        "last_modified": 1615839524210
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/9-01%20Des%20voiliers.flac",
+        "name": "Des voiliers",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:b1674481e4354881d35ed0e42bdd0db5",
+                "name": "Richard Galliano"
+            }
+        ],
+        "track_no": 1,
+        "disc_no": 9,
+        "date": "2011-11-07",
+        "length": 236560,
+        "musicbrainz_id": "c08a8334-995c-45f5-a36b-57efd711373f",
+        "last_modified": 1615839524218
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/9-02%20Clodi%20clodo.flac",
+        "name": "Clodi clodo",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:f1841869162430b2dd28d396d3db3a2d",
+                "name": "arr. Marc Hemmeler"
+            }
+        ],
+        "track_no": 2,
+        "disc_no": 9,
+        "date": "2011-11-07",
+        "length": 215266,
+        "musicbrainz_id": "d698193e-d673-40a2-95e6-30b8042f55ba",
+        "last_modified": 1615839524230
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/9-03%20Faire%20une%20chanson%20qui%20taille.flac",
+        "name": "Faire une chanson qui taille",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91a54ac55ed7639af176167e39b3074f",
+                "name": "Bernard Algarra"
+            }
+        ],
+        "track_no": 3,
+        "disc_no": 9,
+        "date": "2011-11-07",
+        "length": 168066,
+        "musicbrainz_id": "fc30c90d-b865-4ca0-ab5f-6212e8f99ecf",
+        "last_modified": 1615839524234
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/9-04%20Jojo%20projo.flac",
+        "name": "Jojo projo",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:8276b818bffa6bbab33ae0a5ff2650d8",
+                "name": "Jean-Claude Vannier"
+            }
+        ],
+        "track_no": 4,
+        "disc_no": 9,
+        "date": "2011-11-07",
+        "length": 286586,
+        "musicbrainz_id": "8cb3dad1-449a-45d6-a2cd-8e27ea3c7e94",
+        "last_modified": 1615839524242
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/9-05%20Le%20Coq%20et%20la%20Pendule.flac",
+        "name": "Le Coq et la Pendule",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:b60f04f40cec904d23f12c643b1ed655",
+                "name": "Maurice Vander"
+            }
+        ],
+        "track_no": 5,
+        "disc_no": 9,
+        "date": "2011-11-07",
+        "length": 202533,
+        "musicbrainz_id": "e44590b4-5104-43d9-9f19-bb50a47614b9",
+        "last_modified": 1615839524250
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/9-06%20Assez%20%21.flac",
+        "name": "Assez !",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:d23062212c5877b3f4c4fd4d2e0a67b4",
+                "name": "Claude Nougaro, Maurice Vander"
+            }
+        ],
+        "track_no": 6,
+        "disc_no": 9,
+        "date": "2011-11-07",
+        "length": 325213,
+        "musicbrainz_id": "8bb0b421-d937-4334-a234-dff3589d7418",
+        "last_modified": 1615839524302
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/9-07%20Chanson%20de%20pirates.flac",
+        "name": "Chanson de pirates",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:d23062212c5877b3f4c4fd4d2e0a67b4",
+                "name": "Claude Nougaro, Maurice Vander"
+            }
+        ],
+        "track_no": 7,
+        "disc_no": 9,
+        "date": "2011-11-07",
+        "length": 196706,
+        "musicbrainz_id": "73baa433-e8d9-4b84-8975-cf605fbaac96",
+        "last_modified": 1615839524314
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/9-08%20De%20haut%20en%20bas.flac",
+        "name": "De haut en bas",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:753f418deb89510d3c014e4a1a110881",
+                "name": "Michel Legrand"
+            }
+        ],
+        "track_no": 8,
+        "disc_no": 9,
+        "date": "2011-11-07",
+        "length": 159733,
+        "musicbrainz_id": "e801021f-cfcf-4a6a-96ec-f6547c8c5fa8",
+        "last_modified": 1615839524318
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/9-09%20Bilboquet.flac",
+        "name": "Bilboquet",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:753f418deb89510d3c014e4a1a110881",
+                "name": "Michel Legrand"
+            }
+        ],
+        "track_no": 9,
+        "disc_no": 9,
+        "date": "2011-11-07",
+        "length": 177853,
+        "musicbrainz_id": "536dbcb0-27b5-4570-8fef-a2c30dfdda1e",
+        "last_modified": 1615839524322
+    },
+    {
+        "__model__": "Track",
+        "uri": "local:track:Claude%20Nougaro/L%27Essentiel%20des%20albums%20studio%201962-1985/9-10%20Des%20go%C3%BBts%20et%20des%20couleurs.flac",
+        "name": "Des goûts et des couleurs",
+        "artists": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                "name": "Claude Nougaro",
+                "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+            }
+        ],
+        "album": {
+            "__model__": "Album",
+            "uri": "local:album:md5:a6c9ed72dadf106f79834a7a3884d7ea",
+            "name": "L'Essentiel des albums studio 1962-1985",
+            "artists": [
+                {
+                    "__model__": "Artist",
+                    "uri": "local:artist:md5:91ab9e7069d2cef74c7fd1375a8eb31a",
+                    "name": "Claude Nougaro",
+                    "musicbrainz_id": "729d5d04-a4d7-4540-905e-0afec8e9f004"
+                }
+            ],
+            "num_tracks": 10,
+            "num_discs": 12,
+            "date": "2011-11-07",
+            "musicbrainz_id": "51a830b2-bdeb-49e9-8274-7e83e9aa57ec"
+        },
+        "composers": [
+            {
+                "__model__": "Artist",
+                "uri": "local:artist:md5:4b666d58531963c6a96696cc1bebcf75",
+                "name": "Henri Salvador"
+            }
+        ],
+        "track_no": 10,
+        "disc_no": 9,
+        "date": "2011-11-07",
+        "length": 226906,
+        "musicbrainz_id": "f97b9e14-1650-477d-8886-317efc703e7b",
+        "last_modified": 1615839524326
+    }
+]

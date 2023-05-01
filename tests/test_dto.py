@@ -234,9 +234,10 @@ class TestCastSeqOf(unittest.TestCase):
 
     def test_casting_with_wrong_data(self):
         track_data = load_json_data("track.json")
-        data = [track_data, {}]
+        data = [track_data, {}, track_data]
         with self.assertLogs("argos.dto", logging.WARNING) as logs:
             tracks = cast_seq_of(TrackDTO, data)
 
-        self.assertEqual(len(tracks), 1)
+        self.assertEqual(len(tracks), 2)
+        self.assertEqual([t.name for t in tracks], ["If You Could Read My Mind"] * 2)
         self.assertEqual(len(logs.output), 1)

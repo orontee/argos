@@ -59,6 +59,9 @@ def parse_tracks(
 ) -> Dict[str, List[TrackModel]]:
     """Parse a track list.
 
+    Keys in ``track_dto`` can be album URIs or track URIs (when fetching
+    details of playlist tracks).
+
     Args:
         tracks_dto: Track data transfer objects to parse.
 
