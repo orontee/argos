@@ -37,9 +37,17 @@ repos:
     rev: 5.12.0
     hooks:
     -   id: isort
-        name: isort (python)
 
 -   repo: https://github.com/PyCQA/doc8
     rev: v1.0.0
     hooks:
     -   id: doc8
+
+-   repo: local
+    hooks:
+    -   id: unittest
+        name: unittest
+        entry: poetry run coverage run -m unittest discover tests/
+        language: python
+        types: [python]
+        pass_filenames: false
