@@ -1,4 +1,5 @@
 from argos.model.album import AlbumModel
+from argos.model.artist import ArtistModel
 from argos.model.backends import MopidyBackend
 from argos.model.directory import DirectoryModel
 from argos.model.library import LibraryModel
@@ -17,6 +18,7 @@ from argos.model.utils import PlaybackState
 
 __all__ = (
     "AlbumModel",
+    "ArtistModel",
     "DirectoryModel",
     "LibraryModel",
     "MixerModel",

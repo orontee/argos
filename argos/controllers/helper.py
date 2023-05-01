@@ -1,8 +1,8 @@
 from collections import defaultdict
 from typing import Callable, Dict, List, Mapping, Optional, Sequence
 
-from argos.dto import ArtistDTO, TlTrackDTO, TrackDTO
-from argos.model import TracklistTrackModel, TrackModel
+from argos.dto import AlbumDTO, ArtistDTO, TlTrackDTO, TrackDTO
+from argos.model import AlbumModel, ArtistModel, TracklistTrackModel, TrackModel
 
 
 class ModelHelper:
@@ -11,6 +11,26 @@ class ModelHelper:
     Some conversions can be tracked through visitors.
 
     """
+
+    def convert_album(self, album_dto: AlbumDTO) -> AlbumModel:
+        album = AlbumModel(
+            uri=album_dto.uri,
+            name=album_dto.name,
+            num_tracks=album_dto.num_tracks,
+            num_discs=album_dto.num_discs,
+            date=album_dto.date,
+        )
+        # TODO album dto has artists
+        return album
+
+    def convert_artist(self, artist_dto: ArtistDTO) -> ArtistModel:
+        artist = ArtistModel(
+            uri=artist_dto.uri,
+            name=artist_dto.name,
+            sortname=artist_dto.name,
+            artist_mbid=artist_dto.musicbrainz_id,
+        )
+        return artist
 
     def convert_track(self, track_dto: TrackDTO) -> TrackModel:
         track = TrackModel(
