@@ -4,7 +4,6 @@ from typing import Optional, Union
 
 from gi.repository import Gdk, Gio, GLib, GObject, Gtk
 
-from argos.message import MessageType
 from argos.widgets import (
     AlbumDetailsBox,
     LibraryWindow,
