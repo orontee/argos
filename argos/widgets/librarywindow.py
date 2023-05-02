@@ -8,7 +8,6 @@ from typing import List, Optional, Tuple, Union
 from gi.repository import Gio, GLib, GObject, Gtk
 from gi.repository.GdkPixbuf import Pixbuf
 
-from argos.message import MessageType
 from argos.model import AlbumModel, DirectoryModel, Model, PlaylistModel, TrackModel
 from argos.utils import elide_maybe
 from argos.widgets.albumdetailsbox import AlbumDetailsBox
@@ -40,6 +39,32 @@ class DirectoryItemType(IntEnum):
 
 @Gtk.Template(resource_path="/io/github/orontee/Argos/ui/library_window.ui")
 class LibraryWindow(Gtk.Box):
+    """Vertical box with stack of widgets dedicated to library browsing.
+
+    It also contains a condensed playing box to ease access to playback
+    controls.
+
+    The stack is contained in an overlay used to display to notify library
+    loading progress.
+
+    The stack contains:
+
+    - The ``directory_page`` page to view a directory content
+      (implemented through Gtk.IconView). It's able to display child
+      directories, albums, playlists and tracks.
+
+    - The ``album_details_page`` page to view details on an album (see
+      ``AlbumDetailsBox``).
+
+    - The ``tracks_view_page`` page to view a track list (see ``TracksView``).
+
+    Whether entering a directory must switch to the ``tracks_view_page``
+    page, depends on the entered directory: It should contain only tracks.
+    The setting ``disable-tracks-view-pattern`` can be used to disable that
+    behavior.
+
+    """
+
     __gtype_name__ = "LibraryWindow"
 
     library_overlay: Gtk.Overlay = Gtk.Template.Child()
