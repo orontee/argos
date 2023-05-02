@@ -4,7 +4,6 @@ from typing import List, Optional
 
 from gi.repository import Gio, GLib, GObject, Gtk
 
-from argos.message import MessageType
 from argos.model import DirectoryModel, TrackModel
 from argos.utils import ms_to_text
 from argos.widgets.trackbox import TrackBox
