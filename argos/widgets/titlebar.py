@@ -14,7 +14,8 @@ class TitleBarState(IntEnum):
     FOR_LIBRARY_PAGE_ON_ROOT_DIRECTORY = 1
     FOR_LIBRARY_PAGE_ON_DIRECTORY = 2
     FOR_LIBRARY_PAGE_ON_ALBUM = 3
-    FOR_PLAYLISTS_PAGE = 4
+    FOR_LIBRARY_PAGE_ON_SEARCH_RESULT = 4
+    FOR_PLAYLISTS_PAGE = 5
 
 
 @Gtk.Template(resource_path="/io/github/orontee/Argos/ui/title_bar.ui")
@@ -87,14 +88,12 @@ class TitleBar(Gtk.HeaderBar):
         if self.title_stack.get_visible_child_name() == "search_entry_page":
             self._hide_search_entry()
         else:
-            if self._state not in (
-                TitleBarState.FOR_LIBRARY_PAGE_ON_ROOT_DIRECTORY,
-                TitleBarState.FOR_LIBRARY_PAGE_ON_DIRECTORY,
-            ):
+            if self._state not in (TitleBarState.FOR_LIBRARY_PAGE_ON_SEARCH_RESULT,):
                 return
 
             self.title_stack.set_visible_child_name("search_entry_page")
             self.search_entry.grab_focus()
+
             if not self.search_button.get_active():
                 with self.search_button.handler_block(
                     self.search_button_toggled_handler_id
@@ -107,6 +106,7 @@ class TitleBar(Gtk.HeaderBar):
 
         self.title_stack.set_visible_child_name("switcher_page")
         self.search_entry.props.text = ""
+
         if self.search_button.get_active():
             with self.search_button.handler_block(
                 self.search_button_toggled_handler_id
@@ -114,9 +114,11 @@ class TitleBar(Gtk.HeaderBar):
                 self.search_button.set_active(False)
 
     def on_search_button_toggled(self, _1: Gtk.ToggleButton) -> None:
+        self._window.props.library_window.select_search_result_view_page()
         self.toggle_search_entry_focus_maybe()
 
     def on_search_entry_changed(self, search_entry: Gtk.SearchEntry) -> None:
+        # TODO wait, 150ms isn't enough
         search_text = search_entry.props.text
         self._app.activate_action("search-library", GLib.Variant("s", search_text))
 
@@ -132,6 +134,7 @@ class TitleBar(Gtk.HeaderBar):
             self.sort_button.set_visible(False)
             if self.search_button is not None:
                 self.search_button.set_visible(False)
+            self._hide_search_entry()
         elif state == TitleBarState.FOR_LIBRARY_PAGE_ON_ROOT_DIRECTORY:
             self.back_button.set_visible(True)
             self.back_button.set_sensitive(False)
@@ -139,6 +142,7 @@ class TitleBar(Gtk.HeaderBar):
             self.sort_button.set_visible(True)
             if self.search_button is not None:
                 self.search_button.set_visible(True)
+            self._hide_search_entry()
         elif state == TitleBarState.FOR_LIBRARY_PAGE_ON_DIRECTORY:
             self.back_button.set_visible(True)
             self.back_button.set_sensitive(True)
@@ -146,6 +150,7 @@ class TitleBar(Gtk.HeaderBar):
             self.sort_button.set_visible(True)
             if self.search_button is not None:
                 self.search_button.set_visible(True)
+            self._hide_search_entry()
         elif state == TitleBarState.FOR_LIBRARY_PAGE_ON_ALBUM:
             self.back_button.set_visible(True)
             self.back_button.set_sensitive(True)
@@ -153,8 +158,15 @@ class TitleBar(Gtk.HeaderBar):
             self.sort_button.set_visible(False)
             if self.search_button is not None:
                 self.search_button.set_visible(False)
-
-        self._hide_search_entry()
+            self._hide_search_entry()
+        elif state == TitleBarState.FOR_LIBRARY_PAGE_ON_SEARCH_RESULT:
+            self.back_button.set_visible(True)
+            self.back_button.set_sensitive(True)
+            self.title_stack.set_visible(True)
+            self.sort_button.set_visible(False)
+            if self.search_button is not None:
+                self.search_button.set_visible(True)
+            self.toggle_search_entry_focus_maybe()
 
     def on_is_fullscreen_changed(self, window: GObject.Object, _1: GObject.ParamSpec):
         is_fullscreen = window.props.is_fullscreen

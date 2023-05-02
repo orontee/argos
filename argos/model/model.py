@@ -431,6 +431,10 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         tracks: Sequence[TrackModel],
     ) -> None:
         def _complete_search_result() -> None:
+            LOGGER.debug(
+                f"Updating search results with {len(albums)} albums, "
+                f"{len(artists)} artists, and {len(tracks)} tracks"
+            )
             self.search_result.albums.remove_all()
             album_sort_id = self._settings.get_string("album-sort")
             album_compare_func = self._get_album_compare_func(album_sort_id)

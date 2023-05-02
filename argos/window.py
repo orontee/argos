@@ -168,6 +168,8 @@ class ArgosWindow(Gtk.ApplicationWindow):
                     )
                 else:
                     self.titlebar.set_state(TitleBarState.FOR_LIBRARY_PAGE_ON_DIRECTORY)
+            elif self.props.library_window.is_search_result_view_page_visible():
+                self.titlebar.set_state(TitleBarState.FOR_LIBRARY_PAGE_ON_SEARCH_RESULT)
             else:
                 self.titlebar.set_state(TitleBarState.FOR_LIBRARY_PAGE_ON_ALBUM)
         elif central_child_name == "playlists_page":
@@ -337,7 +339,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
                 self.props.application.activate_action("play-prev-track")
                 return True
             elif keyval == Gdk.KEY_f:
-                self.props.titlebar.toggle_search_entry_focus_maybe()
+                self.props.library_window.select_search_result_view_page()
                 return True
             elif keyval == Gdk.KEY_r:
                 self.props.application.activate_action("play-random-tracks")

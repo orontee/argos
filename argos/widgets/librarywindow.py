@@ -13,6 +13,7 @@ from argos.utils import elide_maybe
 from argos.widgets.albumdetailsbox import AlbumDetailsBox
 from argos.widgets.condensedplayingbox import CondensedPlayingBox
 from argos.widgets.librarybrowsingprogressbox import LibraryBrowsingProgressBox
+from argos.widgets.searchresultview import SearchResultView
 from argos.widgets.tracksview import TracksView
 from argos.widgets.utils import default_image_pixbuf, scale_album_image
 
@@ -74,6 +75,7 @@ class LibraryWindow(Gtk.Box):
     album_details_box = GObject.Property(type=AlbumDetailsBox)
     filtered_directory_store = GObject.Property(type=Gtk.TreeModelFilter)
     filtering_text = GObject.Property(type=str)
+    search_result_view = GObject.Property(type=SearchResultView)
     tracks_view = GObject.Property(type=TracksView)
 
     directory_uri = GObject.Property(type=str)
@@ -101,6 +103,11 @@ class LibraryWindow(Gtk.Box):
 
         self.props.tracks_view = TracksView(application)
         self.library_stack.add_named(self.props.tracks_view, "tracks_view_page")
+
+        self.props.search_result_view = SearchResultView(application)
+        self.library_stack.add_named(
+            self.props.search_result_view, "search_result_view_page"
+        )
 
         directory_store = Gtk.ListStore(str, str, str, str, Pixbuf, str, str, int)
         self.props.filtered_directory_store = directory_store.filter_new()
@@ -386,10 +393,18 @@ class LibraryWindow(Gtk.Box):
         return self.library_stack.get_visible_child_name() == "directory_page"
 
     def select_directory_page(self) -> None:
+        LOGGER.debug("Selecting directory view page")
         self.library_stack.set_visible_child_name("directory_page")
 
     def is_tracks_view_page_visible(self) -> bool:
         return self.library_stack.get_visible_child_name() == "tracks_view_page"
+
+    def is_search_result_view_page_visible(self) -> bool:
+        return self.library_stack.get_visible_child_name() == "search_result_view_page"
+
+    def select_search_result_view_page(self) -> None:
+        LOGGER.debug("Selecting search result view page")
+        self.library_stack.set_visible_child_name("search_result_view_page")
 
     def show_directory(self, uri: str, *, history: bool = False) -> None:
         if uri == self.props.directory_uri:
