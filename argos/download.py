@@ -75,10 +75,18 @@ class ImageDownloader(GObject.GObject):
 
         if not filepath.exists():
             url = urllib.parse.urljoin(self._mopidy_base_url, image_uri)
+
+            options = {}
+            if self._http_session_manager.cache:
+                options["expire_after"] = 0
+                LOGGER.debug(
+                    "Skip writing image to the cache since it'll be written to file system"
+                )
+
             async with self._http_session_manager.get_session() as session:
                 try:
                     LOGGER.debug(f"Sending GET {url}")
-                    async with session.get(url) as resp:
+                    async with session.get(url, **options) as resp:
                         LOGGER.debug(f"Writing image to {str(filepath)!r}")
                         with filepath.open("wb") as fd:
                             async for chunk in resp.content.iter_chunked(

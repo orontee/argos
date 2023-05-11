@@ -32,6 +32,9 @@ Changed
 Removed
 -------
 
+- Image requests aren't cached anymore since images are written to
+  file system `#140 <https://github.com/orontee/argos/pull/140>`_
+
 [1.11.0] - 2023-03-02
 =====================
 

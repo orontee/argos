@@ -48,8 +48,14 @@ class HTTPSessionManager(GObject.Object):
                     cache=cache,
                 ),
             )
+            self._cache = True
         else:
             self._session_klass = aiohttp.ClientSession
+            self._cache = False
+
+    @property
+    def cache(self) -> bool:
+        return self._cache
 
     @contextlib.asynccontextmanager
     async def get_session(self) -> AsyncIterator[aiohttp.ClientSession]:
