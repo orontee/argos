@@ -80,7 +80,7 @@ update_debian_changelog
 echo
 echo "⚠️ $(tput bold)Remaining tasks:$(tput sgr0)"
 echo "- Carefully review the generated code!"
-echo "- Complete the file data/io.github.orontee.Argos.appdata.xml"
+echo "- Complete the file data/io.github.orontee.Argos.appdata.xml.in"
 echo "- Update screenshots if needed"
 echo "- Update translations if needed"
 echo
