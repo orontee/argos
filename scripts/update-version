@@ -86,5 +86,6 @@ echo "- Update translations if needed"
 echo
 echo "Then commit, tag, push and call:"
 echo
-echo "    meson compile create-pre-release"
+echo "    meson builddir"
+echo "    pushd builddir && meson compile create-pre-release"
 echo

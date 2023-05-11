@@ -8,10 +8,13 @@ BODY="See [News file](https://github.com/orontee/argos/blob/v${VERSION}/NEWS.rst
 
 Install from [Argos page on Flathub](https://flathub.org/apps/details/io.github.orontee.Argos) or the attached DEB package."
 
+TITLE="Release ${VERSION}"
+
 urlencode() {
   python3 -c "import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1], sys.argv[2]))" \
     "$1" "$urlencode_safe"
 }
 ENCODED_BODY=$(urlencode "${BODY}")
+ENCODED_TITLE=$(urlencode "${TITLE}")
 
-echo "Visit https://github.com/orontee/argos/releases/new?prerelease=1&tag=v${VERSION}&title=Release+v${VERSION}&body=${ENCODED_BODY}"
+echo "Visit https://github.com/orontee/argos/releases/new?prerelease=1&tag=v${VERSION}&title=${ENCODED_TITLE}&body=${ENCODED_BODY}"
