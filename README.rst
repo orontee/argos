@@ -11,6 +11,10 @@ Argos
 .. image:: https://github.com/orontee/argos/actions/workflows/build.yaml/badge.svg
    :target: https://github.com/orontee/argos/actions/workflows/build.yaml
 
+.. image:: https://dl.flathub.org/assets/badges/flathub-badge-en.png
+   :target: https://flathub.org/fr/apps/io.github.orontee.Argos
+   :height: 20px
+
 Light weight front-end for `Mopidy <https://mopidy.com/>`_ music server.
 
 Argos is designed (and used!) with `Gnome <https://gnome.org>`_ desktop
@@ -61,10 +65,10 @@ Features 🥳
 Consult the `NEWS file </NEWS.rst>`_ for notable changes between
 versions.
 
-Note that the library is almost agnostic of Mopidy extensions (it has been
-reported to successfully give access to resources exposed by Mopidy-File,
-Mopidy-Local, Mopidy-Bandcamp, Mopidy-Jellyfin, Mopidy-Podcast and
-Mopidy-SomaFM).
+Note that the library is almost agnostic of Mopidy extensions (it has
+been reported to successfully give access to resources exposed by
+Mopidy-Bandcamp, Mopidy-Local, Mopidy-File, Mopidy-InternetArchive,
+Mopidy-Jellyfin, Mopidy-Podcast and Mopidy-SomaFM).
 
 Install
 =======
