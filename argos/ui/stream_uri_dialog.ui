@@ -43,7 +43,6 @@
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="activates-default">True</property>
-            <property name="primary-icon-tooltip-text" translatable="yes">The URI of the stream</property>
             <property name="placeholder-text" translatable="yes">Stream URI</property>
             <property name="input-purpose">url</property>
           </object>
@@ -86,9 +85,6 @@ may apply depending on Mopidy-Stream configuration.</property>
           </packing>
         </child>
       </object>
-    </child>
-    <child type="titlebar">
-      <placeholder/>
     </child>
   </template>
 </interface>
