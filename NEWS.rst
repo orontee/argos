@@ -27,25 +27,25 @@ Added
 -----
 
 - Playlist tracks use names set in playlists `#137
-  <https://github.com/orontee/argos/pull/137>`_
+  <https://github.com/orontee/argos/issues/137>`_
 
 - Download images for directories `#136
-  <https://github.com/orontee/argos/pull/136>`_
+  <https://github.com/orontee/argos/issues/136>`_
 
 Changed
 -------
 
 - Fix type error while sorting library `#139
-  <https://github.com/orontee/argos/pull/139>`_
+  <https://github.com/orontee/argos/issues/139>`_
 
 - Various minor fixes applied while writing automatic tests `#138
-  <https://github.com/orontee/argos/pull/138>`_
+  <https://github.com/orontee/argos/issues/138>`_
 
 Removed
 -------
 
 - Image requests aren't cached anymore since images are written to
-  file system `#140 <https://github.com/orontee/argos/pull/140>`_
+  file system `#140 <https://github.com/orontee/argos/issues/140>`_
 
 [1.11.0] - 2023-03-02
 =====================
@@ -54,7 +54,7 @@ Added
 -----
 
 - Added Dutch translation `#135
-  <https://github.com/orontee/argos/pull/135>`_
+  <https://github.com/orontee/argos/issues/135>`_
 
 [1.10.0] - 2023-02-26
 =====================
