@@ -11,7 +11,7 @@
         <attribute name="action">app.add-stream</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">New playlist</attribute>
+        <attribute name="label" translatable="yes">New playlist…</attribute>
         <attribute name="action">app.new-playlist</attribute>
       </item>
     </section>

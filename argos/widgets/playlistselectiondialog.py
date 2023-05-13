@@ -16,7 +16,7 @@ class PlaylistNameStoreColumn(IntEnum):
 
 @Gtk.Template(resource_path="/io/github/orontee/Argos/ui/playlist_selection_dialog.ui")
 class PlaylistSelectionDialog(Gtk.Dialog):
-    """Dialog used to enter a playlist name."""
+    """Dialog used to select an existing playlist."""
 
     __gtype_name__ = "PlaylistSelectionDialog"
 

@@ -14,6 +14,9 @@ The format is based on `Keep a Changelog
 Added
 -----
 
+- Playlist tracks use names set in playlists `#45
+  <https://github.com/orontee/argos/issues/45>`_
+
 Changed
 -------
 

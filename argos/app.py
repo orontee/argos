@@ -31,6 +31,7 @@ from argos.time import TimePositionTracker
 from argos.utils import configure_logger
 from argos.widgets import (
     AboutDialog,
+    PlaylistCreationDialog,
     PreferencesWindow,
     StreamUriDialog,
     TracklistRandomDialog,
@@ -498,8 +499,16 @@ class Application(Gtk.Application):
     def new_playlist_activate_cb(
         self, action: Gio.SimpleAction, parameter: None
     ) -> None:
-        name = _("New playlist")
-        LOGGER.debug(f"Creation of new playlist {name!r} requested by end-user")
+        dialog = PlaylistCreationDialog(self)
+        dialog.run()
+        name = dialog.props.playlist_name
+        dialog.destroy()
+
+        if not name:
+            LOGGER.debug("Abort creation of playlist")
+            return
+
+        LOGGER.debug(f"Creation of playlist {name!r} requested by end-user")
 
         if self.window is not None:
             self.window.set_central_view_visible_child("playlists_page")
