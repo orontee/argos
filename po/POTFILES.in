@@ -14,6 +14,7 @@ argos/ui/library_browsing_progress_box.ui
 argos/ui/library_window.ui
 argos/ui/playing_box.ui
 argos/ui/playing_box_empty_tracklist_box.ui
+argos/ui/playlist_creation_dialog.ui
 argos/ui/playlist_track_box.ui
 argos/ui/playlists_box.ui
 argos/ui/preferences.ui
@@ -28,6 +29,7 @@ argos/ui/window.ui
 argos/utils.py
 argos/widgets/albumdetailsbox.py
 argos/widgets/playingboxemptytracklistbox.py
+argos/widgets/playlistcreationdialog.py
 argos/widgets/playlistemptytracksbox.py
 argos/widgets/playlistsbox.py
 argos/widgets/playlistselectiondialog.py
