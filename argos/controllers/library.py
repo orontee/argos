@@ -315,7 +315,7 @@ class LibraryController(ControllerBase):
             )
 
             LOGGER.debug("Parsing albums tracks")
-            parsed_tracks = self.helper.parse_tracks(
+            parsed_tracks = self._helper.parse_tracks(
                 directory_tracks_dto, visitors=[length_acc, metadata_collector]
             )
 
@@ -438,7 +438,7 @@ class LibraryController(ControllerBase):
 
         LOGGER.debug("Parsing tracks")
         parsed_tracks: List[TrackModel] = []
-        for tracks in self.helper.parse_tracks(directory_tracks_dto).values():
+        for tracks in self._helper.parse_tracks(directory_tracks_dto).values():
             for track in tracks:
                 track_uri = track.uri
                 if images is not None and len(images.get(track_uri, [])) > 0:

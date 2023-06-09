@@ -81,7 +81,7 @@ class TracklistController(ControllerBase):
 
         tl_tracks = (
             [
-                self.helper.convert_tl_track(tl_track_dto)
+                self._helper.convert_tl_track(tl_track_dto)
                 for tl_track_dto in tl_tracks_dto
             ]
             if tl_tracks_dto is not None

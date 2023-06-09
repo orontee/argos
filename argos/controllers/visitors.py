@@ -1,6 +1,6 @@
 """Visitors for tracks DTOs.
 
-See ``argos.controllers.helper.ModelHelper.parse_tracks()``.
+See ``argos.model.helper.ModelHelper.parse_tracks()``.
 
 """
 import logging

@@ -1,5 +1,4 @@
 import logging
-import random
 import threading
 from datetime import datetime
 from functools import partial
@@ -15,6 +14,7 @@ from argos.model.album import (
     compare_albums_by_name_func,
     compare_albums_by_publication_date_func,
 )
+from argos.model.artist import ArtistModel
 from argos.model.backends import (
     GenericBackend,
     MopidyBackend,
@@ -22,6 +22,7 @@ from argos.model.backends import (
     MopidyPodcastBackend,
 )
 from argos.model.directory import DirectoryModel, compare_directories_func
+from argos.model.helper import ModelHelper
 from argos.model.library import LibraryModel
 from argos.model.mixer import MixerModel
 from argos.model.playback import PlaybackModel
@@ -61,6 +62,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
     tracklist: TracklistModel
     playlists: Gio.ListStore
     backends: Gio.ListStore
+    helper: ModelHelper
 
     def __init__(self, application: "Application", *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -79,6 +81,8 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
 
         self.backends.append(GenericBackend())
         # Must be the last one!
+
+        self.helper = ModelHelper()
 
         application._nm.connect("network-changed", self._on_nm_network_changed)
 
@@ -389,6 +393,9 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
 
     def get_album(self, uri: str) -> Optional[AlbumModel]:
         return self.library.get_album(uri)
+
+    def get_artist(self, uri: str) -> Optional[ArtistModel]:
+        return self.helper.get_artist(uri)
 
     def get_directory(self, uri: Optional[str]) -> Optional[DirectoryModel]:
         return self.library.get_directory(uri)

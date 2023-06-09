@@ -1,10 +1,10 @@
 import json
 import pathlib
 import unittest
-from unittest.mock import Mock, call
+from unittest.mock import Mock
 
-from argos.controllers.helper import ModelHelper
 from argos.dto import TrackDTO
+from argos.model.helper import ModelHelper
 from argos.model.track import TrackModel
 
 

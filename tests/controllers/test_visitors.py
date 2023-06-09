@@ -3,13 +3,13 @@ import pathlib
 import unittest
 from copy import copy
 
-from argos.controllers.helper import ModelHelper
 from argos.controllers.visitors import (
     AlbumMetadataCollector,
     LengthAcc,
     PlaylistTrackNameFix,
 )
 from argos.dto import PlaylistDTO, TrackDTO, cast_seq_of
+from argos.model.helper import ModelHelper
 
 
 def load_json_data(filename: str):

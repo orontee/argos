@@ -1,8 +1,12 @@
 from collections import defaultdict
+from itertools import chain
 from typing import Callable, Dict, List, Mapping, Optional, Sequence
 
 from argos.dto import AlbumDTO, ArtistDTO, TlTrackDTO, TrackDTO
-from argos.model import AlbumModel, ArtistModel, TracklistTrackModel, TrackModel
+from argos.model.album import AlbumModel
+from argos.model.artist import ArtistModel
+from argos.model.track import TrackModel
+from argos.model.tracklist import TracklistTrackModel
 
 
 class ModelHelper:
@@ -12,7 +16,13 @@ class ModelHelper:
 
     """
 
+    def __init__(self):
+        self._artists: Dict[str, ArtistModel] = {}
+
     def convert_album(self, album_dto: AlbumDTO) -> AlbumModel:
+        for artist_dto in album_dto.artists:
+            self.convert_artist(artist_dto)
+
         album = AlbumModel(
             uri=album_dto.uri,
             name=album_dto.name,
@@ -20,19 +30,29 @@ class ModelHelper:
             num_discs=album_dto.num_discs,
             date=album_dto.date,
         )
-        # TODO album dto has artists
+
         return album
 
     def convert_artist(self, artist_dto: ArtistDTO) -> ArtistModel:
-        artist = ArtistModel(
-            uri=artist_dto.uri,
-            name=artist_dto.name,
-            sortname=artist_dto.name,
-            artist_mbid=artist_dto.musicbrainz_id,
-        )
-        return artist
+        if artist_dto.uri not in self._artists:
+            artist = ArtistModel(
+                uri=artist_dto.uri,
+                name=artist_dto.name,
+                sortname=artist_dto.name,
+                artist_mbid=artist_dto.musicbrainz_id,
+            )
+            self._artists[artist_dto.uri] = artist
+
+        return self._artists[artist_dto.uri]
 
     def convert_track(self, track_dto: TrackDTO) -> TrackModel:
+        for artist_dto in chain(
+            track_dto.artists,
+            track_dto.composers,
+            track_dto.performers,
+        ):
+            self.convert_artist(artist_dto)
+
         track = TrackModel(
             uri=track_dto.uri,
             name=track_dto.name,
@@ -83,3 +103,6 @@ class ModelHelper:
                 parsed_tracks[uri].append(self.convert_track(track_dto))
 
         return parsed_tracks
+
+    def get_artist(self, uri: str) -> Optional[ArtistModel]:
+        return self._artists.get(uri)

@@ -6,10 +6,10 @@ from gi.repository import Gio, GObject
 if TYPE_CHECKING:
     from argos.app import Application
 
-from argos.controllers.helper import ModelHelper
 from argos.http import MopidyHTTPClient
 from argos.message import Message, MessageType
 from argos.model import Model
+from argos.model.helper import ModelHelper
 from argos.notify import Notifier
 
 
@@ -36,7 +36,7 @@ class ControllerBase(GObject.Object):
         self._notifier: Notifier = application.props.notifier
         self._settings: Gio.Settings = application.props.settings
 
-        self.helper = ModelHelper()
+        self._helper: ModelHelper = self._model.helper
 
     def send_message(
         self, message_type: MessageType, data: Optional[Dict[str, Any]] = None
