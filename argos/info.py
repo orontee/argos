@@ -1,8 +1,9 @@
 import gettext
+import hashlib
 import logging
 import urllib.parse
 from enum import Enum
-from typing import TYPE_CHECKING, Dict, List, Mapping, Optional, Sequence, Tuple
+from typing import TYPE_CHECKING, Any, Dict, List, Mapping, Optional, Sequence, Tuple
 
 import aiohttp
 from gi.repository import GLib, GObject
@@ -24,6 +25,7 @@ _WIKIPEDIA_BASE_URLS: Dict[str, str] = {
 
 _MUSICBRAINZ_BASE_URL: str = "https://musicbrainz.org/ws/2/"
 _WIKIDATA_BASE_URL: str = "https://www.wikidata.org/"
+_WIKIMEDIA_BASE_URL: str = "https://upload.wikimedia.org/wikipedia/commons/"
 
 _SOURCE_MENTION_TEMPLATE = _("Data source: {}")
 
@@ -39,6 +41,8 @@ def _get_wikipedia_base_urls(lang_key: str) -> List[str]:
 
 
 class WikidataProperty(Enum):
+    Image = "P18"
+    # Signature = "P109"
     MusicBrainzArtistID = "P434"
     MusicBrainzReleaseGroupID = "P436"
 
@@ -89,13 +93,13 @@ class InformationService(GObject.Object):
 
         return release_group_mbid, artist_mbids
 
-    async def _get_sitelinks_from_wikidata(
+    async def _search_wikidata_entity_by_mbid(
         self,
         session: aiohttp.ClientSession,
         mbid: str,
         *,
         criteria: WikidataProperty,
-    ) -> Optional[Dict[str, Dict[str, str]]]:
+    ) -> Optional[Dict[str, Any]]:
         if not mbid:
             return None
 
@@ -128,8 +132,60 @@ class InformationService(GObject.Object):
 
         entities = parsed_resp.get("entities")
         entity = entities.get(title) if entities is not None else None
+        return entity
+
+    async def _get_sitelinks_from_wikidata(
+        self,
+        session: aiohttp.ClientSession,
+        mbid: str,
+        *,
+        criteria: WikidataProperty,
+    ) -> Optional[Dict[str, Dict[str, str]]]:
+        entity = await self._search_wikidata_entity_by_mbid(
+            session, mbid, criteria=criteria
+        )
         sitelinks = entity.get("sitelinks") if entity is not None else None
         return sitelinks
+
+    async def _get_image_url_from_wikidata(
+        self,
+        session: aiohttp.ClientSession,
+        mbid: str,
+        *,
+        criteria: WikidataProperty,
+    ) -> Optional[str]:
+        entity = await self._search_wikidata_entity_by_mbid(
+            session, mbid, criteria=criteria
+        )
+        claims = entity.get("claims") if entity is not None else None
+        statements = (
+            claims.get(WikidataProperty.Image.value, []) if claims is not None else []
+        )
+        statement = statements[0] if len(statements) > 0 else {}
+        mainsnak = statement.get("mainsnak")
+        if mainsnak is None:
+            return None
+
+        if mainsnak.get("datatype") != "commonsMedia":
+            LOGGER.debug(f"Unsupported data type for artist MBID {mbid}")
+            return None
+
+        mainsnak_value = mainsnak.get("datavalue")
+        if mainsnak_value is None or mainsnak_value.get("type") != "string":
+            LOGGER.debug(f"Unexpected value type for artist MBID {mbid}")
+            return None
+
+        filename = mainsnak_value.get("value")
+        safe_filename = filename.replace(" ", "_")
+        m = hashlib.md5()
+        m.update(safe_filename.encode("utf-8"))
+        digest = m.hexdigest()
+        url = urllib.parse.urljoin(
+            _WIKIMEDIA_BASE_URL, f"{digest[0]}/{digest[0:2]}/{safe_filename}"
+        )
+        # See
+        # https://commons.wikimedia.org/wiki/Commons:FAQ#What_are_the_strangely_named_components_in_file_paths?
+        return url
 
     def _build_preferred_abstract_url(
         self, sitelinks: Mapping[str, Mapping[str, str]]
@@ -272,6 +328,21 @@ class InformationService(GObject.Object):
         joined_abstracts = "\n\n".join(raw_abstracts)
         return f"{joined_abstracts}\n\n{self._source_with_markup}"
 
+    async def _get_artist_image_url(
+        self,
+        session: aiohttp.ClientSession,
+        artist_mbid: str,
+    ) -> Optional[str]:
+        if not artist_mbid:
+            return None
+
+        url = await self._get_image_url_from_wikidata(
+            session,
+            artist_mbid,
+            criteria=WikidataProperty.MusicBrainzArtistID,
+        )
+        return url
+
     async def get_album_information(
         self, release_mbid: str
     ) -> Tuple[Optional[str], Optional[str]]:
@@ -355,3 +426,22 @@ class InformationService(GObject.Object):
                 )
 
         return artist_abstract
+
+    async def get_artist_image_url(self, artist_mbid: str) -> Optional[str]:
+        if not artist_mbid:
+            return None
+
+        artist_image_url = None
+        async with self._http_session_manager.get_session() as session:
+            try:
+                artist_image_url = await self._get_artist_image_url(
+                    session, artist_mbid
+                )
+            except aiohttp.ClientError as err:
+                LOGGER.error(
+                    f"Failed to request image for artist MBID {artist_mbid}, {err}"
+                )
+
+        LOGGER.debug(f"URL for artist image {artist_image_url}")
+
+        return artist_image_url

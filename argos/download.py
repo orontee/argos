@@ -49,8 +49,8 @@ class ImageDownloader(GObject.GObject):
         self._image_dir = Path(xdg.BaseDirectory.save_cache_path("argos/images"))
         self._ongoing_task: Optional[asyncio.Task[None]] = None
 
-    def get_image_filepath(self, image_uri: str) -> Optional[Path]:
-        if image_uri == "":
+    def get_image_filepath(self, image_uri: Optional[str]) -> Optional[Path]:
+        if image_uri is None or image_uri == "":
             filename = None
         elif image_uri.startswith("/local/"):
             filename = Path(image_uri).parts[-1]
