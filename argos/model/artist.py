@@ -41,3 +41,10 @@ class ArtistModel(GObject.Object):
     image_uri = GObject.Property(type=str)
     artist_mbid = GObject.Property(type=str)
     information = GObject.Property(type=ArtistInformationModel)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.information = ArtistInformationModel()
+
+    def is_complete(self) -> bool:
+        return self.artist_mbid != ""

@@ -9,9 +9,17 @@ from typing import List, Optional, Tuple, Union
 from gi.repository import Gio, GLib, GObject, Gtk
 from gi.repository.GdkPixbuf import Pixbuf
 
-from argos.model import AlbumModel, DirectoryModel, Model, PlaylistModel, TrackModel
+from argos.model import (
+    AlbumModel,
+    ArtistModel,
+    DirectoryModel,
+    Model,
+    PlaylistModel,
+    TrackModel,
+)
 from argos.utils import elide_maybe
 from argos.widgets.albumdetailsbox import AlbumDetailsBox
+from argos.widgets.artistview import ArtistView
 from argos.widgets.condensedplayingbox import CondensedPlayingBox
 from argos.widgets.librarybrowsingprogressbox import LibraryBrowsingProgressBox
 from argos.widgets.tracksview import TracksView
@@ -33,9 +41,10 @@ class DirectoryStoreColumn(IntEnum):
 
 class DirectoryItemType(IntEnum):
     ALBUM = 1
-    DIRECTORY = 2
-    PLAYLIST = 3
-    TRACK = 4
+    ARTIST = 2
+    DIRECTORY = 3
+    PLAYLIST = 4
+    TRACK = 5
 
 
 @Gtk.Template(resource_path="/io/github/orontee/Argos/ui/library_window.ui")
@@ -57,6 +66,8 @@ class LibraryWindow(Gtk.Box):
     - The ``album_details_page`` page to view details on an album (see
       ``AlbumDetailsBox``).
 
+    - The ``artist_view_page`` page to view details on an artist (see ``ArtistView``).
+
     - The ``tracks_view_page`` page to view a track list (see ``TracksView``).
 
     Whether entering a directory must switch to the ``tracks_view_page``
@@ -72,9 +83,11 @@ class LibraryWindow(Gtk.Box):
     library_stack: Gtk.Stack = Gtk.Template.Child()
     directory_view: Gtk.IconView = Gtk.Template.Child()
 
-    album_details_box = GObject.Property(type=AlbumDetailsBox)
     filtered_directory_store = GObject.Property(type=Gtk.TreeModelFilter)
     filtering_text = GObject.Property(type=str)
+
+    album_details_box = GObject.Property(type=AlbumDetailsBox)
+    artist_view = GObject.Property(type=ArtistView)
     tracks_view = GObject.Property(type=TracksView)
 
     directory_uri = GObject.Property(type=str)
@@ -99,6 +112,9 @@ class LibraryWindow(Gtk.Box):
 
         self.props.album_details_box = AlbumDetailsBox(application)
         self.library_stack.add_named(self.props.album_details_box, "album_details_page")
+
+        self.props.artist_view = ArtistView(application)
+        self.library_stack.add_named(self.props.artist_view, "artist_view_page")
 
         self.props.tracks_view = TracksView(application)
         self.library_stack.add_named(self.props.tracks_view, "tracks_view_page")
@@ -153,6 +169,10 @@ class LibraryWindow(Gtk.Box):
                 "inode-directory",
                 max_size=self.image_size,
             ),
+            DirectoryItemType.ARTIST: default_image_pixbuf(
+                "avatar-default",
+                max_size=self.image_size,
+            ),
             DirectoryItemType.PLAYLIST: default_image_pixbuf(
                 "audio-x-generic",
                 max_size=self.image_size,
@@ -166,22 +186,25 @@ class LibraryWindow(Gtk.Box):
     def _show_progress_box(self) -> None:
         self.library_overlay.add_overlay(self._progress_box)
         self._progress_box.show_all()
-        self.directory_view.hide()
+        self.library_stack.hide()
 
     def _hide_progress_box(self) -> None:
         self.library_overlay.remove(self._progress_box)
-        self.directory_view.show()
+        self.library_stack.show()
 
     def _build_store_item(
         self,
-        model: Union[AlbumModel, DirectoryModel, PlaylistModel, TrackModel],
+        model: Union[
+            AlbumModel, ArtistModel, DirectoryModel, PlaylistModel, TrackModel
+        ],
         type: DirectoryItemType,
     ) -> Tuple[str, str, str, str, Pixbuf, str, str, int]:
-        artist_name = (
+        subtitle = (
             model.get_property("artist_name")
             if model.find_property("artist_name")
             else None
         )
+        # Will be None when type == DirectoryItemType.ARTIST
 
         image_path = (
             str(model.get_property("image_path"))
@@ -190,30 +213,28 @@ class LibraryWindow(Gtk.Box):
         )
         pixbuf = self._default_images[type]
 
-        if artist_name is not None:
-            elided_escaped_name = GLib.markup_escape_text(elide_maybe(model.name))
-            elided_escaped_artist_name = GLib.markup_escape_text(
-                elide_maybe(artist_name)
-            )
+        if subtitle is not None:
+            elided_escaped_title = GLib.markup_escape_text(elide_maybe(model.name))
+            elided_escaped_subtitle = GLib.markup_escape_text(elide_maybe(subtitle))
 
-            escaped_name = GLib.markup_escape_text(model.name)
-            escaped_artist_name = GLib.markup_escape_text(artist_name)
+            escaped_title = GLib.markup_escape_text(model.name)
+            escaped_subtitle = GLib.markup_escape_text(subtitle)
 
-            markup_text = f"<b>{elided_escaped_name}</b>\n{elided_escaped_artist_name}"
-            tooltip_text = f"<b>{escaped_name}</b>\n{escaped_artist_name}"
+            markup_title = f"<b>{elided_escaped_title}</b>\n{elided_escaped_subtitle}"
+            tooltip_text = f"<b>{escaped_title}</b>\n{escaped_subtitle}"
         else:
-            escaped_name = GLib.markup_escape_text(model.name)
-            elided_escaped_name = GLib.markup_escape_text(elide_maybe(model.name))
-            markup_text = f"<b>{elided_escaped_name}</b>"
-            tooltip_text = f"{escaped_name}"
+            escaped_title = GLib.markup_escape_text(model.name)
+            elided_escaped_title = GLib.markup_escape_text(elide_maybe(model.name))
+            markup_title = f"<b>{elided_escaped_title}</b>"
+            tooltip_text = f"{escaped_title}"
 
         return (
-            markup_text,
+            markup_title,
             tooltip_text,
             model.uri,
             image_path,
             pixbuf,
-            artist_name or "",
+            subtitle or "",
             model.name,
             type.value,
         )
@@ -246,11 +267,14 @@ class LibraryWindow(Gtk.Box):
         return re.search(pattern, secondary_text, re.IGNORECASE) is not None
 
     def _must_enter_tracks_view(self, directory: DirectoryModel) -> bool:
-        applicable = (
-            len(directory.albums) == 0
-            and len(directory.directories) == 0
-            and len(directory.playlists) == 0
-            and len(directory.tracks) > 0
+        applicable = all(
+            [
+                len(directory.albums) == 0,
+                len(directory.artists) == 0,
+                len(directory.directories) == 0,
+                len(directory.playlists) == 0,
+                len(directory.tracks) > 0,
+            ]
         )
         if not applicable:
             return False
@@ -299,6 +323,7 @@ class LibraryWindow(Gtk.Box):
 
                 for source, item_type in [
                     (directory.albums, DirectoryItemType.ALBUM),
+                    (directory.artists, DirectoryItemType.ARTIST),
                     (directory.directories, DirectoryItemType.DIRECTORY),
                     (directory.playlists, DirectoryItemType.PLAYLIST),
                     (directory.tracks, DirectoryItemType.TRACK),
@@ -405,6 +430,9 @@ class LibraryWindow(Gtk.Box):
     def select_directory_page(self) -> None:
         self.library_stack.set_visible_child_name("directory_page")
 
+    def is_artist_view_page_visible(self) -> bool:
+        return self.library_stack.get_visible_child_name() == "artist_view_page"
+
     def is_tracks_view_page_visible(self) -> bool:
         return self.library_stack.get_visible_child_name() == "tracks_view_page"
 
@@ -430,7 +458,12 @@ class LibraryWindow(Gtk.Box):
         self._show_progress_box()
 
     def goto_parent_state(self) -> None:
-        if self.is_directory_page_visible() or self.is_tracks_view_page_visible():
+        if any(
+            [
+                self.is_directory_page_visible(),
+                self.is_tracks_view_page_visible(),
+            ]
+        ):
             if self.props.directory_uri == "":
                 return
 
@@ -439,6 +472,7 @@ class LibraryWindow(Gtk.Box):
             else:
                 LOGGER.warning("Unexpected state!!")
         else:
+            # artist_view_page or album_details_page is visible
             self.select_directory_page()
 
     @Gtk.Template.Callback()
@@ -461,12 +495,17 @@ class LibraryWindow(Gtk.Box):
         LOGGER.debug(f"Selected {library_item_type.name!r} item with URI {uri!r}")
 
         if library_item_type == DirectoryItemType.ALBUM:
-            self._app.activate_action(
-                "complete-album-description", GLib.Variant("s", uri)
-            )
             self.props.album_details_box.props.uri = uri
             self.props.album_details_box.show_now()
             self.library_stack.set_visible_child_name("album_details_page")
+        elif library_item_type == DirectoryItemType.ARTIST:
+            artist_model = self._model.get_artist(uri)
+            if artist_model is None:
+                return
+
+            self.props.artist_view.props.uri = uri
+            self.props.artist_view.show_now()
+            self.library_stack.set_visible_child_name("artist_view_page")
         elif library_item_type == DirectoryItemType.DIRECTORY:
             self.show_directory(uri, history=True)
         elif library_item_type == DirectoryItemType.TRACK:

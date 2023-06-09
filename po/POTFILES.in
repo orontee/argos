@@ -8,6 +8,7 @@ argos/model/random.py
 argos/ui/about.ui.in
 argos/ui/album_details_box.ui
 argos/ui/app_menu.ui
+argos/ui/artist_view.ui
 argos/ui/condensed_playing_box.ui
 argos/ui/help_overlay.ui
 argos/ui/library_browsing_progress_box.ui
@@ -28,6 +29,7 @@ argos/ui/tracks_view.ui
 argos/ui/window.ui
 argos/utils.py
 argos/widgets/albumdetailsbox.py
+argos/widgets/artistview.py
 argos/widgets/playingboxemptytracklistbox.py
 argos/widgets/playlistcreationdialog.py
 argos/widgets/playlistemptytracksbox.py

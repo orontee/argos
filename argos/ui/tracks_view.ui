@@ -28,7 +28,6 @@
             <property name="halign">center</property>
             <property name="valign">center</property>
             <property name="vexpand">True</property>
-            <property name="stock">gtk-missing-image</property>
             <property name="icon_size">6</property>
           </object>
           <packing>

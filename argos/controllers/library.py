@@ -2,6 +2,7 @@ import asyncio
 import gettext
 import logging
 from operator import attrgetter
+from pathlib import Path
 from typing import TYPE_CHECKING, Dict, List, Optional, Sequence
 
 from gi.repository import Gio, GLib, GObject
@@ -18,9 +19,11 @@ from argos.controllers.utils import call_by_slice
 from argos.controllers.visitors import AlbumMetadataCollector, LengthAcc
 from argos.download import ImageDownloader
 from argos.dto import RefDTO, RefType
+from argos.info import InformationService
 from argos.message import Message, MessageType, consume
 from argos.model import (
     AlbumModel,
+    ArtistModel,
     DirectoryModel,
     MopidyBackend,
     PlaylistModel,
@@ -67,6 +70,7 @@ class LibraryController(ControllerBase):
         super().__init__(application)
 
         self._download: ImageDownloader = application.props.download
+        self._information: InformationService = application.props.information
 
         self._tasks: Dict[str, Optional[asyncio.Task]] = {}
 
@@ -221,6 +225,7 @@ class LibraryController(ControllerBase):
         LOGGER.debug(f"Directory {directory.name!r} has {len(refs_dto)} references")
 
         album_dtos: List[RefDTO] = []
+        artist_dtos: List[RefDTO] = []
         subdir_dtos: List[RefDTO] = []
         track_dtos: List[RefDTO] = []
 
@@ -239,8 +244,10 @@ class LibraryController(ControllerBase):
 
             if ref_dto.type == RefType.ALBUM:
                 album_dtos.append(ref_dto)
-            elif ref_dto.type in (RefType.DIRECTORY, RefType.ARTIST):
+            elif ref_dto.type == RefType.DIRECTORY:
                 subdir_dtos.append(ref_dto)
+            elif ref_dto.type == RefType.ARTIST:
+                artist_dtos.append(ref_dto)
             elif ref_dto.type == RefType.PLAYLIST:
                 LOGGER.warning("Library playlists aren't currently supported")
             elif ref_dto.type == RefType.TRACK:
@@ -264,6 +271,10 @@ class LibraryController(ControllerBase):
         if len(subdir_dtos) > 0:
             subdirs = await self._complete_subdirs(subdir_dtos, directory_uri)
 
+        artists: List[ArtistModel] = []
+        if len(artist_dtos) > 0:
+            artists = await self._complete_artists(artist_dtos, directory_uri)
+
         tracks: List[TrackModel] = []
         if backend is not None and len(track_dtos) > 0:
             tracks = await self._complete_tracks(
@@ -275,6 +286,7 @@ class LibraryController(ControllerBase):
         self._model.complete_directory(
             directory_uri,
             albums=albums,
+            artists=artists,
             directories=subdirs,
             playlists=playlists,
             tracks=tracks,
@@ -322,7 +334,8 @@ class LibraryController(ControllerBase):
         parsed_albums: List[AlbumModel] = []
         for album_dto in album_dtos:
             album_uri = album_dto.uri
-
+            image_uri: Optional[str] = None
+            filepath: Optional[Path] = None
             if (
                 images is not None
                 and album_uri in images
@@ -330,9 +343,6 @@ class LibraryController(ControllerBase):
             ):
                 image_uri = images[album_uri][0].uri
                 filepath = self._download.get_image_filepath(image_uri)
-            else:
-                image_uri = ""
-                filepath = None
 
             album_parsed_tracks = parsed_tracks.get(album_uri, [])
             album_parsed_tracks.sort(key=attrgetter("disc_no", "track_no"))
@@ -350,7 +360,7 @@ class LibraryController(ControllerBase):
                 uri=album_uri,
                 name=album_name,
                 image_path=str(filepath) if filepath is not None else "",
-                image_uri=image_uri,
+                image_uri=image_uri if image_uri is not None else "",
                 artist_name=artist_name,
                 num_tracks=metadata_collector.num_tracks(album_uri),
                 num_discs=metadata_collector.num_discs(album_uri),
@@ -365,7 +375,9 @@ class LibraryController(ControllerBase):
         return parsed_albums
 
     async def _complete_subdirs(
-        self, subdir_dtos: Sequence[RefDTO], directory_uri: str
+        self,
+        subdir_dtos: Sequence[RefDTO],
+        directory_uri: str,
     ) -> List[DirectoryModel]:
         LOGGER.info(
             f"Completing {len(subdir_dtos)} sub-directories of directory "
@@ -384,7 +396,8 @@ class LibraryController(ControllerBase):
         subdirs: List[DirectoryModel] = []
         for subdir_dto in subdir_dtos:
             subdir_uri = subdir_dto.uri
-
+            image_uri: Optional[str] = None
+            filepath: Optional[Path] = None
             if (
                 images is not None
                 and subdir_uri in images
@@ -392,19 +405,33 @@ class LibraryController(ControllerBase):
             ):
                 image_uri = images[subdir_uri][0].uri
                 filepath = self._download.get_image_filepath(image_uri)
-            else:
-                image_uri = ""
-                filepath = None
 
             subdir = DirectoryModel(
                 uri=subdir_uri,
                 name=_DIRECTORY_NAMES.get(subdir_dto.name, subdir_dto.name),
                 image_path=str(filepath) if filepath is not None else "",
-                image_uri=image_uri,
+                image_uri=image_uri if image_uri is not None else "",
             )
             subdirs.append(subdir)
 
         return subdirs
+
+    async def _complete_artists(
+        self,
+        artist_dtos: Sequence[RefDTO],
+        directory_uri: str,
+    ) -> List[ArtistModel]:
+        LOGGER.info(
+            f"Completing {len(artist_dtos)} artists "
+            f"for directory with URI {directory_uri!r}"
+        )
+
+        LOGGER.debug("Parsing artists")
+        artists: List[ArtistModel] = [
+            self._helper.convert_artist(dto) for dto in artist_dtos
+        ]
+
+        return artists
 
     async def _complete_tracks(
         self,
@@ -428,7 +455,6 @@ class LibraryController(ControllerBase):
             notifier=notifier,
         )
 
-        track_uris = [dto.uri for dto in track_dtos]
         images = await call_by_slice(
             self._http.get_images,
             params=track_uris,

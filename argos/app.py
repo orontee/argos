@@ -11,6 +11,7 @@ from gi.repository import Gdk, Gio, GLib, GObject, Gtk
 
 from argos.controllers import (
     AlbumsController,
+    ArtistsController,
     ControllerBase,
     ImagesController,
     LibraryController,
@@ -96,6 +97,7 @@ class Application(Gtk.Application):
         self._controllers.append(PlaybackController(self))
         self._controllers.append(TracklistController(self))
         self._controllers.append(AlbumsController(self))
+        self._controllers.append(ArtistsController(self))
         self._controllers.append(ImagesController(self))
         self._controllers.append(LibraryController(self))
         self._controllers.append(MixerController(self))
@@ -332,6 +334,12 @@ class Application(Gtk.Application):
                 "s",
                 None,
             ),
+            (
+                "collect-artist-information",
+                self.collect_artist_information_activate_cb,
+                "s",
+                None,
+            ),
             ("seek", self.seek_activate_cb, "i", None),
             ("set-volume", self.set_volume_activate_cb, "d", None),
             ("set-consume", self.set_consume_activate_cb, "b", None),
@@ -341,6 +349,12 @@ class Application(Gtk.Application):
             (
                 "complete-album-description",
                 self.complete_album_description_activate_cb,
+                "s",
+                None,
+            ),
+            (
+                "complete-artist-description",
+                self.complete_artist_description_activate_cb,
                 "s",
                 None,
             ),
@@ -644,6 +658,12 @@ class Application(Gtk.Application):
         uri = parameter.unpack()
         self._send_message(MessageType.COLLECT_ALBUM_INFORMATION, {"album_uri": uri})
 
+    def collect_artist_information_activate_cb(
+        self, action: Gio.SimpleAction, parameter: GLib.Variant
+    ) -> None:
+        uri = parameter.unpack()
+        self._send_message(MessageType.COLLECT_ARTIST_INFORMATION, {"artist_uri": uri})
+
     def set_volume_activate_cb(
         self, action: Gio.SimpleAction, parameter: GLib.Variant
     ) -> None:
@@ -685,6 +705,12 @@ class Application(Gtk.Application):
     ) -> None:
         uri = parameter.unpack()
         self._send_message(MessageType.COMPLETE_ALBUM_DESCRIPTION, {"album_uri": uri})
+
+    def complete_artist_description_activate_cb(
+        self, action: Gio.SimpleAction, parameter: GLib.Variant
+    ) -> None:
+        uri = parameter.unpack()
+        self._send_message(MessageType.COMPLETE_ARTIST_DESCRIPTION, {"artist_uri": uri})
 
     def complete_playlist_description_activate_cb(
         self, action: Gio.SimpleAction, parameter: GLib.Variant

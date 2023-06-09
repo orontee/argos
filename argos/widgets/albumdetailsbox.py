@@ -144,6 +144,12 @@ class AlbumDetailsBox(Gtk.Box):
             self._update_track_view(None)
             self._update_information_popup(None)
         else:
+            self._app.activate_action(
+                "complete-album-description", GLib.Variant("s", album.uri)
+            )
+            self._app.activate_action(
+                "collect-album-information", GLib.Variant("s", album.uri)
+            )
             self._update_album_name_label(album.name)
             self._update_artist_name_label(album.artist_name)
             self._update_publication_label(album.date)
@@ -155,12 +161,8 @@ class AlbumDetailsBox(Gtk.Box):
             self._update_track_view(album)
             self._update_information_popup(album)
 
-        self._app.activate_action(
-            "collect-album-information", GLib.Variant("s", self.props.uri)
-        )
-
     def _on_album_completed(self, model: Model, uri: str) -> None:
-        if self.uri != uri:
+        if self.props.uri != uri:
             return
 
         album = self._model.get_album(self.props.uri)
@@ -175,7 +177,7 @@ class AlbumDetailsBox(Gtk.Box):
         self._update_track_view(album)
 
     def _on_album_information_collected(self, model: Model, uri: str) -> None:
-        if self.uri != uri:
+        if self.props.uri != uri:
             return
 
         album = self._model.get_album(self.props.uri)
@@ -316,7 +318,7 @@ class AlbumDetailsBox(Gtk.Box):
                 uris.append(uri)
 
         if len(uris) == 0:
-            uris.append(self.uri)
+            uris.append(self.props.uri)
 
         return uris
 

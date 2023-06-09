@@ -14,7 +14,11 @@ from argos.model.album import (
     compare_albums_by_name_func,
     compare_albums_by_publication_date_func,
 )
-from argos.model.artist import ArtistModel
+from argos.model.artist import (
+    ArtistInformationModel,
+    ArtistModel,
+    compare_artist_by_name_func,
+)
 from argos.model.backends import (
     GenericBackend,
     MopidyBackend,
@@ -43,6 +47,8 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         "album-completed": (GObject.SIGNAL_RUN_FIRST, None, (str,)),
         "album-information-collected": (GObject.SIGNAL_RUN_FIRST, None, (str,)),
         "albums-sorted": (GObject.SIGNAL_RUN_FIRST, None, []),
+        "artist-completed": (GObject.SIGNAL_RUN_FIRST, None, (str,)),
+        "artist-information-collected": (GObject.SIGNAL_RUN_FIRST, None, (str,)),
         "directory-completion-progress": (
             GObject.SIGNAL_RUN_FIRST,
             None,
@@ -145,6 +151,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         uri: str,
         *,
         albums: List[AlbumModel],
+        artists: List[ArtistModel],
         directories: List[DirectoryModel],
         playlists: List[PlaylistModel],
         tracks: List[TrackModel],
@@ -166,6 +173,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
             directory = self.get_directory(uri)
             if directory is not None:
                 directory.albums.remove_all()
+                directory.artists.remove_all()
                 directory.directories.remove_all()
                 directory.playlists.remove_all()
                 directory.tracks.remove_all()
@@ -174,6 +182,11 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
                 album_compare_func = self._get_album_compare_func(album_sort_id)
                 for album in albums:
                     directory.albums.insert_sorted(album, album_compare_func, None)
+
+                for artist in artists:
+                    directory.artists.insert_sorted(
+                        artist, compare_artist_by_name_func, None
+                    )
 
                 for subdir in directories:
                     directory.directories.insert_sorted(
@@ -290,6 +303,32 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
             album.information,
             album_abstract,
             artist_abstract,
+        )
+
+    def set_artist_information(
+        self,
+        uri: str,
+        abstract: Optional[str],
+    ) -> None:
+        artist = self.get_artist(uri)
+        if artist is None:
+            return
+
+        def _set_artist_information(
+            model: "Model",
+            information: ArtistInformationModel,
+            abstract: str,
+        ):
+            information.props.abstract = abstract
+            information.props.last_modified = datetime.now().timestamp()
+            model.emit("artist-information-collected", uri)
+
+        LOGGER.debug(f"Setting artist information of artist with URI {uri!r}")
+        GLib.idle_add(
+            _set_artist_information,
+            self,
+            artist.information,
+            abstract,
         )
 
     def choose_random_album(self, strategy: str) -> RandomTracksChoice:

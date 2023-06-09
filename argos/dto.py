@@ -95,7 +95,7 @@ class ArtistDTO:
         if uri is None or name is None:
             return None
 
-        sortname = data.get("sortname", "")
+        sortname = data.get("sortname", name)
         musicbrainz_id = data.get("musicbrainz_id", "")
 
         return ArtistDTO(uri, name, sortname, musicbrainz_id)

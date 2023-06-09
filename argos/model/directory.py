@@ -1,10 +1,11 @@
 import locale
 import logging
-from typing import Callable, List, Optional, Set
+from typing import Callable, Optional
 
 from gi.repository import Gio, GObject
 
 from argos.model.album import AlbumModel
+from argos.model.artist import ArtistModel
 from argos.model.playlist import PlaylistModel
 from argos.model.track import TrackModel
 
@@ -38,18 +39,20 @@ class DirectoryModel(GObject.Object):
 
     uri = GObject.Property(type=str)
     name = GObject.Property(type=str)
+    image_path = GObject.Property(type=str)
+    image_uri = GObject.Property(type=str)
 
     albums: Gio.ListStore
+    artists: Gio.ListStore
     directories: Gio.ListStore
     tracks: Gio.ListStore
     playlists: Gio.ListStore
-    image_path = GObject.Property(type=str)
-    image_uri = GObject.Property(type=str)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.albums = Gio.ListStore.new(AlbumModel)
+        self.artists = Gio.ListStore.new(ArtistModel)
         self.directories = Gio.ListStore.new(DirectoryModel)
         self.tracks = Gio.ListStore.new(TrackModel)
         self.playlists = Gio.ListStore.new(PlaylistModel)
@@ -64,11 +67,14 @@ class DirectoryModel(GObject.Object):
             directory.sort_albums(compare_func)
 
     def is_complete(self) -> bool:
-        return (
-            len(self.albums) > 0
-            or len(self.directories) > 0
-            or len(self.tracks) > 0
-            or len(self.playlists) > 0
+        return any(
+            [
+                len(self.albums) > 0,
+                len(self.artists) > 0,
+                len(self.directories) > 0,
+                len(self.tracks) > 0,
+                len(self.playlists) > 0,
+            ]
         )
 
     def visit_albums(
@@ -108,6 +114,35 @@ class DirectoryModel(GObject.Object):
 
         for directory in self.directories:
             found = directory.get_album(uri)
+            if found is not None:
+                return found
+
+        return None
+
+    def get_artist(self, uri: str) -> Optional[ArtistModel]:
+        """Recursively search for an artist with given URI.
+
+        Args:
+            uri: URI of the artist to return.
+
+        Returns:
+            Artist with URI equal to ``uri`` or None if no
+            artist is found.
+
+        """
+        if self.props.uri != "":
+            if not self._has_related_scheme(uri):
+                # scheme is used by Mopidy to route browse requests to the
+                # correct backend, thus no need to search if schemes
+                # doesn't match
+                return None
+
+        for artist in self.artists:
+            if artist.props.uri == uri:
+                return artist
+
+        for directory in self.directories:
+            found = directory.get_artist(uri)
             if found is not None:
                 return found
 

@@ -1,8 +1,8 @@
 from collections import defaultdict
 from itertools import chain
-from typing import Callable, Dict, List, Mapping, Optional, Sequence
+from typing import Callable, Dict, List, Mapping, Optional, Sequence, Union
 
-from argos.dto import AlbumDTO, ArtistDTO, TlTrackDTO, TrackDTO
+from argos.dto import AlbumDTO, ArtistDTO, RefDTO, TlTrackDTO, TrackDTO
 from argos.model.album import AlbumModel
 from argos.model.artist import ArtistModel
 from argos.model.track import TrackModel
@@ -33,17 +33,25 @@ class ModelHelper:
 
         return album
 
-    def convert_artist(self, artist_dto: ArtistDTO) -> ArtistModel:
-        if artist_dto.uri not in self._artists:
+    def convert_artist(self, dto: Union[ArtistDTO, RefDTO]) -> ArtistModel:
+        if dto.uri not in self._artists:
             artist = ArtistModel(
-                uri=artist_dto.uri,
-                name=artist_dto.name,
-                sortname=artist_dto.name,
-                artist_mbid=artist_dto.musicbrainz_id,
+                uri=dto.uri,
+                name=dto.name,
+                sortname=getattr(dto, "sortname", ""),
+                artist_mbid=getattr(dto, "musicbrainz_id", ""),
             )
-            self._artists[artist_dto.uri] = artist
+            self._artists[dto.uri] = artist
 
-        return self._artists[artist_dto.uri]
+        # when artist model is instantiated from a RefDTO its
+        # artist_mbid isn't known; later when browsing an album for
+        # that artist we get a chance to initialize the artist_mbid...
+        artist = self._artists[dto.uri]
+        artist_mbid = getattr(dto, "musicbrainz_id", "")
+        if not artist.is_complete() and artist_mbid != "":
+            artist.props.artist_mbid = artist_mbid
+
+        return artist
 
     def convert_track(self, track_dto: TrackDTO) -> TrackModel:
         for artist_dto in chain(

@@ -4,7 +4,7 @@ from typing import List, Optional
 
 from gi.repository import Gio, GLib, GObject, Gtk
 
-from argos.model import DirectoryModel, TrackModel
+from argos.model import TrackModel
 from argos.utils import ms_to_text
 from argos.widgets.trackbox import TrackBox
 from argos.widgets.utils import default_image_pixbuf
