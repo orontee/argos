@@ -26,6 +26,8 @@ class ImageDownloader(GObject.GObject):
     __gsignals__: Dict[str, Tuple[int, Any, Tuple]] = {
         "images-downloaded": (GObject.SIGNAL_RUN_FIRST, None, ())
     }
+    # This signal is guaranteed to be emitted from the main (UI)
+    # thread
 
     def __init__(
         self,

@@ -1,4 +1,5 @@
 import logging
+import queue
 import re
 import threading
 from enum import IntEnum
@@ -8,7 +9,6 @@ from typing import List, Optional, Tuple, Union
 from gi.repository import Gio, GLib, GObject, Gtk
 from gi.repository.GdkPixbuf import Pixbuf
 
-from argos.message import MessageType
 from argos.model import AlbumModel, DirectoryModel, Model, PlaylistModel, TrackModel
 from argos.utils import elide_maybe
 from argos.widgets.albumdetailsbox import AlbumDetailsBox
@@ -313,19 +313,27 @@ class LibraryWindow(Gtk.Box):
             LOGGER.debug(f"Updating library store pixbufs with size {image_size}...")
 
             store = self.props.filtered_directory_store.get_model()
+            pixbuf_to_set: queue.Queue = queue.Queue()
 
-            def update_pixbuf_at(path: Gtk.TreePath, pixbuf: Pixbuf) -> bool:
+            def update_item_at() -> bool:
                 try:
+                    data = pixbuf_to_set.get(block=False)
+                    path, pixbuf = data
                     store_iter = store.get_iter(path)
                     store.set_value(store_iter, DirectoryStoreColumn.PIXBUF, pixbuf)
+                except queue.Empty:
+                    pass
                 except Exception as e:
                     LOGGER.warning("Failed to set pixbuf", exc_info=e)
+
                 return False
 
             store_iter = store.get_iter_first()
             while store_iter is not None:
                 if self._abort_pixbufs_update:
-                    LOGGER.debug("Aborting update of images")
+                    LOGGER.debug("Aborting pixbuf update")
+                    while not pixbuf_to_set.empty():
+                        pixbuf_to_set.get(block=False)
                     break
 
                 image_path, current_pixbuf, raw_library_item_type = store.get(
@@ -337,25 +345,26 @@ class LibraryWindow(Gtk.Box):
                 library_item_type = DirectoryItemType(raw_library_item_type)
                 default_image = self._default_images[library_item_type]
                 path = store.get_path(store_iter)
+                scaled_pixbuf: Pixbuf = default_image
                 if library_item_type in (
                     DirectoryItemType.ALBUM,
                     DirectoryItemType.DIRECTORY,
                     DirectoryItemType.TRACK,
                 ):
-                    scaled_pixbuf: Optional[Pixbuf] = None
                     if image_path:
                         if force or current_pixbuf == default_image:
-                            scaled_pixbuf = scale_album_image(
+                            _scaled_pixbuf = scale_album_image(
                                 image_path,
                                 max_size=image_size,
                             )
-                    if scaled_pixbuf is None:
-                        scaled_pixbuf = default_image
-                    GLib.idle_add(update_pixbuf_at, path, scaled_pixbuf)
-                else:
-                    GLib.idle_add(update_pixbuf_at, path, default_image)
+                            if _scaled_pixbuf is not None:
+                                scaled_pixbuf = _scaled_pixbuf
 
+                pixbuf_to_set.put((path, scaled_pixbuf))
+                GLib.idle_add(update_item_at)
                 store_iter = store.iter_next(store_iter)
+
+            LOGGER.debug("Finished update of library store pixbufs")
 
     def is_directory_page_visible(self) -> bool:
         return self.library_stack.get_visible_child_name() == "directory_page"

@@ -20,6 +20,9 @@ Added
 Changed
 -------
 
+- Fix possible exception when exiting directory containing albums
+  `#144 <https://github.com/orontee/argos/issues/144>`_
+
 Removed
 -------
 

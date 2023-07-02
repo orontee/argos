@@ -379,6 +379,9 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
             for track in tracks:
                 playlist.tracks.append(track)
 
+            if event is not None:
+                event.set()
+
         GLib.idle_add(_complete_playlist_description)
 
         if event is not None:
