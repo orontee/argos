@@ -66,10 +66,10 @@ class LibraryWindow(Gtk.Box):
         )
 
         self.image_size = self._settings.get_int("albums-image-size")
+        self._init_default_images()
         self._settings.connect(
             "changed::albums-image-size", self._on_image_size_changed
         )
-        self._init_default_images()
 
         self.props.album_details_box = AlbumDetailsBox(application)
         self.library_stack.add_named(self.props.album_details_box, "album_details_page")
@@ -296,6 +296,13 @@ class LibraryWindow(Gtk.Box):
     def _update_store_pixbufs(
         self, _1: Optional[GObject.GObject] = None, *, force: bool = False
     ) -> None:
+        if self._ongoing_store_update.locked():
+            self._abort_pixbufs_update = True
+            LOGGER.info("Pixbufs update thread has been requested to abort...")
+
+            with self._ongoing_store_update:
+                self._abort_pixbufs_update = False
+
         thread = threading.Thread(
             target=self._start_store_pixbufs_update_task,
             name="ImagesThread",
@@ -453,6 +460,7 @@ class LibraryWindow(Gtk.Box):
         self.image_size = image_size
         LOGGER.debug(f"Image size changed to {image_size}")
         self._init_default_images()
+        # default images must be updated to match the new size
         self._update_store_pixbufs(force=True)
         self.directory_view.set_item_width(self.image_size)
 
