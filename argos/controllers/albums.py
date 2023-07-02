@@ -50,7 +50,7 @@ class AlbumsController(ControllerBase):
 
         length_acc = LengthAcc()
         metadata_collector = AlbumMetadataCollector()
-        parsed_tracks = self._helper.parse_tracks(
+        parsed_tracks = self._helper.convert_tracks(
             tracks_dto, visitors=[length_acc, metadata_collector]
         ).get(album_uri, [])
 

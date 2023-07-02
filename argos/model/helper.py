@@ -80,7 +80,7 @@ class ModelHelper:
         tl_track = TracklistTrackModel(tlid=tl_track_dto.tlid, track=track)
         return tl_track
 
-    def parse_tracks(
+    def convert_tracks(
         self,
         tracks_dto: Mapping[str, Sequence[TrackDTO]],
         *,
@@ -111,6 +111,3 @@ class ModelHelper:
                 parsed_tracks[uri].append(self.convert_track(track_dto))
 
         return parsed_tracks
-
-    def get_artist(self, uri: str) -> Optional[ArtistModel]:
-        return self._artists.get(uri)

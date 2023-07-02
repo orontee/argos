@@ -434,7 +434,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         return self.library.get_album(uri)
 
     def get_artist(self, uri: str) -> Optional[ArtistModel]:
-        return self.helper.get_artist(uri)
+        return self.library.get_artist(uri)
 
     def get_directory(self, uri: Optional[str]) -> Optional[DirectoryModel]:
         return self.library.get_directory(uri)

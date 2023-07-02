@@ -206,7 +206,7 @@ class PlaylistsController(ControllerBase):
                 params=track_uris,
             )
             parsed_tracks: List[TrackModel] = []
-            for tracks in self._helper.parse_tracks(
+            for tracks in self._helper.convert_tracks(
                 found_tracks_dto, visitors=[PlaylistTrackNameFix(playlist_dto)]
             ).values():
                 parsed_tracks += tracks
@@ -269,9 +269,9 @@ class PlaylistsController(ControllerBase):
         )
 
         parsed_history_tracks_with_duplicates: List[TrackModel] = []
-        parsed_history_tracks: Dict[str, List[TrackModel]] = self._helper.parse_tracks(
-            history_tracks_dto
-        )
+        parsed_history_tracks: Dict[
+            str, List[TrackModel]
+        ] = self._helper.convert_tracks(history_tracks_dto)
         for history_item in history:
             if len(parsed_history_tracks_with_duplicates) >= history_max_length:
                 break

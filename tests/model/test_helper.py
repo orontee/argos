@@ -16,20 +16,20 @@ def load_json_data(filename: str):
 
 
 class TestModelHelper(unittest.TestCase):
-    def test_parse_tracks(self):
+    def test_convert_tracks(self):
         track_dto = TrackDTO.factory(load_json_data("track.json"))
         tracks_dto = {"local:album:md5:ff5c5b8f60a44e4c7d6f1bb53474e17b": [track_dto]}
-        tracks = ModelHelper().parse_tracks(tracks_dto)
+        tracks = ModelHelper().convert_tracks(tracks_dto)
         self.assertListEqual([k for k in tracks_dto.keys()], [k for k in tracks.keys()])
         self.assertIsInstance(
             tracks["local:album:md5:ff5c5b8f60a44e4c7d6f1bb53474e17b"][0], TrackModel
         )
 
-    def test_parse_tracks_with_visitor(self):
+    def test_convert_tracks_with_visitor(self):
         track_dto = TrackDTO.factory(load_json_data("track.json"))
         tracks_dto = {"local:album:md5:ff5c5b8f60a44e4c7d6f1bb53474e17b": [track_dto]}
         visitor = Mock()
-        ModelHelper().parse_tracks(tracks_dto, visitors=[visitor])
+        ModelHelper().convert_tracks(tracks_dto, visitors=[visitor])
         visitor.assert_called_once_with(
             "local:album:md5:ff5c5b8f60a44e4c7d6f1bb53474e17b", track_dto
         )
