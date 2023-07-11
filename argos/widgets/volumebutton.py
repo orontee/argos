@@ -10,8 +10,8 @@ LOGGER = logging.getLogger(__name__)
 class VolumeButton(Gtk.VolumeButton):
     __gtype_name__ = "VolumeButton"
 
-    def __init__(self, application: Gtk.Application):
-        super().__init__()
+    def __init__(self, application: Gtk.Application, **kwargs):
+        super().__init__(**kwargs)
 
         self._app = application
         self._model = application.model

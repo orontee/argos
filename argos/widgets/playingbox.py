@@ -73,7 +73,7 @@ class PlayingBox(Gtk.Box):
         track_length_box = TrackLengthBox(application)
         self.left_pane_box.pack_end(track_length_box, False, False, 0)
 
-        volume_button = VolumeButton(application)
+        volume_button = VolumeButton(application, name="playing-box-volume-button")
         track_length_box.pack_end(volume_button, False, False, 0)
 
         self.tracklist_view = TracklistBox(application)

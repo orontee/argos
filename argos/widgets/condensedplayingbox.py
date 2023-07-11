@@ -45,7 +45,9 @@ class CondensedPlayingBox(Gtk.Box):
         self._model = application.model
         self._disable_tooltips = application.props.disable_tooltips
 
-        volume_button = VolumeButton(application)
+        volume_button = VolumeButton(
+            application, name="condensed-playing-box-volume-button"
+        )
         self.pack_end(volume_button, False, False, 0)
 
         track_length_box = TrackLengthBox(application, with_scale=False)

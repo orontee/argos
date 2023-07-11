@@ -27,7 +27,9 @@ Changed
   <https://github.com/orontee/argos/issues/145>`_
 
 - CSS name of track length box has been changed from
-  `track_length_box` to `track-length-box` `#145
+  `track_length_box` to `track-length-box`; CSS name of volume buttons
+  is set to `condensed-playing-box-volume-button` and
+  `playing-box-volume-button` `#145
   <https://github.com/orontee/argos/issues/145>`_
 
 - Fix possible exception when exiting directory containing albums
