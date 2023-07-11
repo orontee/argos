@@ -24,6 +24,8 @@ class VolumeButton(Gtk.VolumeButton):
         self.props.margin_end = 5
         self.props.halign = Gtk.Align.END
 
+        self.props.adjustment.configure(0, 0, 1.0, 0.02, 0.02, 0)
+
         if application.props.disable_tooltips:
             self.props.has_tooltip = False
 

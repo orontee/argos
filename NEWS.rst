@@ -23,6 +23,9 @@ Added
 Changed
 -------
 
+- Lower page step of volume button scale for fine tuning volume  `#145
+  <https://github.com/orontee/argos/issues/145>`_
+
 - CSS name of track length box has been changed from
   `track_length_box` to `track-length-box` `#145
   <https://github.com/orontee/argos/issues/145>`_
