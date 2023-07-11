@@ -45,8 +45,8 @@ class CondensedPlayingBox(Gtk.Box):
         self._model = application.model
         self._disable_tooltips = application.props.disable_tooltips
 
-        self.volume_button = VolumeButton(application)
-        self.pack_end(self.volume_button, False, False, 0)
+        volume_button = VolumeButton(application)
+        self.pack_end(volume_button, False, False, 0)
 
         track_length_box = TrackLengthBox(application, with_scale=False)
         self.pack_end(track_length_box, False, False, 0)
@@ -81,7 +81,6 @@ class CondensedPlayingBox(Gtk.Box):
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
-        self.volume_button.update_value()
         sensitive = self._model.network_available and self._model.connected
         self.set_sensitive(sensitive)
 

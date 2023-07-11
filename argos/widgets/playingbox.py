@@ -6,12 +6,12 @@ from typing import List, Optional
 
 from gi.repository import GLib, GObject, Gtk
 
-from argos.message import MessageType
 from argos.model import PlaybackState
 from argos.widgets.playingboxemptytracklistbox import PlayingBoxEmptyTracklistBox
 from argos.widgets.tracklengthbox import TrackLengthBox
 from argos.widgets.tracklistbox import TracklistBox
 from argos.widgets.utils import default_image_pixbuf, scale_album_image
+from argos.widgets.volumebutton import VolumeButton
 
 _ = gettext.gettext
 
@@ -72,6 +72,9 @@ class PlayingBox(Gtk.Box):
 
         track_length_box = TrackLengthBox(application)
         self.left_pane_box.pack_end(track_length_box, False, False, 0)
+
+        volume_button = VolumeButton(application)
+        track_length_box.pack_end(volume_button, False, False, 0)
 
         self.tracklist_view = TracklistBox(application)
         self.tracklist_view.set_placeholder(PlayingBoxEmptyTracklistBox(application))

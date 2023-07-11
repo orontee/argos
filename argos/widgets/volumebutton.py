@@ -39,6 +39,7 @@ class VolumeButton(Gtk.VolumeButton):
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
+        self.update_value()
         sensitive = self._model.network_available and self._model.connected
         self.set_sensitive(sensitive)
 

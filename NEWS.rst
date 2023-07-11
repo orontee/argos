@@ -14,11 +14,18 @@ The format is based on `Keep a Changelog
 Added
 -----
 
+- Display volume button on playing box (if it makes sense to control
+  volume) `#145 <https://github.com/orontee/argos/issues/145>`_
+
 - Dialog to enter name of playlist to create `#45
   <https://github.com/orontee/argos/issues/45>`_
 
 Changed
 -------
+
+- CSS name of track length box has been changed from
+  `track_length_box` to `track-length-box` `#145
+  <https://github.com/orontee/argos/issues/145>`_
 
 - Fix possible exception when exiting directory containing albums
   `#144 <https://github.com/orontee/argos/issues/144>`_
