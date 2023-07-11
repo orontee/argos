@@ -53,6 +53,8 @@ Features 🥳
 
 * Playback state & tracklist view
 
+* Volume control (depending on mixer configuration of Mopidy server)
+
 * Library browser
 
 * View and edition of playlists exposed by Mopidy-M3U
