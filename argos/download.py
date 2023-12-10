@@ -78,7 +78,7 @@ class ImageDownloader(GObject.GObject):
         if not filepath.exists():
             url = urllib.parse.urljoin(self._mopidy_base_url, image_uri)
 
-            options = {}
+            options: Any = {}
             if self._http_session_manager.cache:
                 options["expire_after"] = 0
                 LOGGER.debug(
