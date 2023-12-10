@@ -1,19 +1,26 @@
-=====
+*****
 Argos
-=====
+*****
 
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
     :target: https://github.com/psf/black
+    :alt: Code style: black
 
-.. image:: http://www.mypy-lang.org/static/mypy_badge.svg
-   :target: http://mypy-lang.org/
+.. image:: https://www.mypy-lang.org/static/mypy_badge.svg
+    :target: https://mypy-lang.org/
+    :alt: Type check: mypy
 
 .. image:: https://github.com/orontee/argos/actions/workflows/build.yaml/badge.svg
-   :target: https://github.com/orontee/argos/actions/workflows/build.yaml
+    :target: https://github.com/orontee/argos/actions/workflows/build.yaml
+    :alt: CI build status
 
-.. image:: https://dl.flathub.org/assets/badges/flathub-badge-en.png
-   :target: https://flathub.org/fr/apps/io.github.orontee.Argos
-   :height: 20px
+.. image:: https://img.shields.io/badge/License-GPL--3.0-purple.svg
+    :target: https://github.com/orontee/argos/blob/main/LICENSE
+    :alt: License: GPL 3.0
+
+.. image:: https://img.shields.io/badge/Store-Flathub-red.svg
+    :target: https://flathub.org/fr/apps/io.github.orontee.Argos
+    :alt: Store: Flathub
 
 Light weight front-end for `Mopidy <https://mopidy.com/>`_ music server.
 
