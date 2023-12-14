@@ -355,7 +355,8 @@ class Application(Gtk.Application):
                 "as",
                 None,
             ),
-            ("quit", self.quit_activate_cb, None, ("app.quit", ["<Ctrl>Q"])),
+            ("close-window", self.win_close_cb, None, ("app.close-window", ["<Primary>W"])),
+            ("quit", self.quit_activate_cb, None, ("app.quit", ["<Primary>Q"])),
         ]
         for action_name, callback, params_type_desc, accel in action_descriptions:
             params_type = (
@@ -486,6 +487,16 @@ class Application(Gtk.Application):
             self.prefs_window.destroy()
 
         self.prefs_window = None
+
+    def win_close_cb(self, action: Gio.SimpleAction, parameter: None) -> None:
+        LOGGER.debug("Window close requested by end-user")
+
+        if self.prefs_window:
+            self.prefs_window.destroy()
+            self.prefs_window = None
+        elif self.window is not None:
+            self._stop_event_loop()
+            self.window.destroy()
 
     def quit_activate_cb(self, action: Gio.SimpleAction, parameter: None) -> None:
         LOGGER.debug("Quit requested by end-user")
