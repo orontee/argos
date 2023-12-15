@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 -->
+<!-- Generated with glade 3.40.0 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
   <object class="GtkAdjustment" id="albums_image_size_adjustment">
@@ -16,12 +16,14 @@
     <property name="page-increment">50</property>
   </object>
   <template class="PreferencesWindow" parent="GtkWindow">
+    <property name="name">preferences-window</property>
     <property name="can-focus">False</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
     <property name="window-position">center-on-parent</property>
     <property name="destroy-with-parent">True</property>
     <property name="type-hint">dialog</property>
+    <signal name="key-press-event" handler="key_press_event_cb" swapped="no"/>
     <child>
       <object class="GtkBox" id="preferences_bo">
         <property name="visible">True</property>

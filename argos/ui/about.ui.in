@@ -17,6 +17,7 @@ Matthias Meulien
 Tancrède Meulien
 Victor Meulien
 Vistaus
+Walter Huf
     </property>
     <property name="logo-icon-name">@application_id@</property>
     <property name="license-type">gpl-3-0</property>

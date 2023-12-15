@@ -23,6 +23,10 @@ Added
 Changed
 -------
 
+- Ctrl+W close the application window, Escape closes the preferences
+  dialog (like other dialogs) `#155
+  <https://github.com/orontee/argos/issues/155>`_
+
 - Lower page step of volume button scale for fine tuning volume  `#145
   <https://github.com/orontee/argos/issues/145>`_
 

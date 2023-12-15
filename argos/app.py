@@ -69,7 +69,6 @@ class Application(Gtk.Application):
         self._settings = Gio.Settings(self.props.application_id)
 
         self.window = None
-        self.prefs_window = None
 
         def _exception_handler(
             loop: asyncio.AbstractEventLoop,
@@ -356,7 +355,12 @@ class Application(Gtk.Application):
                 "as",
                 None,
             ),
-            ("close-window", self.win_close_cb, None, ("app.close-window", ["<Primary>W"])),
+            (
+                "close-window",
+                self.window_close_cb,
+                None,
+                ("app.close-window", ["<Primary>W"]),
+            ),
             ("quit", self.quit_activate_cb, None, ("app.quit", ["<Primary>Q"])),
         ]
         for action_name, callback, params_type_desc, accel in action_descriptions:
@@ -459,8 +463,7 @@ class Application(Gtk.Application):
         if self.window is None:
             return
 
-        about_dialog = AboutDialog()
-        about_dialog.set_transient_for(self.window)
+        about_dialog = AboutDialog(self)
         about_dialog.run()
         about_dialog.destroy()
 
@@ -477,27 +480,27 @@ class Application(Gtk.Application):
         if self.window is None:
             return
 
-        self.prefs_window = PreferencesWindow(self)
-        self.prefs_window.set_transient_for(self.window)
-        self.prefs_window.connect("destroy", self.prefs_window_destroy_cb)
+        prefs_window = PreferencesWindow(self)
 
-        self.prefs_window.present()
+        def on_prefs_window_delete_event(_1: Gtk.Widget, _2: Gdk.Event) -> bool:
+            LOGGER.debug("Hiding preferences window")
 
-    def prefs_window_destroy_cb(self, window: Gtk.Window) -> None:
-        if self.prefs_window:
-            self.prefs_window.destroy()
+            # Default handler will destroy window
+            return False
 
-        self.prefs_window = None
+        prefs_window.connect("delete-event", on_prefs_window_delete_event)
 
-    def win_close_cb(self, action: Gio.SimpleAction, parameter: None) -> None:
+        LOGGER.debug("Showing preferences window")
+        prefs_window.present()
+
+    def window_close_cb(self, action: Gio.SimpleAction, parameter: None) -> None:
+        if self.window is None or not self.window.is_active():
+            return
+
         LOGGER.debug("Window close requested by end-user")
 
-        if self.prefs_window:
-            self.prefs_window.destroy()
-            self.prefs_window = None
-        elif self.window is not None:
-            self._stop_event_loop()
-            self.window.destroy()
+        self._stop_event_loop()
+        self.window.destroy()
 
     def quit_activate_cb(self, action: Gio.SimpleAction, parameter: None) -> None:
         LOGGER.debug("Quit requested by end-user")

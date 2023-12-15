@@ -49,28 +49,28 @@
               <object class="GtkShortcutsShortcut">
                 <property name="visible">True</property>
                 <property name="title" translatable="yes" context="shortcut window">Play/Pause</property>
-                <property name="accelerator">&lt;Ctrl&gt;space</property>
+                <property name="accelerator">&lt;Primary&gt;space</property>
               </object>
             </child>
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">True</property>
                 <property name="title" translatable="yes" context="shortcut window">Next track</property>
-                <property name="accelerator">&lt;Ctrl&gt;N</property>
+                <property name="accelerator">&lt;Primary&gt;N</property>
               </object>
             </child>
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">True</property>
                 <property name="title" translatable="yes" context="shortcut window">Previous track</property>
-                <property name="accelerator">&lt;Ctrl&gt;P</property>
+                <property name="accelerator">&lt;Primary&gt;P</property>
               </object>
             </child>
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">True</property>
                 <property name="title" translatable="yes" context="shortcut window">Play random album</property>
-                <property name="accelerator">&lt;Ctrl&gt;R</property>
+                <property name="accelerator">&lt;Primary&gt;R</property>
               </object>
             </child>
           </object>
@@ -104,7 +104,7 @@
               <object class="GtkShortcutsShortcut">
                 <property name="visible">True</property>
                 <property name="title" translatable="yes" context="shortcut window">Go up</property>
-                <property name="accelerator">&lt;alt&gt;Up</property>
+                <property name="accelerator">&lt;Alt&gt;Up</property>
               </object>
             </child>
           </object>

@@ -12,8 +12,8 @@ _ = gettext.gettext
 class AboutDialog(Gtk.AboutDialog):
     __gtype_name__ = "AboutDialog"
 
-    def __init__(self):
-        Gtk.Window.__init__(self)
+    def __init__(self, application: Gtk.Application):
+        super().__init__(application=application, transient_for=application.window)
         self.set_wmclass("Argos", "about")
 
         if self.get_titlebar():

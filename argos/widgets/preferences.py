@@ -1,8 +1,8 @@
 import gettext
 import logging
-from typing import TYPE_CHECKING, Callable, Optional
+from typing import TYPE_CHECKING, Optional
 
-from gi.repository import Gio, GLib, GObject, Gtk
+from gi.repository import Gdk, Gio, GLib, GObject, Gtk
 
 if TYPE_CHECKING:
     from argos.app import Application
@@ -34,7 +34,7 @@ class PreferencesWindow(Gtk.Window):
         self,
         application: "Application",
     ):
-        super().__init__(application=application)
+        super().__init__(application=application, transient_for=application.window)
         self.set_wmclass("Argos", "preferences")
         self._model = application.model
         self._albums_image_size_scale_jumped_id: Optional[int] = None
@@ -248,3 +248,20 @@ class PreferencesWindow(Gtk.Window):
     ) -> None:
         start_fullscreen = switch.get_active()
         self._settings.set_boolean("start-fullscreen", start_fullscreen)
+
+    @Gtk.Template.Callback()
+    def key_press_event_cb(self, widget: Gtk.Widget, event: Gdk.EventKey) -> bool:
+        # See /usr/include/gtk-3.0/gdk/gdkkeysyms.h for key definitions
+        modifiers = event.state & Gtk.accelerator_get_default_mod_mask()
+        keyval = event.keyval
+        if not modifiers:
+            if keyval == Gdk.KEY_Escape:
+                # Better add a "close" signal to the class and call
+                # Gtk.binding_entry_add_signall() because it would be
+                # possible to edit the binding at runtime, but could
+                # not find a way to get the class BindingSet required
+                # as first argument (BindingSet.by_class() isn't
+                # exposed to Python), see #155
+                super().close()
+                return True
+        return False
