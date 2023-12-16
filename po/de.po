@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-13 18:54+0200\n"
+"POT-Creation-Date: 2023-12-16 09:23+0100\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: André Dokis <em21nummer1@icloud.com>\n"
 "Language-Team: German <em21nummer1@icloud.com>\n"
@@ -16,23 +16,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: argos/app.py:119
+#: argos/app.py:118
 msgid "Enable debug logs"
 msgstr "Aktiviere Debug Logging"
 
-#: argos/app.py:135
+#: argos/app.py:134
 msgid "Disable tooltips"
 msgstr "Tooltips deaktivieren"
 
-#: argos/app.py:143
+#: argos/app.py:142
 msgid "Hide search button"
 msgstr "Suche ausblenden"
 
-#: argos/app.py:270
+#: argos/app.py:269
 msgid "Welcome!"
 msgstr "Willkommen!"
 
-#: argos/app.py:272
+#: argos/app.py:271
 msgid ""
 "Start by configuring the URL of the music server. The default value expects "
 "a server running on the local host and listening to the 6680 port."
@@ -57,7 +57,7 @@ msgid "Albums"
 msgstr "Albums"
 
 #: argos/controllers/library.py:41 argos/ui/album_details_box.ui:282
-#: argos/ui/playlists_box.ui:111 argos/ui/tracklist_random_dialog.ui:215
+#: argos/ui/playlists_box.ui:111 argos/ui/tracklist_random_dialog.ui:216
 #: argos/ui/tracks_view.ui:140
 msgid "Tracks"
 msgstr "Titel"
@@ -115,7 +115,7 @@ msgid "Started to play {}"
 msgstr "Es läuft {}"
 
 #: argos/controllers/playlists.py:42 argos/controllers/playlists.py:318
-#: argos/ui/preferences.ui:374
+#: argos/ui/preferences.ui:376
 msgid "History"
 msgstr "Zuletzt gespielt"
 
@@ -160,7 +160,7 @@ msgid "Published"
 msgstr "Erschienen"
 
 #: argos/ui/album_details_box.ui:253 argos/ui/playlists_box.ui:81
-#: argos/ui/tracklist_random_dialog.ui:199 argos/ui/tracks_view.ui:108
+#: argos/ui/tracklist_random_dialog.ui:200 argos/ui/tracks_view.ui:108
 msgid "Length"
 msgstr "Länge"
 
@@ -224,60 +224,65 @@ msgstr "Fenster schließen"
 
 #: argos/ui/help_overlay.ui:24
 msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Verlassen"
+
+#: argos/ui/help_overlay.ui:31
+msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Tastenkürzel"
 
-#: argos/ui/help_overlay.ui:31
+#: argos/ui/help_overlay.ui:38
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Vollbildmodus"
 
-#: argos/ui/help_overlay.ui:40
+#: argos/ui/help_overlay.ui:47
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Player"
 
-#: argos/ui/help_overlay.ui:44
+#: argos/ui/help_overlay.ui:51
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Play/Pause"
 
-#: argos/ui/help_overlay.ui:51
+#: argos/ui/help_overlay.ui:58
 msgctxt "shortcut window"
 msgid "Next track"
 msgstr "Vor"
 
-#: argos/ui/help_overlay.ui:58
+#: argos/ui/help_overlay.ui:65
 msgctxt "shortcut window"
 msgid "Previous track"
 msgstr "Zurück"
 
-#: argos/ui/help_overlay.ui:65
+#: argos/ui/help_overlay.ui:72
 msgctxt "shortcut window"
 msgid "Play random album"
 msgstr "Zufälliges Album"
 
-#: argos/ui/help_overlay.ui:74
+#: argos/ui/help_overlay.ui:81
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigation"
 
-#: argos/ui/help_overlay.ui:78
+#: argos/ui/help_overlay.ui:85
 msgctxt "shortcut window"
 msgid "Go to Playing"
 msgstr "Jetzt läuft.."
 
-#: argos/ui/help_overlay.ui:85
+#: argos/ui/help_overlay.ui:92
 msgctxt "shortcut window"
 msgid "Go to Library"
 msgstr "Sammlung"
 
-#: argos/ui/help_overlay.ui:92
+#: argos/ui/help_overlay.ui:99
 msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Playlists"
 
-#: argos/ui/help_overlay.ui:99
+#: argos/ui/help_overlay.ui:106
 msgctxt "shortcut window"
 msgid "Go up"
 msgstr ""
@@ -330,19 +335,19 @@ msgstr "Playlist oder markierte Titel zur Wiedergabeliste hinzufügen"
 msgid "Play playlist or selected tracks"
 msgstr "Playlist oder markierte Titel abspielen"
 
-#: argos/ui/preferences.ui:68
+#: argos/ui/preferences.ui:70
 msgid "Mopidy server"
 msgstr "Mopidy Server"
 
-#: argos/ui/preferences.ui:91
+#: argos/ui/preferences.ui:93
 msgid "Base URL:"
 msgstr "URL des Servers:"
 
-#: argos/ui/preferences.ui:105
+#: argos/ui/preferences.ui:107
 msgid "Enter the URL of the Mopidy server"
 msgstr "URL des Mopidy Servers eingeben"
 
-#: argos/ui/preferences.ui:151
+#: argos/ui/preferences.ui:153
 msgid ""
 "A connection failure indicates that the music server is currently not "
 "accessible at the given URL. Please adapt the URL."
@@ -350,65 +355,65 @@ msgstr ""
 "Ein Verbindungsfehler weist darauf hin, dass der Musikserver derzeit nicht "
 "unter der angegebeben URL erreichbar ist. Bitte die Einstellung prüfen."
 
-#: argos/ui/preferences.ui:187
+#: argos/ui/preferences.ui:189
 msgid "Other services"
 msgstr ""
 
-#: argos/ui/preferences.ui:224
+#: argos/ui/preferences.ui:226
 msgid "Information service:"
 msgstr ""
 
-#: argos/ui/preferences.ui:236
+#: argos/ui/preferences.ui:238
 msgid "The information is collected using Musicbrainz API and Wikipedia API."
 msgstr ""
 
-#: argos/ui/preferences.ui:268
+#: argos/ui/preferences.ui:270
 msgid "General"
 msgstr "Allgemein"
 
-#: argos/ui/preferences.ui:286 argos/ui/preferences.ui:534 argos/window.py:54
+#: argos/ui/preferences.ui:288 argos/ui/preferences.ui:536 argos/window.py:54
 msgid "Library"
 msgstr "Sammlung"
 
-#: argos/ui/preferences.ui:306 data/io.github.orontee.Argos.gschema.xml:36
+#: argos/ui/preferences.ui:308 data/io.github.orontee.Argos.gschema.xml:36
 msgid "Index Mopidy-Local albums at startup"
 msgstr ""
 
-#: argos/ui/preferences.ui:330
+#: argos/ui/preferences.ui:332
 msgid ""
 "Note that, when unchecked, random selection of album is impossible until a "
 "directory containing albums is browsed."
 msgstr ""
 
-#: argos/ui/preferences.ui:348 argos/window.py:58
+#: argos/ui/preferences.ui:350 argos/window.py:58
 msgid "Playlists"
 msgstr "Playlists"
 
-#: argos/ui/preferences.ui:409
+#: argos/ui/preferences.ui:411
 msgid "Max length:"
 msgstr "Max. Länge:"
 
-#: argos/ui/preferences.ui:435
+#: argos/ui/preferences.ui:437
 msgid "Sources"
 msgstr "Quellen"
 
-#: argos/ui/preferences.ui:454
+#: argos/ui/preferences.ui:456
 msgid "Main window"
 msgstr "Hauptfenster"
 
-#: argos/ui/preferences.ui:481
+#: argos/ui/preferences.ui:483
 msgid "Dark theme:"
 msgstr "Dunkles Thema:"
 
-#: argos/ui/preferences.ui:504
+#: argos/ui/preferences.ui:506
 msgid "Start fullscreen:"
 msgstr "Im Vollbildmodus starten:"
 
-#: argos/ui/preferences.ui:561
+#: argos/ui/preferences.ui:563
 msgid "Image size:"
 msgstr "Bildgröße:"
 
-#: argos/ui/preferences.ui:593
+#: argos/ui/preferences.ui:595
 msgid "Display"
 msgstr ""
 
@@ -424,7 +429,7 @@ msgstr ""
 "Unterstützte Protokolle können variieren und sind\n"
 "abhängig von der Mopidy-Stream Konfiguration."
 
-#: argos/ui/stream_uri_dialog.ui:74 argos/ui/tracklist_random_dialog.ui:297
+#: argos/ui/stream_uri_dialog.ui:74 argos/ui/tracklist_random_dialog.ui:298
 msgid "Play immediately"
 msgstr "Direkt starten"
 
@@ -440,11 +445,11 @@ msgstr "Alben sortieren"
 msgid "Search albums"
 msgstr "Alben durchsuchen"
 
-#: argos/ui/tracklist_random_dialog.ui:25
+#: argos/ui/tracklist_random_dialog.ui:26
 msgid "Skip"
 msgstr "Überspringen"
 
-#: argos/ui/tracklist_random_dialog.ui:253
+#: argos/ui/tracklist_random_dialog.ui:254
 msgid "Disc"
 msgstr "Disk"
 
@@ -498,13 +503,13 @@ msgstr ""
 "\n"
 "• Wähle Alben / Titel aus der Sammlung oder den Playlists\n"
 
-#: argos/widgets/playlistemptytracksbox.py:39
-msgid "Loading playlist tracks…"
-msgstr "Titel der Playlist laden…"
-
 #: argos/widgets/playlistcreationdialog.py:34
 msgid "Playlist creation"
 msgstr "Erstellung einer Playlist"
+
+#: argos/widgets/playlistemptytracksbox.py:39
+msgid "Loading playlist tracks…"
+msgstr "Titel der Playlist laden…"
 
 #: argos/widgets/playlistsbox.py:93
 msgid "Add stream to playlist…"

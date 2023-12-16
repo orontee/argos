@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: io.github.orontee.Argos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-13 18:54+0200\n"
+"POT-Creation-Date: 2023-12-16 09:23+0100\n"
 "PO-Revision-Date: 2023-03-02 13:53+0100\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch\n"
@@ -17,23 +17,23 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.2.2\n"
 
-#: argos/app.py:119
+#: argos/app.py:118
 msgid "Enable debug logs"
 msgstr "Foutopsporing inschakelen"
 
-#: argos/app.py:135
+#: argos/app.py:134
 msgid "Disable tooltips"
 msgstr "Hulpballonnen uitschakelen"
 
-#: argos/app.py:143
+#: argos/app.py:142
 msgid "Hide search button"
 msgstr "Zoekknop verbergen"
 
-#: argos/app.py:270
+#: argos/app.py:269
 msgid "Welcome!"
 msgstr "Welkom!"
 
-#: argos/app.py:272
+#: argos/app.py:271
 msgid ""
 "Start by configuring the URL of the music server. The default value expects "
 "a server running on the local host and listening to the 6680 port."
@@ -58,7 +58,7 @@ msgid "Albums"
 msgstr "Albums"
 
 #: argos/controllers/library.py:41 argos/ui/album_details_box.ui:282
-#: argos/ui/playlists_box.ui:111 argos/ui/tracklist_random_dialog.ui:215
+#: argos/ui/playlists_box.ui:111 argos/ui/tracklist_random_dialog.ui:216
 #: argos/ui/tracks_view.ui:140
 msgid "Tracks"
 msgstr "Nummers"
@@ -116,7 +116,7 @@ msgid "Started to play {}"
 msgstr "Begonnen met afspelen op {}"
 
 #: argos/controllers/playlists.py:42 argos/controllers/playlists.py:318
-#: argos/ui/preferences.ui:374
+#: argos/ui/preferences.ui:376
 msgid "History"
 msgstr "Geschiedenis"
 
@@ -161,7 +161,7 @@ msgid "Published"
 msgstr "Uitgebracht"
 
 #: argos/ui/album_details_box.ui:253 argos/ui/playlists_box.ui:81
-#: argos/ui/tracklist_random_dialog.ui:199 argos/ui/tracks_view.ui:108
+#: argos/ui/tracklist_random_dialog.ui:200 argos/ui/tracks_view.ui:108
 msgid "Length"
 msgstr "Duur"
 
@@ -225,60 +225,65 @@ msgstr "Venster sluiten"
 
 #: argos/ui/help_overlay.ui:24
 msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Verlaten"
+
+#: argos/ui/help_overlay.ui:31
+msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Sneltoetsen"
 
-#: argos/ui/help_overlay.ui:31
+#: argos/ui/help_overlay.ui:38
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Schermvullende weergave"
 
-#: argos/ui/help_overlay.ui:40
+#: argos/ui/help_overlay.ui:47
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Afspelen"
 
-#: argos/ui/help_overlay.ui:44
+#: argos/ui/help_overlay.ui:51
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Afspelen/Pauzeren"
 
-#: argos/ui/help_overlay.ui:51
+#: argos/ui/help_overlay.ui:58
 msgctxt "shortcut window"
 msgid "Next track"
 msgstr "Volgend nummer"
 
-#: argos/ui/help_overlay.ui:58
+#: argos/ui/help_overlay.ui:65
 msgctxt "shortcut window"
 msgid "Previous track"
 msgstr "Vorig nummer"
 
-#: argos/ui/help_overlay.ui:65
+#: argos/ui/help_overlay.ui:72
 msgctxt "shortcut window"
 msgid "Play random album"
 msgstr "Willekeurig album afspelen"
 
-#: argos/ui/help_overlay.ui:74
+#: argos/ui/help_overlay.ui:81
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigatie"
 
-#: argos/ui/help_overlay.ui:78
+#: argos/ui/help_overlay.ui:85
 msgctxt "shortcut window"
 msgid "Go to Playing"
 msgstr "Ga naar afspelen"
 
-#: argos/ui/help_overlay.ui:85
+#: argos/ui/help_overlay.ui:92
 msgctxt "shortcut window"
 msgid "Go to Library"
 msgstr "Ga naar verzameling"
 
-#: argos/ui/help_overlay.ui:92
+#: argos/ui/help_overlay.ui:99
 msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Ga naar afspeellijsten"
 
-#: argos/ui/help_overlay.ui:99
+#: argos/ui/help_overlay.ui:106
 msgctxt "shortcut window"
 msgid "Go up"
 msgstr "Ga omhoog"
@@ -331,19 +336,19 @@ msgstr "Afspeellijst toevoegen of selectie toevoegen aan nummerlijst"
 msgid "Play playlist or selected tracks"
 msgstr "Afspeellijst of selectie afspelen"
 
-#: argos/ui/preferences.ui:68
+#: argos/ui/preferences.ui:70
 msgid "Mopidy server"
 msgstr "Mopidy-server"
 
-#: argos/ui/preferences.ui:91
+#: argos/ui/preferences.ui:93
 msgid "Base URL:"
 msgstr "Hoofd-url:"
 
-#: argos/ui/preferences.ui:105
+#: argos/ui/preferences.ui:107
 msgid "Enter the URL of the Mopidy server"
 msgstr "Voer de url van de Mopidy-server in"
 
-#: argos/ui/preferences.ui:151
+#: argos/ui/preferences.ui:153
 msgid ""
 "A connection failure indicates that the music server is currently not "
 "accessible at the given URL. Please adapt the URL."
@@ -351,31 +356,31 @@ msgstr ""
 "Als de verbinding mislukt, dan betekent dit dat de muziekserver niet "
 "bereikbaar is via de opgegeven url. Pas de url aan."
 
-#: argos/ui/preferences.ui:187
+#: argos/ui/preferences.ui:189
 msgid "Other services"
 msgstr "Overige diensten"
 
-#: argos/ui/preferences.ui:224
+#: argos/ui/preferences.ui:226
 msgid "Information service:"
 msgstr "Informatiedienst:"
 
-#: argos/ui/preferences.ui:236
+#: argos/ui/preferences.ui:238
 msgid "The information is collected using Musicbrainz API and Wikipedia API."
 msgstr "De informatie is afkomstig van Musicbrainz en Wikipedia."
 
-#: argos/ui/preferences.ui:268
+#: argos/ui/preferences.ui:270
 msgid "General"
 msgstr "Algemeen"
 
-#: argos/ui/preferences.ui:286 argos/ui/preferences.ui:534 argos/window.py:54
+#: argos/ui/preferences.ui:288 argos/ui/preferences.ui:536 argos/window.py:54
 msgid "Library"
 msgstr "Verzameling"
 
-#: argos/ui/preferences.ui:306 data/io.github.orontee.Argos.gschema.xml:36
+#: argos/ui/preferences.ui:308 data/io.github.orontee.Argos.gschema.xml:36
 msgid "Index Mopidy-Local albums at startup"
 msgstr "Lokale Mopidy-albums indexeren na opstarten"
 
-#: argos/ui/preferences.ui:330
+#: argos/ui/preferences.ui:332
 msgid ""
 "Note that, when unchecked, random selection of album is impossible until a "
 "directory containing albums is browsed."
@@ -383,35 +388,35 @@ msgstr ""
 "Let op: als u dit niet aankruist, dan is het afspelen van willekeurige "
 "albums onmogelijk zolang u geen albummap opent."
 
-#: argos/ui/preferences.ui:348 argos/window.py:58
+#: argos/ui/preferences.ui:350 argos/window.py:58
 msgid "Playlists"
 msgstr "Afspeellijsten"
 
-#: argos/ui/preferences.ui:409
+#: argos/ui/preferences.ui:411
 msgid "Max length:"
 msgstr "Max. duur:"
 
-#: argos/ui/preferences.ui:435
+#: argos/ui/preferences.ui:437
 msgid "Sources"
 msgstr "Bronnen"
 
-#: argos/ui/preferences.ui:454
+#: argos/ui/preferences.ui:456
 msgid "Main window"
 msgstr "Hoofdvenster"
 
-#: argos/ui/preferences.ui:481
+#: argos/ui/preferences.ui:483
 msgid "Dark theme:"
 msgstr "Donker thema:"
 
-#: argos/ui/preferences.ui:504
+#: argos/ui/preferences.ui:506
 msgid "Start fullscreen:"
 msgstr "Schermvullende weergave:"
 
-#: argos/ui/preferences.ui:561
+#: argos/ui/preferences.ui:563
 msgid "Image size:"
 msgstr "Afbeeldingsgrootte:"
 
-#: argos/ui/preferences.ui:593
+#: argos/ui/preferences.ui:595
 msgid "Display"
 msgstr "Beeld"
 
@@ -427,7 +432,7 @@ msgstr ""
 "Let op: de ondersteunde protocollen kunnen verschillen en uri's op de\n"
 "zwarte lijst zijn afhankelijk van de Mopidy-Stream-instellingen."
 
-#: argos/ui/stream_uri_dialog.ui:74 argos/ui/tracklist_random_dialog.ui:297
+#: argos/ui/stream_uri_dialog.ui:74 argos/ui/tracklist_random_dialog.ui:298
 msgid "Play immediately"
 msgstr "Onmiddelijk afspelen"
 
@@ -443,11 +448,11 @@ msgstr "Albums sorteren"
 msgid "Search albums"
 msgstr "Albums doorzoeken"
 
-#: argos/ui/tracklist_random_dialog.ui:25
+#: argos/ui/tracklist_random_dialog.ui:26
 msgid "Skip"
 msgstr "Overslaan"
 
-#: argos/ui/tracklist_random_dialog.ui:253
+#: argos/ui/tracklist_random_dialog.ui:254
 msgid "Disc"
 msgstr "Schijf"
 
@@ -501,13 +506,13 @@ msgstr ""
 "\n"
 "• Kies nummers van afspeellijsten of uit de verzameling\n"
 
-#: argos/widgets/playlistemptytracksbox.py:39
-msgid "Loading playlist tracks…"
-msgstr "Bezig met laden van nummers…"
-
 #: argos/widgets/playlistcreationdialog.py:34
 msgid "Playlist creation"
 msgstr "Afspeellijst maken"
+
+#: argos/widgets/playlistemptytracksbox.py:39
+msgid "Loading playlist tracks…"
+msgstr "Bezig met laden van nummers…"
 
 #: argos/widgets/playlistsbox.py:93
 msgid "Add stream to playlist…"
