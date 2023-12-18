@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: io.github.orontee.Argos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-16 09:23+0100\n"
+"POT-Creation-Date: 2023-12-19 00:39+0100\n"
 "PO-Revision-Date: 2023-03-02 13:53+0100\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch\n"
@@ -460,6 +460,10 @@ msgstr "Schijf"
 msgid "Play tracks"
 msgstr "Nummers afspelen"
 
+#: argos/ui/tracks_view.ui:245
+msgid "Sort tracks"
+msgstr "Sorteer nummers"
+
 #: argos/utils.py:73
 msgid "More than one day"
 msgstr "Meer dan een keer per dag"
@@ -476,11 +480,11 @@ msgstr "Gisteren"
 msgid "Information not available"
 msgstr "Er is geen informatie beschikbaar"
 
-#: argos/widgets/albumdetailsbox.py:87 argos/widgets/tracksview.py:52
+#: argos/widgets/albumdetailsbox.py:87 argos/widgets/tracksview.py:54
 msgid "Add to tracklist"
 msgstr "Toevoegen aan nummerlijst"
 
-#: argos/widgets/albumdetailsbox.py:90 argos/widgets/tracksview.py:55
+#: argos/widgets/albumdetailsbox.py:90 argos/widgets/tracksview.py:57
 msgid "Add to playlist…"
 msgstr "Toevoegen aan afspeellijst…"
 
@@ -583,6 +587,14 @@ msgstr "Uitgavedatum"
 #: argos/widgets/utils.py:179
 msgid "Last modified"
 msgstr "Recentst bewerkt"
+
+#: argos/widgets/utils.py:184
+msgid "Track name"
+msgstr "Tracknaam"
+
+#: argos/widgets/utils.py:185
+msgid "Track number"
+msgstr "Tracknummer"
 
 #: argos/window.py:49
 msgid "Playing"
@@ -727,20 +739,28 @@ msgid "Order applied when sorting albums."
 msgstr "Hoe albums dienen te worden gesorteerd."
 
 #: data/io.github.orontee.Argos.gschema.xml:62
+msgid "Track sort order"
+msgstr "Sorteervolgorde van nummers"
+
+#: data/io.github.orontee.Argos.gschema.xml:65
+msgid "Order applied when sorting tracks."
+msgstr "Volgorde toegepast bij het sorteren van tracks."
+
+#: data/io.github.orontee.Argos.gschema.xml:76
 msgid "Random tracks choice strategy"
 msgstr "Methode bij afspelen van willekeurige nummers"
 
-#: data/io.github.orontee.Argos.gschema.xml:65
+#: data/io.github.orontee.Argos.gschema.xml:79
 msgid "Strategy used to build random track selection."
 msgstr ""
 "De methode die dient te worden gebruikt bij het kiezen van willekeurige "
 "nummers."
 
-#: data/io.github.orontee.Argos.gschema.xml:77
+#: data/io.github.orontee.Argos.gschema.xml:91
 msgid "Pattern to disable tracks view by URIs"
 msgstr "Patroon om nummerweergave uit te schakelen op basis van uri's"
 
-#: data/io.github.orontee.Argos.gschema.xml:80
+#: data/io.github.orontee.Argos.gschema.xml:94
 msgid ""
 "Browsing a directory whose URIs match the given pattern, never enters the "
 "tracks view."
@@ -748,75 +768,75 @@ msgstr ""
 "Door een map verkennen met de opgegeven uri's te verkennen, wordt de "
 "nummerweergave uitgeschakeld."
 
-#: data/io.github.orontee.Argos.gschema.xml:88
+#: data/io.github.orontee.Argos.gschema.xml:102
 msgid "History playlist"
 msgstr "Geschiedenisafspeellijst"
 
-#: data/io.github.orontee.Argos.gschema.xml:91
+#: data/io.github.orontee.Argos.gschema.xml:105
 msgid "A dynamic playlist of last played tracks can be maintained."
 msgstr "Een dynamische afspeellijst met recent beluisterde nummers."
 
-#: data/io.github.orontee.Argos.gschema.xml:98
+#: data/io.github.orontee.Argos.gschema.xml:112
 msgid "History max length"
 msgstr "Max. geschiedenislengte"
 
-#: data/io.github.orontee.Argos.gschema.xml:101
+#: data/io.github.orontee.Argos.gschema.xml:115
 msgid "The maximal length of the history playlist."
 msgstr "De maximale lengte van de geschiedenisafspeellijst."
 
-#: data/io.github.orontee.Argos.gschema.xml:109
+#: data/io.github.orontee.Argos.gschema.xml:123
 msgid "Albums image size"
 msgstr "Afbeeldingsgrootte van albumhoezen"
 
-#: data/io.github.orontee.Argos.gschema.xml:112
+#: data/io.github.orontee.Argos.gschema.xml:126
 msgid "The size of images in the library."
 msgstr "De omvang van albumhoezen."
 
-#: data/io.github.orontee.Argos.gschema.xml:119
+#: data/io.github.orontee.Argos.gschema.xml:133
 msgid "Window size"
 msgstr "Vensterafmetingen"
 
-#: data/io.github.orontee.Argos.gschema.xml:120
+#: data/io.github.orontee.Argos.gschema.xml:134
 msgid "Window size (width and height)."
 msgstr "De vensterafmetingen (breedte en hoogte)."
 
-#: data/io.github.orontee.Argos.gschema.xml:125
+#: data/io.github.orontee.Argos.gschema.xml:139
 msgid "Window position"
 msgstr "Vensterlocatie"
 
-#: data/io.github.orontee.Argos.gschema.xml:126
+#: data/io.github.orontee.Argos.gschema.xml:140
 msgid "Window position (x and y)."
 msgstr "De vensterlocatie (x en y)."
 
-#: data/io.github.orontee.Argos.gschema.xml:131
+#: data/io.github.orontee.Argos.gschema.xml:145
 msgid "Window maximized"
 msgstr "Venster maximaliseren"
 
-#: data/io.github.orontee.Argos.gschema.xml:132
+#: data/io.github.orontee.Argos.gschema.xml:146
 msgid "Window maximized state."
 msgstr "De maximalisatiestatus."
 
-#: data/io.github.orontee.Argos.gschema.xml:137
+#: data/io.github.orontee.Argos.gschema.xml:151
 msgid "Fullscreen window"
 msgstr "Schermvullende weergave"
 
-#: data/io.github.orontee.Argos.gschema.xml:138
+#: data/io.github.orontee.Argos.gschema.xml:152
 msgid "Window fullscreen state."
 msgstr "De schermvullende vensterweergave."
 
-#: data/io.github.orontee.Argos.gschema.xml:143
+#: data/io.github.orontee.Argos.gschema.xml:157
 msgid "Start fullscreen"
 msgstr "Schermvullend opstarten"
 
-#: data/io.github.orontee.Argos.gschema.xml:144
+#: data/io.github.orontee.Argos.gschema.xml:158
 msgid "Start with fullscreen window."
 msgstr "Start in de schermvullende weergave."
 
-#: data/io.github.orontee.Argos.gschema.xml:149
+#: data/io.github.orontee.Argos.gschema.xml:163
 msgid "Prefer dark theme"
 msgstr "Donker thema gebruiken"
 
-#: data/io.github.orontee.Argos.gschema.xml:150
+#: data/io.github.orontee.Argos.gschema.xml:164
 msgid "If a Gtk+ theme includes a dark variant, it will be used."
 msgstr ""
 "Als u een GTK+-thema met donkere variant gebruikt, dan neemt Argos dat over."

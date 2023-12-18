@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-16 09:23+0100\n"
+"POT-Creation-Date: 2023-12-19 00:39+0100\n"
 "PO-Revision-Date: 2022-02-20 13:30+0100\n"
 "Last-Translator: André Dokis <em21nummer1@icloud.com>\n"
 "Language-Team: German <em21nummer1@icloud.com>\n"
@@ -457,6 +457,10 @@ msgstr "Disk"
 msgid "Play tracks"
 msgstr "Titel abspielen"
 
+#: argos/ui/tracks_view.ui:245
+msgid "Sort tracks"
+msgstr "Titel sortieren"
+
 #: argos/utils.py:73
 msgid "More than one day"
 msgstr "Mehr als einen Tag"
@@ -473,11 +477,11 @@ msgstr "Gestern"
 msgid "Information not available"
 msgstr "Keine Information verfügbar"
 
-#: argos/widgets/albumdetailsbox.py:87 argos/widgets/tracksview.py:52
+#: argos/widgets/albumdetailsbox.py:87 argos/widgets/tracksview.py:54
 msgid "Add to tracklist"
 msgstr "Zur Wiedergabeliste hinzufügen"
 
-#: argos/widgets/albumdetailsbox.py:90 argos/widgets/tracksview.py:55
+#: argos/widgets/albumdetailsbox.py:90 argos/widgets/tracksview.py:57
 msgid "Add to playlist…"
 msgstr "Zur Playlist hinzufügen…"
 
@@ -582,6 +586,14 @@ msgstr "Erscheinungsdatum"
 #: argos/widgets/utils.py:179
 msgid "Last modified"
 msgstr "Zuletzt geändertes Datum"
+
+#: argos/widgets/utils.py:184
+msgid "Track name"
+msgstr "Titelname"
+
+#: argos/widgets/utils.py:185
+msgid "Track number"
+msgstr "Titelnummer"
 
 #: argos/window.py:49
 msgid "Playing"
@@ -726,92 +738,100 @@ msgid "Order applied when sorting albums."
 msgstr "Sortierung der Alben angewendet."
 
 #: data/io.github.orontee.Argos.gschema.xml:62
+msgid "Track sort order"
+msgstr "Sortierreihenfolge der Titel"
+
+#: data/io.github.orontee.Argos.gschema.xml:65
+msgid "Order applied when sorting tracks."
+msgstr "Sortierung der Titel angewendet."
+
+#: data/io.github.orontee.Argos.gschema.xml:76
 msgid "Random tracks choice strategy"
 msgstr "Zufällige Wiedergabe"
 
-#: data/io.github.orontee.Argos.gschema.xml:65
+#: data/io.github.orontee.Argos.gschema.xml:79
 msgid "Strategy used to build random track selection."
 msgstr ""
 
-#: data/io.github.orontee.Argos.gschema.xml:77
+#: data/io.github.orontee.Argos.gschema.xml:91
 msgid "Pattern to disable tracks view by URIs"
 msgstr ""
 
-#: data/io.github.orontee.Argos.gschema.xml:80
+#: data/io.github.orontee.Argos.gschema.xml:94
 msgid ""
 "Browsing a directory whose URIs match the given pattern, never enters the "
 "tracks view."
 msgstr ""
 
-#: data/io.github.orontee.Argos.gschema.xml:88
+#: data/io.github.orontee.Argos.gschema.xml:102
 msgid "History playlist"
 msgstr "Zuletzt gespielt"
 
-#: data/io.github.orontee.Argos.gschema.xml:91
+#: data/io.github.orontee.Argos.gschema.xml:105
 msgid "A dynamic playlist of last played tracks can be maintained."
 msgstr "Dynamische Wiedergabeliste der zuletzt gespielten Titel bearbeiten."
 
-#: data/io.github.orontee.Argos.gschema.xml:98
+#: data/io.github.orontee.Argos.gschema.xml:112
 msgid "History max length"
 msgstr "Zuletzt gespielt innerhalb der letzten x-Tage"
 
-#: data/io.github.orontee.Argos.gschema.xml:101
+#: data/io.github.orontee.Argos.gschema.xml:115
 msgid "The maximal length of the history playlist."
 msgstr "Max. Anzahl Titel der Zuletzt gespielt Playlist."
 
-#: data/io.github.orontee.Argos.gschema.xml:109
+#: data/io.github.orontee.Argos.gschema.xml:123
 msgid "Albums image size"
 msgstr "Bildgröße des Albums"
 
-#: data/io.github.orontee.Argos.gschema.xml:112
+#: data/io.github.orontee.Argos.gschema.xml:126
 msgid "The size of images in the library."
 msgstr "Die Größe der Bilder in der Sammlung."
 
-#: data/io.github.orontee.Argos.gschema.xml:119
+#: data/io.github.orontee.Argos.gschema.xml:133
 msgid "Window size"
 msgstr "Fenstergröße"
 
-#: data/io.github.orontee.Argos.gschema.xml:120
+#: data/io.github.orontee.Argos.gschema.xml:134
 msgid "Window size (width and height)."
 msgstr "Fenstergröße (Breite und Höhe)."
 
-#: data/io.github.orontee.Argos.gschema.xml:125
+#: data/io.github.orontee.Argos.gschema.xml:139
 msgid "Window position"
 msgstr "Fensterposition"
 
-#: data/io.github.orontee.Argos.gschema.xml:126
+#: data/io.github.orontee.Argos.gschema.xml:140
 msgid "Window position (x and y)."
 msgstr "Fensterposition (x und y)."
 
-#: data/io.github.orontee.Argos.gschema.xml:131
+#: data/io.github.orontee.Argos.gschema.xml:145
 msgid "Window maximized"
 msgstr "Vollbild"
 
-#: data/io.github.orontee.Argos.gschema.xml:132
+#: data/io.github.orontee.Argos.gschema.xml:146
 msgid "Window maximized state."
 msgstr "Vollbildmodus."
 
-#: data/io.github.orontee.Argos.gschema.xml:137
+#: data/io.github.orontee.Argos.gschema.xml:151
 msgid "Fullscreen window"
 msgstr "Vollbildfenster"
 
-#: data/io.github.orontee.Argos.gschema.xml:138
+#: data/io.github.orontee.Argos.gschema.xml:152
 msgid "Window fullscreen state."
 msgstr "enster im Vollbildmodus."
 
-#: data/io.github.orontee.Argos.gschema.xml:143
+#: data/io.github.orontee.Argos.gschema.xml:157
 msgid "Start fullscreen"
 msgstr "Im Vollbildmodus starten"
 
-#: data/io.github.orontee.Argos.gschema.xml:144
+#: data/io.github.orontee.Argos.gschema.xml:158
 msgid "Start with fullscreen window."
 msgstr "Im Vollbildmodus starten"
 
-#: data/io.github.orontee.Argos.gschema.xml:149
+#: data/io.github.orontee.Argos.gschema.xml:163
 msgid "Prefer dark theme"
 msgstr "Bevorzugen Sie ein dunkles Thema"
 
-#: data/io.github.orontee.Argos.gschema.xml:150
+#: data/io.github.orontee.Argos.gschema.xml:164
 msgid "If a Gtk+ theme includes a dark variant, it will be used."
 msgstr ""
 "Wenn ein Gtk+-Theme eine dunkle Variante enthält, wird diese verwendet."
@@ -957,9 +977,6 @@ msgstr ""
 
 #~ msgid "Server"
 #~ msgstr "Server"
-
-#~ msgid "Track"
-#~ msgstr "Titel"
 
 #~ msgid "Play _favorite playlist"
 #~ msgstr "_Lieblingsplaylist abspielen"
