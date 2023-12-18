@@ -1,5 +1,4 @@
 import logging
-import random
 import threading
 from datetime import datetime
 from functools import partial
@@ -27,7 +26,11 @@ from argos.model.mixer import MixerModel
 from argos.model.playback import PlaybackModel
 from argos.model.playlist import PlaylistModel, compare_playlists_func
 from argos.model.random import RandomTracksChoice, choose_random_tracks
-from argos.model.track import TrackModel, compare_tracks_by_name_func
+from argos.model.track import (
+    TrackModel,
+    compare_tracks_by_name_func,
+    compare_tracks_by_track_number_func,
+)
 from argos.model.tracklist import TracklistModel, TracklistTrackModel
 from argos.model.utils import WithThreadSafePropertySetter
 
@@ -42,6 +45,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         "album-completed": (GObject.SIGNAL_RUN_FIRST, None, (str,)),
         "album-information-collected": (GObject.SIGNAL_RUN_FIRST, None, (str,)),
         "albums-sorted": (GObject.SIGNAL_RUN_FIRST, None, []),
+        "tracks-sorted": (GObject.SIGNAL_RUN_FIRST, None, []),
         "directory-completion-progress": (
             GObject.SIGNAL_RUN_FIRST,
             None,
@@ -136,6 +140,27 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
 
         GLib.idle_add(_sort_albums)
 
+    def _get_track_compare_func(
+        self, track_sort_id: str
+    ) -> Callable[[TrackModel, TrackModel, None], int]:
+        if track_sort_id == "by_track_number":
+            return compare_tracks_by_track_number_func
+
+        if track_sort_id != "by_track_name":
+            LOGGER.warning(f"Unexpecting track sort identifier {track_sort_id!r}")
+
+        return compare_tracks_by_name_func
+
+    def sort_tracks(self, track_sort_id: str) -> None:
+        def _sort_tracks() -> None:
+            compare_func = self._get_track_compare_func(track_sort_id)
+            self.library.sort_tracks(compare_func)
+
+            LOGGER.info(f"Tracks sorted with sort identifier {track_sort_id}")
+            self.emit("tracks-sorted")
+
+        GLib.idle_add(_sort_tracks)
+
     def complete_directory(
         self,
         uri: str,
@@ -181,10 +206,10 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
                         playlist, compare_playlists_func, None
                     )
 
+                track_sort_id = self._settings.get_string("track-sort")
+                track_compare_func = self._get_track_compare_func(track_sort_id)
                 for track in tracks:
-                    directory.tracks.insert_sorted(
-                        track, compare_tracks_by_name_func, None
-                    )
+                    directory.tracks.insert_sorted(track, track_compare_func, None)
             else:
                 LOGGER.debug(f"Won't complete unknown directory with URI {uri}")
 

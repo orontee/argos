@@ -4,71 +4,85 @@
     <key type="i" name="connection-retry-delay">
       <default>5</default>
       <summary>
-	Connection retry delay
+        Connection retry delay
       </summary>
       <description>
-	The delay in seconds between two connection tries.
+        The delay in seconds between two connection tries.
       </description>
     </key>
 
     <key type="s" name="mopidy-base-url">
       <default>"http://127.0.0.1:6680"</default>
       <summary>
-	Base URL of Mopidy APIs
+        Base URL of Mopidy APIs
       </summary>
       <description>
-	The base URL of Mopidy JSON-RPC and websocket APIs.
+        The base URL of Mopidy JSON-RPC and websocket APIs.
       </description>
     </key>
 
     <key type="b" name="information-service">
       <default>false</default>
       <summary>
-	Information service
+        Information service
       </summary>
       <description>
-	Whether to collect and display information on albums from Wikipedia.
+        Whether to collect and display information on albums from Wikipedia.
       </description>
     </key>
 
     <key type="b" name="index-mopidy-local-albums">
       <default>false</default>
       <summary>
-	Index Mopidy-Local albums at startup
+        Index Mopidy-Local albums at startup
       </summary>
       <description>
-	Whether to index Mopidy-Local albums directory at startup.
+        Whether to index Mopidy-Local albums directory at startup.
       </description>
     </key>
 
     <key type="s" name="album-sort">
       <default>"by_artist_name"</default>
       <summary>
-	Album sort order
+        Album sort order
       </summary>
       <description>
-	Order applied when sorting albums.
+        Order applied when sorting albums.
       </description>
       <choices>
         <choice value='by_artist_name'/>
         <choice value='by_album_name'/>
         <choice value='by_publication_date'/>
-	      <choice value='by_last_modified_date'/>
+        <choice value='by_last_modified_date'/>
+      </choices>
+    </key>
+
+    <key type="s" name="track-sort">
+      <default>"by_track_name"</default>
+      <summary>
+        Track sort order
+      </summary>
+      <description>
+        Order applied when sorting tracks.
+      </description>
+      <choices>
+        <choice value='by_track_name'/>
+        <choice value='by_track_number'/>
       </choices>
     </key>
 
     <key type="s" name="random-tracks-choice-strategy">
       <default>"random_disc_tracks"</default>
       <summary>
-	Random tracks choice strategy
+        Random tracks choice strategy
       </summary>
       <description>
-	Strategy used to build random track selection.
+        Strategy used to build random track selection.
       </description>
       <choices>
         <choice value='random_disc_tracks'/>
         <choice value='random_album_tracks'/>
-	<choice value='random_tracks_half_hour'/>
+        <choice value='random_tracks_half_hour'/>
       </choices>
     </key>
 
@@ -86,20 +100,20 @@
     <key type="b" name="history-playlist">
       <default>true</default>
       <summary>
-	History playlist
+        History playlist
       </summary>
       <description>
-	A dynamic playlist of last played tracks can be maintained.
+        A dynamic playlist of last played tracks can be maintained.
       </description>
     </key>
 
     <key type="i" name="history-max-length">
       <default>100</default>
       <summary>
-	History max length
+        History max length
       </summary>
       <description>
-	The maximal length of the history playlist.
+        The maximal length of the history playlist.
       </description>
     </key>
 
@@ -107,10 +121,10 @@
       <default>100</default>
       <range min="50" max="250"/>
       <summary>
-	Albums image size
+        Albums image size
       </summary>
       <description>
-	The size of images in the library.
+        The size of images in the library.
       </description>
     </key>
 
@@ -148,7 +162,7 @@
       <default>false</default>
       <summary>Prefer dark theme</summary>
       <description>
-	If a Gtk+ theme includes a dark variant, it will be used.
+        If a Gtk+ theme includes a dark variant, it will be used.
       </description>
     </key>
   </schema>

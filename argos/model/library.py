@@ -39,6 +39,12 @@ class LibraryModel(GObject.Object):
     def get_directory(self, uri: Optional[str]) -> Optional[DirectoryModel]:
         return self.props.root_directory.get_directory(uri)
 
+    def sort_tracks(
+        self,
+        compare_func: Callable[[TrackModel, TrackModel, None], int],
+    ) -> None:
+        self.props.root_directory.sort_tracks(compare_func)
+
     def get_track(self, uri: Optional[str]) -> Optional[TrackModel]:
         return self.props.root_directory.get_track(uri)
 

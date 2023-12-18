@@ -63,6 +63,15 @@ class DirectoryModel(GObject.Object):
         for directory in self.directories:
             directory.sort_albums(compare_func)
 
+    def sort_tracks(
+        self,
+        compare_func: Callable[[TrackModel, TrackModel, None], int],
+    ) -> None:
+        self.tracks.sort(compare_func, None)
+
+        for directory in self.directories:
+            directory.sort_tracks(compare_func)
+
     def is_complete(self) -> bool:
         return (
             len(self.albums) > 0

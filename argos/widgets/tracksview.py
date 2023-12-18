@@ -8,7 +8,7 @@ from argos.message import MessageType
 from argos.model import DirectoryModel, TrackModel
 from argos.utils import ms_to_text
 from argos.widgets.trackbox import TrackBox
-from argos.widgets.utils import default_image_pixbuf
+from argos.widgets.utils import TRACK_SORT_CHOICES, default_image_pixbuf
 
 _ = gettext.gettext
 
@@ -36,6 +36,8 @@ class TracksView(Gtk.Box):
 
     directory_name_label: Gtk.Label = Gtk.Template.Child()
 
+    sort_tracks_button: Gtk.MenuButton = Gtk.Template.Child()
+
     tracks_box: Gtk.ListBox = Gtk.Template.Child()
 
     uri = GObject.Property(type=str, default="")
@@ -62,11 +64,17 @@ class TracksView(Gtk.Box):
 
         for widget in (
             self.play_button,
+            self.sort_tracks_button,
             self.track_selection_button,
             self.tracks_box,
         ):
             if self._disable_tooltips:
                 widget.props.has_tooltip = False
+
+        sort_tracks_menu = Gio.Menu()
+        for id, name in TRACK_SORT_CHOICES.items():
+            sort_tracks_menu.append(name, f"win.sort-tracks::{id}")
+        self.sort_tracks_button.set_menu_model(sort_tracks_menu)
 
         self._model.connect(
             "notify::network-available", self._handle_connection_changed

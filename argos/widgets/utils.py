@@ -178,3 +178,9 @@ ALBUM_SORT_CHOICES = {
     "by_publication_date": _("Publication date"),
     "by_last_modified_date": _("Last modified"),
 }
+
+
+TRACK_SORT_CHOICES = {
+    "by_track_name": _("Track name"),
+    "by_track_number": _("Track number"),
+}

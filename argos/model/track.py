@@ -26,6 +26,19 @@ def compare_tracks_by_name_func(
     return 0
 
 
+def compare_tracks_by_track_number_func(
+    a: "TrackModel",
+    b: "TrackModel",
+    user_data: None,
+) -> int:
+    if a.track_no < b.track_no:
+        return -1
+    elif a.track_no > b.track_no:
+        return 1
+
+    return compare_tracks_by_name_func(a, b, user_data)
+
+
 class TrackModel(GObject.Object):
     """Model for a track.
 

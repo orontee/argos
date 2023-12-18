@@ -84,6 +84,7 @@ class LibraryController(ControllerBase):
             self._on_library_default_uri_changed,
         )
         self._settings.connect("changed::album-sort", self._on_album_sort_changed)
+        self._settings.connect("changed::track-sort", self._on_track_sort_changed)
 
     def _on_index_mopidy_local_albums_changed(
         self,
@@ -107,6 +108,10 @@ class LibraryController(ControllerBase):
     def _on_album_sort_changed(self, settings: Gio.Settings, key: str) -> None:
         album_sort_id = self._settings.get_string("album-sort")
         self._model.sort_albums(album_sort_id)
+
+    def _on_track_sort_changed(self, settings: Gio.Settings, key: str) -> None:
+        track_sort_id = self._settings.get_string("track-sort")
+        self._model.sort_tracks(track_sort_id)
 
     def _get_backend(self, uri: Optional[str]) -> Optional[MopidyBackend]:
         for backend in self._model.backends:

@@ -109,6 +109,12 @@ class LibraryWindow(Gtk.Box):
                 model, self.props.directory_uri, context="album-sorted signal received"
             ),
         )
+        self._model.connect(
+            "tracks-sorted",
+            lambda model: self._update_store(
+                model, self.props.directory_uri, context="tracks-sorted signal received"
+            ),
+        )
         application.props.download.connect(
             "images-downloaded", self._update_store_pixbufs
         )
@@ -471,4 +477,13 @@ class LibraryWindow(Gtk.Box):
     ) -> None:
         sort_id = target.get_string()
         self._settings.set_string("album-sort", sort_id)
+        action.set_state(target)
+
+    def on_sort_tracks_activated(
+        self,
+        action: Gio.SimpleAction,
+        target: GLib.Variant,
+    ) -> None:
+        sort_id = target.get_string()
+        self._settings.set_string("track-sort", sort_id)
         action.set_state(target)

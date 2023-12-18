@@ -14,6 +14,9 @@ The format is based on `Keep a Changelog
 Added
 -----
 
+- Button to change tracks order in tracks view `#156
+  <https://github.com/orontee/argos/issues/156>`_
+
 - Display volume button on playing box (if it makes sense to control
   volume) `#145 <https://github.com/orontee/argos/issues/145>`_
 

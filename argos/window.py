@@ -118,6 +118,17 @@ class ArgosWindow(Gtk.ApplicationWindow):
             "activate", self.props.library_window.on_sort_albums_activated
         )
 
+        track_sort_id = self._settings.get_string("track-sort")
+        sort_tracks_action = Gio.SimpleAction.new_stateful(
+            "sort-tracks",
+            GLib.VariantType("s"),
+            GLib.Variant("s", track_sort_id),
+        )
+        self.add_action(sort_tracks_action)
+        sort_tracks_action.connect(
+            "activate", self.props.library_window.on_sort_tracks_activated
+        )
+
         self.props.library_window.library_stack.connect(
             "notify::visible-child-name", self._on_central_view_or_library_page_changed
         )
