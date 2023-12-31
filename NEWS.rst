@@ -49,16 +49,13 @@ Changed
   <https://github.com/orontee/argos/issues/145>`_
 
 - CSS name of track length box has been changed from
-  `track_length_box` to `track-length-box`; CSS name of volume buttons
-  is set to `condensed-playing-box-volume-button` and
-  `playing-box-volume-button` `#145
+  ``track_length_box`` to ``track-length-box``; CSS name of volume buttons
+  is set to ``condensed-playing-box-volume-button`` and
+  ``playing-box-volume-button`` `#145
   <https://github.com/orontee/argos/issues/145>`_
 
 - Fix possible exception when exiting directory containing albums
   `#144 <https://github.com/orontee/argos/issues/144>`_
-
-Removed
--------
 
 [1.12.0] - 2023-05-11
 =====================
@@ -138,7 +135,7 @@ Changed
 - Only albums handled by Mopidy-Podcast are filtered out from random choice
   candidates `#123 <https://github.com/orontee/argos/issues/123>`_
 - The Tracks directory exposed by Mopidy-Local isn't hidden anymore (better
-  configure Mopidy-Local, see configuration key named `directories`) `#123
+  configure Mopidy-Local, see configuration key named ``directories``) `#123
   <https://github.com/orontee/argos/issues/123>`_
 - Refresh library updates visited directory `#115
   <https://github.com/orontee/argos/issues/115>`_
@@ -149,7 +146,7 @@ Changed
 Added
 -----
 - HTTP session can use a SQLite cache when library
-  `aiohttp_client_cache` is installed `#111
+  ``aiohttp_client_cache`` is installed `#111
   <https://github.com/orontee/argos/issues/111>`_
 - Generic library browser supporting Mopidy-File `#110
   <https://github.com/orontee/argos/issues/110>`_
