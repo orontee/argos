@@ -14,6 +14,9 @@ The format is based on `Keep a Changelog
 Added
 -----
 
+- Missing dependency in DEB package `#157
+  <https://github.com/orontee/argos/issues/157>`_
+
 - Button to change tracks order in tracks view `#156
   <https://github.com/orontee/argos/issues/156>`_
 
