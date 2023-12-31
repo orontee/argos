@@ -1,3 +1,9 @@
+argos (1.13.0-1) UNRELEASED; urgency=medium
+
+  * 1.13.0 release.
+
+ -- Matthias Meulien <orontee@gmail.com>  Sun, 31 Dec 2023 21:30:11 +0100
+
 argos (1.12.0-1) UNRELEASED; urgency=medium
 
   * 1.12.0 release.
