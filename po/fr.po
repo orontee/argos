@@ -403,7 +403,7 @@ msgstr "Sources"
 
 #: argos/ui/preferences.ui:456
 msgid "Main window"
-msgstr "Fenêtre principal"
+msgstr "Fenêtre principale"
 
 #: argos/ui/preferences.ui:483
 msgid "Dark theme:"
