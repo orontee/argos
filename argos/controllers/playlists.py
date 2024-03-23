@@ -82,7 +82,11 @@ class PlaylistsController(ControllerBase):
             LOGGER.debug(f"Number of playlist found: {len(refs)}")
 
         playlists: List[PlaylistModel] = (
-            [PlaylistModel(uri=ref.uri, name=ref.name) for ref in refs]
+            [
+                PlaylistModel(uri=ref.uri, name=ref.name)
+                for ref in refs
+                if ref.name is not None
+            ]
             if refs is not None
             else []
         )
