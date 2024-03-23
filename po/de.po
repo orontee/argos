@@ -174,7 +174,7 @@ msgstr ""
 
 #: argos/ui/app_menu.ui:6
 msgid "Play _random tracks…"
-msgstr "Zufälliges Titel abspielen…"
+msgstr "Zufälligen Titel abspielen…"
 
 #: argos/ui/app_menu.ui:10
 msgid "Add stream to tracklist…"
@@ -403,7 +403,7 @@ msgstr "Hauptfenster"
 
 #: argos/ui/preferences.ui:483
 msgid "Dark theme:"
-msgstr "Dunkles Thema:"
+msgstr "Dunkles Theme:"
 
 #: argos/ui/preferences.ui:506
 msgid "Start fullscreen:"
@@ -829,7 +829,7 @@ msgstr "Im Vollbildmodus starten"
 
 #: data/io.github.orontee.Argos.gschema.xml:163
 msgid "Prefer dark theme"
-msgstr "Bevorzugen Sie ein dunkles Thema"
+msgstr "Bevorzugen Sie ein dunkles Theme"
 
 #: data/io.github.orontee.Argos.gschema.xml:164
 msgid "If a Gtk+ theme includes a dark variant, it will be used."
