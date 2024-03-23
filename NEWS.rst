@@ -17,6 +17,9 @@ Added
 Changed
 -------
 
+- Playlist names aren't elided at an arbitrary length anymore `#162
+  <https://github.com/orontee/argos/issues/162>`_
+
 Removed
 -------
 

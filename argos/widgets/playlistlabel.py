@@ -4,7 +4,6 @@ from gi.repository import Gdk, GLib, GObject, Gtk
 
 from ..message import MessageType
 from ..model import PlaylistModel
-from ..utils import elide_maybe
 
 LOGGER = logging.getLogger(__name__)
 
@@ -30,7 +29,7 @@ class PlaylistLabel(Gtk.Stack):
         self.label.props.margin_bottom = 5
         self.label.props.use_underline = False
         self.label.props.use_markup = False
-        self.label.set_text(elide_maybe(self.playlist.name))
+        self.label.set_text(self.playlist.name)
         self.label.show()
 
         wrapped_label = Gtk.EventBox(child=self.label)
@@ -60,7 +59,7 @@ class PlaylistLabel(Gtk.Stack):
     def _on_playlist_name_changed(
         self, _1: GObject.Object, _2: GObject.ParamSpec
     ) -> None:
-        self.label.set_text(elide_maybe(self.playlist.name))
+        self.label.set_text(self.playlist.name)
 
         if not self._disable_tooltips:
             self.set_tooltip_text(self.playlist.name)
