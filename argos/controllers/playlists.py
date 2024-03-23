@@ -47,9 +47,9 @@ class PlaylistsController(ControllerBase):
         self._settings.connect(
             "changed::history-max-length", self._on_playlist_settings_changed
         )
-        self._ongoing_complete_history_playlist_task: Optional[
-            asyncio.Task[None]
-        ] = None
+        self._ongoing_complete_history_playlist_task: Optional[asyncio.Task[None]] = (
+            None
+        )
 
     @consume(MessageType.PLAYLIST_CHANGED)
     async def update_model_playlist(self, message: Message) -> None:

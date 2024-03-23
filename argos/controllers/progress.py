@@ -6,8 +6,7 @@ from argos.model import Model
 
 
 class ProgressNotifierProtocol(Protocol):
-    def __call__(self, step: int) -> None:
-        ...
+    def __call__(self, step: int) -> None: ...
 
 
 class DirectoryCompletionProgressNotifier:

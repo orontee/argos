@@ -78,7 +78,7 @@ class TestPlaylistTrackNameFix(unittest.TestCase):
                 TrackDTO.factory(
                     {
                         "__model__": "Track",
-                        "uri": "http://direct.franceculture.fr/live/franceculture-midfi.mp3"
+                        "uri": "http://direct.franceculture.fr/live/franceculture-midfi.mp3",
                         # name not specified
                     }
                 )
