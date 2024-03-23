@@ -518,7 +518,7 @@ msgstr "Création de liste de lecture"
 
 #: argos/widgets/playlistemptytracksbox.py:39
 msgid "Loading playlist tracks…"
-msgstr "Chargement des morceaux de la liste de lecture…"
+msgstr "Chargement des morceaux\nde la liste de lecture…"
 
 #: argos/widgets/playlistsbox.py:93
 msgid "Add stream to playlist…"
