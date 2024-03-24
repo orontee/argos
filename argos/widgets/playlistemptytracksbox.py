@@ -37,6 +37,7 @@ class PlaylistEmptyTracksBox(Gtk.Box):
         if self.props.loading:
             self.progress_spinner.start()
             self.progress_label.set_text(_("Loading playlist tracks…"))
+            self.progress_label.set_justify(Gtk.Justification.CENTER)
         else:
             self.progress_spinner.stop()
             self.progress_label.set_text("")
