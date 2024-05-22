@@ -49,6 +49,7 @@ class LibraryWindow(Gtk.Box):
     album_details_box = GObject.Property(type=AlbumDetailsBox)
     filtered_directory_store = GObject.Property(type=Gtk.TreeModelFilter)
     filtering_text = GObject.Property(type=str)
+    filtering_pattern = GObject.Property(type=str)
     tracks_view = GObject.Property(type=TracksView)
 
     directory_uri = GObject.Property(type=str)
@@ -115,6 +116,7 @@ class LibraryWindow(Gtk.Box):
                 model, self.props.directory_uri, context="tracks-sorted signal received"
             ),
         )
+        self.connect("notify::filtering-text", self.handle_filtering_text_changed)
         application.props.download.connect(
             "images-downloaded", self._update_store_pixbufs
         )
@@ -204,7 +206,18 @@ class LibraryWindow(Gtk.Box):
             LOGGER.debug(f"Filtering library according to {stripped!r}")
 
             self.props.filtering_text = stripped
-            self.props.filtered_directory_store.refilter()
+
+    def handle_filtering_text_changed(
+        self,
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
+    ) -> None:
+        if self.props.filtering_text:
+            self.props.filtering_pattern = re.escape(self.props.filtering_text)
+        else:
+            self.props.filtering_pattern = None
+
+        self.props.filtered_directory_store.refilter()
 
     def _filter_row(
         self,
@@ -212,18 +225,13 @@ class LibraryWindow(Gtk.Box):
         iter: Gtk.TreeIter,
         data: None,
     ) -> bool:
-        if not self.props.filtering_text:
+        if not self.props.filtering_pattern:
             return True
 
-        pattern = re.escape(self.props.filtering_text)
-        text = model.get_value(iter, DirectoryStoreColumn.FILTER_TEXT)
-        if re.search(pattern, text, re.IGNORECASE) is not None:
-            return True
-
-        secondary_text = model.get_value(
-            iter, DirectoryStoreColumn.FILTER_TEXT_SECONDARY
-        )
-        return re.search(pattern, secondary_text, re.IGNORECASE) is not None
+        text = model.get_value(
+            iter, DirectoryStoreColumn.FILTER_TEXT
+        ) + model.get_value(iter, DirectoryStoreColumn.FILTER_TEXT_SECONDARY)
+        return re.search(self.props.filtering_pattern, text, re.IGNORECASE) is not None
 
     def _must_enter_tracks_view(self, directory: DirectoryModel) -> bool:
         applicable = (

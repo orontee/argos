@@ -17,6 +17,9 @@ Added
 Changed
 -------
 
+- Improved speed of library filter `#166
+  <https://github.com/orontee/argos/issues/166>`_
+
 - Fixed filtering text is not kept when browsing an album details `#167
   <https://github.com/orontee/argos/issues/167>`_
 
