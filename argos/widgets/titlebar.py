@@ -103,7 +103,6 @@ class TitleBar(Gtk.HeaderBar):
             return
 
         self.title_stack.set_visible_child_name("switcher_page")
-        self.search_entry.props.text = ""
         if self.search_button.get_active():
             with self.search_button.handler_block(
                 self.search_button_toggled_handler_id
@@ -114,40 +113,65 @@ class TitleBar(Gtk.HeaderBar):
         self.toggle_search_entry_focus_maybe()
 
     def set_state(self, state: TitleBarState, *, force: bool = False) -> None:
-        if not force and self._state == state:
-            return
+        LOGGER.debug(
+            f"Transitioning from {self._state.name} to {state.name} (force: {force})"
+        )
+        must_hide_search_entry: bool = False
+        if (
+            all(
+                [
+                    s
+                    in (
+                        TitleBarState.FOR_LIBRARY_PAGE_ON_ROOT_DIRECTORY,
+                        TitleBarState.FOR_LIBRARY_PAGE_ON_DIRECTORY,
+                    )
+                    for s in (self._state, state)
+                ]
+            )
+            and self.search_entry.props.text != ""
+        ):
+            LOGGER.debug("Clearing non empty search entry")
+            self.search_entry.props.text = ""
+            must_hide_search_entry = True
 
-        self._state = state
+        if force or self._state != state:
+            self._state = state
+            if state in (
+                TitleBarState.FOR_PLAYING_PAGE,
+                TitleBarState.FOR_PLAYLISTS_PAGE,
+            ):
+                self.back_button.set_visible(False)
+                self.title_stack.set_visible(True)
+                self.sort_button.set_visible(False)
+                if self.search_button is not None:
+                    self.search_button.set_visible(False)
+                must_hide_search_entry = True
+            elif state in (
+                TitleBarState.FOR_LIBRARY_PAGE_ON_ROOT_DIRECTORY,
+                TitleBarState.FOR_LIBRARY_PAGE_ON_DIRECTORY,
+            ):
+                self.back_button.set_visible(True)
+                self.back_button.set_sensitive(
+                    state == TitleBarState.FOR_LIBRARY_PAGE_ON_DIRECTORY
+                )
+                self.title_stack.set_visible(True)
+                self.sort_button.set_visible(True)
+                if self.search_button is not None:
+                    self.search_button.set_visible(True)
+            elif state == TitleBarState.FOR_LIBRARY_PAGE_ON_ALBUM:
+                self.back_button.set_visible(True)
+                self.back_button.set_sensitive(True)
+                self.title_stack.set_visible(True)
+                self.sort_button.set_visible(False)
+                if self.search_button is not None:
+                    self.search_button.set_visible(False)
+                must_hide_search_entry = True
 
-        if state in (TitleBarState.FOR_PLAYING_PAGE, TitleBarState.FOR_PLAYLISTS_PAGE):
-            self.back_button.set_visible(False)
-            self.title_stack.set_visible(True)
-            self.sort_button.set_visible(False)
-            if self.search_button is not None:
-                self.search_button.set_visible(False)
-        elif state == TitleBarState.FOR_LIBRARY_PAGE_ON_ROOT_DIRECTORY:
-            self.back_button.set_visible(True)
-            self.back_button.set_sensitive(False)
-            self.title_stack.set_visible(True)
-            self.sort_button.set_visible(True)
-            if self.search_button is not None:
-                self.search_button.set_visible(True)
-        elif state == TitleBarState.FOR_LIBRARY_PAGE_ON_DIRECTORY:
-            self.back_button.set_visible(True)
-            self.back_button.set_sensitive(True)
-            self.title_stack.set_visible(True)
-            self.sort_button.set_visible(True)
-            if self.search_button is not None:
-                self.search_button.set_visible(True)
-        elif state == TitleBarState.FOR_LIBRARY_PAGE_ON_ALBUM:
-            self.back_button.set_visible(True)
-            self.back_button.set_sensitive(True)
-            self.title_stack.set_visible(True)
-            self.sort_button.set_visible(False)
-            if self.search_button is not None:
-                self.search_button.set_visible(False)
-
-        self._hide_search_entry()
+        if must_hide_search_entry or self.search_entry.props.text == "":
+            self._hide_search_entry()
+        else:
+            if self.search_entry.props.text != "":
+                self.toggle_search_entry_focus_maybe()
 
     def on_is_fullscreen_changed(self, window: GObject.Object, _1: GObject.ParamSpec):
         is_fullscreen = window.props.is_fullscreen

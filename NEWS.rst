@@ -17,6 +17,9 @@ Added
 Changed
 -------
 
+- Fixed filtering text is not kept when browsing an album details `#167
+  <https://github.com/orontee/argos/issues/167>`_
+
 - Playlist names aren't elided at an arbitrary length anymore `#162
   <https://github.com/orontee/argos/issues/162>`_
 

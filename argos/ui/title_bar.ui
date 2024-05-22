@@ -55,7 +55,6 @@
         <property name="receives-default">True</property>
         <property name="tooltip-text" translatable="yes">Go up</property>
         <property name="image">back_image</property>
-        <signal name="clicked" handler="on_back_button_clicked" swapped="no"/>
       </object>
     </child>
     <child>
