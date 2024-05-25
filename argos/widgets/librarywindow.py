@@ -429,6 +429,16 @@ class LibraryWindow(Gtk.Box):
         else:
             self.select_directory_page()
 
+    def goto_home_directory(self) -> None:
+        if not self.is_directory_page_visible():
+            self.select_directory_page()
+
+        home_directory_uri = self._model.library.default_uri
+        if self.props.directory_uri == home_directory_uri:
+            return
+
+        self.show_directory(home_directory_uri, history=True)
+
     @Gtk.Template.Callback()
     def directory_view_item_activated_cb(
         self, icon_view: Gtk.IconView, path: Gtk.TreePath

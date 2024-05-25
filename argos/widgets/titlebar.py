@@ -22,6 +22,7 @@ class TitleBar(Gtk.HeaderBar):
     __gtype_name__ = "TitleBar"
 
     back_button: Gtk.Button = Gtk.Template.Child()
+    home_button: Gtk.Button = Gtk.Template.Child()
     app_menu_button: Gtk.MenuButton = Gtk.Template.Child()
     central_view_switcher: Gtk.StackSwitcher = Gtk.Template.Child()
     search_button: Optional[Gtk.ToggleButton] = Gtk.Template.Child()
@@ -38,6 +39,7 @@ class TitleBar(Gtk.HeaderBar):
 
         if application.props.disable_tooltips:
             self.back_button.props.has_tooltip = False
+            self.home_button.props.has_tooltip = False
             self.sort_button.props.has_tooltip = False
             if self.search_button is not None:
                 self.search_button.props.has_tooltip = False
@@ -141,6 +143,7 @@ class TitleBar(Gtk.HeaderBar):
                 TitleBarState.FOR_PLAYLISTS_PAGE,
             ):
                 self.back_button.set_visible(False)
+                self.home_button.set_visible(False)
                 self.title_stack.set_visible(True)
                 self.sort_button.set_visible(False)
                 if self.search_button is not None:
@@ -154,6 +157,7 @@ class TitleBar(Gtk.HeaderBar):
                 self.back_button.set_sensitive(
                     state == TitleBarState.FOR_LIBRARY_PAGE_ON_DIRECTORY
                 )
+                self.home_button.set_visible(True)
                 self.title_stack.set_visible(True)
                 self.sort_button.set_visible(True)
                 if self.search_button is not None:
@@ -161,6 +165,7 @@ class TitleBar(Gtk.HeaderBar):
             elif state == TitleBarState.FOR_LIBRARY_PAGE_ON_ALBUM:
                 self.back_button.set_visible(True)
                 self.back_button.set_sensitive(True)
+                self.home_button.set_visible(True)
                 self.title_stack.set_visible(True)
                 self.sort_button.set_visible(False)
                 if self.search_button is not None:

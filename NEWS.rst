@@ -14,6 +14,9 @@ The format is based on `Keep a Changelog
 Added
 -----
 
+- Home button in title bar to go back to library's default directory
+  `#169 <https://github.com/orontee/argos/issues/169>`_
+
 Changed
 -------
 
