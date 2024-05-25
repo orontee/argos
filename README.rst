@@ -208,6 +208,13 @@ Eg, the following command enables dark theme::
                        org.gtk.Actions Activate \
                        "sava{sv}" "enable-dark-theme" 1 b true 0
 
+or to update the library::
+
+  $ busctl --user call io.github.orontee.Argos \
+                       /io/github/orontee/Argos \
+                       org.gtk.Actions Activate \
+                       "sava{sv}" "update-library" 0 0
+
 Contributing
 ============
 
