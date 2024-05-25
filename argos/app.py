@@ -318,7 +318,7 @@ class Application(Gtk.Application):
             ("play-prev-track", self.play_prev_track_activate_cb, None, None),
             ("play-next-track", self.play_next_track_activate_cb, None, None),
             ("add-stream", self.add_stream_activate_cb, None, None),
-            ("update-library", self.update_library_activate_cb, None, None),
+            ("update-library", self.update_library_activate_cb, "s", None),
             (
                 "browse-directory",
                 self.browse_directory_activate_cb,
@@ -633,14 +633,17 @@ class Application(Gtk.Application):
         )
 
     def update_library_activate_cb(
-        self, action: Gio.SimpleAction, parameter: None
+        self, action: Gio.SimpleAction, parameter: GLib.Variant
     ) -> None:
         LOGGER.debug("Library update requested by end-user")
 
         data: Dict[str, Any] = {"force": True}
-        if self.window is not None:
-            directory_uri = self.window.library_window.props.directory_uri
-            data["uri"] = directory_uri
+        if parameter == "":
+            if self.window is not None:
+                directory_uri = self.window.library_window.props.directory_uri
+                data["uri"] = directory_uri
+        else:
+            data["uri"] = parameter.unpack()
 
         self._send_message(MessageType.BROWSE_DIRECTORY, data=data)
 

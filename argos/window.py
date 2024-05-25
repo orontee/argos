@@ -37,6 +37,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
         super().__init__(application=application)
 
         self.set_wmclass("Argos", "Argos")
+        self._app = application
         self._model = application.props.model
         self._settings: Gio.Settings = application.props.settings
 
@@ -62,49 +63,47 @@ class ArgosWindow(Gtk.ApplicationWindow):
             "notify::visible-child-name", self._on_central_view_or_library_page_changed
         )
 
-        goto_playing_page_action = Gio.SimpleAction.new("goto-playing-page", None)
-        self.add_action(goto_playing_page_action)
-        goto_playing_page_action.connect(
-            "activate", self.on_goto_playing_page_activated
-        )
-
-        add_to_tracklist_action = Gio.SimpleAction.new(
-            "add-to-tracklist", GLib.VariantType("s")
-        )
-        self.add_action(add_to_tracklist_action)
-        add_to_tracklist_action.connect("activate", self.on_add_to_tracklist_activated)
-
-        add_to_playlist_action = Gio.SimpleAction.new(
-            "add-to-playlist", GLib.VariantType("s")
-        )
-        self.add_action(add_to_playlist_action)
-        add_to_playlist_action.connect("activate", self.on_add_to_playlist_activated)
-
-        play_selection_action = Gio.SimpleAction.new(
-            "play-selection", GLib.VariantType("s")
-        )
-        self.add_action(play_selection_action)
-        play_selection_action.connect("activate", self.on_play_selection_activated)
-
-        add_stream_to_playlist_action = Gio.SimpleAction.new(
-            "add-stream-to-playlist", None
-        )
-        self.add_action(add_stream_to_playlist_action)
-        add_stream_to_playlist_action.connect(
-            "activate", self.props.playlists_box.on_add_stream_to_playlist_activated
-        )
+        action_descriptions = [
+            ("goto-playing-page", self.on_goto_playing_page_activated, None, None),
+            ("add-to-tracklist", self.on_add_to_tracklist_activated, "s", None),
+            ("add-to-playlist", self.on_add_to_playlist_activated, "s", None),
+            ("play-selection", self.on_play_selection_activated, "s", None),
+            (
+                "add-stream-to-playlist",
+                self.props.playlists_box.on_add_stream_to_playlist_activated,
+                None,
+                None,
+            ),
+            (
+                "remove-playlist",
+                self.props.playlists_box.on_remove_playlist_activated,
+                None,
+                None,
+            ),
+            (
+                "update-current-directory",
+                self.on_update_current_directory,
+                None,
+                None,
+            ),
+        ]
+        for action_name, callback, params_type_desc, accel in action_descriptions:
+            params_type = (
+                GLib.VariantType(params_type_desc)
+                if params_type_desc is not None
+                else None
+            )
+            action = Gio.SimpleAction.new(action_name, params_type)
+            action.connect("activate", callback)
+            self.add_action(action)
+            if accel is not None:
+                self.set_accels_for_action(*accel)
 
         remove_from_playlist_action = Gio.SimpleAction.new("remove-from-playlist", None)
         remove_from_playlist_action.set_enabled(False)
         self.add_action(remove_from_playlist_action)
         remove_from_playlist_action.connect(
             "activate", self.props.playlists_box.on_remove_from_playlist_activated
-        )
-
-        remove_playlist_action = Gio.SimpleAction.new("remove-playlist", None)
-        self.add_action(remove_playlist_action)
-        remove_playlist_action.connect(
-            "activate", self.props.playlists_box.on_remove_playlist_activated
         )
 
         album_sort_id = self._settings.get_string("album-sort")
@@ -220,6 +219,14 @@ class ArgosWindow(Gtk.ApplicationWindow):
         playlist_tracks_box = self.props.playlists_box.tracks_box
         selected_rows = playlist_tracks_box.get_selected_rows()
         remove_from_playlist_action.set_enabled(enabled and len(selected_rows) > 0)
+
+    def on_update_current_directory(
+        self,
+        _1: Gio.SimpleAction,
+        _2: GLib.Variant,
+    ) -> None:
+        directory_uri = self.props.library_window.props.directory_uri
+        self._app.activate_action("update-library", GLib.Variant("s", directory_uri))
 
     def _identify_emitter(
         self, target: str

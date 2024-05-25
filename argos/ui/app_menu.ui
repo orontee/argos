@@ -18,7 +18,7 @@
     <section>
       <item>
         <attribute name="label" translatable="yes">Update library</attribute>
-        <attribute name="action">app.update-library</attribute>
+        <attribute name="action">win.update-current-directory</attribute>
       </item>
     </section>
     <section>

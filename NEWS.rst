@@ -20,6 +20,10 @@ Added
 Changed
 -------
 
+- The exposed action ``update-library`` now takes a parameter to
+  specify the URI of the directory to update `#149
+  <https://github.com/orontee/argos/issues/149>`_
+
 - The back button now behaves as hierarchy traversal, not history
   (sure I am not clear with that formulation 😔) `#171
   <https://github.com/orontee/argos/issues/171>`_
