@@ -24,6 +24,7 @@ _ALBUM_IMAGE_SIZE = 200
 
 _MISSING_INFO_MSG = _("Information not available")
 _MISSING_INFO_MSG_WITH_MARKUP = f"""<span style="italic">{_MISSING_INFO_MSG}</span>"""
+_INFO_TITLE_WITH_MARKUP = """<span size="x-large" weight="bold">{title}</span>"""
 
 
 @Gtk.Template(resource_path="/io/github/orontee/Argos/ui/album_details_box.ui")
@@ -31,11 +32,9 @@ class AlbumDetailsBox(Gtk.Box):
     """Box gathering details on an album.
 
     The box has horizontal orientation, is homogeneous and has two
-    children boxes: The left pane displays the album image and the
-    album details; The right pane displays the album tracks view and a
-    button box.
-
-    """
+    children boxes: The left pane displays some album details and
+    through a stack the album image or album and artist information;
+    The right pane displays the album tracks view and a button box."""
 
     __gtype_name__ = "AlbumDetailsBox"
 
@@ -46,6 +45,7 @@ class AlbumDetailsBox(Gtk.Box):
     play_button: Gtk.Button = Gtk.Template.Child()
     track_selection_button: Gtk.MenuButton = Gtk.Template.Child()
 
+    album_details_stack: Gtk.Stack = Gtk.Template.Child()
     album_image: Gtk.Image = Gtk.Template.Child()
 
     album_name_label: Gtk.Label = Gtk.Template.Child()
@@ -56,7 +56,8 @@ class AlbumDetailsBox(Gtk.Box):
 
     tracks_box: Gtk.ListBox = Gtk.Template.Child()
 
-    information_button: Gtk.MenuButton = Gtk.Template.Child()
+    information_button: Gtk.ToggleButton = Gtk.Template.Child()
+    information_stack: Gtk.Stack = Gtk.Template.Child()
     album_information_label: Gtk.Label = Gtk.Template.Child()
     album_information_viewport: Gtk.Viewport = Gtk.Template.Child()
     artist_information_label: Gtk.Label = Gtk.Template.Child()
@@ -97,6 +98,7 @@ class AlbumDetailsBox(Gtk.Box):
         self.set_sensitive(self._model.network_available and self._model.connected)
 
         for widget in (
+            self.information_button,
             self.play_button,
             self.track_selection_button,
             self.tracks_box,
@@ -142,7 +144,7 @@ class AlbumDetailsBox(Gtk.Box):
             self._update_track_count_label(None)
             self._update_album_image(None)
             self._update_track_view(None)
-            self._update_information_popup(None)
+            self._update_information_box(None)
         else:
             self._update_album_name_label(album.name)
             self._update_artist_name_label(album.artist_name)
@@ -153,7 +155,9 @@ class AlbumDetailsBox(Gtk.Box):
                 Path(album.image_path) if album.image_path else None
             )
             self._update_track_view(album)
-            self._update_information_popup(album)
+            self._update_information_box(album)
+
+        self.information_button.set_active(False)
 
         self._app.activate_action(
             "collect-album-information", GLib.Variant("s", self.props.uri)
@@ -182,7 +186,7 @@ class AlbumDetailsBox(Gtk.Box):
         if album is None:
             return
 
-        self._update_information_popup(album)
+        self._update_information_box(album)
 
     def _update_album_name_label(self, album_name: Optional[str]) -> None:
         if album_name:
@@ -272,29 +276,41 @@ class AlbumDetailsBox(Gtk.Box):
 
         self._clear_tracks_box_selection = True
 
-    def _update_information_popup(self, album: Optional[AlbumModel]) -> None:
-        information = album.information if album is not None else None
-        self.album_information_label.set_markup(
-            information.album_abstract
-            if information and information.album_abstract
+    def _update_information_box(self, album: Optional[AlbumModel]) -> None:
+        album_information = (
+            _INFO_TITLE_WITH_MARKUP.format(title=album.name)
+            + "\n\n"
+            + album.information.album_abstract
+            if album is not None
+            and album.information is not None
+            and album.information.album_abstract is not None
             else _MISSING_INFO_MSG_WITH_MARKUP
         )
+        self.album_information_label.set_markup(album_information)
+
         if self.album_information_viewport.props.hadjustment is not None:
             self.album_information_viewport.props.hadjustment.set_value(0)
 
         if self.album_information_viewport.props.vadjustment is not None:
             self.album_information_viewport.props.vadjustment.set_value(0)
 
-        self.artist_information_label.set_markup(
-            information.artist_abstract
-            if information and information.artist_abstract
+        artist_information = (
+            _INFO_TITLE_WITH_MARKUP.format(title=album.artist_name)
+            + "\n\n"
+            + album.information.artist_abstract
+            if album is not None
+            and album.information is not None
+            and album.information.artist_abstract
             else _MISSING_INFO_MSG_WITH_MARKUP
         )
+        self.artist_information_label.set_markup(artist_information)
         if self.artist_information_viewport.props.hadjustment is not None:
             self.artist_information_viewport.props.hadjustment.set_value(0)
 
         if self.artist_information_viewport.props.vadjustment is not None:
             self.artist_information_viewport.props.vadjustment.set_value(0)
+
+        self.information_stack.set_visible_child_name("artist_information_page")
 
     def _create_track_box(self, track: TrackModel, album: AlbumModel) -> Gtk.Widget:
         widget = TrackBox(self._app, album=album, track=track)
@@ -334,7 +350,7 @@ class AlbumDetailsBox(Gtk.Box):
             )
 
     @Gtk.Template.Callback()
-    def on_button_clicked(self, button: Gtk.Button) -> None:
+    def on_play_button_clicked(self, button: Gtk.Button) -> None:
         if self._app.window is None:
             return
 
@@ -347,6 +363,16 @@ class AlbumDetailsBox(Gtk.Box):
         if action_name is not None:
             target = GLib.Variant("s", "album-details-box")
             self._app.window.activate_action(action_name, target)
+
+    @Gtk.Template.Callback()
+    def on_information_button_toggled(self, button: Gtk.ToggleButton) -> None:
+        display_information_box = button.get_active()
+        expected_page_name = (
+            "information_page" if display_information_box else "album_image_page"
+        )
+        displayed_page_name = self.album_details_stack.get_visible_child_name()
+        if expected_page_name != displayed_page_name:
+            self.album_details_stack.set_visible_child_name(expected_page_name)
 
     def on_disc_separator_clicked(
         self,

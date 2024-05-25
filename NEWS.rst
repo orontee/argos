@@ -20,6 +20,9 @@ Added
 Changed
 -------
 
+- Moved album and artist information from popover to the left panel
+  `#170 <https://github.com/orontee/argos/issues/170>`_
+
 - Improved speed of library filter `#166
   <https://github.com/orontee/argos/issues/166>`_
 

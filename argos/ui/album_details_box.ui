@@ -1,111 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 -->
+<!-- Generated with glade 3.40.0 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
-  <object class="GtkPopover" id="information_popover">
-    <property name="can-focus">False</property>
-    <property name="vexpand">False</property>
-    <property name="position">right</property>
-    <child>
-      <object class="GtkBox" id="information_box">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="margin-start">5</property>
-        <property name="margin-end">5</property>
-        <property name="margin-top">5</property>
-        <property name="margin-bottom">5</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">5</property>
-        <child>
-          <object class="GtkStackSwitcher" id="information_stack_switcher">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="halign">center</property>
-            <property name="hexpand">False</property>
-            <property name="homogeneous">True</property>
-            <property name="stack">information_stack</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkStack" id="information_stack">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="vexpand">True</property>
-            <property name="transition-type">crossfade</property>
-            <child>
-              <object class="GtkScrolledWindow" id="album_information_scrolled_window">
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="min-content-width">150</property>
-                <property name="min-content-height">150</property>
-                <property name="max-content-width">200</property>
-                <property name="max-content-height">250</property>
-                <property name="propagate-natural-height">True</property>
-                <child>
-                  <object class="GtkViewport" id="album_information_viewport">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="shadow-type">none</property>
-                    <child>
-                      <object class="GtkLabel" id="album_information_label">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="valign">start</property>
-                        <property name="wrap">True</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="name">album_information_page</property>
-                <property name="title" translatable="yes">Album</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkScrolledWindow" id="artist_information_scrolled_window">
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="max-content-width">200</property>
-                <property name="max-content-height">250</property>
-                <property name="propagate-natural-height">True</property>
-                <child>
-                  <object class="GtkViewport" id="artist_information_viewport">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="shadow-type">none</property>
-                    <child>
-                      <object class="GtkLabel" id="artist_information_label">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="valign">start</property>
-                        <property name="wrap">True</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="name">artist_information_page</property>
-                <property name="title" translatable="yes">Artist</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-  </object>
   <object class="GtkImage" id="play_image">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -121,99 +17,235 @@
         <property name="name">album-details-left-pane</property>
         <property name="visible">True</property>
         <property name="can-focus">False</property>
-        <property name="valign">center</property>
+        <property name="vexpand">True</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
-          <object class="GtkImage" id="album_image">
-            <property name="width-request">200</property>
-            <property name="height-request">200</property>
+          <object class="GtkStack" id="album_details_stack">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="halign">center</property>
-            <property name="valign">center</property>
             <property name="vexpand">True</property>
-            <property name="stock">gtk-missing-image</property>
-            <property name="icon_size">6</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
-          <!-- n-columns=2 n-rows=3 -->
-          <object class="GtkGrid" id="album_details_box">
-            <property name="name">album-details-box</property>
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="halign">center</property>
-            <property name="valign">center</property>
-            <property name="margin-top">5</property>
-            <property name="hexpand">True</property>
             <child>
-              <object class="GtkLabel" id="album_name_label">
+              <object class="GtkBox" id="album_image_box">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="valign">center</property>
+                <property name="vexpand">True</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkImage" id="album_image">
+                    <property name="width-request">200</property>
+                    <property name="height-request">200</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="halign">center</property>
+                    <property name="valign">end</property>
+                    <property name="vexpand">False</property>
+                    <property name="stock">gtk-missing-image</property>
+                    <property name="icon_size">6</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <!-- n-columns=2 n-rows=3 -->
+                  <object class="GtkGrid" id="album_details_box">
+                    <property name="name">album-details-box</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="halign">center</property>
+                    <property name="valign">start</property>
+                    <property name="margin-top">5</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">False</property>
+                    <child>
+                      <object class="GtkLabel" id="album_name_label">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-top">5</property>
+                        <property name="margin-bottom">5</property>
+                        <property name="ellipsize">end</property>
+                        <property name="single-line-mode">True</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">0</property>
+                        <property name="width">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="artist_name_label">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-bottom">5</property>
+                        <property name="ellipsize">end</property>
+                        <property name="single-line-mode">True</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">1</property>
+                        <property name="width">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="publication_title_label">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="halign">end</property>
+                        <property name="margin-right">5</property>
+                        <property name="margin-end">5</property>
+                        <property name="label" translatable="yes">Published</property>
+                        <attributes>
+                          <attribute name="weight" value="semilight"/>
+                        </attributes>
+                      </object>
+                      <packing>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="publication_label">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="halign">start</property>
+                        <property name="margin-left">5</property>
+                        <property name="margin-start">5</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">1</property>
+                        <property name="top-attach">2</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="name">album_image_page</property>
+                <property name="title" translatable="yes">Album image</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox" id="information_box">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="margin-left">5</property>
+                <property name="margin-right">5</property>
+                <property name="margin-start">5</property>
+                <property name="margin-end">5</property>
                 <property name="margin-top">5</property>
                 <property name="margin-bottom">5</property>
-                <property name="ellipsize">end</property>
-                <property name="single-line-mode">True</property>
+                <property name="vexpand">True</property>
+                <property name="orientation">vertical</property>
+                <property name="spacing">5</property>
+                <child>
+                  <object class="GtkStackSwitcher" id="information_stack_switcher">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="halign">center</property>
+                    <property name="valign">start</property>
+                    <property name="hexpand">False</property>
+                    <property name="vexpand">False</property>
+                    <property name="homogeneous">True</property>
+                    <property name="stack">information_stack</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkStack" id="information_stack">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="vexpand">True</property>
+                    <property name="vhomogeneous">False</property>
+                    <property name="transition-type">crossfade</property>
+                    <child>
+                      <object class="GtkScrolledWindow" id="artist_information_scrolled_window">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="vexpand">True</property>
+                        <child>
+                          <object class="GtkViewport" id="artist_information_viewport">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="vexpand">True</property>
+                            <property name="shadow-type">none</property>
+                            <child>
+                              <object class="GtkLabel" id="artist_information_label">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="valign">start</property>
+                                <property name="vexpand">True</property>
+                                <property name="wrap">True</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="name">artist_information_page</property>
+                        <property name="title" translatable="yes">Artist</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkScrolledWindow" id="album_information_scrolled_window">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="vexpand">True</property>
+                        <child>
+                          <object class="GtkViewport" id="album_information_viewport">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="vexpand">True</property>
+                            <property name="shadow-type">none</property>
+                            <child>
+                              <object class="GtkLabel" id="album_information_label">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="valign">start</property>
+                                <property name="vexpand">True</property>
+                                <property name="wrap">True</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="name">album_information_page</property>
+                        <property name="title" translatable="yes">Album</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </object>
               <packing>
-                <property name="left-attach">0</property>
-                <property name="top-attach">0</property>
-                <property name="width">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="artist_name_label">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="margin-bottom">5</property>
-                <property name="ellipsize">end</property>
-                <property name="single-line-mode">True</property>
-              </object>
-              <packing>
-                <property name="left-attach">0</property>
-                <property name="top-attach">1</property>
-                <property name="width">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="publication_title_label">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="halign">end</property>
-                <property name="margin-end">5</property>
-                <property name="label" translatable="yes">Published</property>
-                <attributes>
-                  <attribute name="weight" value="semilight"/>
-                </attributes>
-              </object>
-              <packing>
-                <property name="left-attach">0</property>
-                <property name="top-attach">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="publication_label">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="halign">start</property>
-                <property name="margin-start">5</property>
-              </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="top-attach">2</property>
+                <property name="name">information_page</property>
+                <property name="title" translatable="yes">Information</property>
+                <property name="position">1</property>
               </packing>
             </child>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">2</property>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
           </packing>
         </child>
       </object>
@@ -355,7 +387,7 @@
                     <property name="valign">center</property>
                     <property name="image">play_image</property>
                     <property name="always-show-image">True</property>
-                    <signal name="clicked" handler="on_button_clicked" swapped="no"/>
+                    <signal name="clicked" handler="on_play_button_clicked" swapped="no"/>
                     <style>
                       <class name="pill"/>
                     </style>
@@ -378,7 +410,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkMenuButton" id="information_button">
+              <object class="GtkToggleButton" id="information_button">
                 <property name="name">album-details-information-button</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
@@ -387,7 +419,7 @@
                 <property name="tooltip-text" translatable="yes">Information on album</property>
                 <property name="halign">end</property>
                 <property name="valign">center</property>
-                <property name="popover">information_popover</property>
+                <signal name="toggled" handler="on_information_button_toggled" swapped="no"/>
                 <child>
                   <object class="GtkImage" id="information_image">
                     <property name="width-request">20</property>
