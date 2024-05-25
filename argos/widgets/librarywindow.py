@@ -1,3 +1,4 @@
+import copy
 import logging
 import queue
 import re
@@ -62,9 +63,10 @@ class LibraryWindow(Gtk.Box):
         self._settings: Gio.Settings = application.props.settings
 
         self.props.directory_uri = self._model.library.props.default_uri
-        self._parent_uris: List[str] = self._model.library.get_parent_uris(
+        self._home_parent_uris: List[str] = self._model.library.get_parent_uris(
             self.props.directory_uri
         )
+        self._parent_uris: List[str] = copy.copy(self._home_parent_uris)
 
         self.image_size = self._settings.get_int("albums-image-size")
         self._init_default_images()
@@ -260,7 +262,7 @@ class LibraryWindow(Gtk.Box):
         directory = self._model.get_directory(self.props.directory_uri)
         if directory is None:
             LOGGER.warning("Library browser redirected to root directory")
-            self.show_directory("", history=False)
+            self.show_directory("", append_to_history=False)
             return
 
         LOGGER.debug(
@@ -396,11 +398,11 @@ class LibraryWindow(Gtk.Box):
     def is_tracks_view_page_visible(self) -> bool:
         return self.library_stack.get_visible_child_name() == "tracks_view_page"
 
-    def show_directory(self, uri: str, *, history: bool = False) -> None:
+    def show_directory(self, uri: str, *, append_to_history: bool = True) -> None:
         if uri == self.props.directory_uri:
             return
 
-        if history and (
+        if append_to_history and (
             len(self._parent_uris) == 0
             or self._parent_uris[-1] != self.props.directory_uri
         ):
@@ -423,7 +425,7 @@ class LibraryWindow(Gtk.Box):
                 return
 
             if len(self._parent_uris) > 0:
-                self.show_directory(self._parent_uris.pop())
+                self.show_directory(self._parent_uris.pop(), append_to_history=False)
             else:
                 LOGGER.warning("Unexpected state!!")
         else:
@@ -437,7 +439,8 @@ class LibraryWindow(Gtk.Box):
         if self.props.directory_uri == home_directory_uri:
             return
 
-        self.show_directory(home_directory_uri, history=True)
+        self._parent_uris = copy.copy(self._home_parent_uris)
+        self.show_directory(home_directory_uri, append_to_history=False)
 
     @Gtk.Template.Callback()
     def directory_view_item_activated_cb(
@@ -466,7 +469,7 @@ class LibraryWindow(Gtk.Box):
             self.props.album_details_box.show_now()
             self.library_stack.set_visible_child_name("album_details_page")
         elif library_item_type == DirectoryItemType.DIRECTORY:
-            self.show_directory(uri, history=True)
+            self.show_directory(uri)
         elif library_item_type == DirectoryItemType.TRACK:
             self._app.activate_action("play-tracks", GLib.Variant("as", [uri]))
         elif library_item_type == DirectoryItemType.PLAYLIST:

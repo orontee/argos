@@ -20,6 +20,10 @@ Added
 Changed
 -------
 
+- The back button now behaves as hierarchy traversal, not history
+  (sure I am not clear with that formulation 😔) `#171
+  <https://github.com/orontee/argos/issues/171>`_
+
 - Moved album and artist information from popover to the left panel
   `#170 <https://github.com/orontee/argos/issues/170>`_
 
