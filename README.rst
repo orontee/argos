@@ -181,9 +181,9 @@ which uses CSS for styling and layout.
 Custom styles must be gathered in the file
 ``~/.config/argos/style.css``
 (``~/.var/app/io.github.orontee.Argos/config/argos/style.css`` when
-using Flatpak). One can use [GTK
-Inspector](https://developer.gnome.org/documentation/tools/inspector.html)
-to identify the names of the CSS nodes.
+using Flatpak). One can use `GTK Inspector
+<https://developer.gnome.org/documentation/tools/inspector.html>`_ to
+identify the names of the CSS nodes.
 
 To adapt to devices with small touch screen, one may have to tweak
 buttons appearance; Here is an example used to widen some buttons::
