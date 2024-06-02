@@ -24,8 +24,8 @@ Argos
 
 Light weight front-end for `Mopidy <https://mopidy.com/>`_ music server.
 
-Argos is designed (and used!) with `Gnome <https://gnome.org>`_ desktop
-and small single-board devices with small touchscreen in mind.
+Argos is designed (and used!) with `Gnome <https://gnome.org>`_
+desktop and single-board devices with small touchscreen in mind.
 
 .. figure:: docs/screenshot.png
    :alt: Application window screenshot
@@ -178,15 +178,27 @@ Style
 The application is based on `GTK <https://www.gtk.org/>`_ library
 which uses CSS for styling and layout.
 
-To adapt to devices with small touch screen one may have to tweak
-buttons appearance. Here is an example used to widen some buttons
-(to be placed in ``~/.config/gtk-3.0/gtk.css``)::
+Custom styles must be gathered in the file
+``~/.config/argos/style.css``
+(``~/.var/app/io.github.orontee.Argos/config/argos/style.css`` when
+using Flatpak). One can use [GTK
+Inspector](https://developer.gnome.org/documentation/tools/inspector.html)
+to identify the names of the CSS nodes.
 
-  #playlist-button-box buttonbox button,
-  #album-details-button-box button,
+To adapt to devices with small touch screen, one may have to tweak
+buttons appearance; Here is an example used to widen some buttons::
+
+  #album-details-top-box button,
+  #playlist-button-box button,
+  #title-bar button,
+  #tracklist-button-box button {
+      min-width:  40px;
+      min-height: 40px;
+  }
+
   #condensed-playing-box-playback-controls-box button {
-      min-width: 60px;
-      min-height: 30px;
+      min-width:  60px;
+      min-height: 40px;
   }
 
 Automation

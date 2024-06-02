@@ -3,10 +3,12 @@ import gettext
 import logging
 import random
 from functools import partial
+from pathlib import Path
 from threading import Thread
 from time import sleep
 from typing import Any, Dict, List, Optional, Sequence
 
+import xdg.BaseDirectory  # type: ignore
 from gi.repository import Gdk, Gio, GLib, GObject, Gtk
 
 from argos.controllers import (
@@ -145,8 +147,6 @@ class Application(Gtk.Application):
 
         self.props.start_fullscreen = self._settings.get_boolean("start-fullscreen")
 
-        self._apply_style()
-
     @GObject.Property(type=Gio.Settings, flags=GObject.ParamFlags.READABLE)
     def settings(self):
         return self._settings
@@ -195,7 +195,8 @@ class Application(Gtk.Application):
     def loop(self) -> asyncio.AbstractEventLoop:
         return self._loop
 
-    def _apply_style(self):
+    def _apply_application_style(self):
+        LOGGER.debug("Applying application style")
         css_provider = Gtk.CssProvider()
         css_provider.load_from_resource("/io/github/orontee/Argos/ui/stylesheet.css")
         screen = Gdk.Screen.get_default()
@@ -203,6 +204,23 @@ class Application(Gtk.Application):
         style_context.add_provider_for_screen(
             screen, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )
+
+    def _apply_user_style(self):
+        config_path = Path(xdg.BaseDirectory.save_config_path("argos"))
+        user_style_path = config_path / "style.css"
+        LOGGER.debug(f"Looking for user style at {user_style_path.absolute()!r}")
+        if not user_style_path.exists():
+            LOGGER.debug("No user style to apply")
+            return
+
+        css_provider = Gtk.CssProvider()
+        css_provider.load_from_path(str(user_style_path.absolute()))
+        screen = Gdk.Screen.get_default()
+        style_context = Gtk.StyleContext()
+        style_context.add_provider_for_screen(
+            screen, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_USER
+        )
+        LOGGER.debug("User style applied")
 
     def do_command_line(self, command_line: Gio.ApplicationCommandLine):
         options = command_line.get_options_dict()
@@ -227,6 +245,9 @@ class Application(Gtk.Application):
 
     def do_activate(self):
         if not self.window:
+            self._apply_application_style()
+            self._apply_user_style()
+
             LOGGER.debug("Instantiating application window")
             self.window = ArgosWindow(self)
             self.window.set_default_icon_name("media-optical")

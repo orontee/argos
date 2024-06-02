@@ -1,13 +1,14 @@
 #!/bin/bash
 
 VERSION=$(poetry version | cut -d' ' -f 2)
+BUILDDIR=builddir
 
-[ -f builddir ] && {
-    echo "Removing existing builddir…"
-    rm -rf builddir
+[ -d ${BUILDDIR} ] && {
+    echo "Removing existing build directory…"
+    rm -rf ${BUILDDIR}
 }
 
-mkdir builddir
+mkdir ${BUILDDIR}
 
-git archive --prefix=builddir/argos-${VERSION}/ --format=tar.gz HEAD | tar xzf -
-pushd builddir/argos-${VERSION} && debuild -b -tc -us -uc && popd
+git archive --prefix=${BUILDDIR}/argos-${VERSION}/ --format=tar.gz HEAD | tar xzf -
+pushd ${BUILDDIR}/argos-${VERSION} && debuild -b -tc -us -uc && popd

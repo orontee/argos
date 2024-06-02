@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 -->
+<!-- Generated with glade 3.40.0 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
   <object class="GtkImage" id="add_image">
@@ -25,6 +25,7 @@
         <property name="homogeneous">True</property>
         <child>
           <object class="GtkScrolledWindow" id="playlists_window">
+            <property name="name">playlists-window</property>
             <property name="width-request">150</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
@@ -59,6 +60,7 @@
             <property name="spacing">5</property>
             <child>
               <object class="GtkBox" id="selected_playlist_top_box">
+                <property name="name">selected-playlist-top-box</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="spacing">5</property>
@@ -152,7 +154,7 @@
                         <property name="focus-on-click">False</property>
                         <property name="receives-default">True</property>
                         <property name="tooltip-text" translatable="yes">Edit playlist</property>
-                        <property name="halign">center</property>
+                        <property name="halign">end</property>
                         <property name="valign">center</property>
                         <child>
                           <object class="GtkImage" id="edit_image">
@@ -185,6 +187,8 @@
                             <property name="can-focus">True</property>
                             <property name="receives-default">True</property>
                             <property name="tooltip-text" translatable="yes">Add playlist or selected tracks to tracklist</property>
+                            <property name="halign">end</property>
+                            <property name="valign">center</property>
                             <property name="image">add_image</property>
                             <signal name="clicked" handler="on_add_button_clicked" swapped="no"/>
                             <style>
@@ -205,6 +209,8 @@
                             <property name="can-focus">True</property>
                             <property name="receives-default">True</property>
                             <property name="tooltip-text" translatable="yes">Play playlist or selected tracks</property>
+                            <property name="halign">start</property>
+                            <property name="valign">center</property>
                             <property name="image">play_image</property>
                             <property name="always-show-image">True</property>
                             <signal name="clicked" handler="on_play_button_clicked" swapped="no"/>
@@ -246,6 +252,7 @@
             </child>
             <child>
               <object class="GtkScrolledWindow" id="tracks_pane">
+                <property name="name">tracks-pane</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="vexpand">True</property>
@@ -257,6 +264,7 @@
                     <property name="can-focus">False</property>
                     <child>
                       <object class="GtkListBox" id="tracks_box">
+                        <property name="name">tracks-box</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="selection-mode">multiple</property>

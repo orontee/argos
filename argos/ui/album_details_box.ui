@@ -264,6 +264,7 @@
         <property name="spacing">5</property>
         <child>
           <object class="GtkBox" id="album_details_top_box">
+            <property name="name">album-details-top-box</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="spacing">5</property>

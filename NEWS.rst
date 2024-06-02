@@ -14,6 +14,9 @@ The format is based on `Keep a Changelog
 Added
 -----
 
+- Apply user custom styles found at ``.config/argos/style.css`` `#173
+  <https://github.com/orontee/argos/issues/173>`_
+
 - Home button in title bar to go back to library's default directory
   `#169 <https://github.com/orontee/argos/issues/169>`_
 

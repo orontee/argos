@@ -18,6 +18,7 @@
     <property name="icon-name">edit-find-symbolic</property>
   </object>
   <template class="TitleBar" parent="GtkHeaderBar">
+    <property name="name">title-bar</property>
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <child type="title">
@@ -39,6 +40,7 @@
             <property name="name">search-entry</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
+            <property name="valign">center</property>
             <property name="primary-icon-name">edit-find-symbolic</property>
             <property name="primary-icon-activatable">False</property>
             <property name="primary-icon-sensitive">False</property>
@@ -59,6 +61,8 @@
         <property name="can-focus">True</property>
         <property name="receives-default">True</property>
         <property name="tooltip-text" translatable="yes">Go back</property>
+        <property name="halign">start</property>
+        <property name="valign">center</property>
         <property name="image">back_image</property>
       </object>
     </child>
@@ -69,6 +73,8 @@
         <property name="can-focus">True</property>
         <property name="focus-on-click">False</property>
         <property name="receives-default">True</property>
+        <property name="halign">end</property>
+        <property name="valign">center</property>
         <child>
           <object class="GtkImage" id="menu_image">
             <property name="visible">True</property>
@@ -89,6 +95,8 @@
         <property name="focus-on-click">False</property>
         <property name="receives-default">True</property>
         <property name="tooltip-text" translatable="yes">Sort albums</property>
+        <property name="halign">end</property>
+        <property name="valign">center</property>
         <property name="draw-indicator">True</property>
         <child>
           <object class="GtkImage" id="sort_image">
@@ -109,6 +117,8 @@
         <property name="can-focus">True</property>
         <property name="receives-default">True</property>
         <property name="tooltip-text" translatable="yes">Go to home</property>
+        <property name="halign">start</property>
+        <property name="valign">center</property>
         <property name="image">home_image</property>
       </object>
       <packing>
@@ -121,6 +131,8 @@
         <property name="can-focus">True</property>
         <property name="receives-default">True</property>
         <property name="tooltip-text" translatable="yes">Search albums</property>
+        <property name="halign">end</property>
+        <property name="valign">center</property>
         <property name="image">search_image</property>
       </object>
       <packing>
