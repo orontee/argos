@@ -65,19 +65,25 @@ class TitleBar(Gtk.HeaderBar):
             self.remove(self.search_button)
             self.search_button = None
 
-        self.set_decoration_layout(":close")
-        self.set_show_close_button(True)
-        # On LXDE with Openbox window manager, showing close
-        # button also decorate title bar with minimize, maximize
-        # buttons whatever the Openbox configuration for the
-        # application is...
-
         self.search_button_toggled_handler_id = (
             self.search_button.connect("toggled", self.on_search_button_toggled)
             if self.search_button
             else None
         )
-        self._window.connect("notify::is-fullscreen", self.on_is_fullscreen_changed)
+
+        if application.props.hide_close_button:
+            self.set_decoration_layout("")
+            self.set_show_close_button(False)
+        else:
+            self.set_decoration_layout(":close")
+            self.set_show_close_button(True)
+
+            # On LXDE with Openbox window manager, showing close
+            # button also decorate title bar with minimize, maximize
+            # buttons whatever the Openbox configuration for the
+            # application is...
+
+            self._window.connect("notify::is-fullscreen", self.on_is_fullscreen_changed)
 
     def toggle_search_entry_focus_maybe(self) -> None:
         if not self.search_button:

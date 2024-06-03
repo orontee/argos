@@ -23,6 +23,9 @@ Added
 Changed
 -------
 
+- CLI argument to hide close button `#174
+  <https://github.com/orontee/argos/issues/174>`_
+
 - The exposed action ``update-library`` now takes a parameter to
   specify the URI of the directory to update `#149
   <https://github.com/orontee/argos/issues/149>`_

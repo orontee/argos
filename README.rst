@@ -170,7 +170,7 @@ user that will run Argos. Changes can be made using `Dconf Editor
 Some CLI options are provided (complete list can be obtained with
 ``argos --help``)::
 
-  $ argos --no-tooltips --hide-search-button
+  $ argos --no-tooltips --hide-search-button --hide-close-button
 
 Style
 -----

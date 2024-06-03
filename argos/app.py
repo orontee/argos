@@ -52,6 +52,7 @@ class Application(Gtk.Application):
     start_fullscreen = GObject.Property(type=bool, default=False)
     disable_tooltips = GObject.Property(type=bool, default=False)
     hide_search_button = GObject.Property(type=bool, default=False)
+    hide_close_button = GObject.Property(type=bool, default=False)
     version = GObject.Property(type=str)
 
     def __init__(self, *args, **kwargs):
@@ -142,6 +143,14 @@ class Application(Gtk.Application):
             GLib.OptionFlags.NONE,
             GLib.OptionArg.NONE,
             _("Hide search button"),
+            None,
+        )
+        self.add_main_option(
+            "hide-close-button",
+            0,
+            GLib.OptionFlags.NONE,
+            GLib.OptionArg.NONE,
+            _("Hide close button"),
             None,
         )
 
@@ -236,6 +245,7 @@ class Application(Gtk.Application):
 
         self.props.disable_tooltips = "no-tooltips" in options
         self.props.hide_search_button = "hide-search-button" in options
+        self.props.hide_close_button = "hide-close-button" in options
 
         if "maximized" in options:
             LOGGER.warning("The maximized command line option is deprecated!")
