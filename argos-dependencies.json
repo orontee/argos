@@ -2,9 +2,20 @@
     "name": "poetry-deps",
     "buildsystem": "simple",
     "build-commands": [
-        "pip3 install --no-build-isolation --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} aiohttp url_normalize aiohttp-client-cache aiosignal aiosqlite async-timeout attrs charset-normalizer frozenlist idna multidict pycairo pygobject pyxdg yarl"
+	"pip3 debug",
+        "pip3 install --no-build-isolation --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} aiohttp url_normalize aiohttp-client-cache aiosignal aiosqlite async-timeout attrs charset-normalizer frozenlist idna multidict pycairo pygobject pyxdg yarl zeroconf"
     ],
     "sources": [
+	{
+	    "type": "file",
+	    "url": "https://files.pythonhosted.org/packages/9c/1f/19ebc343cc71a7ffa78f17018535adc5cbdd87afb31d7c34874680148b32/ifaddr-0.2.0-py3-none-any.whl",
+	    "sha256": "085e0305cfe6f16ab12d72e2024030f5d52674afad6911bb1eee207177b8a748"
+	},
+	{
+	    "type": "file",
+	    "url": "https://files.pythonhosted.org/packages/6f/2b/508d2fd0fcafa33c512a327dd47aa223e3aec2951e37fcad5a9360b019e5/zeroconf-0.132.2-cp310-cp310-manylinux_2_31_x86_64.whl",
+	    "sha256": "ddae9592604fe04ec065cc53a321844c3592c812988346136d8ee548127f3d12"
+	},
         {
             "type": "file",
             "url": "https://files.pythonhosted.org/packages/07/2f/27c9ae85646de72784529a86d2a98c7cfae4ff9eab0004becf47da66c7ec/aiohttp-3.9.2.tar.gz",

@@ -26,6 +26,9 @@ or from a shell run::
 
   $ flatpak run io.github.orontee.Argos
 
+Note that the Python interpreter of the Flatpak environment is CPython
+3.10.
+
 Debugging
 ---------
 
@@ -72,9 +75,9 @@ To update translation files::
 Dependencies
 ============
 
-Runtime dependencies are listed in the file
-`generated-poetry-sources.json </generated-poetry-sources.json>`_. It
-is generated from ``poetry``'s lock file using `flatpak-builder-tools
+Runtime dependencies are listed in the file `argos-dependencies.json
+</argos-dependencies.json>`_. It has been generated from ``poetry``'s
+lock file using `flatpak-builder-tools
 <https://github.com/flatpak/flatpak-builder-tools>`_.
 
 Build dependencies are listed in the `Containerfile </Containerfile>`_.

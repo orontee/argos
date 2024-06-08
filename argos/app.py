@@ -28,6 +28,7 @@ from argos.message import Message, MessageDispatchTask, MessageType
 from argos.model import Model
 from argos.notify import Notifier
 from argos.placement import WindowPlacement
+from argos.scanner import MopidyServiceScanner
 from argos.session import HTTPSessionManager
 from argos.time import TimePositionTracker
 from argos.utils import configure_logger
@@ -55,7 +56,7 @@ class Application(Gtk.Application):
     hide_close_button = GObject.Property(type=bool, default=False)
     version = GObject.Property(type=str)
 
-    def __init__(self, *args: list[Any], **kwargs: dict[Any, Any]):
+    def __init__(self, *args: Any, **kwargs: Any):
         super().__init__(
             flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
             *args,
@@ -93,6 +94,7 @@ class Application(Gtk.Application):
         self._download = ImageDownloader(self)
         self._information = InformationService(self)
         self._notifier = Notifier(self)
+        self._service_scanner = MopidyServiceScanner(self)
 
         self._controllers = Gio.ListStore.new(ControllerBase)
         self._controllers.append(PlaybackController(self))
@@ -511,10 +513,16 @@ class Application(Gtk.Application):
         if self.window is None:
             return
 
+        scanner_handle = self._loop.call_soon_threadsafe(
+            partial(self._loop.create_task, self._service_scanner())
+        )
+
         prefs_window = PreferencesWindow(self)
 
         def on_prefs_window_delete_event(_1: Gtk.Widget, _2: Gdk.Event) -> bool:
             LOGGER.debug("Hiding preferences window")
+
+            scanner_handle.cancel()
 
             # Default handler will destroy window
             return False

@@ -23,7 +23,7 @@
         "*.a"
     ],
     "modules" : [
-        "generated-poetry-sources.json",
+        "argos-dependencies.json",
         {
             "name": "webp-pixbuf-loader",
             "buildsystem": "meson",

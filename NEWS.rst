@@ -14,6 +14,10 @@ The format is based on `Keep a Changelog
 Added
 -----
 
+- Scan local network for Mopidy HTTP services, and propose to use such
+  service address when one has been discovered `#175
+  <https://github.com/orontee/argos/issues/175>`_
+
 - Apply user custom styles found at ``.config/argos/style.css`` `#173
   <https://github.com/orontee/argos/issues/173>`_
 

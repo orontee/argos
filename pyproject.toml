@@ -16,6 +16,7 @@ PyGObject = ">=3.38.0"
 pycairo = ">=1.16.0"
 pyxdg = ">=0.27"
 aiohttp-client-cache = ">=0.8.0"
+zeroconf = "^0.132.2"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^0.982"

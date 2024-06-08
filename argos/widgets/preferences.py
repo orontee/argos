@@ -1,6 +1,6 @@
 import gettext
 import logging
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 from gi.repository import Gdk, Gio, GLib, GObject, Gtk
 
@@ -20,6 +20,9 @@ class PreferencesWindow(Gtk.Window):
 
     mopidy_base_url_info_bar: Gtk.InfoBar = Gtk.Template.Child()
     mopidy_base_url_entry: Gtk.Entry = Gtk.Template.Child()
+    service_discovery_info_bar: Gtk.InfoBar = Gtk.Template.Child()
+    service_discovery_question_label: Gtk.Label = Gtk.Template.Child()
+    service_discovery_set_button: Gtk.Button = Gtk.Template.Child()
     information_service_switch: Gtk.Switch = Gtk.Template.Child()
     index_mopidy_local_albums_button: Gtk.CheckButton = Gtk.Template.Child()
     history_playlist_check_button: Gtk.CheckButton = Gtk.Template.Child()
@@ -133,6 +136,10 @@ class PreferencesWindow(Gtk.Window):
             "notify::active", self.on_start_fullscreen_switch_activated
         )
 
+        application._service_scanner.connect(
+            "service-discovered", self.on_service_discovered
+        )
+
         title_bar = Gtk.HeaderBar(title=_("Preferences"), show_close_button=True)
         self.set_titlebar(title_bar)
 
@@ -166,6 +173,33 @@ class PreferencesWindow(Gtk.Window):
     def on_mopidy_base_url_entry_changed(self, entry: Gtk.Entry) -> None:
         base_url = entry.get_text()
         self._settings.set_string("mopidy-base-url", base_url)
+
+    def on_service_discovered(
+        self, scanner: Any, service_name: str, service_address: str
+    ) -> None:
+        if len(service_address) <= 0:
+            return
+
+        self.service_discovery_question_label.set_text(
+            (
+                _(
+                    "Do you want to use the Mopidy HTTP service "
+                    "discovered at {address}"
+                )
+            ).format(address=service_address)
+        )
+
+        self.service_discovery_info_bar.set_revealed(True)
+
+        mopidy_base_url_entry: Gtk.Entry = self.mopidy_base_url_entry
+
+        def on_service_discovery_set_button_clicked(_1: Gtk.Button) -> None:
+            LOGGER.debug("Base URL set to address of discovered service")
+            mopidy_base_url_entry.set_text(f"http://{service_address}")
+
+        self.service_discovery_set_button.connect(
+            "clicked", on_service_discovery_set_button_clicked
+        )
 
     def on_information_service_switch_activated(
         self,

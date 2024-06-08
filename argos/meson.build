@@ -42,6 +42,7 @@ argos_sources = [
   'message.py',
   'notify.py',
   'placement.py',
+  'scanner.py',
   'session.py',
   'time.py',
   'utils.py',
