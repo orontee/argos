@@ -67,7 +67,7 @@ class MopidyHTTPClient(GObject.GObject):
 
     # Mopidy's API of core.library controller
 
-    async def browse_library(self, uri: str = None) -> Optional[List[RefDTO]]:
+    async def browse_library(self, uri: Optional[str] = None) -> Optional[List[RefDTO]]:
         if uri == "":
             uri = None
             # From Mopidy API pov, root directory has null URI

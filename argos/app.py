@@ -55,7 +55,7 @@ class Application(Gtk.Application):
     hide_close_button = GObject.Property(type=bool, default=False)
     version = GObject.Property(type=str)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: list[Any], **kwargs: dict[Any, Any]):
         super().__init__(
             flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
             *args,

@@ -72,8 +72,8 @@ class MopidyWSConnection(GObject.GObject):
         self,
         method: str,
         *,
-        params: dict = None,
-        timeout: int = None,
+        params: Optional[dict] = None,
+        timeout: Optional[int] = None,
     ) -> Optional[Any]:
         """Invoke a JSON-RPC command.
 
