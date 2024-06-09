@@ -1,0 +1,13 @@
+#!/bin/bash
+
+BUILDDIR=builddir
+
+[ -d ${BUILDDIR} ] && {
+    echo "Removing existing build directory…"
+    rm -rf ${BUILDDIR}
+}
+
+mkdir ${BUILDDIR}
+
+meson builddir && cd builddir
+meson compile io.github.orontee.Argos-update-po
