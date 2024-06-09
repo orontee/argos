@@ -304,8 +304,12 @@ class Application(Gtk.Application):
                 "Start by configuring the URL of the music server. The default value expects a server running on the local host and listening to the 6680 port."
             ),
         )
-        welcome_dialog.run()
+        response = welcome_dialog.run()
+        display_preferences_dialog = response == Gtk.ResponseType.OK
         welcome_dialog.destroy()
+
+        if display_preferences_dialog:
+            self.activate_action("show-preferences", None)
 
     def do_startup(self):
         Gtk.Application.do_startup(self)

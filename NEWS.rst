@@ -27,6 +27,9 @@ Added
 Changed
 -------
 
+- Welcome dialog now opens the preferences dialog on validation `#176
+  <https://github.com/orontee/argos/issues/176>`_
+
 - CLI argument to hide close button `#174
   <https://github.com/orontee/argos/issues/174>`_
 
@@ -297,7 +300,7 @@ Added
 -----
 - German translation `#63
   <https://github.com/orontee/argos/issues/63>`_
-- Welcome dialog for users to direct users to the configuration dialog `#43
+- Welcome dialog for users to direct users to the preferences dialog `#43
   <https://github.com/orontee/argos/issues/43>`_
 - CSS identifiers to allow for style customization  `#72
   <https://github.com/orontee/argos/issues/72>`_
