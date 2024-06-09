@@ -75,10 +75,22 @@ To update translation files::
 Dependencies
 ============
 
-Runtime dependencies are listed in the file `argos-dependencies.json
-</argos-dependencies.json>`_. It has been generated from ``poetry``'s
-lock file using `flatpak-builder-tools
-<https://github.com/flatpak/flatpak-builder-tools>`_.
+Python runtime dependencies can be added using `poetry add`. Once the
+code is ready, one must update two files used respectively for Flatpak
+and DEB packaging.
+
+* Flatpak builder install runtime dependencies described in the file
+  `argos-dependencies.json </argos-dependencies.json>`_. It has been
+  generated from ``poetry``'s lock file using `flatpak-builder-tools
+  <https://github.com/flatpak/flatpak-builder-tools>`_ but it's
+  straightforward to maintain by hand.
+
+  (Note that when building, `meson` displays Python version, platform,
+  compatibility tags, etc.: All information required to choose the
+  right wheels.)
+
+* DEB packages define runtime dependencies from the `debian/control
+  </debian/control>`_ file.
 
 Build dependencies are listed in the `Containerfile </Containerfile>`_.
 
