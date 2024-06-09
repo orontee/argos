@@ -184,7 +184,7 @@ class PreferencesWindow(Gtk.Window):
             (
                 _(
                     "Do you want to use the Mopidy HTTP service "
-                    "discovered at {address}"
+                    "discovered at {address}?"
                 )
             ).format(address=service_address)
         )
