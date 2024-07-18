@@ -1,7 +1,7 @@
 {
     "app-id" : "io.github.orontee.Argos",
     "runtime" : "org.gnome.Sdk",
-    "runtime-version" : "44",
+    "runtime-version" : "45",
     "sdk" : "org.gnome.Sdk",
     "command" : "argos",
     "finish-args" : [
@@ -23,7 +23,7 @@
         "*.a"
     ],
     "modules" : [
-        "argos-dependencies.json",
+        "pypi-dependencies.json",
         {
             "name": "webp-pixbuf-loader",
             "buildsystem": "meson",

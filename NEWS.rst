@@ -27,6 +27,9 @@ Added
 Changed
 -------
 
+- Update of Flatpak runtime and dependencies `#178
+  <https://github.com/orontee/argos/issues/178>`_
+
 - Welcome dialog now opens the preferences dialog on validation `#176
   <https://github.com/orontee/argos/issues/176>`_
 

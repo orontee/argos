@@ -18,3 +18,4 @@ po/io.github.orontee.Argos.pot
 /argos_*.deb
 repo/
 /.python-version
+/requirements.txt

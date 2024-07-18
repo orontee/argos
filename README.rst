@@ -167,6 +167,10 @@ user that will run Argos. Changes can be made using `Dconf Editor
 
   $ gsettings set io.github.orontee.Argos mopidy-base-url http://192.168.1.45
 
+(When running the Flatpak version, don't forget to enter the "sandbox"
+before running `gsettings` commands; See `CONTRIBUTING file
+</CONTRIBUTING.rst>`_ for details on this topic.)
+
 Some CLI options are provided (complete list can be obtained with
 ``argos --help``)::
 
