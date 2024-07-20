@@ -30,21 +30,21 @@ desktop and single-board devices with small touchscreen in mind.
 .. figure:: docs/screenshot.png
    :alt: Application window screenshot
    :align: center
-   :width: 400
+   :width: 600
 
    Application window
 
 .. figure:: docs/screenshot-library-view.png
    :alt: Library view screenshot
    :align: center
-   :width: 400
+   :width: 750
 
    Library view
 
 .. figure:: docs/screenshot-playlists-view.png
    :alt: Playlists view screenshot
    :align: center
-   :width: 400
+   :width: 600
 
    Playlists view
 
