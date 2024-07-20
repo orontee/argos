@@ -72,6 +72,9 @@ To update translation files::
   $ meson builddir && cd builddir
   builddir$ meson compile io.github.orontee.Argos-update-po
 
+Running ``poetry run ./scripts/update-translations`` does almost the
+same thing.
+
 Dependencies
 ============
 
@@ -117,6 +120,20 @@ To run tests with a specific version of Python, say 3.10::
   $ buildah bud -t argos-dev --target dev .
   $ podman run --rm --env PYTHON_VERSION=3.10 -v ${PWD}:/opt/argos argos-dev \
            bash -c 'pushd /opt/argos/ && eval "$(pyenv init -)" && pyenv install -v ${PYTHON_VERSION} && export PYENV_VERSION=${PYTHON_VERSION} && poetry env use ${PYENV_VERSION} && poetry install --no-interaction --with=dev && poetry run python3 -m unittest discover tests/'
+
+Release
+=======
+
+First, update project version with::
+
+  $ poetry run ./scripts/update-version
+
+Review, complete or update the suggested changes carefully; Make sure
+translations and screenshots are up-to-date. Commit with::
+
+  $ git commit -a -m "Update to version $(poetry version | cut -d' ' -f 2)"
+
+Tag and push. Use Github actions to build a package.
 
 Architecture
 ============
