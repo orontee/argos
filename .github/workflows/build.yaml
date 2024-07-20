@@ -43,7 +43,7 @@ jobs:
           VERSION: ${{ inputs.version }}
 
       - name: Upload package
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           path: builddir/argos_${{ env.VERSION }}-1_all.deb
           if-no-files-found: error
