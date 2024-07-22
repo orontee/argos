@@ -65,7 +65,10 @@ class PlaylistLabel(Gtk.Stack):
             self.set_tooltip_text(self.playlist.name)
 
     def _on_label_button_pressed(self, _1: Gtk.EventBox, event: Gdk.EventButton):
-        if event.type != Gdk.EventType._2BUTTON_PRESS or event.button != 1:
+        if (
+            event.get_event_type() != Gdk.EventType._2BUTTON_PRESS
+            or event.get_button() != 1
+        ):
             return
 
         self.entry.props.text = self.playlist.name
@@ -73,7 +76,7 @@ class PlaylistLabel(Gtk.Stack):
         self.set_visible_child_name("entry")
 
     def _on_entry_key_pressed(self, _1: Gtk.Entry, event: Gdk.EventKey):
-        keyval = event.keyval
+        keyval = event.get_keyval()
         if keyval == Gdk.KEY_Return:
             LOGGER.debug("Saving playlist name")
             self._app.activate_action(

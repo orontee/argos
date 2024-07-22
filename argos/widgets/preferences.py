@@ -286,8 +286,8 @@ class PreferencesWindow(Gtk.Window):
     @Gtk.Template.Callback()
     def key_press_event_cb(self, widget: Gtk.Widget, event: Gdk.EventKey) -> bool:
         # See /usr/include/gtk-3.0/gdk/gdkkeysyms.h for key definitions
-        modifiers = event.state & Gtk.accelerator_get_default_mod_mask()
-        keyval = event.keyval
+        modifiers = event.get_state() & Gtk.accelerator_get_default_mod_mask()
+        keyval = event.get_keyval()
         if not modifiers:
             if keyval == Gdk.KEY_Escape:
                 # Better add a "close" signal to the class and call
