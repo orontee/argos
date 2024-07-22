@@ -14,28 +14,20 @@
     <signal name="window-state-event" handler="on_window_state_event" swapped="no"/>
     <child>
       <object class="GtkBox" id="main_box">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
+        <property name="visible">1</property>
         <property name="margin-start">5</property>
         <property name="margin-end">5</property>
         <property name="margin-top">5</property>
         <property name="margin-bottom">5</property>
-        <property name="vexpand">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
           <object class="GtkStack" id="central_view">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="visible">1</property>
             <property name="transition-type">crossfade</property>
-            <child>
-              <placeholder/>
-            </child>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
+            <property name="expand">1</property>
           </packing>
         </child>
       </object>

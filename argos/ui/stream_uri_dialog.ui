@@ -16,7 +16,6 @@
       <object class="GtkBox" id="main_box">
         <property name="width-request">200</property>
         <property name="height-request">150</property>
-        <property name="can-focus">False</property>
         <property name="margin-start">10</property>
         <property name="margin-end">10</property>
         <property name="margin-top">10</property>
@@ -25,62 +24,45 @@
         <property name="spacing">10</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="button_box">
-            <property name="can-focus">False</property>
             <property name="margin-top">1</property>
             <property name="layout-style">end</property>
-            <child>
-              <placeholder/>
-            </child>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
+            <property name="fill">0</property>
           </packing>
         </child>
         <child>
           <object class="GtkEntry" id="stream_uri_entry">
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="activates-default">True</property>
+            <property name="visible">1</property>
+            <property name="can-focus">1</property>
+            <property name="activates-default">1</property>
             <property name="placeholder-text" translatable="yes">Stream URI</property>
             <property name="input-purpose">url</property>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
         </child>
         <child>
           <object class="GtkLabel" id="protocols_label">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="visible">1</property>
             <property name="label" translatable="yes">Supported protocols may vary and URI blacklisting
 may apply depending on Mopidy-Stream configuration.</property>
-            <property name="wrap">True</property>
+            <property name="wrap">1</property>
             <attributes>
               <attribute name="style" value="italic"/>
             </attributes>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
             <property name="position">1</property>
           </packing>
         </child>
         <child>
           <object class="GtkCheckButton" id="play_button">
             <property name="label" translatable="yes">Play immediately</property>
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="receives-default">False</property>
+            <property name="visible">1</property>
+            <property name="can-focus">1</property>
             <property name="halign">start</property>
-            <property name="draw-indicator">True</property>
+            <property name="draw-indicator">1</property>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
             <property name="position">3</property>
           </packing>
         </child>

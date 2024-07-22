@@ -3,13 +3,11 @@
 <interface>
   <requires lib="gtk+" version="3.24"/>
   <object class="GtkImage" id="add_image">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
+    <property name="visible">1</property>
     <property name="icon-name">list-add-symbolic</property>
   </object>
   <object class="GtkImage" id="play_image">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
+    <property name="visible">1</property>
     <property name="icon-name">media-playback-start-symbolic</property>
   </object>
   <template class="PlaylistsBox" parent="GtkBox">
@@ -19,64 +17,52 @@
     <property name="spacing">5</property>
     <child>
       <object class="GtkBox" id="horizontal_box">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
+        <property name="visible">1</property>
         <property name="spacing">5</property>
-        <property name="homogeneous">True</property>
+        <property name="homogeneous">1</property>
         <child>
           <object class="GtkScrolledWindow" id="playlists_window">
             <property name="name">playlists-window</property>
             <property name="width-request">150</property>
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
+            <property name="visible">1</property>
+            <property name="can-focus">1</property>
             <property name="shadow-type">in</property>
             <child>
               <object class="GtkViewport" id="playlists_viewport">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
+                <property name="visible">1</property>
                 <child>
                   <object class="GtkListBox" id="playlists_view">
                     <property name="name">playlists-view</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
+                    <property name="visible">1</property>
                     <signal name="row-selected" handler="on_playlists_view_row_selected" swapped="no"/>
                   </object>
                 </child>
               </object>
             </child>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
         </child>
         <child>
           <object class="GtkBox" id="selected_playlist_box">
             <property name="name">selected-playlist-box</property>
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="visible">1</property>
             <property name="orientation">vertical</property>
             <property name="spacing">5</property>
             <child>
               <object class="GtkBox" id="selected_playlist_top_box">
                 <property name="name">selected-playlist-top-box</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
+                <property name="visible">1</property>
                 <property name="spacing">5</property>
+                <!-- n-columns=2 n-rows=2 -->
                 <child>
-                  <!-- n-columns=2 n-rows=2 -->
                   <object class="GtkGrid" id="playlist_details_box">
                     <property name="name">selected-playlist-details-box</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
+                    <property name="visible">1</property>
                     <property name="halign">start</property>
                     <property name="valign">start</property>
                     <property name="row-spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="length_title_label">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
+                        <property name="visible">1</property>
                         <property name="halign">end</property>
                         <property name="valign">start</property>
                         <property name="margin-end">5</property>
@@ -92,8 +78,7 @@
                     </child>
                     <child>
                       <object class="GtkLabel" id="length_label">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
+                        <property name="visible">1</property>
                         <property name="halign">start</property>
                         <property name="valign">start</property>
                         <property name="margin-start">5</property>
@@ -105,8 +90,7 @@
                     </child>
                     <child>
                       <object class="GtkLabel" id="track_count_title_label">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
+                        <property name="visible">1</property>
                         <property name="halign">end</property>
                         <property name="valign">start</property>
                         <property name="margin-end">5</property>
@@ -122,8 +106,7 @@
                     </child>
                     <child>
                       <object class="GtkLabel" id="track_count_label">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
+                        <property name="visible">1</property>
                         <property name="halign">start</property>
                         <property name="valign">start</property>
                         <property name="margin-start">5</property>
@@ -134,58 +117,45 @@
                       </packing>
                     </child>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkBox" id="playlist_button_box">
                     <property name="name">playlist-button-box</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
+                    <property name="visible">1</property>
                     <property name="spacing">5</property>
                     <child>
                       <object class="GtkMenuButton" id="edit_button">
                         <property name="name">playlist-edit-button</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="focus-on-click">False</property>
-                        <property name="receives-default">True</property>
+                        <property name="visible">1</property>
+                        <property name="can-focus">1</property>
+                        <property name="focus-on-click">0</property>
+                        <property name="receives-default">1</property>
                         <property name="tooltip-text" translatable="yes">Edit playlist</property>
                         <property name="halign">end</property>
                         <property name="valign">center</property>
                         <child>
                           <object class="GtkImage" id="edit_image">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
+                            <property name="visible">1</property>
                             <property name="icon-name">document-edit-symbolic</property>
                           </object>
                         </child>
                       </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
                     </child>
                     <child>
                       <object class="GtkButtonBox" id="right_playlist_buttons_box">
                         <property name="name">right-playlist-button-box</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
+                        <property name="visible">1</property>
                         <property name="halign">end</property>
                         <property name="valign">center</property>
-                        <property name="homogeneous">True</property>
+                        <property name="homogeneous">1</property>
                         <property name="layout-style">expand</property>
                         <child>
                           <object class="GtkButton" id="add_button">
                             <property name="name">playlist-add-button</property>
-                            <property name="visible">True</property>
-                            <property name="sensitive">False</property>
-                            <property name="can-focus">True</property>
-                            <property name="receives-default">True</property>
+                            <property name="visible">1</property>
+                            <property name="sensitive">0</property>
+                            <property name="can-focus">1</property>
+                            <property name="receives-default">1</property>
                             <property name="tooltip-text" translatable="yes">Add playlist or selected tracks to tracklist</property>
                             <property name="halign">end</property>
                             <property name="valign">center</property>
@@ -196,31 +166,28 @@
                             </style>
                           </object>
                           <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
+                            <property name="expand">1</property>
                             <property name="position">2</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkButton" id="play_button">
                             <property name="name">playlist-play-button</property>
-                            <property name="visible">True</property>
-                            <property name="sensitive">False</property>
-                            <property name="can-focus">True</property>
-                            <property name="receives-default">True</property>
+                            <property name="visible">1</property>
+                            <property name="sensitive">0</property>
+                            <property name="can-focus">1</property>
+                            <property name="receives-default">1</property>
                             <property name="tooltip-text" translatable="yes">Play playlist or selected tracks</property>
                             <property name="halign">start</property>
                             <property name="valign">center</property>
                             <property name="image">play_image</property>
-                            <property name="always-show-image">True</property>
+                            <property name="always-show-image">1</property>
                             <signal name="clicked" handler="on_play_button_clicked" swapped="no"/>
                             <style>
                               <class name="pill"/>
                             </style>
                           </object>
                           <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
                             <property name="pack-type">end</property>
                             <property name="position">2</property>
                           </packing>
@@ -230,45 +197,34 @@
                         </style>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
                     <property name="pack-type">end</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
             </child>
             <child>
               <object class="GtkScrolledWindow" id="tracks_pane">
                 <property name="name">tracks-pane</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="vexpand">True</property>
+                <property name="visible">1</property>
+                <property name="can-focus">1</property>
+                <property name="vexpand">1</property>
                 <property name="hscrollbar-policy">never</property>
                 <property name="shadow-type">in</property>
                 <child>
                   <object class="GtkViewport" id="tracks_box_viewport">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
+                    <property name="visible">1</property>
                     <child>
                       <object class="GtkListBox" id="tracks_box">
                         <property name="name">tracks-box</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
+                        <property name="visible">1</property>
                         <property name="selection-mode">multiple</property>
-                        <property name="activate-on-single-click">False</property>
+                        <property name="activate-on-single-click">0</property>
                         <signal name="row-activated" handler="on_tracks_box_row_activated" swapped="no"/>
                       </object>
                     </child>
@@ -276,15 +232,11 @@
                 </child>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
             </child>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
             <property name="position">1</property>
           </packing>
         </child>

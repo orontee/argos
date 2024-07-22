@@ -10,30 +10,28 @@
     <property name="spacing">5</property>
     <child>
       <object class="GtkOverlay" id="library_overlay">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="hexpand">True</property>
-        <property name="vexpand">True</property>
+        <property name="visible">1</property>
+        <property name="hexpand">1</property>
+        <property name="vexpand">1</property>
         <child>
           <object class="GtkStack" id="library_stack">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="visible">1</property>
             <property name="transition-type">crossfade</property>
             <child>
               <object class="GtkScrolledWindow" id="library_window">
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="hexpand">True</property>
-                <property name="vexpand">True</property>
+                <property name="visible">1</property>
+                <property name="can-focus">1</property>
+                <property name="hexpand">1</property>
+                <property name="vexpand">1</property>
                 <property name="shadow-type">in</property>
-                <property name="propagate-natural-width">True</property>
-                <property name="propagate-natural-height">True</property>
+                <property name="propagate-natural-width">1</property>
+                <property name="propagate-natural-height">1</property>
                 <child>
                   <object class="GtkIconView" id="directory_view">
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
+                    <property name="visible">1</property>
+                    <property name="can-focus">1</property>
                     <property name="margin">0</property>
-                    <property name="activate-on-single-click">True</property>
+                    <property name="activate-on-single-click">1</property>
                     <signal name="item-activated" handler="directory_view_item_activated_cb" swapped="no"/>
                   </object>
                 </child>

@@ -3,18 +3,15 @@
 <interface>
   <requires lib="gtk+" version="3.24"/>
   <object class="GtkImage" id="back_image">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
+    <property name="visible">1</property>
     <property name="icon-name">go-previous-symbolic</property>
   </object>
   <object class="GtkImage" id="home_image">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
+    <property name="visible">1</property>
     <property name="icon-name">go-home-symbolic</property>
   </object>
   <object class="GtkImage" id="search_image">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
+    <property name="visible">1</property>
     <property name="icon-name">edit-find-symbolic</property>
   </object>
   <template class="TitleBar" parent="GtkHeaderBar">
@@ -23,13 +20,11 @@
     <property name="can-focus">False</property>
     <child type="title">
       <object class="GtkStack" id="title_stack">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
+        <property name="visible">1</property>
         <child>
           <object class="GtkStackSwitcher" id="central_view_switcher">
             <property name="name">central-view-switcher</property>
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="visible">1</property>
           </object>
           <packing>
             <property name="name">switcher_page</property>
@@ -38,12 +33,12 @@
         <child>
           <object class="GtkSearchEntry" id="search_entry">
             <property name="name">search-entry</property>
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
+            <property name="visible">1</property>
+            <property name="can-focus">1</property>
             <property name="valign">center</property>
             <property name="primary-icon-name">edit-find-symbolic</property>
-            <property name="primary-icon-activatable">False</property>
-            <property name="primary-icon-sensitive">False</property>
+            <property name="primary-icon-activatable">0</property>
+            <property name="primary-icon-sensitive">0</property>
           </object>
           <packing>
             <property name="name">search_entry_page</property>
@@ -58,8 +53,8 @@
     <child>
       <object class="GtkButton" id="back_button">
         <property name="name">back-button</property>
-        <property name="can-focus">True</property>
-        <property name="receives-default">True</property>
+        <property name="can-focus">1</property>
+        <property name="receives-default">1</property>
         <property name="tooltip-text" translatable="yes">Go back</property>
         <property name="halign">start</property>
         <property name="valign">center</property>
@@ -69,16 +64,15 @@
     <child>
       <object class="GtkMenuButton" id="app_menu_button">
         <property name="name">app-menu-button</property>
-        <property name="visible">True</property>
-        <property name="can-focus">True</property>
-        <property name="focus-on-click">False</property>
-        <property name="receives-default">True</property>
+        <property name="visible">1</property>
+        <property name="can-focus">1</property>
+        <property name="focus-on-click">0</property>
+        <property name="receives-default">1</property>
         <property name="halign">end</property>
         <property name="valign">center</property>
         <child>
           <object class="GtkImage" id="menu_image">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="visible">1</property>
             <property name="icon-name">open-menu-symbolic</property>
           </object>
         </child>
@@ -91,17 +85,16 @@
     <child>
       <object class="GtkMenuButton" id="sort_button">
         <property name="name">sort-button</property>
-        <property name="can-focus">True</property>
-        <property name="focus-on-click">False</property>
-        <property name="receives-default">True</property>
+        <property name="can-focus">1</property>
+        <property name="focus-on-click">0</property>
+        <property name="receives-default">1</property>
         <property name="tooltip-text" translatable="yes">Sort albums</property>
         <property name="halign">end</property>
         <property name="valign">center</property>
-        <property name="draw-indicator">True</property>
+        <property name="draw-indicator">1</property>
         <child>
           <object class="GtkImage" id="sort_image">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="visible">1</property>
             <property name="icon-name">view-sort-ascending-symbolic</property>
           </object>
         </child>
@@ -114,8 +107,8 @@
     <child>
       <object class="GtkButton" id="home_button">
         <property name="name">home-button</property>
-        <property name="can-focus">True</property>
-        <property name="receives-default">True</property>
+        <property name="can-focus">1</property>
+        <property name="receives-default">1</property>
         <property name="tooltip-text" translatable="yes">Go to home</property>
         <property name="halign">start</property>
         <property name="valign">center</property>
@@ -128,8 +121,8 @@
     <child>
       <object class="GtkToggleButton" id="search_button">
         <property name="name">search-button</property>
-        <property name="can-focus">True</property>
-        <property name="receives-default">True</property>
+        <property name="can-focus">1</property>
+        <property name="receives-default">1</property>
         <property name="tooltip-text" translatable="yes">Search albums</property>
         <property name="halign">end</property>
         <property name="valign">center</property>

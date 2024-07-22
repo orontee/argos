@@ -10,8 +10,7 @@
     <property name="valign">center</property>
     <child>
       <object class="GtkLabel" id="time_position_label">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
+        <property name="visible">1</property>
         <property name="halign">start</property>
         <property name="label">--</property>
         <property name="justify">right</property>
@@ -26,8 +25,7 @@
     </child>
     <child>
       <object class="GtkLabel" id="separator">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
+        <property name="visible">1</property>
         <property name="halign">center</property>
         <property name="label">/</property>
       </object>
@@ -39,8 +37,7 @@
     </child>
     <child>
       <object class="GtkLabel" id="track_length_label">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
+        <property name="visible">1</property>
         <property name="halign">start</property>
         <property name="label">--</property>
         <property name="width-chars">8</property>

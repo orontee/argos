@@ -3,23 +3,19 @@
 <interface>
   <requires lib="gtk+" version="3.24"/>
   <object class="GtkImage" id="next_image">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
+    <property name="visible">1</property>
     <property name="icon-name">media-skip-forward-symbolic</property>
   </object>
   <object class="GtkImage" id="pause_image">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
+    <property name="visible">1</property>
     <property name="icon-name">media-playback-pause-symbolic</property>
   </object>
   <object class="GtkImage" id="play_image">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
+    <property name="visible">1</property>
     <property name="icon-name">media-playback-start-symbolic</property>
   </object>
   <object class="GtkImage" id="previous_image">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
+    <property name="visible">1</property>
     <property name="icon-name">media-skip-backward-symbolic</property>
   </object>
   <template class="CondensedPlayingBox" parent="GtkBox">
@@ -29,19 +25,17 @@
     <property name="spacing">5</property>
     <child>
       <object class="GtkEventBox" id="playing_track_image_event_box">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
+        <property name="visible">1</property>
         <property name="events">GDK_BUTTON_PRESS_MASK | GDK_STRUCTURE_MASK</property>
-        <property name="visible-window">False</property>
-        <property name="above-child">True</property>
+        <property name="visible-window">0</property>
+        <property name="above-child">1</property>
         <child>
           <object class="GtkImage" id="playing_track_image">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="visible">1</property>
             <property name="halign">center</property>
             <property name="valign">center</property>
             <property name="icon-name">audio-x-generic</property>
-            <property name="icon_size">6</property>
+            <property name="icon-size">6</property>
           </object>
         </child>
       </object>
@@ -54,70 +48,65 @@
     <child>
       <object class="GtkBox" id="playback_controls_box">
         <property name="name">condensed-playing-box-playback-controls-box</property>
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
+        <property name="visible">1</property>
         <property name="halign">center</property>
         <child>
           <object class="GtkButton" id="prev_button">
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="receives-default">True</property>
+            <property name="visible">1</property>
+            <property name="can-focus">1</property>
+            <property name="receives-default">1</property>
             <property name="tooltip-text" translatable="yes">Previous</property>
             <property name="halign">end</property>
             <property name="valign">center</property>
             <property name="action-name">app.play-prev-track</property>
             <property name="image">previous_image</property>
-            <property name="always-show-image">True</property>
+            <property name="always-show-image">1</property>
             <style>
               <class name="pill"/>
             </style>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
+            <property name="expand">1</property>
           </packing>
         </child>
         <child>
           <object class="GtkButton" id="play_button">
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="receives-default">True</property>
+            <property name="visible">1</property>
+            <property name="can-focus">1</property>
+            <property name="receives-default">1</property>
             <property name="tooltip-text" translatable="yes">Play</property>
             <property name="halign">center</property>
             <property name="valign">center</property>
             <property name="action-name">app.toggle-playback-state</property>
             <property name="image">play_image</property>
-            <property name="always-show-image">True</property>
+            <property name="always-show-image">1</property>
             <style>
               <class name="pill"/>
             </style>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
+            <property name="expand">1</property>
             <property name="position">1</property>
           </packing>
         </child>
         <child>
           <object class="GtkButton" id="next_button">
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="receives-default">True</property>
+            <property name="visible">1</property>
+            <property name="can-focus">1</property>
+            <property name="receives-default">1</property>
             <property name="tooltip-text" translatable="yes">Next</property>
             <property name="halign">start</property>
             <property name="valign">center</property>
             <property name="action-name">app.play-next-track</property>
             <property name="image">next_image</property>
             <property name="image-position">right</property>
-            <property name="always-show-image">True</property>
+            <property name="always-show-image">1</property>
             <style>
               <class name="pill"/>
             </style>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
+            <property name="expand">1</property>
             <property name="position">2</property>
           </packing>
         </child>
@@ -135,8 +124,7 @@
     <child>
       <object class="GtkBox" id="labels_box">
         <property name="name">condensed-playing-box-labels-box</property>
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
+        <property name="visible">1</property>
         <property name="valign">center</property>
         <property name="margin-start">10</property>
         <property name="margin-end">10</property>
@@ -144,35 +132,26 @@
         <property name="spacing">5</property>
         <child>
           <object class="GtkLabel" id="track_name_label">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="visible">1</property>
             <property name="halign">start</property>
             <property name="valign">center</property>
-            <property name="hexpand">True</property>
+            <property name="hexpand">1</property>
             <property name="justify">center</property>
             <property name="ellipsize">end</property>
-            <property name="single-line-mode">True</property>
+            <property name="single-line-mode">1</property>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
         </child>
         <child>
           <object class="GtkLabel" id="track_details_label">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="visible">1</property>
             <property name="halign">start</property>
             <property name="valign">center</property>
-            <property name="hexpand">True</property>
+            <property name="hexpand">1</property>
             <property name="justify">center</property>
             <property name="ellipsize">end</property>
-            <property name="single-line-mode">True</property>
+            <property name="single-line-mode">1</property>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
             <property name="position">1</property>
           </packing>
         </child>

@@ -3,7 +3,7 @@
 <interface>
   <requires lib="gtk+" version="3.24"/>
   <object class="GtkEntryCompletion" id="name_completion">
-    <property name="popup-single-match">False</property>
+    <property name="popup-single-match">0</property>
   </object>
   <template class="PlaylistCreationDialog" parent="GtkDialog">
     <property name="can-focus">False</property>
@@ -18,7 +18,6 @@
     <child internal-child="vbox">
       <object class="GtkBox" id="main_box">
         <property name="width-request">200</property>
-        <property name="can-focus">False</property>
         <property name="margin-start">10</property>
         <property name="margin-end">10</property>
         <property name="margin-top">10</property>
@@ -27,55 +26,38 @@
         <property name="spacing">10</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="button_box">
-            <property name="can-focus">False</property>
             <property name="margin-top">1</property>
             <property name="layout-style">end</property>
-            <child>
-              <placeholder/>
-            </child>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
+            <property name="fill">0</property>
           </packing>
         </child>
         <child>
           <object class="GtkBox" id="form_box">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="visible">1</property>
             <property name="spacing">5</property>
             <child>
               <object class="GtkLabel" id="name_label">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
+                <property name="visible">1</property>
                 <property name="label" translatable="yes">Name:</property>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
             </child>
             <child>
               <object class="GtkEntry" id="name_entry">
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
+                <property name="visible">1</property>
+                <property name="can-focus">1</property>
                 <property name="text" translatable="yes">New playlist</property>
                 <property name="placeholder-text" translatable="yes">Playlist name</property>
                 <property name="completion">name_completion</property>
-                <property name="enable-emoji-completion">True</property>
+                <property name="enable-emoji-completion">1</property>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
             </child>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
             <property name="position">1</property>
           </packing>
         </child>

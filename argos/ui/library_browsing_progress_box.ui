@@ -11,36 +11,27 @@
     <property name="spacing">5</property>
     <child type="center">
       <object class="GtkBox" id="central_box">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
+        <property name="visible">1</property>
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkSpinner" id="progress_spinner">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="visible">1</property>
             <property name="valign">end</property>
-            <property name="active">True</property>
+            <property name="active">1</property>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
         </child>
         <child>
           <object class="GtkLabel" id="progress_label">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="visible">1</property>
             <property name="halign">center</property>
             <property name="valign">start</property>
             <property name="margin-start">5</property>
-            <property name="vexpand">True</property>
+            <property name="vexpand">1</property>
             <property name="label" translatable="yes">Keep calm, library indexation in progress…</property>
             <property name="justify">center</property>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
+            <property name="expand">1</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -53,8 +44,7 @@
     </child>
     <child>
       <object class="GtkProgressBar" id="progress_bar">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
+        <property name="visible">1</property>
       </object>
       <packing>
         <property name="expand">False</property>
