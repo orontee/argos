@@ -10,25 +10,25 @@ include = ["argos/io.github.orontee.Argos.gresource", "argos/ui/about.ui"]
 exclude = ["argos/.gitignore"]
 
 [tool.poetry.dependencies]
-python = ">=3.11"
-aiohttp = ">=3.7.4"
+python = ">=3.11,<4.0"
 PyGObject = ">=3.46.0"
+aiohttp = ">=3.7.4"
+aiohttp-client-cache = ">=0.8.0"
 pycairo = ">=1.16.0"
 pyxdg = ">=0.27"
-aiohttp-client-cache = ">=0.8.0"
 zeroconf = "^0.132.2"
 
 [tool.poetry.group.dev.dependencies]
-mypy = "^0.982"
 black = "^24.3.0"
-pre-commit = "^v2.20.0"
-semver = "^2.13.0"
 coverage = "^7.2.3"
-python-language-server = "^0.36.2"
+mypy = "^0.982"
+poetry-plugin-export = "^1.8.0"
+pre-commit = "^v2.20.0"
 pyls-black = "^0.4.7"
 pyls-mypy = "^0.1.8"
+python-language-server = "^0.36.2"
 requirements-parser = "^0.9.0"
-poetry-plugin-export = "^1.8.0"
+semver = "^2.13.0"
 
 [tool.mypy]
 ignore_missing_imports = false

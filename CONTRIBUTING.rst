@@ -69,8 +69,8 @@ Translations
 To update translation files::
 
   $ rm -rf builddir
-  $ meson builddir && cd builddir
-  builddir$ meson compile io.github.orontee.Argos-update-po
+  $ meson setup builddir .
+  $ meson compile -C builddir io.github.orontee.Argos-update-po
 
 Running ``poetry run ./scripts/update-translations`` does almost the
 same thing.
@@ -113,12 +113,12 @@ command::
 For coverage reporting::
 
   $ poetry run coverage run -m unittest discover tests/
-  $ poerty run coverage report
+  $ poetry run coverage report
 
-To run tests with a specific version of Python, say 3.10::
+To run tests with a specific version of Python, say 3.11::
 
   $ buildah bud -t argos-dev --target dev .
-  $ podman run --rm --env PYTHON_VERSION=3.10 -v ${PWD}:/opt/argos argos-dev \
+  $ podman run --rm --env PYTHON_VERSION=3.11 -v ${PWD}:/opt/argos argos-dev \
            bash -c 'pushd /opt/argos/ && eval "$(pyenv init -)" && pyenv install -v ${PYTHON_VERSION} && export PYENV_VERSION=${PYTHON_VERSION} && poetry env use ${PYENV_VERSION} && poetry install --no-interaction --with=dev && poetry run python3 -m unittest discover tests/'
 
 Release
@@ -129,11 +129,19 @@ First, update project version with::
   $ poetry run ./scripts/update-version
 
 Review, complete or update the suggested changes carefully; Make sure
-translations and screenshots are up-to-date. Commit with::
+translations and screenshots are up-to-date. Commit, tag and push with::
 
   $ git commit -a -m "Update to version $(poetry version | cut -d' ' -f 2)"
+  $ git tag $(poetry version | cut -d' ' -f 2)
+  $ git push origin; git push --tags origin
 
-Tag and push. Use Github actions to build a package.
+Use ``flatpak-builder`` to build locally and Github actions to build a
+DEB package.
+
+Make a pull request to the technical repository
+`flathub/io.github.orontee.Argos
+<https://github.com/flathub/io.github.orontee.Argos>`_ to publish the
+release through Flathub.
 
 Architecture
 ============

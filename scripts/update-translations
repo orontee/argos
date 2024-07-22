@@ -9,5 +9,5 @@ BUILDDIR=builddir
 
 mkdir ${BUILDDIR}
 
-meson builddir && cd builddir
-meson compile io.github.orontee.Argos-update-po
+meson setup ${BUILDDIR} .
+meson compile -C ${BUILDDIR} io.github.orontee.Argos-update-po
