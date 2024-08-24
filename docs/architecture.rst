@@ -2,6 +2,9 @@
 Architecture
 ============
 
+A `Structurizr workspace <https://structurizr.com/share/94563>`_ is
+available online.
+
 Here is the big picture with Argos surrounded by its users and the
 others systems that it interacts with:
 

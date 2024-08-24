@@ -1,4 +1,4 @@
-workspace {
+workspace "Argos" "Light weight front-end for Mopidy music server" {
 
     model {
         user = person "User" "A user of Mopidy through Argos."
