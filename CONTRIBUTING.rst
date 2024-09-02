@@ -36,7 +36,7 @@ One can run a shell in sandbox and call the application through
 ``pdb``::
 
   $ flatpak run --devel --command=sh io.github.orontee.Argos
-  [📦 io.github.orontee.Argos ~]$ python3 -m pdb /app/bin/argos --debug
+  [📦 io.github.orontee.Argos ~]$ G_MESSAGES_DEBUG=all python3 -m pdb /app/bin/argos --debug
 
 It's also worth reading `GTK documentation on interactive debugging
 <https://docs.gtk.org/gtk3/running.html#interactive-debugging>`_.
