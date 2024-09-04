@@ -154,6 +154,16 @@ class MessageDispatchTask(GObject.Object):
                     LOGGER.warning(f"No consumer for message of type {message_type}")
                 else:
                     for consumer in consumers:
-                        await consumer(message)
+                        try:
+                            await consumer(message)
+                        except Exception as exc:
+                            if type(exc) == asyncio.exceptions.CancelledError:
+                                raise exc
+                            else:
+                                LOGGER.warning(
+                                    f"Unhandled exception in message processing",
+                                    exc_info=exc,
+                                )
+                                LOGGER.debug(f"Problematic message: {message}")
         except asyncio.exceptions.CancelledError:
             LOGGER.debug("Won't dispatch messages anymore")
