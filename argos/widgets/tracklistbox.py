@@ -55,7 +55,7 @@ class TracklistBox(Gtk.ListBox):
         box: Gtk.ListBox,
         row: Gtk.ListBoxRow,
     ) -> None:
-        sensitive = self._model.network_available and self._model.connected
+        sensitive = self._model.server_reachable and self._model.connected
         if not sensitive:
             return
 

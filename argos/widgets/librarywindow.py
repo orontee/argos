@@ -446,7 +446,7 @@ class LibraryWindow(Gtk.Box):
     def directory_view_item_activated_cb(
         self, icon_view: Gtk.IconView, path: Gtk.TreePath
     ) -> None:
-        sensitive = self._model.network_available and self._model.connected
+        sensitive = self._model.server_reachable and self._model.connected
         if not sensitive:
             return
 

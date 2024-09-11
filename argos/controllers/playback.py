@@ -36,7 +36,7 @@ class PlaybackController(ControllerBase):
         self._must_browse_sources = True
         self._download: ImageDownloader = application.props.download
 
-        self._model.connect("notify::network-available", self._on_connection_changed)
+        self._model.connect("notify::server-reachable", self._on_connection_changed)
         self._model.connect("notify::connected", self._on_connection_changed)
         self._model.connect(
             "notify::tracklist-loaded", self._on_tracklist_loaded_changed
@@ -196,7 +196,7 @@ class PlaybackController(ControllerBase):
         self._must_browse_sources = True
 
     def _schedule_track_list_update_maybe(self) -> None:
-        if self._model.network_available and self._model.connected:
+        if self._model.server_reachable and self._model.connected:
             LOGGER.debug("Will identify playing state since connected to Mopidy server")
             self.send_message(MessageType.IDENTIFY_PLAYING_STATE)
             self.send_message(MessageType.GET_TRACKLIST)
@@ -207,7 +207,7 @@ class PlaybackController(ControllerBase):
     def _browse_sources_maybe(self) -> None:
         if all(
             [
-                self._model.network_available,
+                self._model.server_reachable,
                 self._model.connected,
                 self._must_browse_sources,
             ]

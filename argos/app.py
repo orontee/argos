@@ -68,8 +68,6 @@ class Application(Gtk.Application):
         self._message_queue: asyncio.Queue = asyncio.Queue()
         self._tasks: List[asyncio.Task] = []
 
-        self._nm = Gio.NetworkMonitor.get_default()
-
         self._settings = Gio.Settings(self.props.application_id)
 
         self.window = None
@@ -105,7 +103,7 @@ class Application(Gtk.Application):
         self._controllers.append(MixerController(self))
         self._controllers.append(PlaylistsController(self))
 
-        self._model.connect("notify::network-available", self._on_connection_changed)
+        self._model.connect("notify::server-reachable", self._on_connection_changed)
         self._model.connect("notify::connected", self._on_connection_changed)
 
         prefer_dark_theme = self._settings.get_boolean("prefer-dark-theme")
@@ -276,7 +274,7 @@ class Application(Gtk.Application):
             )
             t.start()
 
-            self._model.props.network_available = self._nm.get_network_available()
+            self._model.update_server_reachable()
 
             if self.props.start_fullscreen:
                 self.window.fullscreen()
@@ -469,7 +467,7 @@ class Application(Gtk.Application):
             if not action:
                 continue
 
-            action.set_enabled(self._model.network_available and self._model.connected)
+            action.set_enabled(self._model.server_reachable and self._model.connected)
 
     def _on_connection_changed(
         self,

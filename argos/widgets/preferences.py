@@ -90,7 +90,7 @@ class PreferencesWindow(Gtk.Window):
         start_fullscreen = self._settings.get_boolean("start-fullscreen")
         self.start_fullscreen_switch.set_active(start_fullscreen)
 
-        sensitive = self._model.network_available and self._model.connected
+        sensitive = self._model.server_reachable and self._model.connected
         for widget in (
             self.history_playlist_check_button,
             self.history_playlist_max_length_label,
@@ -105,7 +105,7 @@ class PreferencesWindow(Gtk.Window):
             sensitive and history_playlist
         )
 
-        self._model.connect("notify::network-available", self.on_connection_changed)
+        self._model.connect("notify::server-reachable", self.on_connection_changed)
         self._model.connect("notify::connected", self.on_connection_changed)
 
         # ⚠️ Don't connect signals to handlers automatically through
@@ -145,7 +145,7 @@ class PreferencesWindow(Gtk.Window):
 
         self.show_all()
         self.mopidy_base_url_info_bar.set_revealed(
-            self._model.network_available and not self._model.connected
+            not self._model.server_reachable or not self._model.connected
         )
 
     def on_connection_changed(
@@ -153,11 +153,9 @@ class PreferencesWindow(Gtk.Window):
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
-        self.mopidy_base_url_info_bar.set_revealed(
-            self._model.network_available and not self._model.connected
-        )
+        self.mopidy_base_url_info_bar.set_revealed(not self._model.connected)
 
-        sensitive = self._model.network_available and self._model.connected
+        sensitive = self._model.server_reachable and self._model.connected
         widgets = (self.history_playlist_check_button,)
         for widget in widgets:
             widget.set_sensitive(sensitive)

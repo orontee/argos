@@ -80,7 +80,7 @@ class PlayingBox(Gtk.Box):
         self.tracklist_view.set_placeholder(PlayingBoxEmptyTracklistBox(application))
         self.tracklist_view_viewport.add(self.tracklist_view)
 
-        self.set_sensitive(self._model.network_available and self._model.connected)
+        self.set_sensitive(self._model.server_reachable and self._model.connected)
 
         for widget in (
             self.prev_button,
@@ -96,7 +96,7 @@ class PlayingBox(Gtk.Box):
             if self._disable_tooltips:
                 widget.props.has_tooltip = False
 
-        self._model.connect("notify::network-available", self.handle_connection_changed)
+        self._model.connect("notify::server-reachable", self.handle_connection_changed)
         self._model.connect("notify::connected", self.handle_connection_changed)
         self._model.tracklist.connect("notify::consume", self.handle_consume_changed)
         self._model.tracklist.connect("notify::random", self.handle_random_changed)
@@ -117,7 +117,7 @@ class PlayingBox(Gtk.Box):
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
-        sensitive = self._model.network_available and self._model.connected
+        sensitive = self._model.server_reachable and self._model.connected
         self.set_sensitive(sensitive)
 
     def handle_consume_changed(

@@ -39,6 +39,8 @@ if TYPE_CHECKING:
 
 LOGGER = logging.getLogger(__name__)
 
+_DEFAULT_SERVER_PORT: int = 80
+
 
 class Model(WithThreadSafePropertySetter, GObject.Object):
     __gsignals__: Dict[str, Tuple[int, Any, Sequence]] = {
@@ -54,7 +56,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         "directory-completed": (GObject.SIGNAL_RUN_FIRST, None, (str,)),
     }
 
-    network_available = GObject.Property(type=bool, default=False)
+    server_reachable = GObject.Property(type=bool, default=False)
     connected = GObject.Property(type=bool, default=False)
 
     tracklist_loaded = GObject.Property(type=bool, default=False)
@@ -84,15 +86,44 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         self.backends.append(GenericBackend())
         # Must be the last one!
 
-        application._nm.connect("network-changed", self._on_nm_network_changed)
+        nm = Gio.NetworkMonitor.get_default()
+        nm.connect("network-changed", self._on_nm_network_changed)
 
         self.playback.connect(
             "notify::current-tl-track-tlid",
             self._reset_current_tl_track_tlid_dependent_props,
         )
 
-    def set_network_available(self, value: bool) -> None:
-        self.set_property_in_gtk_thread("network_available", value)
+    def update_server_reachable(self) -> None:
+        LOGGER.debug("Checking whether server is reachable or not")
+        try:
+            network_address = Gio.NetworkAddress.parse_uri(
+                self._settings.get_string("mopidy-base-url"), _DEFAULT_SERVER_PORT
+            )
+        except GLib.Error as error:
+            LOGGER.error(f"Failed to parse server URI, {error.message}")
+            self.set_property_in_gtk_thread("server_reachable", False)
+            return
+
+        nm = Gio.NetworkMonitor.get_default()
+
+        def _can_reach_callback(
+            _1: GObject.Object, res: Gio.AsyncResult, _2: Any = None
+        ):
+            try:
+                server_reachable = nm.can_reach_finish(res) == True
+            except GLib.Error as error:
+                LOGGER.error(f"Failed to check server reachable, {error.message}")
+                server_reachable = False
+
+            LOGGER.debug(f"Server reachable: {server_reachable}")
+            self.set_property_in_gtk_thread("server_reachable", server_reachable)
+
+        nm.can_reach_async(
+            network_address,
+            None,
+            _can_reach_callback,
+        )
 
     def set_connected(self, value: bool) -> None:
         self.set_property_in_gtk_thread("connected", value)
@@ -100,8 +131,10 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
     def _on_nm_network_changed(
         self, network_monitor: Gio.NetworkMonitor, network_available: bool
     ) -> None:
-        LOGGER.debug("Network monitor signal a network status change")
-        self.set_property_in_gtk_thread("network_available", network_available)
+        LOGGER.debug(
+            f"Network monitor signal a network status change, network available: {network_available}"
+        )
+        self.update_server_reachable()
 
     def _reset_current_tl_track_tlid_dependent_props(
         self, _1: GObject.Object, _2: GObject.ParamSpec

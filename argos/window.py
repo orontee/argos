@@ -215,7 +215,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
         if not remove_from_playlist_action:
             return
 
-        enabled = self._model.network_available and self._model.connected
+        enabled = self._model.server_reachable and self._model.connected
         playlist_tracks_box = self.props.playlists_box.tracks_box
         selected_rows = playlist_tracks_box.get_selected_rows()
         remove_from_playlist_action.set_enabled(enabled and len(selected_rows) > 0)

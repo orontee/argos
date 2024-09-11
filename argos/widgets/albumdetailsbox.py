@@ -95,7 +95,7 @@ class AlbumDetailsBox(Gtk.Box):
         self.album_information_label.set_selectable(True)
         self.artist_information_label.set_selectable(True)
 
-        self.set_sensitive(self._model.network_available and self._model.connected)
+        self.set_sensitive(self._model.server_reachable and self._model.connected)
 
         for widget in (
             self.information_button,
@@ -106,9 +106,7 @@ class AlbumDetailsBox(Gtk.Box):
             if self._disable_tooltips:
                 widget.props.has_tooltip = False
 
-        self._model.connect(
-            "notify::network-available", self._handle_connection_changed
-        )
+        self._model.connect("notify::server-reachable", self._handle_connection_changed)
         self._model.connect("notify::connected", self._handle_connection_changed)
         self._model.connect("album-completed", self._on_album_completed)
         self._model.connect(
@@ -127,7 +125,7 @@ class AlbumDetailsBox(Gtk.Box):
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
-        sensitive = self._model.network_available and self._model.connected
+        sensitive = self._model.server_reachable and self._model.connected
         self.set_sensitive(sensitive)
 
     def _on_uri_changed(
@@ -418,7 +416,7 @@ class AlbumDetailsBox(Gtk.Box):
         box: Gtk.ListBox,
         row: Gtk.ListBoxRow,
     ) -> None:
-        sensitive = self._model.network_available and self._model.connected
+        sensitive = self._model.server_reachable and self._model.connected
         if not sensitive:
             return
 

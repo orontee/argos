@@ -74,7 +74,7 @@ class PlaylistsBox(Gtk.Box):
 
         self.add(CondensedPlayingBox(application))
 
-        self.set_sensitive(self._model.network_available and self._model.connected)
+        self.set_sensitive(self._model.server_reachable and self._model.connected)
 
         PlaylistLabel.set_css_name("playlistlabel")
 
@@ -106,7 +106,7 @@ class PlaylistsBox(Gtk.Box):
 
         self.show_all()
 
-        self._model.connect("notify::network-available", self.handle_connection_changed)
+        self._model.connect("notify::server-reachable", self.handle_connection_changed)
         self._model.connect("notify::connected", self.handle_connection_changed)
 
     def _is_playlist_removable(self) -> bool:
@@ -189,7 +189,7 @@ class PlaylistsBox(Gtk.Box):
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
-        sensitive = self._model.network_available and self._model.connected
+        sensitive = self._model.server_reachable and self._model.connected
         self.set_sensitive(sensitive)
 
     def _create_playlist_box(

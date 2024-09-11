@@ -29,9 +29,9 @@ class VolumeButton(Gtk.VolumeButton):
         if application.props.disable_tooltips:
             self.props.has_tooltip = False
 
-        self.set_sensitive(self._model.network_available and self._model.connected)
+        self.set_sensitive(self._model.server_reachable and self._model.connected)
 
-        self._model.connect("notify::network-available", self.handle_connection_changed)
+        self._model.connect("notify::server-reachable", self.handle_connection_changed)
         self._model.connect("notify::connected", self.handle_connection_changed)
         self._model.mixer.connect("notify::volume", self.update_value)
         self._model.mixer.connect("notify::mute", self.update_value)
@@ -42,7 +42,7 @@ class VolumeButton(Gtk.VolumeButton):
         _2: GObject.GParamSpec,
     ) -> None:
         self.update_value()
-        sensitive = self._model.network_available and self._model.connected
+        sensitive = self._model.server_reachable and self._model.connected
         self.set_sensitive(sensitive)
 
     def update_value(

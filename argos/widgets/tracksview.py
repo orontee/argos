@@ -58,7 +58,7 @@ class TracksView(Gtk.Box):
         )
         self.track_selection_button.set_menu_model(track_selection_menu)
 
-        self.set_sensitive(self._model.network_available and self._model.connected)
+        self.set_sensitive(self._model.server_reachable and self._model.connected)
 
         self.directory_image.set_from_pixbuf(self.default_directory_image)
 
@@ -76,9 +76,7 @@ class TracksView(Gtk.Box):
             sort_tracks_menu.append(name, f"win.sort-tracks::{id}")
         self.sort_tracks_button.set_menu_model(sort_tracks_menu)
 
-        self._model.connect(
-            "notify::network-available", self._handle_connection_changed
-        )
+        self._model.connect("notify::server-reachable", self._handle_connection_changed)
         self._model.connect("notify::connected", self._handle_connection_changed)
 
         self.connect("notify::uri", self._on_uri_changed)
@@ -88,7 +86,7 @@ class TracksView(Gtk.Box):
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
-        sensitive = self._model.network_available and self._model.connected
+        sensitive = self._model.server_reachable and self._model.connected
         self.set_sensitive(sensitive)
 
     def _on_uri_changed(
@@ -190,7 +188,7 @@ class TracksView(Gtk.Box):
         box: Gtk.ListBox,
         row: Gtk.ListBoxRow,
     ) -> None:
-        sensitive = self._model.network_available and self._model.connected
+        sensitive = self._model.server_reachable and self._model.connected
         if not sensitive:
             return
 

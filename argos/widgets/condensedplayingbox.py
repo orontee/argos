@@ -53,7 +53,7 @@ class CondensedPlayingBox(Gtk.Box):
         track_length_box = TrackLengthBox(application, with_scale=False)
         self.pack_end(track_length_box, False, False, 0)
 
-        self.set_sensitive(self._model.network_available and self._model.connected)
+        self.set_sensitive(self._model.server_reachable and self._model.connected)
 
         for widget in (
             self.prev_button,
@@ -67,7 +67,7 @@ class CondensedPlayingBox(Gtk.Box):
             "button-press-event", self.on_playing_track_image_pressed
         )
 
-        self._model.connect("notify::network-available", self.handle_connection_changed)
+        self._model.connect("notify::server-reachable", self.handle_connection_changed)
         self._model.connect("notify::connected", self.handle_connection_changed)
         self._model.playback.connect(
             "notify::current-tl-track-tlid", self._update_playing_track_labels
@@ -83,7 +83,7 @@ class CondensedPlayingBox(Gtk.Box):
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
-        sensitive = self._model.network_available and self._model.connected
+        sensitive = self._model.server_reachable and self._model.connected
         self.set_sensitive(sensitive)
 
     def _update_playing_track_labels(

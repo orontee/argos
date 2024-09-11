@@ -52,7 +52,7 @@ class TimePositionTracker(GObject.Object):
     def _is_server_playing(self) -> bool:
         return all(
             [
-                self._model.network_available,
+                self._model.server_reachable,
                 self._model.connected,
                 self._model.playback.state == PlaybackState.PLAYING,
             ]

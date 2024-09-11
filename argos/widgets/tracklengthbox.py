@@ -58,9 +58,9 @@ class TrackLengthBox(Gtk.Box):
 
         self._time_position_scale_jumped_source_id: Optional[int] = None
 
-        self.set_sensitive(self._model.network_available and self._model.connected)
+        self.set_sensitive(self._model.server_reachable and self._model.connected)
 
-        self._model.connect("notify::network-available", self.handle_connection_changed)
+        self._model.connect("notify::server-reachable", self.handle_connection_changed)
         self._model.connect("notify::connected", self.handle_connection_changed)
         self._model.playback.connect(
             "notify::current-tl-track-tlid", self._update_playing_track_labels
@@ -74,7 +74,7 @@ class TrackLengthBox(Gtk.Box):
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
-        sensitive = self._model.network_available and self._model.connected
+        sensitive = self._model.server_reachable and self._model.connected
         self.set_sensitive(sensitive)
 
     def _update_playing_track_labels(
