@@ -1,7 +1,5 @@
 #!/bin/bash
 
-NEWS_HEADER="[Unreleased]\n============\n\nAdded\n-----\n\nChanged\n-------\n\nRemoved\n-------\n"
-
 cd "${MESON_SOURCE_ROOT}"
 
 if [[ -n "$(git status --porcelain)" ]]; then
@@ -14,6 +12,52 @@ if [[ $(git rev-parse --abbrev-ref HEAD) != "main" ]]; then
     exit 1
 fi
 
-sed -i "11 i ${NEWS_HEADER}" NEWS.rst
-git add NEWS.rst
+CURRENT_VERSION=$(poetry version --short)
+NEW_VERSION=$(poetry version --short preminor)
+
+git add pyproject.toml
+echo "Version set to ${NEW_VERSION}"
+
+NEWS_HEADER="[Unreleased]\n============\n\nAdded\n-----\n\nChanged\n-------\n\nRemoved\n-------\n"
+
+CHANGELOG_DATE=$(LANG=C date +"%a, %d %b %Y %H:%M:%S %z")
+CHANGELOG_AUTHOR="$(git config user.name) <$(git config user.email)>"
+CHANGELOG="argos (${NEW_VERSION}) UNRELEASED; urgency=medium
+
+  * ${NEW_VERSION} release.
+
+ -- ${CHANGELOG_AUTHOR}  ${CHANGELOG_DATE}
+"
+
+update_news_file() {
+    local file_path="NEWS.rst"
+
+    echo "Updating ${file_path}..."
+    sed -i "11 i ${NEWS_HEADER}" ${file_path}
+
+    git add ${file_path}
+}
+
+update_debian_changelog() {
+    local file_path="debian/changelog"
+
+    echo "Updating ${file_path}..."
+    echo "$(echo "${CHANGELOG}"; cat ${file_path})" > ${file_path}
+
+    git add ${file_path}
+}
+
+update_meson_conf() {
+    local file_path="meson.build"
+
+    echo "Updating ${file_path}..."
+    sed -i "s/version: '${CURRENT_VERSION}'/version: '${NEW_VERSION}'/" ${file_path}
+
+    git add ${file_path}
+}
+
+update_news_file
+update_debian_changelog
+update_meson_conf
+
 git commit -m "Prepare for next release"

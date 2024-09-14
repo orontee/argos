@@ -47,7 +47,7 @@ Build DEB package
 To build the DEB package *for a given version*, one can build a Docker
 image and export the DEB file from that image::
 
-  $ VERSION=$(poetry version | cut -d' ' -f 2)
+  $ VERSION=$(poetry version --short)
   $ rm -rf builddir
   $ buildah bud -t argos-build:$VERSION --build-arg VERSION=${VERSION} .
   $ podman run --rm -v ${PWD}:/opt/argos argos-build:$VERSION bash -c "cp builddir/*.deb /opt/argos"
@@ -56,7 +56,7 @@ To manually build the DEB package *for current HEAD*, first install
 the dependencies listed in the `Containerfile </Containerfile>`_, then run
 the following commands::
 
-  $ VERSION=$(poetry version | cut -d' ' -f 2)
+  $ VERSION=$(poetry version --short)
   $ mkdir builddir
   $ git archive --prefix=builddir/argos-${VERSION}/ --format=tar.gz HEAD | tar xzf -
   $ pushd builddir/argos-${VERSION} && debuild -b -tc -us -uc && popd
@@ -131,8 +131,8 @@ First, update project version with::
 Review, complete or update the suggested changes carefully; Make sure
 translations and screenshots are up-to-date. Commit, tag and push with::
 
-  $ git commit -a -m "Update to version $(poetry version | cut -d' ' -f 2)"
-  $ git tag $(poetry version | cut -d' ' -f 2)
+  $ git commit -a -m "Update to version $(poetry version --short)"
+  $ git tag $(poetry version --short)
   $ git push origin; git push --tags origin
 
 Use ``flatpak-builder`` to build locally and Github actions to build a
@@ -142,6 +142,11 @@ Make a pull request to the technical repository
 `flathub/io.github.orontee.Argos
 <https://github.com/flathub/io.github.orontee.Argos>`_ to publish the
 release through Flathub.
+
+Finally, run the following command to commit version bump for next
+release::
+
+  $ poetry run ./scripts/prepare-next-release
 
 Architecture
 ============

@@ -2,9 +2,9 @@
 
 cd "${MESON_SOURCE_ROOT}"
 
-CURRENT_VERSION=$(poetry version | cut -d' ' -f 2)
+CURRENT_VERSION=$(poetry version --short)
 
-NEW_VERSION=$(python -c "import semver; print(semver.VersionInfo.parse(\"${CURRENT_VERSION}\").bump_minor())")
+NEW_VERSION=$(poetry version --short minor)
 
 CHANGELOG_DATE=$(LANG=C date +"%a, %d %b %Y %H:%M:%S %z")
 CHANGELOG_AUTHOR="$(git config user.name) <$(git config user.email)>"
@@ -39,7 +39,7 @@ update_readme_file() {
     local file_path="README.rst"
 
     echo "Updating ${file_path}..."
-    sed -i "s/VERSION=${CURRENT_VERSION}/VERSION=${NEW_VERSION}/" ${file_path}
+    sed -i "s/VERSION=.*/VERSION=${NEW_VERSION}/" ${file_path}
 }
 
 update_appdata_file() {
@@ -53,7 +53,8 @@ update_debian_changelog() {
     local file_path="debian/changelog"
 
     echo "Updating ${file_path}..."
-    echo "$(echo "${CHANGELOG}"; cat ${file_path})" > ${file_path}
+    sed -i "s/${CURRENT_VERSION}/${NEW_VERSION}/" ${file_path}
+    sed -i "s/${NEW_VERSION}) UNRELEASED/${NEW_VERSION}) RELEASED/" ${file_path}
 }
 
 update_meson_conf() {
@@ -63,16 +64,8 @@ update_meson_conf() {
     sed -i "s/version: '${CURRENT_VERSION}'/version: '${NEW_VERSION}'/" ${file_path}
 }
 
-update_project_conf() {
-    local file_path="pyproject.toml"
-
-    echo "Updating ${file_path}..."
-    sed -i "s/version = .*/version = \"$NEW_VERSION\"/" ${file_path}
-}
-
 update_readme_file
 update_meson_conf
-update_project_conf
 update_news_file
 update_appdata_file
 update_debian_changelog

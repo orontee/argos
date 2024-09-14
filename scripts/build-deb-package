@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=$(poetry version | cut -d' ' -f 2)
+VERSION=$(poetry version --short)
 BUILDDIR=builddir
 
 [ -d ${BUILDDIR} ] && {

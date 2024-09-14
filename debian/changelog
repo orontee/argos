@@ -1,106 +1,106 @@
-argos (1.15.0-rc0) UNRELEASED; urgency=medium
+argos (1.15.0a0) UNRELEASED; urgency=medium
 
-  * 1.15.0 release candidate.
+  * 1.15.0a0 release.
 
- -- Matthias Meulien <orontee@gmail.com>  Sat, 20 Jul 2024 22:07:04 +0200
+ -- Matthias Meulien <orontee@gmail.com>  Sat, 14 Sep 2024 23:29:38 +0200
 
-argos (1.14.0-1) UNRELEASED; urgency=medium
+argos (1.14.0) RELEASED; urgency=medium
 
   * 1.14.0 release.
 
  -- Matthias Meulien <orontee@gmail.com>  Sat, 20 Jul 2024 22:07:04 +0200
 
-argos (1.13.0-1) UNRELEASED; urgency=medium
+argos (1.13.0-1) RELEASED; urgency=medium
 
   * 1.13.0 release.
 
  -- Matthias Meulien <orontee@gmail.com>  Sun, 31 Dec 2023 21:30:11 +0100
 
-argos (1.12.0-1) UNRELEASED; urgency=medium
+argos (1.12.0-1) RELEASED; urgency=medium
 
   * 1.12.0 release.
 
  -- Matthias Meulien <orontee@gmail.com>  Thu, 11 May 2023 22:04:27 +0200
 
-argos (1.11.0-1) UNRELEASED; urgency=medium
+argos (1.11.0-1) RELEASED; urgency=medium
 
   * 1.11.0 release.
 
  -- Matthias Meulien <orontee@gmail.com>  Thu, 02 Mar 2023 22:20:00 +0100
 
-argos (1.10.0-1) UNRELEASED; urgency=medium
+argos (1.10.0-1) RELEASED; urgency=medium
 
   * 1.10.0 release.
 
  -- Matthias Meulien <orontee@gmail.com>  Sun, 26 Feb 2023 12:09:00 +0100
 
-argos (1.9.0-1) UNRELEASED; urgency=medium
+argos (1.9.0-1) RELEASED; urgency=medium
 
   * 1.9.0 release.
 
  -- Matthias Meulien <orontee@gmail.com>  Mon, 30 Jan 2023 22:45:00 +0200
 
-argos (1.8.0-1) UNRELEASED; urgency=medium
+argos (1.8.0-1) RELEASED; urgency=medium
 
   * 1.8.0 release.
 
  -- Matthias Meulien <orontee@gmail.com>  Mon, 16 Jan 2023 21:45:00 +0200
 
-argos (1.7.0-1) UNRELEASED; urgency=medium
+argos (1.7.0-1) RELEASED; urgency=medium
 
   * 1.7.0 release.
 
  -- Matthias Meulien <orontee@gmail.com>  Fri, 31 Dec 2022 23:04:00 +0200
 
-argos (1.6.0-1) UNRELEASED; urgency=medium
+argos (1.6.0-1) RELEASED; urgency=medium
 
   * 1.6.0 release.
 
  -- Matthias Meulien <orontee@gmail.com>  Mon, 12 Dec 2022 20:33:00 +0200
 
-argos (1.5.0-1) UNRELEASED; urgency=medium
+argos (1.5.0-1) RELEASED; urgency=medium
 
   * 1.5.0 release.
 
  -- Matthias Meulien <orontee@gmail.com>  Mon, 05 Dec 2022 08:08:28 +0200
 
-argos (1.4.0-1) UNRELEASED; urgency=medium
+argos (1.4.0-1) RELEASED; urgency=medium
 
   * 1.4.0 release.
 
  -- Matthias Meulien <orontee@gmail.com>  Tue, 19 Oct 2022 19:08:28 +0200
 
-argos (1.3.0-1) UNRELEASED; urgency=medium
+argos (1.3.0-1) RELEASED; urgency=medium
 
   * 1.3.0 release.
 
  -- Matthias Meulien <orontee@gmail.com>  Tue, 17 Sep 2022 20:43:28 +0200
 
-argos (1.2.0-1) UNRELEASED; urgency=medium
+argos (1.2.0-1) RELEASED; urgency=medium
 
   * 1.2.0 release.
 
  -- Matthias Meulien <orontee@gmail.com>  Tue, 30 Aug 2022 20:56:28 +0200
 
-argos (1.1.2-1) UNRELEASED; urgency=medium
+argos (1.1.2-1) RELEASED; urgency=medium
 
   * 1.1.2 release.
 
  -- Matthias Meulien <orontee@gmail.com>  Fri, 26 Aug 2022 23:31:28 +0200
 
-argos (1.1.1-1) UNRELEASED; urgency=medium
+argos (1.1.1-1) RELEASED; urgency=medium
 
   * 1.1.1 release.
 
  -- Matthias Meulien <orontee@gmail.com>  Sat, 20 Aug 2022 11:22:28 +0200
 
-argos (1.1.0-1) UNRELEASED; urgency=medium
+argos (1.1.0-1) RELEASED; urgency=medium
 
   * 1.1.0 release.
 
  -- Matthias Meulien <orontee@gmail.com>  Sat, 20 Aug 2022 11:22:28 +0200
 
-argos (1.0.0-1) UNRELEASED; urgency=medium
+argos (1.0.0-1) RELEASED; urgency=medium
 
   * Initial release.
 

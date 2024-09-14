@@ -2,7 +2,7 @@
 
 cd "${MESON_SOURCE_ROOT}"
 
-VERSION=$(poetry version | cut -d' ' -f 2)
+VERSION=$(poetry version --short)
 
 BODY="See [News file](https://github.com/orontee/argos/blob/v${VERSION}/NEWS.rst) for release content.
 
