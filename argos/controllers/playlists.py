@@ -1,6 +1,7 @@
 import asyncio
 import gettext
 import logging
+import math
 import time
 from operator import itemgetter
 from typing import TYPE_CHECKING, Dict, List, Optional
@@ -15,7 +16,7 @@ from argos.controllers.utils import call_by_slice, parse_tracks
 from argos.controllers.visitors import PlaylistTrackNameFix
 from argos.dto import PlaylistDTO
 from argos.message import Message, MessageType, consume
-from argos.model import PlaylistModel, TrackModel
+from argos.model import ModelFlag, PlaylistModel, TrackModel
 
 LOGGER = logging.getLogger(__name__)
 
@@ -142,8 +143,7 @@ class PlaylistsController(ControllerBase):
         if playlist is None:
             return None
 
-        if playlist.last_modified == -1:
-            # The playlist hasn't been loaded
+        if not (ModelFlag.TRACKS_COMPLETED & ModelFlag(playlist.props.flags)):
             playlist_dto = await self._http.lookup_playlist(playlist_uri)
             if playlist_dto is not None:
                 await self._complete_playlist_from(
@@ -244,7 +244,7 @@ class PlaylistsController(ControllerBase):
         if not self._history_playlist:
             return
 
-        LOGGER.info("Begin of history playlist completion")
+        LOGGER.debug("Begin of history playlist completion")
         history = await self._http.get_history()
         if history is None:
             return
@@ -306,9 +306,9 @@ class PlaylistsController(ControllerBase):
             self._history_playlist.uri,
             name=self._history_playlist.name,
             tracks=parsed_history_tracks_with_duplicates,
-            last_modified=time.time(),
+            last_modified=math.floor(time.time()),
         )
-        LOGGER.info("End of history playlist completion")
+        LOGGER.debug("End of history playlist completion")
 
     def _on_playlist_settings_changed(
         self,

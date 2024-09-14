@@ -17,9 +17,10 @@ Added
 Changed
 -------
 
-- Check whether Mopidy server is reachable: Relying only on network
-  availability lead to UI being unresponsive when Argos runs on the
-  same host as the server but network becomes unavailable `#181
+- Support playlists without date of last modification `#177
+  <https://github.com/orontee/argos/issues/177>`_
+
+- Check whether Mopidy server is reachable `#181
   <https://github.com/orontee/argos/issues/181>`_
 
 Removed

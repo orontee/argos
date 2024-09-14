@@ -26,6 +26,7 @@ from argos.model.mixer import MixerModel
 from argos.model.playback import PlaybackModel
 from argos.model.playlist import PlaylistModel, compare_playlists_func
 from argos.model.random import RandomTracksChoice, choose_random_tracks
+from argos.model.status import ModelFlag
 from argos.model.track import (
     TrackModel,
     compare_tracks_by_name_func,
@@ -401,7 +402,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         *,
         name: str,
         tracks: Sequence[TrackModel],
-        last_modified: float,
+        last_modified: Optional[int],
         wait_for_model_update: bool = False,
     ) -> None:
         event: Optional[threading.Event]
@@ -426,16 +427,27 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
                 LOGGER.debug(f"Insertion of playlist with URI {playlist.uri!r}")
                 self.playlists.insert_sorted(playlist, compare_playlists_func, None)
             else:
-                if playlist.last_modified == last_modified:
+                if (
+                    last_modified is not None
+                    and playlist.last_modified == last_modified
+                ):
                     LOGGER.debug(f"Playlist with URI {playlist_uri!r} is up-to-date")
+                    if event is not None:
+                        event.set()
                     return
 
                 playlist.name = name
                 playlist.tracks.remove_all()
 
-            playlist.last_modified = last_modified
+            if last_modified is not None:
+                playlist.last_modified = last_modified
+
             for track in tracks:
                 playlist.tracks.append(track)
+
+            playlist.set_property(
+                "flags", playlist.flags | ModelFlag.TRACKS_COMPLETED.value
+            )
 
             if event is not None:
                 event.set()

@@ -61,7 +61,7 @@ class TestPlaylistDTO(unittest.TestCase):
     def test_factory_with_missing_last_modified(self):
         del self.data["last_modified"]
         dto = PlaylistDTO.factory(self.data)
-        self.assertIsNone(dto)
+        self.assertIsNotNone(dto)
 
     def test_factory_with_malformed_data(self):
         del self.data["tracks"][0]["uri"]

@@ -246,7 +246,7 @@ class PlaylistDTO:
 
     uri: str
     name: str
-    last_modified: int
+    last_modified: Optional[int]
 
     tracks: List[TrackDTO] = field(default_factory=list)
 
@@ -257,10 +257,10 @@ class PlaylistDTO:
 
         uri = data.get("uri")
         name = data.get("name")
-        last_modified = data.get("last_modified")
-        if uri is None or name is None or last_modified is None:
+        if uri is None or name is None:
             return None
 
+        last_modified = data.get("last_modified")
         dto = PlaylistDTO(uri, name, last_modified)
         for track_data in data.get("tracks", []):
             track_dto = TrackDTO.factory(track_data)

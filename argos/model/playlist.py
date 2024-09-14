@@ -2,6 +2,7 @@ import locale
 
 from gi.repository import Gio, GObject
 
+from argos.model.status import ModelFlag
 from argos.model.track import TrackModel
 
 
@@ -33,9 +34,9 @@ class PlaylistModel(GObject.Object):
     """Model for a playlist."""
 
     uri = GObject.Property(type=str)
+    flags = GObject.Property(type=GObject.TYPE_INT, default=ModelFlag.NO_FLAG.value)
     name = GObject.Property(type=str)
     last_modified = GObject.Property(type=GObject.TYPE_DOUBLE, default=-1)
-
     tracks: Gio.ListStore
 
     def __init__(self, **kwargs):

@@ -30,7 +30,7 @@ argos/utils.py
 argos/widgets/albumdetailsbox.py
 argos/widgets/playingboxemptytracklistbox.py
 argos/widgets/playlistcreationdialog.py
-argos/widgets/playlistemptytracksbox.py
+argos/widgets/playlistloadingtracksbox.py
 argos/widgets/playlistsbox.py
 argos/widgets/playlistselectiondialog.py
 argos/widgets/preferences.py

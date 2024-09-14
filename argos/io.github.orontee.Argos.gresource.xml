@@ -10,7 +10,7 @@
     <file preprocess="xml-stripblanks">ui/library_window.ui</file>
     <file preprocess="xml-stripblanks">ui/playing_box.ui</file>
     <file preprocess="xml-stripblanks">ui/playing_box_empty_tracklist_box.ui</file>
-    <file preprocess="xml-stripblanks">ui/playlist_empty_tracks_box.ui</file>
+    <file preprocess="xml-stripblanks">ui/playlist_loading_tracks_box.ui</file>
     <file preprocess="xml-stripblanks">ui/playlist_creation_dialog.ui</file>
     <file preprocess="xml-stripblanks">ui/playlist_selection_dialog.ui</file>
     <file preprocess="xml-stripblanks">ui/playlist_track_box.ui</file>

@@ -8,16 +8,18 @@ _ = gettext.gettext
 LOGGER = logging.getLogger(__name__)
 
 
-@Gtk.Template(resource_path="/io/github/orontee/Argos/ui/playlist_empty_tracks_box.ui")
-class PlaylistEmptyTracksBox(Gtk.Box):
-    """Box to use as a placeholder for empty playlist tracks box.
+@Gtk.Template(
+    resource_path="/io/github/orontee/Argos/ui/playlist_loading_tracks_box.ui"
+)
+class PlaylistLoadingTracksBox(Gtk.Box):
+    """Box to use as a placeholder for playlist with loading tracks.
 
     The box has vertical orientation and has two children boxes: An
     active spinner and a label.
 
     """
 
-    __gtype_name__ = "PlaylistEmptyTracksBox"
+    __gtype_name__ = "PlaylistLoadingTracksBox"
 
     progress_label: Gtk.Label = Gtk.Template.Child()
     progress_spinner: Gtk.Spinner = Gtk.Template.Child()

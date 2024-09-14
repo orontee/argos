@@ -5,11 +5,11 @@ from typing import List, Optional
 from gi.repository import Gio, GLib, GObject, Gtk
 
 from argos.message import MessageType
-from argos.model import PlaylistModel, TrackModel
+from argos.model import ModelFlag, PlaylistModel, TrackModel
 from argos.utils import ms_to_text
 from argos.widgets.condensedplayingbox import CondensedPlayingBox
-from argos.widgets.playlistemptytracksbox import PlaylistEmptyTracksBox
 from argos.widgets.playlistlabel import PlaylistLabel
+from argos.widgets.playlistloadingtracksbox import PlaylistLoadingTracksBox
 from argos.widgets.playlisttrackbox import PlaylistTrackBox
 from argos.widgets.streamuridialog import StreamUriDialog
 from argos.widgets.utils import set_list_box_header_with_date_separator, tracks_length
@@ -70,7 +70,7 @@ class PlaylistsBox(Gtk.Box):
         self._app = application
         self._model = application.model
         self._disable_tooltips = application.props.disable_tooltips
-        self._empty_tracks_placeholder = PlaylistEmptyTracksBox(application)
+        self._loading_tracks_placeholder = PlaylistLoadingTracksBox(application)
 
         self.add(CondensedPlayingBox(application))
 
@@ -87,7 +87,7 @@ class PlaylistsBox(Gtk.Box):
         )
 
         self.tracks_box.set_header_func(set_list_box_header_with_date_separator)
-        self.tracks_box.set_placeholder(self._empty_tracks_placeholder)
+        self.tracks_box.set_placeholder(self._loading_tracks_placeholder)
 
         edition_menu = Gio.Menu()
         edition_menu.append(_("Add stream to playlist…"), "win.add-stream-to-playlist")
@@ -133,11 +133,8 @@ class PlaylistsBox(Gtk.Box):
             self._create_track_box if tracks is not None else None,
         )
 
-        # Since playlist model missed a "loaded" property, the tracks
-        # emptyness must be completed by a check to last_modified
-        # value...
-        self._empty_tracks_placeholder.props.loading = (
-            playlist is not None and playlist.props.last_modified == -1
+        self._loading_tracks_placeholder.props.loading = playlist is not None and not (
+            ModelFlag.TRACKS_COMPLETED & ModelFlag(playlist.props.flags)
         )
 
         if playlist is not None:
@@ -145,10 +142,10 @@ class PlaylistsBox(Gtk.Box):
             def update_placeholder_loading_prop(
                 playlist: GObject.GObject, _2: GObject.GParamSpec
             ) -> None:
-                if playlist.props.last_modified != -1:
-                    self._empty_tracks_placeholder.props.loading = False
+                if ModelFlag.TRACKS_COMPLETED & ModelFlag(playlist.props.flags):
+                    self._loading_tracks_placeholder.props.loading = False
 
-            playlist.connect("notify::last-modified", update_placeholder_loading_prop)
+            playlist.connect("notify::flags", update_placeholder_loading_prop)
 
         self.play_button.set_sensitive(playlist is not None)
         self.add_button.set_sensitive(playlist is not None)

@@ -11,6 +11,7 @@ from argos.model.random import (
     RandomTracksChoice,
     RandomTracksChoiceState,
 )
+from argos.model.status import ModelFlag
 from argos.model.track import TrackModel
 from argos.model.tracklist import TracklistModel, TracklistTrackModel
 from argos.model.utils import PlaybackState
@@ -21,14 +22,15 @@ __all__ = (
     "LibraryModel",
     "MixerModel",
     "Model",
+    "ModelFlag",
     "MopidyBackend",
     "PlaybackModel",
     "PlaybackState",
     "PlaylistModel",
+    "RANDOM_TRACKS_CHOICE_STRATEGY",
     "RandomTracksChoice",
     "RandomTracksChoiceState",
-    "RANDOM_TRACKS_CHOICE_STRATEGY",
+    "TrackModel",
     "TracklistModel",
     "TracklistTrackModel",
-    "TrackModel",
 )
