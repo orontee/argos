@@ -17,6 +17,9 @@ Added
 Changed
 -------
 
+- Weblate is used to host translations `#179
+  <https://github.com/orontee/argos/issues/179>`_
+
 - Support playlists without date of last modification `#177
   <https://github.com/orontee/argos/issues/177>`_
 

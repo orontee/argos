@@ -10,6 +10,10 @@ Argos
     :target: https://mypy-lang.org/
     :alt: Type check: mypy
 
+.. image:: https://hosted.weblate.org/widget/argos/argos/svg-badge.svg
+    :target: https://hosted.weblate.org/engage/argos/
+    :alt: Translations: Weblate
+
 .. image:: https://github.com/orontee/argos/actions/workflows/build.yaml/badge.svg
     :target: https://github.com/orontee/argos/actions/workflows/build.yaml
     :alt: CI build status
@@ -234,6 +238,11 @@ the library::
 
 Contributing
 ============
+
+No developer skills are required to contribute to translations or add
+support for new languages, thanks to the `Weblate platform
+<https://hosted.weblate.org/projects/argos/argos/>`_. More on this
+topic in the `translations documentation </po/README.rst>`_.
 
 Instructions to install an unreleased version, debug, etc. can be found
 in the `CONTRIBUTING file </CONTRIBUTING.rst>`_.

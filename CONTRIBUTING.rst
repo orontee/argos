@@ -63,18 +63,6 @@ the following commands::
 
 The corresponding DEB package is generated in the ``builddir`` directory.
 
-Translations
-============
-
-To update translation files::
-
-  $ rm -rf builddir
-  $ meson setup builddir .
-  $ meson compile -C builddir io.github.orontee.Argos-update-po
-
-Running ``poetry run ./scripts/update-translations`` does almost the
-same thing.
-
 Dependencies
 ============
 
