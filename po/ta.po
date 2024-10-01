@@ -8,509 +8,507 @@ msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-06-09 09:10+0200\n"
-"PO-Revision-Date: 2024-12-07 19:45+0000\n"
+"PO-Revision-Date: 2024-12-07 20:57+0000\n"
 "Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/argos/argos/fr/>\n"
-"Language: fr\n"
+"Language-Team: Tamil <https://hosted.weblate.org/projects/argos/argos/ta/>\n"
+"Language: ta\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.9-dev\n"
 
 #: argos/app.py:123
 msgid "Enable debug logs"
-msgstr "Activer le journal de débogage"
+msgstr "பிழைத்திருத்த பதிவுகளை இயக்கவும்"
 
 #: argos/app.py:139
 msgid "Disable tooltips"
-msgstr "Désactiver les info-bulles"
+msgstr "உதவிக்குறிப்புகளை முடக்கு"
 
 #: argos/app.py:147
 msgid "Hide search button"
-msgstr "Masquer le bouton de recherche"
+msgstr "தேடல் பொத்தானை மறைக்கவும்"
 
 #: argos/app.py:155
 msgid "Hide close button"
-msgstr "Masquer le bouton de fermeture"
+msgstr "மூடு பொத்தானை மறைக்கவும்"
 
 #: argos/app.py:302
 msgid "Welcome!"
-msgstr "Bienvenue !"
+msgstr "வரவேற்கிறோம்!"
 
 #: argos/app.py:304
 msgid ""
 "Start by configuring the URL of the music server. The default value expects "
 "a server running on the local host and listening to the 6680 port."
 msgstr ""
-"Commencez par configurer l'URL du serveur de musique. La valeur par défaut "
-"fait l'hypothèse qu'il tourne sur cet hôte et écoute sur le port 6680."
+"இசை சேவையகத்தின் முகவரி ஐ உள்ளமைப்பதன் மூலம் தொடங்கவும். இயல்புநிலை மதிப்பு உள்ளக ஓச்டில் இயங்கும் மற்றும் 6680 "
+"போர்ட்டைக் கேட்கும் சேவையகத்தை எதிர்பார்க்கிறது."
 
 #: argos/controllers/library.py:37
 msgid "Files"
-msgstr "Fichiers"
+msgstr "கோப்புகள்"
 
 #: argos/controllers/library.py:38
 msgid "Local media"
-msgstr "Média locaux"
+msgstr "உள்ளக ஊடகங்கள்"
 
 #: argos/controllers/library.py:39
 msgid "Podcasts"
-msgstr "Podcasts"
+msgstr "பாட்காச்ட்கள்"
 
 #: argos/controllers/library.py:40
 msgid "Albums"
-msgstr "Albums"
+msgstr "ஆல்பங்கள்"
 
 #: argos/controllers/library.py:41 argos/ui/album_details_box.ui:315
 #: argos/ui/playlists_box.ui:113 argos/ui/tracklist_random_dialog.ui:216
 #: argos/ui/tracks_view.ui:140
 msgid "Tracks"
-msgstr "Morceaux"
+msgstr "தடங்கள்"
 
 #: argos/controllers/library.py:42
 msgid "Artists"
-msgstr "Artistes"
+msgstr "கலைஞர்கள்"
 
 #: argos/controllers/library.py:43
 msgid "Composers"
-msgstr "Compositeurs"
+msgstr "இசையமைப்பாளர்கள்"
 
 #: argos/controllers/library.py:44
 msgid "Genres"
-msgstr "Genres"
+msgstr "வகைகள்"
 
 #: argos/controllers/library.py:45
 msgid "Performers"
-msgstr "Interprètes"
+msgstr "கலைஞர்கள்"
 
 #: argos/controllers/library.py:46
 msgid "Release Years"
-msgstr "Années de distribution"
+msgstr "வெளியீட்டு ஆண்டுகள்"
 
 #: argos/controllers/library.py:47
 msgid "Last Week's Updates"
-msgstr "Ajouts de la semaine dernière"
+msgstr "கடந்த வார புதுப்பிப்புகள்"
 
 #: argos/controllers/library.py:48
 msgid "Last Month's Updates"
-msgstr "Ajouts du mois dernier"
+msgstr "கடந்த மாத புதுப்பிப்புகள்"
 
 #: argos/controllers/library.py:49
 msgid "Discover by Genre"
-msgstr "Parcourir par genre"
+msgstr "வகையால் கண்டறியவும்"
 
 #: argos/controllers/library.py:50
 msgid "Discover by Tag"
-msgstr "Parcourir par tag"
+msgstr "குறிச்சொல் மூலம் கண்டறியவும்"
 
 #: argos/controllers/library.py:51
 msgid "Collection"
-msgstr "Collection"
+msgstr "சேகரிப்பு"
 
 #: argos/controllers/library.py:52
 msgid "Wishlist"
-msgstr "Liste de souhaits"
+msgstr "விருப்பப்பட்டியல்"
 
 #: argos/controllers/library.py:53
 msgid "All"
-msgstr "Tous"
+msgstr "அனைத்தும்"
 
 #: argos/controllers/playback.py:184
 msgid "Started to play {}"
-msgstr "Lecture de {}"
+msgstr "{} விளையாடத் தொடங்கியது"
 
 #: argos/controllers/playlists.py:42 argos/controllers/playlists.py:322
 #: argos/ui/preferences.ui:438
 msgid "History"
-msgstr "Historique"
+msgstr "வரலாறு"
 
 #: argos/controllers/tracklist.py:58
 msgid "Tracklist updated"
-msgstr "File d'attente mise à jour"
+msgstr "டிராக்லிச்ட் புதுப்பிக்கப்பட்டது"
 
 #: argos/info.py:28
 msgid "Data source: {}"
-msgstr "Source : {}"
+msgstr "தரவு மூல: {}"
 
 #: argos/model/random.py:19
 msgid "Random album"
-msgstr "Album au hasard"
+msgstr "சீரற்ற ஆல்பம்"
 
 #: argos/model/random.py:20
 msgid "Random disc"
-msgstr "Disque au hasard"
+msgstr "சீரற்ற வட்டு"
 
 #: argos/model/random.py:21
 msgid "Random tracks for half an hour"
-msgstr "Demi-heure de morceaux au hasard"
+msgstr "சீரற்ற தடங்கள் அரை மணி நேரம்"
 
 #: argos/ui/about.ui.in:11
 msgid "Happy listening!"
-msgstr "Bonne écoute !"
+msgstr "மகிழ்ச்சியான கேட்பது!"
 
 #: argos/ui/about.ui.in:13
 msgid "Web Site"
-msgstr "Site web"
+msgstr "வலைத்தளம்"
 
 #: argos/ui/album_details_box.ui:100
 msgid "Published"
-msgstr "Publication"
+msgstr "வெளியிடப்பட்டது"
 
 #: argos/ui/album_details_box.ui:133
 msgid "Album image"
-msgstr "Couverture"
+msgstr "ஆல்பம் படம்"
 
 #: argos/ui/album_details_box.ui:198
 msgid "Artist"
-msgstr "Artiste"
+msgstr "கலைஞர்"
 
 #: argos/ui/album_details_box.ui:226
 msgid "Album"
-msgstr "Album"
+msgstr "ஆல்பம்"
 
 #: argos/ui/album_details_box.ui:240
 msgid "Information"
-msgstr "Information"
+msgstr "தகவல்"
 
 #: argos/ui/album_details_box.ui:286 argos/ui/playlists_box.ui:83
 #: argos/ui/tracklist_random_dialog.ui:200 argos/ui/tracks_view.ui:108
 msgid "Length"
-msgstr "Durée"
+msgstr "நீளம்"
 
 #: argos/ui/album_details_box.ui:386
 msgid "Play album"
-msgstr "Lire l'album"
+msgstr "நாடக ஆல்பம்"
 
 #: argos/ui/album_details_box.ui:420
 msgid "Information on album"
-msgstr "Information sur l'album"
+msgstr "ஆல்பம் பற்றிய செய்தி"
 
 #: argos/ui/app_menu.ui:6
 msgid "Play _random tracks…"
-msgstr "Lire des morceaux au _hasard…"
+msgstr "_ ராண்டம் தடங்களை விளையாடுங்கள்…"
 
 #: argos/ui/app_menu.ui:10
 msgid "Add stream to tracklist…"
-msgstr "Ajouter un flux à la file d'attente…"
+msgstr "டிராக்லிச்ட்டில் ச்ட்ரீமைச் சேர்க்கவும்…"
 
 #: argos/ui/app_menu.ui:14
 msgid "New playlist…"
-msgstr "Nouvelle liste de lecture…"
+msgstr "புதிய பிளேலிச்ட்…"
 
 #: argos/ui/app_menu.ui:20
 msgid "Update library"
-msgstr "Mettre à jour la bibiothèque"
+msgstr "நூலகத்தைப் புதுப்பிக்கவும்"
 
 #: argos/ui/app_menu.ui:26
 msgid "_Preferences"
-msgstr "_Préférences"
+msgstr "முனைகள்"
 
 #: argos/ui/app_menu.ui:30
 msgid "_Shortcuts"
-msgstr "_Raccourcis"
+msgstr "குறுக்குவழிகள்"
 
 #: argos/ui/app_menu.ui:34
 msgid "_About"
-msgstr "_À propos"
+msgstr "பற்றி"
 
 #: argos/ui/condensed_playing_box.ui:65 argos/ui/playing_box.ui:81
 msgid "Previous"
-msgstr "Précédent"
+msgstr "முந்தைய"
 
 #: argos/ui/condensed_playing_box.ui:86 argos/ui/playing_box.ui:102
 msgid "Play"
-msgstr "Lire"
+msgstr "விளையாடுங்கள்"
 
 #: argos/ui/condensed_playing_box.ui:107 argos/ui/playing_box.ui:123
 msgid "Next"
-msgstr "Suivant"
+msgstr "அடுத்தது"
 
 #: argos/ui/help_overlay.ui:13
 msgctxt "shortcut window"
 msgid "General"
-msgstr "General"
+msgstr "பொது"
 
 #: argos/ui/help_overlay.ui:17
 msgctxt "shortcut window"
 msgid "Close window"
-msgstr "Fermer la fenêtre"
+msgstr "சாளரத்தை மூடு"
 
 #: argos/ui/help_overlay.ui:24
 msgctxt "shortcut window"
 msgid "Quit"
-msgstr "Quitter"
+msgstr "வெளியேறு"
 
 #: argos/ui/help_overlay.ui:31
 msgctxt "shortcut window"
 msgid "Shortcuts"
-msgstr "Raccourcis"
+msgstr "குறுக்குவழிகள்"
 
 #: argos/ui/help_overlay.ui:38
 msgctxt "shortcut window"
 msgid "Fullscreen"
-msgstr "Plein écran"
+msgstr "முழு திரை"
 
 #: argos/ui/help_overlay.ui:47
 msgctxt "shortcut window"
 msgid "Playback"
-msgstr "Lecture"
+msgstr "பின்னணி"
 
 #: argos/ui/help_overlay.ui:51
 msgctxt "shortcut window"
 msgid "Play/Pause"
-msgstr "Lecture/Pause"
+msgstr "விளையாடு/இடைநிறுத்தம்"
 
 #: argos/ui/help_overlay.ui:58
 msgctxt "shortcut window"
 msgid "Next track"
-msgstr "Morceau suivant"
+msgstr "அடுத்த பாடல்"
 
 #: argos/ui/help_overlay.ui:65
 msgctxt "shortcut window"
 msgid "Previous track"
-msgstr "Morceau précédent"
+msgstr "முந்தைய பாடல்"
 
 #: argos/ui/help_overlay.ui:72
 msgctxt "shortcut window"
 msgid "Play random album"
-msgstr "Lire un album au hasard"
+msgstr "சீரற்ற ஆல்பத்தை விளையாடுங்கள்"
 
 #: argos/ui/help_overlay.ui:81
 msgctxt "shortcut window"
 msgid "Navigation"
-msgstr "Navigation"
+msgstr "வானோடல்"
 
 #: argos/ui/help_overlay.ui:85
 msgctxt "shortcut window"
 msgid "Go to Playing"
-msgstr "Aller à la lecture en cours"
+msgstr "விளையாடுவதற்குச் செல்லுங்கள்"
 
 #: argos/ui/help_overlay.ui:92
 msgctxt "shortcut window"
 msgid "Go to Library"
-msgstr "Consulter la bibliothèque"
+msgstr "நூலகத்திற்குச் செல்லுங்கள்"
 
 #: argos/ui/help_overlay.ui:99
 msgctxt "shortcut window"
 msgid "Go to Playlists"
-msgstr "Aller aux listes de lecture"
+msgstr "பிளேலிச்ட்களுக்குச் செல்லுங்கள்"
 
 #: argos/ui/help_overlay.ui:106
 msgctxt "shortcut window"
 msgid "Go up"
-msgstr "Au-dessus"
+msgstr "மேலே செல்லுங்கள்"
 
 #: argos/ui/library_browsing_progress_box.ui:38
 msgid "Keep calm, library indexation in progress…"
-msgstr "Patience, l'indexation de la bibliothèque est en cours…"
+msgstr "அமைதியாக, நூலக குறியீட்டை செயலில் வைத்திருங்கள்…"
 
 #: argos/ui/playing_box.ui:258
 msgid "Clear tracklist"
-msgstr "Vider la file d'attente"
+msgstr "தெளிவான டிராக்லிச்ட்"
 
 #: argos/ui/playing_box.ui:284
 msgid "Consume tracks"
-msgstr "Retirer les morceaux lus"
+msgstr "தடங்களை உட்கொள்ளுங்கள்"
 
 #: argos/ui/playing_box.ui:305
 msgid "Shuffle tracklist"
-msgstr "Lecture aléatoire"
+msgstr "சஃபிள் டிராக்லிச்ட்"
 
 #: argos/ui/playing_box.ui:326
 msgid "Play single track"
-msgstr "Lecture d'un seul morceau"
+msgstr "ஒற்றை பாதையை விளையாடுங்கள்"
 
 #: argos/ui/playing_box.ui:347
 msgid "Repeat"
-msgstr "Lecture en boucle"
+msgstr "மீண்டும்"
 
 #: argos/ui/playlist_creation_dialog.ui:52
 msgid "Name:"
-msgstr "Nom :"
+msgstr "பெயர்:"
 
 #: argos/ui/playlist_creation_dialog.ui:64
 msgid "New playlist"
-msgstr "Nouvelle liste de lecture"
+msgstr "புதிய பிளேலிச்ட்"
 
 #: argos/ui/playlist_creation_dialog.ui:65
 msgid "Playlist name"
-msgstr "Nom de la liste de lecture"
+msgstr "பிளேலிச்ட் பெயர்"
 
 #: argos/ui/playlists_box.ui:156
 msgid "Edit playlist"
-msgstr "Édition de la liste de lecture"
+msgstr "பிளேலிச்ட்டைத் திருத்து"
 
 #: argos/ui/playlists_box.ui:189
 msgid "Add playlist or selected tracks to tracklist"
 msgstr ""
-"Ajouter la liste de lecture ou les morceaux sélectionnés à la file d'attente"
+"டிராக்லிச்ட்டில் பிளேலிச்ட் அல்லது தேர்ந்தெடுக்கப்பட்ட தடங்களைச் சேர்க்கவும்"
 
 #: argos/ui/playlists_box.ui:211
 msgid "Play playlist or selected tracks"
-msgstr "Lire la liste de lecture ou les morceaux sélectionnés"
+msgstr "பிளேலிச்ட் அல்லது தேர்ந்தெடுக்கப்பட்ட தடங்களை விளையாடுங்கள்"
 
 #: argos/ui/preferences.ui:70
 msgid "Mopidy server"
-msgstr "Serveur Mopidy"
+msgstr "மோபிடி சேவையகம்"
 
 #: argos/ui/preferences.ui:93
 msgid "Base URL:"
-msgstr "URL de base :"
+msgstr "அடிப்படை URL:"
 
 #: argos/ui/preferences.ui:107
 msgid "Enter the URL of the Mopidy server"
-msgstr "Entrer l'URL du serveur Mopidy"
+msgstr "மோபிடி சேவையகத்தின் முகவரி ஐ உள்ளிடவும்"
 
 #: argos/ui/preferences.ui:153
 msgid ""
 "A connection failure indicates that the music server is currently not "
 "accessible at the given URL. Please adapt the URL."
 msgstr ""
-"Une erreur de connexion indique que le serveur de musique n'est pas "
-"actuellement accessible à l'URL indiquée. Veuillez adapter l'URL."
+"இணைப்பு தோல்வி தற்போது கொடுக்கப்பட்ட முகவரி இல் இசை சேவையகம் அணுக முடியாது என்பதைக் குறிக்கிறது. தயவுசெய்து முகவரி ஐ "
+"மாற்றியமைக்கவும்."
 
 #: argos/ui/preferences.ui:251
 msgid "Other services"
-msgstr "Autres services"
+msgstr "பிற சேவைகள்"
 
 #: argos/ui/preferences.ui:288
 msgid "Information service:"
-msgstr "Service d'information :"
+msgstr "செய்தி சேவை:"
 
 #: argos/ui/preferences.ui:300
 msgid "The information is collected using Musicbrainz API and Wikipedia API."
-msgstr ""
-"Les informations sont collectées à partir des APIs Musicbrainz et Wikipedia."
+msgstr "செய்தி சேகரிக்கப்படுகிறது."
 
 #: argos/ui/preferences.ui:332
 msgid "General"
-msgstr "Général"
+msgstr "பொது"
 
 #: argos/ui/preferences.ui:350 argos/ui/preferences.ui:598 argos/window.py:55
 msgid "Library"
-msgstr "Bibliothèque"
+msgstr "நூலகம்"
 
 #: argos/ui/preferences.ui:370 data/io.github.orontee.Argos.gschema.xml:36
 msgid "Index Mopidy-Local albums at startup"
-msgstr "Indexer le répertoire des albums de Mopidy-Local au démarrage"
+msgstr "தொடக்கத்தில் குறியீட்டு மோபிடி-லோக்கல் ஆல்பங்கள்"
 
 #: argos/ui/preferences.ui:394
 msgid ""
 "Note that, when unchecked, random selection of album is impossible until a "
 "directory containing albums is browsed."
 msgstr ""
-"La sélection aléatoire d'album est impossible tant qu'un répertoire "
-"contenant des albums n'a pas été indexé."
+"தேர்வு செய்யப்படும்போது, ஆல்பங்கள் கொண்ட ஒரு அடைவு உலாவப்படும் வரை ஆல்பத்தின் சீரற்ற தேர்வு சாத்தியமற்றது என்பதை "
+"நினைவில் கொள்க."
 
 #: argos/ui/preferences.ui:412 argos/window.py:59
 msgid "Playlists"
-msgstr "Listes de lecture"
+msgstr "பிளேலிச்ட்கள்"
 
 #: argos/ui/preferences.ui:473
 msgid "Max length:"
-msgstr "Taille maximale :"
+msgstr "அதிகபட்ச நீளம்:"
 
 #: argos/ui/preferences.ui:499
 msgid "Sources"
-msgstr "Sources"
+msgstr "மூலங்கள்"
 
 #: argos/ui/preferences.ui:518
 msgid "Main window"
-msgstr "Fenêtre principale"
+msgstr "முதன்மை சாளரம்"
 
 #: argos/ui/preferences.ui:545
 msgid "Dark theme:"
-msgstr "Thème sombre :"
+msgstr "இருண்ட தீம்:"
 
 #: argos/ui/preferences.ui:568
 msgid "Start fullscreen:"
-msgstr "Plein écran au démarrage :"
+msgstr "முழுத் திரையில் தொடங்கவும்:"
 
 #: argos/ui/preferences.ui:625
 msgid "Image size:"
-msgstr "Taille des images :"
+msgstr "பட அளவு:"
 
 #: argos/ui/preferences.ui:657
 msgid "Display"
-msgstr "Affichage"
+msgstr "காட்சி"
 
 #: argos/ui/stream_uri_dialog.ui:46 argos/widgets/streamuridialog.py:35
 msgid "Stream URI"
-msgstr "URI du flux"
+msgstr "ச்ட்ரீம் யூரி"
 
 #: argos/ui/stream_uri_dialog.ui:59
 msgid ""
 "Supported protocols may vary and URI blacklisting\n"
 "may apply depending on Mopidy-Stream configuration."
 msgstr ""
-"Les protocoles supportés peuvent varier et une liste noire\n"
-"d'URI s'appliquer en fonction de la configuration\n"
-"de Mopidy-Stream."
+"ஆதரிக்கப்பட்ட நெறிமுறைகள் மாறுபடலாம் மற்றும் யுஆர்ஐ தடுப்புப்பட்டியல்\n"
+" மோபிடி-ச்ட்ரீம் உள்ளமைவைப் பொறுத்து பொருந்தலாம்."
 
 #: argos/ui/stream_uri_dialog.ui:74 argos/ui/tracklist_random_dialog.ui:298
 msgid "Play immediately"
-msgstr "Lire immédiatement"
+msgstr "உடனடியாக விளையாடுங்கள்"
 
 #: argos/ui/title_bar.ui:63
 msgid "Go back"
-msgstr "Répertoire précédent"
+msgstr "திரும்பிச் செல்லுங்கள்"
 
 #: argos/ui/title_bar.ui:97
 msgid "Sort albums"
-msgstr "Trier les albums"
+msgstr "ஆல்பங்களை வரிசைப்படுத்துங்கள்"
 
 #: argos/ui/title_bar.ui:119
 msgid "Go to home"
-msgstr "Aller au répertoire d'accueil"
+msgstr "வீட்டிற்குச் செல்லுங்கள்"
 
 #: argos/ui/title_bar.ui:133
 msgid "Search albums"
-msgstr "Rechercher des albums"
+msgstr "ஆல்பங்களைத் தேடுங்கள்"
 
 #: argos/ui/tracklist_random_dialog.ui:26
 msgid "Skip"
-msgstr "Passer"
+msgstr "தவிர்"
 
 #: argos/ui/tracklist_random_dialog.ui:254
 msgid "Disc"
-msgstr "Disque"
+msgstr "வட்டு"
 
 #: argos/ui/tracks_view.ui:212
 msgid "Play tracks"
-msgstr "Lecture des morceaux"
+msgstr "தடங்கள் விளையாடுங்கள்"
 
 #: argos/ui/tracks_view.ui:245
 msgid "Sort tracks"
-msgstr "Trier les morceaux"
+msgstr "தடங்களை வரிசைப்படுத்துங்கள்"
 
 #: argos/utils.py:73
 msgid "More than one day"
-msgstr "Plus d'un jour"
+msgstr "ஒரு நாளுக்கு மேல்"
 
 #: argos/utils.py:83
 msgid "Today"
-msgstr "Aujourd'hui"
+msgstr "இன்று"
 
 #: argos/utils.py:85
 msgid "Yesterday"
-msgstr "Hier"
+msgstr "நேற்று"
 
 #: argos/widgets/albumdetailsbox.py:25
 msgid "Information not available"
-msgstr "Pas d'information disponible"
+msgstr "செய்தி கிடைக்கவில்லை"
 
 #: argos/widgets/albumdetailsbox.py:88 argos/widgets/tracksview.py:54
 msgid "Add to tracklist"
-msgstr "Ajouter à la file d'attente"
+msgstr "டிராக்லிச்ட்டில் சேர்க்கவும்"
 
 #: argos/widgets/albumdetailsbox.py:91 argos/widgets/tracksview.py:57
 msgid "Add to playlist…"
-msgstr "Ajouter à une liste de lecture…"
+msgstr "பிளேலிச்ட்டில் சேர்க்கவும்…"
 
 #: argos/widgets/albumdetailsbox.py:230
 msgid "Not available"
-msgstr "Non disponible"
+msgstr "கிடைக்கவில்லை"
 
 #: argos/widgets/playingboxemptytracklistbox.py:11
 msgid ""
@@ -522,213 +520,211 @@ msgid ""
 "\n"
 "• Choose tracks from the library or playlists\n"
 msgstr ""
-"Pour peupler la file d'attente :\n"
+"டிராக்லிச்ட்டை விரிவுபடுத்த:\n"
 "\n"
-"• <a href=\"argos:play-random-tracks\">Lire un album au hasard</a>\n"
+" • <a href = \"ஆர்கோச்: பிளே-ரேண்டம்-டிராக்ச்\"> சீரற்ற தடங்களை விளையாடுங்கள் </a>\n"
 "\n"
-"• <a href=\"argos:add-stream\">Ajouter un flux</a>\n"
+" • <a href = \"argos: add-stream\"> ஒரு இசை ச்ட்ரீமைச் சேர்க்கவும் </a>\n"
 "\n"
-"• Choisir des morceaux dans la bibliothèque ou les listes de lecture\n"
+" The நூலகம் அல்லது பிளேலிச்ட்களிலிருந்து தடங்களைத் தேர்வுசெய்க\n"
 
 #: argos/widgets/playlistcreationdialog.py:34
 msgid "Playlist creation"
-msgstr "Création de liste de lecture"
+msgstr "பிளேலிச்ட் உருவாக்கம்"
 
 #: argos/widgets/playlistemptytracksbox.py:39
 msgid "Loading playlist tracks…"
-msgstr ""
-"Chargement des morceaux\n"
-"de la liste de lecture…"
+msgstr "பிளேலிச்ட் தடங்களை ஏற்றுகிறது…"
 
 #: argos/widgets/playlistsbox.py:93
 msgid "Add stream to playlist…"
-msgstr "Ajouter un flux à la liste de lecture…"
+msgstr "பிளேலிச்ட்டில் ச்ட்ரீமைச் சேர்க்கவும்…"
 
 #: argos/widgets/playlistsbox.py:94
 msgid "Remove selected tracks"
-msgstr "Retirer les morceaux sélectionnés"
+msgstr "தேர்ந்தெடுக்கப்பட்ட தடங்களை அகற்று"
 
 #: argos/widgets/playlistsbox.py:95
 msgid "Delete playlist…"
-msgstr "Suppprimer la liste de lecture…"
+msgstr "பிளேலிச்ட்டை நீக்கு…"
 
 #: argos/widgets/playlistsbox.py:303
 msgid "Confirm playlist deletion"
-msgstr "Suppression de la liste de lecture"
+msgstr "பிளேலிச்ட் நீக்குதலை உறுதிப்படுத்தவும்"
 
 #: argos/widgets/playlistsbox.py:307
 msgid ""
 "The playlist {!r} is about to be deleted. The deletion can't be reverted."
-msgstr ""
-"La liste de lecture {!r} va être supprimée. La suppression est définitive."
+msgstr "பிளேலிச்ட் {! ஆர்} நீக்கப்பட உள்ளது. நீக்குதலை மாற்ற முடியாது."
 
 #: argos/widgets/playlistselectiondialog.py:50
 msgid "Select playlist by name"
-msgstr "Nom de la liste de lecture"
+msgstr "பெயரால் பிளேலிச்ட்டைத் தேர்ந்தெடுக்கவும்"
 
 #: argos/widgets/preferences.py:143
 msgid "Preferences"
-msgstr "Préférences"
+msgstr "விருப்பத்தேர்வுகள்"
 
 #: argos/widgets/preferences.py:186
 #, python-brace-format
 msgid "Do you want to use the Mopidy HTTP service discovered at {address}?"
-msgstr "Voulez-vous utiliser le service Mopidy HTTP découvert sur {address} ?"
+msgstr ""
+"{address} இல் கண்டுபிடிக்கப்பட்ட மோபிடி HTTP சேவையைப் பயன்படுத்த விரும்புகிறீர்களா?"
 
 #: argos/widgets/tracklistrandomdialog.py:86
 msgid "Random tracklist"
-msgstr "File d'attente aléatoire"
+msgstr "சீரற்ற டிராக்லிச்ட்"
 
 #: argos/widgets/tracklistrandomdialog.py:118
 msgid "Various"
-msgstr "Divers"
+msgstr "பல்வேறு"
 
 #: argos/widgets/tracklistrandomdialog.py:229
 msgid "Browse the library first, it's currently empty!"
-msgstr "Parcourez la bibliothèque, elle est vide à ce stade !"
+msgstr "முதலில் நூலகத்தை உலாவுக, அது தற்போது காலியாக உள்ளது!"
 
 #: argos/widgets/tracklistrandomdialog.py:234
 msgid "Oups, failed to select random tracks…"
-msgstr "Mince, échec de la sélection de morceaux aléatoires…"
+msgstr "Oups, சீரற்ற தடங்களைத் தேர்ந்தெடுப்பதில் தோல்வி…"
 
 #: argos/widgets/tracklisttrackbox.py:44
 msgid "Unknown name"
-msgstr "Nom inconnu"
+msgstr "தெரியாத பெயர்"
 
 #: argos/widgets/utils.py:92
 #, python-brace-format
 msgid "Disc {0}"
-msgstr "Disque {0}"
+msgstr "வட்டு {0}"
 
 #: argos/widgets/utils.py:176
 msgid "Album name"
-msgstr "Nom d'album"
+msgstr "ஆல்பத்தின் பெயர்"
 
 #: argos/widgets/utils.py:177
 msgid "Artist name"
-msgstr "Nom d'artiste"
+msgstr "கலைஞரின் பெயர்"
 
 #: argos/widgets/utils.py:178
 msgid "Publication date"
-msgstr "Date de publication"
+msgstr "வெளியீட்டு தேதி"
 
 #: argos/widgets/utils.py:179
 msgid "Last modified"
-msgstr "Date de dernière modification"
+msgstr "கடைசியாக மாற்றப்பட்டது"
 
 #: argos/widgets/utils.py:184
 msgid "Track name"
-msgstr "Nom de morceau"
+msgstr "ட்ராக் பெயர்"
 
 #: argos/widgets/utils.py:185
 msgid "Track number"
-msgstr "Numéro de morceau"
+msgstr "ட்ராக் எண்"
 
 #: argos/window.py:50
 msgid "Playing"
-msgstr "En cours"
+msgstr "விளையாடுவது"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:6
 #: data/io.github.orontee.Argos.desktop.in:3
 msgid "Argos"
-msgstr "Argos"
+msgstr "ஆர்கோச்"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:7
 #: data/io.github.orontee.Argos.desktop.in:4
 msgid "Light weight front-end for Mopidy music server"
-msgstr "Frontal léger pour serveur de musique Mopidy"
+msgstr "மோபிடி இசை சேவையகத்திற்கான லேசான எடை முன் இறுதியில்"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:9
 msgid ""
 "Argos is designed (and used!) with Gnome desktop and small single-board "
 "devices with small touchscreen in mind."
 msgstr ""
-"Argos est conçu pour l'environnement de bureau Gnome et les ordinateurs au "
-"format carte de crédit avec un écran tactile."
+"ஆர்கோச் க்னோம் டெச்க்டாப் மற்றும் சிறிய ஒற்றை போர்டு சாதனங்களுடன் சிறிய தொடுதிரை மனதில் கொண்டு வடிவமைக்கப்பட்டுள்ளது "
+"(மற்றும் பயன்படுத்தப்படுகிறது!)."
 
 #: data/io.github.orontee.Argos.appdata.xml.in:15
 msgid "Tracklist view"
-msgstr "File d'attente"
+msgstr "டிராக்லிச்ட் பார்வை"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:19
 msgid "Library view"
-msgstr "Bibliothèque"
+msgstr "நூலகக் காட்சி"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:23
 msgid "Playlists view"
-msgstr "Listes de lecture"
+msgstr "பிளேலிச்ட்கள் பார்வை"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:27
 msgid "Album details view"
-msgstr "Détails d'un album"
+msgstr "ஆல்பம் விவரங்கள் காண்க"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:33
 msgid "New year's eve release!"
-msgstr "La nouvelle année !"
+msgstr "புத்தாண்டு ஈவ் வெளியீடு!"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:40
 msgid "Maintenance release."
-msgstr "Version de maintenance."
+msgstr "பராமரிப்பு வெளியீடு."
 
 #: data/io.github.orontee.Argos.appdata.xml.in:47
 msgid "Welcome to Dutch music lovers 🇳🇱"
-msgstr "Bienvenue aux amateurs de musique Néerlandais 🇳🇱"
+msgstr "டச்சு இசை ஆர்வலர்களுக்கு வருக"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:54
 msgid "Library browser improvements and bug fixes."
-msgstr "Amélioration du navigateur de bibliothèque et correction de bugs."
+msgstr "நூலக உலாவி மேம்பாடுகள் மற்றும் பிழை திருத்தங்கள்."
 
 #: data/io.github.orontee.Argos.appdata.xml.in:61
 msgid "Birthday release: Argos is 1-year old!"
-msgstr "Livraison anniversaire : Argos a un an !"
+msgstr "பிறந்தநாள் வெளியீடு: ஆர்கோச் 1 வயது!"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:68
 msgid "Implement a library browser and improve performance."
-msgstr "Implémente un navigateur de bibliothèque et améliore les performances."
+msgstr "நூலக உலாவியை செயல்படுத்தி செயல்திறனை மேம்படுத்தவும்."
 
 #: data/io.github.orontee.Argos.appdata.xml.in:75
 msgid "Open its eyes to the outside world!"
-msgstr "Ouvre les yeux sur le monde extérieur !"
+msgstr "கண்களை வெளி உலகிற்கு திறக்கவும்!"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:82
 msgid "Bug fixes and small enhancement."
-msgstr "Livraison de correctifs de bugs et petites améliorations."
+msgstr "பிழை திருத்தங்கள் மற்றும் சிறிய மேம்பாடு."
 
 #: data/io.github.orontee.Argos.appdata.xml.in:89
 msgid "Improving user experience. Once again."
-msgstr "Amélioration de l'expérience utilisateur. Une fois de plus."
+msgstr "பயனர் அனுபவத்தை மேம்படுத்துதல். மீண்டும்."
 
 #: data/io.github.orontee.Argos.appdata.xml.in:96
 msgid "Improving user experience."
-msgstr "Amélioration de l'expérience utilisateur."
+msgstr "பயனர் அனுபவத்தை மேம்படுத்துதல்."
 
 #: data/io.github.orontee.Argos.appdata.xml.in:103
 msgid "Autumnal delivery."
-msgstr "Livraison automnale."
+msgstr "இலையுதிர் மகப்பேறு."
 
 #: data/io.github.orontee.Argos.appdata.xml.in:110
 msgid ""
 "Improve performance while browsing albums and add support for Mopidy-"
 "Jellyfin."
 msgstr ""
-"Améliore les performances de la récupération des albums et ajoute le support "
-"de Mopidy-Jellyfin."
+"ஆல்பங்களை உலாவும்போது செயல்திறனை மேம்படுத்தி, மோபிடி-செல்லிஃபினுக்கு ஆதரவைச் சேர்க்கவும்."
 
 #: data/io.github.orontee.Argos.appdata.xml.in:117
 msgid "Bug fixes release."
-msgstr "Livraison de correctifs de bugs."
+msgstr "பிழை திருத்தங்கள் வெளியீடு."
 
 #: data/io.github.orontee.Argos.appdata.xml.in:124
 msgid "Attempt to comply to Flathub expectations."
-msgstr "Tentative de remplir les attentes de Flathub."
+msgstr "பிளாட்டப் எதிர்பார்ப்புகளுக்கு இணங்க முயற்சி."
 
 #: data/io.github.orontee.Argos.appdata.xml.in:131
 msgid "Delivered during holidays, use at your own risks!"
-msgstr "Livraison préparée pendant des congés, à utiliser avec prudence !"
+msgstr ""
+"விடுமுறை நாட்களில் வழங்கப்பட்டது, உங்கள் சொந்த அபாயங்களில் பயன்படுத்தவும்!"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:138
 msgid "Delivered during a toothache, use at your own risks!"
-msgstr "Livraison préparée pendant une rage de dents, prudence !"
+msgstr "ஒரு பல்வலி போது வழங்கப்பட்டது, உங்கள் சொந்த அபாயங்களில் பயன்படுத்தவும்!"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:144
 msgid "Matthias Meulien"
@@ -736,140 +732,140 @@ msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:6
 msgid "Connection retry delay"
-msgstr "Délai entre connexions"
+msgstr "இணைப்பு மீண்டும் நேரந்தவறுகை"
 
 #: data/io.github.orontee.Argos.gschema.xml:9
 msgid "The delay in seconds between two connection tries."
-msgstr "Le délai entre deux tentatives de connexion."
+msgstr "இரண்டு இணைப்பு முயற்சிகளுக்கு இடையிலான விநாடிகளின் நேரந்தவறுகை."
 
 #: data/io.github.orontee.Argos.gschema.xml:16
 msgid "Base URL of Mopidy APIs"
-msgstr "URL de base des APIs Mopidy"
+msgstr "மோபிடி ஏபிஐக்களின் அடிப்படை முகவரி"
 
 #: data/io.github.orontee.Argos.gschema.xml:19
 msgid "The base URL of Mopidy JSON-RPC and websocket APIs."
-msgstr "L'URL de base des APIs JSON-RPC et websocket de Mopidy."
+msgstr "மோபிடி JSON-RPC மற்றும் வெப்சாக்கெட் பநிஇ களின் அடிப்படை முகவரி."
 
 #: data/io.github.orontee.Argos.gschema.xml:26
 msgid "Information service"
-msgstr "Service d'information"
+msgstr "செய்தி பணி"
 
 #: data/io.github.orontee.Argos.gschema.xml:29
 msgid "Whether to collect and display information on albums from Wikipedia."
-msgstr "Collecte d'information sur les albums dans Wikipedia."
+msgstr ""
+"விக்கிபீடியாவிலிருந்து ஆல்பங்கள் பற்றிய தகவல்களை சேகரித்து காண்பிக்க வேண்டுமா."
 
 #: data/io.github.orontee.Argos.gschema.xml:39
 msgid "Whether to index Mopidy-Local albums directory at startup."
-msgstr "Indexer le répertoire d'albums de Mopidy-Local au démarrage."
+msgstr "தொடக்கத்தில் மோபிடி-லோக்கல் ஆல்பங்கள் கோப்பகத்தை குறியிட வேண்டுமா."
 
 #: data/io.github.orontee.Argos.gschema.xml:46
 msgid "Album sort order"
-msgstr "Ordre de tri des albums"
+msgstr "ஆல்பம் வரிசை முறை"
 
 #: data/io.github.orontee.Argos.gschema.xml:49
 msgid "Order applied when sorting albums."
-msgstr "Ordre utilisé pour trier les albums."
+msgstr "ஆல்பங்களை வரிசைப்படுத்தும்போது ஆர்டர் பயன்படுத்தப்பட்டது."
 
 #: data/io.github.orontee.Argos.gschema.xml:62
 msgid "Track sort order"
-msgstr "Ordre de tri des morceaux"
+msgstr "ட்ராக் வரிசை வரிசையில்"
 
 #: data/io.github.orontee.Argos.gschema.xml:65
 msgid "Order applied when sorting tracks."
-msgstr "Ordre utilisé pour trier les morceaux."
+msgstr "தடங்களை வரிசைப்படுத்தும்போது ஆர்டர் பயன்படுத்தப்படுகிறது."
 
 #: data/io.github.orontee.Argos.gschema.xml:76
 msgid "Random tracks choice strategy"
-msgstr "Stratégie de sélection aléatoire de morceaux"
+msgstr "சீரற்ற தடங்கள் தேர்வு உத்தி"
 
 #: data/io.github.orontee.Argos.gschema.xml:79
 msgid "Strategy used to build random track selection."
-msgstr ""
-"Stratégie utilisée pour construire des sélections aléatoires de morceaux."
+msgstr "சீரற்ற தட தேர்வை உருவாக்க பயன்படுத்தப்படும் மூலோபாயம்."
 
 #: data/io.github.orontee.Argos.gschema.xml:91
 msgid "Pattern to disable tracks view by URIs"
-msgstr "Motif d'URIs pour désactiver la vue morceaux"
+msgstr "யுஆர்ஐஎச் மூலம் தடங்களை முடக்குவதற்கான முறை"
 
 #: data/io.github.orontee.Argos.gschema.xml:94
 msgid ""
 "Browsing a directory whose URIs match the given pattern, never enters the "
 "tracks view."
 msgstr ""
-"Consulter un répertoire dont l'URI satisfait ce motif n'utilisera pas la vue "
-"morceaux."
+"கொடுக்கப்பட்ட வடிவத்துடன் பொருந்தக்கூடிய ஒரு கோப்பகத்தை உலாவுதல், ஒருபோதும் தடங்கள் பார்வைக்கு நுழையாது."
 
 #: data/io.github.orontee.Argos.gschema.xml:102
 msgid "History playlist"
-msgstr "Historique"
+msgstr "வரலாற்று பிளேலிச்ட்"
 
 #: data/io.github.orontee.Argos.gschema.xml:105
 msgid "A dynamic playlist of last played tracks can be maintained."
-msgstr "Ajout d'une liste de lecture des derniers morceaux joués."
+msgstr "கடைசியாக விளையாடிய தடங்களின் மாறும் பிளேலிச்ட்டை பராமரிக்க முடியும்."
 
 #: data/io.github.orontee.Argos.gschema.xml:112
 msgid "History max length"
-msgstr "Taille maximale de l'historique"
+msgstr "வரலாறு அதிகபட்ச நீளம்"
 
 #: data/io.github.orontee.Argos.gschema.xml:115
 msgid "The maximal length of the history playlist."
-msgstr "Le nombre maximum de morceaux de l'historique des lectures."
+msgstr "வரலாற்று பிளேலிச்ட்டின் அதிகபட்ச நீளம்."
 
 #: data/io.github.orontee.Argos.gschema.xml:123
 msgid "Albums image size"
-msgstr "Taille des images"
+msgstr "ஆல்பங்கள் பட அளவு"
 
 #: data/io.github.orontee.Argos.gschema.xml:126
 msgid "The size of images in the library."
-msgstr "La taille des images dans la bibliothèque."
+msgstr "நூலகத்தில் உள்ள படங்களின் அளவு."
 
 #: data/io.github.orontee.Argos.gschema.xml:133
 msgid "Window size"
-msgstr "Taille de la fenêtre"
+msgstr "விண்டர் அளவு"
 
 #: data/io.github.orontee.Argos.gschema.xml:134
 msgid "Window size (width and height)."
-msgstr "Taille de la fenêtre (largeur puis hauteur)."
+msgstr "சாளர அளவு (அகலம் மற்றும் உயரம்)."
 
 #: data/io.github.orontee.Argos.gschema.xml:139
 msgid "Window position"
-msgstr "Position de la fenêtre"
+msgstr "சாளரம் நிலை"
 
 #: data/io.github.orontee.Argos.gschema.xml:140
 msgid "Window position (x and y)."
-msgstr "Position de la fenêtre (x puis y)."
+msgstr "சாளர நிலை (x மற்றும் y)."
 
 #: data/io.github.orontee.Argos.gschema.xml:145
 msgid "Window maximized"
-msgstr "Fenêtre de taille maximale"
+msgstr "சாளரம் அதிகரிக்கப்பட்டது"
 
 #: data/io.github.orontee.Argos.gschema.xml:146
 msgid "Window maximized state."
-msgstr "État de maximisation de la fenêtre."
+msgstr "சாளர அதிகபட்ச நிலை."
 
 #: data/io.github.orontee.Argos.gschema.xml:151
 msgid "Fullscreen window"
-msgstr "Fenêtre en plein écran"
+msgstr "முழுத்திரை சாளரம்"
 
 #: data/io.github.orontee.Argos.gschema.xml:152
 msgid "Window fullscreen state."
-msgstr "État plein écran de la fenêtre."
+msgstr "சாளர முழுத்திரை நிலை."
 
 #: data/io.github.orontee.Argos.gschema.xml:157
 msgid "Start fullscreen"
-msgstr "Démarrer en plein écran"
+msgstr "முழுத்திரை தொடங்கவும்"
 
 #: data/io.github.orontee.Argos.gschema.xml:158
 msgid "Start with fullscreen window."
-msgstr "Démarrer avec une fenêtre en plein écran."
+msgstr "முழுத்திரை சாளரத்துடன் தொடங்கவும்."
 
 #: data/io.github.orontee.Argos.gschema.xml:163
 msgid "Prefer dark theme"
-msgstr "Préférer un thème sombre"
+msgstr "இருண்ட கருப்பொருளை விரும்புங்கள்"
 
 #: data/io.github.orontee.Argos.gschema.xml:164
 msgid "If a Gtk+ theme includes a dark variant, it will be used."
-msgstr "Utiliser la variante sombre si un thème Gtk+ en inclut une."
+msgstr ""
+"ஒரு சி.டி.கே+ கருப்பொருள் ஒரு இருண்ட மாறுபாட்டை உள்ளடக்கியிருந்தால், அது பயன்படுத்தப்படும்."
 
 #~ msgid "Go up"
 #~ msgstr "Au-dessus"

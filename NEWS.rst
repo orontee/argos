@@ -14,6 +14,10 @@ The format is based on `Keep a Changelog
 Added
 -----
 
+- Spanish and Tamoul translations `#187
+  <https://github.com/orontee/argos/issues/187>`_
+
+
 Changed
 -------
 

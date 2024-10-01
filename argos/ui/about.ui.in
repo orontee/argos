@@ -11,11 +11,15 @@
     <property name="comments" translatable="yes">Happy listening!</property>
     <property name="website">https://github.com/orontee/argos</property>
     <property name="website-label" translatable="yes">Web Site</property>
-    <property name="authors">canddoki
+    <property name="authors">André Dokis
+canddoki
+gallegonovato
 Heimen Stoffels
 JonyIvy
 Kian-Meng Ang
 Matthias Meulien
+தமிழ்நேரம்
+Sabri Ünal
 Tancrède Meulien
 Victor Meulien
 Vistaus

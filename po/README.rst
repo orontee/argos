@@ -39,4 +39,22 @@ Credits
 The list of contributors to translations is extracted from the Weblate
 project. It doesn't reflect the heavy contributions made by Heimen
 Stoffels <vistausss@fastmail.com>, André Dokis
-<em21nummer1@icloud.com> and JonyIvy <mail-github@luemkemann.de>.
+<em21nummer1@icloud.com> and JonyIvy <mail-github@luemkemann.de>
+before the Weblate era!
+
+
+* French
+
+    * Matthias Meulien (orontee) <orontee@gmail.com> - 21
+
+
+* Spanish
+
+    * gallegonovato (gallegonovato) <fran-carro@hotmail.es> - 199
+    * Matthias Meulien (orontee) <orontee@gmail.com> - 1
+
+
+* Tamil
+
+    * தமிழ்நேரம் (TamilNeram) <anishprabu.t@gmail.com> - 199
+    * Matthias Meulien (orontee) <orontee@gmail.com> - 1

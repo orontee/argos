@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: io.github.orontee.Argos\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-06-09 09:10+0200\n"
-"PO-Revision-Date: 2023-03-02 13:53+0100\n"
-"Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
-"Language-Team: Dutch\n"
+"PO-Revision-Date: 2024-12-07 20:57+0000\n"
+"Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/argos/argos/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.9-dev\n"
 
 #: argos/app.py:123
 msgid "Enable debug logs"
@@ -77,7 +77,7 @@ msgstr "Componisten"
 
 #: argos/controllers/library.py:44
 msgid "Genres"
-msgstr "Genres"
+msgstr "Soorten"
 
 #: argos/controllers/library.py:45
 msgid "Performers"
@@ -248,7 +248,7 @@ msgstr "Sneltoetsen"
 #: argos/ui/help_overlay.ui:38
 msgctxt "shortcut window"
 msgid "Fullscreen"
-msgstr "Schermvullende weergave"
+msgstr "Volledig scherm"
 
 #: argos/ui/help_overlay.ui:47
 msgctxt "shortcut window"
@@ -386,7 +386,7 @@ msgstr "Algemeen"
 
 #: argos/ui/preferences.ui:350 argos/ui/preferences.ui:598 argos/window.py:55
 msgid "Library"
-msgstr "Verzameling"
+msgstr "Bibliotheek"
 
 #: argos/ui/preferences.ui:370 data/io.github.orontee.Argos.gschema.xml:36
 msgid "Index Mopidy-Local albums at startup"
@@ -553,7 +553,7 @@ msgstr "Verwijderen bevestigen"
 #: argos/widgets/playlistsbox.py:307
 msgid ""
 "The playlist {!r} is about to be deleted. The deletion can't be reverted."
-msgstr "{!r} wordt verwijderd. Deze actie is onomkeerbaar!"
+msgstr "{!r} wordt verwijderd. Deze actie is onomkeerbaar."
 
 #: argos/widgets/playlistselectiondialog.py:50
 msgid "Select playlist by name"
@@ -578,11 +578,11 @@ msgstr "Verschillende"
 
 #: argos/widgets/tracklistrandomdialog.py:229
 msgid "Browse the library first, it's currently empty!"
-msgstr "Zoek eerst naar nummers in de verzameling."
+msgstr "Zoek eerst naar nummers in de verzameling!"
 
 #: argos/widgets/tracklistrandomdialog.py:234
 msgid "Oups, failed to select random tracks…"
-msgstr "Er kunnen geen willekeurige nummers worden geselecteerd."
+msgstr "Er kunnen geen willekeurige nummers worden geselecteerd…"
 
 #: argos/widgets/tracklisttrackbox.py:44
 msgid "Unknown name"
@@ -657,19 +657,19 @@ msgstr "Albuminformatieweergave"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:33
 msgid "New year's eve release!"
-msgstr ""
+msgstr "Release op oudejaarsavond!"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:40
 msgid "Maintenance release."
-msgstr ""
+msgstr "Onderhoudsrelease."
 
 #: data/io.github.orontee.Argos.appdata.xml.in:47
 msgid "Welcome to Dutch music lovers 🇳🇱"
-msgstr ""
+msgstr "Welkom bij Nederlandse muziekliefhebbers 🇳🇱"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:54
 msgid "Library browser improvements and bug fixes."
-msgstr ""
+msgstr "Verbeteringen en bugfixes in de bibliotheekbrowser."
 
 #: data/io.github.orontee.Argos.appdata.xml.in:61
 msgid "Birthday release: Argos is 1-year old!"
@@ -725,7 +725,7 @@ msgstr "Uitgave tijdens kiespijndag - gebruik is op eigen risico!"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:144
 msgid "Matthias Meulien"
-msgstr "Matthias Meulien"
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:6
 msgid "Connection retry delay"
@@ -843,7 +843,7 @@ msgstr "De maximalisatiestatus."
 
 #: data/io.github.orontee.Argos.gschema.xml:151
 msgid "Fullscreen window"
-msgstr "Schermvullende weergave"
+msgstr "Volledig scherm venster"
 
 #: data/io.github.orontee.Argos.gschema.xml:152
 msgid "Window fullscreen state."

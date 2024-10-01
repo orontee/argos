@@ -8,107 +8,108 @@ msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-06-09 09:10+0200\n"
-"PO-Revision-Date: 2022-02-20 13:30+0100\n"
-"Last-Translator: André Dokis <em21nummer1@icloud.com>\n"
-"Language-Team: German <em21nummer1@icloud.com>\n"
-"Language: de\n"
+"PO-Revision-Date: 2024-12-07 20:57+0000\n"
+"Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
+"Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/argos/"
+"argos/nb_NO/>\n"
+"Language: nb_NO\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.9-dev\n"
 
 #: argos/app.py:123
 msgid "Enable debug logs"
-msgstr "Aktiviere Debug Logging"
+msgstr ""
 
 #: argos/app.py:139
 msgid "Disable tooltips"
-msgstr "Tooltips deaktivieren"
+msgstr ""
 
 #: argos/app.py:147
 msgid "Hide search button"
-msgstr "Suche ausblenden"
+msgstr "Skjul søkeknapp"
 
 #: argos/app.py:155
 msgid "Hide close button"
-msgstr "Schließen-Button ausblenden"
+msgstr "Skjul lukkingsknapp"
 
 #: argos/app.py:302
 msgid "Welcome!"
-msgstr "Willkommen!"
+msgstr "Velkommen"
 
 #: argos/app.py:304
 msgid ""
 "Start by configuring the URL of the music server. The default value expects "
 "a server running on the local host and listening to the 6680 port."
 msgstr ""
-"Die URL des Mopidy-Servers ist auf 127.0.0.1:6680 voreingestellt. Änderungen "
-"können in den Einstellungen vorgenpmmen werden."
 
 #: argos/controllers/library.py:37
 msgid "Files"
-msgstr ""
+msgstr "Filer"
 
 #: argos/controllers/library.py:38
 msgid "Local media"
-msgstr ""
+msgstr "Lokal media"
 
 #: argos/controllers/library.py:39
 msgid "Podcasts"
-msgstr "Podcasts"
+msgstr "Nettradioopptak"
 
 #: argos/controllers/library.py:40
 msgid "Albums"
-msgstr "Albums"
+msgstr "Album"
 
 #: argos/controllers/library.py:41 argos/ui/album_details_box.ui:315
 #: argos/ui/playlists_box.ui:113 argos/ui/tracklist_random_dialog.ui:216
 #: argos/ui/tracks_view.ui:140
 msgid "Tracks"
-msgstr "Titel"
+msgstr "Spor"
 
 #: argos/controllers/library.py:42
 msgid "Artists"
-msgstr "Artisten"
+msgstr "Artister"
 
 #: argos/controllers/library.py:43
 msgid "Composers"
-msgstr "Komponisten"
+msgstr ""
 
 #: argos/controllers/library.py:44
 msgid "Genres"
-msgstr "Musikgenres"
+msgstr "Sjangere"
 
 #: argos/controllers/library.py:45
 msgid "Performers"
-msgstr "Dolmetscher"
+msgstr ""
 
 #: argos/controllers/library.py:46
 msgid "Release Years"
-msgstr "Veröffentlichungsdatum"
+msgstr "Utgivelsesår"
 
 #: argos/controllers/library.py:47
 msgid "Last Week's Updates"
-msgstr "Aktualisierungen der letzten Woche"
+msgstr ""
 
 #: argos/controllers/library.py:48
 msgid "Last Month's Updates"
-msgstr "Aktualisierungen des letzten Monats"
+msgstr ""
 
 #: argos/controllers/library.py:49
 msgid "Discover by Genre"
-msgstr "Nach Genre entdecken"
+msgstr ""
 
 #: argos/controllers/library.py:50
 msgid "Discover by Tag"
-msgstr "Nach Tag entdecken"
+msgstr ""
 
 #: argos/controllers/library.py:51
 msgid "Collection"
-msgstr "Sammlung"
+msgstr ""
 
 #: argos/controllers/library.py:52
 msgid "Wishlist"
-msgstr "Wunschzettel"
+msgstr "Ønskeliste"
 
 #: argos/controllers/library.py:53
 msgid "All"
@@ -116,52 +117,52 @@ msgstr "Alle"
 
 #: argos/controllers/playback.py:184
 msgid "Started to play {}"
-msgstr "Es läuft {}"
+msgstr ""
 
 #: argos/controllers/playlists.py:42 argos/controllers/playlists.py:322
 #: argos/ui/preferences.ui:438
 msgid "History"
-msgstr "Zuletzt gespielt"
+msgstr "Historikk"
 
 #: argos/controllers/tracklist.py:58
 msgid "Tracklist updated"
-msgstr "Titelliste aktualisiert"
+msgstr ""
 
 #: argos/info.py:28
 msgid "Data source: {}"
-msgstr "Quelle: {}"
+msgstr "Datakilde: {}"
 
 #: argos/model/random.py:19
 msgid "Random album"
-msgstr "Zufälliges Album"
+msgstr "Tilfeldig album"
 
 #: argos/model/random.py:20
 msgid "Random disc"
-msgstr "Zufällige Disk"
+msgstr "Tilfeldig disk"
 
 #: argos/model/random.py:21
 msgid "Random tracks for half an hour"
-msgstr "Zufällige Tracks für eine halbe Stunde"
+msgstr ""
 
 #: argos/ui/about.ui.in:11
 msgid "Happy listening!"
-msgstr "Viel Spaß beim Zuhören!"
+msgstr ""
 
 #: argos/ui/about.ui.in:13
 msgid "Web Site"
-msgstr "Webseite"
+msgstr ""
 
 #: argos/ui/album_details_box.ui:100
 msgid "Published"
-msgstr "Erschienen"
+msgstr ""
 
 #: argos/ui/album_details_box.ui:133
 msgid "Album image"
-msgstr "Albumbild"
+msgstr ""
 
 #: argos/ui/album_details_box.ui:198
 msgid "Artist"
-msgstr "Künstler"
+msgstr "Artist"
 
 #: argos/ui/album_details_box.ui:226
 msgid "Album"
@@ -169,203 +170,201 @@ msgstr "Album"
 
 #: argos/ui/album_details_box.ui:240
 msgid "Information"
-msgstr "Information"
+msgstr "Info"
 
 #: argos/ui/album_details_box.ui:286 argos/ui/playlists_box.ui:83
 #: argos/ui/tracklist_random_dialog.ui:200 argos/ui/tracks_view.ui:108
 msgid "Length"
-msgstr "Länge"
+msgstr "Lengde"
 
 #: argos/ui/album_details_box.ui:386
 msgid "Play album"
-msgstr "Album abspielen"
+msgstr ""
 
 #: argos/ui/album_details_box.ui:420
 msgid "Information on album"
-msgstr "Informationen zum Album"
+msgstr ""
 
 #: argos/ui/app_menu.ui:6
 msgid "Play _random tracks…"
-msgstr "Zufälligen Titel abspielen…"
+msgstr ""
 
 #: argos/ui/app_menu.ui:10
 msgid "Add stream to tracklist…"
-msgstr "Stream zur Titelliste hinzufügen…"
+msgstr ""
 
 #: argos/ui/app_menu.ui:14
 msgid "New playlist…"
-msgstr "Neue Playlist…"
+msgstr "Ny spilleliste …"
 
 #: argos/ui/app_menu.ui:20
 msgid "Update library"
-msgstr "Sammlung aktualisieren"
+msgstr ""
 
 #: argos/ui/app_menu.ui:26
 msgid "_Preferences"
-msgstr "_Einstellungen"
+msgstr "_Innstillinger"
 
 #: argos/ui/app_menu.ui:30
 msgid "_Shortcuts"
-msgstr "_Tastenkürzel"
+msgstr "_Snarveier"
 
 #: argos/ui/app_menu.ui:34
 msgid "_About"
-msgstr "_Über Argos"
+msgstr "_Om"
 
 #: argos/ui/condensed_playing_box.ui:65 argos/ui/playing_box.ui:81
 msgid "Previous"
-msgstr "Zurück"
+msgstr "Forrige"
 
 #: argos/ui/condensed_playing_box.ui:86 argos/ui/playing_box.ui:102
 msgid "Play"
-msgstr "Play"
+msgstr "Spill"
 
 #: argos/ui/condensed_playing_box.ui:107 argos/ui/playing_box.ui:123
 msgid "Next"
-msgstr "Vor"
+msgstr "Neste"
 
 #: argos/ui/help_overlay.ui:13
 msgctxt "shortcut window"
 msgid "General"
-msgstr "Allgemein"
+msgstr "Generelt"
 
 #: argos/ui/help_overlay.ui:17
 msgctxt "shortcut window"
 msgid "Close window"
-msgstr "Fenster schließen"
+msgstr "Lukk vindu"
 
 #: argos/ui/help_overlay.ui:24
 msgctxt "shortcut window"
 msgid "Quit"
-msgstr "Verlassen"
+msgstr "Avslutt"
 
 #: argos/ui/help_overlay.ui:31
 msgctxt "shortcut window"
 msgid "Shortcuts"
-msgstr "Tastenkürzel"
+msgstr "Snarveier"
 
 #: argos/ui/help_overlay.ui:38
 msgctxt "shortcut window"
 msgid "Fullscreen"
-msgstr "Vollbildmodus"
+msgstr "Fullskjermsvisning"
 
 #: argos/ui/help_overlay.ui:47
 msgctxt "shortcut window"
 msgid "Playback"
-msgstr "Player"
+msgstr ""
 
 #: argos/ui/help_overlay.ui:51
 msgctxt "shortcut window"
 msgid "Play/Pause"
-msgstr "Play/Pause"
+msgstr ""
 
 #: argos/ui/help_overlay.ui:58
 msgctxt "shortcut window"
 msgid "Next track"
-msgstr "Vor"
+msgstr "Neste spor"
 
 #: argos/ui/help_overlay.ui:65
 msgctxt "shortcut window"
 msgid "Previous track"
-msgstr "Zurück"
+msgstr "Forrige spor"
 
 #: argos/ui/help_overlay.ui:72
 msgctxt "shortcut window"
 msgid "Play random album"
-msgstr "Zufälliges Album abspielen"
+msgstr "Spill tilfeldig album"
 
 #: argos/ui/help_overlay.ui:81
 msgctxt "shortcut window"
 msgid "Navigation"
-msgstr "Navigation"
+msgstr "Navigasjon"
 
 #: argos/ui/help_overlay.ui:85
 msgctxt "shortcut window"
 msgid "Go to Playing"
-msgstr "Jetzt läuft"
+msgstr "Gå til avspilling"
 
 #: argos/ui/help_overlay.ui:92
 msgctxt "shortcut window"
 msgid "Go to Library"
-msgstr "Sammlung"
+msgstr "Gå til bibliotek"
 
 #: argos/ui/help_overlay.ui:99
 msgctxt "shortcut window"
 msgid "Go to Playlists"
-msgstr "Playlists"
+msgstr "Gå til spillelister"
 
 #: argos/ui/help_overlay.ui:106
 msgctxt "shortcut window"
 msgid "Go up"
-msgstr ""
+msgstr "Gå oppover"
 
 #: argos/ui/library_browsing_progress_box.ui:38
 msgid "Keep calm, library indexation in progress…"
-msgstr "Moment bitte, die Indexierung der Alben läuft…"
+msgstr ""
 
 #: argos/ui/playing_box.ui:258
 msgid "Clear tracklist"
-msgstr "Titelliste leeren"
+msgstr "Tøm sporliste"
 
 #: argos/ui/playing_box.ui:284
 msgid "Consume tracks"
-msgstr "Titel nach Wiedergabe entfernen"
+msgstr ""
 
 #: argos/ui/playing_box.ui:305
 msgid "Shuffle tracklist"
-msgstr "Zufällige Wiedergabe"
+msgstr ""
 
 #: argos/ui/playing_box.ui:326
 msgid "Play single track"
-msgstr "Einzelnen Titel abspielen"
+msgstr ""
 
 #: argos/ui/playing_box.ui:347
 msgid "Repeat"
-msgstr "Wiederholen"
+msgstr ""
 
 #: argos/ui/playlist_creation_dialog.ui:52
 msgid "Name:"
-msgstr ""
+msgstr "Navn:"
 
 #: argos/ui/playlist_creation_dialog.ui:64
 msgid "New playlist"
-msgstr "Neue Playlist"
+msgstr "Ny spilleliste"
 
 #: argos/ui/playlist_creation_dialog.ui:65
 msgid "Playlist name"
-msgstr "Name der Wiedergabeliste"
+msgstr "Spillelistenavn"
 
 #: argos/ui/playlists_box.ui:156
 msgid "Edit playlist"
-msgstr "Playlist bearbeiten"
+msgstr "Rediger spilleliste"
 
 #: argos/ui/playlists_box.ui:189
 msgid "Add playlist or selected tracks to tracklist"
-msgstr "Playlist oder markierte Titel zur Wiedergabeliste hinzufügen"
+msgstr ""
 
 #: argos/ui/playlists_box.ui:211
 msgid "Play playlist or selected tracks"
-msgstr "Playlist oder markierte Titel abspielen"
+msgstr ""
 
 #: argos/ui/preferences.ui:70
 msgid "Mopidy server"
-msgstr "Mopidy Server"
+msgstr "Mopidy-tjener"
 
 #: argos/ui/preferences.ui:93
 msgid "Base URL:"
-msgstr "URL des Servers:"
+msgstr ""
 
 #: argos/ui/preferences.ui:107
 msgid "Enter the URL of the Mopidy server"
-msgstr "URL des Mopidy Servers eingeben"
+msgstr ""
 
 #: argos/ui/preferences.ui:153
 msgid ""
 "A connection failure indicates that the music server is currently not "
 "accessible at the given URL. Please adapt the URL."
 msgstr ""
-"Ein Verbindungsfehler weist darauf hin, dass der Musikserver derzeit nicht "
-"unter der angegebeben URL erreichbar ist. Bitte die Einstellung prüfen."
 
 #: argos/ui/preferences.ui:251
 msgid "Other services"
@@ -381,11 +380,11 @@ msgstr ""
 
 #: argos/ui/preferences.ui:332
 msgid "General"
-msgstr "Allgemein"
+msgstr "Generelt"
 
 #: argos/ui/preferences.ui:350 argos/ui/preferences.ui:598 argos/window.py:55
 msgid "Library"
-msgstr "Sammlung"
+msgstr "Bibliotek"
 
 #: argos/ui/preferences.ui:370 data/io.github.orontee.Argos.gschema.xml:36
 msgid "Index Mopidy-Local albums at startup"
@@ -399,31 +398,31 @@ msgstr ""
 
 #: argos/ui/preferences.ui:412 argos/window.py:59
 msgid "Playlists"
-msgstr "Playlists"
+msgstr ""
 
 #: argos/ui/preferences.ui:473
 msgid "Max length:"
-msgstr "Max. Länge:"
+msgstr ""
 
 #: argos/ui/preferences.ui:499
 msgid "Sources"
-msgstr "Quellen"
+msgstr "Kilder"
 
 #: argos/ui/preferences.ui:518
 msgid "Main window"
-msgstr "Hauptfenster"
+msgstr "Hovedvindu"
 
 #: argos/ui/preferences.ui:545
 msgid "Dark theme:"
-msgstr "Dunkles Theme:"
+msgstr "Mørk drakt:"
 
 #: argos/ui/preferences.ui:568
 msgid "Start fullscreen:"
-msgstr "Im Vollbildmodus starten:"
+msgstr "Start fullskjermsvisning:"
 
 #: argos/ui/preferences.ui:625
 msgid "Image size:"
-msgstr "Bildgröße:"
+msgstr "Bildestørrelse:"
 
 #: argos/ui/preferences.ui:657
 msgid "Display"
@@ -431,39 +430,37 @@ msgstr ""
 
 #: argos/ui/stream_uri_dialog.ui:46 argos/widgets/streamuridialog.py:35
 msgid "Stream URI"
-msgstr "Stream URI"
+msgstr ""
 
 #: argos/ui/stream_uri_dialog.ui:59
 msgid ""
 "Supported protocols may vary and URI blacklisting\n"
 "may apply depending on Mopidy-Stream configuration."
 msgstr ""
-"Unterstützte Protokolle können variieren und sind\n"
-"abhängig von der Mopidy-Stream Konfiguration."
 
 #: argos/ui/stream_uri_dialog.ui:74 argos/ui/tracklist_random_dialog.ui:298
 msgid "Play immediately"
-msgstr "Direkt starten"
+msgstr "Spill umiddelbart"
 
 #: argos/ui/title_bar.ui:63
 msgid "Go back"
-msgstr "Geh zurück"
+msgstr "Gå tilbake"
 
 #: argos/ui/title_bar.ui:97
 msgid "Sort albums"
-msgstr "Alben sortieren"
+msgstr "Sorter album"
 
 #: argos/ui/title_bar.ui:119
 msgid "Go to home"
-msgstr "Zur Startseite"
+msgstr "Gå hjem"
 
 #: argos/ui/title_bar.ui:133
 msgid "Search albums"
-msgstr "Alben durchsuchen"
+msgstr "Søk etter album"
 
 #: argos/ui/tracklist_random_dialog.ui:26
 msgid "Skip"
-msgstr "Überspringen"
+msgstr "Hopp over"
 
 #: argos/ui/tracklist_random_dialog.ui:254
 msgid "Disc"
@@ -471,39 +468,39 @@ msgstr "Disk"
 
 #: argos/ui/tracks_view.ui:212
 msgid "Play tracks"
-msgstr "Titel abspielen"
+msgstr "Spill spor"
 
 #: argos/ui/tracks_view.ui:245
 msgid "Sort tracks"
-msgstr "Titel sortieren"
+msgstr "Sorter spor"
 
 #: argos/utils.py:73
 msgid "More than one day"
-msgstr "Mehr als einen Tag"
+msgstr "Mer enn én dag"
 
 #: argos/utils.py:83
 msgid "Today"
-msgstr "Heute"
+msgstr "I dag"
 
 #: argos/utils.py:85
 msgid "Yesterday"
-msgstr "Gestern"
+msgstr "I går"
 
 #: argos/widgets/albumdetailsbox.py:25
 msgid "Information not available"
-msgstr "Keine Information verfügbar"
+msgstr ""
 
 #: argos/widgets/albumdetailsbox.py:88 argos/widgets/tracksview.py:54
 msgid "Add to tracklist"
-msgstr "Zur Wiedergabeliste hinzufügen"
+msgstr ""
 
 #: argos/widgets/albumdetailsbox.py:91 argos/widgets/tracksview.py:57
 msgid "Add to playlist…"
-msgstr "Zur Playlist hinzufügen…"
+msgstr ""
 
 #: argos/widgets/albumdetailsbox.py:230
 msgid "Not available"
-msgstr "Nicht verfügbar"
+msgstr ""
 
 #: argos/widgets/playingboxemptytracklistbox.py:11
 msgid ""
@@ -515,79 +512,68 @@ msgid ""
 "\n"
 "• Choose tracks from the library or playlists\n"
 msgstr ""
-"Zum Füllen der Wiedergabeliste:\n"
-"\n"
-"• <a href=\"argos:play-random-tracks\">Ein zufälliges Album abspielen</a>\n"
-"\n"
-"• <a href=\"argos:add-stream\">Einen Musik-Stream hinzufügen</a>\n"
-"\n"
-"• Wähle Alben / Titel aus der Sammlung oder den Playlists\n"
 
 #: argos/widgets/playlistcreationdialog.py:34
 msgid "Playlist creation"
-msgstr "Erstellung einer Playlist"
+msgstr ""
 
 #: argos/widgets/playlistemptytracksbox.py:39
 msgid "Loading playlist tracks…"
-msgstr "Titel der Playlist laden…"
+msgstr ""
 
 #: argos/widgets/playlistsbox.py:93
 msgid "Add stream to playlist…"
-msgstr "Stream zu Playlist hinzufügen…"
+msgstr ""
 
 #: argos/widgets/playlistsbox.py:94
 msgid "Remove selected tracks"
-msgstr "Markierte Titel entfernen"
+msgstr ""
 
 #: argos/widgets/playlistsbox.py:95
 msgid "Delete playlist…"
-msgstr "Playlist löschen…"
+msgstr "Slett spilleliste …"
 
 #: argos/widgets/playlistsbox.py:303
 msgid "Confirm playlist deletion"
-msgstr "Wiedergabeliste löschen"
+msgstr "Bekreft sletting av spilleliste"
 
 #: argos/widgets/playlistsbox.py:307
 msgid ""
 "The playlist {!r} is about to be deleted. The deletion can't be reverted."
 msgstr ""
-"Die Playlist {!r} wird gerade gelöscht. Das Löschen kann nicht rückgängig "
-"gemacht werden."
 
 #: argos/widgets/playlistselectiondialog.py:50
 msgid "Select playlist by name"
-msgstr "Wiedergabelistenname"
+msgstr ""
 
 #: argos/widgets/preferences.py:143
 msgid "Preferences"
-msgstr "Einstellungen"
+msgstr "Innstillinger"
 
 #: argos/widgets/preferences.py:186
 #, python-brace-format
 msgid "Do you want to use the Mopidy HTTP service discovered at {address}?"
 msgstr ""
-"Möchten Sie den Mopidy HTTP-Dienst verwenden, der unter {address} gefunden "
-"wurde?"
 
 #: argos/widgets/tracklistrandomdialog.py:86
 msgid "Random tracklist"
-msgstr "Zufällige Wiedergabe"
+msgstr ""
 
 #: argos/widgets/tracklistrandomdialog.py:118
 msgid "Various"
-msgstr "Mehrere"
+msgstr "Ymse"
 
 #: argos/widgets/tracklistrandomdialog.py:229
 msgid "Browse the library first, it's currently empty!"
-msgstr "Durchsuchen Sie zuerst die Bibliothek, sie ist derzeit leer!"
+msgstr ""
 
 #: argos/widgets/tracklistrandomdialog.py:234
 msgid "Oups, failed to select random tracks…"
-msgstr "Ups, Auswahl zufälliger Tracks fehlgeschlagen…"
+msgstr ""
 
 #: argos/widgets/tracklisttrackbox.py:44
 msgid "Unknown name"
-msgstr "Unbekannter Name"
+msgstr "Ukjent navn"
 
 #: argos/widgets/utils.py:92
 #, python-brace-format
@@ -596,31 +582,31 @@ msgstr "Disk {0}"
 
 #: argos/widgets/utils.py:176
 msgid "Album name"
-msgstr "Albumname"
+msgstr ""
 
 #: argos/widgets/utils.py:177
 msgid "Artist name"
-msgstr "Künstlername"
+msgstr "Artistnavn"
 
 #: argos/widgets/utils.py:178
 msgid "Publication date"
-msgstr "Erscheinungsdatum"
+msgstr ""
 
 #: argos/widgets/utils.py:179
 msgid "Last modified"
-msgstr "Zuletzt geändertes Datum"
+msgstr ""
 
 #: argos/widgets/utils.py:184
 msgid "Track name"
-msgstr "Titelname"
+msgstr "Spornavn"
 
 #: argos/widgets/utils.py:185
 msgid "Track number"
-msgstr "Titelnummer"
+msgstr "Spornummer"
 
 #: argos/window.py:50
 msgid "Playing"
-msgstr "Jetzt läuft"
+msgstr ""
 
 #: data/io.github.orontee.Argos.appdata.xml.in:6
 #: data/io.github.orontee.Argos.desktop.in:3
@@ -630,31 +616,29 @@ msgstr "Argos"
 #: data/io.github.orontee.Argos.appdata.xml.in:7
 #: data/io.github.orontee.Argos.desktop.in:4
 msgid "Light weight front-end for Mopidy music server"
-msgstr "Schlankes Frontend für den Mopidy Musikserver"
+msgstr ""
 
 #: data/io.github.orontee.Argos.appdata.xml.in:9
 msgid ""
 "Argos is designed (and used!) with Gnome desktop and small single-board "
 "devices with small touchscreen in mind."
 msgstr ""
-"Argos wird für den Gnome-Desktop, kleine Einplatinenrechner und zur Nutzung "
-"auf kleinen Touchscreens entwickelt (und verwendet!)."
 
 #: data/io.github.orontee.Argos.appdata.xml.in:15
 msgid "Tracklist view"
-msgstr "Titellistenansicht"
+msgstr "Sporlistevisning"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:19
 msgid "Library view"
-msgstr "Bibliotheksansicht"
+msgstr "Biblioteksvisning"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:23
 msgid "Playlists view"
-msgstr "Wiedergabelistenansicht"
+msgstr ""
 
 #: data/io.github.orontee.Argos.appdata.xml.in:27
 msgid "Album details view"
-msgstr "Ansicht der Albumdetails"
+msgstr ""
 
 #: data/io.github.orontee.Argos.appdata.xml.in:33
 msgid "New year's eve release!"
@@ -674,7 +658,7 @@ msgstr ""
 
 #: data/io.github.orontee.Argos.appdata.xml.in:61
 msgid "Birthday release: Argos is 1-year old!"
-msgstr "Geburtstags: Argos wird 1 Jahr alt!"
+msgstr ""
 
 #: data/io.github.orontee.Argos.appdata.xml.in:68
 msgid "Implement a library browser and improve performance."
@@ -686,43 +670,41 @@ msgstr ""
 
 #: data/io.github.orontee.Argos.appdata.xml.in:82
 msgid "Bug fixes and small enhancement."
-msgstr "Fehlerbehebungen und kleine Verbesserungen."
+msgstr ""
 
 #: data/io.github.orontee.Argos.appdata.xml.in:89
 msgid "Improving user experience. Once again."
-msgstr "Verbesserung der Benutzererfahrung. Noch einmal."
+msgstr ""
 
 #: data/io.github.orontee.Argos.appdata.xml.in:96
 msgid "Improving user experience."
-msgstr "Verbesserung der Benutzererfahrung."
+msgstr ""
 
 #: data/io.github.orontee.Argos.appdata.xml.in:103
 msgid "Autumnal delivery."
-msgstr "Herbstliche Lieferung"
+msgstr ""
 
 #: data/io.github.orontee.Argos.appdata.xml.in:110
 msgid ""
 "Improve performance while browsing albums and add support for Mopidy-"
 "Jellyfin."
 msgstr ""
-"Verbesserung der Leistung beim Durchsuchen von Alben und Unterstützung von "
-"Mopidy-Jellyfin."
 
 #: data/io.github.orontee.Argos.appdata.xml.in:117
 msgid "Bug fixes release."
-msgstr "Fehlerbehebungen"
+msgstr ""
 
 #: data/io.github.orontee.Argos.appdata.xml.in:124
 msgid "Attempt to comply to Flathub expectations."
-msgstr "Versuch die Erwartungen von Flathub zu erfüllen."
+msgstr ""
 
 #: data/io.github.orontee.Argos.appdata.xml.in:131
 msgid "Delivered during holidays, use at your own risks!"
-msgstr "Auslieferung während der Ferien, Nutzung auf eigene Gefahr!"
+msgstr ""
 
 #: data/io.github.orontee.Argos.appdata.xml.in:138
 msgid "Delivered during a toothache, use at your own risks!"
-msgstr "Auslieferung mit Zahnschmerzen, Nutzung auf eigene Gefahr!"
+msgstr ""
 
 #: data/io.github.orontee.Argos.appdata.xml.in:144
 msgid "Matthias Meulien"
@@ -730,19 +712,19 @@ msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:6
 msgid "Connection retry delay"
-msgstr "Neuer Verbindungsversuch"
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:9
 msgid "The delay in seconds between two connection tries."
-msgstr "Verzögerung in s zwischen zwei Verbindungsversuchen."
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:16
 msgid "Base URL of Mopidy APIs"
-msgstr "URL der Mopidy APIs"
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:19
 msgid "The base URL of Mopidy JSON-RPC and websocket APIs."
-msgstr "URL von Mopidy JSON-RPC und websocket APIs."
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:26
 msgid "Information service"
@@ -754,27 +736,27 @@ msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:39
 msgid "Whether to index Mopidy-Local albums directory at startup."
-msgstr "Ob das Mopidy-Local-Albenverzeichnis beim Start indiziert werden soll."
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:46
 msgid "Album sort order"
-msgstr "Sortierreihenfolge der Alben"
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:49
 msgid "Order applied when sorting albums."
-msgstr "Sortierung der Alben angewendet."
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:62
 msgid "Track sort order"
-msgstr "Sortierreihenfolge der Titel"
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:65
 msgid "Order applied when sorting tracks."
-msgstr "Sortierung der Titel angewendet."
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:76
 msgid "Random tracks choice strategy"
-msgstr "Zufällige Wiedergabe"
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:79
 msgid "Strategy used to build random track selection."
@@ -792,162 +774,138 @@ msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:102
 msgid "History playlist"
-msgstr "Zuletzt gespielt"
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:105
 msgid "A dynamic playlist of last played tracks can be maintained."
-msgstr "Dynamische Wiedergabeliste der zuletzt gespielten Titel bearbeiten."
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:112
 msgid "History max length"
-msgstr "Zuletzt gespielt innerhalb der letzten x-Tage"
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:115
 msgid "The maximal length of the history playlist."
-msgstr "Max. Anzahl Titel der Zuletzt gespielt Playlist."
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:123
 msgid "Albums image size"
-msgstr "Bildgröße des Albums"
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:126
 msgid "The size of images in the library."
-msgstr "Die Größe der Bilder in der Sammlung."
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:133
 msgid "Window size"
-msgstr "Fenstergröße"
+msgstr "Vindusstørrelse"
 
 #: data/io.github.orontee.Argos.gschema.xml:134
 msgid "Window size (width and height)."
-msgstr "Fenstergröße (Breite und Höhe)."
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:139
 msgid "Window position"
-msgstr "Fensterposition"
+msgstr "Vindusposisjon"
 
 #: data/io.github.orontee.Argos.gschema.xml:140
 msgid "Window position (x and y)."
-msgstr "Fensterposition (x und y)."
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:145
 msgid "Window maximized"
-msgstr "Vollbild"
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:146
 msgid "Window maximized state."
-msgstr "Vollbildmodus."
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:151
 msgid "Fullscreen window"
-msgstr "Vollbildfenster"
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:152
 msgid "Window fullscreen state."
-msgstr "enster im Vollbildmodus."
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:157
 msgid "Start fullscreen"
-msgstr "Im Vollbildmodus starten"
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:158
 msgid "Start with fullscreen window."
-msgstr "Im Vollbildmodus starten"
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:163
 msgid "Prefer dark theme"
-msgstr "Bevorzugen Sie ein dunkles Theme"
+msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:164
 msgid "If a Gtk+ theme includes a dark variant, it will be used."
 msgstr ""
-"Wenn ein Gtk+-Theme eine dunkle Variante enthält, wird diese verwendet."
+
+#~ msgid "Go up"
+#~ msgstr "Au-dessus"
 
 #~ msgid "Base URL of Mopidy server"
-#~ msgstr "URL des Mopidy Servers"
+#~ msgstr "URL de base du serveur Mopidy"
 
 #~ msgid "The URI of the stream"
-#~ msgstr "URI des Streams"
+#~ msgstr "Entrer l'URI du flux"
 
 #~ msgid "Confirm the deletion of the {!r} playlist"
-#~ msgstr "Löschen der Playlist {!r} bestätigen."
+#~ msgstr "Confirmer la suppression de la liste de lecture {!r}"
 
 #~ msgid "The deletion can't be reverted."
-#~ msgstr "Das Löschen kann nicht rückgängig gemacht werden."
+#~ msgstr "La suppression est définitive."
 
 #~ msgid "Merry Christmas!"
-#~ msgstr "Fröhliche Weihnachten !"
+#~ msgstr "Joyeux Noël !"
 
-#, fuzzy
-#~ msgid "Mopidy-File"
-#~ msgstr "Mopidy-Local"
-
-#, fuzzy
 #~ msgid "Whether to display directories from Mopidy-File in library."
-#~ msgstr "Alben aus dem Mopidy-Local-Verzeichnis in der Sammlung anzeigen."
+#~ msgstr "Présence des albums du répertoire Mopidy-File dans la bibliothèque."
 
-#~ msgid "Mopidy-Local"
-#~ msgstr "Mopidy-Local"
-
-#, fuzzy
 #~ msgid "Whether to display directories from Mopidy-Local in library."
-#~ msgstr "Alben aus dem Mopidy-Local-Verzeichnis in der Sammlung anzeigen."
+#~ msgstr ""
+#~ "Présence des albums du répertoire Mopidy-Local dans la bibliothèque."
 
-#~ msgid "Mopidy-Bandcamp"
-#~ msgstr "Mopidy-Bandcamp"
-
-#, fuzzy
 #~ msgid "Whether to display directories from Mopidy-Bandcamp in library."
-#~ msgstr "Alben von Mopidy-Bandcamp in der Sammlung anzeigen."
+#~ msgstr ""
+#~ "Présence des albums du répertoire Mopidy-Bandcamp dans la bibliothèque."
 
-#~ msgid "Mopidy-Jellyfin"
-#~ msgstr "Mopidy-Jellyfin"
-
-#, fuzzy
 #~ msgid "Whether to display directories from Mopidy-Jellyfin in library."
-#~ msgstr "Alben von Mopidy-Jellyfin in der Sammlung anzeigen."
+#~ msgstr ""
+#~ "Présence des albums du répertoire Mopidy-Jellyfin dans la bibliothèque."
 
-#~ msgid "Mopidy-Podcast"
-#~ msgstr "Mopidy-Podcast"
-
-#, fuzzy
 #~ msgid "Whether to display directories from Mopidy-Podcast in library."
-#~ msgstr "Alben von Mopidy-Podcast in der Sammlung anzeigen."
+#~ msgstr ""
+#~ "Présence des albums des répertoires Mopidy-Podcast dans la bibliothèque."
 
-#, fuzzy
-#~ msgid "Mopidy-SomaFM"
-#~ msgstr "Mopidy-Local"
-
-#, fuzzy
 #~ msgid "Whether to display directories from Mopidy-SomaFM in library."
-#~ msgstr "Alben aus dem Mopidy-Local-Verzeichnis in der Sammlung anzeigen."
+#~ msgstr ""
+#~ "Présence des albums du répertoire Mopidy-SomaFM dans la bibliothèque."
 
 #~ msgid "Album backends excluded from random play"
-#~ msgstr "Bei zufälliger Wiedergabe, folgende Mopidy Backends ausschließen"
+#~ msgstr "Sources d'albums exclues de la lecture aléatoire"
 
 #~ msgid ""
 #~ "Albums handled by the selected Mopidy backends will be filtered out when "
 #~ "randomly choosing an album to play."
 #~ msgstr ""
-#~ "Alben, der ausgewählten Mopidy Backends werden bei zufälliger Wiedergabe "
-#~ "ausgeschlossen."
+#~ "Les albums gérés par les sources sélectionnées seront exclus de la "
+#~ "sélection aléatoire d'album."
 
 #~ msgid "Albums view"
-#~ msgstr "Albenansicht"
+#~ msgstr "Vue albums"
 
-#, fuzzy
 #~ msgid "Sort library"
-#~ msgstr "Sammlung"
-
-#, fuzzy
-#~ msgid "Open Mopidy-Local albums"
-#~ msgstr "Mopidy-Local"
+#~ msgstr "Trier la bibliothèque"
 
 #~ msgid "Back to albums page"
-#~ msgstr "Zurück zur Sammlung"
+#~ msgstr "Retourner aux albums"
 
 #~ msgid "Recent additions"
-#~ msgstr "Zuletzt hinzugefügt"
+#~ msgstr "Ajouts récents"
 
 #~ msgid "Bandcamp:"
 #~ msgstr "Bandcamp:"
@@ -959,59 +917,63 @@ msgstr ""
 #~ msgstr "Jellyfin:"
 
 #~ msgid "Max age (days):"
-#~ msgstr "Max. Alter (Tage):"
+#~ msgstr "Nombre de jours max.:"
 
 #~ msgid "Recent additions playlist"
-#~ msgstr "Zuletzt hinzugefügt Playlist"
+#~ msgstr "Ajouts récents"
 
 #~ msgid "A dynamic playlist of recently added tracks can be maintained."
-#~ msgstr ""
-#~ "Dynamische Wiedergabeliste der zuletzt hinzugefügten Titel bearbeiten."
+#~ msgstr "Ajout d'une liste de lecture des morceaux récemment ajoutés."
 
 #~ msgid "Recent additions max age"
-#~ msgstr "Zuletzt hinzugefügt innerhalb der letzten x-Tage."
+#~ msgstr "Âge maximal des ajouts récents"
 
 #~ msgid ""
 #~ "The maximal age in seconds of tracks considered for insertion in the "
 #~ "recent additions playlist."
-#~ msgstr "Max. Alter in s von Titeln, der Zuletzt hinzugefügt Playlist."
+#~ msgstr ""
+#~ "L'âge maximal en seconde des morceaux pris en compte dans la liste de "
+#~ "lecture des morceaux récents."
 
 #~ msgid "Play stream immediately"
-#~ msgstr "Stream direkt starten"
+#~ msgstr "Lire le flux immédiatement"
 
-#, fuzzy
 #~ msgid "Length:"
-#~ msgstr "Länge:"
+#~ msgstr "Durée:"
 
-#, fuzzy
 #~ msgid "Tracks:"
-#~ msgstr "Titel"
+#~ msgstr "Morceaux:"
 
 #~ msgid "Sort by:"
-#~ msgstr "Sortierung:"
+#~ msgstr "Trier par:"
 
 #~ msgid "Presentation"
-#~ msgstr "Ansicht"
+#~ msgstr "Présentation"
+
+#~ msgid "Empty tracklists make the most noise!"
+#~ msgstr "Ce sont les files d'attente vides qui font le plus de bruit !"
 
 #~ msgid "Play stream…"
-#~ msgstr "Stream abspielen…"
+#~ msgstr "Lire un flux…"
 
 #~ msgid "Add album or selected tracks to a playlist"
-#~ msgstr "Album oder markierte Titel zu einer Playlist hinzufügen"
+#~ msgstr "Ajouter l'album ou les morceaux sélectionnés à la liste de lecture"
 
 #~ msgid "Play album or selected tracks"
-#~ msgstr "Album oder markierte Titel abspielen"
+#~ msgstr "Lire l'album ou les morceaux sélectionnés"
 
 #~ msgid "Server"
-#~ msgstr "Server"
+#~ msgstr "Serveur"
 
 #~ msgid "Play _favorite playlist"
-#~ msgstr "_Lieblingsplaylist abspielen"
+#~ msgstr "Lire la liste de lecture _favorite"
 
 #~ msgid "URI of favorite playlist"
-#~ msgstr "URI der Lieblingsplaylist"
+#~ msgstr "URI de la liste de lecture favorite"
 
 #~ msgid ""
 #~ "The URI of the playlist that will be loaded and played when \"play "
 #~ "favorite playlist\" button is triggered."
-#~ msgstr "Adresse der Lieblingsplaylist."
+#~ msgstr ""
+#~ "L'URI de la liste de lecture qui es chargée et jouée quand \"Lire la "
+#~ "liste de lecture favorite est activé"
