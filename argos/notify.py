@@ -11,6 +11,8 @@ from argos.model import Model, PlaybackState
 
 LOGGER = logging.getLogger(__name__)
 
+_NOTIFY_TIMEOUT_MSEC = 5000
+
 
 class Notifier(GObject.Object):
 
@@ -99,7 +101,7 @@ class Notifier(GObject.Object):
                 method_name="Notify",
                 parameters=parameters,
                 flags=Gio.DBusCallFlags.NONE,
-                timeout_msec=-1,
+                timeout_msec=_NOTIFY_TIMEOUT_MSEC,
                 cancellable=None,
             )
         except GLib.Error:
