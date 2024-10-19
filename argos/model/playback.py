@@ -55,5 +55,8 @@ class PlaybackModel(WithThreadSafePropertySetter, GObject.Object):
             path = value
         self.set_property_in_gtk_thread("image_path", path)
 
-    def set_image_uri(self, value: str) -> None:
-        self.set_property_in_gtk_thread("image_uri", value)
+    def set_image_uri(self, value: Optional[str]) -> None:
+        if value is None:
+            self.set_property_in_gtk_thread("image_uri", "")
+        else:
+            self.set_property_in_gtk_thread("image_uri", value)

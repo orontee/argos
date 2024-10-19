@@ -5,6 +5,7 @@ from typing import Optional
 
 from gi.repository import Gdk, GLib, GObject, Gtk
 
+from argos.download import ImageDownloader
 from argos.model import PlaybackState
 from argos.widgets.tracklengthbox import TrackLengthBox
 from argos.widgets.utils import default_image_pixbuf, scale_album_image
@@ -43,6 +44,7 @@ class CondensedPlayingBox(Gtk.Box):
 
         self._app = application
         self._model = application.model
+        self._download: ImageDownloader = application.props.download
         self._disable_tooltips = application.props.disable_tooltips
 
         volume_button = VolumeButton(
@@ -74,8 +76,10 @@ class CondensedPlayingBox(Gtk.Box):
         )
         self._model.playback.connect("notify::state", self._update_play_button)
         self._model.playback.connect(
-            "notify::image-path", self._update_playing_track_image
+            "notify::image-uri", self._reset_playing_track_image
         )
+        self._download.connect("image-downloaded", self._update_playing_track_image)
+
         self.show_all()
 
     def handle_connection_changed(
@@ -102,11 +106,24 @@ class CondensedPlayingBox(Gtk.Box):
             self._update_track_name_label()
             self._update_track_details_label()
 
+    def _reset_playing_track_image(
+        self,
+        _1: GObject.GObject,
+        _2: GObject.GParamSpec,
+    ) -> None:
+        self.playing_track_image.set_from_pixbuf(self.default_track_image)
+        self.playing_track_image.show_now()
+
     def _update_playing_track_image(
         self,
-        _1: GObject.GObject = None,
-        _2: GObject.GParamSpec = None,
+        _1: ImageDownloader,
+        image_uri: str,
     ) -> None:
+        LOGGER.debug("Updating playing track image")
+        match_playing_track = self._model.playback.image_uri == image_uri
+        if not match_playing_track:
+            return
+
         image_path = (
             Path(self._model.playback.image_path)
             if self._model.playback.image_path

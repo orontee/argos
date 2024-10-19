@@ -17,6 +17,9 @@ Added
 Changed
 -------
 
+- Add track image to desktop notification `#185
+  <https://github.com/orontee/argos/issues/185>`_
+
 - Weblate is used to host translations `#179
   <https://github.com/orontee/argos/issues/179>`_
 

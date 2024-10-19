@@ -50,8 +50,8 @@ class ImageDownloader(GObject.GObject):
         self._image_dir = Path(xdg.BaseDirectory.save_cache_path("argos/images"))
         self._ongoing_task: Optional[asyncio.Task[None]] = None
 
-    def get_image_filepath(self, image_uri: str) -> Optional[Path]:
-        if image_uri == "":
+    def get_image_filepath(self, image_uri: Optional[str]) -> Optional[Path]:
+        if image_uri == "" or image_uri is None:
             filename = None
         elif image_uri.startswith("/local/"):
             filename = Path(image_uri).parts[-1]
@@ -75,21 +75,22 @@ class ImageDownloader(GObject.GObject):
         An image availability must be done by checking that the corresponding file
         exists.
 
-        The file name is returned."""
+        The file name or ``None`` is returned."""
         if not self._mopidy_base_url:
             LOGGER.debug("Skipping image download since Mopidy base URL not set")
             return None
 
         filepath = self.get_image_filepath(image_uri)
-        if not filepath:
-            return None
-
-        if filepath.exists():
-            return filepath
-
-        url = urllib.parse.urljoin(self._mopidy_base_url, image_uri)
-
-        success = await self._fetch_image(image_uri, filepath)
+        success = False
+        if filepath is not None:
+            success = filepath.exists()
+            if not success:
+                url = urllib.parse.urljoin(self._mopidy_base_url, image_uri)
+                success = await self._fetch_image(image_uri, filepath)
+            else:
+                LOGGER.debug(f"Image file already exists {str(filepath)!r}")
+        else:
+            LOGGER.debug("Image URI not supported")
 
         GLib.idle_add(
             partial(
@@ -146,9 +147,6 @@ class ImageDownloader(GObject.GObject):
 
         An image availability must be done by checking that the corresponding file
         exists (See ``get_image_filepath()``)."""
-        if len(image_uris) == 0:
-            return None
-
         to_download: Dict[str, Path] = {}
 
         for image_uri in image_uris:

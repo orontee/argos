@@ -167,7 +167,8 @@ The URL of the Mopidy server is backed by GSettings. Thus in case the
 host has no keyboard, one can directly set the URL of the Mopidy
 server through an SSH connection. Make sure changes are done by the
 user that will run Argos. Changes can be made using `Dconf Editor
-<https://wiki.gnome.org/Apps/DconfEditor>`_ or the command line::
+<https://wiki.gnome.org/Apps/DconfEditor>`_ or the command line (One
+may have to set ``BUS_SESSION_BUS_ADDRESS`` environment address)::
 
   $ gsettings set io.github.orontee.Argos mopidy-base-url http://192.168.1.45
 

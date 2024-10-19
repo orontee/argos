@@ -1,5 +1,6 @@
 import logging
-from typing import TYPE_CHECKING, Optional
+from pathlib import Path
+from typing import TYPE_CHECKING, Dict, Optional
 
 from gi.repository import Gio, GLib, GObject
 
@@ -22,7 +23,7 @@ class Notifier(GObject.Object):
         self._application_name = "Argos"
         self._app = application
         self._model: Model = application.model
-        self._nid = None  # identifier of last sent notification
+        self._nid: Optional[int] = None  # identifier of last sent notification
         self._disable = False
 
     def send_notification(
@@ -32,6 +33,7 @@ class Notifier(GObject.Object):
         body: Optional[str] = None,
         invisible_playing_page: Optional[bool] = False,
         is_playing: Optional[bool] = False,
+        image_path: Optional[str | Path] = None,
     ) -> None:
         if self._disable:
             LOGGER.warning("Sending notifications is disabled")
@@ -68,6 +70,12 @@ class Notifier(GObject.Object):
             self._disable = True
             return
 
+        hints: Dict[str, GLib.Variant] = {}
+        if image_path is not None:
+            p = Path(image_path).resolve()
+            if p.exists():
+                hints["image-path"] = GLib.Variant("s", p.as_uri())
+
         parameters_type = "(susssasa{sv}i)"
         # https://lazka.github.io/pgi-docs/GLib-2.0/classes/VariantType.html
 
@@ -80,11 +88,11 @@ class Notifier(GObject.Object):
                 summary,
                 body if body else "",
                 [],
-                {},
+                hints,
                 self.expiration_timeout,
             ),
         )
-        # https://specifications.freedesktop.org/notification-spec/notification-spec-latest.html
+        # https://specifications.freedesktop.org/notification-spec/latest
 
         try:
             res = proxy.call_sync(
@@ -103,3 +111,4 @@ class Notifier(GObject.Object):
                 self._nid = res.get_child_value(0).get_uint32()
             else:
                 LOGGER.warning(f"Unexpected result type {res.get_type_string()!r}")
+                self._nid = None

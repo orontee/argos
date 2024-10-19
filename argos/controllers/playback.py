@@ -1,6 +1,6 @@
 import gettext
 import logging
-from typing import TYPE_CHECKING, Union, cast
+from typing import TYPE_CHECKING, Optional, Tuple, Union, cast
 
 from gi.repository import GObject
 
@@ -45,6 +45,8 @@ class PlaybackController(ControllerBase):
             "notify::current-tl-track-tlid",
             self._on_playback_current_tl_track_tlid_changed,
         )
+
+        self._download.connect("image-downloaded", self._on_image_downloaded)
 
     @consume(MessageType.IDENTIFY_PLAYING_STATE)
     async def identify_playing_state(self, message: Message) -> None:
@@ -131,22 +133,28 @@ class PlaybackController(ControllerBase):
     @consume(MessageType.FETCH_TRACK_IMAGE)
     async def fetch_track_image(self, message: Message) -> None:
         track_uri = message.data.get("track_uri")
-        if not track_uri:
+        if not track_uri or self._model.get_current_tl_track_uri() != track_uri:
             return
 
-        LOGGER.debug(f"Starting track image download for {track_uri}")
+        LOGGER.debug(f"Will download track image for {track_uri}")
         images = await self._http.get_images([track_uri])
-        image_path = None
-        if images:
-            track_images = images.get(track_uri)
-            if track_images and len(track_images) > 0:
-                image_uri = track_images[0].uri
-                image_path = await self._download.fetch_image(image_uri)
+        track_images = images.get(track_uri, []) if images else []
+        image_uri = track_images[0].uri if len(track_images) > 0 else None
+        if image_uri is not None:
+            self._model.playback.set_image_uri(image_uri)
 
-        if self._model.get_current_tl_track_uri() != track_uri:
-            image_path = None
+            image_path = self._download.get_image_filepath(image_uri)
+            self._model.playback.set_image_path(image_path)
 
-        self._model.playback.set_image_path(image_path)
+            # no need to set ``image_path`` and ``image_uri`` since they're reset with
+            # each ``current_tl_track_tlid`` change, see
+            # ``Model._reset_current_tl_track_tlid_dependent_props()``.
+
+            await self._download.fetch_image(image_uri)
+
+        if image_uri is None:
+            LOGGER.debug("Notifying since no image to download")
+            self._notify_current_tl_track()
 
     def _on_tracklist_loaded_changed(
         self,
@@ -170,22 +178,6 @@ class PlaybackController(ControllerBase):
             return
 
         self.send_message(MessageType.FETCH_TRACK_IMAGE, {"track_uri": track_uri})
-
-        # send notification
-        current_tl_track_tlid = self._model.playback.current_tl_track_tlid
-        current_tl_track = self._model.tracklist.get_tl_track(current_tl_track_tlid)
-        track = current_tl_track.track if current_tl_track is not None else None
-        if not track:
-            return
-
-        track_name = track.name
-        artist_name = track.artist_name
-        album_name = track.album_name
-        summary = _("Started to play {}").format(track_name)
-        body = ", ".join(filter(lambda s: s, [artist_name, album_name]))
-        self._notifier.send_notification(
-            summary, body=body, invisible_playing_page=True, is_playing=True
-        )
 
     def _on_connection_changed(
         self,
@@ -216,3 +208,34 @@ class PlaybackController(ControllerBase):
             self.send_message(MessageType.BROWSE_DIRECTORY)
             self.send_message(MessageType.LIST_PLAYLISTS)
             self._must_browse_sources = False
+
+    def _on_image_downloaded(self, _1: ImageDownloader, image_uri: str) -> None:
+        match_playing_track = self._model.playback.image_uri == image_uri
+        if not match_playing_track:
+            return
+
+        LOGGER.debug(
+            f"Notifying after image downloaded {self._model.playback.image_uri}"
+        )
+        self._notify_current_tl_track()
+
+    def _notify_current_tl_track(self) -> None:
+        image_path = self._download.get_image_filepath(self._model.playback.image_uri)
+        current_tl_track_tlid = self._model.playback.current_tl_track_tlid
+        current_tl_track = self._model.tracklist.get_tl_track(current_tl_track_tlid)
+        track = current_tl_track.track if current_tl_track is not None else None
+        if not track:
+            return
+
+        track_name = track.name
+        artist_name = track.artist_name
+        album_name = track.album_name
+        summary = _("Started to play {}").format(track_name)
+        body = ", ".join(filter(lambda s: s, [artist_name, album_name]))
+        self._notifier.send_notification(
+            summary,
+            body=body,
+            invisible_playing_page=True,
+            is_playing=True,
+            image_path=image_path,
+        )
