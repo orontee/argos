@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "argos"
-version = "1.15.0"
+version = "1.16.0a0"
 description = "Gtk front-end to control a Mopidy server through a tiny touch screen"
 authors = ["Matthias Meulien <orontee@gmail.com>"]
 license = "GPL-3.0-or-later"

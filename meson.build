@@ -1,5 +1,5 @@
 project('argos',
-          version: '1.15.0',
+          version: '1.16.0a0',
     meson_version: '>= 0.50.0',
   default_options: [ 'warning_level=2',
                    ],

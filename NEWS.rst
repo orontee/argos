@@ -8,6 +8,18 @@ The format is based on `Keep a Changelog
 <https://keepachangelog.com/en/1.0.0/>`_, and this project adheres to
 `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
+[Unreleased]
+============
+
+Added
+-----
+
+Changed
+-------
+
+Removed
+-------
+
 [1.15.0] - 2024-12-08
 =====================
 
@@ -16,7 +28,6 @@ Added
 
 - Spanish and Tamoul translations `#187
   <https://github.com/orontee/argos/issues/187>`_
-
 
 Changed
 -------
@@ -36,8 +47,6 @@ Changed
 - Check whether Mopidy server is reachable `#181
   <https://github.com/orontee/argos/issues/181>`_
 
-Removed
--------
 
 [1.14.0] - 2024-07-20
 =====================
@@ -86,9 +95,6 @@ Changed
 
 - Playlist names aren't elided at an arbitrary length anymore `#162
   <https://github.com/orontee/argos/issues/162>`_
-
-Removed
--------
 
 [1.13.0] - 2023-12-31
 =====================
