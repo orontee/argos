@@ -22,7 +22,7 @@ NEWS_HEADER="[Unreleased]\n============\n\nAdded\n-----\n\nChanged\n-------\n\nR
 
 CHANGELOG_DATE=$(LANG=C date +"%a, %d %b %Y %H:%M:%S %z")
 CHANGELOG_AUTHOR="$(git config user.name) <$(git config user.email)>"
-CHANGELOG="argos (${NEW_VERSION}) UNRELEASED; urgency=medium
+CHANGELOG="argos (${NEW_VERSION}-1) UNRELEASED; urgency=medium
 
   * ${NEW_VERSION} release.
 
