@@ -79,6 +79,6 @@ echo "- Update translations if needed"
 echo
 echo "Then commit, tag, push and call:"
 echo
-echo "    meson setup buildir"
-echo "    meson compile -C buildir create-pre-release"
+echo "    meson setup builddir"
+echo "    meson compile -C builddir create-pre-release"
 echo
