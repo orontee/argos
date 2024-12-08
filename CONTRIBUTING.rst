@@ -71,14 +71,20 @@ the code is ready, one must update two files used respectively for
 Flatpak and DEB packaging.
 
 * Flatpak builder install runtime dependencies described in the file
-  `pypi-dependencies.json </pypi-dependencies.json>`_. It has been
-  generated from ``poetry``'s lock file using `flatpak-builder-tools
-  <https://github.com/flatpak/flatpak-builder-tools>`_ but it's
-  straightforward to maintain by hand.
+  `pypi-dependencies.yaml </pypi-dependencies.yaml>`_.
 
-  (Note that when building, ``meson`` displays Python version,
-  platform, compatibility tags, etc.: All information required to
-  choose the right wheels.)
+  It can be updated from poetry lock file in two steps using
+  `flatpak-builder-tools
+  <https://github.com/flatpak/flatpak-builder-tools>`_::
+
+    $ poetry export --format=requirements.txt > requirements.txt
+    $ flatpak-pip-generator --runtime=org.gnome.Sdk//46 \
+                            --requirements-file=requirements.txt \
+                            --yaml --output=pypi-dependencies
+
+  Note that one may have to reorder dependencies and switch to
+  different sources depending on what is available in the runtime to
+  build packages.
 
 * DEB packages define runtime dependencies from the `debian/control
   </debian/control>`_ file.

@@ -21,6 +21,9 @@ Added
 Changed
 -------
 
+- Update Gnome runtime and other dependencies `#186
+  <https://github.com/orontee/argos/issues/186>`_
+
 - Add track image to desktop notification and set a 5s timeout `#185
   <https://github.com/orontee/argos/issues/185>`_
 
