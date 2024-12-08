@@ -182,12 +182,42 @@
                             <property name="vexpand">True</property>
                             <property name="shadow-type">none</property>
                             <child>
-                              <object class="GtkLabel" id="artist_information_label">
+                              <!-- n-columns=1 n-rows=2 -->
+                              <object class="GtkGrid" id="artist_information_grid">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="valign">start</property>
-                                <property name="vexpand">True</property>
-                                <property name="wrap">True</property>
+                                <property name="row-spacing">5</property>
+                                <property name="column-spacing">5</property>
+                                <child>
+                                  <object class="GtkLabel" id="artist_information_label">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="valign">start</property>
+                                    <property name="vexpand">True</property>
+                                    <property name="wrap">True</property>
+                                    <property name="selectable">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">0</property>
+                                    <property name="top-attach">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="artist_information_title_label">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="halign">start</property>
+                                    <property name="valign">start</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="selectable">True</property>
+                                    <property name="ellipsize">end</property>
+                                    <property name="single-line-mode">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">0</property>
+                                    <property name="top-attach">0</property>
+                                  </packing>
+                                </child>
                               </object>
                             </child>
                           </object>
@@ -210,12 +240,73 @@
                             <property name="vexpand">True</property>
                             <property name="shadow-type">none</property>
                             <child>
-                              <object class="GtkLabel" id="album_information_label">
+                              <!-- n-columns=2 n-rows=3 -->
+                              <object class="GtkGrid" id="album_information_grid">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="valign">start</property>
-                                <property name="vexpand">True</property>
-                                <property name="wrap">True</property>
+                                <property name="row-spacing">5</property>
+                                <property name="column-spacing">5</property>
+                                <child>
+                                  <object class="GtkLabel" id="album_information_title_label">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="halign">start</property>
+                                    <property name="valign">start</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="selectable">True</property>
+                                    <property name="ellipsize">end</property>
+                                    <property name="single-line-mode">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">0</property>
+                                    <property name="top-attach">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkImage" id="album_information_image">
+                                    <property name="name">album-information-image</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="halign">end</property>
+                                    <property name="valign">start</property>
+                                    <property name="icon_size">0</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">1</property>
+                                    <property name="top-attach">0</property>
+                                    <property name="height">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="album_information_label">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="valign">start</property>
+                                    <property name="vexpand">True</property>
+                                    <property name="wrap">True</property>
+                                    <property name="selectable">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">0</property>
+                                    <property name="top-attach">2</property>
+                                    <property name="width">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="album_information_subtitle_label">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="halign">start</property>
+                                    <property name="valign">start</property>
+                                    <property name="selectable">True</property>
+                                    <property name="ellipsize">end</property>
+                                    <property name="single-line-mode">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">0</property>
+                                    <property name="top-attach">1</property>
+                                  </packing>
+                                </child>
                               </object>
                             </child>
                           </object>

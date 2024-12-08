@@ -14,6 +14,9 @@ The format is based on `Keep a Changelog
 Added
 -----
 
+- Information page displays artist name and album image
+  `#172 <https://github.com/orontee/argos/issues/172>`_
+
 Changed
 -------
 

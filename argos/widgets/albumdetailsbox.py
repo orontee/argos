@@ -21,10 +21,12 @@ _ = gettext.gettext
 LOGGER = logging.getLogger(__name__)
 
 _ALBUM_IMAGE_SIZE = 200
+_SMALL_ALBUM_IMAGE_SIZE = 80
 
 _MISSING_INFO_MSG = _("Information not available")
 _MISSING_INFO_MSG_WITH_MARKUP = f"""<span style="italic">{_MISSING_INFO_MSG}</span>"""
 _INFO_TITLE_WITH_MARKUP = """<span size="x-large" weight="bold">{title}</span>"""
+_INFO_SUBTITLE_WITH_MARKUP = """<span size="x-large">{subtitle}</span>"""
 
 
 @Gtk.Template(resource_path="/io/github/orontee/Argos/ui/album_details_box.ui")
@@ -58,9 +60,13 @@ class AlbumDetailsBox(Gtk.Box):
 
     information_button: Gtk.ToggleButton = Gtk.Template.Child()
     information_stack: Gtk.Stack = Gtk.Template.Child()
-    album_information_label: Gtk.Label = Gtk.Template.Child()
     album_information_viewport: Gtk.Viewport = Gtk.Template.Child()
+    album_information_title_label: Gtk.Label = Gtk.Template.Child()
+    album_information_subtitle_label: Gtk.Label = Gtk.Template.Child()
+    album_information_image: Gtk.Image = Gtk.Template.Child()
+    album_information_label: Gtk.Label = Gtk.Template.Child()
     artist_information_label: Gtk.Label = Gtk.Template.Child()
+    artist_information_title_label: Gtk.Label = Gtk.Template.Child()
     artist_information_viewport: Gtk.Viewport = Gtk.Template.Child()
 
     uri = GObject.Property(type=str, default="")
@@ -91,9 +97,6 @@ class AlbumDetailsBox(Gtk.Box):
             _("Add to playlist…"), "win.add-to-playlist::album-details-box"
         )
         self.track_selection_button.set_menu_model(track_selection_menu)
-
-        self.album_information_label.set_selectable(True)
-        self.artist_information_label.set_selectable(True)
 
         self.set_sensitive(self._model.server_reachable and self._model.connected)
 
@@ -247,16 +250,26 @@ class AlbumDetailsBox(Gtk.Box):
         self.length_label.show_now()
 
     def _update_album_image(self, image_path: Optional[Path]) -> None:
-        scaled_pixbuf = None
+        cover_pixbuf = None
+        small_cover_pixbuf = None
         if image_path:
-            scaled_pixbuf = scale_album_image(image_path, max_size=_ALBUM_IMAGE_SIZE)
+            cover_pixbuf = scale_album_image(image_path, max_size=_ALBUM_IMAGE_SIZE)
+            small_cover_pixbuf = scale_album_image(
+                image_path, max_size=_SMALL_ALBUM_IMAGE_SIZE
+            )
 
-        if scaled_pixbuf:
-            self.album_image.set_from_pixbuf(scaled_pixbuf)
+        if cover_pixbuf:
+            self.album_image.set_from_pixbuf(cover_pixbuf)
         else:
             self.album_image.set_from_pixbuf(self.default_album_image)
 
+        if small_cover_pixbuf:
+            self.album_information_image.set_from_pixbuf(small_cover_pixbuf)
+        else:
+            self.album_information_image.clear()
+
         self.album_image.show_now()
+        self.album_information_image.show_now()
 
     def _update_track_view(self, album: Optional[AlbumModel]) -> None:
         if album is None:
@@ -275,10 +288,22 @@ class AlbumDetailsBox(Gtk.Box):
         self._clear_tracks_box_selection = True
 
     def _update_information_box(self, album: Optional[AlbumModel]) -> None:
+        if album is not None:
+            album_information_title = _INFO_TITLE_WITH_MARKUP.format(title=album.name)
+            self.album_information_title_label.set_markup(album_information_title)
+            self.album_information_title_label.set_tooltip_text(album.name)
+
+            album_information_subtitle = _INFO_SUBTITLE_WITH_MARKUP.format(
+                subtitle=album.artist_name
+            )
+            self.album_information_subtitle_label.set_markup(album_information_subtitle)
+            self.album_information_subtitle_label.set_tooltip_text(album.artist_name)
+        else:
+            self.album_information_title_label.clear()
+            self.album_information_subtitle_label.clear()
+
         album_information = (
-            _INFO_TITLE_WITH_MARKUP.format(title=album.name)
-            + "\n\n"
-            + album.information.album_abstract
+            album.information.album_abstract
             if album is not None
             and album.information is not None
             and album.information.album_abstract is not None
@@ -292,16 +317,24 @@ class AlbumDetailsBox(Gtk.Box):
         if self.album_information_viewport.props.vadjustment is not None:
             self.album_information_viewport.props.vadjustment.set_value(0)
 
+        if album is not None:
+            artist_information_title = _INFO_TITLE_WITH_MARKUP.format(
+                title=album.artist_name
+            )
+            self.artist_information_title_label.set_markup(artist_information_title)
+            self.artist_information_title_label.set_tooltip_text(album.artist_name)
+        else:
+            self.artist_information_title_label.clear()
+
         artist_information = (
-            _INFO_TITLE_WITH_MARKUP.format(title=album.artist_name)
-            + "\n\n"
-            + album.information.artist_abstract
+            album.information.artist_abstract
             if album is not None
             and album.information is not None
             and album.information.artist_abstract
             else _MISSING_INFO_MSG_WITH_MARKUP
         )
         self.artist_information_label.set_markup(artist_information)
+
         if self.artist_information_viewport.props.hadjustment is not None:
             self.artist_information_viewport.props.hadjustment.set_value(0)
 
