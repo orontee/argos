@@ -1,5 +1,5 @@
 # argos translation file.
-# Copyright (C) 2022 Matthias Meulien
+# Copyright (C) 2025 Matthias Meulien
 # This file is distributed under the same license as the argos package.
 # Matthias Meulien <orontee@gmail.com>, 2022.
 #
