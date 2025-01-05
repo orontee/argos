@@ -31,6 +31,7 @@ jobs:
                        lintian \
                        meson \
                        pkg-config \
+                       libcairo2-dev \
                        libglib2.0-dev \
                        libgirepository1.0-dev
 

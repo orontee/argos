@@ -18,6 +18,7 @@ jobs:
         run: |
           sudo apt-get update -
           sudo apt-get install --no-install-recommends -y \
+                   libcairo2-dev \
                    libglib2.0-dev \
                    libgirepository1.0-dev
 
