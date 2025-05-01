@@ -46,15 +46,3 @@ RUN curl https://pyenv.run | bash
 ENV PATH="/opt/pyenv/bin:$PATH"
 
 FROM base AS build
-
-COPY . /src
-
-WORKDIR /src
-
-ARG VERSION
-RUN [ -n "${VERSION}" ]
-RUN mkdir builddir
-RUN git archive --prefix=builddir/argos-${VERSION}/ --format=tar.gz v${VERSION} | tar xzf -
-RUN cd builddir/argos-${VERSION} \
-    && debuild -b -tc -us -uc
-RUN ls builddir

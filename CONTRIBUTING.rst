@@ -1,13 +1,13 @@
-=====================
-Contributing to Argos
-=====================
+=======================
+ Contributing to Argos
+=======================
 
 One can install dependencies and configure pre-commit hooks in a
 dedicated virtual Python environment using ``poetry``::
 
   $ poetry shell
   $ poetry install --with=dev
-  $ pre-commit install
+  $ poetry run pre-commit install
 
 Pre-commit hooks run ``mypy`` check and make sure code is properly
 formatted (using ``black`` and ``isort``).
@@ -44,24 +44,37 @@ It's also worth reading `GTK documentation on interactive debugging
 Build DEB package
 =================
 
-To build the DEB package *for a given version*, one can build a Docker
-image and export the DEB file from that image::
+A DEB package *for current HEAD* can be build using a Docker image::
 
   $ VERSION=$(poetry version --short)
-  $ rm -rf builddir
-  $ buildah bud -t argos-build:$VERSION --build-arg VERSION=${VERSION} .
-  $ podman run --rm -v ${PWD}:/opt/argos argos-build:$VERSION bash -c "cp builddir/*.deb /opt/argos"
+  $ mkdir -p builddir; rm -rf builddir/argos-${VERSION}
+  $ git archive --prefix=builddir/argos-${VERSION}/ \
+                --format=tar.gz HEAD | tar xzf -
+  $ buildah bud -t argos-build .
+  $ podman run --rm \
+               -v ${PWD}:/src \
+               -e VERSION=${VERSION} \
+               argos-build \
+               bash -c "cd /src/builddir/argos-${VERSION} && debuild -b -tc -us -uc"
 
-To manually build the DEB package *for current HEAD*, first install
-the dependencies listed in the `Containerfile </Containerfile>`_, then run
-the following commands::
+The package is created in the `builddir/` directory.
 
-  $ VERSION=$(poetry version --short)
-  $ mkdir builddir
-  $ git archive --prefix=builddir/argos-${VERSION}/ --format=tar.gz HEAD | tar xzf -
-  $ pushd builddir/argos-${VERSION} && debuild -b -tc -us -uc && popd
+*For a given version*, identified through a Git tag, one can use the
+same Docker image and container call but on the right archive; For
+example, for the most recent tagged version::
 
-The corresponding DEB package is generated in the ``builddir`` directory.
+  $ VERSION=$(git tag -l --sort=-creatordate | head -n 1 | cut -c 2-)
+  $ mkdir -p builddir; rm -rf builddir/argos-${VERSION}
+  $ git archive --prefix=builddir/argos-${VERSION}/ \
+                --format=tar.gz v${VERSION} | tar xzf -
+  $ podman run --rm \
+               -v ${PWD}:/src \
+               -e VERSION=${VERSION} \
+               argos-build \
+               bash -c "cd /src/builddir/argos-${VERSION} && debuild -b -tc -us -uc"
+
+Install the required dependencies listed in the `Containerfile
+</Containerfile>`_ to build without using containers.
 
 Dependencies
 ============
