@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-01 18:21+0200\n"
-"PO-Revision-Date: 2025-05-01 15:30+0000\n"
+"PO-Revision-Date: 2025-05-01 17:16+0000\n"
 "Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/argos/argos/de/>\n"
 "Language: de\n"
@@ -48,11 +48,11 @@ msgstr ""
 
 #: argos/controllers/library.py:37
 msgid "Files"
-msgstr ""
+msgstr "Dateien"
 
 #: argos/controllers/library.py:38
 msgid "Local media"
-msgstr ""
+msgstr "Lokale Medien"
 
 #: argos/controllers/library.py:39
 msgid "Podcasts"
@@ -60,7 +60,7 @@ msgstr "Podcasts"
 
 #: argos/controllers/library.py:40
 msgid "Albums"
-msgstr "Albums"
+msgstr "Alben"
 
 #: argos/controllers/library.py:41 argos/ui/album_details_box.ui:406
 #: argos/ui/playlists_box.ui:113 argos/ui/tracklist_random_dialog.ui:216
@@ -220,7 +220,7 @@ msgstr "Zurück"
 
 #: argos/ui/condensed_playing_box.ui:86 argos/ui/playing_box.ui:102
 msgid "Play"
-msgstr "Play"
+msgstr "Spiel"
 
 #: argos/ui/condensed_playing_box.ui:107 argos/ui/playing_box.ui:123
 msgid "Next"
@@ -259,17 +259,17 @@ msgstr "Player"
 #: argos/ui/help_overlay.ui:51
 msgctxt "shortcut window"
 msgid "Play/Pause"
-msgstr "Play/Pause"
+msgstr "Spiel/Pause"
 
 #: argos/ui/help_overlay.ui:58
 msgctxt "shortcut window"
 msgid "Next track"
-msgstr "Vor"
+msgstr "Nächster Titel"
 
 #: argos/ui/help_overlay.ui:65
 msgctxt "shortcut window"
 msgid "Previous track"
-msgstr "Zurück"
+msgstr "Voriges Lied"
 
 #: argos/ui/help_overlay.ui:72
 msgctxt "shortcut window"
@@ -284,22 +284,22 @@ msgstr "Navigation"
 #: argos/ui/help_overlay.ui:85
 msgctxt "shortcut window"
 msgid "Go to Playing"
-msgstr "Jetzt läuft"
+msgstr "Gehe zu Spielen"
 
 #: argos/ui/help_overlay.ui:92
 msgctxt "shortcut window"
 msgid "Go to Library"
-msgstr "Sammlung"
+msgstr "Zur Bibliothek"
 
 #: argos/ui/help_overlay.ui:99
 msgctxt "shortcut window"
 msgid "Go to Playlists"
-msgstr "Playlists"
+msgstr "Zur Playlists"
 
 #: argos/ui/help_overlay.ui:106
 msgctxt "shortcut window"
 msgid "Go up"
-msgstr ""
+msgstr "Los"
 
 #: argos/ui/library_browsing_progress_box.ui:38
 msgid "Keep calm, library indexation in progress…"
@@ -315,7 +315,7 @@ msgstr "Titel nach Wiedergabe entfernen"
 
 #: argos/ui/playing_box.ui:306
 msgid "Shuffle tracklist"
-msgstr "Zufällige Wiedergabe"
+msgstr "Zufällige Titelliste"
 
 #: argos/ui/playing_box.ui:327
 msgid "Play single track"
@@ -327,7 +327,7 @@ msgstr "Wiederholen"
 
 #: argos/ui/playlist_creation_dialog.ui:52
 msgid "Name:"
-msgstr ""
+msgstr "Name:"
 
 #: argos/ui/playlist_creation_dialog.ui:64
 msgid "New playlist"
@@ -371,15 +371,17 @@ msgstr ""
 
 #: argos/ui/preferences.ui:251
 msgid "Other services"
-msgstr ""
+msgstr "Sonstige Dienstleistungen"
 
 #: argos/ui/preferences.ui:288
 msgid "Information service:"
-msgstr ""
+msgstr "Informationsdienst:"
 
 #: argos/ui/preferences.ui:300
 msgid "The information is collected using Musicbrainz API and Wikipedia API."
 msgstr ""
+"Die Informationen werden mithilfe der Musicbrainz API und der Wikipedia API "
+"gesammelt."
 
 #: argos/ui/preferences.ui:332
 msgid "General"
@@ -391,17 +393,19 @@ msgstr "Sammlung"
 
 #: argos/ui/preferences.ui:370 data/io.github.orontee.Argos.gschema.xml:36
 msgid "Index Mopidy-Local albums at startup"
-msgstr ""
+msgstr "Index Mopidy-Local Alben beim Start"
 
 #: argos/ui/preferences.ui:394
 msgid ""
 "Note that, when unchecked, random selection of album is impossible until a "
 "directory containing albums is browsed."
 msgstr ""
+"Beachten Sie, dass, wenn nicht überprüft, zufällige Auswahl des Albums "
+"unmöglich ist, bis ein Verzeichnis, das Alben enthält, durchsucht wird."
 
 #: argos/ui/preferences.ui:412 argos/window.py:59
 msgid "Playlists"
-msgstr "Playlists"
+msgstr "Wiedergabelisten"
 
 #: argos/ui/preferences.ui:473
 msgid "Max length:"
@@ -429,7 +433,7 @@ msgstr "Bildgröße:"
 
 #: argos/ui/preferences.ui:657
 msgid "Display"
-msgstr ""
+msgstr "Anzeige"
 
 #: argos/ui/stream_uri_dialog.ui:46 argos/widgets/streamuridialog.py:35
 msgid "Stream URI"
@@ -573,7 +577,7 @@ msgstr ""
 
 #: argos/widgets/tracklistrandomdialog.py:86
 msgid "Random tracklist"
-msgstr "Zufällige Wiedergabe"
+msgstr "Zufällige Titelliste"
 
 #: argos/widgets/tracklistrandomdialog.py:118
 msgid "Various"
@@ -650,11 +654,12 @@ msgstr "URL von Mopidy JSON-RPC und websocket APIs."
 
 #: data/io.github.orontee.Argos.gschema.xml:26
 msgid "Information service"
-msgstr ""
+msgstr "Informationsdienst"
 
 #: data/io.github.orontee.Argos.gschema.xml:29
 msgid "Whether to collect and display information on albums from Wikipedia."
 msgstr ""
+"Ob Sie Informationen über Alben aus Wikipedia sammeln und anzeigen möchten."
 
 #: data/io.github.orontee.Argos.gschema.xml:39
 msgid "Whether to index Mopidy-Local albums directory at startup."
@@ -678,21 +683,23 @@ msgstr "Sortierung der Titel angewendet."
 
 #: data/io.github.orontee.Argos.gschema.xml:76
 msgid "Random tracks choice strategy"
-msgstr "Zufällige Wiedergabe"
+msgstr "Strategie zur zufälligen Titelauswahl"
 
 #: data/io.github.orontee.Argos.gschema.xml:79
 msgid "Strategy used to build random track selection."
-msgstr ""
+msgstr "Strategie verwendet, um zufällige Track-Auswahl zu erstellen."
 
 #: data/io.github.orontee.Argos.gschema.xml:91
 msgid "Pattern to disable tracks view by URIs"
-msgstr ""
+msgstr "Muster, um Tracks von URIs anzeigen zu deaktivieren"
 
 #: data/io.github.orontee.Argos.gschema.xml:94
 msgid ""
 "Browsing a directory whose URIs match the given pattern, never enters the "
 "tracks view."
 msgstr ""
+"Durchsuchen eines Verzeichnisses, dessen URIs mit dem gegebenen Muster "
+"übereinstimmen, tritt niemals in die Titelansicht ein."
 
 #: data/io.github.orontee.Argos.gschema.xml:102
 msgid "History playlist"
@@ -756,7 +763,7 @@ msgstr "Im Vollbildmodus starten"
 
 #: data/io.github.orontee.Argos.gschema.xml:158
 msgid "Start with fullscreen window."
-msgstr "Im Vollbildmodus starten"
+msgstr "Im Vollbildmodus starten."
 
 #: data/io.github.orontee.Argos.gschema.xml:163
 msgid "Prefer dark theme"
