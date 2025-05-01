@@ -36,11 +36,13 @@ run::
 Credits
 =======
 
+🙏🏼 Many, many thanks to all contributors!
+
 The list of contributors to translations is extracted from the Weblate
 project. It doesn't reflect the heavy contributions made by Heimen
 Stoffels <vistausss@fastmail.com>, André Dokis
 <em21nummer1@icloud.com> and JonyIvy <mail-github@luemkemann.de>
-before the Weblate era!
+before the Weblate era.
 
 
 * French
@@ -48,10 +50,15 @@ before the Weblate era!
     * Matthias Meulien (orontee) <orontee@gmail.com> - 21
 
 
+* Russian
+
+    * gfbdrgng (gfbdrgng) <hnaofegnp@hldrive.com> - 200
+
+
 * Spanish
 
-    * gallegonovato (gallegonovato) <fran-carro@hotmail.es> - 199
-    * Matthias Meulien (orontee) <orontee@gmail.com> - 1
+    * Deleted User (deleted-48943) <noreply+48943@weblate.org> - 200
+    * Matthias Meulien (orontee) <orontee@gmail.com> - 2
 
 
 * Tamil

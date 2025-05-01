@@ -1,5 +1,5 @@
 # argos translation file.
-# Copyright (C) 2025 Matthias Meulien
+# Copyright (C) 2022 Matthias Meulien
 # This file is distributed under the same license as the argos package.
 # Matthias Meulien <orontee@gmail.com>, 2022.
 #
@@ -7,510 +7,510 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-01 18:03+0200\n"
+"POT-Creation-Date: 2024-06-09 09:10+0200\n"
 "PO-Revision-Date: 2025-05-01 15:30+0000\n"
-"Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/argos/argos/fr/>\n"
-"Language: fr\n"
+"Last-Translator: gfbdrgng <hnaofegnp@hldrive.com>\n"
+"Language-Team: Russian <https://hosted.weblate.org/projects/argos/argos/ru/>"
+"\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Weblate 5.12-dev\n"
 
-#: argos/app.py:121
+#: argos/app.py:123
 msgid "Enable debug logs"
-msgstr "Activer le journal de débogage"
+msgstr "Включить журналы отладки"
 
-#: argos/app.py:137
+#: argos/app.py:139
 msgid "Disable tooltips"
-msgstr "Désactiver les info-bulles"
+msgstr "Отключить всплывающие подсказки"
 
-#: argos/app.py:145
+#: argos/app.py:147
 msgid "Hide search button"
-msgstr "Masquer le bouton de recherche"
+msgstr "Скрыть кнопку поиска"
 
-#: argos/app.py:153
+#: argos/app.py:155
 msgid "Hide close button"
-msgstr "Masquer le bouton de fermeture"
-
-#: argos/app.py:300
-msgid "Welcome!"
-msgstr "Bienvenue !"
+msgstr "Скрыть кнопку закрытия"
 
 #: argos/app.py:302
+msgid "Welcome!"
+msgstr "Добро пожаловать!"
+
+#: argos/app.py:304
 msgid ""
 "Start by configuring the URL of the music server. The default value expects "
 "a server running on the local host and listening to the 6680 port."
 msgstr ""
-"Commencez par configurer l'URL du serveur de musique. La valeur par défaut "
-"fait l'hypothèse qu'il tourne sur cet hôte et écoute sur le port 6680."
+"Начните с настройки URL-адреса музыкального сервера. Значение по умолчанию "
+"предполагает, что сервер работает на локальном хосте и прослушивает порт "
+"6680."
 
 #: argos/controllers/library.py:37
 msgid "Files"
-msgstr "Fichiers"
+msgstr "Файлы"
 
 #: argos/controllers/library.py:38
 msgid "Local media"
-msgstr "Média locaux"
+msgstr "Местные СМИ"
 
 #: argos/controllers/library.py:39
 msgid "Podcasts"
-msgstr "Podcasts"
+msgstr "Подкасты"
 
 #: argos/controllers/library.py:40
 msgid "Albums"
-msgstr "Albums"
+msgstr "Альбомы"
 
-#: argos/controllers/library.py:41 argos/ui/album_details_box.ui:406
+#: argos/controllers/library.py:41 argos/ui/album_details_box.ui:315
 #: argos/ui/playlists_box.ui:113 argos/ui/tracklist_random_dialog.ui:216
 #: argos/ui/tracks_view.ui:140
 msgid "Tracks"
-msgstr "Morceaux"
+msgstr "Отслеживание"
 
 #: argos/controllers/library.py:42
 msgid "Artists"
-msgstr "Artistes"
+msgstr "Художники"
 
 #: argos/controllers/library.py:43
 msgid "Composers"
-msgstr "Compositeurs"
+msgstr "Композиторы"
 
 #: argos/controllers/library.py:44
 msgid "Genres"
-msgstr "Genres"
+msgstr "Жанры"
 
 #: argos/controllers/library.py:45
 msgid "Performers"
-msgstr "Interprètes"
+msgstr "Исполнитель"
 
 #: argos/controllers/library.py:46
 msgid "Release Years"
-msgstr "Années de distribution"
+msgstr "Годы выпуска"
 
 #: argos/controllers/library.py:47
 msgid "Last Week's Updates"
-msgstr "Ajouts de la semaine dernière"
+msgstr "Обновления прошлой недели"
 
 #: argos/controllers/library.py:48
 msgid "Last Month's Updates"
-msgstr "Ajouts du mois dernier"
+msgstr "Последние новости месяца"
 
 #: argos/controllers/library.py:49
 msgid "Discover by Genre"
-msgstr "Parcourir par genre"
+msgstr "Откройте для себя по жанрам"
 
 #: argos/controllers/library.py:50
 msgid "Discover by Tag"
-msgstr "Parcourir par tag"
+msgstr "Открыть по тегу"
 
 #: argos/controllers/library.py:51
 msgid "Collection"
-msgstr "Collection"
+msgstr "Коллекция"
 
 #: argos/controllers/library.py:52
 msgid "Wishlist"
-msgstr "Liste de souhaits"
+msgstr "Список пожеланий"
 
 #: argos/controllers/library.py:53
 msgid "All"
-msgstr "Tous"
+msgstr "Все"
 
-#: argos/controllers/playback.py:233
+#: argos/controllers/playback.py:184
 msgid "Started to play {}"
-msgstr "Lecture de {}"
+msgstr "Начал играть {}"
 
-#: argos/controllers/playlists.py:43 argos/controllers/playlists.py:322
+#: argos/controllers/playlists.py:42 argos/controllers/playlists.py:322
 #: argos/ui/preferences.ui:438
 msgid "History"
-msgstr "Historique"
+msgstr "История"
 
 #: argos/controllers/tracklist.py:58
 msgid "Tracklist updated"
-msgstr "File d'attente mise à jour"
+msgstr "Обновленный список"
 
 #: argos/info.py:28
 msgid "Data source: {}"
-msgstr "Source : {}"
+msgstr "Источник данных: {}"
 
 #: argos/model/random.py:19
 msgid "Random album"
-msgstr "Album au hasard"
+msgstr "Случайный альбом"
 
 #: argos/model/random.py:20
 msgid "Random disc"
-msgstr "Disque au hasard"
+msgstr "Случайный диск"
 
 #: argos/model/random.py:21
 msgid "Random tracks for half an hour"
-msgstr "Demi-heure de morceaux au hasard"
+msgstr "Случайные треки в течение получаса"
 
 #: argos/ui/about.ui.in:11
 msgid "Happy listening!"
-msgstr "Bonne écoute !"
+msgstr "Счастливо слушать!"
 
 #: argos/ui/about.ui.in:13
 msgid "Web Site"
-msgstr "Site web"
+msgstr "Веб-сайт"
 
 #: argos/ui/album_details_box.ui:100
 msgid "Published"
-msgstr "Publication"
+msgstr "Опубликовано"
 
 #: argos/ui/album_details_box.ui:133
 msgid "Album image"
-msgstr "Couverture"
+msgstr "Изображение альбома"
 
-#: argos/ui/album_details_box.ui:228
+#: argos/ui/album_details_box.ui:198
 msgid "Artist"
-msgstr "Artiste"
+msgstr "Художник"
 
-#: argos/ui/album_details_box.ui:317
+#: argos/ui/album_details_box.ui:226
 msgid "Album"
-msgstr "Album"
+msgstr "Альбом"
 
-#: argos/ui/album_details_box.ui:331
+#: argos/ui/album_details_box.ui:240
 msgid "Information"
-msgstr "Information"
+msgstr "Информация"
 
-#: argos/ui/album_details_box.ui:377 argos/ui/playlists_box.ui:83
+#: argos/ui/album_details_box.ui:286 argos/ui/playlists_box.ui:83
 #: argos/ui/tracklist_random_dialog.ui:200 argos/ui/tracks_view.ui:108
 msgid "Length"
-msgstr "Durée"
+msgstr "Длина"
 
-#: argos/ui/album_details_box.ui:477
+#: argos/ui/album_details_box.ui:386
 msgid "Play album"
-msgstr "Lire l'album"
+msgstr "Играть альбом"
 
-#: argos/ui/album_details_box.ui:511
+#: argos/ui/album_details_box.ui:420
 msgid "Information on album"
-msgstr "Information sur l'album"
+msgstr "Информация об альбоме"
 
 #: argos/ui/app_menu.ui:6
 msgid "Play _random tracks…"
-msgstr "Lire des morceaux au _hasard…"
+msgstr "Воспроизведение _случайных треков…"
 
 #: argos/ui/app_menu.ui:10
 msgid "Add stream to tracklist…"
-msgstr "Ajouter un flux à la file d'attente…"
+msgstr "Добавить поток в треклист…"
 
 #: argos/ui/app_menu.ui:14
 msgid "New playlist…"
-msgstr "Nouvelle liste de lecture…"
+msgstr "Новый плейлист…"
 
 #: argos/ui/app_menu.ui:20
 msgid "Update library"
-msgstr "Mettre à jour la bibiothèque"
+msgstr "Обновление библиотеки"
 
 #: argos/ui/app_menu.ui:26
 msgid "_Preferences"
-msgstr "_Préférences"
+msgstr "_Предпочтения"
 
 #: argos/ui/app_menu.ui:30
 msgid "_Shortcuts"
-msgstr "_Raccourcis"
+msgstr "_Короткие пути"
 
 #: argos/ui/app_menu.ui:34
 msgid "_About"
-msgstr "_À propos"
+msgstr "_О"
 
 #: argos/ui/condensed_playing_box.ui:65 argos/ui/playing_box.ui:81
 msgid "Previous"
-msgstr "Précédent"
+msgstr "Предыдущий"
 
 #: argos/ui/condensed_playing_box.ui:86 argos/ui/playing_box.ui:102
 msgid "Play"
-msgstr "Lire"
+msgstr "Играть"
 
 #: argos/ui/condensed_playing_box.ui:107 argos/ui/playing_box.ui:123
 msgid "Next"
-msgstr "Suivant"
+msgstr "Следующий"
 
 #: argos/ui/help_overlay.ui:13
 msgctxt "shortcut window"
 msgid "General"
-msgstr "General"
+msgstr "Общий"
 
 #: argos/ui/help_overlay.ui:17
 msgctxt "shortcut window"
 msgid "Close window"
-msgstr "Fermer la fenêtre"
+msgstr "Закрыть окно"
 
 #: argos/ui/help_overlay.ui:24
 msgctxt "shortcut window"
 msgid "Quit"
-msgstr "Quitter"
+msgstr "Выход"
 
 #: argos/ui/help_overlay.ui:31
 msgctxt "shortcut window"
 msgid "Shortcuts"
-msgstr "Raccourcis"
+msgstr "Короткие пути"
 
 #: argos/ui/help_overlay.ui:38
 msgctxt "shortcut window"
 msgid "Fullscreen"
-msgstr "Plein écran"
+msgstr "Полный экран"
 
 #: argos/ui/help_overlay.ui:47
 msgctxt "shortcut window"
 msgid "Playback"
-msgstr "Lecture"
+msgstr "Воспроизведение"
 
 #: argos/ui/help_overlay.ui:51
 msgctxt "shortcut window"
 msgid "Play/Pause"
-msgstr "Lecture/Pause"
+msgstr "Играть/Пауза"
 
 #: argos/ui/help_overlay.ui:58
 msgctxt "shortcut window"
 msgid "Next track"
-msgstr "Morceau suivant"
+msgstr "Следующий трек"
 
 #: argos/ui/help_overlay.ui:65
 msgctxt "shortcut window"
 msgid "Previous track"
-msgstr "Morceau précédent"
+msgstr "Предыдущий трек"
 
 #: argos/ui/help_overlay.ui:72
 msgctxt "shortcut window"
 msgid "Play random album"
-msgstr "Lire un album au hasard"
+msgstr "Играть случайный альбом"
 
 #: argos/ui/help_overlay.ui:81
 msgctxt "shortcut window"
 msgid "Navigation"
-msgstr "Navigation"
+msgstr "Навигация"
 
 #: argos/ui/help_overlay.ui:85
 msgctxt "shortcut window"
 msgid "Go to Playing"
-msgstr "Aller à la lecture en cours"
+msgstr "Перейти к игре"
 
 #: argos/ui/help_overlay.ui:92
 msgctxt "shortcut window"
 msgid "Go to Library"
-msgstr "Consulter la bibliothèque"
+msgstr "Перейти в библиотеку"
 
 #: argos/ui/help_overlay.ui:99
 msgctxt "shortcut window"
 msgid "Go to Playlists"
-msgstr "Aller aux listes de lecture"
+msgstr "Перейти к спискам воспроизведения"
 
 #: argos/ui/help_overlay.ui:106
 msgctxt "shortcut window"
 msgid "Go up"
-msgstr "Au-dessus"
+msgstr "Поднимайтесь вверх"
 
 #: argos/ui/library_browsing_progress_box.ui:38
 msgid "Keep calm, library indexation in progress…"
-msgstr "Patience, l'indexation de la bibliothèque est en cours…"
+msgstr "Сохраняйте спокойствие, индексация библиотеки продолжается…"
 
-#: argos/ui/playing_box.ui:259
+#: argos/ui/playing_box.ui:258
 msgid "Clear tracklist"
-msgstr "Vider la file d'attente"
+msgstr "Чистый треклист"
 
-#: argos/ui/playing_box.ui:285
+#: argos/ui/playing_box.ui:284
 msgid "Consume tracks"
-msgstr "Retirer les morceaux lus"
+msgstr "Потреблять треки"
 
-#: argos/ui/playing_box.ui:306
+#: argos/ui/playing_box.ui:305
 msgid "Shuffle tracklist"
-msgstr "Lecture aléatoire"
+msgstr "Треклист Shuffle"
 
-#: argos/ui/playing_box.ui:327
+#: argos/ui/playing_box.ui:326
 msgid "Play single track"
-msgstr "Lecture d'un seul morceau"
+msgstr "Играть один трек"
 
-#: argos/ui/playing_box.ui:348
+#: argos/ui/playing_box.ui:347
 msgid "Repeat"
-msgstr "Lecture en boucle"
+msgstr "Повторить"
 
 #: argos/ui/playlist_creation_dialog.ui:52
 msgid "Name:"
-msgstr "Nom :"
+msgstr "Имя:"
 
 #: argos/ui/playlist_creation_dialog.ui:64
 msgid "New playlist"
-msgstr "Nouvelle liste de lecture"
+msgstr "Новый плейлист"
 
 #: argos/ui/playlist_creation_dialog.ui:65
 msgid "Playlist name"
-msgstr "Nom de la liste de lecture"
+msgstr "Название плейлиста"
 
 #: argos/ui/playlists_box.ui:156
 msgid "Edit playlist"
-msgstr "Édition de la liste de lecture"
+msgstr "Редактировать плейлист"
 
 #: argos/ui/playlists_box.ui:189
 msgid "Add playlist or selected tracks to tracklist"
-msgstr ""
-"Ajouter la liste de lecture ou les morceaux sélectionnés à la file d'attente"
+msgstr "Добавить список воспроизведения или выбранные треки для треклиста"
 
 #: argos/ui/playlists_box.ui:211
 msgid "Play playlist or selected tracks"
-msgstr "Lire la liste de lecture ou les morceaux sélectionnés"
+msgstr "Воспроизведение списка воспроизведения или выбранных композиций"
 
 #: argos/ui/preferences.ui:70
 msgid "Mopidy server"
-msgstr "Serveur Mopidy"
+msgstr "Сервер Mopidy"
 
 #: argos/ui/preferences.ui:93
 msgid "Base URL:"
-msgstr "URL de base :"
+msgstr "Базовый URL:"
 
 #: argos/ui/preferences.ui:107
 msgid "Enter the URL of the Mopidy server"
-msgstr "Entrer l'URL du serveur Mopidy"
+msgstr "Введите URL-адрес сервера Mopidy"
 
 #: argos/ui/preferences.ui:153
 msgid ""
 "A connection failure indicates that the music server is currently not "
 "accessible at the given URL. Please adapt the URL."
 msgstr ""
-"Une erreur de connexion indique que le serveur de musique n'est pas "
-"actuellement accessible à l'URL indiquée. Veuillez adapter l'URL."
+"Сбой соединения указывает на то, что музыкальный сервер в данный момент "
+"недоступен по указанному URL. Пожалуйста, измените URL."
 
 #: argos/ui/preferences.ui:251
 msgid "Other services"
-msgstr "Autres services"
+msgstr "Прочие услуги"
 
 #: argos/ui/preferences.ui:288
 msgid "Information service:"
-msgstr "Service d'information :"
+msgstr "Служба информации:"
 
 #: argos/ui/preferences.ui:300
 msgid "The information is collected using Musicbrainz API and Wikipedia API."
-msgstr ""
-"Les informations sont collectées à partir des APIs Musicbrainz et Wikipedia."
+msgstr "Информация собирается с помощью Musicbrainz API и Wikipedia API."
 
 #: argos/ui/preferences.ui:332
 msgid "General"
-msgstr "Général"
+msgstr "Общий"
 
 #: argos/ui/preferences.ui:350 argos/ui/preferences.ui:598 argos/window.py:55
 msgid "Library"
-msgstr "Bibliothèque"
+msgstr "Библиотека"
 
 #: argos/ui/preferences.ui:370 data/io.github.orontee.Argos.gschema.xml:36
 msgid "Index Mopidy-Local albums at startup"
-msgstr "Indexer le répertoire des albums de Mopidy-Local au démarrage"
+msgstr "Индексируйте альбомы Mopidy-Local при запуске"
 
 #: argos/ui/preferences.ui:394
 msgid ""
 "Note that, when unchecked, random selection of album is impossible until a "
 "directory containing albums is browsed."
 msgstr ""
-"La sélection aléatoire d'album est impossible tant qu'un répertoire "
-"contenant des albums n'a pas été indexé."
+"Обратите внимание, что если флажок снят, случайный выбор альбома невозможен "
+"до тех пор, пока не будет просмотрен каталог, содержащий альбомы."
 
 #: argos/ui/preferences.ui:412 argos/window.py:59
 msgid "Playlists"
-msgstr "Listes de lecture"
+msgstr "Плейлисты"
 
 #: argos/ui/preferences.ui:473
 msgid "Max length:"
-msgstr "Taille maximale :"
+msgstr "Максимальная длина:"
 
 #: argos/ui/preferences.ui:499
 msgid "Sources"
-msgstr "Sources"
+msgstr "Источники"
 
 #: argos/ui/preferences.ui:518
 msgid "Main window"
-msgstr "Fenêtre principale"
+msgstr "Главное окно"
 
 #: argos/ui/preferences.ui:545
 msgid "Dark theme:"
-msgstr "Thème sombre :"
+msgstr "Темная тема:"
 
 #: argos/ui/preferences.ui:568
 msgid "Start fullscreen:"
-msgstr "Plein écran au démarrage :"
+msgstr "Запустить полный экран:"
 
 #: argos/ui/preferences.ui:625
 msgid "Image size:"
-msgstr "Taille des images :"
+msgstr "Размер изображения:"
 
 #: argos/ui/preferences.ui:657
 msgid "Display"
-msgstr "Affichage"
+msgstr "Дисплей"
 
 #: argos/ui/stream_uri_dialog.ui:46 argos/widgets/streamuridialog.py:35
 msgid "Stream URI"
-msgstr "URI du flux"
+msgstr "Поток URI"
 
 #: argos/ui/stream_uri_dialog.ui:59
 msgid ""
 "Supported protocols may vary and URI blacklisting\n"
 "may apply depending on Mopidy-Stream configuration."
 msgstr ""
-"Les protocoles supportés peuvent varier et une liste noire\n"
-"d'URI s'appliquer en fonction de la configuration\n"
-"de Mopidy-Stream."
+"Поддерживаемые протоколы могут отличаться, а черные списки URI\n"
+"может применяться в зависимости от конфигурации Mopidy-Stream."
 
 #: argos/ui/stream_uri_dialog.ui:74 argos/ui/tracklist_random_dialog.ui:298
 msgid "Play immediately"
-msgstr "Lire immédiatement"
+msgstr "Играть немедленно"
 
 #: argos/ui/title_bar.ui:63
 msgid "Go back"
-msgstr "Répertoire précédent"
+msgstr "Вернуться назад"
 
 #: argos/ui/title_bar.ui:97
 msgid "Sort albums"
-msgstr "Trier les albums"
+msgstr "Сорт альбомы"
 
 #: argos/ui/title_bar.ui:119
 msgid "Go to home"
-msgstr "Aller au répertoire d'accueil"
+msgstr "Перейти в дом"
 
 #: argos/ui/title_bar.ui:133
 msgid "Search albums"
-msgstr "Rechercher des albums"
+msgstr "Поисковые альбомы"
 
 #: argos/ui/tracklist_random_dialog.ui:26
 msgid "Skip"
-msgstr "Passer"
+msgstr "Пропустить"
 
 #: argos/ui/tracklist_random_dialog.ui:254
 msgid "Disc"
-msgstr "Disque"
+msgstr "Диск"
 
 #: argos/ui/tracks_view.ui:212
 msgid "Play tracks"
-msgstr "Lecture des morceaux"
+msgstr "Играть треки"
 
 #: argos/ui/tracks_view.ui:245
 msgid "Sort tracks"
-msgstr "Trier les morceaux"
+msgstr "Сорт-треки"
 
 #: argos/utils.py:73
 msgid "More than one day"
-msgstr "Plus d'un jour"
+msgstr "Больше одного дня"
 
 #: argos/utils.py:83
 msgid "Today"
-msgstr "Aujourd'hui"
+msgstr "Сегодня"
 
 #: argos/utils.py:85
 msgid "Yesterday"
-msgstr "Hier"
+msgstr "Вчера"
 
-#: argos/widgets/albumdetailsbox.py:26
+#: argos/widgets/albumdetailsbox.py:25
 msgid "Information not available"
-msgstr "Pas d'information disponible"
+msgstr "Информация отсутствует"
 
-#: argos/widgets/albumdetailsbox.py:94 argos/widgets/tracksview.py:54
+#: argos/widgets/albumdetailsbox.py:88 argos/widgets/tracksview.py:54
 msgid "Add to tracklist"
-msgstr "Ajouter à la file d'attente"
+msgstr "Добавить в треклист"
 
-#: argos/widgets/albumdetailsbox.py:97 argos/widgets/tracksview.py:57
+#: argos/widgets/albumdetailsbox.py:91 argos/widgets/tracksview.py:57
 msgid "Add to playlist…"
-msgstr "Ajouter à une liste de lecture…"
+msgstr "Добавить в плейлист…"
 
-#: argos/widgets/albumdetailsbox.py:231
+#: argos/widgets/albumdetailsbox.py:230
 msgid "Not available"
-msgstr "Non disponible"
+msgstr "Недоступен"
 
 #: argos/widgets/playingboxemptytracklistbox.py:11
 msgid ""
@@ -522,364 +522,358 @@ msgid ""
 "\n"
 "• Choose tracks from the library or playlists\n"
 msgstr ""
-"Pour peupler la file d'attente :\n"
+"Чтобы заполнить треклист:\n"
 "\n"
-"• <a href=\"argos:play-random-tracks\">Lire un album au hasard</a>\n"
+"• <a href=\"argos:play-random-tracks\">Play random tracks</a>\n"
 "\n"
-"• <a href=\"argos:add-stream\">Ajouter un flux</a>\n"
+"- <a href=\"argos:add-stream\">Добавить музыкальный поток</a>\n"
 "\n"
-"• Choisir des morceaux dans la bibliothèque ou les listes de lecture\n"
+"- Выберите треки из библиотеки или списков воспроизведения\n"
 
 #: argos/widgets/playlistcreationdialog.py:34
 msgid "Playlist creation"
-msgstr "Création de liste de lecture"
+msgstr "Создание плейлиста"
 
-#: argos/widgets/playlistloadingtracksbox.py:41
+#: argos/widgets/playlistemptytracksbox.py:39
 msgid "Loading playlist tracks…"
-msgstr ""
-"Chargement des morceaux\n"
-"de la liste de lecture…"
+msgstr "Загрузка дорожек плейлиста…"
 
 #: argos/widgets/playlistsbox.py:93
 msgid "Add stream to playlist…"
-msgstr "Ajouter un flux à la liste de lecture…"
+msgstr "Добавить поток в плейлист…"
 
 #: argos/widgets/playlistsbox.py:94
 msgid "Remove selected tracks"
-msgstr "Retirer les morceaux sélectionnés"
+msgstr "Удалить выбранные треки"
 
 #: argos/widgets/playlistsbox.py:95
 msgid "Delete playlist…"
-msgstr "Suppprimer la liste de lecture…"
+msgstr "Удалить плейлист…"
 
-#: argos/widgets/playlistsbox.py:300
+#: argos/widgets/playlistsbox.py:303
 msgid "Confirm playlist deletion"
-msgstr "Suppression de la liste de lecture"
+msgstr "Подтвердить удаление списка воспроизведения"
 
-#: argos/widgets/playlistsbox.py:304
+#: argos/widgets/playlistsbox.py:307
 msgid ""
 "The playlist {!r} is about to be deleted. The deletion can't be reverted."
 msgstr ""
-"La liste de lecture {!r} va être supprimée. La suppression est définitive."
+"Список воспроизведения {!r} скоро будет удален. Удаление не может быть "
+"отменено."
 
 #: argos/widgets/playlistselectiondialog.py:50
 msgid "Select playlist by name"
-msgstr "Nom de la liste de lecture"
+msgstr "Выберите плейлист по имени"
 
 #: argos/widgets/preferences.py:143
 msgid "Preferences"
-msgstr "Préférences"
+msgstr "Предпочтения"
 
-#: argos/widgets/preferences.py:184
+#: argos/widgets/preferences.py:186
 #, python-brace-format
 msgid "Do you want to use the Mopidy HTTP service discovered at {address}?"
-msgstr "Voulez-vous utiliser le service Mopidy HTTP découvert sur {address} ?"
+msgstr ""
+"Вы хотите использовать HTTP-сервис Mopidy, обнаруженный по адресу {address}?"
 
 #: argos/widgets/tracklistrandomdialog.py:86
 msgid "Random tracklist"
-msgstr "File d'attente aléatoire"
+msgstr "Случайный треклист"
 
 #: argos/widgets/tracklistrandomdialog.py:118
 msgid "Various"
-msgstr "Divers"
+msgstr "Различные"
 
 #: argos/widgets/tracklistrandomdialog.py:229
 msgid "Browse the library first, it's currently empty!"
-msgstr "Parcourez la bibliothèque, elle est vide à ce stade !"
+msgstr "Сначала посмотрите на библиотеку, сейчас она пустая!"
 
 #: argos/widgets/tracklistrandomdialog.py:234
 msgid "Oups, failed to select random tracks…"
-msgstr "Mince, échec de la sélection de morceaux aléatoires…"
+msgstr "Оупс, не удалось выбрать случайные треки…"
 
 #: argos/widgets/tracklisttrackbox.py:44
 msgid "Unknown name"
-msgstr "Nom inconnu"
+msgstr "Неизвестное имя"
 
 #: argos/widgets/utils.py:92
 #, python-brace-format
 msgid "Disc {0}"
-msgstr "Disque {0}"
+msgstr "Диск {0}"
 
 #: argos/widgets/utils.py:176
 msgid "Album name"
-msgstr "Nom d'album"
+msgstr "Название альбома"
 
 #: argos/widgets/utils.py:177
 msgid "Artist name"
-msgstr "Nom d'artiste"
+msgstr "Название художника"
 
 #: argos/widgets/utils.py:178
 msgid "Publication date"
-msgstr "Date de publication"
+msgstr "Дата публикации"
 
 #: argos/widgets/utils.py:179
 msgid "Last modified"
-msgstr "Date de dernière modification"
+msgstr "Последнее изменение"
 
 #: argos/widgets/utils.py:184
 msgid "Track name"
-msgstr "Nom de morceau"
+msgstr "Название трека"
 
 #: argos/widgets/utils.py:185
 msgid "Track number"
-msgstr "Numéro de morceau"
+msgstr "Номер трека"
 
 #: argos/window.py:50
 msgid "Playing"
-msgstr "En cours"
+msgstr "Играть"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:6
 #: data/io.github.orontee.Argos.desktop.in:3
+#, fuzzy
 msgid "Argos"
 msgstr "Argos"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:7
 #: data/io.github.orontee.Argos.desktop.in:4
 msgid "Light weight front-end for Mopidy music server"
-msgstr "Frontal léger pour serveur de musique Mopidy"
+msgstr "Легкий фронтенд для музыкального сервера Mopidy"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:9
 msgid ""
 "Argos is designed (and used!) with Gnome desktop and small single-board "
 "devices with small touchscreen in mind."
 msgstr ""
-"Argos est conçu pour l'environnement de bureau Gnome et les ordinateurs au "
-"format carte de crédit avec un écran tactile."
+"Argos разработан (и используется!) для рабочего стола Gnome и небольших "
+"одноплатных устройств с маленьким сенсорным экраном."
 
 #: data/io.github.orontee.Argos.appdata.xml.in:15
 msgid "Tracklist view"
-msgstr "File d'attente"
+msgstr "Просмотр треклиста"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:19
 msgid "Library view"
-msgstr "Bibliothèque"
+msgstr "Вид на библиотеку"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:23
 msgid "Playlists view"
-msgstr "Listes de lecture"
+msgstr "Вид плейлистов"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:27
 msgid "Album details view"
-msgstr "Détails d'un album"
+msgstr "Просмотр сведений об альбоме"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:33
-msgid ""
-"Warm welcome to Tamil users from a French guy with so many souvenirs from "
-"Chennai 🇮🇳"
-msgstr ""
-
-#: data/io.github.orontee.Argos.appdata.xml.in:41
-msgid "Joyeux anniversaire, Matthieu 😘😘😘😘"
-msgstr ""
-
-#: data/io.github.orontee.Argos.appdata.xml.in:48
 msgid "New year's eve release!"
-msgstr "La nouvelle année !"
+msgstr "Релиз в канун Нового года!"
 
-#: data/io.github.orontee.Argos.appdata.xml.in:55
+#: data/io.github.orontee.Argos.appdata.xml.in:40
 msgid "Maintenance release."
-msgstr "Version de maintenance."
+msgstr "Релиз технического обслуживания."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:62
+#: data/io.github.orontee.Argos.appdata.xml.in:47
 msgid "Welcome to Dutch music lovers 🇳🇱"
-msgstr "Bienvenue aux amateurs de musique Néerlandais 🇳🇱"
+msgstr "Добро пожаловать в голландские любители музыки"
 
-#: data/io.github.orontee.Argos.appdata.xml.in:69
+#: data/io.github.orontee.Argos.appdata.xml.in:54
 msgid "Library browser improvements and bug fixes."
-msgstr "Amélioration du navigateur de bibliothèque et correction de bugs."
+msgstr "Библиотечные улучшения браузера и исправления ошибок."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:76
+#: data/io.github.orontee.Argos.appdata.xml.in:61
 msgid "Birthday release: Argos is 1-year old!"
-msgstr "Livraison anniversaire : Argos a un an !"
+msgstr "День рождения: Аргосу 1 год!"
 
-#: data/io.github.orontee.Argos.appdata.xml.in:83
+#: data/io.github.orontee.Argos.appdata.xml.in:68
 msgid "Implement a library browser and improve performance."
-msgstr "Implémente un navigateur de bibliothèque et améliore les performances."
+msgstr "Реализуйте браузер библиотек и повысьте производительность."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:90
+#: data/io.github.orontee.Argos.appdata.xml.in:75
 msgid "Open its eyes to the outside world!"
-msgstr "Ouvre les yeux sur le monde extérieur !"
+msgstr "Откройте ему глаза на окружающий мир!"
 
-#: data/io.github.orontee.Argos.appdata.xml.in:97
+#: data/io.github.orontee.Argos.appdata.xml.in:82
 msgid "Bug fixes and small enhancement."
-msgstr "Livraison de correctifs de bugs et petites améliorations."
+msgstr "Исправление ошибок и небольшие улучшения."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:104
+#: data/io.github.orontee.Argos.appdata.xml.in:89
 msgid "Improving user experience. Once again."
-msgstr "Amélioration de l'expérience utilisateur. Une fois de plus."
+msgstr "Улучшение пользовательского опыта. Еще раз."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:111
+#: data/io.github.orontee.Argos.appdata.xml.in:96
 msgid "Improving user experience."
-msgstr "Amélioration de l'expérience utilisateur."
+msgstr "Улучшение пользовательского опыта."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:118
+#: data/io.github.orontee.Argos.appdata.xml.in:103
 msgid "Autumnal delivery."
-msgstr "Livraison automnale."
+msgstr "Осенняя доставка."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:125
+#: data/io.github.orontee.Argos.appdata.xml.in:110
 msgid ""
 "Improve performance while browsing albums and add support for Mopidy-"
 "Jellyfin."
 msgstr ""
-"Améliore les performances de la récupération des albums et ajoute le support "
-"de Mopidy-Jellyfin."
+"Улучшена производительность при просмотре альбомов и добавлена поддержка "
+"Mopidy-Jellyfin."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:132
+#: data/io.github.orontee.Argos.appdata.xml.in:117
 msgid "Bug fixes release."
-msgstr "Livraison de correctifs de bugs."
+msgstr "Выпуск с исправлениями ошибок."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:139
+#: data/io.github.orontee.Argos.appdata.xml.in:124
 msgid "Attempt to comply to Flathub expectations."
-msgstr "Tentative de remplir les attentes de Flathub."
+msgstr "Попытка соответствовать ожиданиям Flathub."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:146
+#: data/io.github.orontee.Argos.appdata.xml.in:131
 msgid "Delivered during holidays, use at your own risks!"
-msgstr "Livraison préparée pendant des congés, à utiliser avec prudence !"
-
-#: data/io.github.orontee.Argos.appdata.xml.in:153
-msgid "Delivered during a toothache, use at your own risks!"
-msgstr "Livraison préparée pendant une rage de dents, prudence !"
-
-#: data/io.github.orontee.Argos.appdata.xml.in:159
-msgid "Matthias Meulien"
 msgstr ""
+"Доставка осуществляется во время праздников, используйте на свой страх и "
+"риск!"
+
+#: data/io.github.orontee.Argos.appdata.xml.in:138
+msgid "Delivered during a toothache, use at your own risks!"
+msgstr "Доставляется во время зубной боли, используйте на свой страх и риск!"
+
+#: data/io.github.orontee.Argos.appdata.xml.in:144
+msgid "Matthias Meulien"
+msgstr "Матиас Мёльен"
 
 #: data/io.github.orontee.Argos.gschema.xml:6
 msgid "Connection retry delay"
-msgstr "Délai entre connexions"
+msgstr "Задержка повторных попыток подключения"
 
 #: data/io.github.orontee.Argos.gschema.xml:9
 msgid "The delay in seconds between two connection tries."
-msgstr "Le délai entre deux tentatives de connexion."
+msgstr "Задержка в секундах между двумя попытками подключения."
 
 #: data/io.github.orontee.Argos.gschema.xml:16
 msgid "Base URL of Mopidy APIs"
-msgstr "URL de base des APIs Mopidy"
+msgstr "Базовый URL-адрес API Mopidy"
 
 #: data/io.github.orontee.Argos.gschema.xml:19
 msgid "The base URL of Mopidy JSON-RPC and websocket APIs."
-msgstr "L'URL de base des APIs JSON-RPC et websocket de Mopidy."
+msgstr "Базовый URL-адрес API Mopidy JSON-RPC и websocket."
 
 #: data/io.github.orontee.Argos.gschema.xml:26
 msgid "Information service"
-msgstr "Service d'information"
+msgstr "Информационный сервис"
 
 #: data/io.github.orontee.Argos.gschema.xml:29
 msgid "Whether to collect and display information on albums from Wikipedia."
-msgstr "Collecte d'information sur les albums dans Wikipedia."
+msgstr "Нужно ли собирать и отображать информацию об альбомах из Википедии."
 
 #: data/io.github.orontee.Argos.gschema.xml:39
 msgid "Whether to index Mopidy-Local albums directory at startup."
-msgstr "Indexer le répertoire d'albums de Mopidy-Local au démarrage."
+msgstr "Индексировать ли каталог альбомов Mopidy-Local при запуске."
 
 #: data/io.github.orontee.Argos.gschema.xml:46
 msgid "Album sort order"
-msgstr "Ordre de tri des albums"
+msgstr "Порядок сортировки альбомов"
 
 #: data/io.github.orontee.Argos.gschema.xml:49
 msgid "Order applied when sorting albums."
-msgstr "Ordre utilisé pour trier les albums."
+msgstr "Порядок, применяемый при сортировке альбомов."
 
 #: data/io.github.orontee.Argos.gschema.xml:62
 msgid "Track sort order"
-msgstr "Ordre de tri des morceaux"
+msgstr "Отслеживание порядка сортировки"
 
 #: data/io.github.orontee.Argos.gschema.xml:65
 msgid "Order applied when sorting tracks."
-msgstr "Ordre utilisé pour trier les morceaux."
+msgstr "Порядок, применяемый при сортировке треков."
 
 #: data/io.github.orontee.Argos.gschema.xml:76
 msgid "Random tracks choice strategy"
-msgstr "Stratégie de sélection aléatoire de morceaux"
+msgstr "Стратегия выбора случайных дорожек"
 
 #: data/io.github.orontee.Argos.gschema.xml:79
 msgid "Strategy used to build random track selection."
-msgstr ""
-"Stratégie utilisée pour construire des sélections aléatoires de morceaux."
+msgstr "Стратегия, используемая для построения случайного выбора дорожек."
 
 #: data/io.github.orontee.Argos.gschema.xml:91
 msgid "Pattern to disable tracks view by URIs"
-msgstr "Motif d'URIs pour désactiver la vue morceaux"
+msgstr "Шаблон для отключения просмотра треков по URI"
 
 #: data/io.github.orontee.Argos.gschema.xml:94
 msgid ""
 "Browsing a directory whose URIs match the given pattern, never enters the "
 "tracks view."
 msgstr ""
-"Consulter un répertoire dont l'URI satisfait ce motif n'utilisera pas la vue "
-"morceaux."
+"При просмотре каталога, URI которого соответствует заданному шаблону, "
+"никогда не попадает в представление путей."
 
 #: data/io.github.orontee.Argos.gschema.xml:102
 msgid "History playlist"
-msgstr "Historique"
+msgstr "Исторический плейлист"
 
 #: data/io.github.orontee.Argos.gschema.xml:105
 msgid "A dynamic playlist of last played tracks can be maintained."
-msgstr "Ajout d'une liste de lecture des derniers morceaux joués."
+msgstr ""
+"Можно вести динамический список воспроизведения последних проигрываемых "
+"композиций."
 
 #: data/io.github.orontee.Argos.gschema.xml:112
 msgid "History max length"
-msgstr "Taille maximale de l'historique"
+msgstr "Максимальная длина истории"
 
 #: data/io.github.orontee.Argos.gschema.xml:115
 msgid "The maximal length of the history playlist."
-msgstr "Le nombre maximum de morceaux de l'historique des lectures."
+msgstr "Максимальная длина списка воспроизведения истории."
 
 #: data/io.github.orontee.Argos.gschema.xml:123
 msgid "Albums image size"
-msgstr "Taille des images"
+msgstr "Размер изображения альбомов"
 
 #: data/io.github.orontee.Argos.gschema.xml:126
 msgid "The size of images in the library."
-msgstr "La taille des images dans la bibliothèque."
+msgstr "Размер изображений в библиотеке."
 
 #: data/io.github.orontee.Argos.gschema.xml:133
 msgid "Window size"
-msgstr "Taille de la fenêtre"
+msgstr "Размер окна"
 
 #: data/io.github.orontee.Argos.gschema.xml:134
 msgid "Window size (width and height)."
-msgstr "Taille de la fenêtre (largeur puis hauteur)."
+msgstr "Размер окна (ширина и высота)."
 
 #: data/io.github.orontee.Argos.gschema.xml:139
 msgid "Window position"
-msgstr "Position de la fenêtre"
+msgstr "Положение окна"
 
 #: data/io.github.orontee.Argos.gschema.xml:140
 msgid "Window position (x and y)."
-msgstr "Position de la fenêtre (x puis y)."
+msgstr "Положение окна (x и y)."
 
 #: data/io.github.orontee.Argos.gschema.xml:145
 msgid "Window maximized"
-msgstr "Fenêtre de taille maximale"
+msgstr "Окно максимизируется"
 
 #: data/io.github.orontee.Argos.gschema.xml:146
 msgid "Window maximized state."
-msgstr "État de maximisation de la fenêtre."
+msgstr "Окно максимизирует состояние."
 
 #: data/io.github.orontee.Argos.gschema.xml:151
 msgid "Fullscreen window"
-msgstr "Fenêtre en plein écran"
+msgstr "Полное окно экрана"
 
 #: data/io.github.orontee.Argos.gschema.xml:152
 msgid "Window fullscreen state."
-msgstr "État plein écran de la fenêtre."
+msgstr "Окно с полным экраном."
 
 #: data/io.github.orontee.Argos.gschema.xml:157
 msgid "Start fullscreen"
-msgstr "Démarrer en plein écran"
+msgstr "Запустить полный экран"
 
 #: data/io.github.orontee.Argos.gschema.xml:158
 msgid "Start with fullscreen window."
-msgstr "Démarrer avec une fenêtre en plein écran."
+msgstr "Начните с полного окна."
 
 #: data/io.github.orontee.Argos.gschema.xml:163
 msgid "Prefer dark theme"
-msgstr "Préférer un thème sombre"
+msgstr "Предпочитайте темную тему"
 
 #: data/io.github.orontee.Argos.gschema.xml:164
 msgid "If a Gtk+ theme includes a dark variant, it will be used."
-msgstr "Utiliser la variante sombre si un thème Gtk+ en inclut une."
+msgstr "Если тема Gtk+ содержит темный вариант, он будет использован."
 
 #~ msgid "Go up"
 #~ msgstr "Au-dessus"

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: io.github.orontee.Argos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-09 09:10+0200\n"
-"PO-Revision-Date: 2024-12-07 20:57+0000\n"
+"POT-Creation-Date: 2025-05-01 18:03+0200\n"
+"PO-Revision-Date: 2025-05-01 15:30+0000\n"
 "Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/argos/argos/nl/>\n"
 "Language: nl\n"
@@ -15,29 +15,29 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.9-dev\n"
+"X-Generator: Weblate 5.12-dev\n"
 
-#: argos/app.py:123
+#: argos/app.py:121
 msgid "Enable debug logs"
 msgstr "Foutopsporing inschakelen"
 
-#: argos/app.py:139
+#: argos/app.py:137
 msgid "Disable tooltips"
 msgstr "Hulpballonnen uitschakelen"
 
-#: argos/app.py:147
+#: argos/app.py:145
 msgid "Hide search button"
 msgstr "Zoekknop verbergen"
 
-#: argos/app.py:155
+#: argos/app.py:153
 msgid "Hide close button"
 msgstr "Sluitknop verbergen"
 
-#: argos/app.py:302
+#: argos/app.py:300
 msgid "Welcome!"
 msgstr "Welkom!"
 
-#: argos/app.py:304
+#: argos/app.py:302
 msgid ""
 "Start by configuring the URL of the music server. The default value expects "
 "a server running on the local host and listening to the 6680 port."
@@ -61,7 +61,7 @@ msgstr "Podcasts"
 msgid "Albums"
 msgstr "Albums"
 
-#: argos/controllers/library.py:41 argos/ui/album_details_box.ui:315
+#: argos/controllers/library.py:41 argos/ui/album_details_box.ui:406
 #: argos/ui/playlists_box.ui:113 argos/ui/tracklist_random_dialog.ui:216
 #: argos/ui/tracks_view.ui:140
 msgid "Tracks"
@@ -115,11 +115,11 @@ msgstr "Verlanglijst"
 msgid "All"
 msgstr "Alles"
 
-#: argos/controllers/playback.py:184
+#: argos/controllers/playback.py:233
 msgid "Started to play {}"
 msgstr "Begonnen met afspelen op {}"
 
-#: argos/controllers/playlists.py:42 argos/controllers/playlists.py:322
+#: argos/controllers/playlists.py:43 argos/controllers/playlists.py:322
 #: argos/ui/preferences.ui:438
 msgid "History"
 msgstr "Geschiedenis"
@@ -160,28 +160,28 @@ msgstr "Uitgebracht"
 msgid "Album image"
 msgstr "Albumafbeelding"
 
-#: argos/ui/album_details_box.ui:198
+#: argos/ui/album_details_box.ui:228
 msgid "Artist"
 msgstr "Artiest"
 
-#: argos/ui/album_details_box.ui:226
+#: argos/ui/album_details_box.ui:317
 msgid "Album"
 msgstr "Album"
 
-#: argos/ui/album_details_box.ui:240
+#: argos/ui/album_details_box.ui:331
 msgid "Information"
 msgstr "Informatie"
 
-#: argos/ui/album_details_box.ui:286 argos/ui/playlists_box.ui:83
+#: argos/ui/album_details_box.ui:377 argos/ui/playlists_box.ui:83
 #: argos/ui/tracklist_random_dialog.ui:200 argos/ui/tracks_view.ui:108
 msgid "Length"
 msgstr "Duur"
 
-#: argos/ui/album_details_box.ui:386
+#: argos/ui/album_details_box.ui:477
 msgid "Play album"
 msgstr "Album beluisteren"
 
-#: argos/ui/album_details_box.ui:420
+#: argos/ui/album_details_box.ui:511
 msgid "Information on album"
 msgstr "Albuminformatie"
 
@@ -304,23 +304,23 @@ msgstr "Ga omhoog"
 msgid "Keep calm, library indexation in progress…"
 msgstr "Bezig met indexeren van verzameling…"
 
-#: argos/ui/playing_box.ui:258
+#: argos/ui/playing_box.ui:259
 msgid "Clear tracklist"
 msgstr "Nummerlijst wissen"
 
-#: argos/ui/playing_box.ui:284
+#: argos/ui/playing_box.ui:285
 msgid "Consume tracks"
 msgstr "Nummers beluisteren"
 
-#: argos/ui/playing_box.ui:305
+#: argos/ui/playing_box.ui:306
 msgid "Shuffle tracklist"
 msgstr "Nummers willekeurig afspelen"
 
-#: argos/ui/playing_box.ui:326
+#: argos/ui/playing_box.ui:327
 msgid "Play single track"
 msgstr "Eén nummer afspelen"
 
-#: argos/ui/playing_box.ui:347
+#: argos/ui/playing_box.ui:348
 msgid "Repeat"
 msgstr "Herhalen"
 
@@ -492,19 +492,19 @@ msgstr "Vandaag"
 msgid "Yesterday"
 msgstr "Gisteren"
 
-#: argos/widgets/albumdetailsbox.py:25
+#: argos/widgets/albumdetailsbox.py:26
 msgid "Information not available"
 msgstr "Er is geen informatie beschikbaar"
 
-#: argos/widgets/albumdetailsbox.py:88 argos/widgets/tracksview.py:54
+#: argos/widgets/albumdetailsbox.py:94 argos/widgets/tracksview.py:54
 msgid "Add to tracklist"
 msgstr "Toevoegen aan nummerlijst"
 
-#: argos/widgets/albumdetailsbox.py:91 argos/widgets/tracksview.py:57
+#: argos/widgets/albumdetailsbox.py:97 argos/widgets/tracksview.py:57
 msgid "Add to playlist…"
 msgstr "Toevoegen aan afspeellijst…"
 
-#: argos/widgets/albumdetailsbox.py:230
+#: argos/widgets/albumdetailsbox.py:231
 msgid "Not available"
 msgstr "Niet beschikbaar"
 
@@ -530,7 +530,7 @@ msgstr ""
 msgid "Playlist creation"
 msgstr "Afspeellijst maken"
 
-#: argos/widgets/playlistemptytracksbox.py:39
+#: argos/widgets/playlistloadingtracksbox.py:41
 msgid "Loading playlist tracks…"
 msgstr "Bezig met laden van nummers…"
 
@@ -546,11 +546,11 @@ msgstr "Selectie wissen"
 msgid "Delete playlist…"
 msgstr "Afspeellijst verwijderen…"
 
-#: argos/widgets/playlistsbox.py:303
+#: argos/widgets/playlistsbox.py:300
 msgid "Confirm playlist deletion"
 msgstr "Verwijderen bevestigen"
 
-#: argos/widgets/playlistsbox.py:307
+#: argos/widgets/playlistsbox.py:304
 msgid ""
 "The playlist {!r} is about to be deleted. The deletion can't be reverted."
 msgstr "{!r} wordt verwijderd. Deze actie is onomkeerbaar."
@@ -563,7 +563,7 @@ msgstr "Afspeellijst zoeken op naam"
 msgid "Preferences"
 msgstr "Voorkeuren"
 
-#: argos/widgets/preferences.py:186
+#: argos/widgets/preferences.py:184
 #, python-brace-format
 msgid "Do you want to use the Mopidy HTTP service discovered at {address}?"
 msgstr "Wil je de Mopidy HTTP-service gebruiken die is ontdekt op {address}?"
@@ -656,50 +656,60 @@ msgid "Album details view"
 msgstr "Albuminformatieweergave"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:33
+msgid ""
+"Warm welcome to Tamil users from a French guy with so many souvenirs from "
+"Chennai 🇮🇳"
+msgstr ""
+
+#: data/io.github.orontee.Argos.appdata.xml.in:41
+msgid "Joyeux anniversaire, Matthieu 😘😘😘😘"
+msgstr ""
+
+#: data/io.github.orontee.Argos.appdata.xml.in:48
 msgid "New year's eve release!"
 msgstr "Release op oudejaarsavond!"
 
-#: data/io.github.orontee.Argos.appdata.xml.in:40
+#: data/io.github.orontee.Argos.appdata.xml.in:55
 msgid "Maintenance release."
 msgstr "Onderhoudsrelease."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:47
+#: data/io.github.orontee.Argos.appdata.xml.in:62
 msgid "Welcome to Dutch music lovers 🇳🇱"
 msgstr "Welkom bij Nederlandse muziekliefhebbers 🇳🇱"
 
-#: data/io.github.orontee.Argos.appdata.xml.in:54
+#: data/io.github.orontee.Argos.appdata.xml.in:69
 msgid "Library browser improvements and bug fixes."
 msgstr "Verbeteringen en bugfixes in de bibliotheekbrowser."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:61
+#: data/io.github.orontee.Argos.appdata.xml.in:76
 msgid "Birthday release: Argos is 1-year old!"
 msgstr "Jubileumuitgave: Argos is precies 1 jaar oud!"
 
-#: data/io.github.orontee.Argos.appdata.xml.in:68
+#: data/io.github.orontee.Argos.appdata.xml.in:83
 msgid "Implement a library browser and improve performance."
 msgstr "Nieuw: verzamelingsverkenner en verbeterde prestaties."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:75
+#: data/io.github.orontee.Argos.appdata.xml.in:90
 msgid "Open its eyes to the outside world!"
 msgstr "Open de ogen voor de buitenwereld!"
 
-#: data/io.github.orontee.Argos.appdata.xml.in:82
+#: data/io.github.orontee.Argos.appdata.xml.in:97
 msgid "Bug fixes and small enhancement."
 msgstr "Foutoplossingen en kleine verbeteringen."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:89
+#: data/io.github.orontee.Argos.appdata.xml.in:104
 msgid "Improving user experience. Once again."
 msgstr "Verbeterde vormgeving - alweer."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:96
+#: data/io.github.orontee.Argos.appdata.xml.in:111
 msgid "Improving user experience."
 msgstr "Verbeterde vormgeving."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:103
+#: data/io.github.orontee.Argos.appdata.xml.in:118
 msgid "Autumnal delivery."
 msgstr "Herfstuitgave."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:110
+#: data/io.github.orontee.Argos.appdata.xml.in:125
 msgid ""
 "Improve performance while browsing albums and add support for Mopidy-"
 "Jellyfin."
@@ -707,23 +717,23 @@ msgstr ""
 "Verbeterde prestaties tijdens het verkennen van albums en ondersteuning voor "
 "Mopidy-Jellyfin."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:117
+#: data/io.github.orontee.Argos.appdata.xml.in:132
 msgid "Bug fixes release."
 msgstr "Fouten opgelost."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:124
+#: data/io.github.orontee.Argos.appdata.xml.in:139
 msgid "Attempt to comply to Flathub expectations."
 msgstr "Poging om te voldoen aan de Flathub-vereisten."
 
-#: data/io.github.orontee.Argos.appdata.xml.in:131
+#: data/io.github.orontee.Argos.appdata.xml.in:146
 msgid "Delivered during holidays, use at your own risks!"
 msgstr "Feestdagcadeau - gebruik is op eigen risico!"
 
-#: data/io.github.orontee.Argos.appdata.xml.in:138
+#: data/io.github.orontee.Argos.appdata.xml.in:153
 msgid "Delivered during a toothache, use at your own risks!"
 msgstr "Uitgave tijdens kiespijndag - gebruik is op eigen risico!"
 
-#: data/io.github.orontee.Argos.appdata.xml.in:144
+#: data/io.github.orontee.Argos.appdata.xml.in:159
 msgid "Matthias Meulien"
 msgstr ""
 
