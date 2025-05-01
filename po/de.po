@@ -216,7 +216,7 @@ msgstr "_Über Argos"
 
 #: argos/ui/condensed_playing_box.ui:65 argos/ui/playing_box.ui:81
 msgid "Previous"
-msgstr "Zurück"
+msgstr "Vorheriger"
 
 #: argos/ui/condensed_playing_box.ui:86 argos/ui/playing_box.ui:102
 msgid "Play"
@@ -224,7 +224,7 @@ msgstr "Spiel"
 
 #: argos/ui/condensed_playing_box.ui:107 argos/ui/playing_box.ui:123
 msgid "Next"
-msgstr "Vor"
+msgstr "Nächste"
 
 #: argos/ui/help_overlay.ui:13
 msgctxt "shortcut window"
@@ -269,7 +269,7 @@ msgstr "Nächster Titel"
 #: argos/ui/help_overlay.ui:65
 msgctxt "shortcut window"
 msgid "Previous track"
-msgstr "Voriges Lied"
+msgstr "Vorheriger Titel"
 
 #: argos/ui/help_overlay.ui:72
 msgctxt "shortcut window"
@@ -405,7 +405,7 @@ msgstr ""
 
 #: argos/ui/preferences.ui:412 argos/window.py:59
 msgid "Playlists"
-msgstr "Wiedergabelisten"
+msgstr "Playlists"
 
 #: argos/ui/preferences.ui:473
 msgid "Max length:"
