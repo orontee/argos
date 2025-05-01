@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-06-09 09:10+0200\n"
-"PO-Revision-Date: 2025-05-01 15:30+0000\n"
-"Last-Translator: gfbdrgng <hnaofegnp@hldrive.com>\n"
+"PO-Revision-Date: 2025-05-01 17:16+0000\n"
+"Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/argos/argos/ru/>"
 "\n"
 "Language: ru\n"
@@ -626,11 +626,10 @@ msgstr "Номер трека"
 
 #: argos/window.py:50
 msgid "Playing"
-msgstr "Играть"
+msgstr "Играю"
 
 #: data/io.github.orontee.Argos.appdata.xml.in:6
 #: data/io.github.orontee.Argos.desktop.in:3
-#, fuzzy
 msgid "Argos"
 msgstr "Argos"
 
@@ -735,7 +734,7 @@ msgstr "Доставляется во время зубной боли, испо
 
 #: data/io.github.orontee.Argos.appdata.xml.in:144
 msgid "Matthias Meulien"
-msgstr "Матиас Мёльен"
+msgstr "Matthias Meulien"
 
 #: data/io.github.orontee.Argos.gschema.xml:6
 msgid "Connection retry delay"
