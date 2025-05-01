@@ -157,6 +157,8 @@ class ImageDownloader(GObject.GObject):
             if not filepath.exists():
                 to_download[image_uri] = filepath
 
+        LOGGER.info(f"To download vs URIs count: {len(to_download)}/{len(image_uris)}")
+
         async def download() -> None:
             uris = list(to_download.keys())
             if len(uris) > 0:

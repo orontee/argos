@@ -168,17 +168,43 @@ class TestImageDownloaderWithTestServer(AioHTTPTestCase):
 
     async def test_fetch_images(self):
         self.downloader.fetch_image = AsyncMock()
-        await self.downloader.fetch_images(
-            [
-                "/local/b23fb74538aa914239bde443f7343632-220x220.jpeg",
-                "/local/b23fb74538aa914239bde443f7343633-220x220.jpeg",
-            ]
-        )
-        await asyncio.sleep(0)
+
+        with patch.object(pathlib.Path, "exists", lambda p: False):
+            await self.downloader.fetch_images(
+                [
+                    "/local/b23fb74538aa914239bde443f7343632-220x220.jpeg",
+                    "/local/b23fb74538aa914239bde443f7343633-220x220.jpeg",
+                ]
+            )
+            await asyncio.sleep(0)
 
         self.downloader.fetch_image.assert_has_calls(
             [
                 call("/local/b23fb74538aa914239bde443f7343632-220x220.jpeg"),
+                call("/local/b23fb74538aa914239bde443f7343633-220x220.jpeg"),
+            ]
+        )
+
+    async def test_fetch_images_with_existing_image(self):
+        expected_image_path_end = (
+            "/argos/images/b23fb74538aa914239bde443f7343632-220x220.jpeg"
+        )
+
+        self.downloader.fetch_image = AsyncMock()
+
+        with patch.object(
+            pathlib.Path, "exists", lambda p: str(p).endswith(expected_image_path_end)
+        ):
+            await self.downloader.fetch_images(
+                [
+                    "/local/b23fb74538aa914239bde443f7343632-220x220.jpeg",
+                    "/local/b23fb74538aa914239bde443f7343633-220x220.jpeg",
+                ]
+            )
+            await asyncio.sleep(0)
+
+        self.downloader.fetch_image.assert_has_calls(
+            [
                 call("/local/b23fb74538aa914239bde443f7343633-220x220.jpeg"),
             ]
         )
