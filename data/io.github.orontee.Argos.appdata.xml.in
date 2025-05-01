@@ -28,6 +28,13 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="1.16.0" date="2025-05-01">
+      <description>
+        <p>
+          More translations…
+        </p>
+      </description>
+    </release>
     <release version="1.15.0" date="2024-12-08">
       <description>
         <p>

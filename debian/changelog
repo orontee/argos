@@ -1,8 +1,8 @@
-argos (1.16.0a0-1) UNRELEASED; urgency=medium
+argos (1.16.0-1) RELEASED; urgency=medium
 
-  * 1.16.0a0 release.
+  * 1.16.0 release.
 
- -- Matthias Meulien <orontee@gmail.com>  Sun, 08 Dec 2024 21:15:42 +0100
+ -- Matthias Meulien <orontee@gmail.com>  Thu, 01 May 2025 22:08:42 +0200
 
 argos (1.15.0-1) RELEASED; urgency=medium
 
