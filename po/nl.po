@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: io.github.orontee.Argos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-01 18:03+0200\n"
+"POT-Creation-Date: 2025-05-01 18:21+0200\n"
 "PO-Revision-Date: 2025-05-01 15:30+0000\n"
 "Last-Translator: Matthias Meulien <orontee@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/argos/argos/nl/>\n"
@@ -621,121 +621,13 @@ msgstr "Tracknummer"
 msgid "Playing"
 msgstr "U luistert naar"
 
-#: data/io.github.orontee.Argos.appdata.xml.in:6
 #: data/io.github.orontee.Argos.desktop.in:3
 msgid "Argos"
 msgstr "Argos"
 
-#: data/io.github.orontee.Argos.appdata.xml.in:7
 #: data/io.github.orontee.Argos.desktop.in:4
 msgid "Light weight front-end for Mopidy music server"
 msgstr "Lichtgewichte toepassing voor gebruik i.c.m. een Mopidy-server"
-
-#: data/io.github.orontee.Argos.appdata.xml.in:9
-msgid ""
-"Argos is designed (and used!) with Gnome desktop and small single-board "
-"devices with small touchscreen in mind."
-msgstr ""
-"Argos is ontworpen (en wordt gebruikt!) voor de GNOME-werkomgeving en mini-"
-"pc's met kleine touchscreens."
-
-#: data/io.github.orontee.Argos.appdata.xml.in:15
-msgid "Tracklist view"
-msgstr "Nummerlijstweergave"
-
-#: data/io.github.orontee.Argos.appdata.xml.in:19
-msgid "Library view"
-msgstr "Verzamelingsweergave"
-
-#: data/io.github.orontee.Argos.appdata.xml.in:23
-msgid "Playlists view"
-msgstr "Afspeellijstweergave"
-
-#: data/io.github.orontee.Argos.appdata.xml.in:27
-msgid "Album details view"
-msgstr "Albuminformatieweergave"
-
-#: data/io.github.orontee.Argos.appdata.xml.in:33
-msgid ""
-"Warm welcome to Tamil users from a French guy with so many souvenirs from "
-"Chennai 🇮🇳"
-msgstr ""
-
-#: data/io.github.orontee.Argos.appdata.xml.in:41
-msgid "Joyeux anniversaire, Matthieu 😘😘😘😘"
-msgstr ""
-
-#: data/io.github.orontee.Argos.appdata.xml.in:48
-msgid "New year's eve release!"
-msgstr "Release op oudejaarsavond!"
-
-#: data/io.github.orontee.Argos.appdata.xml.in:55
-msgid "Maintenance release."
-msgstr "Onderhoudsrelease."
-
-#: data/io.github.orontee.Argos.appdata.xml.in:62
-msgid "Welcome to Dutch music lovers 🇳🇱"
-msgstr "Welkom bij Nederlandse muziekliefhebbers 🇳🇱"
-
-#: data/io.github.orontee.Argos.appdata.xml.in:69
-msgid "Library browser improvements and bug fixes."
-msgstr "Verbeteringen en bugfixes in de bibliotheekbrowser."
-
-#: data/io.github.orontee.Argos.appdata.xml.in:76
-msgid "Birthday release: Argos is 1-year old!"
-msgstr "Jubileumuitgave: Argos is precies 1 jaar oud!"
-
-#: data/io.github.orontee.Argos.appdata.xml.in:83
-msgid "Implement a library browser and improve performance."
-msgstr "Nieuw: verzamelingsverkenner en verbeterde prestaties."
-
-#: data/io.github.orontee.Argos.appdata.xml.in:90
-msgid "Open its eyes to the outside world!"
-msgstr "Open de ogen voor de buitenwereld!"
-
-#: data/io.github.orontee.Argos.appdata.xml.in:97
-msgid "Bug fixes and small enhancement."
-msgstr "Foutoplossingen en kleine verbeteringen."
-
-#: data/io.github.orontee.Argos.appdata.xml.in:104
-msgid "Improving user experience. Once again."
-msgstr "Verbeterde vormgeving - alweer."
-
-#: data/io.github.orontee.Argos.appdata.xml.in:111
-msgid "Improving user experience."
-msgstr "Verbeterde vormgeving."
-
-#: data/io.github.orontee.Argos.appdata.xml.in:118
-msgid "Autumnal delivery."
-msgstr "Herfstuitgave."
-
-#: data/io.github.orontee.Argos.appdata.xml.in:125
-msgid ""
-"Improve performance while browsing albums and add support for Mopidy-"
-"Jellyfin."
-msgstr ""
-"Verbeterde prestaties tijdens het verkennen van albums en ondersteuning voor "
-"Mopidy-Jellyfin."
-
-#: data/io.github.orontee.Argos.appdata.xml.in:132
-msgid "Bug fixes release."
-msgstr "Fouten opgelost."
-
-#: data/io.github.orontee.Argos.appdata.xml.in:139
-msgid "Attempt to comply to Flathub expectations."
-msgstr "Poging om te voldoen aan de Flathub-vereisten."
-
-#: data/io.github.orontee.Argos.appdata.xml.in:146
-msgid "Delivered during holidays, use at your own risks!"
-msgstr "Feestdagcadeau - gebruik is op eigen risico!"
-
-#: data/io.github.orontee.Argos.appdata.xml.in:153
-msgid "Delivered during a toothache, use at your own risks!"
-msgstr "Uitgave tijdens kiespijndag - gebruik is op eigen risico!"
-
-#: data/io.github.orontee.Argos.appdata.xml.in:159
-msgid "Matthias Meulien"
-msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:6
 msgid "Connection retry delay"
@@ -875,6 +767,77 @@ msgstr "Donker thema gebruiken"
 msgid "If a Gtk+ theme includes a dark variant, it will be used."
 msgstr ""
 "Als u een GTK+-thema met donkere variant gebruikt, dan neemt Argos dat over."
+
+#~ msgid ""
+#~ "Argos is designed (and used!) with Gnome desktop and small single-board "
+#~ "devices with small touchscreen in mind."
+#~ msgstr ""
+#~ "Argos is ontworpen (en wordt gebruikt!) voor de GNOME-werkomgeving en "
+#~ "mini-pc's met kleine touchscreens."
+
+#~ msgid "Tracklist view"
+#~ msgstr "Nummerlijstweergave"
+
+#~ msgid "Library view"
+#~ msgstr "Verzamelingsweergave"
+
+#~ msgid "Playlists view"
+#~ msgstr "Afspeellijstweergave"
+
+#~ msgid "Album details view"
+#~ msgstr "Albuminformatieweergave"
+
+#~ msgid "New year's eve release!"
+#~ msgstr "Release op oudejaarsavond!"
+
+#~ msgid "Maintenance release."
+#~ msgstr "Onderhoudsrelease."
+
+#~ msgid "Welcome to Dutch music lovers 🇳🇱"
+#~ msgstr "Welkom bij Nederlandse muziekliefhebbers 🇳🇱"
+
+#~ msgid "Library browser improvements and bug fixes."
+#~ msgstr "Verbeteringen en bugfixes in de bibliotheekbrowser."
+
+#~ msgid "Birthday release: Argos is 1-year old!"
+#~ msgstr "Jubileumuitgave: Argos is precies 1 jaar oud!"
+
+#~ msgid "Implement a library browser and improve performance."
+#~ msgstr "Nieuw: verzamelingsverkenner en verbeterde prestaties."
+
+#~ msgid "Open its eyes to the outside world!"
+#~ msgstr "Open de ogen voor de buitenwereld!"
+
+#~ msgid "Bug fixes and small enhancement."
+#~ msgstr "Foutoplossingen en kleine verbeteringen."
+
+#~ msgid "Improving user experience. Once again."
+#~ msgstr "Verbeterde vormgeving - alweer."
+
+#~ msgid "Improving user experience."
+#~ msgstr "Verbeterde vormgeving."
+
+#~ msgid "Autumnal delivery."
+#~ msgstr "Herfstuitgave."
+
+#~ msgid ""
+#~ "Improve performance while browsing albums and add support for Mopidy-"
+#~ "Jellyfin."
+#~ msgstr ""
+#~ "Verbeterde prestaties tijdens het verkennen van albums en ondersteuning "
+#~ "voor Mopidy-Jellyfin."
+
+#~ msgid "Bug fixes release."
+#~ msgstr "Fouten opgelost."
+
+#~ msgid "Attempt to comply to Flathub expectations."
+#~ msgstr "Poging om te voldoen aan de Flathub-vereisten."
+
+#~ msgid "Delivered during holidays, use at your own risks!"
+#~ msgstr "Feestdagcadeau - gebruik is op eigen risico!"
+
+#~ msgid "Delivered during a toothache, use at your own risks!"
+#~ msgstr "Uitgave tijdens kiespijndag - gebruik is op eigen risico!"
 
 #~ msgid "Go up"
 #~ msgstr "Ga omhoog"
