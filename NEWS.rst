@@ -17,6 +17,9 @@ Added
 - Information page displays artist name and album image
   `#172 <https://github.com/orontee/argos/issues/172>`_
 
+- Russian translations
+  `#192 <https://github.com/orontee/argos/issues/192>`_
+
 Changed
 -------
 
