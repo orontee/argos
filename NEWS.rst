@@ -17,6 +17,10 @@ Added
 Changed
 -------
 
+- Fix possible exceptions when browsing library due to integer
+  conversion errors `#200
+  <https://github.com/orontee/argos/issues/200>`_
+
 Removed
 -------
 

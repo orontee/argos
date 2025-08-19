@@ -14,8 +14,8 @@ class PlaybackModel(WithThreadSafePropertySetter, GObject.Object):
     """
 
     state = GObject.Property(type=int)
-    time_position = GObject.Property(type=int, default=-1)
-    current_tl_track_tlid = GObject.Property(type=int, default=-1)
+    time_position = GObject.Property(type=GObject.TYPE_INT64, default=-1)
+    current_tl_track_tlid = GObject.Property(type=GObject.TYPE_INT64, default=-1)
     image_path = GObject.Property(type=str)
     image_uri = GObject.Property(type=str)
 

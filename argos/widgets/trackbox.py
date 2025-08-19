@@ -16,9 +16,9 @@ class TrackBox(Gtk.Box):
     __gtype_name__ = "TrackBox"
 
     uri = GObject.Property(type=str)
-    num_discs = GObject.Property(type=int)
-    track_no = GObject.Property(type=int)
-    disc_no = GObject.Property(type=int)
+    num_discs = GObject.Property(type=GObject.TYPE_INT64)
+    track_no = GObject.Property(type=GObject.TYPE_INT64)
+    disc_no = GObject.Property(type=GObject.TYPE_INT64)
 
     track_name_label: Gtk.Label = Gtk.Template.Child()
     track_details_label: Gtk.Label = Gtk.Template.Child()
