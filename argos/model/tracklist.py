@@ -10,7 +10,7 @@ from argos.model.utils import WithThreadSafePropertySetter
 class TracklistTrackModel(GObject.Object):
     """Model for a track in the tracklist."""
 
-    tlid = GObject.Property(type=int)
+    tlid = GObject.Property(type=GObject.TYPE_INT64)
     track = GObject.Property(type=TrackModel)
 
     @staticmethod
@@ -34,7 +34,7 @@ class TracklistModel(WithThreadSafePropertySetter, GObject.Object):
     random = GObject.Property(type=bool, default=False)
     repeat = GObject.Property(type=bool, default=False)
     single = GObject.Property(type=bool, default=False)
-    version = GObject.Property(type=int, default=-1)
+    version = GObject.Property(type=GObject.TYPE_INT64, default=-1)
 
     tracks: Gio.ListStore
 

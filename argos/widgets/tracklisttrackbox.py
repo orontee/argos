@@ -23,7 +23,7 @@ class TracklistTrackBox(Gtk.Box):
 
     __gtype_name__ = "TracklistTrackBox"
 
-    tlid = GObject.Property(type=int, default=-1)
+    tlid = GObject.Property(type=GObject.TYPE_INT64, default=-1)
 
     track_name_label: Gtk.Label = Gtk.Template.Child()
     track_details_label: Gtk.Label = Gtk.Template.Child()

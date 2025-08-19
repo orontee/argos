@@ -48,9 +48,9 @@ class TrackModel(GObject.Object):
 
     uri = GObject.Property(type=str)
     name = GObject.Property(type=str)
-    track_no = GObject.Property(type=int)
-    disc_no = GObject.Property(type=int)
-    length = GObject.Property(type=int)
+    track_no = GObject.Property(type=GObject.TYPE_INT64)
+    disc_no = GObject.Property(type=GObject.TYPE_INT64)
+    length = GObject.Property(type=GObject.TYPE_INT64)
     album_name = GObject.Property(type=str)
     artist_name = GObject.Property(type=str)
     last_modified = GObject.Property(type=GObject.TYPE_DOUBLE, default=-1)
