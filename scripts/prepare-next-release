@@ -1,19 +1,27 @@
 #!/bin/bash
 
-cd "${MESON_SOURCE_ROOT}"
+cd "${MESON_SOURCE_ROOT}" || {
+    eho "Failed to switch to source root"
+    exit 1
+}
 
 if [[ -n "$(git status --porcelain)" ]]; then
     echo "Unclean repository!"
     exit 1
 fi
 
-if [[ $(git rev-parse --abbrev-ref HEAD) != "main" ]]; then
-    echo "Not on main branch!"
+GIT_BRANCH=$(git branch --show-current)
+if [ "${GIT_BRANCH}" == "main" ]; then
+    SCOPE="preminor"
+elif [[ "${GIT_BRANCH}" =~ ^release/v[0-9]+\.[0-9]+\.x ]]; then
+    SCOPE="patch"
+else
+    echo "Git branch should be main or a release branch"
     exit 1
 fi
 
 CURRENT_VERSION=$(poetry version --short)
-NEW_VERSION=$(poetry version --short preminor)
+NEW_VERSION=$(poetry version --short "${SCOPE}")
 
 git add pyproject.toml
 echo "Version set to ${NEW_VERSION}"

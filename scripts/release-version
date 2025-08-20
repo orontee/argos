@@ -1,19 +1,23 @@
 #!/bin/bash
 
-cd "${MESON_SOURCE_ROOT}"
+# ⚠️ This script expects that prepare-next-release has run.
 
-CURRENT_VERSION=$(poetry version --short)
+cd "${MESON_SOURCE_ROOT}" || {
+    echo "Failed to switch to source root"
+    exit 1
+}
 
-NEW_VERSION=$(poetry version --short minor)
+CURRENT_VERSION=$(poetry version --no-interaction --short)
 
-CHANGELOG_DATE=$(LANG=C date +"%a, %d %b %Y %H:%M:%S %z")
-CHANGELOG_AUTHOR="$(git config user.name) <$(git config user.email)>"
-CHANGELOG="argos (${NEW_VERSION}-1) UNRELEASED; urgency=medium
-
-  * ${NEW_VERSION} release.
-
- -- ${CHANGELOG_AUTHOR}  ${CHANGELOG_DATE}
-"
+GIT_BRANCH=$(git branch --show-current)
+if [ "${GIT_BRANCH}" == "main" ]; then
+    NEW_VERSION=$(poetry version --no-interaction --short minor)
+elif [[ "${GIT_BRANCH}" =~ ^release/v[0-9]+\.[0-9]+\.x ]]; then
+    NEW_VERSION=${CURRENT_VERSION}
+else
+    echo "Git branch should be main or a release branch"
+    exit 1
+fi
 
 APPDATA_RELEASE="<releases>\n"
 APPDATA_RELEASE+="    <release version=\"${NEW_VERSION}\" date=\"$(date +"%Y-%m-%d")\">\n"
@@ -26,9 +30,11 @@ APPDATA_RELEASE+="    <\/release>"
 
 update_news_file() {
     local file_path="NEWS.rst"
-    local formatted_date=$(date +"%Y-%m-%d")
+    local formatted_date
+    formatted_date=$(date +"%Y-%m-%d")
     local title="[${NEW_VERSION}] - ${formatted_date}"
-    local markup=$(printf '%*c' ${#title} = | sed 's/ /=/g')
+    local markup
+    markup=$(printf '%*c' ${#title} = | sed 's/ /=/g')
 
     echo "Updating ${file_path}..."
     sed -i "11 c $title" ${file_path}
@@ -80,5 +86,5 @@ echo
 echo "Then commit, tag, push and call:"
 echo
 echo "    meson setup builddir"
-echo "    meson compile -C builddir create-pre-release"
+echo "    meson compile -C builddir create-github-pre-release"
 echo
