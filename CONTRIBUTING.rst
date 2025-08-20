@@ -131,9 +131,9 @@ To run tests with a specific version of Python, say 3.11::
 Release
 =======
 
-First, update project version with::
+First, prepare the release with::
 
-  $ poetry run ./scripts/update-version
+  $ poetry run ./scripts/prepare-release
 
 Review, complete or update the suggested changes carefully; Make sure
 translations and screenshots are up-to-date. Commit, tag and push with::
