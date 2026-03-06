@@ -1,32 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
   <id>io.github.orontee.Argos.desktop</id>
+
+  <name>Argos</name>
+  <summary>Mopidy music client</summary>
+
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
-  <name>Argos</name>
-  <summary>Light weight front-end for Mopidy music server</summary>
+
   <description>
-    <p>Argos is designed (and used!) with Gnome desktop and small
-    single-board devices with small touchscreen in mind.</p>
+    <p>Argos aims to be compatible with both desktop computers running
+    the Gnome environment and single-board devices with a small
+    touchscreen.</p>
   </description>
+
+  <launchable type="desktop-id">io.github.orontee.Argos.desktop</launchable>
   <screenshots>
-    <screenshot type="default">
+    <screenshot type="default" xml:lang="fr">
       <image type="source">https://github.com/orontee/argos/raw/main/docs/screenshot.png</image>
       <caption>Tracklist view</caption>
     </screenshot>
-    <screenshot>
+    <screenshot xml:lang="fr">
       <image type="source">https://github.com/orontee/argos/raw/main/docs/screenshot-library-view.png</image>
       <caption>Library view</caption>
     </screenshot>
-    <screenshot>
+    <screenshot xml:lang="fr">
       <image type="source">https://github.com/orontee/argos/raw/main/docs/screenshot-playlists-view.png</image>
       <caption>Playlists view</caption>
     </screenshot>
-    <screenshot>
+    <screenshot xml:lang="fr">
       <image type="source">https://github.com/orontee/argos/raw/main/docs/screenshot-album-details-view.png</image>
       <caption>Album details view</caption>
     </screenshot>
   </screenshots>
+
   <releases>
     <release version="1.16.0" date="2025-05-01">
       <description>
@@ -163,9 +170,18 @@
       </description>
     </release>
   </releases>
-  <developer_name>Matthias Meulien</developer_name>
-  <launchable type="desktop-id">io.github.orontee.Argos.desktop</launchable>
+
+  <developer id="@orontee@github.com">
+    <name>Matthias Meulien</name>
+  </developer>
+
   <url type="homepage">https://github.com/orontee/argos</url>
+  <url type="contact">https://github.com/orontee</url>
+  <url type="vcs-browser">https://github.com/orontee/argos</url>
+  <url type="bugtracker">https://github.com/orontee/argos/issues</url>
+  <url type="contribute">https://github.com/orontee/argos?tab=contributing-ov-file#readme</url>
+  <url type="translate">https://hosted.weblate.org/projects/argos/</url>
+
   <translation type="gettext">io.github.orontee.Argos</translation>
   <content_rating type="oars-1.1" />
 </component>

@@ -14,10 +14,11 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install packages to build Python dependencies
+      - name: Install dependencies
         run: |
           sudo apt-get update -
           sudo apt-get install --no-install-recommends -y \
+                   appstream \
                    libcairo2-dev \
                    libglib2.0-dev \
                    libgirepository1.0-dev
@@ -48,3 +49,7 @@ jobs:
       - name: Run automatic tests
         run: |
           poetry run python -m unittest discover tests/
+
+      - name: Validate meta information
+        run: |
+          appstreamcli validate --explain data/io.github.orontee.Argos.appdata.xml.in

@@ -26,10 +26,11 @@ Argos
     :target: https://flathub.org/fr/apps/io.github.orontee.Argos
     :alt: Store: Flathub
 
-Light weight front-end for `Mopidy <https://mopidy.com/>`_ music server.
+`Mopidy <https://mopidy.com/>`_ music client.
 
-Argos is designed (and used!) with `Gnome <https://gnome.org>`_
-desktop and single-board devices with small touchscreen in mind.
+Argos aims to be compatible with both desktop computers running the
+`Gnome <https://gnome.org>` environment and single-board devices with
+a small touchscreen.
 
 .. figure:: docs/screenshot.png
    :alt: Application window screenshot
