@@ -21,6 +21,10 @@ Changed
   conversion errors `#200
   <https://github.com/orontee/argos/issues/200>`_
 
+- Update of Flatpak runtime and dependencies `#194
+  <https://github.com/orontee/argos/issues/194>`_
+
+
 Removed
 -------
 

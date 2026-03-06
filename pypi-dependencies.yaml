@@ -1,4 +1,4 @@
-# Generated with flatpak-pip-generator --runtime=org.gnome.Sdk//46 --requirements-file=requirements.txt --yaml --output=pypi-dependencies
+# Generated with flatpak-pip-generator --runtime=org.gnome.Sdk//49 --requirements-file=requirements.txt --yaml --output pypi-dependencies
 build-commands: []
 buildsystem: simple
 modules:
@@ -6,76 +6,76 @@ modules:
     buildsystem: simple
     build-commands:
       - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
-        --prefix=${FLATPAK_DEST} "expandvars==0.12.0" --no-build-isolation
+        --prefix=${FLATPAK_DEST} "expandvars" --no-build-isolation
     sources:
       - type: file
-        url: https://files.pythonhosted.org/packages/df/b3/072c28eace372ba7630ea187b7efd7f09cc8bcebf847a96b5e03e9cc0828/expandvars-0.12.0-py3-none-any.whl
-        sha256: 7432c1c2ae50c671a8146583177d60020dd210ada7d940e52af91f1f84f753b2
+        url: https://files.pythonhosted.org/packages/7f/e6/79c43f7a55264e479a9fbf21ddba6a73530b3ea8439a8bb7fa5a281721af/expandvars-1.1.2-py3-none-any.whl
+        sha256: d1652fe4e61914f5b88ada93aaedb396446f55ae4621de45c8cb9f66e5712526
   - name: python3-aiohappyeyeballs
     buildsystem: simple
     build-commands:
       - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
-        --prefix=${FLATPAK_DEST} "aiohappyeyeballs==2.4.4" --no-build-isolation
+        --prefix=${FLATPAK_DEST} "aiohappyeyeballs" --no-build-isolation
     sources:
       - &id001
         type: file
-        url: https://files.pythonhosted.org/packages/b9/74/fbb6559de3607b3300b9be3cc64e97548d55678e44623db17820dbd20002/aiohappyeyeballs-2.4.4-py3-none-any.whl
-        sha256: a980909d50efcd44795c4afeca523296716d50cd756ddca6af8c65b996e27de8
+        url: https://files.pythonhosted.org/packages/0f/15/5bf3b99495fb160b63f95972b81750f18f7f4e02ad051373b669d17d44f2/aiohappyeyeballs-2.6.1-py3-none-any.whl
+        sha256: f349ba8f4b75cb25c99c5c2d84e997e485204d2902a9597802b0371f09331fb8
   - name: python3-aiohttp-client-cache
     buildsystem: simple
     build-commands:
       - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
-        --prefix=${FLATPAK_DEST} "aiohttp-client-cache==0.12.4" --no-build-isolation
+        --prefix=${FLATPAK_DEST} "aiohttp-client-cache" --no-build-isolation
     sources:
       - *id001
       - &id002
         type: file
-        url: https://files.pythonhosted.org/packages/94/c4/3b5a937b16f6c2a0ada842a9066aad0b7a5708427d4a202a07bf09c67cbb/aiohttp-3.11.10.tar.gz
-        sha256: b1fc6b45010a8d0ff9e88f9f2418c6fd408c99c211257334aff41597ebece42e
+        url: https://files.pythonhosted.org/packages/50/42/32cf8e7704ceb4481406eb87161349abb46a57fee3f008ba9cb610968646/aiohttp-3.13.3.tar.gz
+        sha256: a949eee43d3782f2daae4f4a2819b2cb9b0c5d3b7f7a927067cc84dafdbb9f88
       - type: file
-        url: https://files.pythonhosted.org/packages/5e/93/62d61a36a7a7aa2fdae48f87453bf7db9feeed1ab6015a1a2f53c534f01d/aiohttp_client_cache-0.12.4-py3-none-any.whl
-        sha256: 5aa7834eaf550a1a3a99e23a9fc9320b0e360788c6d2689941d611a5ec807b0e
+        url: https://files.pythonhosted.org/packages/c4/c8/c647b16eaa97f6e668a9311e21392e58a954ec373f8fa6d1855304715a14/aiohttp_client_cache-0.14.3-py3-none-any.whl
+        sha256: 1154497739dcf9c7f6f6f1f27dc3985d8a7f5f8f31fb76710c06044ffac6f983
       - &id003
         type: file
-        url: https://files.pythonhosted.org/packages/76/ac/a7305707cb852b7e16ff80eaf5692309bde30e2b1100a1fcacdc8f731d97/aiosignal-1.3.1-py3-none-any.whl
-        sha256: f8376fb07dd1e86a584e4fcdec80b36b7f81aac666ebc724e2c090300dd83b17
+        url: https://files.pythonhosted.org/packages/fb/76/641ae371508676492379f16e2fa48f4e2c11741bd63c48be4b12a6b09cba/aiosignal-1.4.0-py3-none-any.whl
+        sha256: 053243f8b92b990551949e63930a839ff0cf0b0ebbe0597b0f3fb19e1a0fe82e
       - &id004
         type: file
-        url: https://files.pythonhosted.org/packages/6a/21/5b6702a7f963e95456c0de2d495f67bf5fd62840ac655dc451586d23d39a/attrs-24.2.0-py3-none-any.whl
-        sha256: 81921eb96de3191c8258c199618104dd27ac608d9366f5e35d011eae1867ede2
+        url: https://files.pythonhosted.org/packages/3a/2a/7cc015f5b9f5db42b7d48157e23356022889fc354a2813c15934b7cb5c0e/attrs-25.4.0-py3-none-any.whl
+        sha256: adcf7e2a1fb3b36ac48d97835bb6d8ade15b8dcce26aba8bf1d14847b57a3373
       - &id005
         type: file
-        url: https://files.pythonhosted.org/packages/8f/ed/0f4cec13a93c02c47ec32d81d11c0c1efbadf4a471e3f3ce7cad366cbbd3/frozenlist-1.5.0.tar.gz
-        sha256: 81d5af29e61b9c8348e876d442253723928dce6433e0e76cd925cd83f1b4b817
+        url: https://files.pythonhosted.org/packages/2d/f5/c831fac6cc817d26fd54c7eaccd04ef7e0288806943f7cc5bbf69f3ac1f0/frozenlist-1.8.0.tar.gz
+        sha256: 3ede829ed8d842f6cd48fc7081d7a41001a56f1f38603f9d49bf3020d59a31ad
       - &id006
         type: file
-        url: https://files.pythonhosted.org/packages/76/c6/c88e154df9c4e1a2a66ccf0005a88dfb2650c1dffb6f5ce603dfbd452ce3/idna-3.10-py3-none-any.whl
-        sha256: 946d195a0d259cbba61165e88e65941f16e9b36ea6ddb97f00452bae8b1287d3
+        url: https://files.pythonhosted.org/packages/0e/61/66938bbb5fc52dbdf84594873d5b51fb1f7c7794e9c0f5bd885f30bc507b/idna-3.11-py3-none-any.whl
+        sha256: 771a87f49d9defaf64091e6e6fe9c18d4833f140bd19464795bc32d966ca37ea
       - &id010
         type: file
         url: https://files.pythonhosted.org/packages/04/96/92447566d16df59b2a776c0fb82dbc4d9e07cd95062562af01e408583fc4/itsdangerous-2.2.0-py3-none-any.whl
         sha256: c6242fc49e35958c8b15141343aa660db5fc54d4f13a1db01a3f5891b98700ef
       - &id007
         type: file
-        url: https://files.pythonhosted.org/packages/d6/be/504b89a5e9ca731cd47487e91c469064f8ae5af93b7259758dcfc2b9c848/multidict-6.1.0.tar.gz
-        sha256: 22ae2ebf9b0c69d206c003e2f6a914ea33f0a932d4aa16f236afc049d9958f4a
+        url: https://files.pythonhosted.org/packages/1a/c2/c2d94cbe6ac1753f3fc980da97b3d930efe1da3af3c9f5125354436c073d/multidict-6.7.1.tar.gz
+        sha256: ec6652a1bee61c53a3e5776b6049172c53b6aaba34f18c9ad04f82712bac623d
       - &id008
         type: file
-        url: https://files.pythonhosted.org/packages/20/c8/2a13f78d82211490855b2fb303b6721348d0787fdd9a12ac46d99d3acde1/propcache-0.2.1.tar.gz
-        sha256: 3f77ce728b19cb537714499928fe800c3dda29e8d9428778fc7c186da4c09a64
+        url: https://files.pythonhosted.org/packages/9e/da/e9fc233cf63743258bff22b3dfa7ea5baef7b5bc324af47a0ad89b8ffc6f/propcache-0.4.1.tar.gz
+        sha256: f48107a8c637e80362555f37ecf49abe20370e557cc4ab374f04ec4423c97c3d
       - &id012
         type: file
-        url: https://files.pythonhosted.org/packages/65/1c/6c6f408be78692fc850006a2b6dea37c2b8592892534e09996e401efc74b/url_normalize-1.4.3-py2.py3-none-any.whl
-        sha256: ec3c301f04e5bb676d333a7fa162fa977ad2ca04b7e652bfc9fac4e405728eed
+        url: https://files.pythonhosted.org/packages/bc/d9/5ec15501b675f7bc07c5d16aa70d8d778b12375686b6efd47656efdc67cd/url_normalize-2.2.1-py3-none-any.whl
+        sha256: 3deb687587dc91f7b25c9ae5162ffc0f057ae85d22b1e15cf5698311247f567b
       - &id009
         type: file
-        url: https://files.pythonhosted.org/packages/f5/4b/a06e0ec3d155924f77835ed2d167ebd3b211a7b0853da1cf8d8414d784ef/yarl-1.18.3-py3-none-any.whl
-        sha256: b57f4f58099328dfb26c6a771d09fb20dbbae81d20cfb66141251ea063bd101b
+        url: https://files.pythonhosted.org/packages/23/6e/beb1beec874a72f23815c1434518bfc4ed2175065173fb138c3705f658d4/yarl-1.23.0.tar.gz
+        sha256: 53b1ea6ca88ebd4420379c330aea57e258408dd0df9af0992e5de2078dc9f5d5
   - name: python3-aiohttp
     buildsystem: simple
     build-commands:
       - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
-        --prefix=${FLATPAK_DEST} "aiohttp==3.11.10" --no-build-isolation
+        --prefix=${FLATPAK_DEST} "aiohttp" --no-build-isolation
     sources:
       - *id001
       - *id002
@@ -90,36 +90,29 @@ modules:
     buildsystem: simple
     build-commands:
       - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
-        --prefix=${FLATPAK_DEST} "aiosignal==1.3.1" --no-build-isolation
+        --prefix=${FLATPAK_DEST} "aiosignal" --no-build-isolation
     sources:
       - *id003
       - *id005
-  - name: python3-attrs
-    buildsystem: simple
-    build-commands:
-      - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
-        --prefix=${FLATPAK_DEST} "attrs==24.2.0" --no-build-isolation
-    sources:
-      - *id004
   - name: python3-frozenlist
     buildsystem: simple
     build-commands:
       - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
-        --prefix=${FLATPAK_DEST} "frozenlist==1.5.0" --no-build-isolation
+        --prefix=${FLATPAK_DEST} "frozenlist" --no-build-isolation
     sources:
       - *id005
   - name: python3-idna
     buildsystem: simple
     build-commands:
       - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
-        --prefix=${FLATPAK_DEST} "idna==3.10" --no-build-isolation
+        --prefix=${FLATPAK_DEST} "idna" --no-build-isolation
     sources:
       - *id006
   - name: python3-ifaddr
     buildsystem: simple
     build-commands:
       - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
-        --prefix=${FLATPAK_DEST} "ifaddr==0.2.0" --no-build-isolation
+        --prefix=${FLATPAK_DEST} "ifaddr" --no-build-isolation
     sources:
       - &id013
         type: file
@@ -129,48 +122,48 @@ modules:
     buildsystem: simple
     build-commands:
       - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
-        --prefix=${FLATPAK_DEST} "itsdangerous==2.2.0" --no-build-isolation
+        --prefix=${FLATPAK_DEST} "itsdangerous" --no-build-isolation
     sources:
       - *id010
   - name: python3-multidict
     buildsystem: simple
     build-commands:
       - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
-        --prefix=${FLATPAK_DEST} "multidict==6.1.0" --no-build-isolation
+        --prefix=${FLATPAK_DEST} "multidict" --no-build-isolation
     sources:
       - *id007
   - name: python3-propcache
     buildsystem: simple
     build-commands:
       - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
-        --prefix=${FLATPAK_DEST} "propcache==0.2.1" --no-build-isolation
+        --prefix=${FLATPAK_DEST} "propcache" --no-build-isolation
     sources:
       - *id008
   - name: python3-pycairo
     buildsystem: simple
     build-commands:
       - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
-        --prefix=${FLATPAK_DEST} "pycairo==1.27.0" --no-build-isolation
+        --prefix=${FLATPAK_DEST} "pycairo" --no-build-isolation
     sources:
       - &id011
         type: file
-        url: https://files.pythonhosted.org/packages/07/4a/42b26390181a7517718600fa7d98b951da20be982a50cd4afb3d46c2e603/pycairo-1.27.0.tar.gz
-        sha256: 5cb21e7a00a2afcafea7f14390235be33497a2cce53a98a19389492a60628430
+        url: https://files.pythonhosted.org/packages/22/d9/1728840a22a4ef8a8f479b9156aa2943cd98c3907accd3849fb0d5f82bfd/pycairo-1.29.0.tar.gz
+        sha256: f3f7fde97325cae80224c09f12564ef58d0d0f655da0e3b040f5807bd5bd3142
   - name: python3-pygobject
     buildsystem: simple
     build-commands:
       - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
-        --prefix=${FLATPAK_DEST} "pygobject==3.48.2" --no-build-isolation
+        --prefix=${FLATPAK_DEST} "pygobject" --no-build-isolation
     sources:
       - *id011
       - type: file
-        url: https://files.pythonhosted.org/packages/f9/9e/6bab1ed3bd878f0912d9a0600c21f3d88bab0e8a8d4c3ce50f5cf336faaf/pygobject-3.48.2.tar.gz
-        sha256: c3c0a7afbe5b2c1c64dc0530109b4dd571085153dbedfbccb8ec7c5ad233f977
+        url: https://files.pythonhosted.org/packages/1f/86/b87f8d9ecb01effa2b17319b9b0a8852c29374ab7c5268a44597cb1605c7/pygobject-3.56.0.tar.gz
+        sha256: 4fbb5bf47524e01026f8e309dd54233eb0f75f2281392c5bf0df5d9041cc7891
   - name: python3-pyxdg
     buildsystem: simple
     build-commands:
       - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
-        --prefix=${FLATPAK_DEST} "pyxdg==0.28" --no-build-isolation
+        --prefix=${FLATPAK_DEST} "pyxdg" --no-build-isolation
     sources:
       - type: file
         url: https://files.pythonhosted.org/packages/e5/8d/cf41b66a8110670e3ad03dab9b759704eeed07fa96e90fdc0357b2ba70e2/pyxdg-0.28-py2.py3-none-any.whl
@@ -179,27 +172,37 @@ modules:
     buildsystem: simple
     build-commands:
       - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
-        --prefix=${FLATPAK_DEST} "url-normalize==1.4.3" --no-build-isolation
+        --prefix=${FLATPAK_DEST} "url-normalize" --no-build-isolation
     sources:
+      - *id006
       - *id012
   - name: python3-yarl
     buildsystem: simple
     build-commands:
       - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
-        --prefix=${FLATPAK_DEST} "yarl==1.18.3" --no-build-isolation
+        --prefix=${FLATPAK_DEST} "yarl" --no-build-isolation
     sources:
       - *id006
       - *id007
       - *id008
       - *id009
+  - name: python3-poetry-core
+    buildsystem: simple
+    build-commands:
+      - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
+        --prefix=${FLATPAK_DEST} "poetry-core" --no-build-isolation
+    sources:
+      - type: file
+        url: https://files.pythonhosted.org/packages/01/10/c9f7ca739ab0956f8dc8737e6318b9812745589ed1e3f6fdfb6a5d64f58a/poetry_core-2.3.1-py3-none-any.whl
+        sha256: db1cf63b782570deb38bfba61e2304a553eef0740dc17959a50cc0f5115ee634
   - name: python3-zeroconf
     buildsystem: simple
     build-commands:
       - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
-        --prefix=${FLATPAK_DEST} "zeroconf==0.136.2" --no-build-isolation
+        --prefix=${FLATPAK_DEST} "zeroconf" --no-build-isolation
     sources:
       - *id013
       - type: file
-        url: https://files.pythonhosted.org/packages/a3/3d/6518ce1ab7d583a5dd410d218cac3144af2d6345492196a821d878f26f52/zeroconf-0.136.2-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
-        sha256: 019205377af6b2308476e6597b8ae34a7cfe6fe3b6e367b0ab405ff17c4d4d3b
+        url: https://files.pythonhosted.org/packages/67/46/10db987799629d01930176ae523f70879b63577060d63e05ebf9214aba4b/zeroconf-0.148.0.tar.gz
+        sha256: 03fcca123df3652e23d945112d683d2f605f313637611b7d4adf31056f681702
 name: pypi-dependencies
