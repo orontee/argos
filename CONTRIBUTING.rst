@@ -90,8 +90,8 @@ Flatpak and DEB packaging.
   `flatpak-builder-tools
   <https://github.com/flatpak/flatpak-builder-tools>`_::
 
-    $ poetry export --format=requirements.txt > requirements.txt
-    $ flatpak-pip-generator --runtime=org.gnome.Sdk//46 \
+    $ poetry run pip freeze > requirements.txt
+    $ flatpak-pip-generator --runtime=org.gnome.Sdk//49 \
                             --requirements-file=requirements.txt \
                             --yaml --output=pypi-dependencies
 
