@@ -29,7 +29,7 @@ Argos
 `Mopidy <https://mopidy.com/>`_ music client.
 
 Argos aims to be compatible with both desktop computers running the
-`Gnome <https://gnome.org>` environment and single-board devices with
+`Gnome <https://gnome.org>`_ environment and single-board devices with
 a small touchscreen.
 
 .. figure:: docs/screenshot.png
