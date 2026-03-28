@@ -283,7 +283,11 @@ class Application(Gtk.Application):
         self.show_welcome_dialog_maybe()
 
     def show_welcome_dialog_maybe(self) -> None:
+        if self._settings.get_boolean("skip-welcome-dialog") is True:
+            return
+
         if self._model.connected:
+            self._settings.set_boolean("skip-welcome-dialog", True)
             return
 
         user_configured_base_url = (
@@ -303,6 +307,7 @@ class Application(Gtk.Application):
             ),
         )
         response = welcome_dialog.run()
+        self._settings.set_boolean("skip-welcome-dialog", True)
         display_preferences_dialog = response == Gtk.ResponseType.OK
         welcome_dialog.destroy()
 

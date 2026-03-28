@@ -17,6 +17,9 @@ Added
 Changed
 -------
 
+- Welcome dialog is shown at most once `#196
+  <https://github.com/orontee/argos/issues/196>`_
+
 - Scale album and track images when main window is resized `#191
   <https://github.com/orontee/argos/issues/191>`_
 
@@ -26,7 +29,6 @@ Changed
 
 - Update of Flatpak runtime and dependencies `#194
   <https://github.com/orontee/argos/issues/194>`_
-
 
 Removed
 -------

@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="io.github.orontee.Argos">
   <schema id="io.github.orontee.Argos" path="/io/github/orontee/Argos/">
+    <key type="b" name="skip-welcome-dialog">
+      <default>false</default>
+      <summary>
+        Skip welcome dialog
+      </summary>
+      <description>
+        Whether to skip the welcome dialog. This is automatically set
+        to true if connection is established at startup or the welcome
+        dialog has already been shown.
+      </description>
+    </key>
+
     <key type="i" name="connection-retry-delay">
       <default>5</default>
       <summary>
