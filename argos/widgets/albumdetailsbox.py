@@ -9,6 +9,7 @@ from gi.repository import Gio, GLib, GObject, Gtk
 
 from argos.model import AlbumModel, Model, TrackModel
 from argos.utils import ms_to_text
+from argos.widgets.coverview import CoverView
 from argos.widgets.trackbox import TrackBox
 from argos.widgets.utils import (
     default_image_pixbuf,
@@ -20,7 +21,7 @@ _ = gettext.gettext
 
 LOGGER = logging.getLogger(__name__)
 
-_ALBUM_IMAGE_SIZE = 200
+_DEFAULT_ALBUM_IMAGE_SIZE = 200
 _SMALL_ALBUM_IMAGE_SIZE = 80
 
 _MISSING_INFO_MSG = _("Information not available")
@@ -40,15 +41,12 @@ class AlbumDetailsBox(Gtk.Box):
 
     __gtype_name__ = "AlbumDetailsBox"
 
-    default_album_image = default_image_pixbuf(
-        "media-optical", max_size=_ALBUM_IMAGE_SIZE
-    )
-
     play_button: Gtk.Button = Gtk.Template.Child()
     track_selection_button: Gtk.MenuButton = Gtk.Template.Child()
 
     album_details_stack: Gtk.Stack = Gtk.Template.Child()
-    album_image: Gtk.Image = Gtk.Template.Child()
+    album_image_box: Gtk.Box = Gtk.Template.Child()
+    album_image: CoverView
 
     album_name_label: Gtk.Label = Gtk.Template.Child()
     artist_name_label: Gtk.Label = Gtk.Template.Child()
@@ -77,6 +75,15 @@ class AlbumDetailsBox(Gtk.Box):
         self._app = application
         self._model = application.props.model
         self._disable_tooltips = application.props.disable_tooltips
+
+        default_album_image = default_image_pixbuf(
+            "media-optical", max_size=_DEFAULT_ALBUM_IMAGE_SIZE
+        )
+        self.album_image = CoverView(default_album_image)
+        self.album_image_box.pack_start(
+            self.album_image, expand=True, fill=True, padding=0
+        )
+        self.album_image_box.reorder_child(self.album_image, 0)
 
         self.tracks_box.set_header_func(
             partial(
@@ -253,7 +260,7 @@ class AlbumDetailsBox(Gtk.Box):
         cover_pixbuf = None
         small_cover_pixbuf = None
         if image_path:
-            cover_pixbuf = scale_album_image(image_path, max_size=_ALBUM_IMAGE_SIZE)
+            cover_pixbuf = scale_album_image(image_path)
             small_cover_pixbuf = scale_album_image(
                 image_path, max_size=_SMALL_ALBUM_IMAGE_SIZE
             )
@@ -261,7 +268,7 @@ class AlbumDetailsBox(Gtk.Box):
         if cover_pixbuf:
             self.album_image.set_from_pixbuf(cover_pixbuf)
         else:
-            self.album_image.set_from_pixbuf(self.default_album_image)
+            self.album_image.set_from_pixbuf(None)
 
         if small_cover_pixbuf:
             self.album_information_image.set_from_pixbuf(small_cover_pixbuf)

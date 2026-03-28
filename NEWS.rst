@@ -17,6 +17,9 @@ Added
 Changed
 -------
 
+- Scale album and track images when main window is resized `#191
+  <https://github.com/orontee/argos/issues/191>`_
+
 - Fix possible exceptions when browsing library due to integer
   conversion errors `#200
   <https://github.com/orontee/argos/issues/200>`_

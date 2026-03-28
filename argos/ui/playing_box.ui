@@ -63,6 +63,7 @@
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
+        <property name="spacing">5</property>
         <child>
           <object class="GtkBox" id="playback_controls_box">
             <property name="name">playing-box-playback-controls-box</property>
@@ -150,32 +151,20 @@
           <object class="GtkBox" id="central_box">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="valign">center</property>
+            <property name="hexpand">True</property>
             <property name="vexpand">True</property>
             <property name="orientation">vertical</property>
+            <property name="spacing">5</property>
             <child>
-              <object class="GtkImage" id="playing_track_image">
-                <property name="width-request">200</property>
-                <property name="height-request">200</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="halign">center</property>
-                <property name="valign">center</property>
-                <property name="icon-name">audio-x-generic</property>
-                <property name="icon_size">6</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
+              <placeholder/>
             </child>
             <child>
               <object class="GtkBox" id="labels_box">
                 <property name="name">playing-box-labels-box</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="valign">center</property>
+                <property name="valign">start</property>
+                <property name="margin-top">5</property>
                 <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkLabel" id="track_name_label">

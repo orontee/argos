@@ -42,7 +42,9 @@ def default_image_pixbuf(icon_name: str, max_size: int) -> Pixbuf:
 
 
 @lru_cache
-def scale_album_image(image_path: Path, *, max_size: int) -> Optional[Pixbuf]:
+def scale_album_image(
+    image_path: Path, *, max_size: int | None = None
+) -> Optional[Pixbuf]:
     pixbuf = None
     try:
         pixbuf = Pixbuf.new_from_file(str(image_path))
@@ -51,6 +53,9 @@ def scale_album_image(image_path: Path, *, max_size: int) -> Optional[Pixbuf]:
 
     if pixbuf is None:
         return None
+
+    if max_size is None:
+        return pixbuf
 
     width, height = compute_target_size(
         pixbuf.get_width(),

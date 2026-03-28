@@ -46,7 +46,9 @@ class TrackLengthBox(Gtk.Box):
                 fill_level=0,
                 draw_value=False,
             )
-            self.pack_start(self._time_position_scale, True, True, 0)
+            self.pack_start(
+                self._time_position_scale, expand=True, fill=True, padding=0
+            )
             self.reorder_child(self._time_position_scale, 0)
 
             self._time_position_scale.connect(

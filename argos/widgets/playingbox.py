@@ -8,6 +8,7 @@ from gi.repository import GLib, GObject, Gtk
 
 from argos.download import ImageDownloader
 from argos.model import PlaybackState
+from argos.widgets.coverview import CoverView
 from argos.widgets.playingboxemptytracklistbox import PlayingBoxEmptyTracklistBox
 from argos.widgets.tracklengthbox import TrackLengthBox
 from argos.widgets.tracklistbox import TracklistBox
@@ -18,7 +19,7 @@ _ = gettext.gettext
 
 LOGGER = logging.getLogger(__name__)
 
-TRACK_IMAGE_SIZE = 80
+DEFALT_TRACK_IMAGE_SIZE = 80
 
 
 class TracklistStoreColumns(IntEnum):
@@ -34,12 +35,9 @@ class TracklistStoreColumns(IntEnum):
 class PlayingBox(Gtk.Box):
     __gtype_name__ = "PlayingBox"
 
-    default_track_image = default_image_pixbuf(
-        "audio-x-generic",
-        max_size=TRACK_IMAGE_SIZE,
-    )
+    central_box: Gtk.Box = Gtk.Template.Child()
 
-    playing_track_image: Gtk.Image = Gtk.Template.Child()
+    playing_track_image: CoverView
     play_image: Gtk.Image = Gtk.Template.Child()
     pause_image: Gtk.Image = Gtk.Template.Child()
 
@@ -71,6 +69,16 @@ class PlayingBox(Gtk.Box):
         self._model = application.model
         self._download: ImageDownloader = application.props.download
         self._disable_tooltips = application.props.disable_tooltips
+
+        default_track_image = default_image_pixbuf(
+            "audio-x-generic",
+            max_size=DEFALT_TRACK_IMAGE_SIZE,
+        )
+        self.playing_track_image = CoverView(default_track_image)
+        self.central_box.pack_start(
+            self.playing_track_image, expand=True, fill=True, padding=0
+        )
+        self.central_box.reorder_child(self.playing_track_image, 0)
 
         track_length_box = TrackLengthBox(application)
         self.left_pane_box.pack_end(track_length_box, False, False, 0)
@@ -174,7 +182,7 @@ class PlayingBox(Gtk.Box):
         _1: GObject.GObject,
         _2: GObject.GParamSpec,
     ) -> None:
-        self.playing_track_image.set_from_pixbuf(self.default_track_image)
+        self.playing_track_image.set_from_pixbuf(None)
         self.playing_track_image.show_now()
 
     def _update_playing_track_image(
@@ -192,16 +200,14 @@ class PlayingBox(Gtk.Box):
             if self._model.playback.image_path
             else None
         )
-        scaled_pixbuf = None
+        pixbuf = None
         if image_path:
-            rectangle = self.playing_track_image.get_allocation()
-            max_size = min(rectangle.width, rectangle.height)
-            scaled_pixbuf = scale_album_image(image_path, max_size=max_size)
+            pixbuf = scale_album_image(image_path, max_size=None)
 
-        if scaled_pixbuf:
-            self.playing_track_image.set_from_pixbuf(scaled_pixbuf)
+        if pixbuf:
+            self.playing_track_image.set_from_pixbuf(pixbuf)
         else:
-            self.playing_track_image.set_from_pixbuf(self.default_track_image)
+            self.playing_track_image.set_from_pixbuf(None)
 
         self.playing_track_image.show_now()
 
@@ -259,7 +265,7 @@ class PlayingBox(Gtk.Box):
         for row in selected_rows:
             tl_track_box = row.get_child()
             tlid = tl_track_box.props.tlid if tl_track_box else None
-            if tlid != -1:
+            if tlid != -1 and tlid is not None:
                 tlids.append(tlid)
 
         return tlids
