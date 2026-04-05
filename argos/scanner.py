@@ -8,7 +8,7 @@ https://github.com/python-zeroconf/python-zeroconf/blob/master/examples/async_ap
 import asyncio
 import logging
 from functools import partial
-from typing import TYPE_CHECKING, Any, Dict, Optional, Sequence, Tuple, cast
+from typing import TYPE_CHECKING, Any, Sequence, cast
 
 from gi.repository import GLib, GObject
 from zeroconf import DNSQuestionType, IPVersion, ServiceStateChange, Zeroconf
@@ -25,15 +25,15 @@ LOGGER = logging.getLogger(__name__)
 class MopidyServiceScanner(GObject.Object):
     """Scan Mopidy HTTP services."""
 
-    __gsignals__: Dict[str, Tuple[int, Any, Sequence]] = {
+    __gsignals__: dict[str, tuple[int, Any, Sequence]] = {
         "service-discovered": (GObject.SIGNAL_RUN_FIRST, None, (str, str)),
     }
 
     def __init__(self, application: "Application") -> None:
         super().__init__()
 
-        self.aiobrowser: Optional[AsyncServiceBrowser] = None
-        self.aiozc: Optional[AsyncZeroconf] = None
+        self.aiobrowser: AsyncServiceBrowser | None = None
+        self.aiozc: AsyncZeroconf | None = None
 
     async def __call__(self) -> None:
         LOGGER.debug("Scanning for Mopidy HTTP services")

@@ -3,7 +3,6 @@ import logging
 import random
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import List, Optional, Tuple
 
 from argos.model.album import AlbumModel
 from argos.model.directory import DirectoryModel
@@ -33,9 +32,9 @@ class RandomTracksChoiceState(Enum):
 class RandomTracksChoice:
     strategy: str
     state: RandomTracksChoiceState = field(default=RandomTracksChoiceState.INIT)
-    track_uris: List[str] = field(default_factory=list)
+    track_uris: list[str] = field(default_factory=list)
     source_album_uri: str = field(default="")
-    source_album_disc_no: Optional[int] = field(default=None)
+    source_album_disc_no: int | None = field(default=None)
 
 
 def choose_random_tracks(
@@ -56,7 +55,7 @@ def choose_random_tracks(
 
 def _select_random_album_tracks(library: LibraryModel, result: RandomTracksChoice):
 
-    candidates: List[str] = []
+    candidates: list[str] = []
 
     def visitor(a: AlbumModel, d: DirectoryModel) -> None:
         if not a.props.backend.props.exclude_albums_from_random_choice and (
@@ -102,7 +101,7 @@ def _select_random_album_tracks(library: LibraryModel, result: RandomTracksChoic
 def _select_random_tracks_by_duration(
     library: LibraryModel, result: RandomTracksChoice
 ):
-    candidates: List[Tuple[str, int]] = []
+    candidates: list[tuple[str, int]] = []
     length: int = 0
     duration = 30 * 60 * 1000  # ms
 

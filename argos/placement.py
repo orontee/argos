@@ -1,5 +1,4 @@
 import logging
-from typing import Optional
 
 from gi.repository import Gdk, GLib, GObject, Gtk
 
@@ -20,7 +19,7 @@ class WindowPlacement(GObject.Object):
 
         self._settings = application.props.settings
         self._window = application.window
-        self._window_placement_update_timeout_tag: Optional[int] = None
+        self._window_placement_update_timeout_tag: int | None = None
 
         self._restore_window_state()
 

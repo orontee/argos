@@ -1,7 +1,6 @@
 import gettext
 import logging
 from pathlib import Path
-from typing import List, Optional
 
 from gi.repository import Gio, GLib, GObject, Gtk
 
@@ -58,7 +57,7 @@ class TracklistRandomDialog(Gtk.Dialog):
         self._settings: Gio.Settings = application.props.settings
         self._disable_tooltips = application.props.disable_tooltips
 
-        self.track_uris: List[str] = []
+        self.track_uris: list[str] = []
 
         for index, strategy in enumerate(RANDOM_TRACKS_CHOICE_STRATEGY):
             strategy_label = RANDOM_TRACKS_CHOICE_STRATEGY[strategy]
@@ -94,13 +93,13 @@ class TracklistRandomDialog(Gtk.Dialog):
         strategy = self.strategy_combo_box.get_active_id()
         result = self._model.choose_random_album(strategy=strategy)
 
-        album: Optional[AlbumModel] = None
-        album_name: Optional[str] = None
-        artist_name: Optional[str] = None
-        choice_length: Optional[int] = None
-        num_tracks: Optional[int] = None
-        disc_no: Optional[int] = None
-        image_path: Optional[str] = None
+        album: AlbumModel | None = None
+        album_name: str | None = None
+        artist_name: str | None = None
+        choice_length: int | None = None
+        num_tracks: int | None = None
+        disc_no: int | None = None
+        image_path: str | None = None
 
         if result.state == RandomTracksChoiceState.FOUND:
             album = self._model.get_album(result.source_album_uri)
@@ -116,7 +115,7 @@ class TracklistRandomDialog(Gtk.Dialog):
                 num_tracks = len(self.track_uris)
             else:
                 artist_name = _("Various")
-                tracks: List[TrackModel] = []
+                tracks: list[TrackModel] = []
                 for uri in result.track_uris:
                     track = self._model.get_track(uri)
                     if track is None:
@@ -138,7 +137,7 @@ class TracklistRandomDialog(Gtk.Dialog):
         self._update_choice_image(image_path)
         self._update_info_bar(result.state)
 
-    def _update_album_name_label(self, album_name: Optional[str]) -> None:
+    def _update_album_name_label(self, album_name: str | None) -> None:
         if album_name:
             safe_album_name = GLib.markup_escape_text(album_name)
             album_name_text = (
@@ -155,7 +154,7 @@ class TracklistRandomDialog(Gtk.Dialog):
 
         self.album_name_label.show_now()
 
-    def _update_artist_name_label(self, artist_name: Optional[str]) -> None:
+    def _update_artist_name_label(self, artist_name: str | None) -> None:
         if artist_name:
             safe_artist_name = GLib.markup_escape_text(artist_name)
             artist_name_text = f"""<span size="x-large">{safe_artist_name}</span>"""
@@ -169,7 +168,7 @@ class TracklistRandomDialog(Gtk.Dialog):
 
         self.artist_name_label.show_now()
 
-    def _update_choice_length_label(self, choice_length: Optional[int]) -> None:
+    def _update_choice_length_label(self, choice_length: int | None) -> None:
         if choice_length is not None:
             pretty_length = ms_to_text(choice_length)
         else:
@@ -178,7 +177,7 @@ class TracklistRandomDialog(Gtk.Dialog):
         self.choice_length_label.set_text(pretty_length)
         self.choice_length_label.show_now()
 
-    def _update_choice_num_tracks_label(self, choice_num_tracks: Optional[int]) -> None:
+    def _update_choice_num_tracks_label(self, choice_num_tracks: int | None) -> None:
         if choice_num_tracks is not None and choice_num_tracks != -1:
             self.choice_num_tracks_label.set_text(str(choice_num_tracks))
         else:
@@ -187,7 +186,7 @@ class TracklistRandomDialog(Gtk.Dialog):
 
     def _update_choice_disc_no_labels(
         self,
-        choice_disc_no: Optional[int],
+        choice_disc_no: int | None,
         *,
         show: bool,
     ) -> None:
@@ -202,7 +201,7 @@ class TracklistRandomDialog(Gtk.Dialog):
             self.choice_disc_no_label.set_text("")
             self.choice_disc_no_label.hide()
 
-    def _update_choice_image(self, choice_image_path: Optional[str]) -> None:
+    def _update_choice_image(self, choice_image_path: str | None) -> None:
         image_path = Path(choice_image_path) if choice_image_path else None
         scaled_pixbuf = None
         if image_path:

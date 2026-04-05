@@ -7,16 +7,14 @@ LOGGER = logging.getLogger(__name__)
 
 _ = gettext.gettext
 
-_LABEL_MARKUP = _(
-    """To populate the tracklist:
+_LABEL_MARKUP = _("""To populate the tracklist:
 
 • <a href="argos:play-random-tracks">Play random tracks</a>
 
 • <a href="argos:add-stream">Add a music stream</a>
 
 • Choose tracks from the library or playlists
-"""
-)
+""")
 
 
 @Gtk.Template(

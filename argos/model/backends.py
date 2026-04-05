@@ -1,5 +1,4 @@
 import logging
-from typing import Tuple
 
 from gi.repository import GObject
 
@@ -35,7 +34,7 @@ class MopidyBandcampBackend(MopidyBackend):
     def is_responsible_for(self, directory_uri: str) -> bool:
         return directory_uri.startswith("bandcamp:")
 
-    def extract_artist_name(self, album_name: str) -> Tuple[str, str]:
+    def extract_artist_name(self, album_name: str) -> tuple[str, str]:
         tokens = album_name.split(" - ", maxsplit=1)
         if len(tokens) == 2:
             return tokens[0], tokens[1]

@@ -1,6 +1,5 @@
 import gettext
 import logging
-from typing import List, Optional
 
 from gi.repository import Gio, GLib, GObject, Gtk
 
@@ -151,14 +150,14 @@ class PlaylistsBox(Gtk.Box):
         self.add_button.set_sensitive(playlist is not None)
         self.edit_button.set_sensitive(self._is_playlist_removable())
 
-    def track_selection_to_uris(self, strict: bool = False) -> List[str]:
+    def track_selection_to_uris(self, strict: bool = False) -> list[str]:
         """Returns the list of URIs for current track selection.
 
         If ``strict`` is False and the selection is empty then the returned list
         contains the URIs of the tracks of current playlist.
 
         """
-        uris: List[str] = []
+        uris: list[str] = []
         selected_rows = self.tracks_box.get_selected_rows()
         for row in selected_rows:
             track_box = row.get_child()
@@ -171,9 +170,9 @@ class PlaylistsBox(Gtk.Box):
 
         return uris
 
-    def _playlist_track_uris(self) -> List[str]:
+    def _playlist_track_uris(self) -> list[str]:
         """Returns the list of URIs for the tracks of current playlist."""
-        uris: List[str] = []
+        uris: list[str] = []
         playlist = self._model.get_playlist(self.props.uri)
         tracks = playlist.tracks if playlist else None
         if tracks is not None:
@@ -200,7 +199,7 @@ class PlaylistsBox(Gtk.Box):
     def on_playlists_view_row_selected(
         self,
         box: Gtk.ListBox,
-        row: Optional[Gtk.ListBoxRow],
+        row: Gtk.ListBoxRow | None,
     ) -> None:
         playlist_label = row.get_child() if row else None
         playlist = playlist_label.playlist if playlist_label else None
@@ -215,7 +214,7 @@ class PlaylistsBox(Gtk.Box):
         self._update_track_count_label(tracks)
         self._update_length_label(tracks)
 
-        uri = playlist.uri if playlist else None
+        uri = playlist.uri if playlist else ""
         self.bind_model_to_playlist_tracks(uri)
 
         if playlist is not None:
@@ -225,7 +224,7 @@ class PlaylistsBox(Gtk.Box):
             )
             # would be cleaner to disconnect on selection changes...
 
-    def _update_track_count_label(self, tracks: Optional[Gio.ListStore] = None) -> None:
+    def _update_track_count_label(self, tracks: Gio.ListStore | None = None) -> None:
         if tracks is None:
             self.track_count_label.set_text("")
         else:
@@ -233,7 +232,7 @@ class PlaylistsBox(Gtk.Box):
 
         self.track_count_label.show_now()
 
-    def _update_length_label(self, tracks: Optional[Gio.ListStore] = None) -> None:
+    def _update_length_label(self, tracks: Gio.ListStore | None = None) -> None:
         if tracks is None:
             self.length_label.set_text("")
         else:
@@ -258,7 +257,7 @@ class PlaylistsBox(Gtk.Box):
         if changed_playlist != playlist:
             return
 
-    def _get_selected_playlist(self) -> Optional[PlaylistModel]:
+    def _get_selected_playlist(self) -> PlaylistModel | None:
         selected_row = self.playlists_view.get_selected_row()
         playlist_label = selected_row.get_child() if selected_row else None
         playlist = playlist_label.playlist if playlist_label else None

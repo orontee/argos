@@ -1,6 +1,6 @@
 import locale
 import logging
-from typing import Callable, List, Optional, Set
+from typing import Callable
 
 from gi.repository import Gio, GObject
 
@@ -93,7 +93,7 @@ class DirectoryModel(GObject.Object):
         for directory in self.directories:
             directory.visit_albums(visitor=visitor)
 
-    def get_album(self, uri: str) -> Optional[AlbumModel]:
+    def get_album(self, uri: str) -> AlbumModel | None:
         """Recursively search for an album with given URI.
 
         Args:
@@ -122,7 +122,7 @@ class DirectoryModel(GObject.Object):
 
         return None
 
-    def get_directory(self, uri: str) -> Optional["DirectoryModel"]:
+    def get_directory(self, uri: str) -> "DirectoryModel | None":
         """Recursively search for a directory with given URI.
 
         Args:
@@ -152,7 +152,7 @@ class DirectoryModel(GObject.Object):
 
         return None
 
-    def get_playlist(self, uri: str) -> Optional[PlaylistModel]:
+    def get_playlist(self, uri: str) -> PlaylistModel | None:
         """Recursively search for an playlist with given URI.
 
         Args:
@@ -181,7 +181,7 @@ class DirectoryModel(GObject.Object):
 
         return None
 
-    def get_track(self, uri: str) -> Optional[TrackModel]:
+    def get_track(self, uri: str) -> TrackModel | None:
         """Recursively search for a track with given URI.
 
         Args:

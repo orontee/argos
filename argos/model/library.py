@@ -1,5 +1,5 @@
 import logging
-from typing import Callable, List, Optional
+from typing import Callable
 
 from gi.repository import GObject
 
@@ -28,7 +28,7 @@ class LibraryModel(GObject.Object):
     ) -> None:
         self.props.root_directory.sort_albums(compare_func)
 
-    def get_album(self, uri: str) -> Optional[AlbumModel]:
+    def get_album(self, uri: str) -> AlbumModel | None:
         return self.props.root_directory.get_album(uri)
 
     def visit_albums(
@@ -36,7 +36,7 @@ class LibraryModel(GObject.Object):
     ) -> None:
         self.props.root_directory.visit_albums(visitor=visitor)
 
-    def get_directory(self, uri: Optional[str]) -> Optional[DirectoryModel]:
+    def get_directory(self, uri: str | None) -> DirectoryModel | None:
         return self.props.root_directory.get_directory(uri)
 
     def sort_tracks(
@@ -45,10 +45,10 @@ class LibraryModel(GObject.Object):
     ) -> None:
         self.props.root_directory.sort_tracks(compare_func)
 
-    def get_track(self, uri: Optional[str]) -> Optional[TrackModel]:
+    def get_track(self, uri: str | None) -> TrackModel | None:
         return self.props.root_directory.get_track(uri)
 
-    def get_parent_uris(self, uri: str) -> List[str]:
+    def get_parent_uris(self, uri: str) -> list[str]:
         if uri == MOPIDY_LOCAL_ALBUMS_URI:
             return ["", "local:directory"]
         elif uri == "":

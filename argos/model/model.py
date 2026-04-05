@@ -2,7 +2,7 @@ import logging
 import threading
 from datetime import datetime
 from functools import partial
-from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Sequence, Tuple
+from typing import TYPE_CHECKING, Any, Callable, Sequence
 
 from gi.repository import Gio, GLib, GObject
 
@@ -44,7 +44,7 @@ _DEFAULT_SERVER_PORT: int = 80
 
 
 class Model(WithThreadSafePropertySetter, GObject.Object):
-    __gsignals__: Dict[str, Tuple[int, Any, Sequence]] = {
+    __gsignals__: dict[str, tuple[int, Any, Sequence]] = {
         "album-completed": (GObject.SIGNAL_RUN_FIRST, None, (str,)),
         "album-information-collected": (GObject.SIGNAL_RUN_FIRST, None, (str,)),
         "albums-sorted": (GObject.SIGNAL_RUN_FIRST, None, []),
@@ -199,13 +199,13 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         self,
         uri: str,
         *,
-        albums: List[AlbumModel],
-        directories: List[DirectoryModel],
-        playlists: List[PlaylistModel],
-        tracks: List[TrackModel],
+        albums: list[AlbumModel],
+        directories: list[DirectoryModel],
+        playlists: list[PlaylistModel],
+        tracks: list[TrackModel],
         wait_for_model_update: bool = False,
     ) -> None:
-        event: Optional[threading.Event]
+        event: threading.Event | None
         if (
             wait_for_model_update
             and threading.current_thread() != threading.main_thread()
@@ -259,13 +259,13 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         self,
         uri: str,
         *,
-        artist_name: Optional[str],
-        num_tracks: Optional[int],
-        num_discs: Optional[int],
-        date: Optional[str],
-        last_modified: Optional[float],
-        length: Optional[int],
-        tracks: List[TrackModel],
+        artist_name: str | None,
+        num_tracks: int | None,
+        num_discs: int | None,
+        date: str | None,
+        last_modified: float | None,
+        length: int | None,
+        tracks: list[TrackModel],
     ) -> None:
         GLib.idle_add(
             partial(
@@ -284,12 +284,12 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
     def _complete_album_description(
         self,
         uri: str,
-        artist_name: Optional[str],
-        num_tracks: Optional[int],
-        num_discs: Optional[int],
-        date: Optional[str],
-        last_modified: Optional[float],
-        length: Optional[int],
+        artist_name: str | None,
+        num_tracks: int | None,
+        num_discs: int | None,
+        date: str | None,
+        last_modified: float | None,
+        length: int | None,
         tracks: Sequence[TrackModel],
     ) -> None:
         album = self.get_album(uri)
@@ -320,8 +320,8 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
     def set_album_information(
         self,
         uri: str,
-        album_abstract: Optional[str],
-        artist_abstract: Optional[str],
+        album_abstract: str | None,
+        artist_abstract: str | None,
     ) -> None:
         album = self.get_album(uri)
         if album is None:
@@ -351,7 +351,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         return choose_random_tracks(self.library, strategy)
 
     def update_tracklist(
-        self, version: Optional[int], tl_tracks: Sequence[TracklistTrackModel]
+        self, version: int | None, tl_tracks: Sequence[TracklistTrackModel]
     ) -> None:
         GLib.idle_add(
             partial(
@@ -362,7 +362,7 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         )
 
     def _update_tracklist(
-        self, version: Optional[int], tl_tracks: Sequence[TracklistTrackModel]
+        self, version: int | None, tl_tracks: Sequence[TracklistTrackModel]
     ) -> None:
         if version is None:
             version = -1
@@ -402,10 +402,10 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         *,
         name: str,
         tracks: Sequence[TrackModel],
-        last_modified: Optional[int],
+        last_modified: int | None,
         wait_for_model_update: bool = False,
     ) -> None:
-        event: Optional[threading.Event]
+        event: threading.Event | None
         if (
             wait_for_model_update
             and threading.current_thread() != threading.main_thread()
@@ -457,16 +457,16 @@ class Model(WithThreadSafePropertySetter, GObject.Object):
         if event is not None:
             event.wait(timeout=2.0)
 
-    def get_album(self, uri: str) -> Optional[AlbumModel]:
+    def get_album(self, uri: str) -> AlbumModel | None:
         return self.library.get_album(uri)
 
-    def get_directory(self, uri: Optional[str]) -> Optional[DirectoryModel]:
+    def get_directory(self, uri: str | None) -> DirectoryModel | None:
         return self.library.get_directory(uri)
 
-    def get_track(self, uri: Optional[str]) -> Optional[TrackModel]:
+    def get_track(self, uri: str | None) -> TrackModel | None:
         return self.library.get_track(uri)
 
-    def get_playlist(self, uri: str) -> Optional[PlaylistModel]:
+    def get_playlist(self, uri: str) -> PlaylistModel | None:
         found_playlist = [p for p in self.playlists if p.uri == uri]
         if len(found_playlist) == 0:
             LOGGER.debug(f"No playlist found with URI {uri!r}")

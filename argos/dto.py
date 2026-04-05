@@ -1,7 +1,7 @@
 import logging
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, List, Optional, Type, TypeVar
+from typing import Any, Type, TypeVar
 
 LOGGER = logging.getLogger(__name__)
 
@@ -26,8 +26,8 @@ T = TypeVar(
 )
 
 
-def cast_seq_of(klass: Type[T], data: Any) -> List[T]:
-    objects: List[T] = []
+def cast_seq_of(klass: Type[T], data: Any) -> list[T]:
+    objects: list[T] = []
     try:
         for d in data:
             obj = klass.factory(d)  # noqa
@@ -54,7 +54,7 @@ class RefDTO:
     name: str
 
     @staticmethod
-    def factory(data: Any) -> Optional["RefDTO"]:
+    def factory(data: Any) -> "RefDTO | None":
         if data is None:
             return None
 
@@ -84,7 +84,7 @@ class ArtistDTO:
     musicbrainz_id: str
 
     @staticmethod
-    def factory(data: Any) -> Optional["ArtistDTO"]:
+    def factory(data: Any) -> "ArtistDTO | None":
         if data is None:
             return None
 
@@ -113,12 +113,12 @@ class AlbumDTO:
     name: str
     date: str
     musicbrainz_id: str
-    num_tracks: Optional[int]
-    num_discs: Optional[int]
-    artists: List[ArtistDTO] = field(default_factory=list)
+    num_tracks: int | None
+    num_discs: int | None
+    artists: list[ArtistDTO] = field(default_factory=list)
 
     @staticmethod
-    def factory(data: Any) -> Optional["AlbumDTO"]:
+    def factory(data: Any) -> "AlbumDTO | None":
         if data is None:
             return None
 
@@ -162,22 +162,22 @@ class TrackDTO:
 
     uri: str
     name: str
-    album: Optional[AlbumDTO]
+    album: AlbumDTO | None
     genre: str
     date: str
     bitrate: int
     comment: str
     musicbrainz_id: str
-    track_no: Optional[int]
-    disc_no: Optional[int]
-    length: Optional[int]
-    last_modified: Optional[int]
-    artists: List[ArtistDTO] = field(default_factory=list)
-    composers: List[ArtistDTO] = field(default_factory=list)
-    performers: List[ArtistDTO] = field(default_factory=list)
+    track_no: int | None
+    disc_no: int | None
+    length: int | None
+    last_modified: int | None
+    artists: list[ArtistDTO] = field(default_factory=list)
+    composers: list[ArtistDTO] = field(default_factory=list)
+    performers: list[ArtistDTO] = field(default_factory=list)
 
     @staticmethod
-    def factory(data: Any) -> Optional["TrackDTO"]:
+    def factory(data: Any) -> "TrackDTO | None":
         if data is None:
             return None
 
@@ -246,12 +246,12 @@ class PlaylistDTO:
 
     uri: str
     name: str
-    last_modified: Optional[int]
+    last_modified: int | None
 
-    tracks: List[TrackDTO] = field(default_factory=list)
+    tracks: list[TrackDTO] = field(default_factory=list)
 
     @staticmethod
-    def factory(data: Any) -> Optional["PlaylistDTO"]:
+    def factory(data: Any) -> "PlaylistDTO | None":
         if data is None:
             return None
 
@@ -280,11 +280,11 @@ class ImageDTO:
     """
 
     uri: str
-    width: Optional[int]
-    height: Optional[int]
+    width: int | None
+    height: int | None
 
     @staticmethod
-    def factory(data: Any) -> Optional["ImageDTO"]:
+    def factory(data: Any) -> "ImageDTO | None":
         if data is None:
             return None
 
@@ -309,7 +309,7 @@ class TlTrackDTO:
     track: TrackDTO
 
     @staticmethod
-    def factory(data: Any) -> Optional["TlTrackDTO"]:
+    def factory(data: Any) -> "TlTrackDTO | None":
         if data is None:
             return None
 

@@ -1,5 +1,5 @@
 import asyncio
-from typing import TYPE_CHECKING, Any, Dict, Optional
+from typing import TYPE_CHECKING, Any
 
 from gi.repository import Gio, GObject
 
@@ -36,7 +36,7 @@ class ControllerBase(GObject.Object):
         self._settings: Gio.Settings = application.props.settings
 
     def send_message(
-        self, message_type: MessageType, data: Optional[Dict[str, Any]] = None
+        self, message_type: MessageType, data: dict[str, Any] | None = None
     ) -> None:
         message = Message(message_type, data or {})
         self._loop.call_soon_threadsafe(self._message_queue.put_nowait, message)

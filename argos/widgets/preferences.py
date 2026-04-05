@@ -1,6 +1,6 @@
 import gettext
 import logging
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any
 
 from gi.repository import Gdk, Gio, GLib, GObject, Gtk
 
@@ -40,7 +40,7 @@ class PreferencesWindow(Gtk.Window):
         super().__init__(application=application, transient_for=application.window)
         self.set_wmclass("Argos", "preferences")
         self._model = application.model
-        self._albums_image_size_scale_jumped_id: Optional[int] = None
+        self._albums_image_size_scale_jumped_id: int | None = None
 
         self._settings: Gio.Settings = application.props.settings
         base_url = self._settings.get_string("mopidy-base-url")

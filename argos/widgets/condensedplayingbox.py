@@ -1,7 +1,6 @@
 import gettext
 import logging
 from pathlib import Path
-from typing import Optional
 
 from gi.repository import Gdk, GLib, GObject, Gtk
 
@@ -140,7 +139,7 @@ class CondensedPlayingBox(Gtk.Box):
 
         self.playing_track_image.show_now()
 
-    def _update_track_name_label(self, track_name: Optional[str] = None) -> None:
+    def _update_track_name_label(self, track_name: str | None = None) -> None:
         if track_name:
             safe_track_name = GLib.markup_escape_text(track_name)
             track_name_text = f"""<b>{safe_track_name}</b>"""
@@ -155,7 +154,7 @@ class CondensedPlayingBox(Gtk.Box):
         self.track_name_label.show_now()
 
     def _update_track_details_label(
-        self, artist_name: Optional[str] = None, album_name: Optional[str] = None
+        self, artist_name: str | None = None, album_name: str | None = None
     ) -> None:
         if artist_name:
             track_details = (

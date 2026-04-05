@@ -1,6 +1,5 @@
 import gettext
 import logging
-from typing import List, Optional
 
 from gi.repository import Gio, GLib, GObject, Gtk
 
@@ -103,7 +102,7 @@ class TracksView(Gtk.Box):
         self._update_length_label(tracks)
         self.tracks_box.bind_model(tracks, self._create_track_box)
 
-    def _update_directory_name_label(self, directory_name: Optional[str]) -> None:
+    def _update_directory_name_label(self, directory_name: str | None) -> None:
         if directory_name:
             safe_directory_name = GLib.markup_escape_text(directory_name)
             directory_name_text = (
@@ -119,7 +118,7 @@ class TracksView(Gtk.Box):
 
         self.directory_name_label.show_now()
 
-    def _update_track_count_label(self, tracks: Optional[Gio.ListStore] = None) -> None:
+    def _update_track_count_label(self, tracks: Gio.ListStore | None = None) -> None:
         if tracks is None:
             self.track_count_label.set_text("")
         else:
@@ -127,7 +126,7 @@ class TracksView(Gtk.Box):
 
         self.track_count_label.show_now()
 
-    def _update_length_label(self, tracks: Optional[Gio.ListStore] = None) -> None:
+    def _update_length_label(self, tracks: Gio.ListStore | None = None) -> None:
         if tracks is None:
             self.length_label.set_text("")
         else:
@@ -147,14 +146,14 @@ class TracksView(Gtk.Box):
         widget = TrackBox(self._app, track=track)
         return widget
 
-    def track_selection_to_uris(self) -> List[str]:
+    def track_selection_to_uris(self) -> list[str]:
         """Returns the list of URIs for current track selection.
 
         When current track selection is empty, all URIs of the tracks box rows
         are returned.
 
         """
-        uris: List[str] = []
+        uris: list[str] = []
         rows = self.tracks_box.get_selected_rows()
         if len(rows) == 0:
             rows = self.tracks_box.get_children()
@@ -174,7 +173,7 @@ class TracksView(Gtk.Box):
 
         # Better set button action but never manage to get it working...
 
-        action_name: Optional[str] = None
+        action_name: str | None = None
         if button == self.play_button:
             action_name = "play-selection"
 

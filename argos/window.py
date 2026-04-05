@@ -1,6 +1,5 @@
 import gettext
 import logging
-from typing import Optional, Union
 
 from gi.repository import Gdk, Gio, GLib, GObject, Gtk
 
@@ -230,7 +229,7 @@ class ArgosWindow(Gtk.ApplicationWindow):
 
     def _identify_emitter(
         self, target: str
-    ) -> Optional[Union[AlbumDetailsBox, PlaylistsBox, TracksView]]:
+    ) -> AlbumDetailsBox | PlaylistsBox | TracksView | None:
         if target == "album-details-box":
             return self.props.library_window.props.album_details_box
         elif target == "playlists-box":

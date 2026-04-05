@@ -1,5 +1,3 @@
-from typing import Optional
-
 from gi.repository import Gio, GObject
 
 from argos.dto import TlTrackDTO
@@ -57,7 +55,7 @@ class TracklistModel(WithThreadSafePropertySetter, GObject.Object):
     def set_version(self, value: int) -> None:
         self.set_property_in_gtk_thread("version", value)
 
-    def get_tl_track(self, tlid: int) -> Optional[TracklistTrackModel]:
+    def get_tl_track(self, tlid: int) -> TracklistTrackModel | None:
         for i in range(self.tracks.get_n_items()):
             tl_track = self.tracks.get_item(i)
             if tl_track.tlid == tlid:

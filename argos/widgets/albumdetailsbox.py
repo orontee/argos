@@ -3,7 +3,6 @@ import logging
 import re
 from functools import partial
 from pathlib import Path
-from typing import List, Optional
 
 from gi.repository import Gio, GLib, GObject, Gtk
 
@@ -196,7 +195,7 @@ class AlbumDetailsBox(Gtk.Box):
 
         self._update_information_box(album)
 
-    def _update_album_name_label(self, album_name: Optional[str]) -> None:
+    def _update_album_name_label(self, album_name: str | None) -> None:
         if album_name:
             safe_album_name = GLib.markup_escape_text(album_name)
             album_name_text = (
@@ -212,7 +211,7 @@ class AlbumDetailsBox(Gtk.Box):
 
         self.album_name_label.show_now()
 
-    def _update_artist_name_label(self, artist_name: Optional[str]) -> None:
+    def _update_artist_name_label(self, artist_name: str | None) -> None:
         if artist_name:
             safe_artist_name = GLib.markup_escape_text(artist_name)
             artist_name_text = f"""<span size="x-large">{safe_artist_name}</span>"""
@@ -226,7 +225,7 @@ class AlbumDetailsBox(Gtk.Box):
 
         self.artist_name_label.show_now()
 
-    def _update_publication_label(self, date: Optional[str]) -> None:
+    def _update_publication_label(self, date: str | None) -> None:
         year = None
         if date:
             match = re.search("[12][0-9]{3}", date)
@@ -239,7 +238,7 @@ class AlbumDetailsBox(Gtk.Box):
 
         self.publication_label.show_now()
 
-    def _update_track_count_label(self, tracks: Optional[Gio.ListStore] = None) -> None:
+    def _update_track_count_label(self, tracks: Gio.ListStore | None = None) -> None:
         if tracks is None:
             self.track_count_label.set_text("")
         else:
@@ -247,7 +246,7 @@ class AlbumDetailsBox(Gtk.Box):
 
         self.track_count_label.show_now()
 
-    def _update_length_label(self, length: Optional[int]) -> None:
+    def _update_length_label(self, length: int | None) -> None:
         if length:
             pretty_length = ms_to_text(length)
             self.length_label.set_text(pretty_length)
@@ -256,7 +255,7 @@ class AlbumDetailsBox(Gtk.Box):
 
         self.length_label.show_now()
 
-    def _update_album_image(self, image_path: Optional[Path]) -> None:
+    def _update_album_image(self, image_path: Path | None) -> None:
         cover_pixbuf = None
         small_cover_pixbuf = None
         if image_path:
@@ -278,7 +277,7 @@ class AlbumDetailsBox(Gtk.Box):
         self.album_image.show_now()
         self.album_information_image.show_now()
 
-    def _update_track_view(self, album: Optional[AlbumModel]) -> None:
+    def _update_track_view(self, album: AlbumModel | None) -> None:
         if album is None:
             self.tracks_box.bind_model(
                 None,
@@ -294,7 +293,7 @@ class AlbumDetailsBox(Gtk.Box):
 
         self._clear_tracks_box_selection = True
 
-    def _update_information_box(self, album: Optional[AlbumModel]) -> None:
+    def _update_information_box(self, album: AlbumModel | None) -> None:
         if album is not None:
             album_information_title = _INFO_TITLE_WITH_MARKUP.format(title=album.name)
             self.album_information_title_label.set_markup(album_information_title)
@@ -354,14 +353,14 @@ class AlbumDetailsBox(Gtk.Box):
         widget = TrackBox(self._app, album=album, track=track)
         return widget
 
-    def track_selection_to_uris(self) -> List[str]:
+    def track_selection_to_uris(self) -> list[str]:
         """Returns the list of URIs for current track selection.
 
         The returned list contains the album URI if current track
         selection is empty.
 
         """
-        uris: List[str] = []
+        uris: list[str] = []
         selected_rows = self.tracks_box.get_selected_rows()
         for row in selected_rows:
             track_box = row.get_child()
@@ -394,7 +393,7 @@ class AlbumDetailsBox(Gtk.Box):
 
         # Better set button action but never manage to get it working...
 
-        action_name: Optional[str] = None
+        action_name: str | None = None
         if button == self.play_button:
             action_name = "play-selection"
 

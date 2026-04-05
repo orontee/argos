@@ -6,7 +6,7 @@ from functools import partial
 from pathlib import Path
 from threading import Thread
 from time import sleep
-from typing import Any, Dict, List, Optional, Sequence
+from typing import Any, Sequence
 
 import xdg.BaseDirectory  # type: ignore
 from gi.repository import Gdk, Gio, GLib, GObject, Gtk
@@ -66,7 +66,7 @@ class Application(Gtk.Application):
 
         self._loop = asyncio.get_event_loop()
         self._message_queue: asyncio.Queue = asyncio.Queue()
-        self._tasks: List[asyncio.Task] = []
+        self._tasks: list[asyncio.Task] = []
 
         self._settings = Gio.Settings(self.props.application_id)
 
@@ -74,7 +74,7 @@ class Application(Gtk.Application):
 
         def _exception_handler(
             loop: asyncio.AbstractEventLoop,
-            context: Dict[str, Any],
+            context: dict[str, Any],
         ) -> None:
             LOGGER.error(
                 f"""Unhandled exception in event loop: {context.get("message")}""",
@@ -492,7 +492,7 @@ class Application(Gtk.Application):
         return False
 
     def _send_message(
-        self, message_type: MessageType, data: Optional[Dict[str, Any]] = None
+        self, message_type: MessageType, data: dict[str, Any] | None = None
     ) -> None:
         message = Message(message_type, data or {})
         self._loop.call_soon_threadsafe(self._message_queue.put_nowait, message)
@@ -683,7 +683,7 @@ class Application(Gtk.Application):
     ) -> None:
         LOGGER.debug("Library update requested by end-user")
 
-        data: Dict[str, Any] = {"force": True}
+        data: dict[str, Any] = {"force": True}
         if parameter == "":
             if self.window is not None:
                 directory_uri = self.window.library_window.props.directory_uri

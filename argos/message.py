@@ -6,7 +6,7 @@ import logging
 from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import TYPE_CHECKING, Any, Callable, Dict, Sequence, TypeVar
+from typing import TYPE_CHECKING, Any, Callable, Sequence, TypeVar
 
 from gi.repository import GObject
 
@@ -69,7 +69,7 @@ class MessageType(Enum):
 @dataclass
 class Message:
     type: MessageType
-    data: Dict[str, Any] = field(default_factory=dict)
+    data: dict[str, Any] = field(default_factory=dict)
 
 
 def consume(
@@ -99,7 +99,7 @@ def consume(
     """
 
     def decorator(
-        method: Callable[[T, Message], collections.abc.Awaitable[None]]
+        method: Callable[[T, Message], collections.abc.Awaitable[None]],
     ) -> Callable[[T, Message], collections.abc.Awaitable[None]]:
         @functools.wraps(method)
         async def inner(ref: T, message: Message) -> None:

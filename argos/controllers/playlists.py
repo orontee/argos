@@ -4,7 +4,7 @@ import logging
 import math
 import time
 from operator import itemgetter
-from typing import TYPE_CHECKING, Dict, List, Optional
+from typing import TYPE_CHECKING
 
 from gi.repository import Gio
 
@@ -36,7 +36,7 @@ class PlaylistsController(ControllerBase):
     def __init__(self, application: "Application"):
         super().__init__(application)
 
-        self._history_playlist: Optional[PlaylistModel] = None
+        self._history_playlist: PlaylistModel | None = None
         if self._settings.get_boolean("history-playlist"):
             self._history_playlist = PlaylistModel(
                 uri=PlaylistsController.HISTORY_PLAYLIST_URI,
@@ -48,9 +48,7 @@ class PlaylistsController(ControllerBase):
         self._settings.connect(
             "changed::history-max-length", self._on_playlist_settings_changed
         )
-        self._ongoing_complete_history_playlist_task: Optional[asyncio.Task[None]] = (
-            None
-        )
+        self._ongoing_complete_history_playlist_task: asyncio.Task[None] | None = None
 
     @consume(MessageType.PLAYLIST_CHANGED)
     async def update_model_playlist(self, message: Message) -> None:
@@ -82,7 +80,7 @@ class PlaylistsController(ControllerBase):
         else:
             LOGGER.debug(f"Number of playlist found: {len(refs)}")
 
-        playlists: List[PlaylistModel] = (
+        playlists: list[PlaylistModel] = (
             [
                 PlaylistModel(uri=ref.uri, name=ref.name)
                 for ref in refs
@@ -135,10 +133,10 @@ class PlaylistsController(ControllerBase):
         self,
         playlist_uri: str,
         *,
-        name: Optional[str] = None,
-        add_track_uris: Optional[List[str]] = None,
-        remove_track_uris: Optional[List[str]] = None,
-    ) -> Optional[PlaylistDTO]:
+        name: str | None = None,
+        add_track_uris: list[str] | None = None,
+        remove_track_uris: list[str] | None = None,
+    ) -> PlaylistDTO | None:
         playlist = self._model.get_playlist(playlist_uri)
         if playlist is None:
             return None
@@ -209,7 +207,7 @@ class PlaylistsController(ControllerBase):
                 self._http.lookup_library,
                 params=track_uris,
             )
-            parsed_tracks: List[TrackModel] = []
+            parsed_tracks: list[TrackModel] = []
             for tracks in parse_tracks(
                 found_tracks_dto, visitors=[PlaylistTrackNameFix(playlist_dto)]
             ).values():
@@ -272,8 +270,8 @@ class PlaylistsController(ControllerBase):
             params=unique_history_refs_uris,
         )
 
-        parsed_history_tracks_with_duplicates: List[TrackModel] = []
-        parsed_history_tracks: Dict[str, List[TrackModel]] = parse_tracks(
+        parsed_history_tracks_with_duplicates: list[TrackModel] = []
+        parsed_history_tracks: dict[str, list[TrackModel]] = parse_tracks(
             history_tracks_dto
         )
         for history_item in history:

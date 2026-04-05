@@ -1,6 +1,5 @@
 import logging
 from collections import Counter, defaultdict
-from typing import Dict, List, Optional
 
 from argos.dto import PlaylistDTO, TrackDTO
 
@@ -15,7 +14,7 @@ class LengthAcc:
     """
 
     def __init__(self):
-        self.length: Dict[str, int] = defaultdict(int)
+        self.length: dict[str, int] = defaultdict(int)
 
     def __call__(self, uri: str, track_dto: TrackDTO) -> None:
         if self.length[uri] != -1 and track_dto.length is not None:
@@ -38,13 +37,13 @@ class AlbumMetadataCollector:
     See ``argos.utils.parse_tracks()``."""
 
     def __init__(self):
-        self._name: Dict[str, str] = {}
-        self._track_names: Dict[str, List[str]] = defaultdict(list)
-        self._num_tracks: Dict[str, int] = {}
-        self._num_discs: Dict[str, int] = {}
-        self._date: Dict[str, str] = {}
-        self._last_modified: Dict[str, float] = {}
-        self._release_mbid: Dict[str, str] = {}
+        self._name: dict[str, str] = {}
+        self._track_names: dict[str, list[str]] = defaultdict(list)
+        self._num_tracks: dict[str, int] = {}
+        self._num_discs: dict[str, int] = {}
+        self._date: dict[str, str] = {}
+        self._last_modified: dict[str, float] = {}
+        self._release_mbid: dict[str, str] = {}
 
     def __call__(self, uri: str, track_dto: TrackDTO) -> None:
         album_dto = track_dto.album
@@ -90,19 +89,19 @@ class AlbumMetadataCollector:
         ranking = count.most_common(1)
         return ranking[0][0] if len(ranking) > 0 else ""
 
-    def num_tracks(self, album_uri: str) -> Optional[int]:
+    def num_tracks(self, album_uri: str) -> int | None:
         return self._num_tracks.get(album_uri)
 
-    def num_discs(self, album_uri: str) -> Optional[int]:
+    def num_discs(self, album_uri: str) -> int | None:
         return self._num_discs.get(album_uri)
 
-    def date(self, album_uri: str) -> Optional[str]:
+    def date(self, album_uri: str) -> str | None:
         return self._date.get(album_uri)
 
-    def release_mbid(self, album_uri: str) -> Optional[str]:
+    def release_mbid(self, album_uri: str) -> str | None:
         return self._release_mbid.get(album_uri)
 
-    def last_modified(self, album_uri: str) -> Optional[float]:
+    def last_modified(self, album_uri: str) -> float | None:
         return self._last_modified.get(album_uri)
 
 
@@ -115,7 +114,7 @@ class PlaylistTrackNameFix:
     """
 
     def __init__(self, playlist: PlaylistDTO):
-        self._names: Dict[str, str] = dict()
+        self._names: dict[str, str] = dict()
         self.__index_playlist_track_names(playlist)
 
     def __index_playlist_track_names(self, playlist: PlaylistDTO) -> None:

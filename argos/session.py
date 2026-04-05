@@ -2,7 +2,7 @@ import contextlib
 import logging
 from functools import partial
 from pathlib import Path
-from typing import TYPE_CHECKING, AsyncIterator, Optional, Type, cast
+from typing import TYPE_CHECKING, AsyncIterator, Type, cast
 
 import aiohttp
 import xdg.BaseDirectory  # type: ignore
@@ -25,7 +25,7 @@ class HTTPSessionManager(GObject.Object):
     def __init__(self, application: "Application"):
         super().__init__()
 
-        self._session: Optional[aiohttp.ClientSession] = None
+        self._session: aiohttp.ClientSession | None = None
 
         version: str = application.props.version
         self._user_agent = f"Argos/{version} ( https://orontee.github.io/argos/ )"

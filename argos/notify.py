@@ -1,6 +1,6 @@
 import logging
 from pathlib import Path
-from typing import TYPE_CHECKING, Dict, Optional
+from typing import TYPE_CHECKING
 
 from gi.repository import Gio, GLib, GObject
 
@@ -25,17 +25,17 @@ class Notifier(GObject.Object):
         self._application_name = "Argos"
         self._app = application
         self._model: Model = application.model
-        self._nid: Optional[int] = None  # identifier of last sent notification
+        self._nid: int | None = None  # identifier of last sent notification
         self._disable = False
 
     def send_notification(
         self,
         summary: str,
         *,
-        body: Optional[str] = None,
-        invisible_playing_page: Optional[bool] = False,
-        is_playing: Optional[bool] = False,
-        image_path: Optional[str | Path] = None,
+        body: str | None = None,
+        invisible_playing_page: bool | None = False,
+        is_playing: bool | None = False,
+        image_path: str | Path | None = None,
     ) -> None:
         if self._disable:
             LOGGER.warning("Sending notifications is disabled")
@@ -72,7 +72,7 @@ class Notifier(GObject.Object):
             self._disable = True
             return
 
-        hints: Dict[str, GLib.Variant] = {}
+        hints: dict[str, GLib.Variant] = {}
         if image_path is not None:
             p = Path(image_path).resolve()
             if p.exists():

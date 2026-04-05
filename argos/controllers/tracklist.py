@@ -1,6 +1,6 @@
 import gettext
 import logging
-from typing import TYPE_CHECKING, List, cast
+from typing import TYPE_CHECKING, cast
 
 if TYPE_CHECKING:
     from argos.app import Application
@@ -49,7 +49,7 @@ class TracklistController(ControllerBase):
 
     @consume(MessageType.ADD_TO_TRACKLIST)
     async def add_to_tracklist(self, message: Message) -> None:
-        uris = cast(List[str], message.data.get("uris"))
+        uris = cast(list[str], message.data.get("uris"))
         tl_tracks_dto = await self._http.add_to_tracklist(uris=uris)
 
         if tl_tracks_dto is None:
@@ -63,7 +63,7 @@ class TracklistController(ControllerBase):
 
     @consume(MessageType.REMOVE_FROM_TRACKLIST)
     async def remove_from_tracklist(self, message: Message) -> None:
-        tlids = cast(List[int], message.data.get("tlids"))
+        tlids = cast(list[int], message.data.get("tlids"))
         await self._http.remove_from_tracklist(tlids=tlids)
 
     @consume(MessageType.CLEAR_TRACKLIST)

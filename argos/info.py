@@ -2,7 +2,7 @@ import gettext
 import logging
 import urllib.parse
 from enum import Enum
-from typing import TYPE_CHECKING, Dict, List, Optional, Tuple
+from typing import TYPE_CHECKING
 
 import aiohttp
 from gi.repository import GLib, GObject
@@ -16,7 +16,7 @@ _ = gettext.gettext
 
 LOGGER = logging.getLogger(__name__)
 
-_WIKIPEDIA_BASE_URLS: Dict[str, str] = {
+_WIKIPEDIA_BASE_URLS: dict[str, str] = {
     "dewiki": "https://de.wikipedia.org",
     "enwiki": "https://en.wikipedia.org",
     "frwiki": "https://fr.wikipedia.org",
@@ -28,7 +28,7 @@ _WIKIDATA_BASE_URL: str = "https://www.wikidata.org/"
 _SOURCE_MENTION_TEMPLATE = _("Data source: {}")
 
 
-def _get_wikipedia_base_urls(lang_key: str) -> List[str]:
+def _get_wikipedia_base_urls(lang_key: str) -> list[str]:
     urls = []
     if lang_key != "enwiki":
         lang_url = _WIKIPEDIA_BASE_URLS.get(lang_key)
@@ -61,7 +61,7 @@ class InformationService(GObject.Object):
 
     async def _get_related_mbids(
         self, session: aiohttp.ClientSession, release_mbid: str
-    ) -> Tuple[Optional[str], List[str]]:
+    ) -> tuple[str | None, list[str]]:
         if not release_mbid:
             return None, []
 
@@ -95,7 +95,7 @@ class InformationService(GObject.Object):
         mbid: str,
         *,
         criteria: WikidataProperty,
-    ) -> Optional[Dict[str, Dict[str, str]]]:
+    ) -> dict[str, dict[str, str]] | None:
         if not mbid:
             return None
 
@@ -114,7 +114,7 @@ class InformationService(GObject.Object):
 
         query = parsed_resp.get("query")
         search = query.get("search") if query else None
-        if len(search) == 0:
+        if search is None or len(search) == 0:
             return None
 
         title = search[0].get("title") if search is not None else None
@@ -132,8 +132,8 @@ class InformationService(GObject.Object):
         return sitelinks
 
     def _build_preferred_abstract_url(
-        self, sitelinks: Dict[str, Dict[str, str]]
-    ) -> Optional[str]:
+        self, sitelinks: dict[str, dict[str, str]]
+    ) -> str | None:
         language_names = [
             lang
             for lang in GLib.get_language_names()
@@ -180,7 +180,7 @@ class InformationService(GObject.Object):
         self,
         session: aiohttp.ClientSession,
         url: str,
-    ) -> Optional[str]:
+    ) -> str | None:
         if not url:
             return None
 
@@ -212,7 +212,7 @@ class InformationService(GObject.Object):
         self,
         session: aiohttp.ClientSession,
         release_group_mbid: str,
-    ) -> Optional[str]:
+    ) -> str | None:
         if not release_group_mbid:
             return None
 
@@ -241,8 +241,8 @@ class InformationService(GObject.Object):
     async def _get_artist_abstract(
         self,
         session: aiohttp.ClientSession,
-        artist_mbids: List[str],
-    ) -> Optional[str]:
+        artist_mbids: list[str],
+    ) -> str | None:
         raw_abstracts = []
         for artist_mbid in artist_mbids:
             if not artist_mbid:
@@ -274,7 +274,7 @@ class InformationService(GObject.Object):
 
     async def get_album_information(
         self, release_mbid: str
-    ) -> Tuple[Optional[str], Optional[str]]:
+    ) -> tuple[str | None, str | None]:
         """Return short texts for album with given release MBID.
 
         The first text is the abstract of the Wikipedia page dedicated

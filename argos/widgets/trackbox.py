@@ -1,5 +1,4 @@
 import logging
-from typing import Optional
 
 from gi.repository import GLib, GObject, Gtk
 
@@ -30,7 +29,7 @@ class TrackBox(Gtk.Box):
         application: Gtk.Application,
         *,
         track: TrackModel,
-        album: Optional[AlbumModel] = None,
+        album: AlbumModel | None = None,
     ):
         super().__init__()
 

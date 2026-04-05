@@ -1,7 +1,6 @@
 import datetime
 import gettext
 import logging
-from typing import Tuple, Union
 
 _ = gettext.gettext
 
@@ -12,7 +11,7 @@ ELIDE_THRESHOLD = 29
 
 def compute_target_size(
     width: int, height: int, *, max_size: int
-) -> Union[Tuple[int, int], Tuple[None, None]]:
+) -> tuple[int, int] | tuple[None, None]:
     """Compute the image size according to given max size."""
     transpose = False
     if height > width:

@@ -1,7 +1,7 @@
 import contextlib
 import logging
 from enum import IntEnum
-from typing import Any, ContextManager, Optional, Protocol
+from typing import Any, ContextManager, Protocol
 
 from gi.repository import GLib
 
@@ -31,7 +31,7 @@ class WithThreadSafePropertySetter:
         value: Any,
         *,
         force: bool = False,
-        block_handler: Optional[int] = None,
+        block_handler: int | None = None,
     ) -> None:
         current_value = self.get_property(name)
         if force or current_value != value:

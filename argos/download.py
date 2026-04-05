@@ -3,7 +3,7 @@ import logging
 import urllib.parse
 from functools import partial
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple
+from typing import TYPE_CHECKING, Any
 
 import aiohttp
 import xdg.BaseDirectory  # type: ignore
@@ -23,7 +23,7 @@ MAX_SIMULTANEOUS_DOWNLOADS = 10
 class ImageDownloader(GObject.GObject):
     """Download track, album, directory, etc images."""
 
-    __gsignals__: Dict[str, Tuple[int, Any, Tuple]] = {
+    __gsignals__: dict[str, tuple[int, Any, tuple]] = {
         "image-downloaded": (GObject.SIGNAL_RUN_FIRST, None, (str,)),
         "images-downloaded": (GObject.SIGNAL_RUN_FIRST, None, ()),
     }
@@ -48,9 +48,9 @@ class ImageDownloader(GObject.GObject):
         settings.connect("changed::mopidy-base-url", self._on_mopidy_base_url_changed)
 
         self._image_dir = Path(xdg.BaseDirectory.save_cache_path("argos/images"))
-        self._ongoing_task: Optional[asyncio.Task[None]] = None
+        self._ongoing_task: asyncio.Task[None] | None = None
 
-    def get_image_filepath(self, image_uri: Optional[str]) -> Optional[Path]:
+    def get_image_filepath(self, image_uri: str | None) -> Path | None:
         if image_uri == "" or image_uri is None:
             filename = None
         elif image_uri.startswith("/local/"):
@@ -66,7 +66,7 @@ class ImageDownloader(GObject.GObject):
         filepath = self._image_dir / filename if filename else None
         return filepath
 
-    async def fetch_image(self, image_uri: str) -> Optional[Path]:
+    async def fetch_image(self, image_uri: str) -> Path | None:
         """Fetch the image file and notify.
 
         The notification consists in emitting the ``images-downloaded`` signal. Note
@@ -139,7 +139,7 @@ class ImageDownloader(GObject.GObject):
                 return False
         return True
 
-    async def fetch_images(self, image_uris: List[str]) -> None:
+    async def fetch_images(self, image_uris: list[str]) -> None:
         """Fetch multiple image files and notify.
 
         The notification consists in emitting the ``images-downloaded`` signal. Note
@@ -147,7 +147,7 @@ class ImageDownloader(GObject.GObject):
 
         An image availability must be done by checking that the corresponding file
         exists (See ``get_image_filepath()``)."""
-        to_download: Dict[str, Path] = {}
+        to_download: dict[str, Path] = {}
 
         for image_uri in image_uris:
             filepath = self.get_image_filepath(image_uri)

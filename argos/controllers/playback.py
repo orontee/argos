@@ -1,6 +1,6 @@
 import gettext
 import logging
-from typing import TYPE_CHECKING, Optional, Tuple, Union, cast
+from typing import TYPE_CHECKING, cast
 
 from gi.repository import GObject
 
@@ -77,7 +77,7 @@ class PlaybackController(ControllerBase):
 
     @consume(MessageType.PLAYBACK_STATE_CHANGED)
     async def update_model_playback_state(self, message: Message) -> None:
-        raw_state = cast(Union[int, str], message.data.get("new_state"))
+        raw_state = cast(int | str, message.data.get("new_state"))
         self._model.playback.set_state(raw_state)
 
     @consume(MessageType.TRACK_PLAYBACK_STARTED)

@@ -1,7 +1,7 @@
 import asyncio
 import logging
 from datetime import datetime
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 from gi.repository import GObject
 
@@ -25,7 +25,7 @@ class TimePositionTracker(GObject.Object):
 
     """
 
-    _last_sync: Optional[datetime] = None
+    _last_sync: datetime | None = None
 
     def __init__(
         self,
@@ -68,7 +68,7 @@ class TimePositionTracker(GObject.Object):
                         self._last_sync = None
                     continue
 
-                time_position: Optional[int] = -1
+                time_position: int | None = -1
                 if self._model.playback.time_position != -1 and self._last_sync:
                     time_position = self._model.playback.time_position + 1000
                     delta = (datetime.now() - self._last_sync).total_seconds()

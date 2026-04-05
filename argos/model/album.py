@@ -1,5 +1,5 @@
 import locale
-from typing import Optional, Sequence
+from typing import Sequence
 
 from gi.repository import Gio, GObject
 
@@ -128,13 +128,13 @@ class AlbumModel(GObject.Object):
     def __init__(
         self,
         *args,
-        artist_name: Optional[str] = None,
-        num_tracks: Optional[int] = None,
-        num_discs: Optional[int] = None,
-        date: Optional[str] = None,
-        last_modified: Optional[float] = None,
-        length: Optional[int] = None,
-        tracks: Optional[Sequence[TrackModel]] = None,
+        artist_name: str | None = None,
+        num_tracks: int | None = None,
+        num_discs: int | None = None,
+        date: str | None = None,
+        last_modified: float | None = None,
+        length: int | None = None,
+        tracks: Sequence[TrackModel] | None = None,
         **kwargs
     ):
         super().__init__(*args, **kwargs)

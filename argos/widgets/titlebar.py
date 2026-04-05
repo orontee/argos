@@ -1,6 +1,5 @@
 import logging
 from enum import IntEnum
-from typing import Optional
 
 from gi.repository import Gio, GObject, Gtk
 
@@ -25,7 +24,7 @@ class TitleBar(Gtk.HeaderBar):
     home_button: Gtk.Button = Gtk.Template.Child()
     app_menu_button: Gtk.MenuButton = Gtk.Template.Child()
     central_view_switcher: Gtk.StackSwitcher = Gtk.Template.Child()
-    search_button: Optional[Gtk.ToggleButton] = Gtk.Template.Child()
+    search_button: Gtk.ToggleButton | None = Gtk.Template.Child()
     sort_button: Gtk.MenuButton = Gtk.Template.Child()
     search_entry: Gtk.SearchEntry = Gtk.Template.Child()
     title_stack: Gtk.Stack = Gtk.Template.Child()

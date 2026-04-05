@@ -5,7 +5,6 @@ import re
 import threading
 from enum import IntEnum
 from pathlib import Path
-from typing import List, Optional, Tuple, Union
 
 from gi.repository import Gio, GLib, GObject, Gtk
 from gi.repository.GdkPixbuf import Pixbuf
@@ -63,10 +62,10 @@ class LibraryWindow(Gtk.Box):
         self._settings: Gio.Settings = application.props.settings
 
         self.props.directory_uri = self._model.library.props.default_uri
-        self._home_parent_uris: List[str] = self._model.library.get_parent_uris(
+        self._home_parent_uris: list[str] = self._model.library.get_parent_uris(
             self.props.directory_uri
         )
-        self._parent_uris: List[str] = copy.copy(self._home_parent_uris)
+        self._parent_uris: list[str] = copy.copy(self._home_parent_uris)
 
         self.image_size = self._settings.get_int("albums-image-size")
         self._init_default_images()
@@ -158,9 +157,9 @@ class LibraryWindow(Gtk.Box):
 
     def _build_store_item(
         self,
-        model: Union[AlbumModel, DirectoryModel, PlaylistModel, TrackModel],
+        model: AlbumModel | DirectoryModel | PlaylistModel | TrackModel,
         type: DirectoryItemType,
-    ) -> Tuple[str, str, str, str, Pixbuf, str, str, int]:
+    ) -> tuple[str, str, str, str, Pixbuf, str, str, int]:
         artist_name = (
             model.get_property("artist_name")
             if model.find_property("artist_name")
@@ -253,9 +252,7 @@ class LibraryWindow(Gtk.Box):
                 LOGGER.warning(f"Invalid regular expression {pattern!r}")
         return True
 
-    def _update_store(
-        self, _1: Model, uri: Optional[str] = None, *, context: str
-    ) -> None:
+    def _update_store(self, _1: Model, uri: str | None = None, *, context: str) -> None:
         if uri is not None and uri != self.props.directory_uri:
             return
 
@@ -276,7 +273,7 @@ class LibraryWindow(Gtk.Box):
         else:
             self.select_directory_page()
 
-            image_uris: List[Path] = []
+            image_uris: list[Path] = []
 
             if self._ongoing_store_update.locked():
                 self._abort_pixbufs_update = True
@@ -310,7 +307,7 @@ class LibraryWindow(Gtk.Box):
         self._hide_progress_box()
 
     def _update_store_pixbufs(
-        self, _1: Optional[GObject.GObject] = None, *, force: bool = False
+        self, _1: GObject.GObject | None = None, *, force: bool = False
     ) -> None:
         if self._ongoing_store_update.locked():
             self._abort_pixbufs_update = True

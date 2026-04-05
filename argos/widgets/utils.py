@@ -3,7 +3,7 @@ import gettext
 import logging
 from functools import lru_cache
 from pathlib import Path
-from typing import Callable, Optional, Sequence
+from typing import Callable, Sequence
 
 from gi.repository import GdkPixbuf, GLib, Gtk
 from gi.repository.GdkPixbuf import Pixbuf
@@ -44,7 +44,7 @@ def default_image_pixbuf(icon_name: str, max_size: int) -> Pixbuf:
 @lru_cache
 def scale_album_image(
     image_path: Path, *, max_size: int | None = None
-) -> Optional[Pixbuf]:
+) -> Pixbuf | None:
     pixbuf = None
     try:
         pixbuf = Pixbuf.new_from_file(str(image_path))
@@ -82,7 +82,7 @@ def set_list_box_header_with_separator(
 def set_list_box_header_with_disc_separator(
     row: Gtk.ListBoxRow,
     before: Gtk.ListBoxRow,
-    on_disc_separator_clicked: Callable[[Gtk.Button, GLib.Variant], None] = None,
+    on_disc_separator_clicked: Callable[[Gtk.Button, GLib.Variant], None] | None = None,
 ) -> None:
     current_header = row.get_header()
     if current_header:

@@ -2,7 +2,7 @@ import asyncio
 import collections.abc
 import json
 import logging
-from typing import TYPE_CHECKING, Any, Callable, Dict, Optional
+from typing import TYPE_CHECKING, Any, Callable
 from urllib.parse import urljoin
 
 import aiohttp
@@ -23,7 +23,7 @@ CONSECUTIVE_SEND_FAILURE_THRESHOLD = 5
 _COMMAND_ID: int = 0
 
 
-def parse_msg(msg: aiohttp.WSMessage) -> Dict[str, Any]:
+def parse_msg(msg: aiohttp.WSMessage) -> dict[str, Any]:
     try:
         return msg.json()
     except json.JSONDecodeError:
@@ -52,7 +52,7 @@ class MopidyWSConnection(GObject.GObject):
         self._loop: asyncio.AbstractEventLoop = application.loop
         self._model: Model = application.props.model
         self._event_handler: Callable[
-            [Dict[str, Any]], collections.abc.Awaitable[None]
+            [dict[str, Any]], collections.abc.Awaitable[None]
         ] = application.props.ws_event_handler
 
         settings: Gio.Settings = application.props.settings
@@ -65,16 +65,16 @@ class MopidyWSConnection(GObject.GObject):
         self._connection_retry_delay = connection_retry_delay
         self._consecutive_send_failures = 0
 
-        self._ws: Optional[aiohttp.ClientWebSocketResponse] = None
-        self._commands: Dict[int, asyncio.Future] = {}
+        self._ws: aiohttp.ClientWebSocketResponse | None = None
+        self._commands: dict[int, asyncio.Future] = {}
 
     async def send_command(
         self,
         method: str,
         *,
-        params: Optional[dict] = None,
-        timeout: Optional[int] = None,
-    ) -> Optional[Any]:
+        params: dict | None = None,
+        timeout: int | None = None,
+    ) -> Any | None:
         """Invoke a JSON-RPC command.
 
         Args:

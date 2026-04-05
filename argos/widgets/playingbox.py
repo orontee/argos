@@ -2,7 +2,6 @@ import gettext
 import logging
 from enum import IntEnum
 from pathlib import Path
-from typing import List, Optional
 
 from gi.repository import GLib, GObject, Gtk
 
@@ -211,7 +210,7 @@ class PlayingBox(Gtk.Box):
 
         self.playing_track_image.show_now()
 
-    def _update_track_name_label(self, track_name: Optional[str] = None) -> None:
+    def _update_track_name_label(self, track_name: str | None = None) -> None:
         if track_name:
             safe_track_name = GLib.markup_escape_text(track_name)
             track_name_text = (
@@ -227,7 +226,7 @@ class PlayingBox(Gtk.Box):
 
         self.track_name_label.show_now()
 
-    def _update_artist_name_label(self, artist_name: Optional[str] = None) -> None:
+    def _update_artist_name_label(self, artist_name: str | None = None) -> None:
         if artist_name:
             safe_artist_name = GLib.markup_escape_text(artist_name)
             artist_name_text = f"""<span size="x-large">{safe_artist_name}</span>"""
@@ -258,9 +257,9 @@ class PlayingBox(Gtk.Box):
 
         self.play_button.show_now()
 
-    def _track_selection_to_tlids(self) -> List[int]:
+    def _track_selection_to_tlids(self) -> list[int]:
         """Returns the tracklist identifiers of current track selection."""
-        tlids: List[int] = []
+        tlids: list[int] = []
         selected_rows = self.tracklist_view.get_selected_rows()
         for row in selected_rows:
             tl_track_box = row.get_child()

@@ -2,7 +2,7 @@ import asyncio
 import gettext
 import logging
 from operator import attrgetter
-from typing import TYPE_CHECKING, Dict, List, Optional, Sequence
+from typing import TYPE_CHECKING, Sequence
 
 from gi.repository import Gio, GLib, GObject
 
@@ -68,7 +68,7 @@ class LibraryController(ControllerBase):
 
         self._download: ImageDownloader = application.props.download
 
-        self._tasks: Dict[str, Optional[asyncio.Task]] = {}
+        self._tasks: dict[str, asyncio.Task | None] = {}
 
         self._on_index_mopidy_local_albums_changed(
             self._settings, "index-mopidy-local-albums"
@@ -113,7 +113,7 @@ class LibraryController(ControllerBase):
         track_sort_id = self._settings.get_string("track-sort")
         self._model.sort_tracks(track_sort_id)
 
-    def _get_backend(self, uri: Optional[str]) -> Optional[MopidyBackend]:
+    def _get_backend(self, uri: str | None) -> MopidyBackend | None:
         for backend in self._model.backends:
             if backend.is_responsible_for(uri):
                 return backend
@@ -225,9 +225,9 @@ class LibraryController(ControllerBase):
 
         LOGGER.debug(f"Directory {directory.name!r} has {len(refs_dto)} references")
 
-        album_dtos: List[RefDTO] = []
-        subdir_dtos: List[RefDTO] = []
-        track_dtos: List[RefDTO] = []
+        album_dtos: list[RefDTO] = []
+        subdir_dtos: list[RefDTO] = []
+        track_dtos: list[RefDTO] = []
 
         for ref_dto in refs_dto:
             if backend is None:
@@ -259,23 +259,23 @@ class LibraryController(ControllerBase):
             step_count=len(album_dtos) + len(track_dtos),
         )
 
-        albums: List[AlbumModel] = []
+        albums: list[AlbumModel] = []
         if backend is not None and len(album_dtos) > 0:
             albums = await self._complete_albums(
                 album_dtos, directory_uri, backend, notifier=notifier
             )
 
-        subdirs: List[DirectoryModel] = []
+        subdirs: list[DirectoryModel] = []
         if len(subdir_dtos) > 0:
             subdirs = await self._complete_subdirs(subdir_dtos, directory_uri)
 
-        tracks: List[TrackModel] = []
+        tracks: list[TrackModel] = []
         if backend is not None and len(track_dtos) > 0:
             tracks = await self._complete_tracks(
                 track_dtos, directory_uri, backend, notifier=notifier
             )
 
-        playlists: List[PlaylistModel] = []
+        playlists: list[PlaylistModel] = []
 
         self._model.complete_directory(
             directory_uri,
@@ -292,8 +292,8 @@ class LibraryController(ControllerBase):
         directory_uri: str,
         backend: MopidyBackend,
         *,
-        notifier: Optional[ProgressNotifierProtocol],
-    ) -> List[AlbumModel]:
+        notifier: ProgressNotifierProtocol | None,
+    ) -> list[AlbumModel]:
         LOGGER.info(
             f"Completing {len(album_dtos)} albums "
             f"for directory with URI {directory_uri!r}"
@@ -310,7 +310,7 @@ class LibraryController(ControllerBase):
 
         length_acc = LengthAcc()
         metadata_collector = AlbumMetadataCollector()
-        parsed_tracks: Dict[str, List[TrackModel]] = {}
+        parsed_tracks: dict[str, list[TrackModel]] = {}
         if backend.props.preload_album_tracks:
             LOGGER.debug("Fetching albums tracks")
             directory_tracks_dto = await call_by_slice(
@@ -324,7 +324,7 @@ class LibraryController(ControllerBase):
                 directory_tracks_dto, visitors=[length_acc, metadata_collector]
             )
 
-        parsed_albums: List[AlbumModel] = []
+        parsed_albums: list[AlbumModel] = []
         for album_dto in album_dtos:
             album_uri = album_dto.uri
 
@@ -371,7 +371,7 @@ class LibraryController(ControllerBase):
 
     async def _complete_subdirs(
         self, subdir_dtos: Sequence[RefDTO], directory_uri: str
-    ) -> List[DirectoryModel]:
+    ) -> list[DirectoryModel]:
         LOGGER.info(
             f"Completing {len(subdir_dtos)} sub-directories of directory "
             f"with URI {directory_uri!r}"
@@ -386,7 +386,7 @@ class LibraryController(ControllerBase):
         if images is None:
             LOGGER.warning("Failed to fetch URIs of images")
 
-        subdirs: List[DirectoryModel] = []
+        subdirs: list[DirectoryModel] = []
         for subdir_dto in subdir_dtos:
             subdir_uri = subdir_dto.uri
 
@@ -417,8 +417,8 @@ class LibraryController(ControllerBase):
         directory_uri: str,
         backend: MopidyBackend,
         *,
-        notifier: Optional[ProgressNotifierProtocol],
-    ) -> List[TrackModel]:
+        notifier: ProgressNotifierProtocol | None,
+    ) -> list[TrackModel]:
         LOGGER.info(
             f"Completing {len(track_dtos)} tracks "
             f"for directory with URI {directory_uri!r}"
@@ -442,7 +442,7 @@ class LibraryController(ControllerBase):
             LOGGER.warning("Failed to fetch URIs of images")
 
         LOGGER.debug("Parsing tracks")
-        parsed_tracks: List[TrackModel] = []
+        parsed_tracks: list[TrackModel] = []
         for tracks in parse_tracks(directory_tracks_dto).values():
             for track in tracks:
                 track_uri = track.uri

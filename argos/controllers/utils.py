@@ -1,6 +1,6 @@
 import logging
 from collections import defaultdict
-from typing import Any, Callable, Coroutine, Dict, List, Mapping, Optional, Sequence
+from typing import Any, Callable, Coroutine, Mapping, Sequence
 
 from argos.controllers.progress import ProgressNotifierProtocol
 from argos.dto import TrackDTO
@@ -12,12 +12,12 @@ _CALL_SIZE = 20
 
 
 async def call_by_slice(
-    func: Callable[[List[str]], Coroutine[Any, Any, Optional[Dict[str, Any]]]],
+    func: Callable[[list[str]], Coroutine[Any, Any, dict[str, Any] | None]],
     *,
-    params: List[str],
-    call_size: Optional[int] = None,
-    notifier: Optional[ProgressNotifierProtocol] = None,
-) -> Dict[str, Any]:
+    params: list[str],
+    call_size: int | None = None,
+    notifier: ProgressNotifierProtocol | None = None,
+) -> dict[str, Any]:
     """Make multiple synchronous calls.
 
     The argument ``params`` is split in slices of bounded
@@ -38,7 +38,7 @@ async def call_by_slice(
     """
     call_size = call_size if call_size is not None and call_size > 0 else _CALL_SIZE
     call_count = len(params) // call_size + (0 if len(params) % call_size == 0 else 1)
-    result: Dict[str, Any] = {}
+    result: dict[str, Any] = {}
     step = 0
     for i in range(call_count):
         params_slice = params[i * call_size : (i + 1) * call_size]
@@ -55,8 +55,8 @@ async def call_by_slice(
 def parse_tracks(
     tracks_dto: Mapping[str, Sequence[TrackDTO]],
     *,
-    visitors: Optional[Sequence[Callable[[str, TrackDTO], None]]] = None,
-) -> Dict[str, List[TrackModel]]:
+    visitors: Sequence[Callable[[str, TrackDTO], None]] | None = None,
+) -> dict[str, list[TrackModel]]:
     """Parse a track list.
 
     Keys in ``track_dto`` can be album URIs or track URIs (when fetching
@@ -72,7 +72,7 @@ def parse_tracks(
         Dict of list of ``TrackModel``.
 
     """
-    parsed_tracks: Dict[str, List[TrackModel]] = defaultdict(list)
+    parsed_tracks: dict[str, list[TrackModel]] = defaultdict(list)
     for uri in tracks_dto:
         for track_dto in tracks_dto[uri]:
             if visitors is not None:

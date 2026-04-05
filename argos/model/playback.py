@@ -1,5 +1,4 @@
 from pathlib import Path
-from typing import Optional, Union
 
 from gi.repository import GObject
 
@@ -19,7 +18,7 @@ class PlaybackModel(WithThreadSafePropertySetter, GObject.Object):
     image_path = GObject.Property(type=str)
     image_uri = GObject.Property(type=str)
 
-    def set_state(self, value: Union[int, str]) -> None:
+    def set_state(self, value: int | str) -> None:
         state = (
             PlaybackState.from_string(value)
             if isinstance(value, str)
@@ -29,7 +28,7 @@ class PlaybackModel(WithThreadSafePropertySetter, GObject.Object):
         self.set_property_in_gtk_thread("state", state)
 
     def set_time_position(
-        self, value: int, *, block_handler: Optional[int] = None
+        self, value: int, *, block_handler: int | None = None
     ) -> None:
         self.set_property_in_gtk_thread(
             "time_position",
@@ -37,7 +36,7 @@ class PlaybackModel(WithThreadSafePropertySetter, GObject.Object):
             block_handler=block_handler,
         )
 
-    def set_current_tl_track_tlid(self, value: Optional[int] = None) -> None:
+    def set_current_tl_track_tlid(self, value: int | None = None) -> None:
         if value is None:
             value = -1
         self.set_property_in_gtk_thread("current_tl_track_tlid", value, force=True)
@@ -46,7 +45,7 @@ class PlaybackModel(WithThreadSafePropertySetter, GObject.Object):
         # may lost the current track list track identifier while
         # updating the tracklist.
 
-    def set_image_path(self, value: Union[str, Path, None]) -> None:
+    def set_image_path(self, value: str | Path | None) -> None:
         if isinstance(value, Path):
             path = str(value)
         elif value is None:
@@ -55,7 +54,7 @@ class PlaybackModel(WithThreadSafePropertySetter, GObject.Object):
             path = value
         self.set_property_in_gtk_thread("image_path", path)
 
-    def set_image_uri(self, value: Optional[str]) -> None:
+    def set_image_uri(self, value: str | None) -> None:
         if value is None:
             self.set_property_in_gtk_thread("image_uri", "")
         else:

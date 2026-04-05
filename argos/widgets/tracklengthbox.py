@@ -1,6 +1,5 @@
 import gettext
 import logging
-from typing import Optional
 
 from gi.repository import GLib, GObject, Gtk
 
@@ -33,7 +32,7 @@ class TrackLengthBox(Gtk.Box):
         self._app = application
         self._model = application.model
 
-        self._time_position_scale: Optional[Gtk.Scale] = None
+        self._time_position_scale: Gtk.Scale | None = None
         if self.props.with_scale:
             adjustment = Gtk.Adjustment(step_increment=1000, page_increment=10000)
             self._time_position_scale = Gtk.Scale(
@@ -58,7 +57,7 @@ class TrackLengthBox(Gtk.Box):
                 "notify::time-position", self._update_time_position_scale
             )
 
-        self._time_position_scale_jumped_source_id: Optional[int] = None
+        self._time_position_scale_jumped_source_id: int | None = None
 
         self.set_sensitive(self._model.server_reachable and self._model.connected)
 
@@ -91,7 +90,7 @@ class TrackLengthBox(Gtk.Box):
         else:
             self._update_track_length_label()
 
-    def _update_track_length_label(self, track_length: Optional[int] = None) -> None:
+    def _update_track_length_label(self, track_length: int | None = None) -> None:
         pretty_length = ms_to_text(track_length if track_length is not None else -1)
         self.track_length_label.set_text(pretty_length)
 
