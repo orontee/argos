@@ -133,7 +133,7 @@ Release
 
 First, prepare the release with::
 
-  $ poetry run ./scripts/prepare-release
+  $ poetry run ./scripts/release-version
 
 Review, complete or update the suggested changes carefully; Make sure
 translations and screenshots are up-to-date. Commit, tag and push with::
