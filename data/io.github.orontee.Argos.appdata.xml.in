@@ -35,6 +35,13 @@
   </screenshots>
 
   <releases>
+    <release version="1.17.0" date="2026-04-05">
+      <description>
+        <p>
+          Improved display of covers
+        </p>
+      </description>
+    </release>
     <release version="1.16.0" date="2025-05-01">
       <description>
         <p>
