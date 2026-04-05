@@ -17,6 +17,9 @@ Added
 Changed
 -------
 
+- Update Github actions  `#153
+  <https://github.com/orontee/argos/issues/153>`_
+
 - Welcome dialog is shown at most once `#196
   <https://github.com/orontee/argos/issues/196>`_
 
