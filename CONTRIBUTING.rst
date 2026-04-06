@@ -150,6 +150,9 @@ Make a pull request to the technical repository
 <https://github.com/flathub/io.github.orontee.Argos>`_ to publish the
 release through Flathub.
 
+Update the Git repository underlying the dedicated `AUR package
+<https://aur.archlinux.org/packages/argos>`_.
+
 Finally, run the following command to commit version bump for next
 release::
 
