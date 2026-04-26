@@ -229,7 +229,9 @@ class TrackDTO:
         for performer_data in data.get("performers", []):
             performer_dto = ArtistDTO.factory(performer_data)
             if performer_dto is None:
-                LOGGER.warning(f"Won't instantiate track DTO with invalid performer DTO")
+                LOGGER.warning(
+                    f"Won't instantiate track DTO with invalid performer DTO"
+                )
                 return None
 
             dto.performers.append(performer_dto)
