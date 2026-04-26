@@ -14,6 +14,9 @@ The format is based on `Keep a Changelog
 Added
 -----
 
+- Support for Mopidy 4.0  `#204
+  <https://github.com/orontee/argos/issues/204>`_
+
 Changed
 -------
 

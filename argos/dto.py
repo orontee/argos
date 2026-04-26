@@ -62,9 +62,14 @@ class RefDTO:
             type = RefType(data.get("type"))
         except ValueError:
             type = None
-        uri = data.get("uri")
 
-        if type is None or uri is None:
+        if type is None:
+            LOGGER.warning(f"Won't instantiate ref DTO without type")
+            return None
+
+        uri = data.get("uri")
+        if uri is None:
+            LOGGER.warning(f"Won't instantiate ref DTO without URI")
             return None
 
         name = data.get("name")
@@ -88,13 +93,8 @@ class ArtistDTO:
         if data is None:
             return None
 
-        uri = data.get("uri", "")
-        # it was observed that some podcasts don't have a URI for their artists
-        name = data.get("name", "")
-        # it was observed that somafm tracks may not have a name for their artists
-        if uri is None or name is None:
-            return None
-
+        uri = data.get("uri", "") or ""
+        name = data.get("name", "") or ""
         sortname = data.get("sortname", "")
         musicbrainz_id = data.get("musicbrainz_id", "")
 
@@ -122,12 +122,8 @@ class AlbumDTO:
         if data is None:
             return None
 
-        uri = data.get("uri", "")
-        # it was observed that some somafm tracks don't have a URI for their album
-        name = data.get("name")
-        if uri is None or name is None:
-            return None
-
+        uri = data.get("uri", "") or ""
+        name = data.get("name") or ""
         musicbrainz_id = data.get("musicbrainz_id", "")
         date = data.get("date", "")
         num_tracks = data.get("num_tracks")
@@ -145,6 +141,7 @@ class AlbumDTO:
         for artist_data in data.get("artists", []):
             artist_dto = ArtistDTO.factory(artist_data)
             if artist_dto is None:
+                LOGGER.warning(f"Won't instantiate album DTO with invalid artist DTO")
                 return None
 
             dto.artists.append(artist_dto)
@@ -182,11 +179,11 @@ class TrackDTO:
             return None
 
         uri = data.get("uri")
-        name = data.get("name", "")
-
-        if uri is None or name is None:
+        if uri is None:
+            LOGGER.warning(f"Won't instantiate track DTO without URI")
             return None
 
+        name = data.get("name", "") or ""
         album = AlbumDTO.factory(data.get("album"))
         genre = data.get("genre", "")
         date = data.get("date", "")
@@ -216,6 +213,7 @@ class TrackDTO:
         for artist_data in data.get("artists", []):
             artist_dto = ArtistDTO.factory(artist_data)
             if artist_dto is None:
+                LOGGER.warning(f"Won't instantiate track DTO with invalid artist DTO")
                 return None
 
             dto.artists.append(artist_dto)
@@ -223,6 +221,7 @@ class TrackDTO:
         for composer_data in data.get("composers", []):
             composer_dto = ArtistDTO.factory(composer_data)
             if composer_dto is None:
+                LOGGER.warning(f"Won't instantiate track DTO with invalid composer DTO")
                 return None
 
             dto.composers.append(composer_dto)
@@ -230,6 +229,7 @@ class TrackDTO:
         for performer_data in data.get("performers", []):
             performer_dto = ArtistDTO.factory(performer_data)
             if performer_dto is None:
+                LOGGER.warning(f"Won't instantiate track DTO with invalid performer DTO")
                 return None
 
             dto.performers.append(performer_dto)
@@ -256,15 +256,17 @@ class PlaylistDTO:
             return None
 
         uri = data.get("uri")
-        name = data.get("name")
-        if uri is None or name is None:
+        if uri is None:
+            LOGGER.warning(f"Won't instantiate playlist DTO without URI")
             return None
 
+        name = data.get("name", "") or ""
         last_modified = data.get("last_modified")
         dto = PlaylistDTO(uri, name, last_modified)
         for track_data in data.get("tracks", []):
             track_dto = TrackDTO.factory(track_data)
             if track_dto is None:
+                LOGGER.warning(f"Won't instantiate playlist DTO with invalid track")
                 return None
 
             dto.tracks.append(track_dto)
@@ -290,6 +292,7 @@ class ImageDTO:
 
         uri = data.get("uri")
         if uri is None:
+            LOGGER.warning(f"Won't instantiate image DTO without URI")
             return None
 
         width = data.get("width")
@@ -314,9 +317,13 @@ class TlTrackDTO:
             return None
 
         tlid = data.get("tlid")
-        track = TrackDTO.factory(data.get("track"))
+        if tlid is None:
+            LOGGER.warning(f"Won't instantiate tracklist track DTO without identifier")
+            return None
 
-        if tlid is None or track is None:
+        track = TrackDTO.factory(data.get("track"))
+        if track is None:
+            LOGGER.warning(f"Won't instantiate tracklist track DTO without track")
             return None
 
         return TlTrackDTO(tlid, track)
