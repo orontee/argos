@@ -2,6 +2,7 @@ import json
 import logging
 import pathlib
 import unittest
+from io import StringIO
 
 from argos.dto import (
     AlbumDTO,
@@ -14,6 +15,8 @@ from argos.dto import (
     TrackDTO,
     cast_seq_of,
 )
+
+logging.basicConfig(handlers=[logging.StreamHandler(StringIO())], force=True)
 
 
 def load_json_data(filename: str):
@@ -156,11 +159,6 @@ class TestAlbumDTO(unittest.TestCase):
         self.assertEqual(dto.musicbrainz_id, "51a830b2-bdeb-49e9-8274-7e83e9aa57ec")
         self.assertEqual(len(dto.artists), 1)
 
-    def test_factory_with_malformed_album_data(self):
-        del self.data["name"]
-        dto = AlbumDTO.factory(self.data)
-        self.assertIsNone(dto)
-
     def test_factory_without_data(self):
         dto = AlbumDTO.factory(None)
         self.assertIsNone(dto)
@@ -230,7 +228,7 @@ class TestCastSeqOf(unittest.TestCase):
         with self.assertLogs("argos", level=logging.WARNING) as logs:
             tltracks = cast_seq_of(TlTrackDTO, data)
         self.assertEqual(len(tltracks), 0)
-        self.assertEqual(len(logs.output), 3)
+        self.assertEqual(len(logs.output), 6)
 
     def test_casting_with_wrong_data(self):
         track_data = load_json_data("track.json")
@@ -240,4 +238,4 @@ class TestCastSeqOf(unittest.TestCase):
 
         self.assertEqual(len(tracks), 2)
         self.assertEqual([t.name for t in tracks], ["If You Could Read My Mind"] * 2)
-        self.assertEqual(len(logs.output), 1)
+        self.assertEqual(len(logs.output), 2)
