@@ -2,6 +2,8 @@ import datetime
 import gettext
 import logging
 
+import colorlog
+
 _ = gettext.gettext
 
 LOGGER = logging.getLogger(__name__)
@@ -30,8 +32,8 @@ def compute_target_size(
 def configure_logger(level: int = logging.INFO) -> None:
     """Configure logger."""
     ch = logging.StreamHandler()
-    formatter = logging.Formatter(
-        "{asctime} {threadName} {levelname}: {name} - {message}", style="{"
+    formatter = colorlog.ColoredFormatter(
+        "{log_color}{asctime} {levelname}: {threadName} {name} - {message}", style="{"
     )
     ch.setFormatter(formatter)
     ch.setLevel(level)

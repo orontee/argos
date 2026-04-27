@@ -14,6 +14,9 @@ The format is based on `Keep a Changelog
 Added
 -----
 
+- Color logs depending on level  `#206
+  <https://github.com/orontee/argos/issues/206>`_
+
 - Support for Mopidy 4.0  `#204
   <https://github.com/orontee/argos/issues/204>`_
 

@@ -205,4 +205,13 @@ modules:
       - type: file
         url: https://files.pythonhosted.org/packages/67/46/10db987799629d01930176ae523f70879b63577060d63e05ebf9214aba4b/zeroconf-0.148.0.tar.gz
         sha256: 03fcca123df3652e23d945112d683d2f605f313637611b7d4adf31056f681702
+  - name: colorlog
+    buildsystem: simple
+    build-commands:
+      - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
+        --prefix=${FLATPAK_DEST} "colorlog" --no-build-isolation
+    sources:
+      - type: file
+        url: https://files.pythonhosted.org/packages/6d/c1/e419ef3723a074172b68aaa89c9f3de486ed4c2399e2dbd8113a4fdcaf9e/colorlog-6.10.1-py3-none-any.whl
+        sha256: 2d7e8348291948af66122cff006c9f8da6255d224e7cf8e37d8de2df3bad8c9c
 name: pypi-dependencies
