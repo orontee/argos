@@ -8,20 +8,14 @@ The format is based on `Keep a Changelog
 <https://keepachangelog.com/en/1.0.0/>`_, and this project adheres to
 `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
-[Unreleased]
-============
-
-Added
------
+[1.18.1] - 2026-05-05
+=====================
 
 Changed
 -------
 
 - Fix runtime error with Python 3.14 after API change `#207
   <https://github.com/orontee/argos/issues/207>`_
-
-Removed
--------
 
 [1.18.0] - 2026-05-04
 =====================

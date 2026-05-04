@@ -106,7 +106,7 @@ Debian based distributions
 A DEB package can be downloaded from the `Releases page
 <https://github.com/orontee/argos/releases>`_::
 
-  $ VERSION=1.18.0
+  $ VERSION=1.18.1
   $ wget https://github.com/orontee/argos/releases/download/v${VERSION}/argos_${VERSION}-1_all.deb
   $ sudo apt install -yf argos_${VERSION}-1_all.deb
 

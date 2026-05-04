@@ -40,6 +40,13 @@
   </screenshots>
 
   <releases>
+    <release version="1.18.1" date="2026-05-05">
+      <description>
+        <p>
+          Fix runtime error with Python 3.14
+        </p>
+      </description>
+    </release>
     <release version="1.18.0" date="2026-05-04">
       <description>
         <p>
