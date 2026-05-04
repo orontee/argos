@@ -139,7 +139,7 @@ Review, complete or update the suggested changes carefully; Make sure
 translations and screenshots are up-to-date. Commit, tag and push with::
 
   $ git commit -a -m "Update to version $(poetry version --short)"
-  $ git tag $(poetry version --short)
+  $ git tag v$(poetry version --short)
   $ git push origin; git push --tags origin
 
 Use ``flatpak-builder`` to build locally and Github actions to build a
