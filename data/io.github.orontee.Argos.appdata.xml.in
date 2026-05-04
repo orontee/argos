@@ -40,6 +40,13 @@
   </screenshots>
 
   <releases>
+    <release version="1.18.0" date="2026-05-04">
+      <description>
+        <p>
+          Support for Mopidy 4.0
+        </p>
+      </description>
+    </release>
     <release version="1.17.0" date="2026-04-05">
       <description>
         <p>

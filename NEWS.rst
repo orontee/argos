@@ -8,8 +8,8 @@ The format is based on `Keep a Changelog
 <https://keepachangelog.com/en/1.0.0/>`_, and this project adheres to
 `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
-[Unreleased]
-============
+[1.18.0] - 2026-05-04
+=====================
 
 Added
 -----
@@ -20,17 +20,8 @@ Added
 - Support for Mopidy 4.0  `#204
   <https://github.com/orontee/argos/issues/204>`_
 
-Changed
--------
-
-Removed
--------
-
 [1.17.0] - 2026-04-05
 =====================
-
-Added
------
 
 Changed
 -------
@@ -50,9 +41,6 @@ Changed
 
 - Update of Flatpak runtime and dependencies `#194
   <https://github.com/orontee/argos/issues/194>`_
-
-Removed
--------
 
 [1.16.0] - 2025-05-01
 =====================
