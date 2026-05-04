@@ -98,7 +98,7 @@ Argos can be easily installed on Linux distributions supporting
 
 Visit `Argos page on Flathub
 <https://flathub.org/apps/details/io.github.orontee.Argos>`_ for
-detailed instructions.
+package details.
 
 Debian based distributions
 --------------------------
