@@ -11,6 +11,7 @@ RUN apt-get update -y && apt-get upgrade -y \
 # argos build dependencies
 RUN apt-get update -y && apt-get upgrade -y \
     && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
+        appstream-util \
         build-essential \
         cmake \
         debhelper \

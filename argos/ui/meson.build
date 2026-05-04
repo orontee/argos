@@ -1,7 +1,10 @@
 vcs_tag = ''
 git = find_program('git', required : false)
 if git.found()
-  vcs_tag = run_command('git', 'rev-parse', '--short', 'HEAD').stdout().strip()
+  vcs_tag = run_command(
+    'git', 'rev-parse', '--short', 'HEAD',
+    check : true
+  ).stdout().strip()
 endif
 if vcs_tag == ''
   vcs_tag = 'devel'
