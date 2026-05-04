@@ -13,7 +13,7 @@ fi
 GIT_BRANCH=$(git branch --show-current)
 if [ "${GIT_BRANCH}" == "main" ]; then
     SCOPE="preminor"
-elif [[ "${GIT_BRANCH}" =~ ^release/v[0-9]+\.[0-9]+\.x ]]; then
+elif [[ "${GIT_BRANCH}" =~ ^release/[0-9]+\.[0-9]+\.x ]]; then
     SCOPE="patch"
 else
     echo "Git branch should be main or a release branch"
