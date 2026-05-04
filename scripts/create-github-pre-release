@@ -4,9 +4,19 @@ cd "${MESON_SOURCE_ROOT}"
 
 VERSION=$(poetry version --short)
 
-BODY="See [News file](https://github.com/orontee/argos/blob/v${VERSION}/NEWS.rst) for release content.
+BODY="""See [NEWS file](https://github.com/orontee/argos/blob/v${VERSION}/NEWS.rst) for release content.
 
-Install from [Argos page on Flathub](https://flathub.org/apps/details/io.github.orontee.Argos) or the attached DEB package."
+## Installation
+
+Depending on the host OS:
+
+* Install through Flatpak from [Argos page on Flathub](https://flathub.org/en/apps/io.github.orontee.Argos)
+* On Debian distributions, download & install the DEB package attached to this release
+* On Arch Linux distributions, build from source using [the dedicated AUR package](https://aur.archlinux.org/packages/argos)
+* On Windows, use WSL and above methods depending on the distribution
+
+Detailed instructions are available in [README file](https://github.com/orontee/argos/tree/main/README.rst#install).
+"""
 
 TITLE="Release ${VERSION}"
 
