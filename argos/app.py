@@ -64,7 +64,7 @@ class Application(Gtk.Application):
         )
         random.seed()
 
-        self._loop = asyncio.get_event_loop()
+        self._loop = asyncio.new_event_loop()
         self._message_queue: asyncio.Queue = asyncio.Queue()
         self._tasks: list[asyncio.Task] = []
 

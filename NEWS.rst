@@ -17,6 +17,9 @@ Added
 Changed
 -------
 
+- Fix runtime error with Python 3.14 after API change `#207
+  <https://github.com/orontee/argos/issues/207>`_
+
 Removed
 -------
 
