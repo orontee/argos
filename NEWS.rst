@@ -17,6 +17,10 @@ Added
 Changed
 -------
 
+- Fix unsafe use of markup language in labels of information page `#205
+  <https://github.com/orontee/argos/issues/205>`_
+
+
 - Fix runtime error with Python 3.14 after API change `#207
   <https://github.com/orontee/argos/issues/207>`_
 

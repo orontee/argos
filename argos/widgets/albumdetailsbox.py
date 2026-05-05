@@ -295,12 +295,16 @@ class AlbumDetailsBox(Gtk.Box):
 
     def _update_information_box(self, album: AlbumModel | None) -> None:
         if album is not None:
-            album_information_title = _INFO_TITLE_WITH_MARKUP.format(title=album.name)
+            safe_album_name = GLib.markup_escape_text(album.name)
+            album_information_title = _INFO_TITLE_WITH_MARKUP.format(
+                title=safe_album_name
+            )
             self.album_information_title_label.set_markup(album_information_title)
             self.album_information_title_label.set_tooltip_text(album.name)
 
+            safe_album_artist_name = GLib.markup_escape_text(album.artist_name)
             album_information_subtitle = _INFO_SUBTITLE_WITH_MARKUP.format(
-                subtitle=album.artist_name
+                subtitle=safe_album_artist_name
             )
             self.album_information_subtitle_label.set_markup(album_information_subtitle)
             self.album_information_subtitle_label.set_tooltip_text(album.artist_name)
