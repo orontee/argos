@@ -40,6 +40,13 @@
   </screenshots>
 
   <releases>
+    <release version="1.19.1" date="2026-06-21">
+      <description>
+        <p>
+          Very light bug fix release!
+        </p>
+      </description>
+    </release>
     <release version="1.19.0" date="2026-06-21">
       <description>
         <p>

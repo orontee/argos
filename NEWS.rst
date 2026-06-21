@@ -8,20 +8,14 @@ The format is based on `Keep a Changelog
 <https://keepachangelog.com/en/1.0.0/>`_, and this project adheres to
 `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
-[Unreleased]
-============
-
-Added
------
+[1.19.1] - 2026-06-21
+=====================
 
 Changed
 -------
 
 - Fix metadata validation and check validity in CI workflow `#209
   <https://github.com/orontee/argos/issues/209>`_
-
-Removed
--------
 
 [1.19.0] - 2026-06-21
 =====================
