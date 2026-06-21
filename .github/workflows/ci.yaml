@@ -19,9 +19,13 @@ jobs:
           sudo apt-get update -
           sudo apt-get install --no-install-recommends -y \
                    appstream \
+                   appstream-util \
+                   desktop-file-utils \
+                   gettext \
                    libcairo2-dev \
                    libglib2.0-dev \
-                   libgirepository1.0-dev
+                   libgirepository1.0-dev \
+                   ninja-build
 
       - name: Install Poetry
         uses: snok/install-poetry@v1
@@ -52,4 +56,5 @@ jobs:
 
       - name: Validate meta information
         run: |
-          appstreamcli validate --explain data/io.github.orontee.Argos.appdata.xml.in
+          poetry run meson setup --wipe builddir
+          poetry run meson test --verbose -C builddir
