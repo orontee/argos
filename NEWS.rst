@@ -17,6 +17,9 @@ Added
 Changed
 -------
 
+- Fix metadata validation and check validity in CI workflow `#209
+  <https://github.com/orontee/argos/issues/209>`_
+
 Removed
 -------
 
