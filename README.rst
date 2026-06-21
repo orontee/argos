@@ -103,20 +103,7 @@ package details.
 Debian based distributions
 --------------------------
 
-A DEB package can be downloaded from the `Releases page
-<https://github.com/orontee/argos/releases>`_::
-
-  $ VERSION=1.18.0
-  $ wget https://github.com/orontee/argos/releases/download/v${VERSION}/argos_${VERSION}-1_all.deb
-  $ sudo apt install -yf argos_${VERSION}-1_all.deb
-
-It is recommended to install the library `aiohttp-client-cache
-<https://aiohttp-client-cache.readthedocs.io/en/latest/index.html>`_
-to use a persistent HTTP cache (note that this library isn't available
-as DEB package at present time)::
-
-  $ sudo apt install sqlite3
-  $ python3 -m pip install aiosqlite aiohttp-client-cache
+🚧 A DEB package will be available from the distribution.
 
 Arch Linux based distributions
 ------------------------------

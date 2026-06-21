@@ -11,7 +11,7 @@ BODY="""See [NEWS file](https://github.com/orontee/argos/blob/v${VERSION}/NEWS.r
 Depending on the host OS:
 
 * Install through Flatpak from [Argos page on Flathub](https://flathub.org/en/apps/io.github.orontee.Argos)
-* On Debian distributions, download & install the DEB package attached to this release
+* On Debian distributions, use the official package repositories (🚧)
 * On Arch Linux distributions, build from source using [the dedicated AUR package](https://aur.archlinux.org/packages/argos)
 * On Windows, use WSL and above methods depending on the distribution
 

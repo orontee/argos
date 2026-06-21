@@ -41,66 +41,28 @@ One can run a shell in sandbox and call the application through
 It's also worth reading `GTK documentation on interactive debugging
 <https://docs.gtk.org/gtk3/running.html#interactive-debugging>`_.
 
-Build DEB package
-=================
-
-A DEB package *for current HEAD* can be build using a Docker image::
-
-  $ VERSION=$(poetry version --short)
-  $ mkdir -p builddir; rm -rf builddir/argos-${VERSION}
-  $ git archive --prefix=builddir/argos-${VERSION}/ \
-                --format=tar.gz HEAD | tar xzf -
-  $ buildah bud -t argos-build .
-  $ podman run --rm \
-               -v ${PWD}:/src \
-               -e VERSION=${VERSION} \
-               argos-build \
-               bash -c "cd /src/builddir/argos-${VERSION} && debuild -b -tc -us -uc"
-
-The package is created in the `builddir/` directory.
-
-*For a given version*, identified through a Git tag, one can use the
-same Docker image and container call but on the right archive; For
-example, for the most recent tagged version::
-
-  $ VERSION=$(git tag -l --sort=-creatordate | head -n 1 | cut -c 2-)
-  $ mkdir -p builddir; rm -rf builddir/argos-${VERSION}
-  $ git archive --prefix=builddir/argos-${VERSION}/ \
-                --format=tar.gz v${VERSION} | tar xzf -
-  $ podman run --rm \
-               -v ${PWD}:/src \
-               -e VERSION=${VERSION} \
-               argos-build \
-               bash -c "cd /src/builddir/argos-${VERSION} && debuild -b -tc -us -uc"
-
-Install the required dependencies listed in the `Containerfile
-</Containerfile>`_ to build without using containers.
-
 Dependencies
 ============
 
 Python runtime dependencies can be added using ``poetry add``. Once
-the code is ready, one must update two files used respectively for
-Flatpak and DEB packaging.
+the code is ready, one must update the file used respectively
+Flatpak packaging.
 
-* Flatpak builder install runtime dependencies described in the file
-  `pypi-dependencies.yaml </pypi-dependencies.yaml>`_.
+Flatpak builder install runtime dependencies described in the file
+`pypi-dependencies.yaml </pypi-dependencies.yaml>`_.
 
-  It can be updated from poetry lock file in two steps using
-  `flatpak-builder-tools
-  <https://github.com/flatpak/flatpak-builder-tools>`_::
+It can be updated from poetry lock file in two steps using
+`flatpak-builder-tools
+<https://github.com/flatpak/flatpak-builder-tools>`_::
 
-    $ poetry run pip freeze > requirements.txt
-    $ flatpak-pip-generator --runtime=org.gnome.Sdk//49 \
-                            --requirements-file=requirements.txt \
-                            --yaml --output=pypi-dependencies
+  $ poetry run pip freeze > requirements.txt
+  $ flatpak-pip-generator --runtime=org.gnome.Sdk//49 \
+                          --requirements-file=requirements.txt \
+                          --yaml --output=pypi-dependencies
 
-  Note that one may have to reorder dependencies and switch to
-  different sources depending on what is available in the runtime to
-  build packages.
-
-* DEB packages define runtime dependencies from the `debian/control
-  </debian/control>`_ file.
+Note that one may have to reorder dependencies and switch to
+different sources depending on what is available in the runtime to
+build packages.
 
 Build dependencies are listed in the `Containerfile </Containerfile>`_.
 
@@ -142,8 +104,7 @@ translations and screenshots are up-to-date. Commit, tag and push with::
   $ git tag $(poetry version --short)
   $ git push origin; git push --tags origin
 
-Use ``flatpak-builder`` to build locally and Github actions to build a
-DEB package.
+Use ``flatpak-builder`` to build locally.
 
 Make a pull request to the technical repository
 `flathub/io.github.orontee.Argos

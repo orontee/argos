@@ -23,6 +23,9 @@ Changed
 Removed
 -------
 
+- Removed DEB packaging `#208
+  <https://github.com/orontee/argos/issues/208>`_
+
 [1.18.0] - 2026-05-04
 =====================
 

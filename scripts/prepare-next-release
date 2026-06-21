@@ -46,15 +46,6 @@ update_news_file() {
     git add ${file_path}
 }
 
-update_debian_changelog() {
-    local file_path="debian/changelog"
-
-    echo "Updating ${file_path}..."
-    echo "$(echo "${CHANGELOG}"; cat ${file_path})" > ${file_path}
-
-    git add ${file_path}
-}
-
 update_meson_conf() {
     local file_path="meson.build"
 
@@ -65,7 +56,6 @@ update_meson_conf() {
 }
 
 update_news_file
-update_debian_changelog
 update_meson_conf
 
 git commit -m "Prepare for next release"

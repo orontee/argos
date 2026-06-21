@@ -55,14 +55,6 @@ update_appdata_file() {
     sed -i "s/<releases>/${APPDATA_RELEASE}/" ${file_path}
 }
 
-update_debian_changelog() {
-    local file_path="debian/changelog"
-
-    echo "Updating ${file_path}..."
-    sed -i "s/${CURRENT_VERSION}/${NEW_VERSION}/" ${file_path}
-    sed -i "s/${NEW_VERSION}) UNRELEASED/${NEW_VERSION}) RELEASED/" ${file_path}
-}
-
 update_meson_conf() {
     local file_path="meson.build"
 
@@ -74,7 +66,6 @@ update_readme_file
 update_meson_conf
 update_news_file
 update_appdata_file
-update_debian_changelog
 
 echo
 echo "⚠️ $(tput bold)Remaining tasks:$(tput sgr0)"

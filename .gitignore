@@ -15,7 +15,6 @@ data/gschemas.compiled
 /.flatpak-builder/
 po/io.github.orontee.Argos.pot
 /argos_*.orig.tar.gz
-/argos_*.deb
 repo/
 /.python-version
 /requirements.txt
