@@ -21,7 +21,7 @@
 
   <launchable type="desktop-id">io.github.orontee.Argos.desktop</launchable>
   <screenshots>
-    <screenshot type="default" xml:lang="fr">
+    <screenshot type="default">
       <image type="source">https://github.com/orontee/argos/raw/main/docs/screenshot.png</image>
       <caption>Tracklist view</caption>
     </screenshot>
