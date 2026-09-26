@@ -12,6 +12,7 @@ dependency('gobject-introspection-1.0', version: '>= 1.35.0')
 
 subdir('data')
 subdir('argos')
+subdir('docs')
 subdir('po')
 subdir('tests')
 
