@@ -15,16 +15,17 @@ Argos
     :alt: Translations: Weblate
 
 .. image:: https://github.com/orontee/argos/actions/workflows/build.yaml/badge.svg
-    :target: https://github.com/orontee/argos/actions/workflows/build.yaml
+    :target: https://github.com/orontee/argos/actions/workflows/ci.yaml
     :alt: CI build status
 
-.. image:: https://img.shields.io/badge/License-GPL--3.0-purple.svg
+.. image:: https://img.shields.io/badge/License-GPL--3.0_or_later-purple.svg
     :target: https://github.com/orontee/argos/blob/main/LICENSE
-    :alt: License: GPL 3.0
+    :alt: License: GPL 3.0 or later
 
 .. image:: https://img.shields.io/badge/Store-Flathub-red.svg
     :target: https://flathub.org/fr/apps/io.github.orontee.Argos
     :alt: Store: Flathub
+
 
 `Mopidy <https://mopidy.com/>`_ music client.
 
