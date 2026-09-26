@@ -17,6 +17,9 @@ Added
 Changed
 -------
 
+- Clarification of SVG license `#210
+  <https://github.com/orontee/argos/issues/210>`_
+
 Removed
 -------
 
