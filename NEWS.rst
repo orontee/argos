@@ -8,20 +8,14 @@ The format is based on `Keep a Changelog
 <https://keepachangelog.com/en/1.0.0/>`_, and this project adheres to
 `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
-[Unreleased]
-============
+[1.19.2] - 2026-09-26
+=====================
 
 Added
 -----
 
-Changed
--------
-
 - Clarification of SVG license `#210
   <https://github.com/orontee/argos/issues/210>`_
-
-Removed
--------
 
 [1.19.1] - 2026-06-21
 =====================
