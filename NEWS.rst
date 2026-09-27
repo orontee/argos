@@ -14,6 +14,8 @@ The format is based on `Keep a Changelog
 Added
 -----
 
+- Man page `#212 <https://github.com/orontee/argos/issues/212>`_
+
 Changed
 -------
 
