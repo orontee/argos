@@ -13,6 +13,7 @@ dependency('gobject-introspection-1.0', version: '>= 1.35.0')
 subdir('data')
 subdir('argos')
 subdir('po')
+subdir('tests')
 
 meson.add_install_script('build-aux/meson/postinstall.py')
 

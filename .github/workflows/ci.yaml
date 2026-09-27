@@ -11,12 +11,13 @@ jobs:
       - uses: actions/checkout@v6
 
       - uses: actions/setup-python@v6
+        id: setup-python
         with:
           python-version: '3.13'
 
       - name: Install dependencies
         run: |
-          sudo apt-get update -
+          sudo apt-get update
           sudo apt-get install --no-install-recommends -y \
                    appstream \
                    appstream-util \
@@ -52,9 +53,13 @@ jobs:
 
       - name: Run automatic tests
         run: |
-          poetry run python -m unittest discover tests/
-
-      - name: Validate meta information
-        run: |
           poetry run meson setup --wipe builddir
           poetry run meson test --verbose -C builddir
+
+      - name: Upload test log
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: meson-testlog
+          path: builddir/meson-logs/testlog.txt
+          if-no-files-found: warn

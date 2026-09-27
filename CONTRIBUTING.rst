@@ -73,11 +73,13 @@ possible dependencies updates run ``poetry show --latest
 Tests
 =====
 
-Tests are implemented using the ``unittest`` framework from the
-standard library. Thus to run all tests one can execute the following
-command::
+Run checks for metadata validity and unit tests through::
 
-  $ poetry run python -m unittest discover tests/
+  $ poetry run meson setup builddir
+  $ poetry run meson test --verbose -C builddir
+
+Unit tests are implemented using the ``unittest`` framework from the
+standard library.
 
 For coverage reporting::
 
@@ -90,10 +92,6 @@ To run tests with a specific version of Python, say 3.11::
   $ podman run --rm --env PYTHON_VERSION=3.11 -v ${PWD}:/opt/argos argos-dev \
            bash -c 'pushd /opt/argos/ && eval "$(pyenv init -)" && pyenv install -v ${PYTHON_VERSION} && export PYENV_VERSION=${PYTHON_VERSION} && poetry env use ${PYENV_VERSION} && poetry install --no-interaction --with=dev && poetry run python3 -m unittest discover tests/'
 
-Checks for metadata validity are also provided through::
-
-  $ poetry run meson setup builddir
-  $ poetry run meson test --verbose -C builddir
 
 Release
 =======
