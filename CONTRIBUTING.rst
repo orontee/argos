@@ -24,8 +24,10 @@ Setup the ``builddir`` build directory::
 
 Then run the application with::
 
-  PYTHONPATH="${PWD}/install/share/argos:${PYTHONPATH}" \
-      poetry run install/bin/argos
+  $ poetry run meson compile -c builddir
+  $ poetry run meson install -c builddir
+  $ PYTHONPATH="${PWD}/install/share/argos:${PYTHONPATH}" \
+       poetry run install/bin/argos
 
 
 Using Flatpak
@@ -160,10 +162,16 @@ To validate, export, etc. files using `Structurizr DSL
 `Structurizr CLI <https://github.com/structurizr/cli/>`_. For example,
 to export to SVG format (with Graphviz installed)::
 
-  pushd docs
-  podman pull --quiet structurizr/cli:latest
-  podman run -it --rm -v $PWD:/usr/local/structurizr structurizr/cli export -workspace workspace.dsl -format dot
-  for DOT_FILE in *.dot; do dot -Tsvg ${DOT_FILE} -o $(basename ${DOT_FILE} .dot | cut -d'-' -f2-).svg; done
+  $ pushd docs
+  $ podman pull --quiet structurizr/cli:latest
+  $ podman run -it --rm -v $PWD:/usr/local/structurizr \
+               structurizr/cli \
+               export -workspace workspace.dsl -format dot
+  $ for DOT_FILE in *.dot; do \
+      dot -Tsvg ${DOT_FILE} -o \
+          $(basename ${DOT_FILE} .dot \
+          | cut -d'-' -f2-).svg; \
+    done
 
 Screenshots
 ===========
