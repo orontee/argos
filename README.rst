@@ -27,7 +27,7 @@ Argos
     :alt: Store: Flathub
 
 
-`Mopidy <https://mopidy.com/>`_ music client.
+Client for the `Mopidy <https://mopidy.com/>`_ music server.
 
 Argos aims to be compatible with both desktop computers running the
 `Gnome <https://gnome.org>`_ environment and single-board devices with

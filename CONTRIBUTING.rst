@@ -12,14 +12,33 @@ dedicated virtual Python environment using ``poetry``::
 Pre-commit hooks run ``mypy`` check and make sure code is properly
 formatted (using ``black`` and ``isort``).
 
-Build and run from sources (using Flatpak)
-==========================================
+Build and run from sources
+==========================
 
-Clone the source repository, then build and install for current user
-(You may have to install the expected runtime, but Flatpak will warn
-you about that)::
+The `Meson Build System <https://mesonbuild.com>`_ is configured to
+build, install, manage translations, and run tests.
+
+Setup the ``builddir`` build directory::
+
+  $ poetry run meson setup --wipe --prefix="${PWD}/install" builddir
+
+Then run the application with::
+
+  $ poetry run meson compile -c builddir
+  $ poetry run meson install -c builddir
+  $ PYTHONPATH="${PWD}/install/share/argos:${PYTHONPATH}" \
+       poetry run install/bin/argos
+
+
+Using Flatpak
+~~~~~~~~~~~~~
+
+Build and install for current user with::
 
   $ flatpak-builder --user --install --force-clean builddir io.github.orontee.Argos.json
+
+You may have to install the expected runtime, but Flatpak will warn
+you about that.
 
 Then to start the application use your desktop environment launcher,
 or from a shell run::
@@ -29,11 +48,8 @@ or from a shell run::
 Note that the Python interpreter of the Flatpak environment is CPython
 3.10.
 
-Debugging
----------
-
-One can run a shell in sandbox and call the application through
-``pdb``::
+To debug when using Flatpak, one can run a shell in sandbox and call
+the application through ``pdb``::
 
   $ flatpak run --devel --command=sh io.github.orontee.Argos
   [📦 io.github.orontee.Argos ~]$ G_MESSAGES_DEBUG=all python3 -m pdb /app/bin/argos --debug
@@ -73,11 +89,13 @@ possible dependencies updates run ``poetry show --latest
 Tests
 =====
 
-Tests are implemented using the ``unittest`` framework from the
-standard library. Thus to run all tests one can execute the following
-command::
+Run checks for metadata validity and unit tests through::
 
-  $ poetry run python -m unittest discover tests/
+  $ poetry run meson setup --wipe builddir
+  $ poetry run meson test --verbose -C builddir
+
+Unit tests are implemented using the ``unittest`` framework from the
+standard library.
 
 For coverage reporting::
 
@@ -88,7 +106,15 @@ To run tests with a specific version of Python, say 3.11::
 
   $ buildah bud -t argos-dev --target dev .
   $ podman run --rm --env PYTHON_VERSION=3.11 -v ${PWD}:/opt/argos argos-dev \
-           bash -c 'pushd /opt/argos/ && eval "$(pyenv init -)" && pyenv install -v ${PYTHON_VERSION} && export PYENV_VERSION=${PYTHON_VERSION} && poetry env use ${PYENV_VERSION} && poetry install --no-interaction --with=dev && poetry run python3 -m unittest discover tests/'
+       bash -c 'pushd /opt/argos/ &&
+                eval "$(pyenv init -)" &&
+                pyenv install -v ${PYTHON_VERSION} &&
+                export PYENV_VERSION=${PYTHON_VERSION} &&
+                poetry env use ${PYENV_VERSION} &&
+                poetry install --no-interaction --with=dev &&
+                poetry run meson setup builddir --wipe &&
+                poetry run meson test --verbose -C builddir'
+
 
 Checks for metadata validity are also provided through::
 
@@ -134,17 +160,23 @@ Part of the architecture is documented using `Structurizr DSL
 More details here: `Architecture </docs/architecture.rst>`_.
 
 Updating architecture diagrams
-------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To validate, export, etc. files using `Structurizr DSL
 <https://github.com/structurizr/dsl/>`_, one must uses the
 `Structurizr CLI <https://github.com/structurizr/cli/>`_. For example,
 to export to SVG format (with Graphviz installed)::
 
-  pushd docs
-  podman pull --quiet structurizr/cli:latest
-  podman run -it --rm -v $PWD:/usr/local/structurizr structurizr/cli export -workspace workspace.dsl -format dot
-  for DOT_FILE in *.dot; do dot -Tsvg ${DOT_FILE} -o $(basename ${DOT_FILE} .dot | cut -d'-' -f2-).svg; done
+  $ pushd docs
+  $ podman pull --quiet structurizr/cli:latest
+  $ podman run -it --rm -v $PWD:/usr/local/structurizr \
+               structurizr/cli \
+               export -workspace workspace.dsl -format dot
+  $ for DOT_FILE in *.dot; do \
+      dot -Tsvg ${DOT_FILE} -o \
+          $(basename ${DOT_FILE} .dot \
+          | cut -d'-' -f2-).svg; \
+    done
 
 Screenshots
 ===========

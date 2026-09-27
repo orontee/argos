@@ -21,6 +21,7 @@ RUN apt-get update -y && apt-get upgrade -y \
         lintian \
         meson \
         pkg-config \
+        python3-docutils \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 

@@ -12,6 +12,7 @@ data/gschemas.compiled
 /argos/ui/about.ui
 /README.html
 /builddir/
+/install/
 /.flatpak-builder/
 po/io.github.orontee.Argos.pot
 /argos_*.orig.tar.gz
