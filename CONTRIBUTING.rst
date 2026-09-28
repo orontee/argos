@@ -181,6 +181,17 @@ to export to SVG format (with Graphviz installed)::
 Screenshots
 ===========
 
+Since Argos is distributed through Debian, its content must respect
+the `Debian Social Contract
+<https://www.debian.org/social_contract>`_, screenshots included: Make
+sure that the album art visible in screenshots is under `CC BY-SA
+<https://creativecommons.org/licenses/by-sa/4.0/>`_.
+
+To this end, a fake music library is provided under
+``/tests/data/fake-music-library``; All image files in that library are
+under `CC BY-SA
+<https://creativecommons.org/licenses/by-sa/4.0/>`_.
+
 Since Argos is distributed through Flathub some restrictions apply to
 screenshots (size, ratio, padding, etc.). The build will check those
 restrictions for the URLs in the screenshots section of the `AppStream
@@ -195,5 +206,5 @@ To remove horizontal padding and resize to 900px width with
   mkdir docs/cleaned_image
   pushd docs/cleaned_image
   for IMG_FILE in ../*.png; do
-    convert ${IMG_FILE} -fuzz 1% -trim +repage -resize 900\> $(basename ${IMG_FILE});
+    convert ${IMG_FILE} -trim +repage -resize 900\> $(basename ${IMG_FILE});
   done

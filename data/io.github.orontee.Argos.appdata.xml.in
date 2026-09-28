@@ -30,10 +30,6 @@
       <caption>Library view</caption>
     </screenshot>
     <screenshot xml:lang="fr">
-      <image type="source">https://github.com/orontee/argos/raw/main/docs/screenshot-playlists-view.png</image>
-      <caption>Playlists view</caption>
-    </screenshot>
-    <screenshot xml:lang="fr">
       <image type="source">https://github.com/orontee/argos/raw/main/docs/screenshot-album-details-view.png</image>
       <caption>Album details view</caption>
     </screenshot>
