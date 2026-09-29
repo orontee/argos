@@ -14,7 +14,7 @@ Argos
     :target: https://hosted.weblate.org/engage/argos/
     :alt: Translations: Weblate
 
-.. image:: https://github.com/orontee/argos/actions/workflows/build.yaml/badge.svg
+.. image:: https://github.com/orontee/argos/actions/workflows/ci.yaml/badge.svg
     :target: https://github.com/orontee/argos/actions/workflows/ci.yaml
     :alt: CI build status
 
@@ -46,13 +46,6 @@ a small touchscreen.
    :width: 750
 
    Library view
-
-.. figure:: docs/screenshot-playlists-view.png
-   :alt: Playlists view screenshot
-   :align: center
-   :width: 600
-
-   Playlists view
 
 .. figure:: docs/screenshot-small-screen.png
    :alt: Library view on small screen
