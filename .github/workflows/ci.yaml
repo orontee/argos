@@ -20,7 +20,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y \
                    appstream \
-                   appstream-util \
+                   appstream \
                    desktop-file-utils \
                    gettext \
                    libcairo2-dev \
