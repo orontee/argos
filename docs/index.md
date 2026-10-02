@@ -1,4 +1,4 @@
-Argos aims to be a [Mopidy](https://mopidy.com/) music client
+Argos aims to is a [Mopidy](https://mopidy.com/) music client
 compatible with both desktop computers running the
 [Gnome](https://gnome.org) environment and single-board devices with a
 small touchscreen.
@@ -13,4 +13,4 @@ repository](https://github.com/orontee/argos#install).
 A [Discourse forum](https://discourse.mopidy.com) is dedicated to
 Mopidy and its related projects. It's the right place to ask for help.
 
-To report a bug or makea a feature request, one must use the [issue tracker](https://github.com/orontee/argos/issues/new).
+To report a bug or make a feature request, one must use the [issue tracker](https://github.com/orontee/argos/issues/new).

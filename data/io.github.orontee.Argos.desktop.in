@@ -7,3 +7,4 @@ Terminal=false
 Type=Application
 Categories=GTK;Player;Audio;AudioVideo
 StartupNotify=true
+Keywords=music;player;mopidy;audio;streaming;
