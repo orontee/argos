@@ -159,25 +159,19 @@ First, prepare the release with:
    $ poetry run ./scripts/release-version
 
 Review, complete or update the suggested changes carefully; Make sure
-translations and screenshots are up-to-date. Commit, tag and push with:
+translations and screenshots are up-to-date. Commit, tag, push and
+create a pre-release with:
 
 .. code-block:: bash
 
    $ VERSION=$(poetry version --short)
    $ git commit -a -m "Update to version ${VERSION}"
-   $ git tag "${VERSION}"
+   $ git tag --sign "v${VERSION}"
    $ git push origin; git push --tags origin
+   $ rm -rf builddir
+   $ meson setup builddir
+   $ meson -C builddir create-github-pre-release
 
-Once the source archive is made available by the CI, download and
-create a detach signature:
-
-.. code-block:: bash
-
-   $ wget "https://github.com/orontee/argos/archive/refs/tags/${VERSION}.tar.gz"
-   $ gpg --local-user 2B015132E15E01BA \
-         --detach-sign --armor "${VERSION}.tar.gz"
-
-Then upload the generated ``.asc`` file to the Github release.
 
 Make a pull request to the technical repository
 `flathub/io.github.orontee.Argos
