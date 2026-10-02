@@ -16,13 +16,22 @@ gnome.compile_resources('argos',
 
 python = import('python')
 
+libdir = join_paths(get_option('prefix'), get_option('libdir'))
+
+if run_command('printenv', 'FLATPAK_ID', check: false).stdout().strip() != ''
+  message('Building Flatpak')
+  libdir_maybe = libdir
+else
+  libdir_maybe = ''
+endif
+
 conf = configuration_data()
 conf.set('PYTHON', python.find_installation('python3').full_path())
 conf.set('VERSION', meson.project_version())
 conf.set('application_id', 'io.github.orontee.Argos')
 conf.set('localedir', join_paths(get_option('prefix'), get_option('localedir')))
 conf.set('pkgdatadir', pkgdatadir)
-conf.set('libdir', libdir)
+conf.set('libdir_maybe', libdir_maybe)
 
 configure_file(
   input: 'argos.in',

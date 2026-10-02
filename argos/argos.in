@@ -13,7 +13,6 @@ VERSION = "@VERSION@"
 application_id = "@application_id@"
 pkgdatadir = "@pkgdatadir@"
 localedir = "@localedir@"
-libdir = "@libdir@"
 
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 
@@ -31,13 +30,14 @@ def _init_libraries():
 
     from gi.repository import GdkPixbuf, Gio
 
-    gdk_pixbuf_moduledir = Path(libdir) / "gdk-pixbuf" / "2.10.0"
-    if gdk_pixbuf_moduledir.exists():
-        GdkPixbuf.Pixbuf.init_modules(str(gdk_pixbuf_moduledir))
-        # When the application is packaged using Flatpak, initialize
-        # support for specific loaders from custom location. Needed for
-        # example for the WebP image format, sinc it isn't natively
-        # supported by gdk-pixbuf
+    def load_modules_from_custom_path(libdir: str):
+        if len(libdir) == 0:
+            return
+        gdk_pixbuf_moduledir = Path(libdir) / "gdk-pixbuf" / "2.10.0"
+        if gdk_pixbuf_moduledir.exists():
+            GdkPixbuf.Pixbuf.init_modules(str(gdk_pixbuf_moduledir))
+
+    load_modules_from_custom_path("@libdir_maybe@")
 
     sys.path.insert(1, pkgdatadir)
     resource = Gio.Resource.load(os.path.join(pkgdatadir, "argos.gresource"))
