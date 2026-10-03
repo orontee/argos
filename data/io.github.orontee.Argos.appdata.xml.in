@@ -36,6 +36,13 @@
   </screenshots>
 
   <releases>
+    <release version="1.19.5" date="2026-10-03">
+      <description>
+        <p>
+          New candidate for Debian packaging
+        </p>
+      </description>
+    </release>
     <release version="1.19.4" date="2026-10-02">
       <description>
         <p>

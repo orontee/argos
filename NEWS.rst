@@ -8,17 +8,14 @@ The format is based on `Keep a Changelog
 <https://keepachangelog.com/en/1.0.0/>`_, and this project adheres to
 `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
-[Unreleased]
-============
-
-Added
------
+[1.19.5] - 2026-10-03
+=====================
 
 Changed
 -------
 
-Removed
--------
+- New minor fixes related to Debian packaging `#208
+  <https://github.com/orontee/argos/issues/208>`_
 
 [1.19.4] - 2026-10-02
 =====================
@@ -29,7 +26,8 @@ Changed
 - Minor fixes related to Debian packaging `#213
   <https://github.com/orontee/argos/issues/213>`_, `#214
   <https://github.com/orontee/argos/issues/214>`_, `#215
-  <https://github.com/orontee/argos/issues/215>`_, `#218
+  <https://github.com/orontee/argos/issues/215>`_, `#216
+  <https://github.com/orontee/argos/issues/216>`_, `#218
   <https://github.com/orontee/argos/issues/218>`_, `#219
   <https://github.com/orontee/argos/issues/219>`_
 
