@@ -30,8 +30,8 @@ Then run the application with:
 
 .. code-block:: bash
 
-   $ poetry run meson compile -c builddir
-   $ poetry run meson install -c builddir
+   $ poetry run meson compile -C builddir
+   $ poetry run meson install -C builddir
    $ PYTHONPATH="${PWD}/install/share/argos:${PYTHONPATH}" \
         poetry run install/bin/argos
 
@@ -170,7 +170,7 @@ create a pre-release with:
    $ git push origin; git push --tags origin
    $ rm -rf builddir
    $ meson setup builddir
-   $ meson -C builddir create-github-pre-release
+   $ meson compile -C builddir create-github-pre-release
 
 
 Make a pull request to the technical repository
