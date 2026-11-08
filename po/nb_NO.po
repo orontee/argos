@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-01 18:21+0200\n"
-"PO-Revision-Date: 2026-03-28 22:18+0000\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
-"Language: nb\n"
+"PO-Revision-Date: 2026-11-08 12:11+0000\n"
+"Last-Translator: Allan Nordhøy <kingu@users.noreply.hosted.weblate.org>\n"
+"Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/argos/"
+"argos/nb/>\n"
+"Language: nb_NO\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.17-dev\n"
+"X-Generator: Weblate 2026.11.2.dev0\n"
 
 #: argos/app.py:121
 msgid "Enable debug logs"
@@ -28,15 +29,15 @@ msgstr ""
 
 #: argos/app.py:145
 msgid "Hide search button"
-msgstr ""
+msgstr "Skjul søkeknapp"
 
 #: argos/app.py:153
 msgid "Hide close button"
-msgstr ""
+msgstr "Skjul lukkingsknapp"
 
 #: argos/app.py:300
 msgid "Welcome!"
-msgstr ""
+msgstr "Velkommen"
 
 #: argos/app.py:302
 msgid ""
@@ -46,29 +47,29 @@ msgstr ""
 
 #: argos/controllers/library.py:37
 msgid "Files"
-msgstr ""
+msgstr "Filer"
 
 #: argos/controllers/library.py:38
 msgid "Local media"
-msgstr ""
+msgstr "Lokal media"
 
 #: argos/controllers/library.py:39
 msgid "Podcasts"
-msgstr ""
+msgstr "Nettradioopptak"
 
 #: argos/controllers/library.py:40
 msgid "Albums"
-msgstr ""
+msgstr "Album"
 
 #: argos/controllers/library.py:41 argos/ui/album_details_box.ui:406
 #: argos/ui/playlists_box.ui:113 argos/ui/tracklist_random_dialog.ui:216
 #: argos/ui/tracks_view.ui:140
 msgid "Tracks"
-msgstr ""
+msgstr "Spor"
 
 #: argos/controllers/library.py:42
 msgid "Artists"
-msgstr ""
+msgstr "Artister"
 
 #: argos/controllers/library.py:43
 msgid "Composers"
@@ -76,7 +77,7 @@ msgstr ""
 
 #: argos/controllers/library.py:44
 msgid "Genres"
-msgstr ""
+msgstr "Sjangere"
 
 #: argos/controllers/library.py:45
 msgid "Performers"
@@ -84,7 +85,7 @@ msgstr ""
 
 #: argos/controllers/library.py:46
 msgid "Release Years"
-msgstr ""
+msgstr "Utgivelsesår"
 
 #: argos/controllers/library.py:47
 msgid "Last Week's Updates"
@@ -108,11 +109,11 @@ msgstr ""
 
 #: argos/controllers/library.py:52
 msgid "Wishlist"
-msgstr ""
+msgstr "Ønskeliste"
 
 #: argos/controllers/library.py:53
 msgid "All"
-msgstr ""
+msgstr "Alle"
 
 #: argos/controllers/playback.py:233
 msgid "Started to play {}"
@@ -121,7 +122,7 @@ msgstr ""
 #: argos/controllers/playlists.py:43 argos/controllers/playlists.py:322
 #: argos/ui/preferences.ui:438
 msgid "History"
-msgstr ""
+msgstr "Historikk"
 
 #: argos/controllers/tracklist.py:58
 msgid "Tracklist updated"
@@ -129,15 +130,15 @@ msgstr ""
 
 #: argos/info.py:28
 msgid "Data source: {}"
-msgstr ""
+msgstr "Datakilde: {}"
 
 #: argos/model/random.py:19
 msgid "Random album"
-msgstr ""
+msgstr "Tilfeldig album"
 
 #: argos/model/random.py:20
 msgid "Random disc"
-msgstr ""
+msgstr "Tilfeldig disk"
 
 #: argos/model/random.py:21
 msgid "Random tracks for half an hour"
@@ -161,20 +162,20 @@ msgstr ""
 
 #: argos/ui/album_details_box.ui:228
 msgid "Artist"
-msgstr ""
+msgstr "Artist"
 
 #: argos/ui/album_details_box.ui:317
 msgid "Album"
-msgstr ""
+msgstr "Album"
 
 #: argos/ui/album_details_box.ui:331
 msgid "Information"
-msgstr ""
+msgstr "Info"
 
 #: argos/ui/album_details_box.ui:377 argos/ui/playlists_box.ui:83
 #: argos/ui/tracklist_random_dialog.ui:200 argos/ui/tracks_view.ui:108
 msgid "Length"
-msgstr ""
+msgstr "Lengde"
 
 #: argos/ui/album_details_box.ui:477
 msgid "Play album"
@@ -194,7 +195,7 @@ msgstr ""
 
 #: argos/ui/app_menu.ui:14
 msgid "New playlist…"
-msgstr ""
+msgstr "Ny spilleliste …"
 
 #: argos/ui/app_menu.ui:20
 msgid "Update library"
@@ -202,52 +203,52 @@ msgstr ""
 
 #: argos/ui/app_menu.ui:26
 msgid "_Preferences"
-msgstr ""
+msgstr "_Innstillinger"
 
 #: argos/ui/app_menu.ui:30
 msgid "_Shortcuts"
-msgstr ""
+msgstr "_Snarveier"
 
 #: argos/ui/app_menu.ui:34
 msgid "_About"
-msgstr ""
+msgstr "_Om"
 
 #: argos/ui/condensed_playing_box.ui:65 argos/ui/playing_box.ui:81
 msgid "Previous"
-msgstr ""
+msgstr "Forrige"
 
 #: argos/ui/condensed_playing_box.ui:86 argos/ui/playing_box.ui:102
 msgid "Play"
-msgstr ""
+msgstr "Spill"
 
 #: argos/ui/condensed_playing_box.ui:107 argos/ui/playing_box.ui:123
 msgid "Next"
-msgstr ""
+msgstr "Neste"
 
 #: argos/ui/help_overlay.ui:13
 msgctxt "shortcut window"
 msgid "General"
-msgstr ""
+msgstr "Generelt"
 
 #: argos/ui/help_overlay.ui:17
 msgctxt "shortcut window"
 msgid "Close window"
-msgstr ""
+msgstr "Lukk vindu"
 
 #: argos/ui/help_overlay.ui:24
 msgctxt "shortcut window"
 msgid "Quit"
-msgstr ""
+msgstr "Avslutt"
 
 #: argos/ui/help_overlay.ui:31
 msgctxt "shortcut window"
 msgid "Shortcuts"
-msgstr ""
+msgstr "Snarveier"
 
 #: argos/ui/help_overlay.ui:38
 msgctxt "shortcut window"
 msgid "Fullscreen"
-msgstr ""
+msgstr "Fullskjermsvisning"
 
 #: argos/ui/help_overlay.ui:47
 msgctxt "shortcut window"
@@ -262,42 +263,42 @@ msgstr ""
 #: argos/ui/help_overlay.ui:58
 msgctxt "shortcut window"
 msgid "Next track"
-msgstr ""
+msgstr "Neste spor"
 
 #: argos/ui/help_overlay.ui:65
 msgctxt "shortcut window"
 msgid "Previous track"
-msgstr ""
+msgstr "Forrige spor"
 
 #: argos/ui/help_overlay.ui:72
 msgctxt "shortcut window"
 msgid "Play random album"
-msgstr ""
+msgstr "Spill tilfeldig album"
 
 #: argos/ui/help_overlay.ui:81
 msgctxt "shortcut window"
 msgid "Navigation"
-msgstr ""
+msgstr "Navigasjon"
 
 #: argos/ui/help_overlay.ui:85
 msgctxt "shortcut window"
 msgid "Go to Playing"
-msgstr ""
+msgstr "Gå til avspilling"
 
 #: argos/ui/help_overlay.ui:92
 msgctxt "shortcut window"
 msgid "Go to Library"
-msgstr ""
+msgstr "Gå til bibliotek"
 
 #: argos/ui/help_overlay.ui:99
 msgctxt "shortcut window"
 msgid "Go to Playlists"
-msgstr ""
+msgstr "Gå til spillelister"
 
 #: argos/ui/help_overlay.ui:106
 msgctxt "shortcut window"
 msgid "Go up"
-msgstr ""
+msgstr "Gå oppover"
 
 #: argos/ui/library_browsing_progress_box.ui:38
 msgid "Keep calm, library indexation in progress…"
@@ -305,7 +306,7 @@ msgstr ""
 
 #: argos/ui/playing_box.ui:259
 msgid "Clear tracklist"
-msgstr ""
+msgstr "Tøm sporliste"
 
 #: argos/ui/playing_box.ui:285
 msgid "Consume tracks"
@@ -325,19 +326,19 @@ msgstr ""
 
 #: argos/ui/playlist_creation_dialog.ui:52
 msgid "Name:"
-msgstr ""
+msgstr "Navn:"
 
 #: argos/ui/playlist_creation_dialog.ui:64
 msgid "New playlist"
-msgstr ""
+msgstr "Ny spilleliste"
 
 #: argos/ui/playlist_creation_dialog.ui:65
 msgid "Playlist name"
-msgstr ""
+msgstr "Spillelistenavn"
 
 #: argos/ui/playlists_box.ui:156
 msgid "Edit playlist"
-msgstr ""
+msgstr "Rediger spilleliste"
 
 #: argos/ui/playlists_box.ui:189
 msgid "Add playlist or selected tracks to tracklist"
@@ -349,7 +350,7 @@ msgstr ""
 
 #: argos/ui/preferences.ui:70
 msgid "Mopidy server"
-msgstr ""
+msgstr "Mopidy-tjener"
 
 #: argos/ui/preferences.ui:93
 msgid "Base URL:"
@@ -379,11 +380,11 @@ msgstr ""
 
 #: argos/ui/preferences.ui:332
 msgid "General"
-msgstr ""
+msgstr "Generelt"
 
 #: argos/ui/preferences.ui:350 argos/ui/preferences.ui:598 argos/window.py:55
 msgid "Library"
-msgstr ""
+msgstr "Bibliotek"
 
 #: argos/ui/preferences.ui:370 data/io.github.orontee.Argos.gschema.xml:36
 msgid "Index Mopidy-Local albums at startup"
@@ -405,23 +406,23 @@ msgstr ""
 
 #: argos/ui/preferences.ui:499
 msgid "Sources"
-msgstr ""
+msgstr "Kilder"
 
 #: argos/ui/preferences.ui:518
 msgid "Main window"
-msgstr ""
+msgstr "Hovedvindu"
 
 #: argos/ui/preferences.ui:545
 msgid "Dark theme:"
-msgstr ""
+msgstr "Mørk drakt:"
 
 #: argos/ui/preferences.ui:568
 msgid "Start fullscreen:"
-msgstr ""
+msgstr "Start fullskjermsvisning:"
 
 #: argos/ui/preferences.ui:625
 msgid "Image size:"
-msgstr ""
+msgstr "Bildestørrelse:"
 
 #: argos/ui/preferences.ui:657
 msgid "Display"
@@ -439,51 +440,51 @@ msgstr ""
 
 #: argos/ui/stream_uri_dialog.ui:74 argos/ui/tracklist_random_dialog.ui:298
 msgid "Play immediately"
-msgstr ""
+msgstr "Spill umiddelbart"
 
 #: argos/ui/title_bar.ui:63
 msgid "Go back"
-msgstr ""
+msgstr "Gå tilbake"
 
 #: argos/ui/title_bar.ui:97
 msgid "Sort albums"
-msgstr ""
+msgstr "Sorter album"
 
 #: argos/ui/title_bar.ui:119
 msgid "Go to home"
-msgstr ""
+msgstr "Gå hjem"
 
 #: argos/ui/title_bar.ui:133
 msgid "Search albums"
-msgstr ""
+msgstr "Søk etter album"
 
 #: argos/ui/tracklist_random_dialog.ui:26
 msgid "Skip"
-msgstr ""
+msgstr "Hopp over"
 
 #: argos/ui/tracklist_random_dialog.ui:254
 msgid "Disc"
-msgstr ""
+msgstr "Disk"
 
 #: argos/ui/tracks_view.ui:212
 msgid "Play tracks"
-msgstr ""
+msgstr "Spill spor"
 
 #: argos/ui/tracks_view.ui:245
 msgid "Sort tracks"
-msgstr ""
+msgstr "Sorter spor"
 
 #: argos/utils.py:73
 msgid "More than one day"
-msgstr ""
+msgstr "Mer enn én dag"
 
 #: argos/utils.py:83
 msgid "Today"
-msgstr ""
+msgstr "I dag"
 
 #: argos/utils.py:85
 msgid "Yesterday"
-msgstr ""
+msgstr "I går"
 
 #: argos/widgets/albumdetailsbox.py:26
 msgid "Information not available"
@@ -530,11 +531,11 @@ msgstr ""
 
 #: argos/widgets/playlistsbox.py:95
 msgid "Delete playlist…"
-msgstr ""
+msgstr "Slett spilleliste …"
 
 #: argos/widgets/playlistsbox.py:300
 msgid "Confirm playlist deletion"
-msgstr ""
+msgstr "Bekreft sletting av spilleliste"
 
 #: argos/widgets/playlistsbox.py:304
 msgid ""
@@ -547,7 +548,7 @@ msgstr ""
 
 #: argos/widgets/preferences.py:143
 msgid "Preferences"
-msgstr ""
+msgstr "Innstillinger"
 
 #: argos/widgets/preferences.py:184
 #, python-brace-format
@@ -560,7 +561,7 @@ msgstr ""
 
 #: argos/widgets/tracklistrandomdialog.py:118
 msgid "Various"
-msgstr ""
+msgstr "Ymse"
 
 #: argos/widgets/tracklistrandomdialog.py:229
 msgid "Browse the library first, it's currently empty!"
@@ -572,12 +573,12 @@ msgstr ""
 
 #: argos/widgets/tracklisttrackbox.py:44
 msgid "Unknown name"
-msgstr ""
+msgstr "Ukjent navn"
 
 #: argos/widgets/utils.py:92
 #, python-brace-format
 msgid "Disc {0}"
-msgstr ""
+msgstr "Disk {0}"
 
 #: argos/widgets/utils.py:176
 msgid "Album name"
@@ -585,7 +586,7 @@ msgstr ""
 
 #: argos/widgets/utils.py:177
 msgid "Artist name"
-msgstr ""
+msgstr "Artistnavn"
 
 #: argos/widgets/utils.py:178
 msgid "Publication date"
@@ -597,11 +598,11 @@ msgstr ""
 
 #: argos/widgets/utils.py:184
 msgid "Track name"
-msgstr ""
+msgstr "Spornavn"
 
 #: argos/widgets/utils.py:185
 msgid "Track number"
-msgstr ""
+msgstr "Spornummer"
 
 #: argos/window.py:50
 msgid "Playing"
@@ -609,7 +610,7 @@ msgstr ""
 
 #: data/io.github.orontee.Argos.desktop.in:3
 msgid "Argos"
-msgstr ""
+msgstr "Argos"
 
 #: data/io.github.orontee.Argos.desktop.in:4
 msgid "Light weight front-end for Mopidy music server"
@@ -703,7 +704,7 @@ msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:133
 msgid "Window size"
-msgstr ""
+msgstr "Vindusstørrelse"
 
 #: data/io.github.orontee.Argos.gschema.xml:134
 msgid "Window size (width and height)."
@@ -711,7 +712,7 @@ msgstr ""
 
 #: data/io.github.orontee.Argos.gschema.xml:139
 msgid "Window position"
-msgstr ""
+msgstr "Vindusposisjon"
 
 #: data/io.github.orontee.Argos.gschema.xml:140
 msgid "Window position (x and y)."
