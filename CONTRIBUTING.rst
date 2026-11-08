@@ -2,6 +2,37 @@
  Contributing to Argos
 =======================
 
+Policy on AI generated contributions
+------------------------------------
+
+Argos is a hobby project, started for technical interest and
+eventually became daily used… at least by its author and its
+children. Human contributions are highly welcome.
+
+On the other hand, I do not accept contributions (code, documentation,
+tests, translations) that were generated in whole or in part by AI
+tools or LLMs. This is for two reasons:
+
+- I am not willing to review machine-generated code; It's currently
+  part of my professional daily life and it's enough for me.
+
+- The copyright status of AI-generated output is unclear, and I want
+  to keep the licensing of this project unambiguous.
+
+Using AI tools for spell checking, translating your own text or to
+help understand and debug the code is fine. If in doubt, ask
+first. When opening a pull request you certify you wrote it; If it
+appears to be AI-generated, it may be closed without review.
+
+This policy is not a permanent position: I may revisit it if the legal
+situation becomes clearer or professional life changes. For now,
+please, fork if you don't agree with this policy and vibe your own
+path.
+
+Build and run from sources
+--------------------------
+
+
 One can install dependencies and configure pre-commit hooks in a
 dedicated virtual Python environment using ``poetry``:
 
@@ -13,9 +44,6 @@ dedicated virtual Python environment using ``poetry``:
 
 Pre-commit hooks run ``mypy`` check and make sure code is properly
 formatted (using ``black`` and ``isort``).
-
-Build and run from sources
-==========================
 
 The `Meson Build System <https://mesonbuild.com>`_ is configured to
 build, install, manage translations, and run tests.
@@ -74,7 +102,8 @@ It's also worth reading `GTK documentation on interactive debugging
 <https://docs.gtk.org/gtk3/running.html#interactive-debugging>`_.
 
 Dependencies
-============
+------------
+
 
 Python runtime dependencies can be added using ``poetry add``. Once
 the code is ready, one must update the file used respectively
@@ -105,7 +134,7 @@ possible dependencies updates run ``poetry show --latest
 --top-level``.
 
 Tests
-=====
+-----
 
 Run checks for metadata validity and unit tests through:
 
@@ -150,7 +179,7 @@ Checks for metadata validity are also provided through:
    $ poetry run meson test --verbose -C builddir
 
 Release
-=======
+-------
 
 First, prepare the release with:
 
@@ -189,7 +218,7 @@ release:
    $ poetry run ./scripts/prepare-next-release
 
 Architecture
-============
+------------
 
 Part of the architecture is documented using `Structurizr DSL
 <https://github.com/structurizr/dsl/>`_ and adopt `C4 model
@@ -199,6 +228,7 @@ More details here: `Architecture </docs/architecture.rst>`_.
 
 Updating architecture diagrams
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 To validate, export, etc. files using `Structurizr DSL
 <https://github.com/structurizr/dsl/>`_, one must uses the
@@ -219,7 +249,7 @@ to export to SVG format (with Graphviz installed):
      done
 
 Screenshots
-===========
+-----------
 
 Since Argos is distributed through Debian, its content must respect
 the `Debian Social Contract
